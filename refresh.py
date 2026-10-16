@@ -72,6 +72,11 @@ BANDS = [(0, -5, "0 to -5%"), (-5, -10, "-5 to -10%"),
          (-10, -15, "-10 to -15%"), (-15, -25, "-15 to -25%"),
          (-25, -100, "worse than -25%")]
 
+EARLY = 10          # days counted as "early" in the first-dip test
+EARLY_BANDS = [(100, -2, "shallower than -2%"), (-2, -5, "-2% to -5%"),
+               (-5, -10, "-5% to -10%"), (-10, -20, "-10% to -20%"),
+               (-20, -100, "worse than -20%")]
+
 
 # ---------------------------------------------------------------- helpers
 
@@ -470,6 +475,52 @@ def ds_invalidation(ch, outdir):
     return len(pooled)
 
 
+def ds_earlydip(ch, keep, outdir):
+    """earlydip.csv - does an early fall predict failure?
+
+    Grouped by the worst dip in the first EARLY days only, then scored on
+    what happened from day EARLY to the horizon. Splitting the window this
+    way is what keeps it honest: grouping a trade by its eventual worst dip
+    and then reporting its eventual outcome is partly circular, because a
+    deep dip and a bad result are the same fact measured twice.
+    """
+    pool = []
+    for nm, c in ch.items():
+        C, Hi, Lo, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
+        for s in c["sg"]:
+            if not any(nm == k[0] and k[1] in s["tg"] for k in keep):
+                continue
+            ei = s["ei"]
+            if D[-1] < D[ei] + dt.timedelta(days=HOR):
+                continue
+            e = C[ei]
+            lo, hi_after = None, None
+            for j in range(ei + 1, n):
+                d = (D[j] - D[ei]).days
+                if d > HOR:
+                    break
+                if d <= EARLY:
+                    lo = Lo[j] if lo is None else min(lo, Lo[j])
+                if d >= EARLY:
+                    hi_after = Hi[j] if hi_after is None else max(hi_after, Hi[j])
+            if lo is None or hi_after is None:
+                continue
+            pool.append(dict(dip=(lo / e - 1) * 100,
+                             mfe=(hi_after / e - 1) * 100))
+    rows = []
+    for hi, lo, lab in EARLY_BANDS:
+        g = [p for p in pool if lo < p["dip"] <= hi]
+        if len(g) < 5:
+            continue
+        rows.append([lab, len(g),
+                     round(sum(1 for p in g if p["mfe"] >= 10) / len(g) * 100),
+                     round(sum(1 for p in g if p["mfe"] >= 20) / len(g) * 100),
+                     round(E.med([p["mfe"] for p in g]), 1)])
+    write_csv(os.path.join(outdir, "earlydip.csv"),
+              ["band", "n", "reached10", "reached20", "medRun"], rows)
+    return rows
+
+
 def ds_forward(ch, rows_all, outdir):
     """forward.csv - the live out-of-sample record, rebuilt from candles.
 
@@ -600,6 +651,7 @@ def main():
     allbase = ds_walkforward(ch, rows_all, today, a.out)
     ds_confluence(ch, dates, a.out)
     n_inval = ds_invalidation(ch, a.out)
+    early = ds_earlydip(ch, keep, a.out)
     fwd, fwd_closed, fwd_won = ds_forward(ch, rows_all, a.out)
     status = ds_status(reg, today, buy, per_year, a.out)
 
@@ -615,6 +667,10 @@ def main():
     for c, t in sorted(keep):
         print(f"      {c:7s} {t}")
     print(f"  invalidation pool {n_inval} setups")
+    print(f"\n  first {EARLY} days, then day {EARLY} to {HOR}:")
+    for r in early:
+        print(f"      {r[0]:>19s}  n={r[1]:3d}  +10% {r[2]:3d}%  +20% {r[3]:3d}%  "
+              f"median run {r[4]:+6.1f}%")
     print(f"\n  live forward record since {FORWARD_FROM}: {len(fwd)} signals, "
           f"{fwd_closed} closed"
           + (f", {fwd_won} of those won" if fwd_closed else " (none have run 60 days yet)"))
