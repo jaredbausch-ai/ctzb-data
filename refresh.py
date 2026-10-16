@@ -521,6 +521,56 @@ def ds_earlydip(ch, keep, outdir):
     return rows
 
 
+def ds_holdcheck(ch, keep, outdir):
+    """holdcheck.csv - is the position green at the day-10 check?
+
+    The cheapest question with the most in it. Trades that are green on
+    day 10 and trades that are not behave like two different populations:
+    a good trade dips early and peaks around day 40, a bad one peaks in
+    the first week and bleeds for two months. The liquidation-grade
+    drawdowns live almost entirely in the red group, and their low does
+    not arrive until about day 50, so the check leaves well before the
+    damage.
+    """
+    rows = []
+    groups = {"green on day 10": [], "red on day 10": []}
+    for nm, c in ch.items():
+        C, Hi, Lo, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
+        for s in c["sg"]:
+            if not any(nm == k[0] and k[1] in s["tg"] for k in keep):
+                continue
+            ei = s["ei"]
+            if D[-1] < D[ei] + dt.timedelta(days=HOR):
+                continue
+            e = C[ei]
+            cl10 = None
+            hi = lo = None
+            for j in range(ei + 1, n):
+                age = (D[j] - D[ei]).days
+                if age > HOR:
+                    break
+                hi = Hi[j] if hi is None else max(hi, Hi[j])
+                lo = Lo[j] if lo is None else min(lo, Lo[j])
+                if age <= 10:
+                    cl10 = (C[j] / e - 1) * 100
+            if cl10 is None or hi is None:
+                continue
+            g = "green on day 10" if cl10 >= 0 else "red on day 10"
+            groups[g].append(dict(run=(hi / e - 1) * 100, dip=(lo / e - 1) * 100))
+    for lab in ("green on day 10", "red on day 10"):
+        g = groups[lab]
+        if len(g) < 5:
+            continue
+        rows.append([lab, len(g),
+                     round(sum(1 for x in g if x["run"] >= 20) / len(g) * 100),
+                     round(E.med([x["run"] for x in g]), 1),
+                     round(E.med([x["dip"] for x in g]), 1),
+                     sum(1 for x in g if x["dip"] <= -33.3)])
+    write_csv(os.path.join(outdir, "holdcheck.csv"),
+              ["check", "n", "reached20", "medRun", "medDip", "deepDips"], rows)
+    return rows
+
+
 def ds_forward(ch, rows_all, outdir):
     """forward.csv - the live out-of-sample record, rebuilt from candles.
 
@@ -652,6 +702,7 @@ def main():
     ds_confluence(ch, dates, a.out)
     n_inval = ds_invalidation(ch, a.out)
     early = ds_earlydip(ch, keep, a.out)
+    hold = ds_holdcheck(ch, keep, a.out)
     fwd, fwd_closed, fwd_won = ds_forward(ch, rows_all, a.out)
     status = ds_status(reg, today, buy, per_year, a.out)
 
@@ -667,6 +718,11 @@ def main():
     for c, t in sorted(keep):
         print(f"      {c:7s} {t}")
     print(f"  invalidation pool {n_inval} setups")
+    print("\n  the day-10 check:")
+    for r in hold:
+        print(f"      {r[0]:17s}  n={r[1]:3d}  reached +20% {r[2]:3d}%  "
+              f"median run {r[3]:+6.1f}%  median dip {r[4]:+6.1f}%  "
+              f"{r[5]} deep enough to wipe 3x")
     print(f"\n  first {EARLY} days, then day {EARLY} to {HOR}:")
     for r in early:
         print(f"      {r[0]:>19s}  n={r[1]:3d}  +10% {r[2]:3d}%  +20% {r[3]:3d}%  "
