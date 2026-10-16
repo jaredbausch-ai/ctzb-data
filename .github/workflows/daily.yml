@@ -1,0 +1,34 @@
+name: Fetch candles
+
+on:
+  schedule:
+    - cron: "20 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch and resample
+        run: python fetch.py
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name  "ctzb-pipeline"
+          git config user.email "actions@github.com"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "no change"
+          else
+            git commit -m "candles through $(date -u +%Y-%m-%d)"
+            git push
+          fi
