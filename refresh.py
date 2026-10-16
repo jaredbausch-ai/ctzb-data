@@ -176,6 +176,33 @@ def write_csv(path, header, rows):
 
 # ------------------------------------------------------------------- load
 
+BAD_WICK = 0.5   # a low this far under the bar's own body is a bad print
+
+
+def _declean(Hi, Lo, Op, Cl, D, label):
+    """Neutralise exchange bad prints before anything measures drawdown.
+
+    On 21 June 2017 ETH printed a $0.10 wick on GDAX and recovered inside
+    the same candle. Coinbase's feed still carries it; TradingView filters
+    it. Left alone it reads as a 99.9% drawdown and poisons every risk
+    number downstream. A low more than BAD_WICK under the bar's own open
+    and close is not a tradable price, so it is pulled back to the body.
+    """
+    fixed = []
+    for i in range(len(Lo)):
+        body_lo = min(Op[i], Cl[i])
+        if Lo[i] < body_lo * BAD_WICK:
+            fixed.append((D[i], Lo[i], body_lo))
+            Lo[i] = body_lo
+        body_hi = max(Op[i], Cl[i])
+        if Hi[i] > body_hi / BAD_WICK:
+            fixed.append((D[i], Hi[i], body_hi))
+            Hi[i] = body_hi
+    for d, was, now in fixed:
+        print(f"  bad print on {label} {d}: {was:.2f} -> {now:.2f}")
+    return len(fixed)
+
+
 def load_charts(data_dir, reg):
     """Run the engine over every chart once. Returns {name: {...}}."""
     out = {}
@@ -185,6 +212,7 @@ def load_charts(data_dir, reg):
             raise SystemExit(f"missing {path}")
         sg, b = E.signals(path, regime=reg)
         C, Hi, Lo, D = b["close"], b["high"], b["low"], b["date"]
+        _declean(Hi, Lo, b["open"], C, D, name)
         n = len(C)
         ct = E.rsi(C, 14)
         zm = zser(ct)
