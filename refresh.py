@@ -44,6 +44,12 @@ NMIN = 8            # minimum past instances for a tag to qualify
 WINMIN = 70         # minimum win rate for the tier
 AGREE_DAYS = 10     # a chart "agrees" if it printed within this many days
 WF_FROM = 2019      # first walk-forward year
+# The live forward record starts here: every tier signal from this date on,
+# each scored against the tier as it stood in January of its own year, so
+# nothing in it was chosen with hindsight. It accumulates, it is rebuilt from
+# candles every run, and it needs no alerts.
+FORWARD_FROM = dt.date(2026, 1, 1)
+MARKS = (10, 30, 60)   # day marks reported for each forward trade
 
 TAGS = ["any trough", "A", "B", "C", "D", "diamond", "filled", "hollow",
         "prime dot", "diamond+dot", "zone-exit B"]
@@ -464,6 +470,71 @@ def ds_invalidation(ch, outdir):
     return len(pooled)
 
 
+def ds_forward(ch, rows_all, outdir):
+    """forward.csv - the live out-of-sample record, rebuilt from candles.
+
+    Every tier signal entered on or after FORWARD_FROM, scored against the
+    tier as it stood in January of that signal's own year. A trade stays
+    "open" until its horizon elapses; no alert, no email, no manual entry,
+    and a missing row cannot be mistaken for a quiet market because the
+    whole file is derived each run.
+    """
+    tiers = {}   # year -> the tier fixed at that year's January
+
+    def tier_for(year):
+        if year not in tiers:
+            tiers[year] = set(select_tier(rows_all, upto=dt.date(year, 1, 1)))
+        return tiers[year]
+
+    out = []
+    for nm, c in ch.items():
+        C, Hi, Lo, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
+        last = D[-1]
+        for s in c["sg"]:
+            if s["edate"] < FORWARD_FROM:
+                continue
+            if not any(nm == k[0] and k[1] in s["tg"] for k in tier_for(s["edate"].year)):
+                continue
+            ei = s["ei"]
+            e = C[ei]
+            elapsed = (last - D[ei]).days
+            best, worst = None, None
+            for j in range(ei + 1, n):
+                if (D[j] - D[ei]).days > HOR:
+                    break
+                best = Hi[j] if best is None else max(best, Hi[j])
+                worst = Lo[j] if worst is None else min(worst, Lo[j])
+            marks = {}
+            for m in MARKS:
+                marks[m] = ""
+                if elapsed < m:
+                    continue
+                # the last close at or before the mark
+                v = None
+                for j in range(ei + 1, n):
+                    if (D[j] - D[ei]).days <= m:
+                        v = C[j]
+                    else:
+                        break
+                if v is not None:
+                    marks[m] = round((v / e - 1) * 100, 1)
+            out.append([
+                nm, str(s["edate"]),
+                " + ".join(t for t in s["tg"] if t != "any trough"),
+                round(e, 2), elapsed,
+                "closed" if elapsed >= HOR else "open",
+                marks[10], marks[30], marks[60],
+                "" if best is None else round((best / e - 1) * 100, 1),
+                "" if worst is None else round((worst / e - 1) * 100, 1)])
+    out.sort(key=lambda r: (r[1], r[0]))
+    write_csv(os.path.join(outdir, "forward.csv"),
+              ["chart", "entry", "tag", "entryClose", "elapsed", "status",
+               "d10", "d30", "d60", "best", "worst"], out)
+    closed = [r for r in out if r[5] == "closed"]
+    won = [r for r in closed if isinstance(r[8], float) and r[8] > 0]
+    return out, len(closed), len(won)
+
+
 def ds_status(reg, today, buy, per_year, outdir):
     """status.csv - regime, next buy, frequency, when this was scored."""
     up = [r for r in buy if r["status"] == "Upcoming"]
@@ -529,6 +600,7 @@ def main():
     allbase = ds_walkforward(ch, rows_all, today, a.out)
     ds_confluence(ch, dates, a.out)
     n_inval = ds_invalidation(ch, a.out)
+    fwd, fwd_closed, fwd_won = ds_forward(ch, rows_all, a.out)
     status = ds_status(reg, today, buy, per_year, a.out)
 
     # ------------------------------------------------------------ summary
@@ -543,6 +615,12 @@ def main():
     for c, t in sorted(keep):
         print(f"      {c:7s} {t}")
     print(f"  invalidation pool {n_inval} setups")
+    print(f"\n  live forward record since {FORWARD_FROM}: {len(fwd)} signals, "
+          f"{fwd_closed} closed"
+          + (f", {fwd_won} of those won" if fwd_closed else " (none have run 60 days yet)"))
+    for r in fwd:
+        print(f"      {r[0]:7s} {r[1]}  {r[5]:6s} {r[4]:3d}d  "
+              f"best {r[9]}%  worst {r[10]}%  {r[2]}")
     if buy:
         print("\n  next buys:")
         for r in buy:
@@ -551,7 +629,8 @@ def main():
                   f"agree {r['agree']}")
     else:
         print("\n  nothing forming")
-    print(f"\n  ten datasets written to {os.path.abspath(a.out)}")
+    written = sorted(f for f in os.listdir(a.out) if f.endswith(".csv"))
+    print(f"\n  {len(written)} datasets written to {os.path.abspath(a.out)}")
 
 
 if __name__ == "__main__":
