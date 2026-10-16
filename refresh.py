@@ -1,0 +1,521 @@
+#!/usr/bin/env python3
+"""Rescore every CTZB dashboard dataset from the daily candle repo.
+
+Reads data/ETH_{1,2,3,5,8}D.csv and data/BTC_2D.csv as written by fetch.py,
+runs the CTZB engine over each chart, and writes the ten dataset CSVs the
+"ETH Setup Odds" dashboard reads.
+
+The 70%+ tier itself is NOT reselected by default: keep.json is the frozen
+set of twelve chart-and-tag combinations, and this script rescores them as
+new bars complete. Pass --refit to reselect the tier and rewrite keep.json;
+that changes which setups are traded, so it is a deliberate act, not a
+daily one.
+
+  python refresh.py --data data --out datasets
+"""
+import argparse
+import collections
+import csv
+import datetime as dt
+import json
+import os
+import statistics as st
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import engine as E          # noqa: E402
+import regimes as R         # noqa: E402
+
+CHARTS = [("ETH 1D", "ETH_1D.csv"), ("ETH 2D", "ETH_2D.csv"),
+          ("ETH 3D", "ETH_3D.csv"), ("ETH 5D", "ETH_5D.csv"),
+          ("ETH 8D", "ETH_8D.csv")]
+REGIME_SRC = "BTC_2D.csv"
+INVAL_CHARTS = ["ETH 1D", "ETH 2D", "ETH 3D", "ETH 5D"]
+CONFLUENCE_CHART = "ETH 2D"
+
+HOR = 60            # forward horizon in days for win / run / dip
+NMIN = 8            # minimum past instances for a tag to qualify
+WINMIN = 70         # minimum win rate for the tier
+AGREE_DAYS = 10     # a chart "agrees" if it printed within this many days
+WF_FROM = 2019      # first walk-forward year
+
+TAGS = ["any trough", "A", "B", "C", "D", "diamond", "filled", "hollow",
+        "prime dot", "diamond+dot", "zone-exit B"]
+
+PLAIN = {
+    "A": "a deep oversold low",
+    "B": "a pullback low",
+    "C": "a shallow dip",
+    "D": "a high-level dip",
+    "zone-exit B": "a pullback that held the midline after a strong run",
+    "prime dot": "a low with momentum already winding up",
+    "diamond": "a low where price and momentum disagreed",
+    "hollow": "a disagreement low above the midline",
+    "filled": "a disagreement low below the midline",
+    "diamond+dot": "a disagreement low with momentum winding up",
+    "any trough": "a confirmed low on this timeframe",
+}
+
+BANDS = [(0, -5, "0 to -5%"), (-5, -10, "-5 to -10%"),
+         (-10, -15, "-10 to -15%"), (-15, -25, "-15 to -25%"),
+         (-25, -100, "worse than -25%")]
+
+
+# ---------------------------------------------------------------- helpers
+
+def zser(ct):
+    """Running minimum of CT RSI since it was last at or above 60."""
+    out, z = [], None
+    for v in ct:
+        if v is None:
+            out.append(None)
+            continue
+        z = None if v >= 60 else (v if z is None else min(z, v))
+        out.append(z)
+    return out
+
+
+def fw(C, Hi, Lo, D, i, days=HOR):
+    """(close change, best high, worst low) as % of entry, over `days`."""
+    e = C[i]
+    end = D[i] + dt.timedelta(days=days)
+    j, last, best, mn = i + 1, None, -1e9, 1e9
+    while j < len(D) and D[j] <= end:
+        best = max(best, Hi[j])
+        mn = min(mn, Lo[j])
+        last = C[j]
+        j += 1
+    if last is None:
+        return None
+    return ((last / e - 1) * 100, (best / e - 1) * 100, (mn / e - 1) * 100)
+
+
+def tags_of(bucket, dis, strong, prime, ct_at, zmin):
+    """Every tag a trough carries. Mirrors the Pine tag builders."""
+    t = [bucket, "any trough"]
+    if dis:
+        t += ["diamond", "filled" if strong else "hollow"]
+    if prime:
+        t.append("prime dot")
+    if dis and prime:
+        t.append("diamond+dot")
+    if bucket == "B" and ct_at < 60 and zmin is not None and zmin >= 50:
+        t.append("zone-exit B")
+    return t
+
+
+def bucket_of(v):
+    return "A" if v < 40 else "B" if v < 55 else "C" if v < 65 else "D"
+
+
+def provisional(ct, kL, zm, D, n):
+    """The pivot low still waiting on right-hand bars, if there is one."""
+    for back in (1, 2, 3):
+        ti = n - 1 - back
+        if ti - 3 < 0:
+            continue
+        v = ct[ti]
+        if v is None:
+            continue
+        if any(ct[j] is None or ct[j] <= v for j in range(ti - 3, ti)):
+            continue
+        if any(ct[j] < v for j in range(ti + 1, n)):
+            continue
+        bk = bucket_of(v)
+        tg = [bk, "any trough"]
+        if bk == "B" and v < 60 and zm[ti] is not None and zm[ti] >= 50:
+            tg.append("zone-exit B")
+        if kL[ti] is not None and 20 <= kL[ti] < 50:
+            tg.append("prime dot")
+        return dict(ti=ti, date=D[ti], ct=round(v, 1),
+                    k=None if kL[ti] is None else round(kL[ti], 1),
+                    bucket=bk, tags=tg, need=3 - ((n - 1) - ti))
+    return None
+
+
+def wr(rows):
+    return sum(1 for r in rows if r["win"]) / len(rows) * 100 if rows else float("nan")
+
+
+def write_csv(path, header, rows):
+    with open(path, "w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(header)
+        for r in rows:
+            w.writerow(r)
+
+
+# ------------------------------------------------------------------- load
+
+def load_charts(data_dir, reg):
+    """Run the engine over every chart once. Returns {name: {...}}."""
+    out = {}
+    for name, fn in CHARTS:
+        path = os.path.join(data_dir, fn)
+        if not os.path.exists(path):
+            raise SystemExit(f"missing {path}")
+        sg, b = E.signals(path, regime=reg)
+        C, Hi, Lo, D = b["close"], b["high"], b["low"], b["date"]
+        n = len(C)
+        ct = E.rsi(C, 14)
+        zm = zser(ct)
+        kL = E.sma(E.stoch_of(ct, 14), 3)
+        for s in sg:
+            s["tg"] = tags_of(s["bk"], s["dis"], s["strong"], s["prime"],
+                              s["ct"], zm[s["ti"]])
+        step = int(st.median([(D[i] - D[i - 1]).days
+                              for i in range(max(1, n - 20), n)]))
+        out[name] = dict(sg=sg, C=C, Hi=Hi, Lo=Lo, D=D, n=n, ct=ct, zm=zm,
+                         kL=kL, step=step,
+                         prov=provisional(ct, kL, zm, D, n))
+    return out
+
+
+def pool(ch):
+    """Every scored trough across every chart, with its agreement count."""
+    dates = {nm: [s["edate"] for s in c["sg"]] for nm, c in ch.items()}
+    rows = []
+    for nm, c in ch.items():
+        for s in c["sg"]:
+            f = fw(c["C"], c["Hi"], c["Lo"], c["D"], s["ei"])
+            if not f:
+                continue
+            agree = len({o for o in dates if o != nm and
+                         any(abs((d - s["edate"]).days) <= AGREE_DAYS
+                             for d in dates[o])})
+            rows.append(dict(chart=nm, tags=set(s["tg"]), d=s["edate"],
+                             win=f[0] > 0, up=f[1], mae=f[2], agree=agree))
+    return rows, dates
+
+
+# --------------------------------------------------------------- datasets
+
+def select_tier(rows, upto=None):
+    """Chart-and-tag combinations clearing NMIN instances at WINMIN percent."""
+    keep = []
+    for name, _ in CHARTS:
+        for t in TAGS:
+            sub = [r for r in rows if r["chart"] == name and t in r["tags"]
+                   and (upto is None or r["d"] < upto)]
+            if len(sub) >= NMIN and wr(sub) >= WINMIN:
+                keep.append((name, t))
+    return keep
+
+
+def dedupe(rows):
+    """One trade per chart per date."""
+    seen, out = set(), []
+    for r in sorted(rows, key=lambda x: x["d"]):
+        k = (r["chart"], r["d"])
+        if k in seen:
+            continue
+        seen.add(k)
+        out.append(r)
+    return out
+
+
+def ds_setups(ch, keep, outdir):
+    """setups.csv - every kept setup rescored, plus the stats buy.csv reads."""
+    stats = {}
+    for name, c in ch.items():
+        for cn, t in [k for k in keep if k[0] == name]:
+            sub = []
+            for s in c["sg"]:
+                if t not in s["tg"]:
+                    continue
+                f = fw(c["C"], c["Hi"], c["Lo"], c["D"], s["ei"])
+                if f:
+                    sub.append(f)
+            if len(sub) < 4:
+                continue
+            stats[(name, t)] = dict(
+                n=len(sub),
+                win=round(sum(1 for x in sub if x[0] > 0) / len(sub) * 100),
+                p20=round(sum(1 for x in sub if x[1] >= 20) / len(sub) * 100),
+                medRun=round(E.med([x[1] for x in sub]), 1),
+                medDD=round(E.med([x[2] for x in sub]), 1))
+    rows = [[f"{c} — {PLAIN.get(t, t)}", v["n"], v["win"], v["p20"],
+             v["medRun"], v["medDD"]]
+            for (c, t), v in sorted(stats.items(), key=lambda kv: -kv[1]["win"])]
+    write_csv(os.path.join(outdir, "setups.csv"),
+              ["setup", "n", "win", "p20", "medRun", "medDD"], rows)
+    return stats
+
+
+def ds_buy(ch, stats, dates, today, outdir):
+    """buy.csv - what is forming now, its confirmation date and best odds."""
+    rows = []
+    for name, c in ch.items():
+        p = c["prov"]
+        if not p:
+            continue
+        conf = c["D"][-1] + dt.timedelta(days=c["step"] * p["need"])
+        best, bt = None, None
+        for t in p["tags"]:
+            k = (name, t)
+            if k in stats and (best is None or stats[k]["win"] > best["win"]):
+                best, bt = stats[k], t
+        if not best:
+            continue
+        # every other chart, scored against the full signal history
+        agree = len({o for o in dates if o != name and
+                     any(abs((d - conf).days) <= AGREE_DAYS for d in dates[o])})
+        rows.append(dict(
+            chart=name, buyDate=str(conf),
+            status="Needs fresh data" if conf <= today else "Upcoming",
+            setup=PLAIN.get(bt, bt), tagName=bt, win=best["win"],
+            reach20=best["p20"], n=best["n"], medRun=best["medRun"],
+            medDD=best["medDD"], level=round(c["Lo"][p["ti"]], 2), agree=agree))
+    rows.sort(key=lambda r: (r["status"] != "Upcoming", r["buyDate"]))
+    hdr = ["chart", "buyDate", "status", "setup", "tagName", "win", "reach20",
+           "n", "medRun", "medDD", "level", "agree"]
+    write_csv(os.path.join(outdir, "buy.csv"), hdr,
+              [[r[h] for h in hdr] for r in rows])
+    return rows
+
+
+def ds_live(ch, outdir):
+    """live.csv - the state of each chart as of its last bar."""
+    rows = []
+    for name, c in ch.items():
+        last = c["sg"][-1]
+        p = c["prov"]
+        rows.append([
+            name, str(c["D"][-1]), str(last["date"]), str(last["edate"]),
+            " + ".join(last["tg"][:1] + [t for t in last["tg"][1:]
+                                         if t != "any trough"]),
+            (c["D"][-1] - last["edate"]).days, round(c["ct"][-1], 1),
+            "yes" if p else "no",
+            " + ".join([t for t in p["tags"] if t != "any trough"]) if p else "",
+            p["need"] if p else ""])
+    write_csv(os.path.join(outdir, "live.csv"),
+              ["chart", "dataTo", "lastPrint", "lastEntry", "lastTag",
+               "daysSince", "ctNow", "forming", "formingTag", "barsNeeded"],
+              rows)
+
+
+def ds_tier(ch, rows_all, keep, outdir):
+    """tier.csv - the kept tier pooled, then narrowed by agreement."""
+    sel = [r for r in rows_all
+           if any(r["chart"] == c and t in r["tags"] for c, t in keep)]
+    T = dedupe(sel)
+    if not T:
+        raise SystemExit("tier is empty - check keep.json")
+    span = (max(r["d"] for r in T) - min(r["d"] for r in T)).days / 365.25
+    out = []
+
+    def rep(sub, lab):
+        if len(sub) < 4:
+            return
+        out.append([lab, len(sub), round(len(sub) / span, 1), round(wr(sub)),
+                    round(E.med([r["up"] for r in sub]), 1),
+                    round(E.med([r["mae"] for r in sub]), 1)])
+
+    rep(T, "all 70%+ trades")
+    for k in (1, 2, 3, 4):
+        rep([r for r in T if r["agree"] >= k], f"with {k}+ other charts agreeing")
+    write_csv(os.path.join(outdir, "tier.csv"),
+              ["filter", "trades", "perYear", "win", "medRun", "medDD"], out)
+    per_year = out[0][2] if out else None
+    return T, per_year
+
+
+def ds_walkforward(ch, rows_all, today, outdir):
+    """walkforward.csv and years.csv - tier refit each January, traded blind."""
+    base = []
+    for nm, c in ch.items():
+        for i in range(60, c["n"]):
+            if c["in_regime"][i]:
+                f = fw(c["C"], c["Hi"], c["Lo"], c["D"], i)
+                if f:
+                    base.append((c["D"][i], f[0] > 0))
+    agg = {0: [], 3: [], 4: []}
+    years = []
+    for y in range(WF_FROM, today.year):
+        keep = select_tier(rows_all, upto=dt.date(y, 1, 1))
+        if not keep:
+            continue
+        yr = dedupe([r for r in rows_all if r["d"].year == y and
+                     any(r["chart"] == c and t in r["tags"] for c, t in keep)])
+        if not yr:
+            continue
+        bs = [w for d, w in base if d.year == y]
+        bw = round(sum(1 for w in bs if w) / len(bs) * 100) if bs else ""
+        a3 = [r for r in yr if r["agree"] >= 3]
+        a4 = [r for r in yr if r["agree"] >= 4]
+        agg[0] += yr
+        agg[3] += a3
+        agg[4] += a4
+        years.append([y, len(yr), round(wr(yr)), bw])
+    write_csv(os.path.join(outdir, "years.csv"),
+              ["year", "trades", "win", "baseline"], years)
+
+    pooled = [(d, w) for d, w in base if d.year >= WF_FROM]
+    allbase = round(sum(1 for _, w in pooled if w) / len(pooled) * 100)
+    span = max(1, today.year - WF_FROM)
+    rows = []
+    for k, lab in ((0, "All 70%+ setups"), (3, "With 3+ charts agreeing"),
+                   (4, "With 4+ charts agreeing")):
+        v = agg[k]
+        if not v:
+            continue
+        rows.append([lab, len(v), round(wr(v)), allbase,
+                     round(E.med([r["up"] for r in v]), 1),
+                     round(E.med([r["mae"] for r in v]), 1),
+                     round(len(v) / span, 1)])
+    write_csv(os.path.join(outdir, "walkforward.csv"),
+              ["rule", "trades", "win", "baseline", "medRun", "medDD",
+               "perYear"], rows)
+    return allbase
+
+
+def ds_confluence(ch, dates, outdir):
+    """confluence.csv - ETH 2D lows grouped by how many charts agreed."""
+    c = ch[CONFLUENCE_CHART]
+    buck = {}
+    for s in c["sg"]:
+        f = fw(c["C"], c["Hi"], c["Lo"], c["D"], s["ei"])
+        if not f:
+            continue
+        others = {o for o in dates if o != CONFLUENCE_CHART and
+                  any(abs((d - s["edate"]).days) <= AGREE_DAYS
+                      for d in dates[o])}
+        buck.setdefault(len(others), []).append(f)
+    rows = []
+    for k in sorted(buck):
+        if k == 0:
+            continue
+        v = buck[k]
+        rows.append([k, f"{k} other chart" + ("s" if k > 1 else ""), len(v),
+                     round(sum(1 for x in v if x[0] > 0) / len(v) * 100),
+                     round(E.med([x[1] for x in v]), 1),
+                     round(E.med([x[2] for x in v]), 1)])
+    write_csv(os.path.join(outdir, "confluence.csv"),
+              ["agreeing", "label", "n", "win", "medRun", "medDD"], rows)
+
+
+def ds_invalidation(ch, outdir):
+    """invalidation.csv and levels.csv - how depth of dip changes the odds."""
+    pooled = []
+    for name in INVAL_CHARTS:
+        c = ch[name]
+        C, H, L, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
+        for s in c["sg"]:
+            ei = s["ei"]
+            e = C[ei]
+            pk, pkj, j = e, ei, ei + 1
+            while j < n:
+                if H[j] > pk:
+                    pk, pkj = H[j], j
+                if C[j] < pk * 0.85:
+                    break
+                j += 1
+            mfe = (pk / e - 1) * 100
+            mn = min(L[k] for k in range(ei + 1, pkj + 1)) if pkj > ei else L[ei]
+            pooled.append(dict(mfe=mfe, dd=(mn / e - 1) * 100,
+                               r10=mfe >= 10, r20=mfe >= 20))
+    rows = []
+    for hi, lo, lab in BANDS:
+        sub = [p for p in pooled if lo < p["dd"] <= hi]
+        if len(sub) < 5:
+            continue
+        rows.append([lab, len(sub),
+                     round(sum(1 for p in sub if p["r10"]) / len(sub) * 100),
+                     round(sum(1 for p in sub if p["r20"]) / len(sub) * 100),
+                     round(E.med([p["mfe"] for p in sub]), 1)])
+    write_csv(os.path.join(outdir, "invalidation.csv"),
+              ["band", "n", "reached10", "reached20", "medRun"], rows)
+
+    lv = []
+    for name in INVAL_CHARTS:
+        c = ch[name]
+        p = c["prov"]
+        if not p:
+            continue
+        lv.append([name, round(c["Lo"][p["ti"]], 2), str(p["date"]),
+                   round((c["Lo"][p["ti"]] / c["C"][-1] - 1) * 100, 1)])
+    write_csv(os.path.join(outdir, "levels.csv"),
+              ["chart", "level", "troughDate", "pctFromLast"], lv)
+    return len(pooled)
+
+
+def ds_status(reg, today, buy, per_year, outdir):
+    """status.csv - regime, next buy, frequency, when this was scored."""
+    up = [r for r in buy if r["status"] == "Upcoming"]
+    rows = [["Market regime", "Bullish" if reg(today) else "Bearish"],
+            ["Next buy date", up[0]["buyDate"] if up else "none ahead"],
+            ["Trades a year", f"{per_year:.0f} on average" if per_year else "—"],
+            ["Scored as of", str(today)]]
+    write_csv(os.path.join(outdir, "status.csv"), ["item", "value"], rows)
+    return rows
+
+
+# ------------------------------------------------------------------- main
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data", default="data", help="folder of candle CSVs")
+    ap.add_argument("--out", default="datasets", help="where to write datasets")
+    ap.add_argument("--keep", default=None, help="frozen tier (keep.json)")
+    ap.add_argument("--today", default=None, help="override today, YYYY-MM-DD")
+    ap.add_argument("--refit", action="store_true",
+                    help="reselect the tier and rewrite keep.json")
+    a = ap.parse_args()
+
+    today = (dt.date.fromisoformat(a.today) if a.today else dt.date.today())
+    os.makedirs(a.out, exist_ok=True)
+    keep_path = a.keep or os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                       "keep.json")
+
+    regime_path = os.path.join(a.data, REGIME_SRC)
+    if not os.path.exists(regime_path):
+        raise SystemExit(f"missing {regime_path}")
+    reg = R.rsi_regime(regime_path, 8, 13, 60, 41)
+
+    ch = load_charts(a.data, reg)
+    for c in ch.values():
+        c["reg"] = reg
+        c["in_regime"] = [reg(d) for d in c["D"]]
+
+    rows_all, dates = pool(ch)
+
+    if a.refit:
+        keep = select_tier(rows_all)
+        json.dump([{"chart": c, "tag": t} for c, t in keep],
+                  open(keep_path, "w"))
+        print(f"refit: {len(keep)} setups written to {keep_path}")
+    else:
+        keep = [(k["chart"], k["tag"]) for k in json.load(open(keep_path))]
+
+    stats = ds_setups(ch, keep, a.out)
+    buy = ds_buy(ch, stats, dates, today, a.out)
+    ds_live(ch, a.out)
+    T, per_year = ds_tier(ch, rows_all, keep, a.out)
+    allbase = ds_walkforward(ch, rows_all, today, a.out)
+    ds_confluence(ch, dates, a.out)
+    n_inval = ds_invalidation(ch, a.out)
+    status = ds_status(reg, today, buy, per_year, a.out)
+
+    # ------------------------------------------------------------ summary
+    print(f"\nscored {today}   regime {status[0][1]}   "
+          f"{len(rows_all)} troughs across {len(ch)} charts")
+    for nm, c in ch.items():
+        p = c["prov"]
+        print(f"  {nm:7s} data->{c['D'][-1]}  CT {c['ct'][-1]:5.1f}  "
+              f"forming: {'+'.join(t for t in p['tags'] if t != 'any trough') if p else '-'}")
+    print(f"\n  tier {len(keep)} setups, {len(T)} trades, "
+          f"{per_year}/yr   walk-forward baseline {allbase}%")
+    print(f"  invalidation pool {n_inval} setups")
+    if buy:
+        print("\n  next buys:")
+        for r in buy:
+            print(f"    {r['chart']:7s} {r['buyDate']}  {r['status']:17s} "
+                  f"{r['tagName']:12s} win {r['win']}%  n={r['n']}  "
+                  f"agree {r['agree']}")
+    else:
+        print("\n  nothing forming")
+    print(f"\n  ten datasets written to {os.path.abspath(a.out)}")
+
+
+if __name__ == "__main__":
+    main()

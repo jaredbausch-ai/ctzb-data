@@ -59,3 +59,40 @@ import engine as E, regimes as R
 reg = R.rsi_regime("data/BTC_2D.csv", 8, 13, 60, 41)
 signals, bars = E.signals("data/ETH_3D.csv", regime=reg)
 ```
+
+## Rescoring the dashboard
+
+`refresh.py` turns the candles into the ten datasets behind the ETH Setup
+Odds dashboard:
+
+```
+python refresh.py --data data --out datasets
+```
+
+It writes `status`, `buy`, `live`, `levels`, `setups`, `tier`, `walkforward`,
+`years`, `confluence` and `invalidation` as CSVs, and prints a summary of the
+regime, what is forming on each chart, and the next buy dates.
+
+`engine.py`, `regimes.py` and `keep.json` sit beside it. The date comes from
+the clock; `--today YYYY-MM-DD` overrides it for testing.
+
+### The tier is frozen on purpose
+
+`keep.json` holds the twelve chart-and-tag combinations that are traded. The
+daily run **rescores** them as new bars complete; it does not reselect them.
+Reselecting daily would quietly change what gets traded, so it takes a
+deliberate `--refit`, which rewrites `keep.json`.
+
+### Candidate tags
+
+`--refit` and the walk-forward both choose from the same eleven candidate
+tags, `diamond+dot` included. Two earlier scripts disagreed on this — the
+walk-forward omitted that tag — which is why the pooled "All 70%+ setups" row
+reads 90 trades at 66% rather than 88 at 67%. The confluence rows, 77% at 3+
+charts agreeing and 75% at 4+, are unaffected.
+
+### Agreement count
+
+A chart "agrees" when it printed a trough within ten days. That is now scored
+against all five charts; an earlier version counted only the charts it had
+already loaded, which under-reported agreement for the shorter timeframes.
