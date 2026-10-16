@@ -82,9 +82,17 @@ def zser(ct):
 
 
 def fw(C, Hi, Lo, D, i, days=HOR):
-    """(close change, best high, worst low) as % of entry, over `days`."""
+    """(close change, best high, worst low) as % of entry, over `days`.
+
+    None unless the whole horizon has elapsed. A trade opened three weeks
+    ago has no 60-day verdict yet, and scoring it on the days available
+    would count it as a win or a loss according to whatever the market
+    has just done.
+    """
     e = C[i]
     end = D[i] + dt.timedelta(days=days)
+    if D[-1] < end:
+        return None
     j, last, best, mn = i + 1, None, -1e9, 1e9
     while j < len(D) and D[j] <= end:
         best = max(best, Hi[j])
@@ -300,14 +308,18 @@ def ds_live(ch, outdir):
               rows)
 
 
-def ds_tier(ch, rows_all, keep, outdir):
+def ds_tier(ch, rows_all, keep, outdir, scoreable_to):
     """tier.csv - the kept tier pooled, then narrowed by agreement."""
     sel = [r for r in rows_all
            if any(r["chart"] == c and t in r["tags"] for c, t in keep)]
     T = dedupe(sel)
     if not T:
-        raise SystemExit("tier is empty - check keep.json")
-    span = (max(r["d"] for r in T) - min(r["d"] for r in T)).days / 365.25
+        raise SystemExit("tier is empty - no setups qualify")
+    # Measure frequency against all the time a trade could have been scored
+    # in, not just first trade to last. Ending the span at the last trade
+    # would drop a quiet recent stretch out of the denominator and inflate
+    # trades per year.
+    span = max(0.25, (scoreable_to - min(r["d"] for r in T)).days / 365.25)
     out = []
 
     def rep(sub, lab):
@@ -408,6 +420,9 @@ def ds_invalidation(ch, outdir):
         C, H, L, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
         for s in c["sg"]:
             ei = s["ei"]
+            # a trade still in flight has no final peak or dip to bin
+            if D[-1] < D[ei] + dt.timedelta(days=HOR):
+                continue
             e = C[ei]
             pk, pkj, j = e, ei, ei + 1
             while j < n:
@@ -499,10 +514,14 @@ def main():
     if not keep:
         raise SystemExit(f"no setups qualify ({a.tier})")
 
+    # the last date a trade could already have been scored over the horizon
+    data_end = max(c["D"][-1] for c in ch.values())
+    scoreable_to = data_end - dt.timedelta(days=HOR)
+
     stats = ds_setups(ch, keep, a.out)
     buy = ds_buy(ch, stats, dates, today, a.out)
     ds_live(ch, a.out)
-    T, per_year = ds_tier(ch, rows_all, keep, a.out)
+    T, per_year = ds_tier(ch, rows_all, keep, a.out, scoreable_to)
     allbase = ds_walkforward(ch, rows_all, today, a.out)
     ds_confluence(ch, dates, a.out)
     n_inval = ds_invalidation(ch, a.out)
