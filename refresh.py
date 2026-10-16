@@ -5,11 +5,17 @@ Reads data/ETH_{1,2,3,5,8}D.csv and data/BTC_2D.csv as written by fetch.py,
 runs the CTZB engine over each chart, and writes the ten dataset CSVs the
 "ETH Setup Odds" dashboard reads.
 
-The 70%+ tier itself is NOT reselected by default: keep.json is the frozen
-set of twelve chart-and-tag combinations, and this script rescores them as
-new bars complete. Pass --refit to reselect the tier and rewrite keep.json;
-that changes which setups are traded, so it is a deliberate act, not a
-daily one.
+The 70%+ tier is DERIVED, not stored, so nothing has to be committed back
+and nothing drifts. --tier picks how:
+
+  walkforward  (default) the tier as it stood on 1 January of the current
+               year, using only data available by then. This is exactly the
+               rule the walk-forward test validates, and it rolls over on
+               its own every January.
+  current      reselected from all data to date. The better estimate of
+               today's odds, but it can change mid-year and it is not what
+               the walk-forward measured.
+  frozen       read keep.json verbatim. For reproducing an earlier run.
 
   python refresh.py --data data --out datasets
 """
@@ -456,10 +462,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data", help="folder of candle CSVs")
     ap.add_argument("--out", default="datasets", help="where to write datasets")
-    ap.add_argument("--keep", default=None, help="frozen tier (keep.json)")
+    ap.add_argument("--keep", default=None, help="keep.json, for --tier frozen")
     ap.add_argument("--today", default=None, help="override today, YYYY-MM-DD")
-    ap.add_argument("--refit", action="store_true",
-                    help="reselect the tier and rewrite keep.json")
+    ap.add_argument("--tier", default="walkforward",
+                    choices=["walkforward", "current", "frozen"],
+                    help="how the traded tier is chosen (default walkforward)")
     a = ap.parse_args()
 
     today = (dt.date.fromisoformat(a.today) if a.today else dt.date.today())
@@ -479,13 +486,18 @@ def main():
 
     rows_all, dates = pool(ch)
 
-    if a.refit:
+    if a.tier == "walkforward":
+        anchor = dt.date(today.year, 1, 1)
+        keep = select_tier(rows_all, upto=anchor)
+        tier_note = f"as it stood on {anchor}"
+    elif a.tier == "current":
         keep = select_tier(rows_all)
-        json.dump([{"chart": c, "tag": t} for c, t in keep],
-                  open(keep_path, "w"))
-        print(f"refit: {len(keep)} setups written to {keep_path}")
+        tier_note = "reselected from all data to date"
     else:
         keep = [(k["chart"], k["tag"]) for k in json.load(open(keep_path))]
+        tier_note = f"frozen, from {os.path.basename(keep_path)}"
+    if not keep:
+        raise SystemExit(f"no setups qualify ({a.tier})")
 
     stats = ds_setups(ch, keep, a.out)
     buy = ds_buy(ch, stats, dates, today, a.out)
@@ -503,8 +515,10 @@ def main():
         p = c["prov"]
         print(f"  {nm:7s} data->{c['D'][-1]}  CT {c['ct'][-1]:5.1f}  "
               f"forming: {'+'.join(t for t in p['tags'] if t != 'any trough') if p else '-'}")
-    print(f"\n  tier {len(keep)} setups, {len(T)} trades, "
-          f"{per_year}/yr   walk-forward baseline {allbase}%")
+    print(f"\n  tier ({a.tier}, {tier_note}): {len(keep)} setups, "
+          f"{len(T)} trades, {per_year}/yr   walk-forward baseline {allbase}%")
+    for c, t in sorted(keep):
+        print(f"      {c:7s} {t}")
     print(f"  invalidation pool {n_inval} setups")
     if buy:
         print("\n  next buys:")

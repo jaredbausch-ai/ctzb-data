@@ -73,19 +73,36 @@ It writes `status`, `buy`, `live`, `levels`, `setups`, `tier`, `walkforward`,
 `years`, `confluence` and `invalidation` as CSVs, and prints a summary of the
 regime, what is forming on each chart, and the next buy dates.
 
-`engine.py`, `regimes.py` and `keep.json` sit beside it. The date comes from
-the clock; `--today YYYY-MM-DD` overrides it for testing.
+`engine.py` and `regimes.py` sit beside it. The date comes from the clock;
+`--today YYYY-MM-DD` overrides it for testing.
 
-### The tier is frozen on purpose
+### The traded tier is derived, not stored
 
-`keep.json` holds the twelve chart-and-tag combinations that are traded. The
-daily run **rescores** them as new bars complete; it does not reselect them.
-Reselecting daily would quietly change what gets traded, so it takes a
-deliberate `--refit`, which rewrites `keep.json`.
+`--tier` decides which chart-and-tag combinations get traded. Nothing is
+written back to the repo and nothing drifts between runs.
+
+| mode | the tier is | |
+|---|---|---|
+| `walkforward` | as it stood on 1 January of the current year | default |
+| `current` | reselected from all data to date | |
+| `frozen` | whatever `keep.json` says | for reproducing an old run |
+
+`walkforward` is the default because it is the rule the walk-forward test
+actually measures: pick the tier in January from data available by then, then
+trade it blind for the year. It needs no maintenance and rolls over on its
+own. `current` is the better estimate of today's odds, but it can change
+mid-year and it is not what was validated.
+
+The two disagree when a setup crosses the 70% line during the year. As of
+October 2026 that is ETH 1D hollow: 76% on 21 trades at the January anchor,
+then 0 for 2, which drags it to 70% — so `walkforward` trades it and
+`current` does not.
+
+`keep.json` is kept only for `--tier frozen`.
 
 ### Candidate tags
 
-`--refit` and the walk-forward both choose from the same eleven candidate
+Tier selection and the walk-forward choose from the same eleven candidate
 tags, `diamond+dot` included. Two earlier scripts disagreed on this — the
 walk-forward omitted that tag — which is why the pooled "All 70%+ setups" row
 reads 90 trades at 66% rather than 88 at 67%. The confluence rows, 77% at 3+
