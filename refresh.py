@@ -152,8 +152,12 @@ def wr(rows):
 
 
 def write_csv(path, header, rows):
+    # lineterminator="\n": csv.writer defaults to CRLF, which leaves a stray
+    # carriage return on every row's last cell. A strict reader then sees
+    # "Bullish\r", and any exact string comparison on a final column fails
+    # silently.
     with open(path, "w", newline="") as f:
-        w = csv.writer(f)
+        w = csv.writer(f, lineterminator="\n")
         w.writerow(header)
         for r in rows:
             w.writerow(r)
