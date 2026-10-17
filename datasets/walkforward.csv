@@ -1,0 +1,4 @@
+rule,trades,win,baseline,medRun,medDD,perYear
+All 70%+ setups,90,66,59,29.1,-15.2,12.9
+With 3+ charts agreeing,47,77,59,33.2,-11.6,6.7
+With 4+ charts agreeing,12,75,59,58.0,-4.2,1.7
