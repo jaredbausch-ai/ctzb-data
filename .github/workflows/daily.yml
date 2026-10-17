@@ -2,7 +2,12 @@ name: Fetch candles
 
 on:
   schedule:
-    - cron: "20 1 * * *"
+    # GitHub's scheduled runs are best-effort and can be hours late: the
+    # 17 Oct run landed at 05:41 UTC against a 01:20 schedule, after the
+    # dashboard task had already looked. Running every four hours means a
+    # delayed run costs little, since the commit step is a no-op when
+    # nothing changed.
+    - cron: "20 1,5,9,13,17,21 * * *"
   workflow_dispatch:
 
 permissions:
