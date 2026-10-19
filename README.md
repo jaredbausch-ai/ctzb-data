@@ -149,3 +149,46 @@ Regenerate with `python refresh.py --data data --out datasets` to confirm.
 A chart "agrees" when it printed a trough within ten days. That is now scored
 against all five charts; an earlier version counted only the charts it had
 already loaded, which under-reported agreement for the shorter timeframes.
+
+## Swing structure and wave counts
+
+`waves.py` segments price into swings and lists every Elliott-style count the
+hard rules still allow at the current price, with the level that kills each.
+
+```
+python waves.py --symbol ETH --tf 2D --degrees 4,8
+```
+
+It does not pick a count. There is no answer key for wave labels, so the
+output worth having is the invalidation levels, which are unambiguous.
+
+### The ratios, measured rather than inherited
+
+Across **218 valid motive structures** on ETH and BTC, 4H through 3D:
+
+| | median | quartiles | the textbook says | hit rate |
+|---|---|---|---|---|
+| wave 4 retrace of wave 3 | 0.40 | 0.34 - 0.50 | 0.382 - 0.5 | 38% |
+| wave 3 as a multiple of wave 1 | 2.14 | 1.49 - 3.17 | at least 1.618 | 68% |
+| wave 2 retrace of wave 1 | 0.65 | 0.47 - 0.83 | 0.5 - 0.618 | 19% |
+
+Wave 4 is the solid one: **0.37 to 0.43 on every series tested**, both assets,
+4H to 3D. That scale invariance is Elliott's central claim and it holds.
+
+Wave 2's textbook range does not. The real centre is 0.65, the real spread is
+nearly twice as wide, and intraday retraces deeper than daily (4H 0.73, 12H
+0.71, 1D 0.61, 2D+ 0.62). `ZONES` in `waves.py` carries the measured numbers.
+
+### What was tested and failed
+
+- **Fibonacci levels are not special.** Of the times price reached a level,
+  1.5x and 2.0x stalled *more often* than 1.272x and 1.618x. The stall rate
+  rises with distance regardless of the ratio, which is arithmetic, not
+  geometry.
+- **A completed count did not predict the next move.** Median -4.7% at 10 days
+  after a bullish five completes, against a +0.9% baseline - but on 12
+  observations, which is noise.
+- **"Buy only when the low is higher than the prior swing low"** looked strong
+  on ETH 2D (+24 points) and shrank to +7 on BTC, which was held out. Pooled
+  over 1,118 signals it is 60% against 50%, and it inverts in 2018 and 2020.
+  Worth displaying, not worth letting it veto a signal.
