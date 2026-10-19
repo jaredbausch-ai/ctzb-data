@@ -602,8 +602,11 @@ def ds_holdcheck(ch, keep, outdir):
 def ds_forward(ch, rows_all, outdir):
     """forward.csv - the live out-of-sample record, rebuilt from candles.
 
-    Every tier signal entered on or after FORWARD_FROM, scored against the
-    tier as it stood in January of that signal's own year. A trade stays
+    EVERY signal entered on or after FORWARD_FROM, with a `tier` column
+    saying whether it was in the traded set as that set stood in January of
+    the signal's own year. The complete enumeration is the point: a log of
+    only the traded ones cannot be distinguished from a log that quietly
+    drops its losers. A trade stays
     "open" until its horizon elapses; no alert, no email, no manual entry,
     and a missing row cannot be mistaken for a quiet market because the
     whole file is derived each run.
@@ -622,8 +625,7 @@ def ds_forward(ch, rows_all, outdir):
         for s in c["sg"]:
             if s["edate"] < FORWARD_FROM:
                 continue
-            if not any(nm == k[0] and k[1] in s["tg"] for k in tier_for(s["edate"].year)):
-                continue
+            in_tier = any(nm == k[0] and k[1] in s["tg"] for k in tier_for(s["edate"].year))
             ei = s["ei"]
             e = C[ei]
             elapsed = (last - D[ei]).days
@@ -648,7 +650,7 @@ def ds_forward(ch, rows_all, outdir):
                 if v is not None:
                     marks[m] = round((v / e - 1) * 100, 1)
             out.append([
-                nm, str(s["edate"]),
+                nm, str(s["edate"]), "yes" if in_tier else "no",
                 " + ".join(t for t in s["tg"] if t != "any trough"),
                 round(e, 2), elapsed,
                 "closed" if elapsed >= HOR else "open",
@@ -657,10 +659,10 @@ def ds_forward(ch, rows_all, outdir):
                 "" if worst is None else round((worst / e - 1) * 100, 1)])
     out.sort(key=lambda r: (r[1], r[0]))
     write_csv(os.path.join(outdir, "forward.csv"),
-              ["chart", "entry", "tag", "entryClose", "elapsed", "status",
+              ["chart", "entry", "tier", "tag", "entryClose", "elapsed", "status",
                "d10", "d30", "d60", "best", "worst"], out)
-    closed = [r for r in out if r[5] == "closed"]
-    won = [r for r in closed if isinstance(r[8], float) and r[8] > 0]
+    closed = [r for r in out if r[6] == "closed"]
+    won = [r for r in closed if isinstance(r[9], float) and r[9] > 0]
     return out, len(closed), len(won)
 
 
@@ -759,8 +761,8 @@ def main():
           f"{fwd_closed} closed"
           + (f", {fwd_won} of those won" if fwd_closed else " (none have run 60 days yet)"))
     for r in fwd:
-        print(f"      {r[0]:7s} {r[1]}  {r[5]:6s} {r[4]:3d}d  "
-              f"best {r[9]}%  worst {r[10]}%  {r[2]}")
+        print(f"      {r[0]:7s} {r[1]}  {'tier' if r[2] == 'yes' else '    '}  "
+              f"{r[6]:6s} {r[5]:3d}d  best {r[10]}%  worst {r[11]}%  {r[3]}")
     if buy:
         print("\n  next buys:")
         for r in buy:
