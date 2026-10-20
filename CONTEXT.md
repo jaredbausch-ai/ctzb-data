@@ -160,6 +160,18 @@ The only survivor was MFI above its own signal line, 67% vs 58% on n=121, which
 is probably just restating that the bounce has started and is likely collinear
 with the prime dot. Untested whether it is independent.
 
+**Inverted diamond as an exit — tested 19 Oct 2026, failed.** Mirror the whole
+construct: pivot HIGHS on CT RSI, confirmation three bars later, disagreement
+against the previous peak. Over 979 trades, median return +2.2% against +10.0%
+for simply holding 60 days, beating hold only 45% of the time, capturing 7% of
+the available high. Fails on both assets (ETH 50%, BTC 39%). Worth recording
+that the disagreement filter is doing something: a naive any-peak exit fires on
+day 6 and captures 0% of the max, the inverted-diamond version waits to day 33
+and at least finishes positive. Also note its MEAN is +32.7% against hold's
++26.2% while its median is far worse -- a few real tops carry it and the rest
+clip early. That is not tradable mechanically, which is the fifth time an exit
+rule has reached that conclusion.
+
 Four mechanical exits: a −5% stop, pivot-break, a probability ladder, and
 cut-and-re-enter. The 50-line cross exit beat holding 32% of the time. Fib
 levels are not special. Completed wave counts do not predict. A higher-low
