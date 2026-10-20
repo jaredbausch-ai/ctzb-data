@@ -145,8 +145,25 @@ higher entry is 78% (n=46) against 55% for the same tag with a lower entry.
 Reading: a cluster stepping up is a base; a cluster stepping down is a
 descending staircase and the indicator fires on every step because it only
 sees RSI shape. Below -30% vs the previous entry it inverts to 81% on ETH
-(n=21) -- capitulation, not a staircase, but thin. NOT YET TESTED: how
-independent this is of the regime gate, which may already capture some of it.
+(n=21) -- capitulation, not a staircase, but thin.
+
+INDEPENDENCE CONFIRMED 19 Oct 2026. Every trough in the record already passed
+the regime gate, so this is measured inside regime-on periods and cannot be
+restating the gate. Stratified by how long the regime had been continuously on
+at entry, the step-up/step-down spread runs +3 (0-60 days), +6 (60-150),
++15 (150-300), +19 (300+). It is a LATE-regime filter: useless when a regime
+is fresh and everything bounces, worth 19 points deep into one. Near
+independent of the agreement count too -- both features co-occur 26% of the
+time against 21% expected by chance -- so the two stack.
+
+**Regime age itself -- found 19 Oct 2026, UNVERIFIED, test this next.**
+Reaching +20% by how long the regime had been on at entry: 0-60 days 76%
+(n=99), 60-150 days **36%** (n=169), 150-300 days 75% (n=187), 300+ days 54%
+(n=509), against a 57% baseline. The 60-150 day dead zone is a larger effect
+than anything else found that night and nobody was looking for it. Do not use
+it yet: it may be a handful of specific calendar periods all landing in the
+same band. Check whether the band's members spread across regimes and across
+both assets before believing it.
 
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
