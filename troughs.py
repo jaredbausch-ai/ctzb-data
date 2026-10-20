@@ -19,8 +19,14 @@ Columns per row (see KEYS):
   dead days until price fell -30% from entry WITHOUT having first gained +5%
        i.e. the trough killed the position before it ever gave anything back.
        null when the trough paid at least +5% before any such drop (or never dropped).
-  cf   how many OTHER timeframes of the same asset printed a signal within
-       AGREE_DAYS of this one. Same rule refresh.py/ds_confluence uses, so the
+  cf   how many OTHER timeframes of the same asset had ALREADY printed within
+       AGREE_DAYS BEFORE this entry. Knowable at the moment you would trade.
+  cfs  the same count with a symmetric +/-AGREE_DAYS window, which is what
+       refresh.py/ds_confluence uses. It credits charts that print up to ten
+       days AFTER entry, so it is not knowable at entry: 627 of 979 rows score
+       higher under it. Kept so the sheet reconciles with the dashboard, but
+       cf is the one to trade from.
+       Original note: Same rule refresh.py/ds_confluence uses, so the
        sheet and the dashboard agree: reference set is 1D/2D/3D/5D/8D, giving
        0-4. Not every reference chart is emitted as rows here; 8D is reference
        only.
@@ -35,7 +41,7 @@ CHARTS = [("ETH","1D"),("ETH","2D"),("ETH","3D"),("ETH","5D"),("BTC","1D"),("BTC
 REF_TFS = ["1D","2D","3D","5D","8D"]   # agreement is scored against all of these
 AGREE_DAYS = 10                        # matches refresh.py
 LIQ = 0.30
-KEYS = ["ch","d","px","bk","tg","u60","u90","umx","dmx","h60","hmx","dead","cf","liqd"]
+KEYS = ["ch","d","px","bk","tg","u60","u90","umx","dmx","h60","hmx","dead","cf","cfs","liqd"]
 
 def r1(x): return None if x is None else round(x*100, 1)
 
@@ -53,13 +59,14 @@ def main():
                 continue
             ref[(sym, tf)] = sorted(bb['date'][s['ei']] for s in sg)
     def agree(sym, tf, d0):
-        n = 0
+        """(backward-only, symmetric). Backward is what you could know."""
+        back = sym_ = 0
         for t in REF_TFS:
             if t == tf: continue
-            ds = ref.get((sym, t))
-            if ds and any(abs((x - d0).days) <= AGREE_DAYS for x in ds):
-                n += 1
-        return n
+            ds = ref.get((sym, t)) or []
+            if any(-AGREE_DAYS <= (x - d0).days <= 0 for x in ds): back += 1
+            if any(abs((x - d0).days) <= AGREE_DAYS for x in ds):   sym_ += 1
+        return back, sym_
     rows = []
     for sym, tf in CHARTS:
         name = f"{sym} {tf}"
@@ -100,7 +107,7 @@ def main():
             if s['prime']: tags.append("dot")
             rows.append([name, str(d0), round(e, 2), s['bk'], " ".join(tags),
                          r1(u60), r1(u90), r1(umx), dmx, r1(h60), r1(hmx), dead,
-                         agree(sym, tf, d0), liqd])
+                         *agree(sym, tf, d0), liqd])
     rows.sort(key=lambda r: r[1])
     json.dump({"keys": KEYS, "rows": rows, "liq": LIQ,
                "gate": "rsi_regime(BTC_2D,8,13,60,41)", "built": str(dt.date.today())},
