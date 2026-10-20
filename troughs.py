@@ -8,6 +8,13 @@ Columns per row (see KEYS):
   px   entry price
   bk   bucket           A/B/C/D by RSI level at the trough
   tg   tags             "dia" / "hollow" / "dot"  (filled diamond = dia without hollow)
+  prv  this entry close against the PREVIOUS signal's entry close on the same
+       chart, in percent. Null on a chart's first signal. Higher means the
+       cluster is stepping up (a base); lower means it is stepping down and the
+       indicator is firing on each step of a descending staircase, which it
+       cannot see because it only reads RSI shape. Holds on both assets:
+       higher gives ETH 69% / BTC 57% reaching +20%, lower gives 52% / 45%.
+       Below about -30% it inverts -- that is capitulation, not a staircase.
   d60  days from entry to that 60-day high. Compared against `dead` it says
        whether the high landed before or after the position was wiped out.
   u60  best upside within 60 days
@@ -43,7 +50,7 @@ CHARTS = [("ETH","1D"),("ETH","2D"),("ETH","3D"),("ETH","5D"),("BTC","1D"),("BTC
 REF_TFS = ["1D","2D","3D","5D","8D"]   # agreement is scored against all of these
 AGREE_DAYS = 10                        # matches refresh.py
 LIQ = 0.30
-KEYS = ["ch","d","px","bk","tg","u60","u90","umx","dmx","h60","hmx","dead","d60","cf","cfs","liqd"]
+KEYS = ["ch","d","px","bk","tg","u60","u90","umx","dmx","h60","hmx","dead","d60","prv","cf","cfs","liqd"]
 
 def r1(x): return None if x is None else round(x*100, 1)
 
@@ -76,8 +83,11 @@ def main():
         sigs, b = E_.signals(path, regime=reg)
         c, hi, lo, dates = b['close'], b['high'], b['low'], b['date']
         n, last = len(c), b['date'][-1]
+        prev_entry = None
         for s in sigs:
             ei, e, d0 = s['ei'], c[s['ei']], dates[s['ei']]
+            prv = r1(e/prev_entry - 1) if prev_entry else None
+            prev_entry = e
             # bounded horizons
             def horizon(days):
                 w = [j for j in range(ei+1, n) if dates[j] <= d0+dt.timedelta(days=days)]
@@ -108,7 +118,7 @@ def main():
                 if not s['strong']: tags.append("hollow")
             if s['prime']: tags.append("dot")
             rows.append([name, str(d0), round(e, 2), s['bk'], " ".join(tags),
-                         r1(u60), r1(u90), r1(umx), dmx, r1(h60), r1(hmx), dead, d60,
+                         r1(u60), r1(u90), r1(umx), dmx, r1(h60), r1(hmx), dead, d60, prv,
                          *agree(sym, tf, d0), liqd])
     rows.sort(key=lambda r: r[1])
     json.dump({"keys": KEYS, "rows": rows, "liq": LIQ,
