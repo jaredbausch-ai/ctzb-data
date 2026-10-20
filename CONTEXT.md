@@ -248,7 +248,11 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 - The console assumes **cross margin** — idle USDC counted as collateral, which
   is how Coinbase treats it. If Joe might run isolated margin instead, that
   needs to be a toggle, because under isolated the reserve does nothing.
-- The scanner needs changes and updates. Next up.
+- Scanner v9 is written (`docs/reference/ctzb_scanner_v9.pine`, diffed against
+  the v8 Jared supplied, also kept). It adds the STEP column and an optional
+  alert gate. **Not yet compiled in TradingView** — paste it in and check before
+  relying on it. No agreement column was added: the LAST cell already turns
+  green inside the confluence window, so the green count is the agreement count.
 - Run the "Fetch candles" Action once. It now backfills 4H/12H history **and**
   brings down volume, which the pipeline previously discarded. Until that runs,
   `data/*.csv` has no volume column and money-flow style filters (MFI, CMF, OBV)
