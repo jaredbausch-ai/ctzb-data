@@ -29,7 +29,7 @@ def get(url):
 
 
 def daily(product):
-    """Page backwards 300 candles at a time. Returns {date: (o,h,l,c)}."""
+    """Page backwards 300 candles at a time. Returns {date: (o,h,l,c,v)}."""
     bars, end = {}, dt.date.today()
     while end > START:
         start = max(START, end - dt.timedelta(days=299))
@@ -37,17 +37,17 @@ def daily(product):
         rows = get(url)
         if not rows:
             break
-        for t, lo, hi, op, cl, _vol in rows:
+        for t, lo, hi, op, cl, vol in rows:
             d = dt.datetime.fromtimestamp(t, dt.timezone.utc).date()
             if d >= START:
-                bars[d] = (op, hi, lo, cl)       # note the API order is l,h,o,c
+                bars[d] = (op, hi, lo, cl, vol)  # note the API order is l,h,o,c
         end = start - dt.timedelta(days=1)
         time.sleep(0.25)                          # stay under the rate limit
     return bars
 
 
 def hourly(product, since):
-    """Page FORWARD from `since` at 1H. Returns {unix_ts: (o,h,l,c)}.
+    """Page FORWARD from `since` at 1H. Returns {unix_ts: (o,h,l,c,v)}.
 
     Forward, not backward like daily(), because this is incremental: only the
     first run pages the whole history. Later runs ask for the one bucket that
@@ -83,7 +83,8 @@ def resample_intraday(bars, hours):
     for k in sorted(groups):
         ts = groups[k]
         out[k] = (bars[ts[0]][0], max(bars[x][1] for x in ts),
-                  min(bars[x][2] for x in ts), bars[ts[-1]][3])
+                  min(bars[x][2] for x in ts), bars[ts[-1]][3],
+                  sum(bars[x][4] for x in ts if len(bars[x]) > 4))
     return out
 
 
@@ -95,7 +96,8 @@ def read_ts(path):
     with open(path) as f:
         for r in csv.DictReader(f):
             out[int(r["time"])] = (float(r["open"]), float(r["high"]),
-                                   float(r["low"]), float(r["close"]))
+                                   float(r["low"]), float(r["close"]),
+                                   float(r.get("volume") or 0.0))
     return out
 
 
@@ -103,7 +105,7 @@ def write_ts(path, bars):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", newline="") as f:
         w = csv.writer(f, lineterminator="\n")
-        w.writerow(["time", "open", "high", "low", "close"])
+        w.writerow(["time", "open", "high", "low", "close", "volume"])
         for t in sorted(bars):
             w.writerow([t, *bars[t]])
     last = dt.datetime.fromtimestamp(max(bars), dt.timezone.utc)
@@ -123,7 +125,8 @@ def resample(bars, tf):
         h = max(bars[x][1] for x in days)
         l = min(bars[x][2] for x in days)
         c = bars[days[-1]][3]
-        out[days[0]] = (o, h, l, c)
+        v = sum(bars[x][4] for x in days if len(bars[x]) > 4)
+        out[days[0]] = (o, h, l, c, v)
     return out
 
 
@@ -131,7 +134,7 @@ def write(path, bars):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", newline="") as f:
         w = csv.writer(f)
-        w.writerow(["time", "open", "high", "low", "close"])
+        w.writerow(["time", "open", "high", "low", "close", "volume"])
         for d in sorted(bars):
             ts = int(dt.datetime.combine(d, dt.time(), dt.timezone.utc).timestamp())
             w.writerow([ts, *bars[d]])

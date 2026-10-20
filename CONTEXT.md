@@ -143,7 +143,13 @@ agreement across four datasets — and it is the one that cannot be rebuilt.
 - A direction arrow on Joe's gauge — it shows a level, not whether probability
   is rising or falling. Offered, not yet greenlit.
 - The scanner needs changes and updates. Next up.
-- Run the "Fetch candles" Action once to backfill 4H/12H history.
+- Run the "Fetch candles" Action once. It now backfills 4H/12H history **and**
+  brings down volume, which the pipeline previously discarded. Until that runs,
+  `data/*.csv` has no volume column and money-flow style filters (MFI, CMF, OBV)
+  cannot be tested at all. Expectation when it is testable: low. MFI is RSI with
+  volume weighting and the RSI is already the signal; everything that has failed
+  here failed for being another transform of the same closes. Agreement worked
+  because it is a different axis.
 
 ## Standing instructions
 
