@@ -27,6 +27,13 @@ Joe Mauro is a creditor doing due diligence. He has his own Coinbase API and
 CoinStats read access and an AI reading a shared dashboard link. Anything
 presented to Joe must be real-time knowable and must not be dressed up.
 
+## Confirmation lag
+
+The symbol fires three bars after the RSI low, so the calendar lag is three
+times the bar: 3 days on 1D, 6 on 2D, **9 on 3D**, 15 on 5D, 24 on 8D. Verified
+across every chart; the only exceptions are single instances caused by
+irregular bar gaps in the data.
+
 ## The setup
 
 CT RSI = `rsi(close, 14)`. Stoch = `sma(stoch(ct, ct, ct, 14), 3)` — the
@@ -127,6 +134,7 @@ a GitHub Actions runner, which is why the pipeline is built this way.
 | page | url | notes |
 |---|---|---|
 | CTZB odds | `claude.ai/artifact/L89GjbqYZcyPxAkzC4jRha` | his. Trough record grouped by marker |
+| Setup Standard (Joe's new console) | `claude.ai/artifact/8ViZjND99xmo8rbcUmmr5r` | Approved 20 Oct 2026. Plain HTML, static snapshot. **Joe does not have this link yet.** Source kept at `docs/artifacts/joe-console.html` |
 | ETH Setup Odds (dashboard) | `claude.ai/artifact/6tH6hXMh3EYLvUUEM9XgSJ` | **Joe has this link.** Dashboard type; page content lives in the artifact DB at collection `files`, doc `index.html`, field `text`. Update via `ArtifactData` with `if_version` pinned |
 
 The dashboard's live signals are **computed signals, never fills**. Jared has
@@ -218,6 +226,19 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
   be forgotten.**
 - A direction arrow on Joe's gauge — it shows a level, not whether probability
   is rising or falling. Offered, not yet greenlit.
+- **Joe's console is approved but not live to him.** It is a static snapshot at
+  its own link; Joe still has the old dashboard. Two things remain: port it into
+  the Dashboard type at `6tH6…` (its contract wants every figure marked to a
+  dataset, so the hardcoded numbers must become `datasets/<id>` documents), and
+  wire `refresh.py` to emit those datasets so the verdict, the board and the
+  tier stats update on the six-a-day schedule. Until then nothing on it moves.
+- Confirm the Coinbase perp contract size. The console defaults to 0.1 ETH per
+  contract with a selector, because the search only turned up the Coinbase
+  *Derivatives* nano spec via Interactive Brokers, not the perps Jared trades.
+  Lock it and drop the selector once known.
+- The console assumes **cross margin** — idle USDC counted as collateral, which
+  is how Coinbase treats it. If Joe might run isolated margin instead, that
+  needs to be a toggle, because under isolated the reserve does nothing.
 - The scanner needs changes and updates. Next up.
 - Run the "Fetch candles" Action once. It now backfills 4H/12H history **and**
   brings down volume, which the pipeline previously discarded. Until that runs,
