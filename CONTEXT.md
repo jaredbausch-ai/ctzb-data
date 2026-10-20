@@ -156,14 +156,24 @@ is fresh and everything bounces, worth 19 points deep into one. Near
 independent of the agreement count too -- both features co-occur 26% of the
 time against 21% expected by chance -- so the two stack.
 
-**Regime age itself -- found 19 Oct 2026, UNVERIFIED, test this next.**
-Reaching +20% by how long the regime had been on at entry: 0-60 days 76%
-(n=99), 60-150 days **36%** (n=169), 150-300 days 75% (n=187), 300+ days 54%
-(n=509), against a 57% baseline. The 60-150 day dead zone is a larger effect
-than anything else found that night and nobody was looking for it. Do not use
-it yet: it may be a handful of specific calendar periods all landing in the
-same band. Check whether the band's members spread across regimes and across
-both assets before believing it.
+**Regime age -- tested 19 Oct 2026, ARTIFACT. Do not use.** The apparent dead
+zone at 60-150 days into a regime (36% against a 57% baseline, n=169) does not
+survive being broken out by regime episode: 56% / 40% / 87% / 3% / 11% across
+the 2016, 2019, 2020, 2021 and 2023 episodes. The same band ran 87% in the 2020
+episode. Two windows drag the pooled figure down, Aug 2021 - Jan 2022 at 3% and
+Apr - Jun 2023 at 11%.
+
+METHOD NOTE worth keeping: ETH and BTC agreed closely here (38% and 36%), which
+looked like cross-asset confirmation and was not. Both assets live through the
+same calendar, so for any effect anchored to dates they are one sample, not two.
+That check is only meaningful for features that are not time-anchored -- it was
+real for the higher-low filter and worthless for this.
+
+**The regime gate has a cycle-top blind spot -- found 19 Oct 2026, untested.**
+Regime episode 2021-08-19 to 2022-01-25 stayed ON straight through the November
+2021 cycle top, and the 35 troughs that fired 60-150 days into it went 3-for-35
+(3%). This is a weakness in a filter already relied on everywhere, not a new
+filter. Worth a session of its own.
 
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
@@ -194,6 +204,12 @@ cut-and-re-enter. The 50-line cross exit beat holding 32% of the time. Fib
 levels are not special. Completed wave counts do not predict. A higher-low
 filter shrank the sample to +7. Of 92 filters tested, only the WGMI one cleared
 agreement across four datasets — and it is the one that cannot be rebuilt.
+
+## Where the current regime sits
+
+The regime turned on 2026-09-02. As of 19 Oct 2026 that is 47 days, which is
+the 0-60 day band -- the one where the higher-low column carries almost no
+information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Open items
 
