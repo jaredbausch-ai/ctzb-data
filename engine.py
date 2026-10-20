@@ -109,13 +109,17 @@ def load(path):
 FLASH_FRAC = 0.5
 
 def _declamp(dates, o, h, l, c):
+    """Mirrors refresh.py's _declean so every consumer of load() sees the
+    same candles: a low below half the bar's body, or a high above twice
+    it, is not a tradable price and is pulled back to the body."""
     out=[]
     for i in range(len(l)):
-        if None in (o[i], l[i], c[i]): continue
-        floor=min(o[i], c[i])
-        if floor > 0 and l[i] < FLASH_FRAC*floor:
-            out.append((dates[i], l[i], floor))
-            l[i]=floor
+        if None in (o[i], h[i], l[i], c[i]): continue
+        lo_body=min(o[i], c[i]); hi_body=max(o[i], c[i])
+        if lo_body > 0 and l[i] < FLASH_FRAC*lo_body:
+            out.append((dates[i], l[i], lo_body)); l[i]=lo_body
+        if hi_body > 0 and h[i] > hi_body/FLASH_FRAC:
+            out.append((dates[i], h[i], hi_body)); h[i]=hi_body
     return out
 
 def bull(d):
