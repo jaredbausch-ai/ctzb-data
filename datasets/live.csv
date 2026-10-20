@@ -1,6 +1,6 @@
 chart,dataTo,lastPrint,lastEntry,lastTag,daysSince,ctNow,forming,formingTag,barsNeeded
-ETH 1D,2026-10-20,2026-10-17,2026-10-20,A,0,42.4,yes,A,0
-ETH 2D,2026-10-20,2026-09-14,2026-09-20,C + prime dot,30,47.9,yes,B,1
-ETH 3D,2026-10-19,2026-09-13,2026-09-22,C + diamond + hollow,27,52.2,yes,B + zone-exit B,2
-ETH 5D,2026-10-18,2026-09-13,2026-09-28,C,20,55.2,yes,B + zone-exit B + prime dot,2
-ETH 8D,2026-10-16,2025-06-18,2025-07-12,B,461,53.3,yes,B + zone-exit B,2
+ETH 1D,2026-10-20,2026-10-17,2026-10-20,A,0,43.1,yes,A,0
+ETH 2D,2026-10-20,2026-09-14,2026-09-20,C + prime dot,30,48.3,yes,B,1
+ETH 3D,2026-10-19,2026-09-13,2026-09-22,C + diamond + hollow,27,52.5,yes,B + zone-exit B,2
+ETH 5D,2026-10-18,2026-09-13,2026-09-28,C,20,55.4,yes,B + zone-exit B + prime dot,2
+ETH 8D,2026-10-16,2025-06-18,2025-07-12,B,461,53.5,yes,B + zone-exit B,2
