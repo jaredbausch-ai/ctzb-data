@@ -1,6 +1,24 @@
 //@version=6
 // CTZB SCANNER v9
 // ---------------------------------------------------------------------------
+// ADDS THE CONF COLUMN. How many of the other five slots have already printed
+// inside the confluence window, and what that is worth ON THAT CHART. Measured
+// 19 Oct 2026, backward-only so it is knowable on the day, 2+ agreeing against
+// 0-1 agreeing, reaching +20% in 60 days:
+//     ETH 1D  58% -> 67%  (+9,  n=205 / 83)
+//     ETH 2D  59% -> 71%  (+13, n=102 / 35)
+//     BTC 1D  52% -> 52%  (+0,  n=194 / 85)
+//     BTC 2D  52% -> 51%  (-1,  n=92 / 49)
+//     ETH 3D / 5D  no reading: they almost never fire alone (77 of 87 and 47
+//                  of 47 already have two or more agreeing), so on those charts
+//                  confluence is the default state, not a filter.
+// The lift is REAL ON ETH AND ABSENT ON BTC. A pooled figure across both assets
+// reads like a 12-point edge everywhere and is misleading; these are per chart.
+//
+// It is shown SEPARATELY and is NOT folded into ODDS. Adding it would bake one
+// night's measurement into the number positions get sized from, and the ETH 3D
+// and 5D cells have no reading at all. Read the two columns together.
+//
 // THE EDGE COLUMN IS NOW THE ODDS COLUMN. It showed the increment over the
 // chart's own baseline, and when a signal was live the baseline it referred to
 // was not on screen - so the panel could not be read without knowing six
@@ -294,6 +312,15 @@ nFor(int slot, string tag) =>
         n := slot == 1 ? 27 : slot == 2 ? 19 : slot == 3 ? 6 : slot == 4 ? 8 : slot == 5 ? 38 : 18
     n
 
+// points added when 2+ other slots have already printed inside the window.
+// 0 where the effect is absent (BTC) or unmeasurable (ETH 3D/5D fire with
+// company almost every time, so there is no lone-signal group to compare to).
+confLift(int slot) =>
+    slot == 1 ? 9. : slot == 2 ? 13. : slot == 3 ? 0. : slot == 4 ? 0. : slot == 5 ? 0. : -1.
+
+confMeasured(int slot) =>
+    slot == 1 or slot == 2 or slot == 5 or slot == 6
+
 baseFor(int slot) =>
     slot == 1 ? 69 : slot == 2 ? 69 : slot == 3 ? 71 : slot == 4 ? 84 : slot == 5 ? 72 : 72
 
@@ -394,17 +421,17 @@ chk(int slot, float p, float tr, float dis, float dE) =>
 
 fire := W1 or W2 or W3 or W4 or W5 or W6
 if W1
-    msg := msg + nameOf(1) + " " + T1 + " (" + str.tostring(baseFor(1) + E1, "#") + "% — " + (E1 >= 0 ? "+" : "") + str.tostring(E1, "#") + "pp on a " + str.tostring(baseFor(1)) + "% base, n=" + str.tostring(N1) + ", step " + (na(x1) ? "?" : (x1 >= 0 ? "+" : "") + str.tostring(x1, "#.#") + "%") + ")  "
+    msg := msg + nameOf(1) + " " + T1 + " (" + str.tostring(baseFor(1) + E1, "#") + "% — " + (E1 >= 0 ? "+" : "") + str.tostring(E1, "#") + "pp on a " + str.tostring(baseFor(1)) + "% base, n=" + str.tostring(N1) + ", step " + (na(x1) ? "?" : (x1 >= 0 ? "+" : "") + str.tostring(x1, "#.#") + "%") + ", " + str.tostring(o1) + " agreeing" + (o1 >= 2 and confMeasured(1) ? " worth " + (confLift(1) >= 0 ? "+" : "") + str.tostring(confLift(1), "#") + "pp here" : "") + ")  "
 if W2
-    msg := msg + nameOf(2) + " " + T2 + " (" + str.tostring(baseFor(2) + E2, "#") + "% — " + (E2 >= 0 ? "+" : "") + str.tostring(E2, "#") + "pp on a " + str.tostring(baseFor(2)) + "% base, n=" + str.tostring(N2) + ", step " + (na(x2) ? "?" : (x2 >= 0 ? "+" : "") + str.tostring(x2, "#.#") + "%") + ")  "
+    msg := msg + nameOf(2) + " " + T2 + " (" + str.tostring(baseFor(2) + E2, "#") + "% — " + (E2 >= 0 ? "+" : "") + str.tostring(E2, "#") + "pp on a " + str.tostring(baseFor(2)) + "% base, n=" + str.tostring(N2) + ", step " + (na(x2) ? "?" : (x2 >= 0 ? "+" : "") + str.tostring(x2, "#.#") + "%") + ", " + str.tostring(o2) + " agreeing" + (o2 >= 2 and confMeasured(2) ? " worth " + (confLift(2) >= 0 ? "+" : "") + str.tostring(confLift(2), "#") + "pp here" : "") + ")  "
 if W3
-    msg := msg + nameOf(3) + " " + T3 + " (" + str.tostring(baseFor(3) + E3, "#") + "% — " + (E3 >= 0 ? "+" : "") + str.tostring(E3, "#") + "pp on a " + str.tostring(baseFor(3)) + "% base, n=" + str.tostring(N3) + ", step " + (na(x3) ? "?" : (x3 >= 0 ? "+" : "") + str.tostring(x3, "#.#") + "%") + ")  "
+    msg := msg + nameOf(3) + " " + T3 + " (" + str.tostring(baseFor(3) + E3, "#") + "% — " + (E3 >= 0 ? "+" : "") + str.tostring(E3, "#") + "pp on a " + str.tostring(baseFor(3)) + "% base, n=" + str.tostring(N3) + ", step " + (na(x3) ? "?" : (x3 >= 0 ? "+" : "") + str.tostring(x3, "#.#") + "%") + ", " + str.tostring(o3) + " agreeing" + (o3 >= 2 and confMeasured(3) ? " worth " + (confLift(3) >= 0 ? "+" : "") + str.tostring(confLift(3), "#") + "pp here" : "") + ")  "
 if W4
-    msg := msg + nameOf(4) + " " + T4 + " (" + str.tostring(baseFor(4) + E4, "#") + "% — " + (E4 >= 0 ? "+" : "") + str.tostring(E4, "#") + "pp on a " + str.tostring(baseFor(4)) + "% base, n=" + str.tostring(N4) + ", step " + (na(x4) ? "?" : (x4 >= 0 ? "+" : "") + str.tostring(x4, "#.#") + "%") + ")  "
+    msg := msg + nameOf(4) + " " + T4 + " (" + str.tostring(baseFor(4) + E4, "#") + "% — " + (E4 >= 0 ? "+" : "") + str.tostring(E4, "#") + "pp on a " + str.tostring(baseFor(4)) + "% base, n=" + str.tostring(N4) + ", step " + (na(x4) ? "?" : (x4 >= 0 ? "+" : "") + str.tostring(x4, "#.#") + "%") + ", " + str.tostring(o4) + " agreeing" + (o4 >= 2 and confMeasured(4) ? " worth " + (confLift(4) >= 0 ? "+" : "") + str.tostring(confLift(4), "#") + "pp here" : "") + ")  "
 if W5
-    msg := msg + nameOf(5) + " " + T5 + " (" + str.tostring(baseFor(5) + E5, "#") + "% — " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp on a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ", step " + (na(x5) ? "?" : (x5 >= 0 ? "+" : "") + str.tostring(x5, "#.#") + "%") + ")  "
+    msg := msg + nameOf(5) + " " + T5 + " (" + str.tostring(baseFor(5) + E5, "#") + "% — " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp on a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ", step " + (na(x5) ? "?" : (x5 >= 0 ? "+" : "") + str.tostring(x5, "#.#") + "%") + ", " + str.tostring(o5) + " agreeing" + (o5 >= 2 and confMeasured(5) ? " worth " + (confLift(5) >= 0 ? "+" : "") + str.tostring(confLift(5), "#") + "pp here" : "") + ")  "
 if W6
-    msg := msg + nameOf(6) + " " + T6 + " (" + str.tostring(baseFor(6) + E6, "#") + "% — " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp on a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ", step " + (na(x6) ? "?" : (x6 >= 0 ? "+" : "") + str.tostring(x6, "#.#") + "%") + ")  "
+    msg := msg + nameOf(6) + " " + T6 + " (" + str.tostring(baseFor(6) + E6, "#") + "% — " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp on a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ", step " + (na(x6) ? "?" : (x6 >= 0 ? "+" : "") + str.tostring(x6, "#.#") + "%") + ", " + str.tostring(o6) + " agreeing" + (o6 >= 2 and confMeasured(6) ? " worth " + (confLift(6) >= 0 ? "+" : "") + str.tostring(confLift(6), "#") + "pp here" : "") + ")  "
 
 // confluence: how many of the six printed recently
 bpd(string tf) =>
@@ -418,6 +445,13 @@ d5s = s5 / bpd(tf5)
 d6s = s6 / bpd(tf6)
 nRecent = (d1s <= confDays ? 1 : 0) + (d2s <= confDays ? 1 : 0) + (d3s <= confDays ? 1 : 0)
 nRecent += (d4s <= confDays ? 1 : 0) + (d5s <= confDays ? 1 : 0) + (d6s <= confDays ? 1 : 0)
+// others agreeing, per row: everyone inside the window except this chart
+o1 = nRecent - (d1s <= confDays ? 1 : 0)
+o2 = nRecent - (d2s <= confDays ? 1 : 0)
+o3 = nRecent - (d3s <= confDays ? 1 : 0)
+o4 = nRecent - (d4s <= confDays ? 1 : 0)
+o5 = nRecent - (d5s <= confDays ? 1 : 0)
+o6 = nRecent - (d6s <= confDays ? 1 : 0)
 
 // ---- ETH 5D confirmation: slot 4 is the A-asset 5D chart ----
 conf5 = use5 and d4s <= win5
@@ -428,7 +462,7 @@ plot(nRecent, "Charts signalling within the window", color=color.new(#42A5F5, 0)
 hline(3, "3 of 6", color=color.new(color.gray, 60), linestyle=hline.style_dashed)
 
 // ---- readout ----
-var table tb = table.new(position.top_right, 6, 8, border_width=1, frame_width=1, frame_color=color.new(color.gray, 50))
+var table tb = table.new(position.top_right, 7, 8, border_width=1, frame_width=1, frame_color=color.new(color.gray, 50))
 cc(int r, int c, string s, color tx, color bg) =>
     table.cell(tb, c, r, s, text_color=tx, bgcolor=bg, text_size=size.small)
 
@@ -439,12 +473,19 @@ provTag(int slot, float q, float tv, float dz) =>
         s := "?" + (dz > 0.5 ? (tv < 50 ? "◆" : "◇") : "") + bk
     s
 
+confCell(int slot, int others) =>
+    float lf = confLift(slot)
+    bool on = others >= 2
+    string s = str.tostring(others) + (on and confMeasured(slot) ? (lf >= 0 ? "  +" : "  ") + str.tostring(lf, "#") : on ? "  -" : "")
+    color c = not on ? color.new(color.silver, 55) : not confMeasured(slot) ? color.new(color.silver, 35) : lf >= 5 ? color.new(#26A69A, 0) : lf <= -1 ? color.new(color.red, 30) : color.new(color.silver, 25)
+    [s, c]
+
 stepCell(float dE) =>
     string s = na(dE) ? "-" : (dE >= 0 ? "+" : "") + str.tostring(dE, "#.#") + "%"
     color c = na(dE) ? color.new(color.silver, 55) : dE >= 0 ? color.new(#26A69A, 0) : dE < -30 ? color.new(#D97706, 0) : color.new(color.red, 20)
     [s, c]
 
-rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, string pt, float dE) =>
+rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, string pt, float dE, int others) =>
     color bg = color.new(color.black, 55)
     color tc = color.silver
     if t != ""
@@ -472,6 +513,8 @@ rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, st
     cc(r, 4, str.tostring(ctv, "#") + (ctv > sgv ? " ^" : " v"), zc, bg)
     [ss, sc2] = stepCell(dE)
     cc(r, 5, ss, sc2, bg)
+    [cs, cc2] = confCell(slot, others)
+    cc(r, 6, cs, cc2, bg)
 
 if barstate.islast
     cc(0, 0, "CHART", color.white, color.new(color.black, 30))
@@ -480,12 +523,13 @@ if barstate.islast
     cc(0, 3, "LAST", color.white, color.new(color.black, 30))
     cc(0, 4, "CT", color.white, color.new(color.black, 30))
     cc(0, 5, "STEP", color.white, color.new(color.black, 30))
-    rowFor(1, 1, T1, E1, d1s, c1, g1, provTag(1, q1, v1, w1), x1)
-    rowFor(2, 2, T2, E2, d2s, c2, g2, provTag(2, q2, v2, w2), x2)
-    rowFor(3, 3, T3, E3, d3s, c3, g3, provTag(3, q3, v3, w3), x3)
-    rowFor(4, 4, T4, E4, d4s, c4, g4, provTag(4, q4, v4, w4), x4)
-    rowFor(5, 5, T5, E5, d5s, c5, g5, provTag(5, q5, v5, w5), x5)
-    rowFor(6, 6, T6, E6, d6s, c6, g6, provTag(6, q6, v6, w6), x6)
+    cc(0, 6, "CONF", color.white, color.new(color.black, 30))
+    rowFor(1, 1, T1, E1, d1s, c1, g1, provTag(1, q1, v1, w1), x1, o1)
+    rowFor(2, 2, T2, E2, d2s, c2, g2, provTag(2, q2, v2, w2), x2, o2)
+    rowFor(3, 3, T3, E3, d3s, c3, g3, provTag(3, q3, v3, w3), x3, o3)
+    rowFor(4, 4, T4, E4, d4s, c4, g4, provTag(4, q4, v4, w4), x4, o4)
+    rowFor(5, 5, T5, E5, d5s, c5, g5, provTag(5, q5, v5, w5), x5, o5)
+    rowFor(6, 6, T6, E6, d6s, c6, g6, provTag(6, q6, v6, w6), x6, o6)
     cc(7, 0, inWin ? "BULL" : "OUT", inWin ? color.black : color.white, inWin ? color.new(#26A69A, 10) : color.new(color.red, 40))
     color cf5 = conf5 ? color.new(#0E7490, 10) : color.new(color.black, 55)
     cc(7, 1, conf5 ? "5D CONFIRMED" : "no 5D conf", conf5 ? color.white : color.new(color.silver, 40), cf5)
@@ -494,6 +538,7 @@ if barstate.islast
     cc(7, 4, useRz ? "RSI regime" : "fixed window", color.new(color.silver, 25), color.new(color.black, 55))
     int nUpNow = (na(x1) ? 0 : x1 >= 0 ? 1 : 0) + (na(x2) ? 0 : x2 >= 0 ? 1 : 0) + (na(x3) ? 0 : x3 >= 0 ? 1 : 0) + (na(x4) ? 0 : x4 >= 0 ? 1 : 0) + (na(x5) ? 0 : x5 >= 0 ? 1 : 0) + (na(x6) ? 0 : x6 >= 0 ? 1 : 0)
     cc(7, 5, str.tostring(nUpNow) + "/6 up", nUpNow >= 3 ? color.new(#26A69A, 0) : color.new(color.silver, 35), color.new(color.black, 55))
+    cc(7, 6, str.tostring(nRecent) + "/6 live", nRecent >= 3 ? color.new(#26A69A, 0) : color.new(color.silver, 35), color.new(color.black, 55))
 
 alertcondition(fireOut, "CTZB scan", "CTZB: signal fired. See the chart table for which.")
 alertcondition(fire5, "CTZB scan + 5D confirmed", "CTZB: signal fired WITH ETH 5D confirmation (77% vs 53% under the RSI regime, n=396).")

@@ -143,6 +143,16 @@ misrepresentation.
 
 ## What has been tested and failed
 
+**Confluence lift is ETH-only — measured 19 Oct 2026.** Backward-only agreement,
+2+ other timeframes already printed vs 0-1, reaching +20% in 60 days:
+ETH 1D 58->67 (+9, n=205/83), ETH 2D 59->71 (+13, n=102/35), BTC 1D 52->52 (+0,
+n=194/85), BTC 2D 52->51 (-1, n=92/49). ETH 3D and 5D give no reading because
+they almost never fire alone (77 of 87, 47 of 47 already have 2+ agreeing), so
+there is no lone-signal group to compare against. **A pooled figure across both
+assets reads like a +12 edge everywhere and is wrong** — an earlier framing in
+this session made that mistake before the split was run. Carried on the scanner
+as its own CONF column, deliberately not folded into the ODDS number.
+
 **Higher low vs the previous signal — tested 19 Oct 2026, WORKS.** The one
 cluster feature that survives. Compare this signal's entry close to the
 *previous signal's* entry close on the same chart. Higher: ETH 69% reach +20%
@@ -250,7 +260,9 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
   needs to be a toggle, because under isolated the reserve does nothing.
 - Scanner v9 is written (`docs/reference/ctzb_scanner_v9.pine`, diffed against
   the v8 Jared supplied, also kept). It adds the STEP column and an optional
-  alert gate. **Not yet compiled in TradingView** — paste it in and check before
+  alert gate, renames EDGE to ODDS (it showed an increment over a baseline the
+  panel hid once a signal fired), and adds a CONF column carrying the per-chart
+  confluence lift. Seven columns now. **Not yet compiled in TradingView** — paste it in and check before
   relying on it. No agreement column was added: the LAST cell already turns
   green inside the confluence window, so the green count is the agreement count.
 - Run the "Fetch candles" Action once. It now backfills 4H/12H history **and**
