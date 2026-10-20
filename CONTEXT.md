@@ -93,6 +93,12 @@ was already closed. Striking every row that was ever wiped out marked 114 rows
 instead of 22, and most of those had made their high first and were perfectly
 reachable. Jared caught this one.
 
+**Price transforms keep failing; different axes keep working.** Fibs, moving
+averages, Elliott wave, opens/closes and now money flow have all come back
+empty. The two things that have worked — the regime gate and cross-timeframe
+agreement — are not transforms of the same closes. Weigh new ideas by that test
+before spending a night on them.
+
 **Scratch dies.** Two generators were lost that way. Anything that produces a
 number someone will look at twice goes in this repo.
 
@@ -128,6 +134,18 @@ taken none of them. Presenting them to a creditor as trades would be
 misrepresentation.
 
 ## What has been tested and failed
+
+**Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
+TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
+days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
+40-60 / 60+, non-monotonic, and the 67% cell is 18 troughs). A "money diamond"
+— CT RSI and MFI disagreeing vs the previous trough, the same construct as the
+real diamond with volume as the second opinion — came in at 61% vs 60%, i.e.
+nothing, and it *degrades* the existing tags when stacked: diamond alone 70%
+falls to 64% with it, diamond+dot 76% falls to 69%. Do not re-test this.
+The only survivor was MFI above its own signal line, 67% vs 58% on n=121, which
+is probably just restating that the bounce has started and is likely collinear
+with the prime dot. Untested whether it is independent.
 
 Four mechanical exits: a −5% stop, pivot-break, a probability ladder, and
 cut-and-re-enter. The 50-line cross exit beat holding 32% of the time. Fib
