@@ -10,7 +10,9 @@ Columns per row (see KEYS):
   tg   tags             "dia" / "hollow" / "dot"  (filled diamond = dia without hollow)
   u60  best upside within 60 days
   u90  best upside within 90 days
-  umx  best upside EVER, stopping if price first falls -30% from entry (3.3x wipeout)
+  umx  best upside within 365 days, stopping if price first falls -30% from entry.
+       Bounded at a year on purpose: unbounded, a 2016 trough reports +21,435%,
+       which measures how long BTC has existed rather than what the trough did.
   dmx  days to that umx peak
   h60  deepest the price went BELOW entry before the 60-day peak
   hmx  deepest the price went BELOW entry before the umx peak
@@ -53,6 +55,7 @@ def main():
             # unbounded, but dead the moment it touches the wipeout distance
             umx, dmx, hmx, liqd, run = 0.0, 0, 0.0, None, 0.0
             for j in range(ei+1, n):
+                if (dates[j]-d0).days > 365: break
                 if lo[j]/e - 1 <= -LIQ:
                     liqd = (dates[j]-d0).days
                     break

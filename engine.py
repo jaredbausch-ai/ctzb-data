@@ -94,8 +94,29 @@ def load(path):
         t=r[idx['time'][0]]
         try: times.append(dt.datetime.utcfromtimestamp(int(t)).date())
         except: times.append(dt.datetime.fromisoformat(t.replace('Z','')).date())
-    return dict(date=times, open=req('open'), high=req('high'),
-                low=req('low'), close=req('close'))
+    o,h,l,c = req('open'), req('high'), req('low'), req('close')
+    clamped = _declamp(times, o, h, l, c)
+    return dict(date=times, open=o, high=h, low=l, close=c, clamped=clamped)
+
+
+# Exchange flash prints. Two 2017 bars carry lows that are real exchange
+# records but untradeable: BTC 2017-04-15 printed $0.06 against a $1,173
+# open, and ETH 2017-06-21 printed $0.10 against $325 (the GDAX cascade,
+# much of which the exchange later reversed). Left in, any position open on
+# those dates measures as a -100% drawdown. We clamp a low only when it is
+# below half the bar's own min(open, close), which in this dataset is one
+# bar per chart, and record every clamp so the adjustment is auditable.
+FLASH_FRAC = 0.5
+
+def _declamp(dates, o, h, l, c):
+    out=[]
+    for i in range(len(l)):
+        if None in (o[i], l[i], c[i]): continue
+        floor=min(o[i], c[i])
+        if floor > 0 and l[i] < FLASH_FRAC*floor:
+            out.append((dates[i], l[i], floor))
+            l[i]=floor
+    return out
 
 def bull(d):
     return any(a<=d<=b for a,b in BULLD)
