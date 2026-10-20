@@ -1,6 +1,21 @@
 //@version=6
 // CTZB SCANNER v9
 // ---------------------------------------------------------------------------
+// ADDS THE GRADE COLUMN AND COLOURS THE ROW BY IT. Seven columns of true
+// numbers still needed interpreting. GRADE counts how many of the three things
+// measured in this build a live signal has:
+//     odds 75%+  ·  stepping up  ·  two or more charts already agreeing
+// Shown as filled dots, and the ROW BACKGROUND now carries it - green at 3 of
+// 3, blue at 2, grey at 1, red at 0 - so good and bad are visible without
+// reading a cell. The row used to be coloured by tag; the TAG cell already
+// names the tag, so that was a wasted channel.
+//
+// It is a COUNT OF CONDITIONS, not a blended probability. The three overlap
+// (ODDS already contains signals that had company) and two of the three do not
+// hold their measured size once combined, so multiplying them would invent
+// precision. Status row shows the best grade on the board as TAKE IT / watch /
+// weak / nothing live.
+//
 // ADDS THE CONF COLUMN: how many of the other five slots have already printed
 // inside the confluence window. A COUNT, not a score. Green at 3+, plain at 2.
 //
@@ -473,7 +488,7 @@ plot(nRecent, "Charts signalling within the window", color=color.new(#42A5F5, 0)
 hline(3, "3 of 6", color=color.new(color.gray, 60), linestyle=hline.style_dashed)
 
 // ---- readout ----
-var table tb = table.new(position.top_right, 7, 8, border_width=1, frame_width=1, frame_color=color.new(color.gray, 50))
+var table tb = table.new(position.top_right, 8, 8, border_width=1, frame_width=1, frame_color=color.new(color.gray, 50))
 cc(int r, int c, string s, color tx, color bg) =>
     table.cell(tb, c, r, s, text_color=tx, bgcolor=bg, text_size=size.small)
 
@@ -489,6 +504,24 @@ provTag(int slot, float q, float tv, float dz) =>
 // on UNTAGGED signals: filtered to tagged ones the lift is -2 on ETH 1D (n=35)
 // and +32 on ETH 2D (n=12), which is noise in both directions. The count is
 // solid, the points are not, so only the count is shown.
+// GRADE: the three things measured this build, as filled dots. Shown only when
+// a signal is actually live, so an empty row stays empty.
+//   1  the chart+tag odds are 75% or better
+//   2  this low sits at or above the previous signal's entry  (STEP)
+//   3  two or more other charts have already printed           (CONF)
+// Deliberately a count of conditions, not a blended score: the three overlap
+// and the measured sizes of two of them do not survive being combined.
+gradeOf(int slot, string t, float e, float dE, int others) =>
+    int n = 0
+    if t != ""
+        n := (baseFor(slot) + e >= 75 ? 1 : 0) + (not na(dE) and dE >= 0 ? 1 : 0) + (others >= 2 ? 1 : 0)
+    n
+
+gradeCell(string t, int n) =>
+    string s = t == "" ? "" : (n == 3 ? "●●●" : n == 2 ? "●●○" : n == 1 ? "●○○" : "○○○")
+    color c = n == 3 ? color.new(#26A69A, 0) : n == 2 ? color.new(color.silver, 10) : n == 1 ? color.new(color.silver, 45) : color.new(color.red, 30)
+    [s, c]
+
 confCell(int slot, int others) =>
     string s = str.tostring(others) + "/5"
     color c = others >= 3 ? color.new(#26A69A, 0) : others >= 2 ? color.new(color.silver, 10) : color.new(color.silver, 55)
@@ -500,14 +533,12 @@ stepCell(float dE) =>
     [s, c]
 
 rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, string pt, float dE, int others) =>
+    int gr = gradeOf(slot, t, e, dE, others)
     color bg = color.new(color.black, 55)
     color tc = color.silver
     if t != ""
-        bg := color.new(#2563A8, 10)
-        if str.contains(t, "GOLD")
-            bg := color.new(#D97706, 10)
-        else if str.contains(t, "DIA")
-            bg := color.new(#64748B, 10)
+        // the row now reads good-or-bad at a glance; the TAG cell still names it
+        bg := gr == 3 ? color.new(#15803D, 25) : gr == 2 ? color.new(#2563A8, 25) : gr == 1 ? color.new(#64748B, 40) : color.new(#7F1D1D, 40)
         tc := color.white
     cc(r, 0, nameOf(slot), color.white, bg)
     string shown = t != "" ? t : (showProv and pt != "" ? pt : "-")
@@ -529,6 +560,8 @@ rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, st
     cc(r, 5, ss, sc2, bg)
     [cs, cc2] = confCell(slot, others)
     cc(r, 6, cs, cc2, bg)
+    [gs, gc] = gradeCell(t, gr)
+    cc(r, 7, gs, gc, bg)
 
 if barstate.islast
     cc(0, 0, "CHART", color.white, color.new(color.black, 30))
@@ -538,6 +571,7 @@ if barstate.islast
     cc(0, 4, "CT", color.white, color.new(color.black, 30))
     cc(0, 5, "STEP", color.white, color.new(color.black, 30))
     cc(0, 6, "CONF", color.white, color.new(color.black, 30))
+    cc(0, 7, "GRADE", color.white, color.new(color.black, 30))
     rowFor(1, 1, T1, E1, d1s, c1, g1, provTag(1, q1, v1, w1), x1, o1)
     rowFor(2, 2, T2, E2, d2s, c2, g2, provTag(2, q2, v2, w2), x2, o2)
     rowFor(3, 3, T3, E3, d3s, c3, g3, provTag(3, q3, v3, w3), x3, o3)
@@ -553,6 +587,9 @@ if barstate.islast
     int nUpNow = (na(x1) ? 0 : x1 >= 0 ? 1 : 0) + (na(x2) ? 0 : x2 >= 0 ? 1 : 0) + (na(x3) ? 0 : x3 >= 0 ? 1 : 0) + (na(x4) ? 0 : x4 >= 0 ? 1 : 0) + (na(x5) ? 0 : x5 >= 0 ? 1 : 0) + (na(x6) ? 0 : x6 >= 0 ? 1 : 0)
     cc(7, 5, str.tostring(nUpNow) + "/6 up", nUpNow >= 3 ? color.new(#26A69A, 0) : color.new(color.silver, 35), color.new(color.black, 55))
     cc(7, 6, str.tostring(nRecent) + "/6 live", nRecent >= 3 ? color.new(#26A69A, 0) : color.new(color.silver, 35), color.new(color.black, 55))
+    int best = math.max(math.max(gradeOf(1, T1, E1, x1, o1), gradeOf(2, T2, E2, x2, o2)), math.max(math.max(gradeOf(3, T3, E3, x3, o3), gradeOf(4, T4, E4, x4, o4)), math.max(gradeOf(5, T5, E5, x5, o5), gradeOf(6, T6, E6, x6, o6))))
+    bool anyLive = T1 != "" or T2 != "" or T3 != "" or T4 != "" or T5 != "" or T6 != ""
+    cc(7, 7, not anyLive ? "nothing live" : best == 3 ? "TAKE IT" : best == 2 ? "watch" : "weak", not anyLive ? color.new(color.silver, 45) : best == 3 ? color.white : best == 2 ? color.new(color.silver, 10) : color.new(color.red, 20), not anyLive ? color.new(color.black, 55) : best == 3 ? color.new(#15803D, 10) : color.new(color.black, 55))
 
 alertcondition(fireOut, "CTZB scan", "CTZB: signal fired. See the chart table for which.")
 alertcondition(fire5, "CTZB scan + 5D confirmed", "CTZB: signal fired WITH ETH 5D confirmation (77% vs 53% under the RSI regime, n=396).")
