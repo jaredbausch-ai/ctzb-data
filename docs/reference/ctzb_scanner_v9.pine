@@ -396,6 +396,26 @@ wanted(string key, float e) =>
         ok := aAll
     ok and e >= minEdge
 
+// confluence: how many of the six printed recently
+bpd(string tf) =>
+    float m = timeframe.in_seconds(tf) / 60.0
+    m <= 0 ? 1.0 : 1440.0 / m
+d1s = s1 / bpd(tf1)
+d2s = s2 / bpd(tf2)
+d3s = s3 / bpd(tf3)
+d4s = s4 / bpd(tf4)
+d5s = s5 / bpd(tf5)
+d6s = s6 / bpd(tf6)
+nRecent = (d1s <= confDays ? 1 : 0) + (d2s <= confDays ? 1 : 0) + (d3s <= confDays ? 1 : 0)
+nRecent += (d4s <= confDays ? 1 : 0) + (d5s <= confDays ? 1 : 0) + (d6s <= confDays ? 1 : 0)
+// others agreeing, per row: everyone inside the window except this chart
+o1 = nRecent - (d1s <= confDays ? 1 : 0)
+o2 = nRecent - (d2s <= confDays ? 1 : 0)
+o3 = nRecent - (d3s <= confDays ? 1 : 0)
+o4 = nRecent - (d4s <= confDays ? 1 : 0)
+o5 = nRecent - (d5s <= confDays ? 1 : 0)
+o6 = nRecent - (d6s <= confDays ? 1 : 0)
+
 // ---- build the alert message ----
 var string msg = ""
 msg := ""
@@ -432,26 +452,6 @@ if W5
     msg := msg + nameOf(5) + " " + T5 + " (" + str.tostring(baseFor(5) + E5, "#") + "% — " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp on a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ", step " + (na(x5) ? "?" : (x5 >= 0 ? "+" : "") + str.tostring(x5, "#.#") + "%") + ", " + str.tostring(o5) + " agreeing" + (o5 >= 2 and confMeasured(5) ? " worth " + (confLift(5) >= 0 ? "+" : "") + str.tostring(confLift(5), "#") + "pp here" : "") + ")  "
 if W6
     msg := msg + nameOf(6) + " " + T6 + " (" + str.tostring(baseFor(6) + E6, "#") + "% — " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp on a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ", step " + (na(x6) ? "?" : (x6 >= 0 ? "+" : "") + str.tostring(x6, "#.#") + "%") + ", " + str.tostring(o6) + " agreeing" + (o6 >= 2 and confMeasured(6) ? " worth " + (confLift(6) >= 0 ? "+" : "") + str.tostring(confLift(6), "#") + "pp here" : "") + ")  "
-
-// confluence: how many of the six printed recently
-bpd(string tf) =>
-    float m = timeframe.in_seconds(tf) / 60.0
-    m <= 0 ? 1.0 : 1440.0 / m
-d1s = s1 / bpd(tf1)
-d2s = s2 / bpd(tf2)
-d3s = s3 / bpd(tf3)
-d4s = s4 / bpd(tf4)
-d5s = s5 / bpd(tf5)
-d6s = s6 / bpd(tf6)
-nRecent = (d1s <= confDays ? 1 : 0) + (d2s <= confDays ? 1 : 0) + (d3s <= confDays ? 1 : 0)
-nRecent += (d4s <= confDays ? 1 : 0) + (d5s <= confDays ? 1 : 0) + (d6s <= confDays ? 1 : 0)
-// others agreeing, per row: everyone inside the window except this chart
-o1 = nRecent - (d1s <= confDays ? 1 : 0)
-o2 = nRecent - (d2s <= confDays ? 1 : 0)
-o3 = nRecent - (d3s <= confDays ? 1 : 0)
-o4 = nRecent - (d4s <= confDays ? 1 : 0)
-o5 = nRecent - (d5s <= confDays ? 1 : 0)
-o6 = nRecent - (d6s <= confDays ? 1 : 0)
 
 // ---- ETH 5D confirmation: slot 4 is the A-asset 5D chart ----
 conf5 = use5 and d4s <= win5

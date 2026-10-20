@@ -262,7 +262,10 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
   the v8 Jared supplied, also kept). It adds the STEP column and an optional
   alert gate, renames EDGE to ODDS (it showed an increment over a baseline the
   panel hid once a signal fired), and adds a CONF column carrying the per-chart
-  confluence lift. Seven columns now. **Not yet compiled in TradingView** — paste it in and check before
+  confluence lift. Seven columns now. First paste into TradingView failed with "Undeclared
+  identifier o1" — Pine requires declaration before use, and the confluence
+  block that computes o1..o6 sat below the alert-message block that reads them.
+  Moved above it. **Still not confirmed compiling** — paste it in and check before
   relying on it. No agreement column was added: the LAST cell already turns
   green inside the confluence window, so the green count is the agreement count.
 - Run the "Fetch candles" Action once. It now backfills 4H/12H history **and**
