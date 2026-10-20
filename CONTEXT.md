@@ -87,6 +87,12 @@ limitations that the M2 data is revised after publication, so those figures were
 never knowable on the day the signal fired. It was an upper bound, not an
 estimate. Do not reconstruct it; do not promise to.
 
+**A high before the wipeout is still a high.** The sheet strikes through a
+60-day high only when `d60 > dead` — when the high landed *after* the position
+was already closed. Striking every row that was ever wiped out marked 114 rows
+instead of 22, and most of those had made their high first and were perfectly
+reachable. Jared caught this one.
+
 **Scratch dies.** Two generators were lost that way. Anything that produces a
 number someone will look at twice goes in this repo.
 
