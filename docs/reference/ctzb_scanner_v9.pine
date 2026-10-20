@@ -1,6 +1,19 @@
 //@version=6
 // CTZB SCANNER v9
 // ---------------------------------------------------------------------------
+// THE EDGE COLUMN IS NOW THE ODDS COLUMN. It showed the increment over the
+// chart's own baseline, and when a signal was live the baseline it referred to
+// was not on screen - so the panel could not be read without knowing six
+// baselines by heart. The cell now shows the resulting probability: the
+// chart's baseline plus the tag's measured edge. ETH 2D diamond reads 89%
+// rather than +20. With no signal live it shows that chart's bare baseline.
+// Green at 80%+, red under 70%. The increment still drives the minEdge alert
+// gate and still appears in the alert text, where there is room for both.
+//
+// This matters most on the ETH 5D, whose baseline is 84%: its diamond reads
+// -1 as an edge and 83% as odds. The old column made the best cell on the
+// board look like a dud.
+// ---------------------------------------------------------------------------
 // ADDS THE STEP COLUMN. Measured 19 Oct 2026 across 973 troughs on six charts
 // under this same CT RSI regime: compare a signal's entry close to the
 // PREVIOUS signal's entry close on that chart.
@@ -148,7 +161,7 @@ aAll   = input.bool(false, "Alert on ANY trough", group=gA)
 aDia   = input.bool(true,  "Alert on diamonds", group=gA)
 aGold  = input.bool(true,  "Alert on gold (trough < 50)", group=gA)
 aBucket= input.bool(true,  "Alert on A and B buckets", group=gA)
-minEdge= input.int(10, "Only alert if edge >= this (pp)", group=gA)
+minEdge= input.int(10, "Only alert if edge >= this (pp)", group=gA, tooltip="This gates on the INCREMENT over the chart's baseline, not the odds shown in the panel. A -1 on the ETH 5D is still 83% because that chart's baseline is 84%.")
 needUp = input.bool(false, "Only alert when the low is higher than the last one", group=gA, tooltip="Stepping up ran 69%/57% (ETH/BTC) against 52%/45% stepping down. Off by default: measured 19 Oct 2026, and a drop past -30% inverts it.")
 
 gP = "Provisional (repaints)"
@@ -381,17 +394,17 @@ chk(int slot, float p, float tr, float dis, float dE) =>
 
 fire := W1 or W2 or W3 or W4 or W5 or W6
 if W1
-    msg := msg + nameOf(1) + " " + T1 + " (edge " + (E1 >= 0 ? "+" : "") + str.tostring(E1, "#") + "pp over a " + str.tostring(baseFor(1)) + "% base, n=" + str.tostring(N1) + ", step " + (na(x1) ? "?" : (x1 >= 0 ? "+" : "") + str.tostring(x1, "#.#") + "%") + ")  "
+    msg := msg + nameOf(1) + " " + T1 + " (" + str.tostring(baseFor(1) + E1, "#") + "% — " + (E1 >= 0 ? "+" : "") + str.tostring(E1, "#") + "pp on a " + str.tostring(baseFor(1)) + "% base, n=" + str.tostring(N1) + ", step " + (na(x1) ? "?" : (x1 >= 0 ? "+" : "") + str.tostring(x1, "#.#") + "%") + ")  "
 if W2
-    msg := msg + nameOf(2) + " " + T2 + " (edge " + (E2 >= 0 ? "+" : "") + str.tostring(E2, "#") + "pp over a " + str.tostring(baseFor(2)) + "% base, n=" + str.tostring(N2) + ", step " + (na(x2) ? "?" : (x2 >= 0 ? "+" : "") + str.tostring(x2, "#.#") + "%") + ")  "
+    msg := msg + nameOf(2) + " " + T2 + " (" + str.tostring(baseFor(2) + E2, "#") + "% — " + (E2 >= 0 ? "+" : "") + str.tostring(E2, "#") + "pp on a " + str.tostring(baseFor(2)) + "% base, n=" + str.tostring(N2) + ", step " + (na(x2) ? "?" : (x2 >= 0 ? "+" : "") + str.tostring(x2, "#.#") + "%") + ")  "
 if W3
-    msg := msg + nameOf(3) + " " + T3 + " (edge " + (E3 >= 0 ? "+" : "") + str.tostring(E3, "#") + "pp over a " + str.tostring(baseFor(3)) + "% base, n=" + str.tostring(N3) + ", step " + (na(x3) ? "?" : (x3 >= 0 ? "+" : "") + str.tostring(x3, "#.#") + "%") + ")  "
+    msg := msg + nameOf(3) + " " + T3 + " (" + str.tostring(baseFor(3) + E3, "#") + "% — " + (E3 >= 0 ? "+" : "") + str.tostring(E3, "#") + "pp on a " + str.tostring(baseFor(3)) + "% base, n=" + str.tostring(N3) + ", step " + (na(x3) ? "?" : (x3 >= 0 ? "+" : "") + str.tostring(x3, "#.#") + "%") + ")  "
 if W4
-    msg := msg + nameOf(4) + " " + T4 + " (edge " + (E4 >= 0 ? "+" : "") + str.tostring(E4, "#") + "pp over a " + str.tostring(baseFor(4)) + "% base, n=" + str.tostring(N4) + ", step " + (na(x4) ? "?" : (x4 >= 0 ? "+" : "") + str.tostring(x4, "#.#") + "%") + ")  "
+    msg := msg + nameOf(4) + " " + T4 + " (" + str.tostring(baseFor(4) + E4, "#") + "% — " + (E4 >= 0 ? "+" : "") + str.tostring(E4, "#") + "pp on a " + str.tostring(baseFor(4)) + "% base, n=" + str.tostring(N4) + ", step " + (na(x4) ? "?" : (x4 >= 0 ? "+" : "") + str.tostring(x4, "#.#") + "%") + ")  "
 if W5
-    msg := msg + nameOf(5) + " " + T5 + " (edge " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp over a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ", step " + (na(x5) ? "?" : (x5 >= 0 ? "+" : "") + str.tostring(x5, "#.#") + "%") + ")  "
+    msg := msg + nameOf(5) + " " + T5 + " (" + str.tostring(baseFor(5) + E5, "#") + "% — " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp on a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ", step " + (na(x5) ? "?" : (x5 >= 0 ? "+" : "") + str.tostring(x5, "#.#") + "%") + ")  "
 if W6
-    msg := msg + nameOf(6) + " " + T6 + " (edge " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp over a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ", step " + (na(x6) ? "?" : (x6 >= 0 ? "+" : "") + str.tostring(x6, "#.#") + "%") + ")  "
+    msg := msg + nameOf(6) + " " + T6 + " (" + str.tostring(baseFor(6) + E6, "#") + "% — " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp on a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ", step " + (na(x6) ? "?" : (x6 >= 0 ? "+" : "") + str.tostring(x6, "#.#") + "%") + ")  "
 
 // confluence: how many of the six printed recently
 bpd(string tf) =>
@@ -447,8 +460,12 @@ rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, st
         bg := color.new(#475569, 35)
         tc := color.new(color.white, 25)
     cc(r, 1, shown, tc, bg)
-    string es = t == "" ? "b" + str.tostring(baseFor(slot)) : (e >= 0 ? "+" : "") + str.tostring(e, "#")
-    cc(r, 2, es, t == "" ? color.new(color.silver, 55) : e >= 15 ? color.new(#26A69A, 0) : color.silver, bg)
+    // ODDS: the chart's own baseline plus this tag's measured edge, so the
+    // panel shows the answer rather than an increment to a hidden number.
+    float odds = baseFor(slot) + e
+    string es = t == "" ? str.tostring(baseFor(slot), "#") + "%" : str.tostring(odds, "#") + "%"
+    color oc = t == "" ? color.new(color.silver, 55) : odds >= 80 ? color.new(#26A69A, 0) : odds >= 70 ? color.silver : color.new(color.red, 20)
+    cc(r, 2, es, oc, bg)
     color sc = since <= confDays ? color.new(#26A69A, 0) : color.new(color.silver, 45)
     cc(r, 3, str.tostring(since, "#") + "d", sc, bg)
     color zc = ctv > 60 ? color.new(#26A69A, 0) : ctv > 50 ? color.silver : color.new(color.red, 20)
@@ -459,7 +476,7 @@ rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, st
 if barstate.islast
     cc(0, 0, "CHART", color.white, color.new(color.black, 30))
     cc(0, 1, "TAG", color.white, color.new(color.black, 30))
-    cc(0, 2, "EDGE", color.white, color.new(color.black, 30))
+    cc(0, 2, "ODDS", color.white, color.new(color.black, 30))
     cc(0, 3, "LAST", color.white, color.new(color.black, 30))
     cc(0, 4, "CT", color.white, color.new(color.black, 30))
     cc(0, 5, "STEP", color.white, color.new(color.black, 30))
