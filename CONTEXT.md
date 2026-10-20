@@ -135,6 +135,19 @@ misrepresentation.
 
 ## What has been tested and failed
 
+**Higher low vs the previous signal — tested 19 Oct 2026, WORKS.** The one
+cluster feature that survives. Compare this signal's entry close to the
+*previous signal's* entry close on the same chart. Higher: ETH 69% reach +20%
+(n=292), BTC 57% (n=236). Lower: ETH 52% (n=263), BTC 45% (n=182). Monotonic
+across bands from -20% to +15%, and it passes on both assets, which the grind
+zone (ETH +19, BTC +2) and money flow did not. Stacked: diamond+dot with a
+higher entry is 78% (n=46) against 55% for the same tag with a lower entry.
+Reading: a cluster stepping up is a base; a cluster stepping down is a
+descending staircase and the indicator fires on every step because it only
+sees RSI shape. Below -30% vs the previous entry it inverts to 81% on ETH
+(n=21) -- capitulation, not a staircase, but thin. NOT YET TESTED: how
+independent this is of the regime gate, which may already capture some of it.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
