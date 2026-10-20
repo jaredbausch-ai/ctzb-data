@@ -134,8 +134,8 @@ a GitHub Actions runner, which is why the pipeline is built this way.
 | page | url | notes |
 |---|---|---|
 | CTZB odds | `claude.ai/artifact/L89GjbqYZcyPxAkzC4jRha` | his. Trough record grouped by marker |
-| Setup Standard (Joe's new console) | `claude.ai/artifact/8ViZjND99xmo8rbcUmmr5r` | Approved 20 Oct 2026. Plain HTML, static snapshot. **Joe does not have this link yet.** Source kept at `docs/artifacts/joe-console.html` |
-| ETH Setup Odds (dashboard) | `claude.ai/artifact/6tH6hXMh3EYLvUUEM9XgSJ` | **Joe has this link.** Dashboard type; page content lives in the artifact DB at collection `files`, doc `index.html`, field `text`. Update via `ArtifactData` with `if_version` pinned |
+| Setup Standard draft | `claude.ai/artifact/8ViZjND99xmo8rbcUmmr5r` | Standalone copy, for editing and review. Source `docs/artifacts/joe-console.html` |
+| ETH Setup Standard (Joe's) | `claude.ai/artifact/6tH6hXMh3EYLvUUEM9XgSJ` | **Joe has this link.** Dashboard type; page content lives in the artifact DB at collection `files`, doc `index.html`, field `text`. Update via `ArtifactData` with `if_version` pinned |
 
 The dashboard's live signals are **computed signals, never fills**. Jared has
 taken none of them. Presenting them to a creditor as trades would be
@@ -226,12 +226,21 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
   be forgotten.**
 - A direction arrow on Joe's gauge — it shows a level, not whether probability
   is rising or falling. Offered, not yet greenlit.
-- **Joe's console is approved but not live to him.** It is a static snapshot at
-  its own link; Joe still has the old dashboard. Two things remain: port it into
-  the Dashboard type at `6tH6…` (its contract wants every figure marked to a
-  dataset, so the hardcoded numbers must become `datasets/<id>` documents), and
-  wire `refresh.py` to emit those datasets so the verdict, the board and the
-  tier stats update on the six-a-day schedule. Until then nothing on it moves.
+- **Joe's console is LIVE as of 20 Oct 2026 but its numbers are frozen.** The
+  console was written into `files/index.html` (version 20) at `6tH6…`, replacing
+  the thirteen-panel dashboard; `dash/meta` title is now "ETH Setup Standard".
+  Every figure on it is hardcoded and dated 19 Oct 2026. **It does not refresh.**
+  To make it live: turn the hardcoded values into `datasets/<id>` documents,
+  mark the page's figures with `data-source`, and extend `refresh.py` to emit
+  them so the six-a-day schedule drives it. Until that is done, the verdict
+  ("ALMOST", ETH 3D) is a snapshot and must be rewritten by hand whenever the
+  board changes — a stale verdict on a page someone sizes from is the main risk
+  carried right now. The thirteen old `datasets/*` documents are still in the
+  store, unreferenced; leave or reuse them during the port.
+- The store copy is `docs/artifacts/joe-console-store.html`: fonts swapped to
+  system stacks because the Dashboard type strips external font links, and every
+  selector scoped under `.jc` so the page cannot restyle the frame around it.
+  Edit `joe-console.html` (the standalone), then regenerate the store copy.
 - Confirm the Coinbase perp contract size. The console defaults to 0.1 ETH per
   contract with a selector, because the search only turned up the Coinbase
   *Derivatives* nano spec via Interactive Brokers, not the perps Jared trades.

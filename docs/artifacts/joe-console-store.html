@@ -1,0 +1,394 @@
+<style>
+.jc{background:var(--void);color:var(--ink);border-radius:6px;overflow:hidden}
+.jc{
+  --void:#07090C; --panel:#0D1116; --panel2:#121821; --rule:#1E2730; --rule2:#161D25;
+  --ink:#E6EDF3; --dim:#A8B8C6; --faint:#8193A2;
+  --cy:#45D3E8; --cydim:#1B6B78;
+  --ok:#36D399; --warn:#F2B544; --bad:#FF5F56;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:var(--font-anthropic-sans,system-ui),-apple-system,sans-serif;
+  color-scheme:dark;
+}.jc *, .jc *::before, .jc *::after{box-sizing:border-box}.jc{-webkit-text-size-adjust:100%}.jc{margin:0;background:var(--void);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.6;font-variant-numeric:tabular-nums}.jc .wrap{max-width:780px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:20px 52px}.jc .lab{font-family:var(--mono);font-size:12.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--faint);font-weight:500}.jc .hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
+  border-bottom:1px solid var(--rule);padding-bottom:12px;flex-wrap:wrap}.jc h1{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;margin:0}.jc .hdr .r{text-align:right;font-family:var(--mono);font-size:13px;color:var(--dim);line-height:1.7}.jc .hdr .r b{color:var(--cy);font-weight:500}.jc section{margin-top:22px}.jc h2{font-family:var(--mono);font-size:12.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--faint);font-weight:500;margin:0 0 9px;
+  display:flex;align-items:center;gap:10px}.jc h2::after{content:"";flex:1;height:1px;background:var(--rule)}.jc .panel{background:var(--panel);border:1px solid var(--rule);border-radius:4px}.jc .console{padding:16px}.jc .ctl{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--rule2)}.jc .ctl .f{min-width:0}.jc .ctl .cap{display:flex;align-items:baseline;gap:7px;margin-top:5px}.jc .ctl .cap span{font-family:var(--mono);font-size:24px;color:var(--cy);font-weight:500}.jc input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;
+  background:transparent;cursor:pointer;margin-top:3px;display:block}.jc input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rule);border-radius:2px}.jc input[type=range]::-moz-range-track{height:2px;background:var(--rule);border-radius:2px}.jc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--cy);margin-top:-8px;border:0;box-shadow:0 0 0 3px rgba(69,211,232,.18)}.jc input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--cy);
+  border:0;box-shadow:0 0 0 3px rgba(69,211,232,.18)}.jc input[type=range]:focus-visible{outline:2px solid var(--cy);outline-offset:4px}.jc .cap input[type=number]{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--cy);
+  background:var(--panel2);border:1px solid var(--rule);border-radius:3px;
+  padding:1px 6px;width:5.1em;-moz-appearance:textfield}.jc .cap input[type=number]::-webkit-outer-spin-button, .jc .cap input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}.jc .cap input[type=number]:focus{outline:none;border-color:var(--cy)}.jc .cap input[type=number]:focus-visible{outline:2px solid var(--cy);outline-offset:1px}.jc .cap .sub{font-family:var(--mono);font-size:13px;color:var(--faint);letter-spacing:.06em}.jc .cap .x{font-family:var(--mono);font-size:24px;color:var(--cy);font-weight:500}.jc .tiers{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}.jc .tiers button{font-family:var(--mono);font-size:13px;letter-spacing:.03em;
+  background:var(--panel2);border:1px solid var(--rule);color:var(--dim);
+  padding:8px 12px;border-radius:3px;cursor:pointer;transition:all .12s}.jc .tiers button:hover{border-color:var(--cydim);color:var(--ink)}.jc .tiers button[aria-pressed="true"]{background:var(--cy);border-color:var(--cy);color:var(--void);font-weight:600}.jc .tiers button:focus-visible{outline:2px solid var(--cy);outline-offset:2px}.jc .read{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:1px;
+  background:var(--rule2);margin:16px -16px 0;border-top:1px solid var(--rule2)}.jc .read .c{background:var(--panel);padding:12px 14px;min-width:0}.jc .read .c .v{font-family:var(--mono);font-size:25px;font-weight:500;letter-spacing:-.01em;line-height:1.2}.jc .read .c .k{margin-top:4px}.jc .vd{display:flex;align-items:center;gap:11px;padding:13px 16px;border-top:1px solid var(--rule2);
+  margin:0 -16px -16px;background:var(--panel2);border-radius:0 0 3px 3px}.jc .vd .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}.jc .vd .t{font-family:var(--mono);font-size:14.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}.jc .vd .s{color:var(--dim);font-size:15.5px;min-width:0}.jc .bar{margin-top:18px}.jc .track{position:relative;height:46px;margin-top:20px}.jc .track .base{position:absolute;left:0;right:0;top:19px;height:3px;background:var(--rule);border-radius:2px}.jc .track .zone{position:absolute;top:19px;height:3px;border-radius:2px;background:var(--cydim)}.jc .track .m{position:absolute;top:8px;width:1px;height:25px;background:var(--faint)}.jc .track .m.liq{background:var(--bad);width:2px;height:33px;top:4px}.jc .track .m i{position:absolute;left:50%;transform:translateX(-50%);bottom:100%;margin-bottom:4px;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;white-space:nowrap;font-style:normal;color:var(--faint)}.jc .track .m.liq i{color:var(--bad)}.jc .track .m u{position:absolute;left:50%;transform:translateX(-50%);top:100%;margin-top:4px;
+  font-family:var(--mono);font-size:12.5px;text-decoration:none;white-space:nowrap;color:var(--dim)}.jc .track .m.liq u{color:var(--bad)}.jc .scale{display:flex;justify-content:space-between;margin-top:22px}.jc .act{margin-top:16px;background:var(--panel);border:1px solid var(--rule);border-radius:4px;
+  border-left:3px solid var(--rule)}.jc .act.go{border-left-color:var(--ok)}.jc .act.soon{border-left-color:var(--warn)}.jc .actmain{padding:18px 18px 15px}.jc .verdict-word{font-family:var(--mono);font-size:36px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;line-height:1.1;color:var(--dim)}.jc .act.go .verdict-word{color:var(--ok)}.jc .act.soon .verdict-word{color:var(--warn)}.jc .actline{color:var(--ink);font-size:18px;margin-top:9px;max-width:56ch;line-height:1.55}.jc .actstats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule2);
+  border-top:1px solid var(--rule2)}.jc .actstats .c{background:var(--panel);padding:13px 14px;min-width:0}.jc .actstats .c .v{font-family:var(--mono);font-size:24px;font-weight:600;line-height:1.2}.jc .actstats .c .k{margin-top:4px}.jc .actnext{padding:15px 18px;border-top:1px solid var(--rule2);background:var(--panel2);
+  color:var(--dim);font-size:16px;border-radius:0 0 3px 3px}.jc .actnext b{color:var(--ink);font-weight:600}
+@media(max-width:560px){.jc .actstats{grid-template-columns:repeat(2,1fr)}.jc .jc .verdict-word{font-size:30px}.jc }{.jc .armhdr{padding:16px 16px 14px;border-bottom:1px solid var(--rule2)}.jc .armstate{font-family:var(--mono);font-size:25px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;line-height:1.2}.jc .armsub{color:var(--dim);font-size:15.5px;margin-top:6px;max-width:62ch}.jc .ladder{padding:14px 16px 4px;display:flex;flex-direction:column-reverse;gap:3px}.jc .rung{display:grid;grid-template-columns:74px 1fr 168px;gap:12px;align-items:center;
+  padding:9px 0;position:relative}.jc .rung .pc{font-family:var(--mono);font-size:18px;font-weight:600;text-align:right}.jc .rung .nm{min-width:0}.jc .rung .nm b{font-size:15.5px;font-weight:600;display:block}.jc .rung .nm i{font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--faint)}.jc .rung .seg{display:flex;gap:3px;align-items:center;justify-content:flex-end;flex-wrap:wrap}.jc .chip{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;padding:3px 7px;border-radius:3px;
+  background:var(--cy);color:var(--void);font-weight:600;white-space:nowrap}.jc .chip.stale{background:var(--rule);color:var(--dim)}.jc .empty{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;color:var(--faint)}.jc .rung.live{background:linear-gradient(90deg,rgba(69,211,232,.07),transparent 72%)}.jc .rung.above .pc{color:var(--ok)}.jc .rung .pc{color:var(--dim)}.jc .rung.top{border-top:1px dashed var(--cydim)}.jc .rung.top::before{content:"70% BAR";position:absolute;top:-8px;right:0;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--cy);
+  background:var(--panel);padding:0 5px}.jc .rung .bar{position:absolute;left:74px;right:0;bottom:2px;height:2px;background:var(--rule2)}.jc .rung .bar i{display:block;height:100%;background:var(--rule)}.jc .rung.above .bar i{background:var(--cydim)}.jc .rung.live .bar i{background:var(--cy)}.jc .fold{margin-top:10px;border-top:1px solid var(--rule)}.jc .fold:first-of-type{margin-top:4px;border-top:0}.jc .fold summary{list-style:none;cursor:pointer;padding:17px 2px 16px;
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:13.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--dim);font-weight:600;transition:color .12s}.jc .fold summary::-webkit-details-marker{display:none}.jc .fold summary:hover{color:var(--ink)}.jc .fold summary:focus-visible{outline:2px solid var(--cy);outline-offset:2px}.jc .fold summary::before{content:"+";font-size:17px;color:var(--cy);width:11px;
+  display:inline-block;text-align:center;line-height:1}.jc .fold[open] summary::before{content:"\2212"}.jc .fold summary span{flex:1;min-width:0}.jc .fold summary::after{content:"";height:1px;flex:0 0 42px;background:var(--rule)}.jc .fold > *:not(summary){margin-bottom:16px}.jc .tw{overflow-x:auto}.jc table{width:100%;border-collapse:collapse;font-size:15px;font-family:var(--mono)}.jc th{text-align:right;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);
+  font-weight:500;padding:11px 0 8px 14px;border-bottom:1px solid var(--rule);white-space:nowrap}.jc th:first-child{text-align:left;padding-left:14px}.jc td{text-align:right;padding:9px 0 9px 14px;border-bottom:1px solid var(--rule2);white-space:nowrap}.jc td:first-child{text-align:left;padding-left:14px;font-family:var(--sans)}.jc tr:last-child td{border-bottom:0}.jc tr.on td{background:var(--panel2)}.jc tr.on td:first-child{box-shadow:inset 2px 0 0 var(--cy)}.jc .cy{color:var(--cy)}.jc .gd{color:var(--ok)}.jc .wn{color:var(--warn)}.jc .bd{color:var(--bad)}.jc .dm{color:var(--dim)}.jc .chk{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 14px;border-bottom:1px solid var(--rule2)}.jc .chk:last-child{border-bottom:0}.jc .chk .n{font-family:var(--mono);font-size:13.5px;color:var(--cy);letter-spacing:.08em;padding-top:1px}.jc .chk .t{font-weight:600;font-size:16px}.jc .chk .d{color:var(--dim);font-size:15px;margin-top:2px}.jc .dots{font-family:var(--mono);letter-spacing:2px}.jc .notes{display:grid;gap:10px;padding:14px}.jc .note{font-size:15px;color:var(--dim);line-height:1.6;max-width:68ch}.jc .note b{color:var(--ink);font-weight:600}.jc .foot{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--faint);
+  line-height:1.75;max-width:70ch}
+@media(max-width:560px){
+  .ctl{grid-template-columns:1fr;gap:13px}.jc .read{grid-template-columns:repeat(2,1fr)}.jc .track .m u{font-size:11.5px}.jc .track .m i{font-size:10.5px}.jc }{
+@media(prefers-reduced-motion:reduce){.jc *{transition:none!important}.jc }{
+</style>
+<div class="jc">
+<div class="wrap">
+
+<div class="hdr">
+  <div><h1>ETH Setup Standard</h1>
+    <p class="lab" style="margin:5px 0 0">Position limits from ten years of signal history</p></div>
+  <div class="r">
+    DATA THROUGH <b>19 OCT 2026</b><br>
+    REGIME <b>ON</b> · DAY 47<br>
+    ABOVE 70% BAR <b id="hAbove">—</b> · FULL STANDARD <b id="hFull">—</b>
+  </div>
+</div>
+
+<div class="act" id="act">
+  <div class="actmain">
+    <div class="verdict-word" id="actWord">—</div>
+    <div class="actline" id="actLine">—</div>
+  </div>
+  <div class="actstats" id="actStats"></div>
+  <div class="actnext" id="actNext"></div>
+</div>
+
+<details class="fold"><summary><span>Exposure console — how much to buy</span></summary>
+  <div class="panel console">
+    <div class="ctl">
+      <div class="f">
+        <div class="lab">Account capital</div>
+        <div class="cap"><span id="capOut">$1,000,000</span></div>
+        <input type="range" id="cap" min="50000" max="2000000" step="25000" value="1000000"
+               aria-label="Total account capital">
+      </div>
+      <div class="f">
+        <div class="lab">Committed as margin</div>
+        <div class="cap"><span id="comOut">$300,000</span>
+          <span class="sub" id="comPct">30%</span></div>
+        <input type="range" id="com" min="5" max="100" step="1" value="30"
+               aria-label="Share of capital committed as margin">
+      </div>
+      <div class="f">
+        <div class="lab">Leverage on the committed margin</div>
+        <div class="cap">
+          <input type="number" id="expNum" min="1" max="10" step="0.1" value="3.3"
+                 inputmode="decimal" aria-label="Leverage, type a value">
+          <span class="x">x</span>
+        </div>
+        <input type="range" id="exp" min="100" max="1000" step="5" value="330"
+               aria-label="Leverage slider">
+      </div>
+      <div class="f">
+        <div class="lab">Cash reserve backing it — USDC left in the account</div>
+        <div class="cap"><span id="resOut" style="color:var(--ok)">$700,000</span></div>
+        <p class="note" style="margin:6px 0 0;font-size:12px">Coinbase counts idle USDC as collateral, so every dollar left here pushes the liquidation point further away.</p>
+      </div>
+    </div>
+
+    <div style="padding-top:14px">
+      <div class="lab">Setup quality</div>
+      <div class="tiers" id="tiers"></div>
+    </div>
+
+    <div style="padding-top:14px">
+      <div class="lab">Contract size — confirm against your venue</div>
+      <div class="tiers" id="csz"></div>
+    </div>
+
+    <div class="bar">
+      <div class="lab">Survival margin — how far your liquidation sits beyond what this setup has done</div>
+      <div class="track" id="track"></div>
+      <div class="scale"><span class="lab">0%</span><span class="lab">−20%</span>
+        <span class="lab">−40%</span><span class="lab">−60%</span></div>
+    </div>
+
+    <div class="read">
+      <div class="c"><div class="v cy" id="contracts">—</div><div class="k lab">Contracts to buy</div></div>
+      <div class="c"><div class="v" id="ethqty">—</div><div class="k lab">= ETH held</div></div>
+      <div class="c"><div class="v dm" id="notional">—</div><div class="k lab">Position value</div></div>
+      <div class="c"><div class="v gd" id="lift">—</div><div class="k lab">Reserve pushes liq. out by</div></div>
+      <div class="c"><div class="v" id="liq">—</div><div class="k lab">Liquidates at</div></div>
+      <div class="c"><div class="v" id="typ">—</div><div class="k lab">Typical drawdown</div></div>
+      <div class="c"><div class="v wn" id="badc">—</div><div class="k lab">Bad case · 1 in 10</div></div>
+      <div class="c"><div class="v bd" id="wrst">—</div><div class="k lab">Worst on record</div></div>
+    </div>
+
+    <div class="vd" id="order" style="background:var(--panel);border-top:1px solid var(--rule2);margin:0 -16px 0">
+      <span class="dot" style="background:var(--cy)"></span>
+      <span class="s" id="orderTxt" style="color:var(--ink)"></span>
+    </div>
+
+    <div class="vd" id="vd">
+      <span class="dot"></span>
+      <span class="t"></span>
+      <span class="s"></span>
+    </div>
+  </div>
+</details>
+<details class="fold"><summary><span>The ladder — where every chart sits</span></summary>
+  <div class="panel">
+    <div class="armhdr"><div class="armstate" id="armState">—</div><div class="armsub" id="armSub">—</div></div>
+    <div class="ladder" id="ladder"></div>
+  </div>
+</details>
+<details class="fold"><summary><span>What each quality level has done</span></summary>
+  <div class="panel tw"><table id="tiertab"></table></div>
+  <p class="note" style="padding:0 2px;margin-top:9px">The worst-on-record column is the one that sets your limit. Meeting all three checks has never produced a drawdown past &minus;27.1%; everything below it has gone past &minus;43%.</p>
+</details>
+<details class="fold"><summary><span>The standard — three checks</span></summary>
+  <div class="panel">
+    <div class="chk"><div class="n">01</div><div>
+      <div class="t">The low carries a marker</div>
+      <div class="d">A diamond, a prime dot, or both. Without one it is an ordinary bounce.</div></div></div>
+    <div class="chk"><div class="n">02</div><div>
+      <div class="t">It sits higher than the previous signal</div>
+      <div class="d">A series of lows stepping down is a falling market producing repeated signals. Those are the ones that fail.</div></div></div>
+    <div class="chk"><div class="n">03</div><div>
+      <div class="t">Two other timeframes already agreed</div>
+      <div class="d">At least two other charts printed their own low in the preceding ten days — counted backwards only, so it is known on the day.</div></div></div>
+  </div>
+</details>
+<details class="fold"><summary><span>What this is, and is not</span></summary>
+  <div class="panel notes">
+    <p class="note"><b>These are computed signals, not trades.</b> Nothing here represents a position taken or money put at risk. It is what the indicator would have flagged, measured against what price then did.</p>
+    <p class="note"><b>No exit rule is in any of these numbers.</b> "Reached +20%" means price touched that level, not that it was sold there. Every figure is an opportunity and its cost, never a realised return.</p>
+    <p class="note"><b>Worst-on-record is not worst-possible.</b> The console sizes against the deepest drawdown in ten years of history. A future one can be deeper. Leave margin; do not size to the line.</p>
+    <p class="note"><b>The samples are small.</b> The full standard rests on 58 past setups. Three or four different outcomes move the 81% by several points.</p>
+    <p class="note"><b>The regime filter has a known blind spot.</b> It stayed on through the November 2021 cycle top, and setups firing in that window went 1 for 35. A green regime is not evidence that a top is not forming.</p>
+  </div>
+</details>
+
+<p class="foot">ENTRY AT THE CLOSE OF THE CONFIRMATION BAR, THREE BARS AFTER THE RSI LOW · REGIME FILTER MECHANICAL, APPLIED TO BITCOIN 2D · ETHEREUM, COINBASE, 2016&ndash;PRESENT · CONTRACT COUNTS AT AN ETH PRICE OF $2,400.58 (19 OCT 2026) AND THE CONTRACT SIZE SELECTED ABOVE &mdash; CONFIRM BOTH AGAINST YOUR VENUE BEFORE ORDERING · IDLE USDC TREATED AS COLLATERAL AGAINST THE POSITION, AS COINBASE DOES · MAINTENANCE MARGIN ASSUMED AT 5% OF NOTIONAL · PAST BEHAVIOUR ON HISTORICAL DATA. NOT A FORECAST. NOT FINANCIAL ADVICE.</p>
+
+</div>
+</div>
+<script>
+
+const TIERS=[
+ {id:"none", label:"No marker",        n:340, win:57, med:-7.0, bad:-19.6, worst:-55.5},
+ {id:"mk",   label:"Marker",           n:219, win:68, med:-5.3, bad:-17.0, worst:-48.0},
+ {id:"mka",  label:"Marker + agreed",  n:96,  win:72, med:-4.8, bad:-14.7, worst:-43.4},
+ {id:"mku",  label:"Marker + step up", n:117, win:78, med:-6.4, bad:-20.8, worst:-48.0},
+ {id:"all",  label:"All three",        n:58,  win:81, med:-5.4, bad:-15.5, worst:-27.1}];
+const MM=0.05, SPAN=60;
+const PRICE=2400.58;                 // ETH close, 19 Oct 2026
+const SIZES=[{v:0.01,l:"0.01 ETH"},{v:0.1,l:"0.1 ETH"},{v:1,l:"1 ETH"}];
+let tier="all", cap=1000000, comShare=0.30, lev=3.3, csize=0.1;
+const $=id=>document.getElementById(id);
+const money=v=>"$"+Math.round(v).toLocaleString("en-US");
+const short=v=>v>=1000000?"$"+(v/1000000).toFixed(2)+"M":"$"+Math.round(v/1000)+"k";
+const T=()=>TIERS.find(t=>t.id===tier);
+
+function drawTiers(){
+  const h=$("tiers"); h.innerHTML="";
+  TIERS.forEach(t=>{
+    const b=document.createElement("button");
+    b.textContent=t.label.toUpperCase();
+    b.setAttribute("aria-pressed", t.id===tier);
+    b.onclick=()=>{tier=t.id; render();};
+    h.appendChild(b);
+  });
+}
+function drawSizes(){
+  const h=$("csz"); h.innerHTML="";
+  SIZES.forEach(o=>{
+    const b=document.createElement("button");
+    b.textContent=o.l.toUpperCase()+" / CONTRACT";
+    b.setAttribute("aria-pressed", o.v===csize);
+    b.onclick=()=>{csize=o.v; render();};
+    h.appendChild(b);
+  });
+}
+function drawTable(){
+  const rows=TIERS.map(t=>
+    `<tr class="${t.id===tier?'on':''}"><td>${t.label}</td><td class="dm">${t.n}</td>`+
+    `<td class="${t.win>=70?'gd':'dm'}">${t.win}%</td><td class="dm">${t.med.toFixed(1)}%</td>`+
+    `<td class="wn">${t.bad.toFixed(1)}%</td><td class="bd">${t.worst.toFixed(1)}%</td>`+
+    `<td class="cy">${(1/((Math.abs(t.worst)/100)+MM)).toFixed(2)}x</td></tr>`).join("");
+  $("tiertab").innerHTML="<tr><th>Quality</th><th>Setups</th><th>+20%</th><th>Typical</th>"+
+    "<th>Bad case</th><th>Worst</th><th>Max safe exposure</th></tr>"+rows;
+}
+function render(){
+  const t=T();
+  const committed = cap*comShare;
+  const reserve   = cap-committed;
+  const notional  = committed*lev;
+  // Coinbase counts idle USDC as collateral: the whole account backs the position.
+  const liqPct     = -((cap - MM*notional)/notional)*100;
+  const liqNoRes   = -((committed - MM*notional)/notional)*100;   // margin alone
+  const lift       = liqPct - liqNoRes;                            // extra room the reserve buys
+
+  $("capOut").textContent=money(cap);
+  $("comOut").textContent=money(committed);
+  $("comPct").textContent=Math.round(comShare*100)+"% of capital";
+  $("resOut").textContent=money(reserve);
+
+  const ethQty=notional/PRICE;
+  const nContracts=Math.floor(ethQty/csize);
+  $("contracts").textContent=nContracts.toLocaleString("en-US");
+  $("ethqty").textContent=ethQty.toFixed(1)+" ETH";
+  $("notional").textContent=short(notional);
+  $("liq").textContent = liqPct<=-100 ? "n/a" : liqPct.toFixed(0)+"%";
+  $("liq").className="v "+(liqPct<=-100||liqPct<t.worst?"gd":"bd");
+  $("lift").textContent = reserve<=0 ? "—" : (liqPct<=-100?"to safety":"+"+Math.abs(lift).toFixed(0)+" pts");
+  $("typ").textContent="−"+money(Math.abs(t.med)/100*notional);
+  $("badc").textContent="−"+money(Math.abs(t.bad)/100*notional);
+  $("wrst").textContent="−"+money(Math.abs(t.worst)/100*notional);
+
+  // the most notional this capital can carry and still clear the worst on record
+  const safeNotional = cap/((Math.abs(t.worst)/100)+MM);
+  const safeN = Math.floor(safeNotional/PRICE/csize);
+  const clears = liqPct<=-100 || liqPct < t.worst;
+  $("orderTxt").textContent =
+    "With "+money(cap)+" — "+money(committed)+" committed and "+money(reserve)+" held in USDC — "
+    + "you can buy "+nContracts.toLocaleString("en-US")+" contracts, "
+    + ethQty.toFixed(1)+" ETH at $"+PRICE.toLocaleString("en-US",{minimumFractionDigits:2})
+    + (clears
+        ? ". That survives this setup's worst drawdown on record."
+        : ". That is past the safe limit — "+safeN.toLocaleString("en-US")
+          +" contracts is the most that survives every drawdown on record.");
+
+  // survival bar
+  const pos=v=>Math.max(0,Math.min(100, Math.abs(v)/SPAN*100));
+  const shown = liqPct<=-SPAN ? null : liqPct;
+  const tr=$("track");
+  tr.innerHTML =
+    `<div class="base"></div><div class="zone" style="width:${shown===null?100:pos(shown)}%"></div>`+
+    [["typical",t.med],["bad case",t.bad],["worst",t.worst]].map(([lb,v])=>
+      `<div class="m" style="left:${pos(v)}%"><i>${lb.toUpperCase()}</i><u>${v.toFixed(1)}%</u></div>`).join("")+
+    (shown===null ? `<div class="m" style="left:99%"><i>LIQUIDATION</i><u>off scale</u></div>`
+      : `<div class="m liq" style="left:${pos(shown)}%"><i>LIQUIDATION</i><u>${shown.toFixed(0)}%</u></div>`);
+
+  const d=$("vd"), dot=d.querySelector(".dot"), ti=d.querySelector(".t"), s2=d.querySelector(".s");
+  let c,txt,sub;
+  if(clears){
+    c="var(--ok)"; txt="Cleared";
+    sub=`Liquidation sits beyond every drawdown this setup has produced in ten years. The worst on record would cost ${money(Math.abs(t.worst)/100*notional)} and leave the position open.`;
+  } else if(liqPct < t.bad){
+    c="var(--warn)"; txt="Marginal";
+    sub=`Survives the one-in-ten case but not the worst on record. Cut to ${safeN.toLocaleString("en-US")} contracts, or move ${money(Math.max(0,safeNotional<notional?(notional-safeNotional)/lev:0))} back into reserve.`;
+  } else {
+    c="var(--bad)"; txt="Liquidation risk";
+    sub=`A one-in-ten drawdown on this setup ends the position. The most that clears every past case is ${safeN.toLocaleString("en-US")} contracts.`;
+  }
+  dot.style.background=c; ti.style.color=c; ti.textContent=txt; s2.textContent=sub;
+  drawTiers(); drawSizes(); drawTable();
+}
+function setLev(v, fromBox){
+  if(!isFinite(v)) return;
+  lev=Math.min(10, Math.max(1, v));
+  $("exp").value=Math.round(lev*100);
+  if(!fromBox) $("expNum").value=lev.toFixed(1);
+  render();
+}
+const RUNGS=[
+ {id:"none", name:"No marker",       sub:"ordinary bounce",        win:57},
+ {id:"mk",   name:"Marker",          sub:"diamond or dot",         win:68},
+ {id:"mka",  name:"Marker + agreed", sub:"two timeframes confirm", win:72},
+ {id:"mku",  name:"Marker + step up",sub:"higher than the last",   win:78},
+ {id:"all",  name:"All three",       sub:"the full standard",      win:81}];
+// marker / stepUp / agreed, as of 19 Oct 2026
+const BOARD=[
+ {chart:"ETH 1D", when:"15 OCT",    marker:false, up:false, agreed:false, stale:false},
+ {chart:"ETH 2D", when:"20 SEP",    marker:true,  up:false, agreed:false, stale:false},
+ {chart:"ETH 3D", when:"22 SEP",    marker:true,  up:false, agreed:true,  stale:false},
+ {chart:"ETH 5D", when:"28 SEP",    marker:false, up:false, agreed:true,  stale:false},
+ {chart:"ETH 8D", when:"12 JUL 25", marker:false, up:false, agreed:true,  stale:true}];
+const rungOf=c=> !c.marker ? "none"
+  : (c.up && c.agreed) ? "all" : c.up ? "mku" : c.agreed ? "mka" : "mk";
+const listOf=a=>a.length<2?(a[0]||"nothing")
+  :a.slice(0,-1).join(", ")+" and "+a[a.length-1];
+const DAYS={none:16, mk:20, mka:18, mku:12, all:16};
+function drawAction(best, onBest, bestR){
+  const act=$("act"), w=$("actWord"), l=$("actLine"), st=$("actStats"), nx=$("actNext");
+  const t=TIERS.find(x=>x.id===best) || TIERS[0];
+  act.className="act"+(best==="all"?" go":bestR.win>=70?" soon":"");
+  if(best==="all"){
+    w.textContent="Buy";
+    l.textContent=listOf(onBest)+" has everything. This is the setup to take.";
+  } else if(bestR.win>=70){
+    w.textContent="Almost";
+    l.textContent=listOf(onBest)+" is close — one thing short. Watch it, do not buy yet.";
+  } else {
+    w.textContent="Nothing to do";
+    l.textContent="No setup is worth taking right now. Check back in a few days.";
+  }
+  st.innerHTML=[
+    [t.win+"%", "Reach +20%", t.win>=70?"gd":"dm"],
+    [t.med.toFixed(1)+"%","Usual dip first","dm"],
+    [t.bad.toFixed(1)+"%","Bad case, 1 in 10","wn"],
+    [DAYS[t.id]+" days","Usual time to target","dm"]
+  ].map(([v,k,c])=>`<div class="c"><div class="v ${c}">${v}</div><div class="k lab">${k}</div></div>`).join("");
+  nx.innerHTML = best==="all"
+    ? `<b>Then:</b> open the exposure console below to size it.`
+    : bestR.win>=70
+      ? `<b>Waiting on:</b> the next low on ${listOf(onBest)} to print <b>higher</b> than the last one. Until it does, this stays a watch.`
+      : `<b>Waiting on:</b> any chart to print a low carrying a diamond or a dot. Nothing qualifies without one.`;
+}
+function drawLadder(){
+  const h=$("ladder"); h.innerHTML="";
+  const live=BOARD.filter(c=>!c.stale);
+  const best=RUNGS.map(r=>r.id).reduce((acc,id)=>
+    live.some(c=>rungOf(c)===id)?id:acc, "none");
+  const bestR=RUNGS.find(r=>r.id===best);
+  const onBest=live.filter(c=>rungOf(c)===best).map(c=>c.chart);
+  RUNGS.forEach((r,i)=>{
+    const here=BOARD.filter(c=>rungOf(c)===r.id);
+    const d=document.createElement("div");
+    d.className="rung"+(r.win>=70?" above":"")+(r.id===best?" live":"")+(r.win>=70&&RUNGS[i-1]&&RUNGS[i-1].win<70?" top":"");
+    d.innerHTML=
+      `<div class="pc">${r.win}%</div>`+
+      `<div class="nm"><b>${r.name}</b><i>${r.sub}</i></div>`+
+      `<div class="seg">`+(here.length
+        ? here.map(c=>`<span class="chip${c.stale?" stale":""}">${c.chart.replace("ETH ","")} · ${c.when}</span>`).join("")
+        : `<span class="empty">—</span>`)+`</div>`+
+      `<div class="bar"><i style="width:${(i+1)/RUNGS.length*100}%"></i></div>`;
+    h.appendChild(d);
+  });
+  $("hAbove").textContent=live.filter(c=>RUNGS.find(r=>r.id===rungOf(c)).win>=70).length;
+  $("hFull").textContent=live.filter(c=>rungOf(c)==="all").length;
+  drawAction(best, onBest, bestR);
+  const st=$("armState"), sb=$("armSub");
+  if(best==="all"){
+    st.textContent="Cleared to buy"; st.style.color="var(--ok)";
+    sb.textContent=`${listOf(onBest)} ${onBest.length>1?"meet":"meets"} all three checks. Historically 81% of these reached +20% within 60 days.`;
+  } else if(bestR.win>=70){
+    st.textContent="Above the bar"; st.style.color="var(--warn)";
+    sb.textContent=`${listOf(onBest)} ${onBest.length>1?"sit":"sits"} at ${bestR.win}%, past your 70% line but short of the full standard. What is missing: a low higher than the previous one.`;
+  } else {
+    st.textContent="Stand by"; st.style.color="var(--dim)";
+    sb.textContent=`Nothing is above the 70% bar. Best is ${listOf(onBest)} at ${bestR.win}%.`;
+  }
+}
+drawLadder();
+$("cap").addEventListener("input",e=>{cap=+e.target.value; render();});
+$("com").addEventListener("input",e=>{comShare=+e.target.value/100; render();});
+$("exp").addEventListener("input",e=>setLev(+e.target.value/100,false));
+$("expNum").addEventListener("input",e=>{
+  const v=parseFloat(e.target.value);
+  if(isFinite(v) && v>=1 && v<=10) setLev(v,true);
+});
+$("expNum").addEventListener("blur",e=>{ setLev(parseFloat(e.target.value)||lev,false); });
+render();
+
+</script>
