@@ -1,8 +1,19 @@
 //@version=6
 // CTZB SCANNER v9
 // ---------------------------------------------------------------------------
-// ADDS THE CONF COLUMN. How many of the other five slots have already printed
-// inside the confluence window, and what that is worth ON THAT CHART. Measured
+// ADDS THE CONF COLUMN: how many of the other five slots have already printed
+// inside the confluence window. A COUNT, not a score. Green at 3+, plain at 2.
+//
+// It carries no points. The lift was measured ON ALL SIGNALS -- ETH 1D +9,
+// ETH 2D +13, BTC flat -- but filtered to TAGGED signals, the case you are
+// actually reading the panel in, it collapses: ETH 1D -2 (n=35), ETH 2D +32
+// (n=12). Two charts disagreeing by 34 points on samples that small is noise,
+// so putting a number in the cell would dress it up as settled. It also read as
+// arithmetic: "2  +13" looks like a sum, and adding it to an ODDS of 89% gives
+// 102%, which is the tell that the two overlap -- the 89% was measured across
+// diamonds that mostly already had company.
+//
+// The ORIGINAL per-chart measurement, kept for the record. Measured
 // 19 Oct 2026, backward-only so it is knowable on the day, 2+ agreeing against
 // 0-1 agreeing, reaching +20% in 60 days:
 //     ETH 1D  58% -> 67%  (+9,  n=205 / 83)
@@ -441,17 +452,17 @@ chk(int slot, float p, float tr, float dis, float dE) =>
 
 fire := W1 or W2 or W3 or W4 or W5 or W6
 if W1
-    msg := msg + nameOf(1) + " " + T1 + " (" + str.tostring(baseFor(1) + E1, "#") + "% — " + (E1 >= 0 ? "+" : "") + str.tostring(E1, "#") + "pp on a " + str.tostring(baseFor(1)) + "% base, n=" + str.tostring(N1) + ", step " + (na(x1) ? "?" : (x1 >= 0 ? "+" : "") + str.tostring(x1, "#.#") + "%") + ", " + str.tostring(o1) + " agreeing" + (o1 >= 2 and confMeasured(1) ? " worth " + (confLift(1) >= 0 ? "+" : "") + str.tostring(confLift(1), "#") + "pp here" : "") + ")  "
+    msg := msg + nameOf(1) + " " + T1 + " (" + str.tostring(baseFor(1) + E1, "#") + "% — " + (E1 >= 0 ? "+" : "") + str.tostring(E1, "#") + "pp on a " + str.tostring(baseFor(1)) + "% base, n=" + str.tostring(N1) + ", step " + (na(x1) ? "?" : (x1 >= 0 ? "+" : "") + str.tostring(x1, "#.#") + "%") + ", " + str.tostring(o1) + "/5 agreeing)  "
 if W2
-    msg := msg + nameOf(2) + " " + T2 + " (" + str.tostring(baseFor(2) + E2, "#") + "% — " + (E2 >= 0 ? "+" : "") + str.tostring(E2, "#") + "pp on a " + str.tostring(baseFor(2)) + "% base, n=" + str.tostring(N2) + ", step " + (na(x2) ? "?" : (x2 >= 0 ? "+" : "") + str.tostring(x2, "#.#") + "%") + ", " + str.tostring(o2) + " agreeing" + (o2 >= 2 and confMeasured(2) ? " worth " + (confLift(2) >= 0 ? "+" : "") + str.tostring(confLift(2), "#") + "pp here" : "") + ")  "
+    msg := msg + nameOf(2) + " " + T2 + " (" + str.tostring(baseFor(2) + E2, "#") + "% — " + (E2 >= 0 ? "+" : "") + str.tostring(E2, "#") + "pp on a " + str.tostring(baseFor(2)) + "% base, n=" + str.tostring(N2) + ", step " + (na(x2) ? "?" : (x2 >= 0 ? "+" : "") + str.tostring(x2, "#.#") + "%") + ", " + str.tostring(o2) + "/5 agreeing)  "
 if W3
-    msg := msg + nameOf(3) + " " + T3 + " (" + str.tostring(baseFor(3) + E3, "#") + "% — " + (E3 >= 0 ? "+" : "") + str.tostring(E3, "#") + "pp on a " + str.tostring(baseFor(3)) + "% base, n=" + str.tostring(N3) + ", step " + (na(x3) ? "?" : (x3 >= 0 ? "+" : "") + str.tostring(x3, "#.#") + "%") + ", " + str.tostring(o3) + " agreeing" + (o3 >= 2 and confMeasured(3) ? " worth " + (confLift(3) >= 0 ? "+" : "") + str.tostring(confLift(3), "#") + "pp here" : "") + ")  "
+    msg := msg + nameOf(3) + " " + T3 + " (" + str.tostring(baseFor(3) + E3, "#") + "% — " + (E3 >= 0 ? "+" : "") + str.tostring(E3, "#") + "pp on a " + str.tostring(baseFor(3)) + "% base, n=" + str.tostring(N3) + ", step " + (na(x3) ? "?" : (x3 >= 0 ? "+" : "") + str.tostring(x3, "#.#") + "%") + ", " + str.tostring(o3) + "/5 agreeing)  "
 if W4
-    msg := msg + nameOf(4) + " " + T4 + " (" + str.tostring(baseFor(4) + E4, "#") + "% — " + (E4 >= 0 ? "+" : "") + str.tostring(E4, "#") + "pp on a " + str.tostring(baseFor(4)) + "% base, n=" + str.tostring(N4) + ", step " + (na(x4) ? "?" : (x4 >= 0 ? "+" : "") + str.tostring(x4, "#.#") + "%") + ", " + str.tostring(o4) + " agreeing" + (o4 >= 2 and confMeasured(4) ? " worth " + (confLift(4) >= 0 ? "+" : "") + str.tostring(confLift(4), "#") + "pp here" : "") + ")  "
+    msg := msg + nameOf(4) + " " + T4 + " (" + str.tostring(baseFor(4) + E4, "#") + "% — " + (E4 >= 0 ? "+" : "") + str.tostring(E4, "#") + "pp on a " + str.tostring(baseFor(4)) + "% base, n=" + str.tostring(N4) + ", step " + (na(x4) ? "?" : (x4 >= 0 ? "+" : "") + str.tostring(x4, "#.#") + "%") + ", " + str.tostring(o4) + "/5 agreeing)  "
 if W5
-    msg := msg + nameOf(5) + " " + T5 + " (" + str.tostring(baseFor(5) + E5, "#") + "% — " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp on a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ", step " + (na(x5) ? "?" : (x5 >= 0 ? "+" : "") + str.tostring(x5, "#.#") + "%") + ", " + str.tostring(o5) + " agreeing" + (o5 >= 2 and confMeasured(5) ? " worth " + (confLift(5) >= 0 ? "+" : "") + str.tostring(confLift(5), "#") + "pp here" : "") + ")  "
+    msg := msg + nameOf(5) + " " + T5 + " (" + str.tostring(baseFor(5) + E5, "#") + "% — " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp on a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ", step " + (na(x5) ? "?" : (x5 >= 0 ? "+" : "") + str.tostring(x5, "#.#") + "%") + ", " + str.tostring(o5) + "/5 agreeing)  "
 if W6
-    msg := msg + nameOf(6) + " " + T6 + " (" + str.tostring(baseFor(6) + E6, "#") + "% — " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp on a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ", step " + (na(x6) ? "?" : (x6 >= 0 ? "+" : "") + str.tostring(x6, "#.#") + "%") + ", " + str.tostring(o6) + " agreeing" + (o6 >= 2 and confMeasured(6) ? " worth " + (confLift(6) >= 0 ? "+" : "") + str.tostring(confLift(6), "#") + "pp here" : "") + ")  "
+    msg := msg + nameOf(6) + " " + T6 + " (" + str.tostring(baseFor(6) + E6, "#") + "% — " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp on a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ", step " + (na(x6) ? "?" : (x6 >= 0 ? "+" : "") + str.tostring(x6, "#.#") + "%") + ", " + str.tostring(o6) + "/5 agreeing)  "
 
 // ---- ETH 5D confirmation: slot 4 is the A-asset 5D chart ----
 conf5 = use5 and d4s <= win5
@@ -473,11 +484,14 @@ provTag(int slot, float q, float tv, float dz) =>
         s := "?" + (dz > 0.5 ? (tv < 50 ? "◆" : "◇") : "") + bk
     s
 
+// Count only. An earlier build appended the measured lift here and it read as
+// arithmetic -- "2  +13" looks like a sum, and worse, those points are measured
+// on UNTAGGED signals: filtered to tagged ones the lift is -2 on ETH 1D (n=35)
+// and +32 on ETH 2D (n=12), which is noise in both directions. The count is
+// solid, the points are not, so only the count is shown.
 confCell(int slot, int others) =>
-    float lf = confLift(slot)
-    bool on = others >= 2
-    string s = str.tostring(others) + (on and confMeasured(slot) ? (lf >= 0 ? "  +" : "  ") + str.tostring(lf, "#") : on ? "  -" : "")
-    color c = not on ? color.new(color.silver, 55) : not confMeasured(slot) ? color.new(color.silver, 35) : lf >= 5 ? color.new(#26A69A, 0) : lf <= -1 ? color.new(color.red, 30) : color.new(color.silver, 25)
+    string s = str.tostring(others) + "/5"
+    color c = others >= 3 ? color.new(#26A69A, 0) : others >= 2 ? color.new(color.silver, 10) : color.new(color.silver, 55)
     [s, c]
 
 stepCell(float dE) =>
