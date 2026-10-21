@@ -44,12 +44,25 @@ ETH 1D/2D/3D/5D/8D are preserved in git at commit `bf69ed6`; retrieve with
 failed (money diamond 61% vs 60% base, and it degraded the existing tags), so
 nothing open depends on it.
 
-**The diamond and prime-dot columns are not a usable signal record.** Only
-row N populates — the scanner's other rows (T/S/L/H) export as zero because
-TradingView only serves the series for the chart's own resolution — and even
-row N is sparse and stale. ETH 2D's last flagged bar in the export is
-2025-10-16 despite the file running to 2026-10-20, and 15D and 1M carry no
-flags at all. Derive signals with `engine.signals()` instead; columns 9 and 11
+**The diamond and prime-dot columns are correct but incomplete.** They are
+stamped on the ENTRY bar, not the trough bar — line them up against
+`s['edate']` from `engine.signals()`, not `s['date']`, or they look like
+nonsense. Lined up correctly they have zero false positives: across the seven
+charts that carry flags, 65 of 65 diamond flags land on an engine entry bar and
+64 of those 65 are bars the engine also calls a diamond; 36 of 36 prime flags
+match. Only the scanner's row N populates — rows T/S/L/H export as zero because
+TradingView serves only the series for the chart's own resolution.
+
+What they are not is complete. They are a strict subset: on ETH 2D the engine
+finds 35 diamonds under the RSI gate and the columns flag 19 of them, all
+contained, and the same shape holds on every chart. The gap sits at the recent
+end — the last flag is 2025-11-02 on 1D, 2025-10-16 on 2D, 2024-11-11 on 3D,
+2025-04-21 on 5D, 2025-04-23 on 8D, 2024-09-27 on 10D and 2025-05-01 on 12D,
+in files that all run to October 2026. Either the plot series truncates, or the
+columns carry the `inTradedSet` walk-forward tier rather than the raw tag —
+unresolved, and it is the same mechanism behind the 17-vs-14 count Joe queried.
+Until it is resolved, derive signals with `engine.signals()` and treat the
+columns as confirmation where they exist, not as the record. Columns 9 and 11
 are TradingView's own CT RSI and Stoch %K and cross-check the engine directly
 (mean absolute difference on ETH 2D is 0.037 on CT RSI, 0.076 on Stoch %K).
 
