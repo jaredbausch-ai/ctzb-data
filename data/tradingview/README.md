@@ -1,6 +1,6 @@
 # TradingView exports — 20 Oct 2026
 
-Nine files Jared exported with the CTZB indicator applied, covering every ETH
+Ten files Jared exported with the CTZB indicator applied, covering every ETH
 timeframe the suite runs on. Columns are positional, and several names repeat
 (`Plot` three times, `Signal` twice), so read them by index, not by header name:
 
@@ -24,6 +24,7 @@ timeframe the suite runs on. Columns are positional, and several names repeat
 | ETH_2D_tv.csv | 1905 | 2016-05 | 2026-10-20 | 138 |
 | ETH_3D_tv.csv | 1270 | 2016-05 | 2026-10-19 | 88 |
 | ETH_5D_tv.csv | 763 | 2016-05 | 2026-10-18 | 48 |
+| ETH_1W_tv.csv | 544 | 2016-05 | 2026-10-19 | 31 |
 | ETH_8D_tv.csv | 479 | 2016-05 | 2026-10-16 | 24 |
 | ETH_10D_tv.csv | 385 | 2016-05 | 2026-10-18 | 20 |
 | ETH_12D_tv.csv | 323 | 2016-05 | 2026-10-16 | 16 |
@@ -47,9 +48,9 @@ nothing open depends on it.
 **The diamond and prime-dot columns are correct but incomplete.** They are
 stamped on the ENTRY bar, not the trough bar — line them up against
 `s['edate']` from `engine.signals()`, not `s['date']`, or they look like
-nonsense. Lined up correctly they have zero false positives: across the seven
-charts that carry flags, 65 of 65 diamond flags land on an engine entry bar and
-64 of those 65 are bars the engine also calls a diamond; 36 of 36 prime flags
+nonsense. Lined up correctly they have zero false positives: across the eight
+charts that carry flags, 67 of 67 diamond flags land on an engine entry bar and
+66 of those 67 are bars the engine also calls a diamond; 38 of 38 prime flags
 match. Only the scanner's row N populates — rows T/S/L/H export as zero because
 TradingView serves only the series for the chart's own resolution.
 
@@ -57,7 +58,8 @@ What they are not is complete. They are a strict subset: on ETH 2D the engine
 finds 35 diamonds under the RSI gate and the columns flag 19 of them, all
 contained, and the same shape holds on every chart. The gap sits at the recent
 end — the last flag is 2025-11-02 on 1D, 2025-10-16 on 2D, 2024-11-11 on 3D,
-2025-04-21 on 5D, 2025-04-23 on 8D, 2024-09-27 on 10D and 2025-05-01 on 12D,
+2025-04-21 on 5D, 2024-07-22 on 1W, 2025-04-23 on 8D, 2024-09-27 on 10D and
+2025-05-01 on 12D,
 in files that all run to October 2026. Either the plot series truncates, or the
 columns carry the `inTradedSet` walk-forward tier rather than the raw tag —
 unresolved, and it is the same mechanism behind the 17-vs-14 count Joe queried.
