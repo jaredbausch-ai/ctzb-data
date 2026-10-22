@@ -315,6 +315,22 @@ time on ETH and 75-87% on BTC (target 50%), and the -20% touch it priced at
 16-49% happened 0-4% of the time. The closest-match version did not beat the
 base rate except BTC 30 days by 0.004.
 
+**Volatility-scaled forecast range — tested 22 Oct 2026, ADOPTED.**
+`analysis/volrange.py`. Past outcomes are expressed in units of their own
+30-day volatility and rescaled by today's, so the range tracks how much price
+has actually been moving instead of averaging in 2017 and 2021. Declared
+accept rule, walk-forward 2019-2026, both assets, 14/30/60/90 days: coverage
+of the forecast middle half moved closer to the 50% target in 8 of 8 cells
+(e.g. ETH 30d 65% -> 50%, BTC 14d 61% -> 51%) and in 6 of 8 years for ETH 30d;
+P(up) Brier unchanged, as it must be, because scaling cannot change the sign.
+The band narrowed by roughly a third (ETH 30d median width 50 -> 34 points).
+2023: ETH 30d coverage 94% -> 69%, width 48 -> 22 points. Late 2025 barely
+moved (coverage 69% -> 64% at 30d, 0% -> 0% at 90d) because vol was already
+high going in; that miss is the lean and the gate, which this does not touch.
+In late 2025 it also priced some BTC -20% drops as LESS likely and was worse
+for it (BTC 90d -20 Brier 0.414 -> 0.593). Lookbacks 14 and 60 gave
+near-identical results, so 30 is not a fitted choice.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

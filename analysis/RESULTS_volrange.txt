@@ -1,0 +1,102 @@
+==================== ETH H=14
+  WALK-FORWARD 2019-04-12 .. 2026-10-04
+    OLD         n= 274 cover   64% (below  20%) width  26.0 |miss|  12.0  B up 0.256 +10 0.258 -10 0.250 +20 0.183 -20 0.127
+    NEW vol30    n= 274 cover   57% (below  24%) width  20.3 |miss|  11.9  B up 0.256 +10 0.254 -10 0.244 +20 0.169 -20 0.123
+    NEW vol14    n= 274 cover   58% (below  24%) width  20.1 |miss|  11.9  B up 0.256 +10 0.260 -10 0.245 +20 0.177 -20 0.126
+    NEW vol60    n= 274 cover   56% (below  24%) width  19.4 |miss|  11.9  B up 0.256 +10 0.248 -10 0.241 +20 0.161 -20 0.125
+    coverage by year OLD->NEW (vol30): 2019:68->64  2020:59->59  2021:55->52  2022:0->0  2023:90->69  2024:58->49  2025:58->56  2026:80->60   closer to 50% in 6 of 8
+  WINDOW 2023     OLD n= 340 cover   90% (below   8%) width  24.7 |miss|   6.1  B up 0.251 +10 0.292 -10 0.240 +20 0.129 -20 0.051
+  WINDOW 2023     NEW n= 340 cover   64% (below  17%) width  13.1 |miss|   5.6  B up 0.251 +10 0.214 -10 0.168 +20 0.040 -20 0.006
+  WINDOW late2025 OLD n=  45 cover   49% (below  51%) width  21.6 |miss|  11.2  B up 0.272 +10 0.257 -10 0.276 +20 0.086 -20 0.258
+  WINDOW late2025 NEW n=  45 cover   44% (below  56%) width  20.3 |miss|  11.3  B up 0.272 +10 0.251 -10 0.285 +20 0.075 -20 0.257
+==================== ETH H=30
+  WALK-FORWARD 2019-04-12 .. 2026-09-20
+    OLD         n= 272 cover   65% (below  22%) width  50.2 |miss|  20.3  B up 0.256 +10 0.237 -10 0.248 +20 0.255 -20 0.202
+    NEW vol30    n= 272 cover   50% (below  28%) width  34.4 |miss|  20.0  B up 0.256 +10 0.239 -10 0.244 +20 0.245 -20 0.183
+    NEW vol14    n= 272 cover   52% (below  28%) width  35.5 |miss|  20.1  B up 0.256 +10 0.243 -10 0.249 +20 0.249 -20 0.184
+    NEW vol60    n= 272 cover   54% (below  27%) width  35.2 |miss|  19.9  B up 0.256 +10 0.234 -10 0.242 +20 0.234 -20 0.190
+    coverage by year OLD->NEW (vol30): 2019:71->61  2020:67->57  2021:55->52  2022:50->25  2023:92->60  2024:62->45  2025:42->33  2026:100->67   closer to 50% in 6 of 8
+  WINDOW 2023     OLD n= 340 cover   94% (below   5%) width  48.1 |miss|   9.4  B up 0.249 +10 0.301 -10 0.291 +20 0.274 -20 0.121
+  WINDOW 2023     NEW n= 340 cover   69% (below  14%) width  21.5 |miss|   8.5  B up 0.249 +10 0.241 -10 0.235 +20 0.159 -20 0.027
+  WINDOW late2025 OLD n=  45 cover   69% (below  31%) width  38.7 |miss|  13.0  B up 0.298 +10 0.265 -10 0.221 +20 0.214 -20 0.287
+  WINDOW late2025 NEW n=  45 cover   64% (below  36%) width  33.9 |miss|  12.9  B up 0.298 +10 0.269 -10 0.219 +20 0.209 -20 0.276
+==================== ETH H=60
+  WALK-FORWARD 2019-04-12 .. 2025-12-02
+    OLD         n= 269 cover   65% (below  25%) width  78.4 |miss|  33.5  B up 0.249 +10 0.201 -10 0.230 +20 0.262 -20 0.250
+    NEW vol30    n= 269 cover   54% (below  28%) width  63.5 |miss|  32.1  B up 0.249 +10 0.194 -10 0.229 +20 0.254 -20 0.229
+    NEW vol14    n= 269 cover   53% (below  28%) width  62.0 |miss|  32.4  B up 0.249 +10 0.197 -10 0.231 +20 0.262 -20 0.231
+    NEW vol60    n= 269 cover   51% (below  30%) width  60.6 |miss|  32.1  B up 0.249 +10 0.195 -10 0.229 +20 0.249 -20 0.234
+    coverage by year OLD->NEW (vol30): 2019:64->43  2020:70->54  2021:62->67  2022:50->50  2023:92->58  2024:62->51  2025:44->48   closer to 50% in 5 of 7
+  WINDOW 2023     OLD n= 340 cover   92% (below   8%) width  76.0 |miss|  16.9  B up 0.220 +10 0.233 -10 0.285 +20 0.307 -20 0.205
+  WINDOW 2023     NEW n= 340 cover   59% (below  21%) width  37.4 |miss|  14.2  B up 0.220 +10 0.210 -10 0.259 +20 0.251 -20 0.075
+  WINDOW late2025 OLD n=  45 cover   64% (below  36%) width  60.7 |miss|  21.5  B up 0.321 +10 0.302 -10 0.191 +20 0.354 -20 0.276
+  WINDOW late2025 NEW n=  45 cover   64% (below  36%) width  59.5 |miss|  20.9  B up 0.321 +10 0.302 -10 0.188 +20 0.340 -20 0.262
+==================== ETH H=90
+  WALK-FORWARD 2019-04-12 .. 2025-12-02
+    OLD         n= 269 cover   65% (below  25%) width 119.5 |miss|  45.6  B up 0.257 +10 0.183 -10 0.216 +20 0.244 -20 0.263
+    NEW vol30    n= 269 cover   52% (below  30%) width  83.4 |miss|  43.9  B up 0.257 +10 0.180 -10 0.219 +20 0.236 -20 0.241
+    NEW vol14    n= 269 cover   51% (below  30%) width  82.1 |miss|  44.5  B up 0.257 +10 0.179 -10 0.222 +20 0.238 -20 0.244
+    NEW vol60    n= 269 cover   54% (below  31%) width  79.4 |miss|  43.2  B up 0.257 +10 0.179 -10 0.218 +20 0.235 -20 0.243
+    coverage by year OLD->NEW (vol30): 2019:50->43  2020:72->59  2021:71->71  2022:100->75  2023:100->50  2024:60->55  2025:29->33   closer to 50% in 5 of 7
+  WINDOW 2023     OLD n= 340 cover   98% (below   2%) width 114.9 |miss|  25.2  B up 0.227 +10 0.202 -10 0.274 +20 0.277 -20 0.242
+  WINDOW 2023     NEW n= 340 cover   55% (below  16%) width  48.5 |miss|  21.9  B up 0.227 +10 0.200 -10 0.254 +20 0.261 -20 0.106
+  WINDOW late2025 OLD n=  45 cover    0% (below 100%) width  78.9 |miss|  51.2  B up 0.390 +10 0.322 -10 0.107 +20 0.428 -20 0.312
+  WINDOW late2025 NEW n=  45 cover    0% (below 100%) width  76.3 |miss|  48.6  B up 0.390 +10 0.323 -10 0.109 +20 0.412 -20 0.309
+==================== BTC H=14
+  WALK-FORWARD 2019-04-12 .. 2026-10-04
+    OLD         n= 274 cover   61% (below  23%) width  19.0 |miss|   9.2  B up 0.253 +10 0.243 -10 0.215 +20 0.138 -20 0.076
+    NEW vol30    n= 274 cover   51% (below  26%) width  13.4 |miss|   9.1  B up 0.253 +10 0.224 -10 0.210 +20 0.132 -20 0.075
+    NEW vol14    n= 274 cover   53% (below  27%) width  14.7 |miss|   9.2  B up 0.253 +10 0.228 -10 0.214 +20 0.136 -20 0.077
+    NEW vol60    n= 274 cover   51% (below  27%) width  13.7 |miss|   9.1  B up 0.253 +10 0.224 -10 0.208 +20 0.131 -20 0.073
+    coverage by year OLD->NEW (vol30): 2019:54->57  2020:57->48  2021:43->40  2022:25->0  2023:77->60  2024:64->55  2025:65->52  2026:80->40   closer to 50% in 5 of 8
+  WINDOW 2023     OLD n= 340 cover   75% (below  12%) width  19.0 |miss|   6.5  B up 0.241 +10 0.240 -10 0.183 +20 0.115 -20 0.027
+  WINDOW 2023     NEW n= 340 cover   60% (below  21%) width  10.7 |miss|   6.3  B up 0.241 +10 0.187 -10 0.137 +20 0.096 -20 0.005
+  WINDOW late2025 OLD n=  45 cover   42% (below  58%) width  15.1 |miss|   8.7  B up 0.300 +10 0.183 -10 0.312 +20 0.038 -20 0.116
+  WINDOW late2025 NEW n=  45 cover   38% (below  62%) width  11.0 |miss|   8.4  B up 0.300 +10 0.107 -10 0.393 +20 0.014 -20 0.124
+==================== BTC H=30
+  WALK-FORWARD 2019-04-12 .. 2026-09-20
+    OLD         n= 272 cover   62% (below  23%) width  35.7 |miss|  15.5  B up 0.250 +10 0.252 -10 0.251 +20 0.226 -20 0.146
+    NEW vol30    n= 272 cover   53% (below  27%) width  26.2 |miss|  15.5  B up 0.250 +10 0.241 -10 0.247 +20 0.214 -20 0.137
+    NEW vol14    n= 272 cover   54% (below  28%) width  26.7 |miss|  15.6  B up 0.250 +10 0.246 -10 0.249 +20 0.218 -20 0.140
+    NEW vol60    n= 272 cover   52% (below  28%) width  26.7 |miss|  15.6  B up 0.250 +10 0.241 -10 0.248 +20 0.210 -20 0.133
+    coverage by year OLD->NEW (vol30): 2019:57->61  2020:57->39  2021:43->45  2022:100->100  2023:75->54  2024:64->58  2025:69->54  2026:100->100   closer to 50% in 4 of 8
+  WINDOW 2023     OLD n= 340 cover   79% (below  12%) width  34.1 |miss|  10.8  B up 0.240 +10 0.251 -10 0.249 +20 0.230 -20 0.088
+  WINDOW 2023     NEW n= 340 cover   59% (below  19%) width  20.7 |miss|  10.7  B up 0.240 +10 0.246 -10 0.223 +20 0.201 -20 0.025
+  WINDOW late2025 OLD n=  45 cover   38% (below  62%) width  27.6 |miss|  13.9  B up 0.332 +10 0.367 -10 0.268 +20 0.135 -20 0.325
+  WINDOW late2025 NEW n=  45 cover   38% (below  62%) width  19.5 |miss|  12.9  B up 0.332 +10 0.249 -10 0.325 +20 0.071 -20 0.392
+==================== BTC H=60
+  WALK-FORWARD 2019-04-12 .. 2025-12-02
+    OLD         n= 269 cover   55% (below  27%) width  49.1 |miss|  26.1  B up 0.255 +10 0.215 -10 0.252 +20 0.277 -20 0.213
+    NEW vol30    n= 269 cover   51% (below  32%) width  46.1 |miss|  26.2  B up 0.255 +10 0.208 -10 0.255 +20 0.252 -20 0.206
+    NEW vol14    n= 269 cover   49% (below  32%) width  43.5 |miss|  26.6  B up 0.255 +10 0.207 -10 0.258 +20 0.255 -20 0.210
+    NEW vol60    n= 269 cover   50% (below  32%) width  45.0 |miss|  26.2  B up 0.255 +10 0.210 -10 0.254 +20 0.254 -20 0.200
+    coverage by year OLD->NEW (vol30): 2019:32->36  2020:54->54  2021:31->43  2022:50->50  2023:77->58  2024:66->55  2025:58->52   closer to 50% in 5 of 7
+  WINDOW 2023     OLD n= 340 cover   77% (below  13%) width  50.4 |miss|  16.2  B up 0.212 +10 0.186 -10 0.268 +20 0.262 -20 0.157
+  WINDOW 2023     NEW n= 340 cover   59% (below  20%) width  33.9 |miss|  16.2  B up 0.212 +10 0.193 -10 0.260 +20 0.262 -20 0.052
+  WINDOW late2025 OLD n=  45 cover   40% (below  60%) width  41.7 |miss|  20.8  B up 0.330 +10 0.493 -10 0.231 +20 0.295 -20 0.283
+  WINDOW late2025 NEW n=  45 cover   38% (below  62%) width  32.7 |miss|  18.0  B up 0.330 +10 0.379 -10 0.267 +20 0.213 -20 0.346
+==================== BTC H=90
+  WALK-FORWARD 2019-04-12 .. 2025-12-02
+    OLD         n= 269 cover   59% (below  28%) width  75.2 |miss|  35.7  B up 0.243 +10 0.181 -10 0.246 +20 0.275 -20 0.243
+    NEW vol30    n= 269 cover   53% (below  30%) width  69.2 |miss|  36.7  B up 0.243 +10 0.182 -10 0.250 +20 0.252 -20 0.235
+    NEW vol14    n= 269 cover   50% (below  31%) width  72.5 |miss|  37.3  B up 0.243 +10 0.183 -10 0.253 +20 0.251 -20 0.236
+    NEW vol60    n= 269 cover   51% (below  30%) width  65.8 |miss|  38.1  B up 0.243 +10 0.182 -10 0.250 +20 0.254 -20 0.229
+    coverage by year OLD->NEW (vol30): 2019:29->32  2020:61->59  2021:40->43  2022:75->75  2023:88->62  2024:66->58  2025:56->52   closer to 50% in 6 of 7
+  WINDOW 2023     OLD n= 340 cover   87% (below   4%) width  76.0 |miss|  22.0  B up 0.183 +10 0.127 -10 0.270 +20 0.240 -20 0.196
+  WINDOW 2023     NEW n= 340 cover   60% (below  10%) width  50.3 |miss|  23.2  B up 0.183 +10 0.156 -10 0.253 +20 0.268 -20 0.067
+  WINDOW late2025 OLD n=  45 cover    0% (below 100%) width  59.2 |miss|  43.4  B up 0.453 +10 0.561 -10 0.167 +20 0.407 -20 0.414
+  WINDOW late2025 NEW n=  45 cover    0% (below 100%) width  49.9 |miss|  37.8  B up 0.453 +10 0.457 -10 0.238 +20 0.316 -20 0.593
+
+ACCEPTANCE (declared in the docstring)
+  ETH 14d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 6/8
+  ETH 30d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 6/8
+  ETH 60d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 5/7
+  ETH 90d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 5/7
+  BTC 14d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 5/8
+  BTC 30d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 4/8
+  BTC 60d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 5/7
+  BTC 90d  coverage closer to 50%: True  P(up) Brier within 0.005: True  years closer 6/7
+  (a) coverage closer in 8 of 8 cells -> PASS
+  (b) P(up) Brier never worse by >0.005 -> PASS
+  (c) ETH 30d coverage closer in 6 of 8 years -> PASS
+  VERDICT: ADOPT
