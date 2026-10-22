@@ -276,15 +276,24 @@ Regime episode 2021-08-19 to 2022-01-25 stayed ON straight through the November
 (3%). This is a weakness in a filter already relied on everywhere, not a new
 filter. Worth a session of its own.
 
-**Two-week analog rating — tested 22 Oct 2026, no skill.** `analysis/twoweek.py`
-matches today's live CT/gap/K on 1D/2D/3D/5D against every regime-on day and
-reports the next 14 days. Declared before running, with a walk-forward test as
-the guard: the analog forecast does not beat the regime-on base rate on either
-asset (ETH Brier 0.2553 vs 0.2558, BTC 0.2574 vs 0.2526), and the answer flips
-with the feature subset. Over two weeks the indicator state carries no usable
-information beyond the gate; the base rate is the honest two-week number. The
-script is kept because its live-state reconstruction (forming bars stepped
-exactly as TradingView paints them) matched the board to the decimal.
+**Analog market-state rating, 14/30/60/90 days — tested 22 Oct 2026, no
+skill.** `analysis/twoweek.py` matches today's live CT/gap/K on 1D/2D/3D/5D
+against every regime-on day and reports the next H days. Declared before
+running (14 days first, then a second declared block for 30/60/90), with a
+walk-forward test as the guard. P(up) beats the regime-on base rate in no more than
+four testable years at any horizon on either asset (best: 4 of 7). "+10% first" loses to the base
+rate at every horizon on both. Forecast terciles invert at 60/90 on ETH and at
+30 on BTC. The answer also flips with the feature subset. The base rate is the
+honest number at every horizon; analog figures are theory-craft.
+
+Independently replicated the same day by a blind re-implementation that never
+saw the script. Live state, every base rate at every horizon, the analogs and
+the BTC walk-forward match exactly. The ETH walk-forward Brier differs in the
+fourth decimal because twoweek.py waits 30 bars before using a chart's features,
+which drops five ETH days in October 2016 (pool 2,530 vs 2,535). No conclusion
+changes. The live-state reconstruction (forming bars stepped exactly as
+TradingView paints them) equals the completed bar on every bar's last day and
+matched the board to the decimal, so the script is kept for that.
 
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60

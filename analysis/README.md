@@ -19,8 +19,8 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `filters.py` | The earlier filter sweep, including the ones on the do-not-re-test list |
 | `situation.py` | Conditional stats for the current setup shape |
 | `newsetups.py` | What is forming and when it confirms |
-| `twoweek.py` | 14-day market-state rating: nearest-neighbour analogs on CT/gap/K across 1D–5D inside regime-on days, with a walk-forward skill test. Also lists signals since the regime turned on, read against the Tier 1 cells. Candidate list declared in the docstring |
-| `RESULTS_twoweek.txt` | Captured output of `twoweek.py`, 22 Oct 2026. **Walk-forward: no skill over the base rate on either asset** |
+| `twoweek.py` | Market-state rating at 14/30/60/90 days: regime-on base rates, nearest-neighbour analogs on CT/gap/K across 1D–5D, and a walk-forward skill test. Also lists signals since the regime turned on, read against the Tier 1 cells. Both declared blocks are in the docstring |
+| `RESULTS_twoweek.txt` | Captured output of `twoweek.py`, 22 Oct 2026. **Walk-forward: no horizon shows skill over the base rate.** Blind replication agreed |
 
 `ctema.json` is a build artifact. Regenerate it with `ctema_build.py` whenever
 `data/` moves forward; the Action commits candles roughly six times a day, so
