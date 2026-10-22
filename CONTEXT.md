@@ -30,6 +30,40 @@ Joe Mauro is a creditor doing due diligence. He has his own Coinbase API and
 CoinStats read access and an AI reading a shared dashboard link. Anything
 presented to Joe must be real-time knowable and must not be dressed up.
 
+### Joe — state as of 22 Oct 2026
+
+Access he holds: read-only Coinbase API key, created 2026-10-04, nickname
+"Joe". CoinStats API key, sent 15 Oct, confirmed working by him the same day.
+**The CoinStats key is not to be rotated** — settled, do not raise it again.
+A live credential never goes into a thread his bot parses; if he needs one
+resent it goes as its own message.
+
+Figures that have been settled in writing, so do not re-derive them from
+scratch or contradict them:
+
+| | |
+|---|---|
+| The $1,036 gap in the 4.669 BTC reconciliation | CoinStats booked the 23 Mar transaction **gross, not net** — a $949.69 fee. Closed |
+| The $532K vs $664K gap | 1,500 CRCL **shares** (not $1,500), cost basis $99,750, worth roughly $130K. Closed |
+| Coinbase vs Aave | Coinbase is the larger side: roughly $662K against Aave's ~$507K net. Do not state it the other way round |
+| The $444,142 trail | Replied in full and sent |
+
+Sent this session: the old-ETH-wallet reply (offering MetaMask/Ledger recovery
+if he has seed phrases), the $444,142 trail, a five-sentence stablecoin /
+GENIUS Act summary, the BTC-and-ETH setup summary written for his AI, and the
+CoinStats-key-plus-Aave follow-up. **Open on his side:** whether both API keys
+actually reach his bot, and an IP allowlist address. He has not come back yet.
+
+HARD LINE, stated to him and to be maintained: **no fabricated transaction
+record, and no help constructing an account of where the 4.669 BTC went.**
+Reconciling real exports he supplies is fine. Generating records is not.
+
+He is funnelling every email into his own AI, so keep them short and
+parseable, and label theory-craft as unsupported rather than risk being
+fact-checked on it. He does not want daily tedious tasks; he is comfortable
+with the AI monitoring spending and does not want to hand-assemble bank
+statements.
+
 ## Confirmation lag
 
 The symbol fires three bars after the RSI low, so the calendar lag is three
@@ -123,6 +157,9 @@ number someone will look at twice goes in this repo.
 | `odds.py` → `odds.json` | aggregate odds by chart and tag |
 | `waves.py` | swing segmentation and Elliott counts |
 | `fetch.py` | candle fetch, including 4H/12H |
+| `analysis/` | generators for every figure quoted, plus `RESULTS_*.txt` captures. See its README |
+| `docs/PRETRADE.md` | the pre-trade filter checklist — validated, failed, theory-craft, guards |
+| `docs/PROJECT_INSTRUCTIONS.md` | the block pasted into the Claude project's custom instructions |
 | `docs/artifacts/` | published pages, committed so git keeps every version |
 | `docs/reference/` | source documents |
 
@@ -137,6 +174,7 @@ a GitHub Actions runner, which is why the pipeline is built this way.
 | page | url | notes |
 |---|---|---|
 | CTZB odds | `claude.ai/artifact/L89GjbqYZcyPxAkzC4jRha` | his. Trough record grouped by marker |
+| ETH at Day 48 | `claude.ai/artifact/U9DcJovkbFGQyrxULme8Cf` | his. The 20 Oct odds/scenario page, v2. Source `docs/artifacts/eth-day-48.html`. Figures are hardcoded and dated; it does not refresh |
 | Setup Standard draft | `claude.ai/artifact/8ViZjND99xmo8rbcUmmr5r` | Standalone copy, for editing and review. Source `docs/artifacts/joe-console.html` |
 | ETH Setup Standard (Joe's) | `claude.ai/artifact/6tH6hXMh3EYLvUUEM9XgSJ` | **Joe has this link.** Dashboard type; page content lives in the artifact DB at collection `files`, doc `index.html`, field `text`. Update via `ArtifactData` with `if_version` pinned |
 
@@ -265,6 +303,25 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Open items
 
+- **`cycday` mislabels the 2026-07-13 ETH weekly signal** — reports cycle day
+  1309 when it should be about 19. Its trough predates the recorded cycle low
+  by two days, so the lookup falls through to the previous cycle. Related and
+  unresolved: `CYCLE_LOWS` lists the ETH cycle low as 2026-06-24, but the
+  actual low was $1,505 on 2026-06-01. Fix the anchor and the fall-through
+  together.
+- **Every BTC TradingView export is missing.** `data/tradingview/` holds ten
+  ETH charts and no BTC. The BTC numbers run off candles the Action pulls, so
+  the Signal line on BTC charts is inferred and has never been verified against
+  what the chart painted — and BTC 2D and 3D are the two charts live gaps get
+  quoted on. BTC 2D, 3D, 5D and 1W would close it. `data/tradingview/INDEX.md`
+  has the export settings.
+- **The fractal checkpoints were never written down.** The last-cycle BTC and
+  ETH overlay produced specific price and date checkpoints in conversation on
+  21 Oct. They are not in this repo and cannot be reproduced without redoing
+  the overlay, because the alignment was done by hand on his charts (shrunk to
+  match the highs, anchored on the double bottom). `docs/PRETRADE.md` records
+  that the fractal exists and that it is unsupported theory-craft; the numbers
+  themselves are gone. Re-derive from his charts if they are wanted.
 - CT RSI day-ten read for the dashboard: three-state, both-agree-up /
   both-agree-down / disagree, 78% vs 30%. **He asked explicitly not to let this
   be forgotten.**
