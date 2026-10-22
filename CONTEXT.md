@@ -276,6 +276,16 @@ Regime episode 2021-08-19 to 2022-01-25 stayed ON straight through the November
 (3%). This is a weakness in a filter already relied on everywhere, not a new
 filter. Worth a session of its own.
 
+**Two-week analog rating — tested 22 Oct 2026, no skill.** `analysis/twoweek.py`
+matches today's live CT/gap/K on 1D/2D/3D/5D against every regime-on day and
+reports the next 14 days. Declared before running, with a walk-forward test as
+the guard: the analog forecast does not beat the regime-on base rate on either
+asset (ETH Brier 0.2553 vs 0.2558, BTC 0.2574 vs 0.2526), and the answer flips
+with the feature subset. Over two weeks the indicator state carries no usable
+information beyond the gate; the base rate is the honest two-week number. The
+script is kept because its live-state reconstruction (forming bars stepped
+exactly as TradingView paints them) matched the board to the decimal.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

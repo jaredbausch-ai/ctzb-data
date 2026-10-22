@@ -112,6 +112,7 @@ These are not filters. They are what the system charges regardless.
 | Fibs, moving averages, Elliott counts, opens/closes | All empty | — |
 | Compression agreement across BTC/ETH | Retracted — one measurement counted twice | 21 Oct 2026 |
 | Green star / WGMI | Cannot be rebuilt; M2 data is revised after publication | — |
+| 14-day analog rating on CT/gap/K across 1D–5D (`analysis/twoweek.py`) | Walk-forward Brier no better than the base rate: ETH 0.2553 vs 0.2558, BTC 0.2574 vs 0.2526. Forecast terciles not monotonic on BTC. Answers flip with the feature subset (ETH up 38% on S12, 60% on 2D-only). For a two-week view use the regime-on base rate | 22 Oct 2026 |
 
 ---
 

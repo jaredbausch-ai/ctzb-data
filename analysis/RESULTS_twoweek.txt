@@ -1,0 +1,120 @@
+==================== ETH  as of 2026-10-22  close 2,378.76  gate ON
+  1D  CT  38.1  gap  -4.34  K  61.5
+  2D  CT  44.0  gap  -9.74  K   7.9
+  3D  CT  48.5  gap  -9.95  K   5.0
+  5D  CT  52.9  gap  -4.57  K  35.4
+  forming: no pivot low waiting on bars on 1D/2D/3D/5D/8D
+  regime on since 2026-09-03 (49 days)
+  signals confirmed since then, Tier 1 read:
+    1D 2026-09-05 C hollow dmd         gap at entry  -3.21  step  -20.9%  agree 0  entry 2,480.61  now -4.1%
+    1D 2026-09-13 C plain              gap at entry  -4.98  step   -0.2%  agree 0  entry 2,475.86  now -3.9%
+    1D 2026-09-18 B hollow dmd         gap at entry  +4.38  step   +5.5%  agree 0  entry 2,611.34  now -8.9%
+    2D 2026-09-20 C prime              gap at entry  +6.38  step   -8.5%  agree 1  entry 2,775.58  now -14.3%
+    3D 2026-09-22 C hollow dmd         gap at entry  +1.47  step  -10.3%  agree 2  entry 2,687.28  now -11.5%
+    1D 2026-09-26 C plain              gap at entry  +0.20  step   +3.2%  agree 2  entry 2,695.53  now -11.8%
+    5D 2026-09-28 C plain              gap at entry  +6.42  step  -12.2%  agree 3  entry 2,668.13  now -10.8%
+    1D 2026-10-05 C prime              gap at entry  -0.92  step   +0.5%  agree 1  entry 2,709.60  now -12.2%
+    1D 2026-10-11 A plain              gap at entry  -7.10  step   -6.5%  agree 0  entry 2,534.22  now -6.1%
+    1D 2026-10-15 A plain              gap at entry  -6.48  step   -3.7%  agree 0  entry 2,439.45  now -2.5%
+    1D 2026-10-20 A plain              gap at entry  +0.38  step   +0.3%  agree 0  entry 2,446.62  now -2.8%
+
+  BASELINE regime-on days, 14d: n=2654  up   54%  +10   53%  -10   45%  +10 first   46%  med  +1.4% (IQR -7.7/+13.1)  mfe +10.7%  mae -8.4%
+  BASELINE all days,       14d: n=3777  up   53%  +10   50%  -10   45%  +10 first   44%  med  +0.9% (IQR -8.4/+12.4)  mfe +10.1%  mae -8.6%
+  S12  k=20  n= 20  up   45%  +10   40%  -10   55%  +10 first   40%  med  -1.9% (IQR -7.1/+4.2)  mfe +8.1%  mae -10.7%
+  S12  k=40  n= 40  up   38%  +10   38%  -10   57%  +10 first   35%  med  -2.5% (IQR -9.9/+3.7)  mfe +7.1%  mae -11.1%  <- PRIMARY
+  S12  k=80  n= 80  up   48%  +10   45%  -10   51%  +10 first   41%  med  -0.9% (IQR -8.7/+8.4)  mfe +8.6%  mae -10.2%
+  S2D  k=20  n= 20  up   70%  +10   55%  -10   25%  +10 first   55%  med  +1.5% (IQR -0.9/+8.8)  mfe +11.2%  mae -6.0%
+  S2D  k=40  n= 40  up   60%  +10   60%  -10   40%  +10 first   57%  med  +1.3% (IQR -4.5/+8.8)  mfe +12.3%  mae -7.2%
+  S2D  k=80  n= 80  up   55%  +10   60%  -10   39%  +10 first   57%  med  +0.7% (IQR -6.8/+8.8)  mfe +11.2%  mae -6.7%
+  SGAP k=20  n= 20  up   30%  +10   50%  -10   45%  +10 first   50%  med  -1.8% (IQR -7.0/+0.8)  mfe +9.6%  mae -9.3%
+  SGAP k=40  n= 40  up   40%  +10   52%  -10   42%  +10 first   52%  med  -1.2% (IQR -7.0/+8.9)  mfe +11.3%  mae -8.0%
+  SGAP k=80  n= 80  up   42%  +10   49%  -10   40%  +10 first   49%  med  -1.5% (IQR -9.2/+8.9)  mfe +9.7%  mae -7.2%
+
+  G2 primary analogs by year
+    2016  n= 2  up    0%  +10 first    0%  med  -7.5%
+    2017  n= 2  up  100%  +10 first  100%  med +14.2%
+    2018  n= 4  up   25%  +10 first   50%  med -14.0%
+    2019  n= 2  up   50%  +10 first    0%  med  -3.4%
+    2020  n= 6  up   67%  +10 first   33%  med  +3.7%
+    2021  n= 6  up   33%  +10 first   33%  med  -6.8%
+    2023  n= 6  up   50%  +10 first   33%  med  +1.5%
+    2024  n= 6  up   33%  +10 first   50%  med  -2.9%
+    2025  n= 6  up    0%  +10 first   17%  med  -6.6%
+  primary analog dates: 2016-10-19 2016-11-01 2017-09-21 2017-11-01 2018-02-13 2018-03-06 2018-05-30 2018-06-10 2019-07-25 2019-08-09 2020-03-09 2020-03-21 2020-07-03 2020-09-10 2020-09-21 2020-10-02 2021-05-27 2021-06-08 2021-09-24 2021-11-26 2021-12-09 2021-12-28 2023-03-11 2023-05-08 2023-05-21 2023-06-18 2023-08-02 2023-08-15 2024-01-31 2024-04-02 2024-04-16 2024-04-30 2024-07-03 2024-12-26 2025-01-08 2025-01-19 2025-02-01 2025-09-30 2025-10-15 2025-11-03
+
+  G1 walk-forward, 274 test days 2019-04-12 .. 2026-10-04
+    P(up)        Brier analog 0.2553  base 0.2558
+    P(+10 first) Brier analog 0.2500  base 0.2483
+    forecast tercile low  n= 97  mean P(up)   48%  realised up   49%  med ret  -0.0%
+    forecast tercile mid  n= 87  mean P(up)   56%  realised up   46%  med ret  -1.4%
+    forecast tercile high n= 90  mean P(up)   64%  realised up   54%  med ret  +1.4%
+    by year (Brier analog vs base, P(up))
+      2019  n= 28  analog 0.267  base 0.272  analog better
+      2020  n= 46  analog 0.246  base 0.239  base better
+      2021  n= 42  analog 0.239  base 0.248  analog better
+      2022  n=  4  analog 0.260  base 0.303  analog better
+      2023  n= 48  analog 0.277  base 0.255  base better
+      2024  n= 53  analog 0.263  base 0.259  base better
+      2025  n= 48  analog 0.242  base 0.264  analog better
+      2026  n=  5  analog 0.257  base 0.244  base better
+
+==================== BTC  as of 2026-10-22  close 81,213.81  gate ON
+  1D  CT  45.7  gap  -5.33  K  59.8
+  2D  CT  51.8  gap  -7.81  K  17.2
+  3D  CT  55.1  gap  -6.08  K  11.3
+  5D  CT  59.5  gap  +0.61  K  67.0
+  forming: no pivot low waiting on bars on 1D/2D/3D/5D/8D
+  regime on since 2026-09-03 (49 days)
+  signals confirmed since then, Tier 1 read:
+    1D 2026-09-05 D plain              gap at entry  -2.57  step  -13.3%  agree 0  entry 79,831.57  now +1.7%
+    1D 2026-09-13 B plain              gap at entry  -7.69  step   -3.8%  agree 0  entry 76,799.85  now +5.7%
+    1D 2026-09-18 B filled dmd         gap at entry  +5.80  step   +5.3%  agree 0  entry 80,875.04  now +0.4%
+    2D 2026-09-20 C prime              gap at entry  +9.20  step   -4.7%  agree 1  entry 86,594.94  now -6.2%
+    3D 2026-09-22 C plain              gap at entry  +3.81  step   -4.3%  agree 2  entry 84,385.46  now -3.8%
+    5D 2026-09-28 C plain              gap at entry  +8.43  step   -5.3%  agree 3  entry 84,504.88  now -3.9%
+    1D 2026-10-01 C plain              gap at entry  +1.53  step   +4.9%  agree 2  entry 84,848.73  now -4.3%
+    2D 2026-10-04 D plain              gap at entry  +1.88  step   -1.0%  agree 2  entry 85,748.96  now -5.3%
+    1D 2026-10-11 B plain              gap at entry  -3.16  step   -1.4%  agree 1  entry 83,678.29  now -2.9%
+    3D 2026-10-19 C hollow dmd,prime   gap at entry  +0.02  step   -0.4%  agree 1  entry 84,024.67  now -3.3%
+    1D 2026-10-20 B plain              gap at entry  +1.49  step   -0.9%  agree 1  entry 82,938.26  now -2.1%
+
+  BASELINE regime-on days, 14d: n=2654  up   58%  +10   42%  -10   33%  +10 first   38%  med  +1.8% (IQR -4.7/+10.2)  mfe +7.9%  mae -6.1%
+  BASELINE all days,       14d: n=3917  up   56%  +10   38%  -10   31%  +10 first   35%  med  +1.4% (IQR -4.9/+8.9)  mfe +7.3%  mae -6.0%
+  S12  k=20  n= 20  up   25%  +10   10%  -10   45%  +10 first   10%  med  -3.5% (IQR -8.4/-0.6)  mfe +3.2%  mae -9.3%
+  S12  k=40  n= 40  up   32%  +10   28%  -10   45%  +10 first   22%  med  -2.5% (IQR -6.5/+3.3)  mfe +4.1%  mae -8.8%  <- PRIMARY
+  S12  k=80  n= 80  up   49%  +10   36%  -10   36%  +10 first   32%  med  -0.1% (IQR -5.2/+9.8)  mfe +6.0%  mae -6.2%
+  S2D  k=20  n= 20  up   50%  +10   30%  -10   35%  +10 first   20%  med  +0.3% (IQR -3.4/+6.4)  mfe +4.6%  mae -8.7%
+  S2D  k=40  n= 40  up   45%  +10   30%  -10   40%  +10 first   22%  med  -0.4% (IQR -5.5/+6.4)  mfe +4.9%  mae -8.6%
+  S2D  k=80  n= 80  up   46%  +10   41%  -10   39%  +10 first   36%  med  -0.5% (IQR -6.1/+7.8)  mfe +6.4%  mae -7.4%
+  SGAP k=20  n= 20  up   45%  +10   30%  -10   40%  +10 first   25%  med  -0.6% (IQR -4.7/+3.3)  mfe +6.4%  mae -6.8%
+  SGAP k=40  n= 40  up   42%  +10   28%  -10   40%  +10 first   22%  med  -0.7% (IQR -5.1/+5.9)  mfe +5.8%  mae -8.7%
+  SGAP k=80  n= 80  up   50%  +10   36%  -10   38%  +10 first   34%  med  -0.1% (IQR -5.9/+8.5)  mfe +6.2%  mae -8.0%
+
+  G2 primary analogs by year
+    2016  n= 2  up   50%  +10 first    0%  med  -5.2%
+    2017  n= 5  up   60%  +10 first   40%  med +10.2%
+    2018  n= 1  up    0%  +10 first    0%  med  -4.7%
+    2019  n= 2  up   50%  +10 first   50%  med +17.8%
+    2020  n= 6  up   33%  +10 first   17%  med  -2.0%
+    2021  n= 5  up   20%  +10 first   40%  med  -6.2%
+    2023  n= 8  up   25%  +10 first   12%  med  -2.2%
+    2024  n= 3  up    0%  +10 first    0%  med  -3.3%
+    2025  n= 8  up   38%  +10 first   25%  med  -1.1%
+  primary analog dates: 2016-07-05 2016-07-22 2017-01-25 2017-03-16 2017-06-29 2017-09-19 2017-11-14 2018-05-22 2019-06-11 2019-07-11 2020-02-25 2020-03-07 2020-06-11 2020-06-24 2020-07-15 2020-09-02 2021-04-07 2021-09-13 2021-09-24 2021-11-21 2021-12-02 2023-02-24 2023-03-07 2023-04-26 2023-05-07 2023-05-20 2023-08-02 2023-08-15 2023-12-26 2024-01-13 2024-04-12 2024-12-26 2025-01-08 2025-02-04 2025-06-06 2025-06-17 2025-07-01 2025-08-05 2025-08-18 2025-10-29
+
+  G1 walk-forward, 274 test days 2019-04-12 .. 2026-10-04
+    P(up)        Brier analog 0.2574  base 0.2526
+    P(+10 first) Brier analog 0.2346  base 0.2339
+    forecast tercile low  n= 97  mean P(up)   49%  realised up   60%  med ret  +3.0%
+    forecast tercile mid  n=100  mean P(up)   58%  realised up   48%  med ret  -0.2%
+    forecast tercile high n= 77  mean P(up)   66%  realised up   55%  med ret  +0.9%
+    by year (Brier analog vs base, P(up))
+      2019  n= 28  analog 0.253  base 0.260  analog better
+      2020  n= 46  analog 0.229  base 0.226  base better
+      2021  n= 42  analog 0.281  base 0.276  base better
+      2022  n=  4  analog 0.318  base 0.305  base better
+      2023  n= 48  analog 0.267  base 0.241  base better
+      2024  n= 53  analog 0.249  base 0.248  base better
+      2025  n= 48  analog 0.263  base 0.267  analog better
+      2026  n=  5  analog 0.238  base 0.241  analog better
+
