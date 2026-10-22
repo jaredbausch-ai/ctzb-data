@@ -8,6 +8,10 @@ a re-upload.
 
 ## What is here
 
+Subfolders: `btc_binance/` (BTC 1D+2D, different layout, stale, no flag
+columns), `alts/` (ADA, BNB, XRP 2D), `wgmi/` (the liquidity export). Each has
+a README saying what it can be used for. The table below is the main ETH set.
+
 | Chart | ETH | BTC |
 |---|---|---|
 | 1D  | yes (to 2026-10-21) | **missing** |
@@ -20,6 +24,8 @@ a re-upload.
 | 15D | yes (to 2026-10-20) | **missing** |
 | 1W  | yes (to 2026-10-19) | **missing** |
 | 1M  | yes (to 2026-10-01) | **missing** |
+
+BTC "missing" above means *in this layout*. See `btc_binance/` for what exists.
 
 ## What these are for
 

@@ -321,12 +321,16 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
   unresolved: `CYCLE_LOWS` lists the ETH cycle low as 2026-06-24, but the
   actual low was $1,505 on 2026-06-01. Fix the anchor and the fall-through
   together.
-- **Every BTC TradingView export is missing.** `data/tradingview/` holds ten
-  ETH charts and no BTC. The BTC numbers run off candles the Action pulls, so
-  the Signal line on BTC charts is inferred and has never been verified against
-  what the chart painted — and BTC 2D and 3D are the two charts live gaps get
-  quoted on. BTC 2D, 3D, 5D and 1W would close it. `data/tradingview/INDEX.md`
-  has the export settings.
+- **No current Coinbase BTC export in the full CTZB layout.** Partly closed on
+  22 Oct: two Binance BTCUSDC exports were recovered from uploads and
+  **confirmed that the Signal line is `ta.ema(ct_rsi, 14)` on BTC too** — zero
+  error over 1,113 BTC 2D bars and 2,228 BTC 1D bars, with EMA(13) and EMA(15)
+  both off by ~0.9. The formula is now verified on both assets rather than
+  fitted on ETH 2D alone. What is still missing: those files are Binance not
+  Coinbase, end 20-21 Sept, use a different column order (CT RSI at 8, Signal
+  at 9) and carry **no diamond or prime columns**, so flag alignment has never
+  been checked on BTC at all. A current Coinbase BTC 2D, 3D, 5D and 1W in the
+  23-column layout would close it. `data/tradingview/INDEX.md` has the settings.
 - **The fractal checkpoints were never written down.** The last-cycle BTC and
   ETH overlay produced specific price and date checkpoints in conversation on
   21 Oct. They are not in this repo and cannot be reproduced without redoing
