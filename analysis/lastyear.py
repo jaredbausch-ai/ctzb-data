@@ -82,6 +82,7 @@ def main():
     for sym in ('ETH', 'BTC'):
         day, state = T.live_state(sym)
         last_closed = day['date'][-2]          # the newest daily bar is still forming
+        cl = dict(zip(day['date'], day['close']))
         for H in T.HORIZONS:
             oc, _ = T.outcomes(day, H)
             oc = {d: o for d, o in oc.items() if d + dt.timedelta(days=H) <= last_closed}
@@ -94,7 +95,7 @@ def main():
                 pool = [d for d in allf if (D - d).days > H and gate(d) == g]
                 X = np.array([T.vec(state[d], feats) for d in pool])
                 ch = T.pick(pool, X, np.array(T.vec(state[D], feats)), T.K_PRIMARY)
-                rows.append(dict(d=D, g=g, base=forecast(pool, oc), ana=forecast(ch, oc), act=oc[D],
+                rows.append(dict(d=D, g=g, base=forecast(pool, oc), ana=forecast(ch, oc), act=oc[D], c0=cl[D],
                                  npool=len(pool)))
             print(f'==================== {sym}  H={H}  forecasts {rows[0]["d"]} .. {rows[-1]["d"]}')
             for lab, sel in (('GATE ON  (primary)', [r for r in rows if r['g']]),
@@ -115,6 +116,27 @@ def main():
                           f'median err {s["emed"]:+6.1f}%  mean |err| {s["eabs"]:5.1f}%')
                     print('           ' + '  '.join(f'{k}: fc {s[f"p{k}"]:3.0f}% real {s[f"y{k}"]:3.0f}% B {s[f"b{k}"]:.3f}'
                                               for k, _ in EVENTS))
+                    err = np.array([r['act']['ret'] - r[which]['med'] for r in sel])
+                    up, dn = err[err > 0], err[err < 0]
+                    print(f'           MISS SPLIT actual ABOVE forecast {len(up):>3} days ({100*len(up)/len(err):3.0f}%) '
+                          f'median {np.median(up) if len(up) else 0:+6.1f}  largest {up.max() if len(up) else 0:+6.1f}  |  '
+                          f'actual BELOW forecast {len(dn):>3} days ({100*len(dn)/len(err):3.0f}%) '
+                          f'median {np.median(dn) if len(dn) else 0:+6.1f}  largest {dn.min() if len(dn) else 0:+6.1f}  (points)')
+                    if which == 'base':
+                        for side, sign in (('ABOVE', 1), ('BELOW', -1)):
+                            order = sorted(sel, key=lambda r: -sign * (r['act']['ret'] - r['base']['med']))
+                            kept = []
+                            for r in order:
+                                if sign * (r['act']['ret'] - r['base']['med']) <= 0 or len(kept) == 3:
+                                    break
+                                if all(abs((r['d'] - q['d']).days) > 10 for q in kept):
+                                    kept.append(r)
+                            for r in kept:
+                                c0 = r['c0']
+                                print(f'             largest {side}: {r["d"]} start {c0:,.0f}  forecast median '
+                                      f'{c0*(1+r["base"]["med"]/100):,.0f} ({r["base"]["med"]:+.1f}%)  actual '
+                                      f'{c0*(1+r["act"]["ret"]/100):,.0f} ({r["act"]["ret"]:+.1f}%)  miss '
+                                      f'{r["act"]["ret"]-r["base"]["med"]:+.1f} pts')
             # monthly view, gate ON and OFF together but labelled
             print('  by month (base fc up / analog fc up / realised up, mean over days)')
             months = sorted({(r['d'].year, r['d'].month) for r in rows})

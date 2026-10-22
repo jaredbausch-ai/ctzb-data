@@ -3,14 +3,25 @@
     forecast middle half (median over days): base -7.6% to +14.0%   actual middle half -14.1% to +2.4%   actual range -21.8% to +12.2%
     BASE   called up 100%  direction hit  29%  in IQR  49% (below  51% / above   0%)  median err  -11.2%  mean |err|  11.2%
            up: fc  54% real  29% B 0.272  +10: fc  53% real  40% B 0.257  -10: fc  45% real  73% B 0.276  +20: fc  28% real   2% B 0.086  -20: fc  19% real  36% B 0.258
+           MISS SPLIT actual ABOVE forecast  13 days ( 29%) median   +6.0  largest  +10.7  |  actual BELOW forecast  32 days ( 71%) median  -14.6  largest  -23.3  (points)
+             largest ABOVE: 2025-11-25 start 2,958  forecast median 3,001 (+1.5%)  actual 3,319 (+12.2%)  miss +10.7 pts
+             largest BELOW: 2025-11-09 start 3,583  forecast median 3,637 (+1.5%)  actual 2,801 (-21.8%)  miss -23.3 pts
+             largest BELOW: 2025-10-28 start 3,980  forecast median 4,043 (+1.6%)  actual 3,417 (-14.2%)  miss -15.7 pts
+             largest BELOW: 2025-12-03 start 3,190  forecast median 3,234 (+1.4%)  actual 2,832 (-11.2%)  miss -12.6 pts
     ANA    called up  31%  direction hit  62%  in IQR  44% (below  47% / above   9%)  median err   -7.7%  mean |err|  10.4%
            up: fc  47% real  29% B 0.238  +10: fc  45% real  40% B 0.227  -10: fc  49% real  73% B 0.250  +20: fc  17% real   2% B 0.047  -20: fc  23% real  36% B 0.237
+           MISS SPLIT actual ABOVE forecast  15 days ( 33%) median   +7.1  largest  +15.0  |  actual BELOW forecast  30 days ( 67%) median  -11.4  largest  -19.8  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 62%  median realised +4.7%
     forecast middle half (median over days): base -11.5% to +12.3%   actual middle half -3.3% to +6.1%   actual range -11.4% to +13.1%
     BASE   called up   0%  direction hit  38%  in IQR  96% (below   0% / above   4%)  median err   +5.6%  mean |err|   6.4%
            up: fc  48% real  62% B 0.257  +10: fc  46% real  46% B 0.249  -10: fc  51% real  23% B 0.255  +20: fc  24% real   0% B 0.060  -20: fc  22% real   0% B 0.050
+           MISS SPLIT actual ABOVE forecast  16 days ( 62%) median   +6.6  largest  +14.1  |  actual BELOW forecast  10 days ( 38%) median   -3.7  largest  -10.6  (points)
+             largest ABOVE: 2025-12-31 start 2,967  forecast median 2,936 (-1.0%)  actual 3,355 (+13.1%)  miss +14.1 pts
+             largest ABOVE: 2025-12-18 start 2,827  forecast median 2,804 (-0.8%)  actual 3,000 (+6.2%)  miss +6.9 pts
+             largest BELOW: 2025-12-10 start 3,325  forecast median 3,299 (-0.8%)  actual 2,945 (-11.4%)  miss -10.6 pts
     ANA    called up  19%  direction hit  42%  in IQR  81% (below   0% / above  19%)  median err   +5.1%  mean |err|   6.6%
            up: fc  45% real  62% B 0.258  +10: fc  43% real  46% B 0.264  -10: fc  52% real  23% B 0.246  +20: fc  24% real   0% B 0.058  -20: fc  21% real   0% B 0.045
+           MISS SPLIT actual ABOVE forecast  20 days ( 77%) median   +7.1  largest  +16.4  |  actual BELOW forecast   6 days ( 23%) median   -4.8  largest   -5.8  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  55%  analog  42%  realised   0%  med ret  -13.9%
     2025-11 gate ON  n=30  base  54%  analog  50%  realised  40%  med ret   -4.5%
@@ -21,14 +32,28 @@
     forecast middle half (median over days): base -11.2% to +27.5%   actual middle half -21.4% to -1.5%   actual range -28.9% to +8.6%
     BASE   called up 100%  direction hit  16%  in IQR  69% (below  31% / above   0%)  median err   -9.5%  mean |err|  13.0%
            up: fc  56% real  16% B 0.298  +10: fc  65% real  53% B 0.265  -10: fc  58% real  73% B 0.221  +20: fc  45% real  11% B 0.214  -20: fc  30% real  49% B 0.287
+           MISS SPLIT actual ABOVE forecast   6 days ( 13%) median   +2.8  largest   +5.5  |  actual BELOW forecast  39 days ( 87%) median  -10.6  largest  -32.2  (points)
+             largest ABOVE: 2025-11-22 start 2,768  forecast median 2,854 (+3.1%)  actual 3,008 (+8.6%)  miss +5.5 pts
+             largest ABOVE: 2025-12-05 start 3,023  forecast median 3,113 (+3.0%)  actual 3,143 (+4.0%)  miss +1.0 pts
+             largest BELOW: 2025-10-26 start 4,159  forecast median 4,296 (+3.3%)  actual 2,958 (-28.9%)  miss -32.2 pts
+             largest BELOW: 2025-11-07 start 3,434  forecast median 3,543 (+3.2%)  actual 3,061 (-10.9%)  miss -14.1 pts
+             largest BELOW: 2025-11-18 start 3,122  forecast median 3,220 (+3.1%)  actual 2,827 (-9.5%)  miss -12.6 pts
     ANA    called up  36%  direction hit  67%  in IQR  73% (below  27% / above   0%)  median err   -3.7%  mean |err|   8.3%
            up: fc  46% real  16% B 0.214  +10: fc  55% real  53% B 0.215  -10: fc  64% real  73% B 0.195  +20: fc  32% real  11% B 0.129  -20: fc  41% real  49% B 0.250
+           MISS SPLIT actual ABOVE forecast  15 days ( 33%) median   +2.2  largest   +8.5  |  actual BELOW forecast  30 days ( 67%) median   -8.2  largest  -25.3  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 58%  median realised +1.2%
     forecast middle half (median over days): base -19.7% to +21.1%   actual middle half -1.9% to +7.5%   actual range -8.9% to +17.1%
     BASE   called up   0%  direction hit  42%  in IQR 100% (below   0% / above   0%)  median err   +3.4%  mean |err|   6.5%
            up: fc  47% real  58% B 0.255  +10: fc  60% real  81% B 0.198  -10: fc  67% real  27% B 0.357  +20: fc  43% real   8% B 0.195  -20: fc  40% real   0% B 0.157
+           MISS SPLIT actual ABOVE forecast  20 days ( 77%) median   +4.7  largest  +19.3  |  actual BELOW forecast   6 days ( 23%) median   -3.6  largest   -6.7  (points)
+             largest ABOVE: 2025-12-18 start 2,827  forecast median 2,764 (-2.2%)  actual 3,309 (+17.1%)  miss +19.3 pts
+             largest ABOVE: 2025-12-07 start 3,061  forecast median 2,994 (-2.2%)  actual 3,296 (+7.7%)  miss +9.9 pts
+             largest ABOVE: 2025-12-29 start 2,934  forecast median 2,870 (-2.2%)  actual 3,006 (+2.5%)  miss +4.7 pts
+             largest BELOW: 2025-12-31 start 2,967  forecast median 2,902 (-2.2%)  actual 2,703 (-8.9%)  miss -6.7 pts
+             largest BELOW: 2025-12-10 start 3,325  forecast median 3,252 (-2.2%)  actual 3,084 (-7.2%)  miss -5.0 pts
     ANA    called up   8%  direction hit  50%  in IQR 100% (below   0% / above   0%)  median err   +4.1%  mean |err|   6.6%
            up: fc  45% real  58% B 0.264  +10: fc  56% real  81% B 0.212  -10: fc  70% real  27% B 0.396  +20: fc  40% real   8% B 0.176  -20: fc  41% real   0% B 0.169
+           MISS SPLIT actual ABOVE forecast  23 days ( 88%) median   +4.7  largest  +19.3  |  actual BELOW forecast   3 days ( 12%) median   -1.5  largest   -7.1  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  57%  analog  39%  realised   0%  med ret  -25.9%
     2025-11 gate ON  n=30  base  56%  analog  48%  realised  13%  med ret   -4.4%
@@ -39,14 +64,24 @@
     forecast middle half (median over days): base -14.0% to +46.7%   actual middle half -22.9% to +0.0%   actual range -30.2% to +12.6%
     BASE   called up 100%  direction hit  27%  in IQR  64% (below  36% / above   0%)  median err  -19.0%  mean |err|  21.5%
            up: fc  62% real  27% B 0.321  +10: fc  76% real  53% B 0.302  -10: fc  65% real  78% B 0.191  +20: fc  62% real  11% B 0.354  -20: fc  40% real  58% B 0.276
+           MISS SPLIT actual ABOVE forecast   1 days (  2%) median   +0.8  largest   +0.8  |  actual BELOW forecast  44 days ( 98%) median  -19.7  largest  -42.6  (points)
+             largest ABOVE: 2025-11-20 start 2,831  forecast median 3,165 (+11.8%)  actual 3,188 (+12.6%)  miss +0.8 pts
+             largest BELOW: 2025-10-26 start 4,159  forecast median 4,673 (+12.4%)  actual 2,902 (-30.2%)  miss -42.6 pts
+             largest BELOW: 2025-12-03 start 3,190  forecast median 3,559 (+11.6%)  actual 2,268 (-28.9%)  miss -40.5 pts
+             largest BELOW: 2025-11-10 start 3,566  forecast median 3,999 (+12.1%)  actual 3,084 (-13.5%)  miss -25.6 pts
     ANA    called up  71%  direction hit  56%  in IQR  91% (below   9% / above   0%)  median err  -10.6%  mean |err|  11.3%
            up: fc  51% real  27% B 0.231  +10: fc  68% real  53% B 0.241  -10: fc  66% real  78% B 0.177  +20: fc  46% real  11% B 0.205  -20: fc  50% real  58% B 0.249
+           MISS SPLIT actual ABOVE forecast   7 days ( 16%) median   +2.2  largest   +8.0  |  actual BELOW forecast  38 days ( 84%) median  -13.2  largest  -33.1  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -34.3%
     forecast middle half (median over days): base -27.5% to +30.2%   actual middle half -35.8% to -31.7%   actual range -40.4% to -29.3%
     BASE   called up   0%  direction hit 100%  in IQR   0% (below 100% / above   0%)  median err  -33.4%  mean |err|  33.1%
            up: fc  49% real   0% B 0.245  +10: fc  73% real  85% B 0.143  -10: fc  76% real 100% B 0.057  +20: fc  59% real   8% B 0.331  -20: fc  55% real 100% B 0.207
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -33.4  largest  -39.6  (points)
+             largest BELOW: 2025-12-07 start 3,061  forecast median 3,034 (-0.9%)  actual 1,823 (-40.4%)  miss -39.6 pts
+             largest BELOW: 2025-12-26 start 2,925  forecast median 2,900 (-0.9%)  actual 1,852 (-36.7%)  miss -35.8 pts
     ANA    called up  35%  direction hit  65%  in IQR   8% (below  92% / above   0%)  median err  -30.0%  mean |err|  30.6%
            up: fc  48% real   0% B 0.229  +10: fc  68% real  85% B 0.147  -10: fc  75% real 100% B 0.064  +20: fc  55% real   8% B 0.292  -20: fc  54% real 100% B 0.213
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -30.0  largest  -37.3  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  62%  analog  42%  realised   0%  med ret  -24.6%
     2025-11 gate ON  n=30  base  62%  analog  53%  realised  40%  med ret   -2.8%
@@ -57,14 +92,23 @@
     forecast middle half (median over days): base -14.9% to +63.9%   actual middle half -37.3% to -29.5%   actual range -46.9% to -21.0%
     BASE   called up 100%  direction hit   0%  in IQR   0% (below 100% / above   0%)  median err  -50.8%  mean |err|  51.2%
            up: fc  62% real   0% B 0.390  +10: fc  80% real  53% B 0.322  -10: fc  67% real 100% B 0.107  +20: fc  68% real  11% B 0.428  -20: fc  44% real 100% B 0.312
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  45 days (100%) median  -50.8  largest  -65.3  (points)
+             largest BELOW: 2025-11-07 start 3,434  forecast median 4,067 (+18.4%)  actual 1,823 (-46.9%)  miss -65.3 pts
+             largest BELOW: 2025-11-26 start 3,026  forecast median 3,561 (+17.7%)  actual 1,852 (-38.8%)  miss -56.5 pts
+             largest BELOW: 2025-10-27 start 4,120  forecast median 4,901 (+19.0%)  actual 2,814 (-31.7%)  miss -50.7 pts
     ANA    called up  64%  direction hit  36%  in IQR   4% (below  96% / above   0%)  median err  -34.9%  mean |err|  33.7%
            up: fc  49% real   0% B 0.248  +10: fc  75% real  53% B 0.261  -10: fc  70% real 100% B 0.091  +20: fc  54% real  11% B 0.262  -20: fc  55% real 100% B 0.200
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  45 days (100%) median  -34.9  largest  -50.5  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -31.6%
     forecast middle half (median over days): base -31.5% to +41.6%   actual middle half -32.8% to -27.5%   actual range -39.9% to -18.2%
     BASE   called up 100%  direction hit   0%  in IQR  46% (below  54% / above   0%)  median err  -35.5%  mean |err|  34.4%
            up: fc  53% real   0% B 0.280  +10: fc  77% real  85% B 0.136  -10: fc  81% real 100% B 0.038  +20: fc  64% real   8% B 0.384  -20: fc  63% real 100% B 0.140
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -35.5  largest  -43.8  (points)
+             largest BELOW: 2025-12-09 start 3,319  forecast median 3,448 (+3.9%)  actual 1,993 (-39.9%)  miss -43.8 pts
+             largest BELOW: 2025-12-29 start 2,934  forecast median 3,048 (+3.9%)  actual 1,983 (-32.4%)  miss -36.3 pts
     ANA    called up  42%  direction hit  58%  in IQR  88% (below  12% / above   0%)  median err  -29.6%  mean |err|  28.3%
            up: fc  48% real   0% B 0.234  +10: fc  72% real  85% B 0.134  -10: fc  79% real 100% B 0.044  +20: fc  60% real   8% B 0.330  -20: fc  62% real 100% B 0.146
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -29.6  largest  -38.0  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  63%  analog  43%  realised   0%  med ret  -25.2%
     2025-11 gate ON  n=30  base  62%  analog  51%  realised   0%  med ret  -35.3%
@@ -75,14 +119,25 @@
     forecast middle half (median over days): base -4.6% to +10.5%   actual middle half -11.0% to -0.7%   actual range -17.6% to +6.4%
     BASE   called up 100%  direction hit  22%  in IQR  42% (below  58% / above   0%)  median err   -9.0%  mean |err|   8.7%
            up: fc  58% real  22% B 0.300  +10: fc  42% real   4% B 0.183  -10: fc  33% real  60% B 0.312  +20: fc  20% real   0% B 0.038  -20: fc  11% real  13% B 0.116
+           MISS SPLIT actual ABOVE forecast   7 days ( 16%) median   +3.2  largest   +4.6  |  actual BELOW forecast  38 days ( 84%) median   -9.7  largest  -19.5  (points)
+             largest ABOVE: 2025-11-20 start 86,537  forecast median 88,108 (+1.8%)  actual 92,094 (+6.4%)  miss +4.6 pts
+             largest BELOW: 2025-11-07 start 103,284  forecast median 105,211 (+1.9%)  actual 85,069 (-17.6%)  miss -19.5 pts
+             largest BELOW: 2025-10-26 start 114,548  forecast median 116,716 (+1.9%)  actual 104,695 (-8.6%)  miss -10.5 pts
+             largest BELOW: 2025-12-03 start 93,454  forecast median 95,108 (+1.8%)  actual 86,210 (-7.8%)  miss -9.5 pts
     ANA    called up  91%  direction hit  31%  in IQR  42% (below  58% / above   0%)  median err   -8.6%  mean |err|   8.6%
            up: fc  57% real  22% B 0.279  +10: fc  43% real   4% B 0.186  -10: fc  32% real  60% B 0.321  +20: fc  16% real   0% B 0.029  -20: fc  13% real  13% B 0.116
+           MISS SPLIT actual ABOVE forecast   4 days (  9%) median   +1.6  largest   +5.0  |  actual BELOW forecast  41 days ( 91%) median   -8.9  largest  -18.9  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 65%  median realised +2.3%
     forecast middle half (median over days): base -6.4% to +7.2%   actual middle half -1.7% to +4.1%   actual range -5.8% to +10.8%
     BASE   called up 100%  direction hit  65%  in IQR  88% (below   0% / above  12%)  median err   +1.7%  mean |err|   3.6%
            up: fc  52% real  65% B 0.244  +10: fc  36% real   4% B 0.141  -10: fc  32% real   0% B 0.101  +20: fc  12% real   0% B 0.015  -20: fc  12% real   0% B 0.014
+           MISS SPLIT actual ABOVE forecast  16 days ( 62%) median   +3.1  largest  +10.2  |  actual BELOW forecast  10 days ( 38%) median   -3.2  largest   -6.5  (points)
+             largest ABOVE: 2025-12-31 start 87,498  forecast median 88,039 (+0.6%)  actual 96,955 (+10.8%)  miss +10.2 pts
+             largest ABOVE: 2025-12-18 start 85,460  forecast median 86,054 (+0.7%)  actual 88,738 (+3.8%)  miss +3.1 pts
+             largest BELOW: 2025-12-11 start 92,542  forecast median 93,185 (+0.7%)  actual 87,172 (-5.8%)  miss -6.5 pts
     ANA    called up  65%  direction hit  46%  in IQR  88% (below   4% / above   8%)  median err   +1.4%  mean |err|   3.8%
            up: fc  51% real  65% B 0.266  +10: fc  39% real   4% B 0.159  -10: fc  26% real   0% B 0.067  +20: fc  17% real   0% B 0.030  -20: fc  12% real   0% B 0.015
+           MISS SPLIT actual ABOVE forecast  15 days ( 58%) median   +4.1  largest  +10.8  |  actual BELOW forecast  11 days ( 42%) median   -2.8  largest   -6.7  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  58%  analog  54%  realised   0%  med ret   -8.0%
     2025-11 gate ON  n=30  base  58%  analog  59%  realised  30%  med ret   -4.5%
@@ -93,14 +148,26 @@
     forecast middle half (median over days): base -6.1% to +21.5%   actual middle half -16.1% to -3.3%   actual range -23.8% to +4.6%
     BASE   called up 100%  direction hit  13%  in IQR  38% (below  62% / above   0%)  median err  -13.9%  mean |err|  13.9%
            up: fc  60% real  13% B 0.332  +10: fc  61% real   4% B 0.367  -10: fc  45% real  64% B 0.268  +20: fc  37% real   0% B 0.135  -20: fc  21% real  49% B 0.325
+           MISS SPLIT actual ABOVE forecast   1 days (  2%) median   +0.1  largest   +0.1  |  actual BELOW forecast  44 days ( 98%) median  -14.0  largest  -28.5  (points)
+             largest ABOVE: 2025-11-22 start 84,684  forecast median 88,469 (+4.5%)  actual 88,557 (+4.6%)  miss +0.1 pts
+             largest BELOW: 2025-10-26 start 114,548  forecast median 119,941 (+4.7%)  actual 87,325 (-23.8%)  miss -28.5 pts
+             largest BELOW: 2025-11-10 start 105,979  forecast median 110,815 (+4.6%)  actual 92,036 (-13.2%)  miss -17.7 pts
+             largest BELOW: 2025-11-29 start 90,828  forecast median 94,830 (+4.4%)  actual 87,111 (-4.1%)  miss -8.5 pts
     ANA    called up 100%  direction hit  13%  in IQR  27% (below  73% / above   0%)  median err  -14.1%  mean |err|  13.9%
            up: fc  65% real  13% B 0.376  +10: fc  63% real   4% B 0.376  -10: fc  46% real  64% B 0.261  +20: fc  35% real   0% B 0.127  -20: fc  22% real  49% B 0.299
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  45 days (100%) median  -14.1  largest  -27.4  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 73%  median realised +1.8%
     forecast middle half (median over days): base -12.0% to +12.0%   actual middle half -0.2% to +5.1%   actual range -4.4% to +12.2%
     BASE   called up   0%  direction hit  27%  in IQR  96% (below   0% / above   4%)  median err   +2.1%  mean |err|   4.0%
            up: fc  49% real  73% B 0.254  +10: fc  54% real  65% B 0.239  -10: fc  48% real   0% B 0.227  +20: fc  28% real   0% B 0.076  -20: fc  23% real   0% B 0.054
+           MISS SPLIT actual ABOVE forecast  19 days ( 73%) median   +2.7  largest  +12.5  |  actual BELOW forecast   7 days ( 27%) median   -1.4  largest   -4.0  (points)
+             largest ABOVE: 2025-12-15 start 86,418  forecast median 86,111 (-0.4%)  actual 96,955 (+12.2%)  miss +12.5 pts
+             largest ABOVE: 2025-12-29 start 87,111  forecast median 86,801 (-0.4%)  actual 89,162 (+2.4%)  miss +2.7 pts
+             largest BELOW: 2025-12-30 start 88,398  forecast median 88,084 (-0.4%)  actual 84,513 (-4.4%)  miss -4.0 pts
+             largest BELOW: 2025-12-11 start 92,542  forecast median 92,213 (-0.4%)  actual 90,386 (-2.3%)  miss -2.0 pts
     ANA    called up  42%  direction hit  62%  in IQR  85% (below   0% / above  15%)  median err   +2.0%  mean |err|   3.8%
            up: fc  47% real  73% B 0.248  +10: fc  55% real  65% B 0.237  -10: fc  43% real   0% B 0.192  +20: fc  30% real   0% B 0.091  -20: fc  22% real   0% B 0.049
+           MISS SPLIT actual ABOVE forecast  22 days ( 85%) median   +2.4  largest  +11.3  |  actual BELOW forecast   4 days ( 15%) median   -1.6  largest   -3.5  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  60%  analog  61%  realised   0%  med ret  -20.8%
     2025-11 gate ON  n=30  base  60%  analog  66%  realised  13%  med ret   -7.4%
@@ -111,14 +178,23 @@
     forecast middle half (median over days): base -7.3% to +34.4%   actual middle half -17.7% to +0.9%   actual range -23.9% to +7.0%
     BASE   called up 100%  direction hit  27%  in IQR  40% (below  60% / above   0%)  median err  -22.3%  mean |err|  20.8%
            up: fc  63% real  27% B 0.330  +10: fc  76% real  16% B 0.493  -10: fc  55% real  73% B 0.231  +20: fc  54% real   0% B 0.295  -20: fc  31% real  49% B 0.283
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  45 days (100%) median  -22.3  largest  -35.7  (points)
+             largest BELOW: 2025-10-26 start 114,548  forecast median 128,017 (+11.8%)  actual 87,172 (-23.9%)  miss -35.7 pts
+             largest BELOW: 2025-12-03 start 93,454  forecast median 103,893 (+11.2%)  actual 76,896 (-17.7%)  miss -28.9 pts
+             largest BELOW: 2025-11-10 start 105,979  forecast median 118,142 (+11.5%)  actual 90,515 (-14.6%)  miss -26.1 pts
     ANA    called up  98%  direction hit  29%  in IQR  40% (below  60% / above   0%)  median err  -15.9%  mean |err|  15.3%
            up: fc  60% real  27% B 0.262  +10: fc  79% real  16% B 0.521  -10: fc  53% real  73% B 0.230  +20: fc  54% real   0% B 0.303  -20: fc  32% real  49% B 0.246
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  45 days (100%) median  -15.9  largest  -29.8  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -23.7%
     forecast middle half (median over days): base -19.6% to +23.2%   actual middle half -24.8% to -22.3%   actual range -30.5% to -18.2%
     BASE   called up   0%  direction hit 100%  in IQR   8% (below  92% / above   0%)  median err  -21.8%  mean |err|  21.7%
            up: fc  47% real   0% B 0.221  +10: fc  65% real  69% B 0.215  -10: fc  63% real 100% B 0.136  +20: fc  45% real   0% B 0.198  -20: fc  38% real  96% B 0.370
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -21.8  largest  -28.7  (points)
+             largest BELOW: 2025-12-07 start 90,402  forecast median 88,703 (-1.9%)  actual 62,791 (-30.5%)  miss -28.7 pts
+             largest BELOW: 2025-12-26 start 87,296  forecast median 85,655 (-1.9%)  actual 64,068 (-26.6%)  miss -24.7 pts
     ANA    called up  50%  direction hit  50%  in IQR   0% (below 100% / above   0%)  median err  -21.4%  mean |err|  22.1%
            up: fc  47% real   0% B 0.227  +10: fc  67% real  69% B 0.208  -10: fc  60% real 100% B 0.160  +20: fc  44% real   0% B 0.192  -20: fc  37% real  96% B 0.387
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -21.4  largest  -30.4  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  64%  analog  55%  realised   0%  med ret  -20.7%
     2025-11 gate ON  n=30  base  63%  analog  62%  realised  40%  med ret   -3.8%
@@ -129,14 +205,23 @@
     forecast middle half (median over days): base -7.1% to +52.2%   actual middle half -27.9% to -21.8%   actual range -39.2% to -17.7%
     BASE   called up 100%  direction hit   0%  in IQR   0% (below 100% / above   0%)  median err  -43.1%  mean |err|  43.4%
            up: fc  67% real   0% B 0.453  +10: fc  81% real  16% B 0.561  -10: fc  59% real 100% B 0.167  +20: fc  64% real   0% B 0.407  -20: fc  36% real 100% B 0.414
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  45 days (100%) median  -43.1  largest  -57.3  (points)
+             largest BELOW: 2025-11-07 start 103,284  forecast median 121,975 (+18.1%)  actual 62,791 (-39.2%)  miss -57.3 pts
+             largest BELOW: 2025-11-26 start 90,469  forecast median 106,313 (+17.5%)  actual 64,068 (-29.2%)  miss -46.7 pts
+             largest BELOW: 2025-10-27 start 114,087  forecast median 135,249 (+18.5%)  actual 86,562 (-24.1%)  miss -42.7 pts
     ANA    called up 100%  direction hit   0%  in IQR   0% (below 100% / above   0%)  median err  -35.4%  mean |err|  35.1%
            up: fc  65% real   0% B 0.430  +10: fc  88% real  16% B 0.643  -10: fc  56% real 100% B 0.197  +20: fc  67% real   0% B 0.460  -20: fc  37% real 100% B 0.405
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  45 days (100%) median  -35.4  largest  -48.0  (points)
   GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -22.0%
     forecast middle half (median over days): base -23.5% to +32.1%   actual middle half -24.2% to -19.3%   actual range -27.2% to -14.2%
     BASE   called up   0%  direction hit 100%  in IQR  62% (below  38% / above   0%)  median err  -16.8%  mean |err|  16.4%
            up: fc  45% real   0% B 0.205  +10: fc  69% real  69% B 0.213  -10: fc  72% real 100% B 0.079  +20: fc  50% real   0% B 0.246  -20: fc  51% real 100% B 0.239
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -16.8  largest  -22.1  (points)
+             largest BELOW: 2025-12-08 start 90,654  forecast median 86,023 (-5.1%)  actual 65,971 (-27.2%)  miss -22.1 pts
+             largest BELOW: 2025-12-28 start 87,877  forecast median 83,388 (-5.1%)  actual 66,320 (-24.5%)  miss -19.4 pts
     ANA    called up   4%  direction hit  96%  in IQR  96% (below   4% / above   0%)  median err  -15.8%  mean |err|  15.6%
            up: fc  44% real   0% B 0.191  +10: fc  70% real  69% B 0.202  -10: fc  73% real 100% B 0.072  +20: fc  51% real   0% B 0.262  -20: fc  52% real 100% B 0.231
+           MISS SPLIT actual ABOVE forecast   0 days (  0%) median   +0.0  largest   +0.0  |  actual BELOW forecast  26 days (100%) median  -15.8  largest  -20.4  (points)
   by month (base fc up / analog fc up / realised up, mean over days)
     2025-10 gate ON  n=10  base  68%  analog  61%  realised   0%  med ret  -19.7%
     2025-11 gate ON  n=30  base  67%  analog  67%  realised   0%  med ret  -26.7%
