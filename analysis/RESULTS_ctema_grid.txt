@@ -1,0 +1,61 @@
+BASELINE  all 993 gated signals, 9 charts:  +10% 73%  +20% 54%  +30% 43%  med up +24.1%  med ret60 +9.2%  med dd -5.4%
+
+POOLED ACROSS ALL CHARTS - every candidate, including the ones that do nothing
+feature                         n   +10%   +20%   +30%   med up  med ret60   med dd   edge vs base (+20%)
+A  CT above EMA               517    75%    60%    47%   +27.9%     +11.4%    -4.9%                  +6
+B  CT below EMA               476    70%    47%    38%   +18.0%      +7.0%    -6.0%                  -7
+C  gap > +5                   204    82%    68%    56%   +33.7%     +14.6%    -4.7%                 +15
+D  gap 0 to +5                313    70%    54%    41%   +23.6%      +9.2%    -5.0%                  +0
+E  gap -5 to 0                335    67%    44%    36%   +16.0%      +4.0%    -5.4%                 -10
+F  gap < -5                   141    77%    55%    43%   +26.8%     +11.8%    -7.2%                  +2
+G  EMA rising (1 bar)         516    75%    60%    47%   +28.0%     +11.4%    -4.9%                  +6
+H  EMA falling (1 bar)        477    70%    47%    38%   +18.0%      +6.9%    -6.0%                  -7
+I  EMA rising (3 bar)         413    78%    61%    49%   +28.8%     +12.7%    -4.8%                  +7
+J  EMA above 50               645    73%    56%    47%   +26.8%     +11.7%    -5.5%                  +3
+K  EMA below 50               348    71%    48%    36%   +18.8%      +4.9%    -5.2%                  -5
+L  CT turning up              612    74%    58%    45%   +26.7%     +10.0%    -5.1%                  +4
+M  episode age <=2 bars       464    72%    55%    43%   +24.8%      +9.2%    -4.9%                  +1
+N  episode age >=8 bars       307    75%    52%    40%   +21.2%      +6.4%    -6.2%                  -2
+O  above AND EMA rising       516    75%    60%    47%   +28.0%     +11.4%    -4.9%                  +6
+P  above AND EMA above 50     350    75%    62%    49%   +29.3%     +12.7%    -5.2%                  +8
+Q  above AND gap<=5 (fresh)   313    70%    54%    41%   +23.6%      +9.2%    -5.0%                  +0
+R  below AND EMA falling      476    70%    47%    38%   +18.0%      +7.0%    -6.0%                  -7
+S  below AND CT turning up    211    72%    51%    41%   +21.3%      +6.9%    -5.0%                  -2
+T  above AND diamond          110    79%    67%    53%   +31.7%     +14.5%    -4.6%                 +14
+U  above AND prime            109    81%    72%    55%   +32.8%     +14.5%    -4.0%                 +19
+PER-CHART BREAKDOWN of the three standouts  (+20% hit rate in 60d, feature vs that chart baseline)
+chart     base n   base               C               U               T
+ETH 1D       130    45%      64% (n=25)      40% (n=15)       67% (n=9)
+ETH 2D       137    62%      87% (n=30)      87% (n=23)      90% (n=21)
+ETH 3D        87    55%      59% (n=22)      92% (n=13)       50% (n=8)
+ETH 5D        47    70%      69% (n=13)         - (n=4)       83% (n=6)
+ETH 1W        31    68%       86% (n=7)         - (n=2)         - (n=3)
+BTC 1D       279    52%      71% (n=49)      70% (n=30)      60% (n=35)
+BTC 2D       141    52%      66% (n=29)      75% (n=16)      58% (n=19)
+BTC 3D        92    51%      50% (n=18)       60% (n=5)       83% (n=6)
+BTC 5D        49    47%      55% (n=11)         - (n=1)         - (n=3)
+
+YEAR-BY-YEAR STABILITY  (edge in +20% hit rate vs that year's baseline, pooled all charts)
+year       n   base             C             U             T             A
+2016      66    56%     +19 (n=8)     +24 (n=5)     +19 (n=8)    +24 (n=35)
+2017     102    92%     +0 (n=27)     -1 (n=11)     +2 (n=16)     -4 (n=57)
+2018      63    33%     +17 (n=8)     +10 (n=7)     +11 (n=9)     -1 (n=28)
+2019      70    61%    +22 (n=12)     +22 (n=6)             -    +11 (n=29)
+2020     100    80%     +8 (n=26)    +20 (n=12)    +13 (n=15)     +2 (n=62)
+2021     118    49%    +14 (n=19)    +12 (n=18)     +18 (n=9)     +5 (n=52)
+2022      17    35%             -             -             -     -35 (n=5)
+2023     147    49%    +11 (n=40)    +39 (n=17)     +4 (n=17)     +7 (n=86)
+2024     169    48%    +17 (n=43)    +32 (n=15)    +21 (n=13)     +6 (n=94)
+2025     141    28%     +5 (n=21)    +11 (n=18)    +16 (n=18)     +4 (n=69)
+
+STABILITY SUMMARY
+   C  gap > +5              years tested  9   positive in  9 (100%)   mean edge  +12.6   median  +14.0   worst     +0
+   U  above AND prime       years tested  9   positive in  8 ( 89%)   mean edge  +18.7   median  +20.0   worst     -1
+   T  above AND diamond     years tested  8   positive in  8 (100%)   mean edge  +13.0   median  +14.7   worst     +2
+   A  CT above EMA          years tested 10   positive in  7 ( 70%)   mean edge   +1.8   median   +4.1   worst    -35
+
+TRUE WALK-FORWARD: take the rule in year Y only if its edge was positive on all data BEFORE Y
+   C  gap > +5              OOS n=169  +20%  63.9%   vs all-signal baseline  48.6%   edge +15.3   (years skipped: 0)
+   U  above AND prime       OOS n=93   +20%  69.9%   vs all-signal baseline  48.6%   edge +21.3   (years skipped: 0)
+   T  above AND diamond     OOS n=86   +20%  61.6%   vs all-signal baseline  48.6%   edge +13.0   (years skipped: 0)
+   A  CT above EMA          OOS n=482  +20%  58.1%   vs all-signal baseline  48.6%   edge  +9.5   (years skipped: 0)

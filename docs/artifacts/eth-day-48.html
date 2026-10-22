@@ -1,0 +1,398 @@
+<title>ETH at Day 48</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: a price ladder as the spine, the argument alongside it. */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --sunk:#eef0f3;
+  --fg:#16181c; --muted:#5f6672; --line:#dfe3e8;
+  --up:#156b4c; --up-soft:#156b4c22;
+  --down:#a8333a; --down-soft:#a8333a22;
+  --now:#8c5f12; --now-soft:#8c5f1218;
+  --display:"Newsreader",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --data:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121417; --surface:#1a1d22; --sunk:#14171b;
+  --fg:#e8eaed; --muted:#9aa2ae; --line:#2a2f37;
+  --up:#3fae84; --up-soft:#3fae8426;
+  --down:#e0686f; --down-soft:#e0686f26;
+  --now:#d9a441; --now-soft:#d9a4411f;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#121417; --surface:#1a1d22; --sunk:#14171b;
+  --fg:#e8eaed; --muted:#9aa2ae; --line:#2a2f37;
+  --up:#3fae84; --up-soft:#3fae8426;
+  --down:#e0686f; --down-soft:#e0686f26;
+  --now:#d9a441; --now-soft:#d9a4411f;
+  color-scheme:dark;
+}
+
+body{background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1140px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:34px 56px}
+*{box-sizing:border-box}
+
+/* ---- masthead ---- */
+.eyebrow{font-family:var(--data);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(30px,5.2vw,46px);line-height:1.08;
+  margin:0 0 12px;text-wrap:balance;letter-spacing:-.01em}
+.standfirst{font-size:clamp(15px,1.7vw,17.5px);color:var(--muted);max-width:60ch;margin:0 0 26px}
+.standfirst b{color:var(--fg);font-weight:600}
+
+.spotrow{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 38px;padding-block:16px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.spot{flex:1 1 150px;min-width:0}
+.spot .k{font-family:var(--data);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:5px}
+.spot .v{font-family:var(--data);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;
+  display:block;letter-spacing:-.01em}
+.spot .s{font-size:12px;color:var(--muted);display:block;margin-top:3px}
+
+/* ---- two-column shell ---- */
+.cols{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:48px;align-items:start}
+@media (max-width:860px){.cols{grid-template-columns:minmax(0,1fr);gap:40px}}
+
+h2{font-family:var(--display);font-weight:600;font-size:23px;line-height:1.2;margin:0 0 4px;
+  letter-spacing:-.01em}
+.sub{font-size:13px;color:var(--muted);margin:0 0 18px}
+section+section{margin-top:42px}
+p{margin:0 0 14px;max-width:66ch}
+p:last-child{margin-bottom:0}
+
+/* ---- the ladder ---- */
+.ladder{border:1px solid var(--line);border-radius:3px;background:var(--surface);overflow:hidden}
+.lhead{display:flex;justify-content:space-between;gap:10px;padding:11px 14px;background:var(--sunk);
+  border-bottom:1px solid var(--line);font-family:var(--data);font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rung{display:grid;grid-template-columns:84px minmax(0,1fr);gap:12px;padding:11px 14px;
+  border-bottom:1px solid var(--line);position:relative}
+.rung:last-child{border-bottom:0}
+.rung .px{font-family:var(--data);font-size:14.5px;font-weight:600;font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;white-space:nowrap}
+.rung .lab{font-size:13px;min-width:0}
+.rung .lab .n{display:block;font-weight:500;margin-bottom:2px}
+.rung .lab .d{display:block;color:var(--muted);font-size:12px;line-height:1.4}
+.rung .pct{font-family:var(--data);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;
+  white-space:nowrap;margin-top:7px;display:flex;align-items:center;gap:8px}
+.bar{height:5px;border-radius:3px;flex:0 0 72px;background:var(--sunk);overflow:hidden;position:relative}
+.bar i{display:block;height:100%;border-radius:3px}
+.up .px,.up .pct{color:var(--up)}
+.up .bar i{background:var(--up)}
+.up{background:linear-gradient(90deg,var(--up-soft),transparent 62%)}
+.dn .px,.dn .pct{color:var(--down)}
+.dn .bar i{background:var(--down)}
+.dn{background:linear-gradient(90deg,var(--down-soft),transparent 62%)}
+.now{background:var(--now-soft);border-top:2px solid var(--now);border-bottom:2px solid var(--now)}
+.now .px{color:var(--now);font-size:17px}
+.now .lab .n{color:var(--now);font-family:var(--data);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;font-weight:600}
+.target{outline:1px dashed currentColor;outline-offset:-5px}
+
+.ladnote{font-size:12px;color:var(--muted);margin:12px 0 0;max-width:46ch}
+
+/* ---- call cards ---- */
+.calls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:22px}
+.call{border:1px solid var(--line);border-radius:3px;padding:16px;background:var(--surface);min-width:0}
+.call.u{border-top:3px solid var(--up)}
+.call.d{border-top:3px solid var(--down)}
+.call .k{font-family:var(--data);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:8px}
+.call .big{font-family:var(--data);font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;
+  line-height:1;letter-spacing:-.025em;display:block}
+.call.u .big{color:var(--up)} .call.d .big{color:var(--down)}
+.call .mv{font-family:var(--data);font-size:13px;color:var(--muted);display:block;margin-top:6px}
+.call .why{font-size:13px;color:var(--muted);margin:11px 0 0;line-height:1.5}
+
+/* ---- tables ---- */
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-family:var(--data);font-size:12.5px;
+  font-variant-numeric:tabular-nums;min-width:540px}
+caption{text-align:left;font-family:var(--body);font-size:12px;color:var(--muted);
+  padding:0 0 9px;caption-side:top}
+th,td{padding:9px 13px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{background:var(--sunk);font-weight:600;font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+tr.live{background:var(--now-soft)}
+tr.live td{color:var(--now);font-weight:600}
+tr.med td{font-weight:600}
+.pos{color:var(--up)} .neg{color:var(--down)}
+
+/* ---- triggers ---- */
+.trigs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.trig{border:1px solid var(--line);border-left:3px solid var(--line);border-radius:3px;
+  padding:15px;background:var(--surface);min-width:0}
+.trig.u{border-left-color:var(--up)} .trig.d{border-left-color:var(--down)}
+.trig h3{font-family:var(--data);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  margin:0 0 9px;font-weight:600}
+.trig.u h3{color:var(--up)} .trig.d h3{color:var(--down)}
+.trig p{font-size:13.5px;margin:0;max-width:none}
+
+ul.tight{margin:0;padding-left:19px}
+ul.tight li{margin-bottom:9px;max-width:64ch}
+ul.tight li:last-child{margin-bottom:0}
+code{font-family:var(--data);font-size:.92em;background:var(--sunk);padding:1px 5px;border-radius:2px}
+.lean{border-left:3px solid var(--now);padding:3px 0 3px 17px;margin:0 0 18px}
+.pending{border:1px solid var(--up);border-left:4px solid var(--up);border-radius:3px;
+  background:var(--up-soft);padding:17px 19px;margin:0 0 38px}
+.pending .tag{font-family:var(--data);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--up);font-weight:600;display:block;margin-bottom:8px}
+.pending h2{margin-bottom:9px}
+.pending p{font-size:14.5px;margin-bottom:11px}
+.pending .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:13px;
+  margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.pending .grid div{min-width:0}
+.pending .grid .k{font-family:var(--data);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-bottom:4px}
+.pending .grid .v{font-family:var(--data);font-size:15px;font-weight:600;display:block;
+  font-variant-numeric:tabular-nums}
+.lean p{font-size:16px;margin:0;max-width:62ch}
+.lean b{color:var(--now)}
+
+footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--muted)}
+footer p{max-width:72ch;margin-bottom:9px}
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">ETH · 20 October 2026 · spitball, not a trade</p>
+  <h1>Where the ball rolls from day&nbsp;48</h1>
+  <p class="standfirst">The cycle low is already in — <b>$1,505 on 1 June</b>, and we are 141 days past it, up 63%, consolidating 13% below the first leg's high. That changes what the losing September signals mean. They are chop inside a consolidation, <b>not failures in a downtrend</b>.</p>
+
+  <div class="spotrow">
+    <div class="spot"><span class="k">ETH spot</span><span class="v">$2,448</span><span class="s">2D close, 20 Oct</span></div>
+    <div class="spot"><span class="k">Off cycle low</span><span class="v">+63%</span><span class="s">$1,505 · 1 Jun 2026</span></div>
+    <div class="spot"><span class="k">Off cycle peak</span><span class="v">&minus;50.6%</span><span class="s">$4,956 · Aug 2025</span></div>
+    <div class="spot"><span class="k">Regime gate</span><span class="v">Day 48</span><span class="s">on since 2 Sep</span></div>
+  </div>
+
+  <div class="pending">
+    <span class="tag">Developing · added 20 Oct after the weekly chart came in</span>
+    <h2>A bucket-B diamond is forming on the weekly</h2>
+    <p>Pivot low at <b>12 October</b>, CT RSI 52.88. The diamond condition is met — CT RSI up 11.0 points against the prior trough's 41.9 while Stoch K fell 8.7 against its 82.9. Hollow rather than gold, because 52.9 sits above the 50 line, and no prime dot at K&nbsp;74.2.</p>
+    <p><b>It is not confirmed.</b> One of three right-hand bars is in, and that bar is still live. CT RSI has to hold above 52.88 on the next three weekly closes; this week needs to close above <b>~$2,408</b> against spot of $2,453, so the cushion is 1.9%. If it holds, entry is the close of the 2 November week — around 8 November.</p>
+    <p>Nine weekly diamonds exist in ETH's whole history. At 90 days they ran a median <b>+61%</b> with 67% reaching +20% and a &minus;7.0% median drawdown. The closest precedent is uncomfortably exact: 17 May 2021 was also a bucket-B hollow weekly diamond at CT RSI 52.9, and it ran +61% at 90 days with a &minus;25% drawdown. The only other bucket-B hollow, 8 May 2023 at 54.0, went +7%. One winner, one flat, n=2.</p>
+    <p style="margin-bottom:0">The cycle low was itself a weekly diamond — trough 22 June, bucket A, filled, strong, entry 13 July at $1,871, now +31%. It never appeared on the board because the regime gate was off then.</p>
+    <div class="grid">
+      <div><span class="k">Bucket</span><span class="v">B · hollow</span></div>
+      <div><span class="k">Confirmed</span><span class="v">1 of 3 bars</span></div>
+      <div><span class="k">Invalidates below</span><span class="v">$2,408</span></div>
+      <div><span class="k">Entry if it holds</span><span class="v">~8 Nov</span></div>
+    </div>
+  </div>
+
+  <div class="cols">
+
+    <!-- ============ LEFT: the ladder ============ -->
+    <div>
+      <section>
+        <h2>The ladder</h2>
+        <p class="sub">Every level is a real structural mark, not a round number. Probabilities are mine.</p>
+
+        <div class="ladder">
+          <div class="lhead"><span>Level</span><span>Odds I'd give it</span></div>
+
+          <div class="rung up">
+            <span class="px">$4,250</span>
+            <span class="lab">
+              <span class="n">365-day high</span>
+              <span class="d">The stretch case. Only lives if $3,400 breaks first.</span>
+              <span class="pct"><span class="bar"><i style="width:20%"></i></span>20% · 1 year</span>
+            </span>
+          </div>
+
+          <div class="rung up target">
+            <span class="px">$3,400</span>
+            <span class="lab">
+              <span class="n">Supply shelf — my upside number</span>
+              <span class="d">December 2025 monthly highs sit at $3,405 and $3,477. This is where it gets real.</span>
+              <span class="pct"><span class="bar"><i style="width:35%"></i></span>35% · 90d &nbsp;·&nbsp; 50% · 180d</span>
+            </span>
+          </div>
+
+          <div class="rung up">
+            <span class="px">$2,807</span>
+            <span class="lab">
+              <span class="n">120-day high</span>
+              <span class="d">First gate, 15% away. The live 1D tag independently says 51% for +20% inside 60 days, so this is not a generous read.</span>
+              <span class="pct"><span class="bar"><i style="width:60%"></i></span>60% · 90d</span>
+            </span>
+          </div>
+
+          <div class="rung now">
+            <span class="px">$2,448</span>
+            <span class="lab">
+              <span class="n">Here</span>
+              <span class="d">120-day range is $1,510&ndash;$2,807. Sitting +62% off the low, &minus;13% off the high.</span>
+            </span>
+          </div>
+
+          <div class="rung dn">
+            <span class="px">$2,313</span>
+            <span class="lab">
+              <span class="n">30-day low</span>
+              <span class="d">6% away. Coin flip, and basically meaningless noise — the regime-episode median worst-low of &minus;6% lands right on it.</span>
+              <span class="pct"><span class="bar"><i style="width:50%"></i></span>~50% · noise</span>
+            </span>
+          </div>
+
+          <div class="rung dn target">
+            <span class="px">$2,100</span>
+            <span class="lab">
+              <span class="n">My downside number</span>
+              <span class="d">&minus;14%. Where I think the real leg actually starts from, on a higher low.</span>
+            </span>
+          </div>
+
+          <div class="rung dn">
+            <span class="px">$2,000</span>
+            <span class="lab">
+              <span class="n">The line that matters</span>
+              <span class="d">Lose this and the 2022 analog's &minus;29% opens up.</span>
+              <span class="pct"><span class="bar"><i style="width:25%"></i></span>25% break · 90d</span>
+            </span>
+          </div>
+
+          <div class="rung dn">
+            <span class="px">$1,740</span>
+            <span class="lab">
+              <span class="n">Genuine bad case</span>
+              <span class="d">The 2022 analog applied from here. Bad, not a disaster.</span>
+            </span>
+          </div>
+
+          <div class="rung dn">
+            <span class="px">$1,505</span>
+            <span class="lab">
+              <span class="n">Cycle low — thesis breaks</span>
+              <span class="d">Below this and everything on this page is wrong.</span>
+              <span class="pct"><span class="bar"><i style="width:12%"></i></span>12% · 180d</span>
+            </span>
+          </div>
+        </div>
+        <p class="ladnote">Dashed outline marks the two numbers I'd actually commit to if forced to name one each way.</p>
+      </section>
+    </div>
+
+    <!-- ============ RIGHT: the argument ============ -->
+    <div>
+
+      <section>
+        <h2>The call</h2>
+        <p class="sub">One number each way, and the move it implies from $2,448.</p>
+        <div class="calls">
+          <div class="call u">
+            <span class="k">Upside, 90 days</span>
+            <span class="big">$3,400</span>
+            <span class="mv">+39% from spot</span>
+            <p class="why">Path runs through $2,807 first. Sits between the two analogs and lines up with the +36% median best-high from the regime data.</p>
+          </div>
+          <div class="call d">
+            <span class="k">Downside</span>
+            <span class="big">$2,100</span>
+            <span class="mv">&minus;14% from spot</span>
+            <p class="why">A retest, not a new low. The thing that would actually hurt is $2,000 going, which puts $1,740 in play.</p>
+          </div>
+        </div>
+        <div class="lean">
+          <p><b>Where I lean:</b> up, but not from here and not cleanly. The weight of the evidence says we grind sideways-to-lower for a few more weeks and the real leg starts from a higher low in the <b>$2,200&ndash;2,400</b> band.</p>
+        </div>
+        <p>Two reasons I'm not enthusiastic about today's print specifically. The live 1D signal is bucket&nbsp;A filled with no diamond and no prime dot — <code>69/51/38</code>, the weakest tag on the board, and the deepest worst case at &minus;48.6%. And it's a <b>lower</b> low, which is the one filter that survived testing. The three 1D signals in the last twelve days are a cluster, and clusters are where the failures live.</p>
+      </section>
+
+      <section>
+        <h2>Analog one — day 48 of a regime</h2>
+        <p class="sub">Every past regime-on episode under the BTC 2D CT RSI gate, ETH measured forward from the same day count we're at now.</p>
+        <div class="scroll">
+          <table>
+            <caption>Read as best-high / worst-low, percent from the day-48 close.</caption>
+            <thead><tr><th>Episode</th><th>Days</th><th>ETH</th><th>+30d</th><th>+60d</th><th>+90d</th><th>+180d</th></tr></thead>
+            <tbody>
+              <tr><td>2016-06 → 2018-07</td><td>753</td><td>$13</td><td>+0/&minus;48</td><td>+18/&minus;48</td><td>+18/&minus;48</td><td>+18/&minus;55</td></tr>
+              <tr><td>2019-04 → 2019-10</td><td>188</td><td>$255</td><td>+43/&minus;11</td><td>+43/&minus;25</td><td>+43/&minus;35</td><td>+43/&minus;48</td></tr>
+              <tr><td>2020-02 → 2021-06</td><td>482</td><td>$132</td><td>+66/&minus;3</td><td>+72/&minus;3</td><td>+92/&minus;3</td><td>+270/&minus;3</td></tr>
+              <tr><td>2021-08 → 2022-01</td><td>159</td><td>$3,589</td><td>+30/&minus;6</td><td>+36/&minus;6</td><td>+36/&minus;6</td><td>+36/&minus;40</td></tr>
+              <tr><td>2023-01 → 2025-12</td><td>1043</td><td>$1,657</td><td>+29/&minus;1</td><td>+29/&minus;1</td><td>+29/&minus;1</td><td>+29/&minus;8</td></tr>
+              <tr class="med"><td>Median of the five</td><td>&mdash;</td><td>&mdash;</td><td>+30/&minus;6</td><td>+36/&minus;6</td><td>+36/&minus;6</td><td>+36/&minus;40</td></tr>
+              <tr class="live"><td>2026-09 → now</td><td>48</td><td>$2,449</td><td>in progress</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:14px">Median close at 90 days is only <b>+5%</b>. The upside shows up as a <i>reach</i>, not as a trend — which is the whole argument for treating $3,400 as a level to sell into rather than a destination.</p>
+      </section>
+
+      <section>
+        <h2>Analog two — 4½ months after a cycle low</h2>
+        <p class="sub">The structurally matched moment. Only two clean precedents, and they disagree on size.</p>
+        <div class="scroll">
+          <table>
+            <caption>Read as best-high / worst-low / close, percent from that date.</caption>
+            <thead><tr><th>Cycle</th><th>Low</th><th>Px then</th><th>Off low</th><th>Next 90d</th><th>Next 180d</th><th>Next 365d</th></tr></thead>
+            <tbody>
+              <tr><td>2018 low</td><td>$81</td><td>$159</td><td>+97%</td><td class="pos">+130/&minus;1/+38</td><td class="pos">+130/&minus;4/+20</td><td>+130/&minus;43/+34</td></tr>
+              <tr><td>2022 low</td><td>$880</td><td>$1,518</td><td>+73%</td><td class="neg">+11/&minus;29/+3</td><td>+41/&minus;29/+23</td><td>+41/&minus;29/+19</td></tr>
+              <tr class="live"><td>2026 low</td><td>$1,505</td><td>$2,449</td><td>+63%</td><td>in progress</td><td>&mdash;</td><td>&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:14px">They disagree on magnitude and agree on shape: at this specific spot the upside tail is fatter than the downside tail, and the downside is a retest rather than a new low. 2019 ran +130% with a 1% drawdown. 2022 gave you &minus;29% first and +41% eventually.</p>
+      </section>
+
+      <section>
+        <h2>Why the cycle-low read holds</h2>
+        <p class="sub">June's low fits the shape of both prior bears.</p>
+        <div class="scroll">
+          <table>
+            <thead><tr><th>Cycle peak</th><th>Peak</th><th>Low</th><th>Drawdown</th><th>Days</th></tr></thead>
+            <tbody>
+              <tr><td>Jan 2018</td><td>$1,420</td><td>$80.60 · Dec 2018</td><td class="neg">&minus;94%</td><td>334</td></tr>
+              <tr><td>Nov 2021</td><td>$4,868</td><td>$879.80 · Jun 2022</td><td class="neg">&minus;82%</td><td>212</td></tr>
+              <tr class="live"><td>Aug 2025</td><td>$4,956</td><td>$1,505 · Jun 2026</td><td>&minus;70%</td><td>304</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>What flips me</h2>
+        <p class="sub">Both of these are visible on the board before price confirms them.</p>
+        <div class="trigs">
+          <div class="trig u">
+            <h3>Bullish, early</h3>
+            <p>The <b>weekly diamond confirming</b> — three weekly closes holding CT RSI above 52.88, entry around 8 November. That outranks everything else here. Second best is a <b>2D signal</b>; that chart is clean right now, and 2D prime is <code>87/81/61</code> with a &minus;1.8% median drawdown, the best risk-adjusted tag in the table.</p>
+          </div>
+          <div class="trig d">
+            <h3>Bearish</h3>
+            <p>The weekly pivot <b>failing to confirm</b> — a close under ~$2,408 kills it before it exists. Then $2,000 going, or another lower-low cluster on 1D with nothing above it joining; 8D, 10D, 12D, 15D and 1M have all stayed silent since the regime turned on.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Where this could be wrong</h2>
+        <ul class="tight">
+          <li><b>n=5 and n=2.</b> Five regime episodes, two clean cycle-low analogs. These are not distributions, they are anecdotes with arithmetic.</li>
+          <li><b>The 2016 tail is real.</b> &minus;48% from day 48. It was the DAO-fork crash, which is a one-off, but every fat left tail is a one-off until it isn't.</li>
+          <li><b>One unresolved data question.</b> The engine calls diamonds on 1D at entry 5 Sep and 18 Sep that your chart's own plot columns don't flag. Until you eyeball those two bars, treat both as provisional.</li>
+          <li><b>Every forward number is measured on intrabar highs and lows</b>, not closes. A level being "reached" means touched, not held.</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+
+  <footer>
+    <p><b>Not a recommendation and not a plan.</b> You said we're not doing anything with this but talk shit, and that's what this is — my best honest guess with the numbers behind it so you can check the guess later.</p>
+    <p>Built from the nine TradingView ETH exports current to 20&ndash;21 October, the BTC 2D CT RSI regime gate <code>rsi_regime(BTC_2D, 8, 13, 60, 41)</code>, and the regime-gated odds table built 19 October. Cycle and analog figures come from the 2D and monthly series. Probabilities are my judgement, not model output.</p>
+  </footer>
+
+</div>
