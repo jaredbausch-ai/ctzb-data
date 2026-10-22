@@ -1,0 +1,230 @@
+//@version=6
+// =============================================================================
+//  CT RSI ZONE BOUNCE  —  ETH 2D  |  ENTRIES ONLY  |  v2 + TROUGH DISAGREEMENT
+// -----------------------------------------------------------------------------
+//  Flags confirmed CT RSI swing lows, classifies them into four zone buckets,
+//  and grades each one by whether the STOCH trough moved OPPOSITE to the CT
+//  trough versus the previous signal (the "disagreement" filter).
+//
+//  Disagreement backtest, COINBASE:ETHUSD 2D, BTC bull windows only:
+//     DISAGREE  n=33   hit 60d 88%   median upside 60d 53.3%   avg 93.4%
+//     ALIGNED   n=104  hit 60d 62%   median upside 60d 33.8%   avg 61.9%
+//  Held in all three cycles: 88/61, 82/72, 93/52.
+//
+//  MATCHED SETTINGS: RSI 14 | Stoch RSI 14, 14, 3, 3
+//  No exit logic. Past results, not a forecast.
+// =============================================================================
+
+indicator("CT RSI Zone Bounce — ETH 2D (Entries + Disagreement)", shorttitle="CT Zone Bounce v2", overlay=false, max_labels_count=500, max_lines_count=500)
+
+// ---------------------------------------------------------------- INPUTS ----
+grpI = "Indicator settings"
+rsiLen   = input.int(14, "CT RSI length",       group=grpI, minval=2)
+rsiSrc   = input.source(close, "CT RSI source", group=grpI)
+sigLen   = input.int(14, "CT RSI signal line",  group=grpI, minval=1)
+stochLen = input.int(14, "Stoch RSI length",    group=grpI, minval=2)
+smoothK  = input.int(3,  "Stoch %K smoothing",  group=grpI, minval=1)
+smoothD  = input.int(3,  "Stoch %D smoothing",  group=grpI, minval=1)
+
+grpZ = "Zone brackets"
+zBear  = input.float(40, "Bearish control ceiling", group=grpZ)
+zMid   = input.float(50, "Neutral line",            group=grpZ)
+zBull  = input.float(60, "Bullish control floor",   group=grpZ)
+bSplit = input.float(55, "A/B vs C split",          group=grpZ)
+dSplit = input.float(65, "C vs D split",            group=grpZ)
+
+grpP = "Pivot detection"
+pvLeft  = input.int(3, "Pivot left bars",  group=grpP, minval=1)
+pvRight = input.int(3, "Pivot right bars", group=grpP, minval=1, tooltip="Signal fires this many bars AFTER the RSI low. 3 on 2D = 6 days.")
+
+grpC = "Cycle filter (BTC ATH anchored)"
+useCycle = input.bool(true, "Only signal inside BTC 3-year bull windows", group=grpC)
+b1s = input.time(timestamp("2014-12-04T00:00"), "Bull 1 start",          group=grpC)
+b1e = input.time(timestamp("2017-12-17T00:00"), "Bull 1 end (BTC ATH)",  group=grpC)
+b2s = input.time(timestamp("2018-12-17T00:00"), "Bull 2 start",          group=grpC)
+b2e = input.time(timestamp("2021-11-10T00:00"), "Bull 2 end (BTC ATH)",  group=grpC)
+b3s = input.time(timestamp("2022-11-10T00:00"), "Bull 3 start",          group=grpC)
+b3e = input.time(timestamp("2025-10-06T00:00"), "Bull 3 end (BTC ATH)",  group=grpC)
+b4s = input.time(timestamp("2026-10-06T00:00"), "Bull 4 start (current)",group=grpC)
+b4e = input.time(timestamp("2029-10-06T00:00"), "Bull 4 assumed end",    group=grpC)
+
+grpG = "Disagreement filter"
+useDis     = input.bool(true,  "Grade troughs by CT vs Stoch disagreement", group=grpG)
+disOnly    = input.bool(false, "Show ONLY disagreement signals",            group=grpG)
+showConnect= input.bool(true,  "Draw comparison line to previous trough",   group=grpG)
+minGapBars = input.int(0, "Ignore prior trough if older than N bars (0=off)", group=grpG, minval=0, tooltip="Backtest used no age limit. Set e.g. 40 to require a reasonably recent prior trough.")
+
+grpD = "Display"
+horizon   = input.string("60d", "Stats horizon on labels", options=["20d","40d","60d","90d","120d"], group=grpD)
+statMode  = input.string("Disagreement split", "Label stats source", options=["Disagreement split","Bucket"], group=grpD, tooltip="Which historical sample the label quotes.")
+showTbl   = input.bool(true,  "Show stats table",  group=grpD)
+showStoch = input.bool(true,  "Plot Stoch RSI",    group=grpD)
+showOff   = input.bool(false, "Show signals outside bull windows (greyed)", group=grpD)
+lblSize   = input.string("small", "Label size", options=["tiny","small","normal"], group=grpD)
+
+// ------------------------------------------------------------ CALCULATION ---
+ctRsi  = ta.rsi(rsiSrc, rsiLen)
+ctSig  = ta.ema(ctRsi, sigLen)
+stochV = ta.stoch(ctRsi, ctRsi, ctRsi, stochLen)
+kLine  = ta.sma(stochV, smoothK)
+dLine  = ta.sma(kLine,  smoothD)
+
+inWin(int s, int e) => time >= s and time <= e
+inBull   = inWin(b1s,b1e) or inWin(b2s,b2e) or inWin(b3s,b3e) or inWin(b4s,b4e)
+regimeOK = not useCycle or inBull
+
+// ------------------------------------------------------------ ZONE BANDS ----
+p100 = hline(100, "", color=color.new(color.gray,80))
+pBul = hline(60,  "Bullish control floor",   color=color.new(color.teal,40))
+pMid = hline(50,  "Neutral line",            color=color.new(color.gray,30), linestyle=hline.style_dashed)
+pBer = hline(40,  "Bearish control ceiling", color=color.new(color.red,40))
+p0   = hline(0,   "", color=color.new(color.gray,80))
+fill(pBul, p100, color=color.new(color.teal, 92), title="Bullish control zone")
+fill(pMid, pBul, color=color.new(color.teal, 96), title="Neutral bullish")
+fill(pBer, pMid, color=color.new(color.red,  96), title="Neutral bearish")
+fill(p0,   pBer, color=color.new(color.red,  92), title="Bearish control zone")
+
+plot(ctRsi, "CT RSI", color=color.new(#7E57C2, 0), linewidth=2)
+plot(ctSig, "Signal", color=color.new(color.orange, 30))
+plot(showStoch ? kLine : na, "Stoch %K", color=color.new(color.blue, 45))
+plot(showStoch ? dLine : na, "Stoch %D", color=color.new(color.red,  55))
+
+// -------------------------------------------------------- PIVOT DETECTION ---
+pv      = ta.pivotlow(ctRsi, pvLeft, pvRight)
+isPivot = not na(pv)
+troughK = kLine[pvRight]
+pvBar   = bar_index - pvRight
+
+bucket = isPivot ? (pv < zBear ? "A" : pv < bSplit ? "B" : pv < dSplit ? "C" : "D") : na
+
+// ------------------------------------------- TROUGH-TO-TROUGH DISAGREEMENT ---
+// Compare this trough to the PREVIOUS SIGNALLED trough. If CT and Stoch moved
+// opposite ways (one higher low, the other lower low) -> DISAGREE.
+var float prevCt   = na
+var float prevK    = na
+var int   prevBar  = na
+
+signalBar = isPivot and regimeOK
+
+dCt       = signalBar and not na(prevCt) ? pv - prevCt      : na
+dK        = signalBar and not na(prevK)  ? troughK - prevK  : na
+ageOK     = na(prevBar) ? false : (minGapBars == 0 or (pvBar - prevBar) <= minGapBars)
+hasPrev   = signalBar and not na(prevCt) and (minGapBars == 0 ? true : ageOK)
+
+disagree  = hasPrev and ((dCt > 0 and dK < 0) or (dCt < 0 and dK > 0))
+disVariant= not disagree ? "" : (dCt > 0 ? "CT higher low + stoch deeper" : "CT lower low + stoch higher")
+
+// -------------------------------------------------------- HISTORICAL STATS ---
+// Disagreement split (pooled, n=33 vs n=104) — the better-supported sample.
+hitDis(string h) => h=="20d"?61.:h=="40d"?73.:h=="60d"?88.:h=="90d"?82.:76.
+hitAli(string h) => h=="20d"?55.:h=="40d"?62.:h=="60d"?62.:h=="90d"?67.:63.
+upMedDis(string h)=> h=="20d"?14.2:h=="40d"?36.3:h=="60d"?53.3:h=="90d"?73.4:78.8
+upMedAli(string h)=> h=="20d"?13.4:h=="40d"?22.3:h=="60d"?33.8:h=="90d"?48.8:63.0
+upAvgDis(string h)=> h=="20d"?28.7:h=="40d"?57.0:h=="60d"?93.4:h=="90d"?186.4:323.7
+upAvgAli(string h)=> h=="20d"?22.1:h=="40d"?41.6:h=="60d"?61.9:h=="90d"?90.6:139.3
+
+// Bucket sample (n = 35 / 65 / 25 / 13)
+hitBk(string b, string h) =>
+    b=="A" ? (h=="20d"?40.:h=="40d"?57.:h=="60d"?71.:h=="90d"?74.:74.) :
+     b=="B" ? (h=="20d"?63.:h=="40d"?65.:h=="60d"?69.:h=="90d"?68.:60.) :
+     b=="C" ? (h=="20d"?52.:h=="40d"?68.:h=="60d"?64.:h=="90d"?68.:68.) :
+              (h=="20d"?77.:h=="40d"?77.:h=="60d"?69.:h=="90d"?85.:77.)
+upMedBk(string b, string h) =>
+    b=="A" ? (h=="20d"?9.9:h=="40d"?17.2:h=="60d"?33.2:h=="90d"?49.3:70.1) :
+     b=="B" ? (h=="20d"?13.5:h=="40d"?29.3:h=="60d"?37.5:h=="90d"?50.4:62.3) :
+     b=="C" ? (h=="20d"?19.4:h=="40d"?23.6:h=="60d"?37.9:h=="90d"?53.5:72.5) :
+              (h=="20d"?40.2:h=="40d"?62.2:h=="60d"?62.2:h=="90d"?107.2:228.9)
+upAvgBk(string b, string h) =>
+    b=="A" ? (h=="20d"?15.9:h=="40d"?26.5:h=="60d"?38.8:h=="90d"?69.9:105.7) :
+     b=="B" ? (h=="20d"?19.2:h=="40d"?34.2:h=="60d"?56.3:h=="90d"?85.2:124.0) :
+     b=="C" ? (h=="20d"?26.5:h=="40d"?61.7:h=="60d"?88.1:h=="90d"?124.7:292.8) :
+              (h=="20d"?63.6:h=="40d"?120.3:h=="60d"?180.7:h=="90d"?347.3:471.7)
+
+sampleN(string b)   => b=="A" ? 35 : b=="B" ? 65 : b=="C" ? 25 : 13
+disBucketN(string b)=> b=="A" ? 10 : b=="B" ? 18 : b=="C" ?  2 :  3
+bucketName(string b)=> b=="A" ? "BEARISH CONTROL bounce" : b=="B" ? "NEUTRAL LINE bounce" : b=="C" ? "BULL-ZONE BASE bounce" : "BULL CONTROL dip"
+bucketCol(string b) => b=="A" ? #26A69A : b=="B" ? #42A5F5 : b=="C" ? #AB47BC : #FFA726
+
+aQuality = bucket == "A" and troughK >= 20 and troughK < 50
+
+// ------------------------------------------------------------- SIGNAL PLOT --
+passFilter = not disOnly or disagree
+drawIt = isPivot and (regimeOK or showOff) and passFilter
+lsz = lblSize=="tiny" ? size.tiny : lblSize=="normal" ? size.normal : size.small
+
+useDisStats = useDis and statMode == "Disagreement split" and hasPrev
+hitShow   = useDisStats ? (disagree ? hitDis(horizon)   : hitAli(horizon))   : hitBk(bucket, horizon)
+upMedShow = useDisStats ? (disagree ? upMedDis(horizon) : upMedAli(horizon)) : upMedBk(bucket, horizon)
+upAvgShow = useDisStats ? (disagree ? upAvgDis(horizon) : upAvgAli(horizon)) : upAvgBk(bucket, horizon)
+nShow     = useDisStats ? (disagree ? 33 : 104) : sampleN(bucket)
+
+if drawIt
+    live = regimeOK
+    hdr  = useDis and disagree ? "★★ DISAGREE  ·  " + bucket : (useDis and hasPrev ? "aligned  ·  " + bucket : bucket)
+    line2= useDis and disagree ? disVariant + "\n" : ""
+    prevTxt = hasPrev ? "prev trough: CT " + str.tostring(prevCt,"#.#") + " → " + str.tostring(pv,"#.#") +
+                        "  |  K " + str.tostring(prevK,"#.#") + " → " + str.tostring(troughK,"#.#") + "\n"
+                      : "no prior trough to compare\n"
+    txt = hdr + " · " + bucketName(bucket) + "\n" + line2 + prevTxt +
+          "Hit rate " + horizon + ": " + str.tostring(hitShow,"#") + "%  (n=" + str.tostring(nShow) + ")\n" +
+          "Upside " + horizon + ": med " + str.tostring(upMedShow,"#.#") + "%  ·  avg " + str.tostring(upAvgShow,"#.#") + "%" +
+          (aQuality ? "\n★ stoch 20-50 at trough" : "") +
+          (live ? "" : "\n[outside bull window]")
+    bg = not live ? color.new(color.gray,55) : (useDis and disagree ? color.new(#FFD54F, 5) : color.new(bucketCol(bucket), 25))
+    tc = (live and useDis and disagree) ? color.black : color.white
+    label.new(pvBar, pv, text=txt, style=label.style_label_up, color=bg, textcolor=tc, size=lsz, yloc=yloc.price)
+
+    if showConnect and hasPrev and useDis
+        line.new(prevBar, prevCt, pvBar, pv, xloc=xloc.bar_index,
+                 color=disagree ? color.new(#FFD54F,20) : color.new(color.gray,70),
+                 width=disagree ? 2 : 1, style=line.style_dotted)
+
+// diamond marker on disagreement signals
+plotshape(useDis and disagree and regimeOK and passFilter, "Disagreement", shape.diamond,
+          location.bottom, color=color.new(#FFD54F,0), size=size.tiny)
+plotshape(isPivot and regimeOK and passFilter ? pv : na, "Signal", shape.triangleup,
+          location.absolute, color=color.new(#26A69A,0), size=size.tiny, offset=-pvRight)
+
+bgcolor(useCycle and inBull ? color.new(color.teal, 95) : na, title="Bull window shading")
+
+// update the reference trough AFTER everything above has used the old one
+if signalBar
+    prevCt  := pv
+    prevK   := troughK
+    prevBar := pvBar
+
+// ----------------------------------------------------------------- ALERTS ---
+alertcondition(isPivot and regimeOK, "Any zone bounce", "CT RSI zone bounce confirmed on ETH 2D")
+alertcondition(isPivot and regimeOK and disagree, "★★ Disagreement bounce", "CT/Stoch trough DISAGREEMENT — 88% hit rate at 60d historically")
+alertcondition(isPivot and regimeOK and disagree and dCt > 0, "Disagree: CT higher low", "CT higher low + stoch deeper low (93% hit 60d, n=15)")
+alertcondition(isPivot and regimeOK and disagree and dCt < 0, "Disagree: CT lower low",  "CT lower low + stoch higher low (83% hit 60d, n=18)")
+alertcondition(isPivot and regimeOK and bucket=="A", "A — bearish control bounce", "CT RSI bounced off the bearish control zone")
+alertcondition(isPivot and regimeOK and bucket=="B", "B — neutral line bounce",    "CT RSI bounced off the neutral line")
+alertcondition(isPivot and regimeOK and bucket=="C", "C — bull-zone base bounce",  "CT RSI bounced off the base of the bullish control zone")
+alertcondition(isPivot and regimeOK and bucket=="D", "D — bull control dip",       "CT RSI dipped inside the bullish control zone")
+
+// ------------------------------------------------------------ STATS TABLE ---
+var table st = table.new(position.top_right, 6, 12, border_width=1, frame_width=1, frame_color=color.gray)
+cH(int c, int r, string s)             => table.cell(st, c, r, s, text_color=color.white,  bgcolor=color.new(color.gray,20),  text_size=size.tiny)
+cB(int c, int r, string s, color bg)   => table.cell(st, c, r, s, text_color=color.white,  bgcolor=bg,                        text_size=size.tiny)
+cN(int c, int r, string s)             => table.cell(st, c, r, s, text_color=color.white,  bgcolor=color.new(color.black,55), text_size=size.tiny)
+cG(int c, int r, string s)             => table.cell(st, c, r, s, text_color=color.silver, bgcolor=color.new(color.black,70), text_size=size.tiny)
+
+if showTbl and barstate.islast
+    cB(0,0,"DISAGREEMENT SPLIT", color.new(#FFD54F,30))
+    table.merge_cells(st,0,0,5,0)
+    cH(0,1,""), cH(1,1,"n"), cH(2,1,"Hit 40d"), cH(3,1,"Hit 60d"), cH(4,1,"Up med 60d"), cH(5,1,"Up avg 60d")
+    cB(0,2,"★★ Disagree", color.new(#FFD54F,25)), cN(1,2,"33"),  cN(2,2,"73%"), cN(3,2,"88%"), cN(4,2,"53.3%"), cN(5,2,"93.4%")
+    cB(0,3,"Aligned",     color.new(color.gray,35)), cN(1,3,"104"), cN(2,3,"62%"), cN(3,3,"62%"), cN(4,3,"33.8%"), cN(5,3,"61.9%")
+    cG(0,4,"By cycle, hit 60d — disagree / aligned:  2016-17  88/61   ·   2018-21  82/72   ·   2022-25  93/52")
+    table.merge_cells(st,0,4,5,4)
+
+    cB(0,5,"BUCKET SPLIT", color.new(color.gray,30))
+    table.merge_cells(st,0,5,5,5)
+    cH(0,6,"Bucket"), cH(1,6,"n"), cH(2,6,"Hit 40d"), cH(3,6,"Hit 60d"), cH(4,6,"Up med 60d"), cH(5,6,"Up avg 60d")
+    cB(0,7,"A <40",   color.new(#26A69A,25)), cN(1,7,"35"),  cN(2,7,"57%"), cN(3,7,"71%"), cN(4,7,"33.2%"), cN(5,7,"38.8%")
+    cB(0,8,"B 40-55", color.new(#42A5F5,25)), cN(1,8,"65"),  cN(2,8,"65%"), cN(3,8,"69%"), cN(4,8,"37.5%"), cN(5,8,"56.3%")
+    cB(0,9,"C 55-65", color.new(#AB47BC,25)), cN(1,9,"25"),  cN(2,9,"68%"), cN(3,9,"64%"), cN(4,9,"37.9%"), cN(5,9,"88.1%")
+    cB(0,10,"D >65",  color.new(#FFA726,25)), cN(1,10,"13"), cN(2,10,"77%"), cN(3,10,"69%"), cN(4,10,"62.2%"), cN(5,10,"180.7%")
+    cG(0,11,"ETHUSD 2D · bull windows only · 2016-2026 · RSI14 / StochRSI 14,14,3,3 · past results, not a forecast")
+    table.merge_cells(st,0,11,5,11)

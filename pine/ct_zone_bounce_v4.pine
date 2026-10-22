@@ -1,0 +1,308 @@
+//@version=6
+// CT ZONE BOUNCE  v4
+// ---------------------------------------------------------------------------
+// MARKERS
+//   A B C D   where CT RSI bottomed.  A<40  B 40-55  C 55-65  D>65
+//   ◆ solid gold   diamond with trough BELOW 50  - best cross-asset tag
+//   ◇ hollow gold  diamond with trough at/above 50 - ETH only, weaker
+//   · after letter  stoch K was 20-50 at the trough
+//   lowercase grey  outside your bull window
+// ---------------------------------------------------------------------------
+// HONEST FRAMING: the legend shows EDGE over baseline, where baseline =
+// buying any random bar inside a bull window and holding 60 days.
+// ETH 67%, BTC 69%, XRP 54%. Buckets A-D add only +1 to +3 pp over that.
+// Tested 2016-2026 on ETH/BTC 2D and XRP 2D.
+indicator("CT Zone Bounce v4", "CTZB", overlay=false, max_labels_count=500, max_lines_count=500)
+
+// ---- inputs ----
+gI = "Indicator"
+rsiLen = input.int(14, "CT RSI length", group=gI, minval=2)
+rsiSrc = input.source(close, "Source", group=gI)
+sigLen = input.int(14, "Signal line", group=gI, minval=1)
+stLen  = input.int(14, "Stoch RSI length", group=gI, minval=2)
+smK    = input.int(3, "Stoch %K", group=gI, minval=1)
+smD    = input.int(3, "Stoch %D", group=gI, minval=1)
+pvL    = input.int(3, "Pivot left bars", group=gI, minval=1)
+pvR    = input.int(3, "Pivot right bars", group=gI, minval=1)
+
+gZ = "Zones"
+zBear = input.float(40, "Bearish control ceiling", group=gZ)
+zMid  = input.float(50, "Neutral line (diamond split)", group=gZ)
+bSpl  = input.float(55, "A/B vs C split", group=gZ)
+dSpl  = input.float(65, "C vs D split", group=gZ)
+
+gC = "Regime  -  you set these"
+oWin  = "Bull windows below"
+oDate = "Bull from one date on"
+oBull = "Always BULL"
+oBear = "Always BEAR"
+regMode = input.string(oWin, "Regime source", options=[oWin,oDate,oBull,oBear], group=gC)
+bullSince = input.time(timestamp("2026-06-24T00:00"), "One date: bull starts", group=gC)
+useW1 = input.bool(true, "Window 1", inline="w1", group=gC)
+b1s = input.time(timestamp("2014-12-04T00:00"), "", inline="w1", group=gC)
+b1e = input.time(timestamp("2017-12-17T00:00"), "to", inline="w1", group=gC)
+useW2 = input.bool(true, "Window 2", inline="w2", group=gC)
+b2s = input.time(timestamp("2018-12-17T00:00"), "", inline="w2", group=gC)
+b2e = input.time(timestamp("2021-11-10T00:00"), "to", inline="w2", group=gC)
+useW3 = input.bool(true, "Window 3", inline="w3", group=gC)
+b3s = input.time(timestamp("2022-11-10T00:00"), "", inline="w3", group=gC)
+b3e = input.time(timestamp("2025-10-06T00:00"), "to", inline="w3", group=gC)
+useW4 = input.bool(true, "Window 4", inline="w4", group=gC)
+b4s = input.time(timestamp("2026-06-24T00:00"), "", inline="w4", group=gC)
+b4e = input.time(timestamp("2029-12-31T00:00"), "to", inline="w4", group=gC)
+
+gS = "Stats"
+aETH = "ETH  (baseline 67%)"
+aBTC = "BTC  (baseline 69%)"
+aXRP = "XRP  (baseline 54%)"
+aOTH = "Other  (untested)"
+statAsset = input.string(aETH, "Which asset's stats", options=[aETH,aBTC,aXRP,aOTH], group=gS)
+
+gD = "Display"
+waitCl   = input.bool(true, "Print only after the confirm candle CLOSES", group=gD)
+disOnly  = input.bool(false, "Show ONLY diamond signals", group=gD)
+showOff  = input.bool(true, "Ghost out-of-window signals", group=gD)
+dimAli   = input.bool(true, "Dim non-diamond signals", group=gD)
+showConn = input.bool(false, "Line to prior trough", group=gD)
+showStoch= input.bool(true, "Plot Stoch RSI", group=gD)
+showLeg  = input.bool(true, "Show legend", group=gD)
+lTR = "Top right"
+lBR = "Bottom right"
+lBL = "Bottom left"
+lMR = "Middle right"
+legPosI = input.string(lTR, "Legend position", options=[lTR,lBR,lBL,lMR], group=gD)
+legSz   = input.string("Large", "Legend text size", options=["Small","Medium","Large","Huge"], group=gD)
+
+// ---- calc ----
+ct = ta.rsi(rsiSrc, rsiLen)
+sg = ta.ema(ct, sigLen)
+kL = ta.sma(ta.stoch(ct, ct, ct, stLen), smK)
+dL = ta.sma(kL, smD)
+
+inW(bool use, int a, int b) =>
+    use and time >= a and time <= b
+
+regOK = inW(useW1,b1s,b1e) or inW(useW2,b2s,b2e) or inW(useW3,b3s,b3e) or inW(useW4,b4s,b4e)
+if regMode == oDate
+    regOK := time >= bullSince
+else if regMode == oBull
+    regOK := true
+else if regMode == oBear
+    regOK := false
+
+// ---- zones ----
+h100 = hline(100, "", color=color.new(color.gray, 85))
+hBul = hline(60, "Bull control floor", color=color.new(color.teal, 55))
+hMid = hline(50, "Neutral line", color=color.new(color.gray, 35), linestyle=hline.style_dashed)
+hBer = hline(40, "Bear control ceiling", color=color.new(color.red, 55))
+h0   = hline(0, "", color=color.new(color.gray, 85))
+fill(hBul, h100, color=color.new(color.teal, 93), title="Bull control")
+fill(hMid, hBul, color=color.new(color.teal, 97), title="Neutral bullish")
+fill(hBer, hMid, color=color.new(color.red, 97), title="Neutral bearish")
+fill(h0, hBer, color=color.new(color.red, 93), title="Bear control")
+
+plot(ct, "CT RSI", color=color.new(#7E57C2, 0), linewidth=2)
+plot(sg, "Signal", color=color.new(color.orange, 45))
+plot(showStoch ? kL : na, "Stoch %K", color=color.new(color.blue, 60))
+plot(showStoch ? dL : na, "Stoch %D", color=color.new(color.red, 70))
+
+// ---- pivots & tags ----
+pv  = ta.pivotlow(ct, pvL, pvR)
+isP = not na(pv)
+tK  = kL[pvR]
+pvB = bar_index - pvR
+bk  = isP ? (pv < zBear ? "A" : pv < bSpl ? "B" : pv < dSpl ? "C" : "D") : "-"
+
+var float pCt = na
+var float pK  = na
+var int   pB  = na
+
+barOK = barstate.isconfirmed or not waitCl
+sigBar = isP and regOK
+hasPrev = sigBar and not na(pCt)
+dCt = hasPrev ? pv - pCt : na
+dK  = hasPrev ? tK - pK : na
+dis = hasPrev and ((dCt > 0 and dK < 0) or (dCt < 0 and dK > 0))
+below = isP and pv < zMid
+strong = dis and below                 // best cross-asset tag: +18 ETH, +11 XRP
+prime = isP and tK >= 20 and tK < 50   // mean +7 pp across three assets
+
+// ---- stats: EDGE over baseline (pp) at 60 days ----
+isETH = statAsset == aETH
+isBTC = statAsset == aBTC
+isXRP = statAsset == aXRP
+
+baseRate() =>
+    float r = 0.
+    if isETH
+        r := 67.
+    else if isBTC
+        r := 69.
+    else if isXRP
+        r := 54.
+    r
+
+// edge in percentage points over that asset's baseline
+edgeOf(string tag) =>
+    float r = na
+    if tag == "all"
+        r := isETH ? 1. : isBTC ? 2. : isXRP ? 3. : na
+    else if tag == "dia"
+        r := isETH ? 20. : isBTC ? -2. : isXRP ? 1. : na
+    else if tag == "strong"
+        r := isETH ? 18. : isBTC ? -2. : isXRP ? 11. : na
+    else if tag == "prime"
+        r := isETH ? 16. : isBTC ? -1. : isXRP ? 5. : na
+    else if tag == "below"
+        r := isETH ? 1. : isBTC ? 2. : isXRP ? 11. : na
+    r
+
+nOf(string tag) =>
+    int r = 0
+    if tag == "all"
+        r := isETH ? 138 : isBTC ? 173 : isXRP ? 166 : 0
+    else if tag == "dia"
+        r := isETH ? 33 : isBTC ? 46 : isXRP ? 44 : 0
+    else if tag == "strong"
+        r := isETH ? 20 : isBTC ? 28 : isXRP ? 34 : 0
+    else if tag == "prime"
+        r := isETH ? 31 : isBTC ? 41 : isXRP ? 34 : 0
+    r
+
+// ETH median 60d upside, for reference only
+upOf(string tag) =>
+    float r = na
+    if isETH
+        r := tag == "all" ? 37.1 : tag == "dia" ? 53.3 : tag == "strong" ? 43.5 : 53.5
+    r
+
+bkName(string b) =>
+    string r = "Dip inside bull control"
+    if b == "A"
+        r := "Bounce off bearish control"
+    else if b == "B"
+        r := "Bounce off neutral line"
+    else if b == "C"
+        r := "Bounce off bull-zone base"
+    r
+
+bkCol(string b) =>
+    color r = #FFA726
+    if b == "A"
+        r := #26A69A
+    else if b == "B"
+        r := #42A5F5
+    else if b == "C"
+        r := #AB47BC
+    r
+
+fmtEdge(float e) =>
+    na(e) ? "n/a" : (e >= 0 ? "+" : "") + str.tostring(e, "#") + " pp"
+
+// ---- markers ----
+pass = not disOnly or dis
+draw = isP and (regOK or showOff) and pass and barOK
+
+if draw
+    string sym = regOK ? bk : str.lower(bk)
+    if dis and regOK
+        sym := (strong ? "◆" : "◇") + sym
+    if prime and regOK
+        sym := sym + "·"
+
+    string tag = dis ? (strong ? "strong" : "dia") : "all"
+    float e = edgeOf(tag)
+
+    string t1 = ""
+    if dis
+        t1 := (strong ? "◆ DIAMOND below 50\n" : "◇ diamond above 50\n")
+    else
+        t1 := "plain bounce\n"
+    string t2 = bk + " - " + bkName(bk) + "\n"
+    string t3 = "CT trough " + str.tostring(pv, "#.#")
+    string t4 = hasPrev ? "  (prev " + str.tostring(pCt, "#.#") + ")\n" : "\n"
+    string t5 = "Stoch K   " + str.tostring(tK, "#.#")
+    string t6 = hasPrev ? "  (prev " + str.tostring(pK, "#.#") + ")\n" : "\n"
+    string t7 = prime ? "· stoch 20-50 at trough\n" : ""
+    string t8 = "\nEDGE over baseline, 60d:\n"
+    string t9 = fmtEdge(e) + "   (baseline " + str.tostring(baseRate(), "#") + "%, n=" + str.tostring(nOf(tag)) + ")\n"
+    string tA = na(upOf(tag)) ? "" : "ETH median upside +" + str.tostring(upOf(tag), "#.#") + "%\n"
+    string tB = ""
+    if dis and not strong
+        tB := "\nAbove-50 diamonds only worked on ETH.\nBTC -2 pp, XRP -34 pp."
+    string tC = regOK ? "" : "\n\nOutside your bull window"
+    string tip = t1 + t2 + t3 + t4 + t5 + t6 + t7 + t8 + t9 + tA + tB + tC
+
+    int tr = (dimAli and not dis) ? 45 : 0
+    color bg = color.new(bkCol(bk), tr)
+    color tc = color.white
+    if dis
+        bg := strong ? color.new(#FFD54F, 0) : color.new(#FFD54F, 55)
+        tc := strong ? color.black : color.white
+    if not regOK
+        bg := color.new(color.gray, 75)
+        tc := color.new(color.silver, 20)
+    label.new(pvB, pv, text=sym, style=label.style_label_up, color=bg,
+       textcolor=tc, size=size.tiny, yloc=yloc.price, tooltip=tip)
+
+    if showConn and hasPrev
+        color lc = dis ? color.new(#FFD54F, 20) : color.new(color.gray, 80)
+        line.new(pB, pCt, pvB, pv, xloc=xloc.bar_index, color=lc,
+           width=dis ? 2 : 1, style=line.style_dotted)
+
+plotshape(strong and regOK and pass and barOK, "Strong diamond row", shape.diamond,
+   location.bottom, color=color.new(#FFD54F, 0), size=size.tiny)
+bgcolor(regOK ? color.new(color.teal, 96) : na, title="Bull window")
+
+if sigBar and barOK
+    pCt := pv
+    pK  := tK
+    pB  := pvB
+
+// ---- alerts ----
+alertcondition(isP and regOK, "Any bounce", "CTZB signal")
+alertcondition(isP and regOK and strong, "Strong diamond (below 50)", "CTZB strong diamond")
+alertcondition(isP and regOK and dis, "Any diamond", "CTZB diamond")
+alertcondition(isP and regOK and prime, "Prime stoch (K 20-50)", "CTZB prime")
+alertcondition(isP and regOK and bk == "A", "A signal", "CTZB A")
+alertcondition(isP and regOK and bk == "B", "B signal", "CTZB B")
+alertcondition(isP and regOK and bk == "C", "C signal", "CTZB C")
+alertcondition(isP and regOK and bk == "D", "D signal", "CTZB D")
+
+// ---- legend ----
+lPos = legPosI == lBR ? position.bottom_right : legPosI == lBL ? position.bottom_left : legPosI == lMR ? position.middle_right : position.top_right
+sSz = legSz == "Small" ? size.small : legSz == "Medium" ? size.normal : legSz == "Huge" ? size.huge : size.large
+tSz = legSz == "Small" ? size.tiny : legSz == "Medium" ? size.small : legSz == "Huge" ? size.large : size.normal
+var table lg = table.new(lPos, 3, 8, border_width=1, frame_width=1, frame_color=color.new(color.gray, 50))
+
+cS(int r, string s, color bg, color tx) =>
+    table.cell(lg, 0, r, s, text_color=tx, bgcolor=bg, text_size=sSz)
+
+cT(int r, int c, string s, color tx) =>
+    table.cell(lg, c, r, s, text_color=tx, bgcolor=color.new(color.black, 60), text_size=tSz)
+
+rowT(int r, string s, color c, color tx, string tag) =>
+    cS(r, s, c, tx)
+    float e = edgeOf(tag)
+    color ec = na(e) ? color.gray : (e >= 8 ? color.new(#26A69A, 0) : e >= 3 ? color.silver : color.new(color.red, 30))
+    cT(r, 1, fmtEdge(e), ec)
+    cT(r, 2, nOf(tag) > 0 ? "n=" + str.tostring(nOf(tag)) : "-", color.new(color.silver, 40))
+
+if showLeg and barstate.islast
+    color rBg = regOK ? color.new(color.teal, 10) : color.new(color.red, 40)
+    table.cell(lg, 0, 0, regOK ? "BULL" : "BEAR", text_color=regOK ? color.black : color.white, bgcolor=rBg, text_size=sSz)
+    cT(0, 1, "baseline " + str.tostring(baseRate(), "#") + "%", color.silver)
+    table.merge_cells(lg, 1, 0, 2, 0)
+    cT(1, 0, "", color.silver)
+    cT(1, 1, "edge 60d", color.new(color.silver, 30))
+    cT(1, 2, "sample", color.new(color.silver, 30))
+    rowT(2, "◆", color.new(#FFD54F, 0), color.black, "strong")
+    rowT(3, "◇", color.new(#FFD54F, 55), color.white, "dia")
+    rowT(4, "·", color.new(color.black, 40), color.silver, "prime")
+    rowT(5, "ABCD", color.new(color.gray, 30), color.white, "all")
+    cT(6, 0, "note", color.new(color.silver, 40))
+    cT(6, 1, "A-D add almost nothing", color.new(color.silver, 40))
+    table.merge_cells(lg, 1, 6, 2, 6)
+    cT(7, 0, isETH ? "ETH" : isBTC ? "BTC" : isXRP ? "XRP" : "?", color.new(color.silver, 40))
+    cT(7, 1, "edge = pp over baseline", color.new(color.silver, 40))
+    table.merge_cells(lg, 1, 7, 2, 7)

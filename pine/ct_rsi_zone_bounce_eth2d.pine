@@ -1,0 +1,177 @@
+//@version=6
+// =============================================================================
+//  CT RSI ZONE BOUNCE  —  ETH 2D  |  ENTRIES ONLY
+// -----------------------------------------------------------------------------
+//  Flags confirmed CT RSI swing lows and classifies them into four zone buckets.
+//  Historical hit rates and average upside are printed on each signal label and
+//  in the stats table.
+//
+//  Stats derived from COINBASE:ETHUSD, 2D, 2016-05-22 to 2026-09-12.
+//  n = 138 signals, measured ONLY inside BTC 3-year bull windows.
+//  Buy-side only. No exit logic — exits are the user's own.
+//
+//  MATCHED SETTINGS: RSI 14 | Stoch RSI 14, 14, 3, 3
+// =============================================================================
+
+indicator("CT RSI Zone Bounce — ETH 2D (Entries)", shorttitle="CT Zone Bounce", overlay=false, max_labels_count=500)
+
+// ---------------------------------------------------------------- INPUTS ----
+grpI = "Indicator settings"
+rsiLen    = input.int(14, "CT RSI length",          group=grpI, minval=2)
+rsiSrc    = input.source(close, "CT RSI source",    group=grpI)
+sigLen    = input.int(14, "CT RSI signal line",     group=grpI, minval=1)
+stochLen  = input.int(14, "Stoch RSI length",       group=grpI, minval=2)
+smoothK   = input.int(3,  "Stoch %K smoothing",     group=grpI, minval=1)
+smoothD   = input.int(3,  "Stoch %D smoothing",     group=grpI, minval=1)
+
+grpZ = "Zone brackets"
+zBear = input.float(40, "Bearish control ceiling",  group=grpZ)
+zMid  = input.float(50, "Neutral line",             group=grpZ)
+zBull = input.float(60, "Bullish control floor",    group=grpZ)
+bSplit= input.float(55, "A/B vs C bucket split",    group=grpZ, tooltip="Troughs below this are 'neutral line' bounces, above are 'bull-zone base'")
+dSplit= input.float(65, "C vs D bucket split",      group=grpZ)
+
+grpP = "Pivot detection"
+pvLeft  = input.int(3, "Pivot left bars",  group=grpP, minval=1)
+pvRight = input.int(3, "Pivot right bars", group=grpP, minval=1, tooltip="Signal fires this many bars AFTER the RSI low. 3 on a 2D chart = 6 days.")
+
+grpC = "Cycle filter (BTC ATH anchored)"
+useCycle = input.bool(true, "Only signal inside BTC 3-year bull windows", group=grpC)
+b1s = input.time(timestamp("2014-12-04T00:00"), "Bull 1 start", group=grpC)
+b1e = input.time(timestamp("2017-12-17T00:00"), "Bull 1 end (BTC ATH)", group=grpC)
+b2s = input.time(timestamp("2018-12-17T00:00"), "Bull 2 start", group=grpC)
+b2e = input.time(timestamp("2021-11-10T00:00"), "Bull 2 end (BTC ATH)", group=grpC)
+b3s = input.time(timestamp("2022-11-10T00:00"), "Bull 3 start", group=grpC)
+b3e = input.time(timestamp("2025-10-06T00:00"), "Bull 3 end (BTC ATH)", group=grpC)
+b4s = input.time(timestamp("2026-10-06T00:00"), "Bull 4 start (current)", group=grpC)
+b4e = input.time(timestamp("2029-10-06T00:00"), "Bull 4 assumed end", group=grpC)
+
+grpD = "Display"
+horizon  = input.string("60d", "Stats horizon on labels", options=["20d","40d","60d","90d","120d"], group=grpD)
+showTbl  = input.bool(true,  "Show stats table",   group=grpD)
+showStoch= input.bool(true,  "Plot Stoch RSI",     group=grpD)
+showOff  = input.bool(false, "Show signals outside bull windows (greyed)", group=grpD)
+lblSize  = input.string("small", "Label size", options=["tiny","small","normal"], group=grpD)
+
+// ------------------------------------------------------------ CALCULATION ---
+ctRsi  = ta.rsi(rsiSrc, rsiLen)
+ctSig  = ta.ema(ctRsi, sigLen)
+stochV = ta.stoch(ctRsi, ctRsi, ctRsi, stochLen)
+kLine  = ta.sma(stochV, smoothK)
+dLine  = ta.sma(kLine,  smoothD)
+
+inWin(int s, int e) => time >= s and time <= e
+inBull = inWin(b1s,b1e) or inWin(b2s,b2e) or inWin(b3s,b3e) or inWin(b4s,b4e)
+regimeOK = not useCycle or inBull
+
+// ------------------------------------------------------------ ZONE BANDS ----
+p100 = hline(100, "", color=color.new(color.gray,80))
+pBul = hline(60,  "Bullish control floor", color=color.new(color.teal,40),   linestyle=hline.style_solid)
+pMid = hline(50,  "Neutral line",          color=color.new(color.gray,30),   linestyle=hline.style_dashed)
+pBer = hline(40,  "Bearish control ceiling", color=color.new(color.red,40),  linestyle=hline.style_solid)
+p0   = hline(0,   "", color=color.new(color.gray,80))
+fill(pBul, p100, color=color.new(color.teal, 92), title="Bullish control zone")
+fill(pMid, pBul, color=color.new(color.teal, 96), title="Neutral bullish")
+fill(pBer, pMid, color=color.new(color.red,  96), title="Neutral bearish")
+fill(p0,   pBer, color=color.new(color.red,  92), title="Bearish control zone")
+
+plot(ctRsi, "CT RSI", color=color.new(#7E57C2, 0), linewidth=2)
+plot(ctSig, "Signal",  color=color.new(color.orange, 30), linewidth=1)
+plot(showStoch ? kLine : na, "Stoch %K", color=color.new(color.blue, 45), linewidth=1)
+plot(showStoch ? dLine : na, "Stoch %D", color=color.new(color.red,  55), linewidth=1)
+
+// -------------------------------------------------------- PIVOT DETECTION ---
+pv = ta.pivotlow(ctRsi, pvLeft, pvRight)
+isPivot = not na(pv)
+troughK = kLine[pvRight]
+
+bucket = isPivot ? (pv < zBear ? "A" : pv < bSplit ? "B" : pv < dSplit ? "C" : "D") : na
+
+// ------------------------------------------------------- HISTORICAL STATS ---
+// Hit rate = % of past signals that closed above entry at the given horizon.
+// Avg / Med upside = best move available from entry within the horizon.
+hitRate(string b, string h) =>
+    b == "A" ? (h=="20d"?40.:h=="40d"?57.:h=="60d"?71.:h=="90d"?74.:74.) :
+     b == "B" ? (h=="20d"?63.:h=="40d"?65.:h=="60d"?69.:h=="90d"?68.:60.) :
+     b == "C" ? (h=="20d"?52.:h=="40d"?68.:h=="60d"?64.:h=="90d"?68.:68.) :
+                (h=="20d"?77.:h=="40d"?77.:h=="60d"?69.:h=="90d"?85.:77.)
+
+upAvg(string b, string h) =>
+    b == "A" ? (h=="20d"?15.9:h=="40d"?26.5:h=="60d"?38.8:h=="90d"?69.9:105.7) :
+     b == "B" ? (h=="20d"?19.2:h=="40d"?34.2:h=="60d"?56.3:h=="90d"?85.2:124.0) :
+     b == "C" ? (h=="20d"?26.5:h=="40d"?61.7:h=="60d"?88.1:h=="90d"?124.7:292.8) :
+                (h=="20d"?63.6:h=="40d"?120.3:h=="60d"?180.7:h=="90d"?347.3:471.7)
+
+upMed(string b, string h) =>
+    b == "A" ? (h=="20d"?9.9:h=="40d"?17.2:h=="60d"?33.2:h=="90d"?49.3:70.1) :
+     b == "B" ? (h=="20d"?13.5:h=="40d"?29.3:h=="60d"?37.5:h=="90d"?50.4:62.3) :
+     b == "C" ? (h=="20d"?19.4:h=="40d"?23.6:h=="60d"?37.9:h=="90d"?53.5:72.5) :
+                (h=="20d"?40.2:h=="40d"?62.2:h=="60d"?62.2:h=="90d"?107.2:228.9)
+
+sampleN(string b) => b=="A" ? 35 : b=="B" ? 65 : b=="C" ? 25 : 13
+
+bucketName(string b) =>
+    b=="A" ? "BEARISH CONTROL bounce" : b=="B" ? "NEUTRAL LINE bounce" :
+     b=="C" ? "BULL-ZONE BASE bounce" : "BULL CONTROL dip"
+
+bucketCol(string b) =>
+    b=="A" ? #26A69A : b=="B" ? #42A5F5 : b=="C" ? #AB47BC : #FFA726
+
+// Bucket-A stoch quality tag (K 20-50 on the trough bar was the strong subset)
+aQuality = bucket == "A" and troughK >= 20 and troughK < 50
+
+// ------------------------------------------------------------- SIGNAL PLOT --
+drawIt = isPivot and (regimeOK or showOff)
+lsz = lblSize=="tiny" ? size.tiny : lblSize=="normal" ? size.normal : size.small
+
+if drawIt
+    live = regimeOK
+    txt  = bucket + " · " + bucketName(bucket) + "\n" +
+           "CT RSI low " + str.tostring(pv, "#.#") + "  ·  Stoch K " + str.tostring(troughK, "#.#") +
+           (aQuality ? "  ★ prime" : "") + "\n" +
+           "Hit rate " + horizon + ": " + str.tostring(hitRate(bucket, horizon), "#") + "%" +
+           "   (n=" + str.tostring(sampleN(bucket)) + ")\n" +
+           "Upside " + horizon + ": med " + str.tostring(upMed(bucket, horizon), "#.#") +
+           "%  ·  avg " + str.tostring(upAvg(bucket, horizon), "#.#") + "%" +
+           (live ? "" : "\n[outside bull window]")
+    label.new(bar_index, pv,
+       text  = txt,
+       style = label.style_label_up,
+       color = live ? color.new(bucketCol(bucket), 12) : color.new(color.gray, 55),
+       textcolor = color.white,
+       size  = lsz,
+       yloc  = yloc.price)
+
+plotshape(drawIt and regimeOK ? pv : na, "Signal marker", shape.triangleup,
+          location.absolute, color=color.new(#26A69A, 0), size=size.tiny, offset=-pvRight)
+
+bgcolor(useCycle and inBull ? color.new(color.teal, 95) : na, title="Bull window shading")
+
+// ----------------------------------------------------------------- ALERTS ---
+alertcondition(isPivot and regimeOK, "Any zone bounce", "CT RSI zone bounce confirmed on ETH 2D")
+alertcondition(isPivot and regimeOK and bucket=="A", "A — bearish control bounce", "CT RSI bounced off the bearish control zone")
+alertcondition(isPivot and regimeOK and bucket=="B", "B — neutral line bounce",    "CT RSI bounced off the neutral line")
+alertcondition(isPivot and regimeOK and bucket=="C", "C — bull-zone base bounce",  "CT RSI bounced off the base of the bullish control zone")
+alertcondition(isPivot and regimeOK and bucket=="D", "D — bull control dip",       "CT RSI dipped inside the bullish control zone")
+alertcondition(isPivot and regimeOK and bucket=="A" and kLine[pvRight] >= 20 and kLine[pvRight] < 50, "A prime (stoch 20-50)", "Prime bearish-control bounce: stoch K in 20-50")
+
+// ------------------------------------------------------------ STATS TABLE ---
+var table st = table.new(position.top_right, 6, 8, border_width=1, frame_width=1, frame_color=color.gray)
+
+cellH(int c, int r, string s) => table.cell(st, c, r, s, text_color=color.white, bgcolor=color.new(color.gray,20), text_size=size.tiny)
+cellB(int c, int r, string s, color bg) => table.cell(st, c, r, s, text_color=color.white, bgcolor=bg, text_size=size.tiny)
+cellN(int c, int r, string s) => table.cell(st, c, r, s, text_color=color.white, bgcolor=color.new(color.black,55), text_size=size.tiny)
+
+if showTbl and barstate.islast
+    cellH(0,0,"Bucket"), cellH(1,0,"n"), cellH(2,0,"Hit 40d"), cellH(3,0,"Hit 60d"), cellH(4,0,"Up med 60d"), cellH(5,0,"Up avg 60d")
+    cellB(0,1,"A <40",   color.new(#26A69A,25)), cellN(1,1,"35"), cellN(2,1,"57%"), cellN(3,1,"71%"), cellN(4,1,"33.2%"), cellN(5,1,"38.8%")
+    cellB(0,2,"B 40-55", color.new(#42A5F5,25)), cellN(1,2,"65"), cellN(2,2,"65%"), cellN(3,2,"69%"), cellN(4,2,"37.5%"), cellN(5,2,"56.3%")
+    cellB(0,3,"C 55-65", color.new(#AB47BC,25)), cellN(1,3,"25"), cellN(2,3,"68%"), cellN(3,3,"64%"), cellN(4,3,"37.9%"), cellN(5,3,"88.1%")
+    cellB(0,4,"D >65",   color.new(#FFA726,25)), cellN(1,4,"13"), cellN(2,4,"77%"), cellN(3,4,"69%"), cellN(4,4,"62.2%"), cellN(5,4,"180.7%")
+    cellB(0,5,"ALL",     color.new(color.gray,25)), cellN(1,5,"138"), cellN(2,5,"64%"), cellN(3,5,"69%"), cellN(4,5,"37.1%"), cellN(5,5,"69.3%")
+    table.cell(st, 0, 6, "Median drawdown held through, 60d:  A -14.8%  B -10.7%  C -16.2%  D -26.6%",
+       text_color=color.silver, bgcolor=color.new(color.black,70), text_size=size.tiny)
+    table.merge_cells(st, 0, 6, 5, 6)
+    table.cell(st, 0, 7, "ETHUSD 2D · bull windows only · 2016-2026 · RSI14 / StochRSI 14,14,3,3 · past results, not a forecast",
+       text_color=color.silver, bgcolor=color.new(color.black,70), text_size=size.tiny)
+    table.merge_cells(st, 0, 7, 5, 7)

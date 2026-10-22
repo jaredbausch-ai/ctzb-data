@@ -1,0 +1,314 @@
+//@version=6
+// CT ZONE BOUNCE v5  =  v4 + WGMI TIMING FILTER
+// Everything from v4 is intact. Stats table removed (numbers live in the tooltips).
+// NEW: ★ marks a diamond that fires while WGMI liquidity TIMING is below zero.
+//      Tested on ETH 1D/2D and BTC 1D/2D, non-overlapping trades, +15%/-12%:
+//        diamond + TIM<0 : 77% / 69% / 75% / 70%   (n = 13/13/8/10)
+//        plain diamond   : 71% / 58% / 68% / 60%
+//      Only filter out of 92 tested that was positive on all four. Small n.
+//      Note: WGMI M2 data is revised after the fact, so treat as an upper bound.
+indicator("CT Zone Bounce v5", "CTZB", overlay=false, max_labels_count=500, max_lines_count=500)
+
+// ---- inputs ----
+gI = "Indicator"
+rsiLen = input.int(14, "CT RSI length", group=gI, minval=2)
+rsiSrc = input.source(close, "Source", group=gI)
+sigLen = input.int(14, "Signal line", group=gI, minval=1)
+stLen  = input.int(14, "Stoch RSI length", group=gI, minval=2)
+smK    = input.int(3, "Stoch %K", group=gI, minval=1)
+smD    = input.int(3, "Stoch %D", group=gI, minval=1)
+pvL    = input.int(3, "Pivot left bars", group=gI, minval=1)
+pvR    = input.int(3, "Pivot right bars", group=gI, minval=1)
+
+gZ = "Zones"
+zBear = input.float(40, "Bearish control ceiling", group=gZ)
+zMid  = input.float(50, "Neutral line (diamond split)", group=gZ)
+bSpl  = input.float(55, "A/B vs C split", group=gZ)
+dSpl  = input.float(65, "C vs D split", group=gZ)
+
+gW = "WGMI liquidity filter"
+useW   = input.bool(true, "Enable WGMI timing filter", group=gW)
+wGrow  = input.int(252, "Growth period (days)", group=gW, minval=1)
+wImp   = input.int(90, "Impulse period (days)", group=gW, minval=5)
+wSm    = input.int(20, "Impulse smoothing (days)", group=gW, minval=1)
+wZ     = input.int(252, "Z-score lookback (days)", group=gW, minval=20)
+wGate  = input.float(0.0, "Timing must be BELOW this", group=gW, step=0.1)
+showTim= input.bool(false, "Plot the timing line", group=gW)
+
+gC = "Regime  -  you set these"
+oWin  = "Bull windows below"
+oDate = "Bull from one date on"
+oBull = "Always BULL"
+oBear = "Always BEAR"
+regMode = input.string(oWin, "Regime source", options=[oWin,oDate,oBull,oBear], group=gC)
+bullSince = input.time(timestamp("2026-06-24T00:00"), "One date: bull starts", group=gC)
+useW1 = input.bool(true, "Window 1", inline="w1", group=gC)
+b1s = input.time(timestamp("2014-12-04T00:00"), "", inline="w1", group=gC)
+b1e = input.time(timestamp("2017-12-17T00:00"), "to", inline="w1", group=gC)
+useW2 = input.bool(true, "Window 2", inline="w2", group=gC)
+b2s = input.time(timestamp("2018-12-17T00:00"), "", inline="w2", group=gC)
+b2e = input.time(timestamp("2021-11-10T00:00"), "to", inline="w2", group=gC)
+useW3 = input.bool(true, "Window 3", inline="w3", group=gC)
+b3s = input.time(timestamp("2022-11-10T00:00"), "", inline="w3", group=gC)
+b3e = input.time(timestamp("2025-10-06T00:00"), "to", inline="w3", group=gC)
+useW4 = input.bool(true, "Window 4", inline="w4", group=gC)
+b4s = input.time(timestamp("2026-06-24T00:00"), "", inline="w4", group=gC)
+b4e = input.time(timestamp("2029-12-31T00:00"), "to", inline="w4", group=gC)
+
+gS = "Stats"
+aETH = "ETH  (baseline 67%)"
+aBTC = "BTC  (baseline 69%)"
+aXRP = "XRP  (baseline 54%)"
+aOTH = "Other  (untested)"
+statAsset = input.string(aETH, "Which asset's stats", options=[aETH,aBTC,aXRP,aOTH], group=gS)
+
+gD = "Display"
+hz       = input.string("60d", "Stats horizon", options=["20d","40d","60d","90d","120d"], group=gD)
+waitCl   = input.bool(true, "Print only after the confirm candle CLOSES", group=gD)
+disOnly  = input.bool(false, "Show ONLY diamond signals", group=gD)
+starOnly = input.bool(false, "Show ONLY ★ signals (diamond + timing)", group=gD)
+showOff  = input.bool(true, "Ghost out-of-window signals", group=gD)
+dimAli   = input.bool(true, "Dim non-diamond signals", group=gD)
+showConn = input.bool(false, "Line to prior trough", group=gD)
+showStoch= input.bool(true, "Plot Stoch RSI", group=gD)
+
+// ---- core ----
+ct = ta.rsi(rsiSrc, rsiLen)
+sg = ta.ema(ct, sigLen)
+kL = ta.sma(ta.stoch(ct, ct, ct, stLen), smK)
+dL = ta.sma(kL, smD)
+
+inW(bool use, int a, int b) =>
+    use and time >= a and time <= b
+
+regOK = inW(useW1,b1s,b1e) or inW(useW2,b2s,b2e) or inW(useW3,b3s,b3e) or inW(useW4,b4s,b4e)
+if regMode == oDate
+    regOK := time >= bullSince
+else if regMode == oBull
+    regOK := true
+else if regMode == oBear
+    regOK := false
+
+// ---- WGMI TIMING (impulse line only) ----
+mpb = 1440.0
+if timeframe.isdaily
+    mpb := 1440.0 * timeframe.multiplier
+else if timeframe.isweekly
+    mpb := 10080.0 * timeframe.multiplier
+else if timeframe.isminutes
+    mpb := float(timeframe.multiplier)
+bpd = mpb > 0 ? 1440.0 / mpb : 1.0
+sc  = bpd <= 1.0 ? bpd : 1.0
+gB = int(math.max(1, math.round(wGrow * sc)))
+iB = int(math.max(1, math.round(wImp * sc)))
+sB = int(math.max(1, math.round(wSm * sc)))
+zB = int(math.max(1, math.round(wZ * sc)))
+la = barmerge.lookahead_off
+tp = timeframe.period
+m2 = request.security("ECONOMICS:EUM2*FX:EURUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:USM2", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:CAM2*FX_IDC:CADUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:CHM2*FX_IDC:CHFUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:GBM2*FX:GBPUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:FIM2/FX_IDC:USDFIM", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:RUM2*FX_IDC:RUBUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:NZM2*FX_IDC:NZDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:CNM2*FX_IDC:CNYUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:TWM2*FX_IDC:TWDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:HKM2*FX_IDC:HKDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:INM2*FX_IDC:INRUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:JPM2*FX_IDC:JPYUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:PHM2*FX_IDC:PHPUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:SGM2*FX_IDC:SGDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:BRM2*FX_IDC:BRLUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:COM2*FX_IDC:COPUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:MXM2*FX_IDC:MXNUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:AEM2*FX_IDC:AEDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:TRM2*FX_IDC:TRYUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:ZAM2*FX_IDC:ZARUSD", tp, close, lookahead=la)
+m2 := m2 / 1000000000000
+
+zs(float s, int L, float cap) =>
+    float sd = ta.stdev(s, L)
+    float z = sd == 0 ? 0.0 : (s - ta.sma(s, L)) / sd
+    math.max(math.min(z, cap), -cap)
+
+glg = m2[gB] != 0 ? (m2 - m2[gB]) / m2[gB] * 100 : 0.0
+gls = ta.sma(glg, sB)
+gli = ta.change(gls, iB)
+levz = zs(glg, zB, 3.0)
+impz = zs(gli, zB, 3.0)
+timing = impz * 0.75 + levz * 0.25
+wOK = not useW or (not na(timing) and timing < wGate)
+
+// ---- zones ----
+h100 = hline(100, "", color=color.new(color.gray, 85))
+hBul = hline(60, "Bull control floor", color=color.new(color.teal, 55))
+hMid = hline(50, "Neutral line", color=color.new(color.gray, 35), linestyle=hline.style_dashed)
+hBer = hline(40, "Bear control ceiling", color=color.new(color.red, 55))
+h0   = hline(0, "", color=color.new(color.gray, 85))
+fill(hBul, h100, color=color.new(color.teal, 93), title="Bull control")
+fill(hMid, hBul, color=color.new(color.teal, 97), title="Neutral bullish")
+fill(hBer, hMid, color=color.new(color.red, 97), title="Neutral bearish")
+fill(h0, hBer, color=color.new(color.red, 93), title="Bear control")
+
+plot(ct, "CT RSI", color=color.new(#7E57C2, 0), linewidth=2)
+plot(sg, "Signal", color=color.new(color.orange, 45))
+plot(showStoch ? kL : na, "Stoch %K", color=color.new(color.blue, 60))
+plot(showStoch ? dL : na, "Stoch %D", color=color.new(color.red, 70))
+plot(showTim ? 50 + timing * 12 : na, "WGMI timing (scaled)", color=color.new(#00BCD4, 25), linewidth=1)
+
+// ---- pivots & tags ----
+pv  = ta.pivotlow(ct, pvL, pvR)
+isP = not na(pv)
+tK  = kL[pvR]
+pvB = bar_index - pvR
+bk  = isP ? (pv < zBear ? "A" : pv < bSpl ? "B" : pv < dSpl ? "C" : "D") : "-"
+
+var float pCt = na
+var float pK  = na
+var int   pB  = na
+
+barOK = barstate.isconfirmed or not waitCl
+sigBar = isP and regOK
+hasPrev = sigBar and not na(pCt)
+dCt = hasPrev ? pv - pCt : na
+dK  = hasPrev ? tK - pK : na
+dis = hasPrev and ((dCt > 0 and dK < 0) or (dCt < 0 and dK > 0))
+below = isP and pv < zMid
+strong = dis and below
+star = dis and wOK
+prime = isP and tK >= 20 and tK < 50
+
+// ---- stats ----
+isETH = statAsset == aETH
+isBTC = statAsset == aBTC
+isXRP = statAsset == aXRP
+
+pick(string h, float a, float b, float c, float d, float e) =>
+    float r = e
+    if h == "20d"
+        r := a
+    else if h == "40d"
+        r := b
+    else if h == "60d"
+        r := c
+    else if h == "90d"
+        r := d
+    r
+
+baseRate() =>
+    isETH ? 67. : isBTC ? 69. : isXRP ? 54. : na
+
+edgeOf(string t) =>
+    float r = na
+    if t == "all"
+        r := isETH ? 1. : isBTC ? 2. : isXRP ? 3. : na
+    else if t == "dia"
+        r := isETH ? 20. : isBTC ? -2. : isXRP ? 1. : na
+    else if t == "strong"
+        r := isETH ? 18. : isBTC ? -2. : isXRP ? 11. : na
+    else if t == "star"
+        r := isETH ? 22. : isBTC ? 10. : na
+    r
+
+nOf(string t) =>
+    int r = 0
+    if t == "all"
+        r := isETH ? 138 : isBTC ? 173 : isXRP ? 166 : 0
+    else if t == "dia"
+        r := isETH ? 33 : isBTC ? 46 : isXRP ? 44 : 0
+    else if t == "strong"
+        r := isETH ? 20 : isBTC ? 28 : isXRP ? 34 : 0
+    else if t == "star"
+        r := isETH ? 21 : isBTC ? 23 : 0
+    r
+
+bkName(string b) =>
+    string r = "Dip inside bull control"
+    if b == "A"
+        r := "Bounce off bearish control"
+    else if b == "B"
+        r := "Bounce off neutral line"
+    else if b == "C"
+        r := "Bounce off bull-zone base"
+    r
+
+bkCol(string b) =>
+    color r = #FFA726
+    if b == "A"
+        r := #26A69A
+    else if b == "B"
+        r := #42A5F5
+    else if b == "C"
+        r := #AB47BC
+    r
+
+fmtE(float e) =>
+    na(e) ? "n/a" : (e >= 0 ? "+" : "") + str.tostring(e, "#") + " pp"
+
+// ---- markers ----
+pass = starOnly ? star : (disOnly ? dis : true)
+draw = isP and (regOK or showOff) and pass and barOK
+
+if draw
+    string sym = regOK ? bk : str.lower(bk)
+    if dis and regOK
+        sym := (star ? "★" : strong ? "◆" : "◇") + sym
+    if prime and regOK
+        sym := sym + "·"
+
+    string tg = not dis ? "all" : star ? "star" : strong ? "strong" : "dia"
+    float e = edgeOf(tg)
+    string t1 = "plain bounce\n"
+    if dis
+        t1 := star ? "★ DIAMOND + timing NEGATIVE\n" : strong ? "◆ diamond below 50\n" : "◇ diamond above 50\n"
+    string t2 = bk + " - " + bkName(bk) + "\n"
+    string t3 = "CT trough " + str.tostring(pv, "#.#")
+    string t4 = hasPrev ? "  (prev " + str.tostring(pCt, "#.#") + ")\n" : "\n"
+    string t5 = "Stoch K   " + str.tostring(tK, "#.#") + "\n"
+    string t6 = "WGMI timing " + str.tostring(timing, "#.##")
+    t6 := t6 + (wOK ? "  (below gate)\n" : "  (ABOVE gate)\n")
+    string t7 = prime ? "· stoch 20-50 at trough\n" : ""
+    string t8 = "\nEDGE over baseline, " + hz + ":\n"
+    t8 := t8 + fmtE(e) + "  (base " + str.tostring(baseRate(), "#") + "%, n=" + str.tostring(nOf(tg)) + ")\n"
+    string t9 = star ? "\n77% / 69% / 75% / 70% on ETH1D/BTC1D/ETH2D/BTC2D\nOnly filter of 92 tested positive on all four." : ""
+    string tA = regOK ? "" : "\n\nOutside your bull window"
+    string tip = t1 + t2 + t3 + t4 + t5 + t6 + t7 + t8 + t9 + tA
+
+    int tr = (dimAli and not dis) ? 45 : 0
+    color bg = color.new(bkCol(bk), tr)
+    color tc = color.white
+    if dis
+        bg := star ? color.new(#00E676, 0) : strong ? color.new(#FFD54F, 0) : color.new(#FFD54F, 55)
+        tc := star ? color.black : strong ? color.black : color.white
+    if not regOK
+        bg := color.new(color.gray, 75)
+        tc := color.new(color.silver, 20)
+    label.new(pvB, pv, text=sym, style=label.style_label_up, color=bg,
+       textcolor=tc, size=size.tiny, yloc=yloc.price, tooltip=tip)
+
+    if showConn and hasPrev
+        color lc = dis ? color.new(#FFD54F, 20) : color.new(color.gray, 80)
+        line.new(pB, pCt, pvB, pv, xloc=xloc.bar_index, color=lc, width=dis ? 2 : 1, style=line.style_dotted)
+
+plotshape(star and regOK and pass and barOK, "Star row", shape.diamond, location.bottom, color=color.new(#00E676, 0), size=size.tiny)
+diaRow = strong and not star and regOK and pass and barOK
+plotshape(diaRow, "Diamond row", shape.diamond, location.bottom, color=color.new(#FFD54F, 0), size=size.tiny)
+bgcolor(regOK ? color.new(color.teal, 96) : na, title="Bull window")
+
+if sigBar and barOK
+    pCt := pv
+    pK  := tK
+    pB  := pvB
+
+// ---- alerts ----
+alertcondition(isP and regOK and star, "★ Diamond + timing negative", "CTZB star signal")
+alertcondition(isP and regOK and dis, "Any diamond", "CTZB diamond")
+alertcondition(isP and regOK and strong, "Diamond below 50", "CTZB diamond below 50")
+alertcondition(isP and regOK, "Any bounce", "CTZB signal")
+alertcondition(isP and regOK and prime, "Prime stoch (K 20-50)", "CTZB prime")
+alertcondition(isP and regOK and bk == "A", "A signal", "CTZB A")
+alertcondition(isP and regOK and bk == "B", "B signal", "CTZB B")
+alertcondition(isP and regOK and bk == "C", "C signal", "CTZB C")
+alertcondition(isP and regOK and bk == "D", "D signal", "CTZB D")

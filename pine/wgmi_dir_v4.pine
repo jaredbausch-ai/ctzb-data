@@ -1,0 +1,187 @@
+//@version=5
+// ============================================================================
+// WGMI — LIQUIDITY GAUGE v4
+// Engine unchanged from v3.1. The LEAD is removed and the SLOPE is the headline.
+// ----------------------------------------------------------------------------
+// WHY THE LEAD IS GONE
+//   v3's premise is that global liquidity leads Bitcoin by roughly a quarter,
+//   so the line is drawn 110 days forward. v3's own header reports that no
+//   lead beats the naive baseline out-of-sample, but it never tests the
+//   obvious control: what happens at lead ZERO.
+//
+//   BTC 2014-2026, using DIRECTION from X days ago to predict the next 90 days:
+//
+//        lead used        correlation    low third    high third
+//        0 (today)          +0.327          41%          76%
+//        30 days             +0.290          49%          72%
+//        60 days             +0.194          56%          67%
+//        90 days             +0.060          60%          60%
+//        110 days            +0.004          62%          56%   <- what v3 plots
+//        130 days            -0.020          65%          54%
+//
+//   The relationship decays monotonically with every day of lead and is gone
+//   by day 90. At the 110-day lead the correlation is +0.004 and the thirds
+//   INVERT. The one arrangement of this series that carries no information is
+//   the one the indicator draws.
+//
+//   The liquidity relationship is COINCIDENT, not leading. v4 plots it at
+//   lead 0. There is no projection cone because there is nothing to project.
+//
+// WHAT ACTUALLY MEASURES SOMETHING — the slope, more than the level.
+//   BTC, 90 days forward, inside bull windows. Baseline 73%.
+//
+//        LEVEL                      n      up       median
+//          below -0.5             713      63%      +16.6%
+//          -0.5 to +0.5           480      82%      +46.2%
+//          above +0.5            1292      76%      +21.5%
+//
+//        SLOPE (110-day change)     n      up       median
+//          falling more than 1    687      62%      +17.3%
+//          falling 0 to 1         467      64%       +9.8%
+//          rising 0 to 1          413      71%      +19.5%
+//          rising more than 1     918      87%      +34.8%
+//
+//   The slope spans 62% to 87%; the level spans 63% to 82% and is not even
+//   monotone. So the headline is the slope and the level is secondary.
+//
+// WHAT HAS NOT CHANGED, AND STILL MATTERS
+//   M2 REPAINTS. It is revised after publication, so every figure above used
+//   numbers that were not knowable in real time. Treat them as an upper bound.
+//
+//   OVERLAPPING SAMPLES. Those n values are daily bars, not independent
+//   events. There are roughly 28-37 independent 90-day windows in this data.
+//   At n=37 a 73% rate against a 61% baseline is p~0.14 - not significant.
+//
+//   MOST OF IT IS A CYCLE PROXY. On all bars the slope spread is 45% to 80%,
+//   a 35-point range. Inside bull windows it is 62% to 87%, 25 points. So
+//   roughly a third of the apparent signal is the gauge telling you whether
+//   Bitcoin is in a bull or bear phase, which a cycle filter already does.
+//
+//   CONTEXT for sizing. Not a forecast, and not a signal on its own.
+// ============================================================================
+indicator("WGMI — Liquidity Gauge v4", shorttitle="WGMI-v4", overlay=false)
+
+gL = "Lead (the measured answer is 0)"
+lead = input.int(0, "Plot the line this many days forward", minval=0, maxval=400, group=gL, tooltip="0 is correct. Raise it only to reproduce v3's display; the correlation is +0.004 at 110.")
+
+gC = "Core"
+w_impulse      = input.float(0.25, "Impulse weight (rest = level)", minval=0.0, maxval=1.0, step=0.05, group=gC)
+zlen           = input.int(252, "Z-Score Lookback (days)",        minval=20, group=gC)
+growth_period  = input.int(252, "Liquidity Growth Period (days)", minval=1,  group=gC)
+impulse_period = input.int(90,  "Impulse Period (days)",          minval=5,  group=gC)
+impulse_smooth = input.int(20,  "Impulse Smoothing (days)",       minval=1,  group=gC)
+zcap           = input.float(3.0,"Z-Score Cap (sigma)", minval=1.0, maxval=5.0, step=0.5, group=gC)
+slopeLen       = input.int(110, "Slope lookback (days)", minval=20, maxval=300, group=gC, tooltip="The change over this many days is the headline reading.")
+
+gD = "Display"
+show_timing = input.bool(true, "Show impulse (turn-timing) line", group=gD)
+show_slope  = input.bool(true, "Show the slope as a histogram",   group=gD)
+show_table  = input.bool(true, "Show readout",                    group=gD)
+
+// ==================== TIMEFRAME SCALING (unchanged from v3.1) ====================
+minPerBar  = timeframe.isseconds ? timeframe.multiplier / 60.0 : timeframe.isminutes ? float(timeframe.multiplier) : timeframe.isdaily ? 1440.0 * timeframe.multiplier : timeframe.isweekly ? 1440.0 * 7 * timeframe.multiplier : timeframe.ismonthly ? 1440.0 * 30.44 * timeframe.multiplier : 1440.0
+barsPerDay = minPerBar > 0 ? 1440.0 / minPerBar : 1.0
+tf_ok = barsPerDay <= 1.0
+scale = tf_ok ? barsPerDay : 1.0
+
+zlen_b           = int(math.max(1, math.round(zlen           * scale)))
+growth_period_b  = int(math.max(1, math.round(growth_period  * scale)))
+impulse_period_b = int(math.max(1, math.round(impulse_period * scale)))
+impulse_smooth_b = int(math.max(1, math.round(impulse_smooth * scale)))
+slopeLen_b       = int(math.max(1, math.round(slopeLen       * scale)))
+lead_b           = int(math.max(0, math.round(lead * scale)))
+
+zscore(src, len, cap) =>
+    m  = ta.sma(src, len)
+    sd = ta.stdev(src, len)
+    z  = sd == 0 ? 0.0 : (src - m) / sd
+    math.max(math.min(z, cap), -cap)
+
+la = barmerge.lookahead_off
+tp = timeframe.period
+
+// ===================== GLOBAL LIQUIDITY (M2) — unchanged basket =====================
+m2 = request.security("ECONOMICS:EUM2*FX:EURUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:USM2", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:CAM2*FX_IDC:CADUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:CHM2*FX_IDC:CHFUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:GBM2*FX:GBPUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:FIM2/FX_IDC:USDFIM", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:RUM2*FX_IDC:RUBUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:NZM2*FX_IDC:NZDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:CNM2*FX_IDC:CNYUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:TWM2*FX_IDC:TWDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:HKM2*FX_IDC:HKDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:INM2*FX_IDC:INRUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:JPM2*FX_IDC:JPYUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:PHM2*FX_IDC:PHPUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:SGM2*FX_IDC:SGDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:BRM2*FX_IDC:BRLUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:COM2*FX_IDC:COPUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:MXM2*FX_IDC:MXNUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:AEM2*FX_IDC:AEDUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:TRM2*FX_IDC:TRYUSD", tp, close, lookahead=la)
+m2 += request.security("ECONOMICS:ZAM2*FX_IDC:ZARUSD", tp, close, lookahead=la)
+total_m2 = m2 / 1000000000000
+
+// ===================== ENGINE (identical maths) =====================
+gl_growth   = (total_m2 - total_m2[growth_period_b]) / total_m2[growth_period_b] * 100
+gl_growth_s = ta.sma(gl_growth, impulse_smooth_b)
+gl_impulse  = ta.change(gl_growth_s, impulse_period_b)
+lev_z = zscore(gl_growth,  zlen_b, zcap)
+imp_z = zscore(gl_impulse, zlen_b, zcap)
+direction = imp_z * w_impulse + lev_z * (1.0 - w_impulse)
+timing    = imp_z * 0.75 + lev_z * 0.25
+
+// THE HEADLINE: the slope, not the level.
+slope = direction - direction[slopeLen_b]
+
+// ===================== PLOTS =====================
+sign_agree = (direction >= 0 and gl_growth >= 0) or (direction < 0 and gl_growth < 0)
+rising = slope > 0
+col = rising ? (slope > 1 ? color.new(color.lime, 0) : color.new(color.aqua, 0)) : (slope < -1 ? color.new(color.red, 0) : color.new(#ff6ec7, 0))
+
+dplot = tf_ok ? direction : na
+splot = tf_ok and show_slope ? slope : na
+tplot = tf_ok and show_timing ? timing : na
+
+plot(splot, "SLOPE - the headline", color=color.new(rising ? #2ECC71 : #E74C3C, 55), style=plot.style_columns, linewidth=1)
+plot(dplot, "DIRECTION level (lead 0)", color=col, linewidth=3, offset=lead_b)
+plot(tplot, "TIMING (turns, not direction)", color=color.new(color.orange, 45), linewidth=1)
+plot(gl_growth, "Raw YoY Liquidity Growth %", color=color.new(color.orange, 80), linewidth=1, display=display.data_window)
+plot(direction, "DIRECTION unshifted", color=color.new(color.white, 100), display=display.data_window)
+plot(slope, "SLOPE value", color=color.new(color.white, 100), display=display.data_window)
+
+hline(0, "zero", color=color.new(color.gray, 40))
+hline(1, "+1 - the strong band starts here", color=color.new(color.green, 65), linestyle=hline.style_dashed)
+hline(-1, "-1", color=color.new(color.red, 65), linestyle=hline.style_dashed)
+hline(0.5, "", color=color.new(color.gray, 85), linestyle=hline.style_dotted)
+hline(-0.5, "", color=color.new(color.gray, 85), linestyle=hline.style_dotted)
+
+bgcolor(not tf_ok ? na : (slope > 1 ? color.new(#2ECC71, 90) : slope > 0 ? color.new(#2ECC71, 95) : slope < -1 ? color.new(#E74C3C, 90) : color.new(#E74C3C, 95)))
+bgcolor(tf_ok and not sign_agree ? color.new(color.orange, 90) : na, title="z vs raw disagree")
+
+alertcondition(ta.crossover(slope, 0),  "Slope turns UP",   "WGMI v4: liquidity slope turned positive")
+alertcondition(ta.crossunder(slope, 0), "Slope turns DOWN", "WGMI v4: liquidity slope turned negative")
+alertcondition(ta.crossover(slope, 1),  "Slope enters the strong band", "WGMI v4: slope above +1, the 87% band")
+alertcondition(ta.crossunder(slope, 1), "Slope leaves the strong band", "WGMI v4: slope back below +1")
+
+// ===================== READOUT =====================
+var table t = table.new(position.bottom_right, 1, 5, bgcolor=color.new(color.black, 20))
+if barstate.islast and show_table
+    if not tf_ok
+        table.cell(t, 0, 0, "TIMEFRAME NOT SUPPORTED - " + timeframe.period, text_color=color.red, text_size=size.small)
+        table.cell(t, 0, 1, "This engine reasons in DAYS. Use 1D or higher.", text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 2, "", text_color=color.silver, text_size=size.tiny)
+        table.cell(t, 0, 3, "", text_color=color.silver, text_size=size.tiny)
+        table.cell(t, 0, 4, "", text_color=color.silver, text_size=size.tiny)
+    else
+        string sb = slope > 1 ? "RISING hard" : slope > 0 ? "rising" : slope < -1 ? "FALLING hard" : "falling"
+        string hit = slope > 1 ? "87%" : slope > 0 ? "71%" : slope < -1 ? "62%" : "64%"
+        color hc = slope > 1 ? color.lime : slope > 0 ? color.aqua : slope < -1 ? color.red : color.new(#ff6ec7, 0)
+        string why = sign_agree ? "" : "  (z and raw growth disagree - discount this)"
+        table.cell(t, 0, 0, "SLOPE " + sb + " [" + str.tostring(slope, "0.00") + " sd over " + str.tostring(slopeLen) + "d]" + why, text_color=hc, text_size=size.small)
+        table.cell(t, 0, 1, "BTC 90d from a slope like this: " + hit + " up, inside bull windows. Baseline 73%.", text_color=color.new(color.aqua, 0), text_size=size.tiny)
+        table.cell(t, 0, 2, "level " + str.tostring(direction, "0.00") + " sd - the level spans 63-82% and is not monotone, so the slope is the headline.", text_color=color.silver, text_size=size.tiny)
+        table.cell(t, 0, 3, "LEAD IS 0 BY DESIGN. At a 110-day lead the correlation is +0.004 - that arrangement carries no information.", text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 4, "M2 repaints (upper bound) - ~28-37 independent windows - a third of this is a cycle proxy - CONTEXT, not a forecast.", text_color=color.new(color.orange, 0), text_size=size.tiny)

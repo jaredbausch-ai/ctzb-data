@@ -1,0 +1,156 @@
+//@version=5
+// ============================================================================
+// REVERSE-ENGINEERED FROM A SINGLE SCREENSHOT
+// ----------------------------------------------------------------------------
+// Everything below was inferred from one static image of the pane. Comments
+// marked READ mean the image showed it directly. Comments marked GUESS mean I
+// could not tell and picked the most ordinary option. The GUESS items are
+// where a reconstruction like this goes wrong.
+//
+// READ   an oscillator bounded 0-100, purple, fast -> an RSI
+// READ   a slower tan line tracking it -> a moving average OF the RSI
+// READ   two thin lines touching exactly 0 and 100 -> a stochastic of the RSI,
+//        not of price, because a stochastic of price would not pin to the same
+//        0-100 frame as the RSI line it sits on top of
+// READ   dashed horizontals at 40, 50 and 60, red fill below 40, green above 60
+// READ   labels sit ONLY on local lows, with clearance either side
+// READ   letter by level: A about 20-35, B 35-50, C 50-60, D above 60
+//        -> cut points near 40, 55, 65
+// READ   lowercase grey labels are the same lows with a regime filter off
+// READ   a gold filled diamond prefixes some labels below 50, a hollow one
+//        above 50 -> same condition, split at the midline
+// READ   a trailing dot on some labels -> a second, independent condition
+// READ   green labels with a star -> a third condition, rarer
+// READ   a separate row of diamonds pinned to the bottom of the pane, offset
+//        to the RIGHT of the labels they belong to
+//
+// GUESS  RSI length 14 and the signal being a 14 EMA. Standard, unverifiable.
+// GUESS  pivot left and right = 3. The clearance looked like 3 bars but 2 or 4
+//        would look nearly identical at this zoom.
+// GUESS  WHY a diamond appears. This is the big one. A static image shows gold
+//        markers on some lows and not others with no readable pattern. I have
+//        implemented "RSI and stochastic moved in opposite directions since the
+//        previous trough" because that is the most common construction, but I
+//        have no evidence for it. It could be volume, a higher timeframe, a
+//        divergence against price, or something else entirely.
+// GUESS  the dot. Implemented as the stochastic sitting mid-range at the low.
+// GUESS  the star. Implemented as a diamond plus the RSI being under the
+//        midline. The real one almost certainly uses an input the image cannot
+//        show, because the star appears on lows that look no different.
+// GUESS  the regime filter. Something greys labels out in blocks. I have put a
+//        date-range input there. It could be a trend filter, a higher timeframe
+//        condition, or a manual toggle.
+// GUESS  the bottom diamond row. I have assumed it marks the same bars as the
+//        label diamonds. The offset to the right suggests it may mark a
+//        CONFIRMATION bar some fixed number of bars after the low, which would
+//        matter enormously for how the thing is traded - but from an image I
+//        cannot tell whether that offset is meaningful or just the pivot lag.
+// ============================================================================
+indicator("Reverse Engineered Oscillator", "REV", overlay=false, max_labels_count=500)
+
+gI = "Inferred settings"
+rsiLen = input.int(14, "RSI length", group=gI, minval=2)
+sigLen = input.int(14, "Signal line (EMA of the RSI)", group=gI, minval=1)
+stLen  = input.int(14, "Stochastic length", group=gI, minval=2)
+smK    = input.int(3,  "Stoch %K smoothing", group=gI, minval=1)
+smD    = input.int(3,  "Stoch %D smoothing", group=gI, minval=1)
+pvL    = input.int(3,  "Pivot left bars", group=gI, minval=1)
+pvR    = input.int(3,  "Pivot right bars", group=gI, minval=1)
+
+gZ = "Zones read off the dashed lines"
+zLo  = input.float(40, "Lower dashed line", group=gZ)
+zMid = input.float(50, "Middle dashed line", group=gZ)
+zBC  = input.float(55, "B / C split", group=gZ)
+zCD  = input.float(65, "C / D split", group=gZ)
+
+gR = "Regime - something greys labels out in blocks"
+useReg = input.bool(true, "Apply a regime filter", group=gR)
+r1s = input.time(timestamp("2018-12-17T00:00"), "On from", group=gR)
+r1e = input.time(timestamp("2021-11-10T00:00"), "until", group=gR)
+r2s = input.time(timestamp("2022-11-10T00:00"), "On from", group=gR)
+r2e = input.time(timestamp("2025-10-06T00:00"), "until", group=gR)
+showOff = input.bool(true, "Show out-of-regime lows in grey", group=gR)
+
+// ---- the three series ----
+osc = ta.rsi(close, rsiLen)
+sig = ta.ema(osc, sigLen)
+kL  = ta.sma(ta.stoch(osc, osc, osc, stLen), smK)
+dL  = ta.sma(kL, smD)
+
+inWin(int a, int b) =>
+    time >= a and time <= b
+regOK = not useReg or inWin(r1s, r1e) or inWin(r2s, r2e)
+
+// ---- zones ----
+hTop = hline(100, "", color=color.new(color.gray, 85))
+hHi  = hline(60,  "upper dashed", color=color.new(color.teal, 55))
+hMid = hline(50,  "middle dashed", color=color.new(color.gray, 35), linestyle=hline.style_dashed)
+hLo  = hline(40,  "lower dashed", color=color.new(color.red, 55))
+hBot = hline(0,   "", color=color.new(color.gray, 85))
+fill(hHi, hTop, color=color.new(color.teal, 93))
+fill(hMid, hHi, color=color.new(color.teal, 97))
+fill(hLo, hMid, color=color.new(color.red, 97))
+fill(hBot, hLo, color=color.new(color.red, 93))
+
+plot(osc, "Oscillator", color=color.new(#7E57C2, 0), linewidth=2)
+plot(sig, "Signal", color=color.new(color.orange, 45))
+plot(kL, "Stoch %K", color=color.new(color.blue, 60))
+plot(dL, "Stoch %D", color=color.new(color.red, 70))
+
+// ---- lows ----
+pv  = ta.pivotlow(osc, pvL, pvR)
+isP = not na(pv)
+pvB = bar_index - pvR
+kAt = kL[pvR]
+bk  = isP ? (pv < zLo ? "A" : pv < zBC ? "B" : pv < zCD ? "C" : "D") : "-"
+
+// carry the previous low so the GUESSED diamond condition has something to
+// compare against
+var float pOsc = na
+var float pK   = na
+
+hasPrev = isP and regOK and not na(pOsc)
+dOsc = hasPrev ? pv - pOsc : na
+dK   = hasPrev ? kAt - pK : na
+
+// GUESS: the oscillator and the stochastic moved opposite ways since the last
+// low. This is the single least certain line in the file.
+dia    = hasPrev and ((dOsc > 0 and dK < 0) or (dOsc < 0 and dK > 0))
+filled = dia and pv < zMid          // READ: filled below the midline, hollow above
+dot    = isP and kAt >= 20 and kAt < 50   // GUESS
+star   = dia and pv < zLo                 // GUESS
+
+colOf(string b) =>
+    b == "A" ? #26A69A : b == "B" ? #42A5F5 : b == "C" ? #AB47BC : #FFA726
+
+if isP and (regOK or showOff)
+    string sym = regOK ? bk : str.lower(bk)
+    if dia and regOK
+        sym := (star ? "★" : filled ? "◆" : "◇") + sym
+    if dot and regOK
+        sym := sym + "·"
+    color bg = color.new(colOf(bk), dia ? 0 : 35)
+    color tc = color.white
+    if dia and regOK
+        bg := star ? color.new(#00E676, 0) : filled ? color.new(#FFD54F, 0) : color.new(#FFD54F, 55)
+        tc := star or filled ? color.black : color.white
+    if not regOK
+        bg := color.new(color.gray, 75)
+        tc := color.new(color.silver, 20)
+    label.new(pvB, pv, text=sym, style=label.style_label_up, color=bg, textcolor=tc,
+       size=size.tiny, yloc=yloc.price,
+       tooltip="low " + str.tostring(pv, "#.#") + "   stoch " + str.tostring(kAt, "#.#"))
+
+if isP and regOK
+    pOsc := pv
+    pK   := kAt
+
+// GUESS: the bottom row marks the same event. The offset to the right in the
+// image may mean it marks a confirmation bar instead, which would change how
+// this is used entirely.
+plotshape(star and regOK, "bottom row, star", shape.diamond, location.bottom,
+   color=color.new(#00E676, 0), size=size.tiny)
+plotshape(filled and not star and regOK, "bottom row, filled", shape.diamond, location.bottom,
+   color=color.new(#FFD54F, 0), size=size.tiny)
+
+bgcolor(regOK ? color.new(color.teal, 96) : na, title="regime on")

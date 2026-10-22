@@ -1,0 +1,48 @@
+chart,entry,tag,price,run,dip,dRun,dDip,order
+ETH 1D,2019-06-21,C,296.25,23.0,-42.3,5,55,gain first
+ETH 1D,2020-10-19,B + diamond + hollow + zone-exit B,379.36,78.5,-4.3,59,1,pain first
+ETH 1D,2020-10-23,B + diamond + hollow + zone-exit B,409.52,65.3,-9.5,55,11,pain first
+ETH 1D,2021-02-03,C + prime dot,1668.72,28.5,-22.5,58,25,pain first
+ETH 1D,2021-02-10,C,1742.93,25.9,-25.8,59,18,pain first
+ETH 2D,2021-03-30,B + diamond + filled + prime dot + diamond+dot,1920.0,128.4,-10.0,42,54,gain first
+ETH 1D,2021-04-06,C,2113.0,107.5,-18.2,36,47,gain first
+ETH 1D,2021-04-10,C,2133.08,105.5,-19.0,32,43,gain first
+ETH 1D,2021-04-27,B + diamond + hollow + prime dot + diamond+dot + zone-exit B,2667.86,64.3,-36.3,15,56,gain first
+ETH 2D,2021-04-29,C + prime dot,2776.45,57.9,-38.8,12,54,gain first
+ETH 5D,2021-06-10,B + zone-exit B,2582.86,28.9,-34.2,60,10,pain first
+ETH 5D,2021-10-08,B + prime dot + zone-exit B,3490.61,39.5,-2.2,30,5,pain first
+ETH 5D,2022-02-05,A,3246.22,10.3,-29.1,55,15,pain first
+ETH 5D,2023-02-20,B + zone-exit B,1607.57,33.3,-14.8,55,15,pain first
+ETH 2D,2023-03-14,B + diamond + filled,1656.8,29.3,-1.2,32,2,pain first
+ETH 5D,2023-03-22,B,1775.86,20.7,-4.9,25,5,pain first
+ETH 3D,2023-05-31,B + zone-exit B,1907.41,6.4,-15.1,42,15,pain first
+ETH 5D,2023-06-05,B + diamond + hollow + zone-exit B,1840.46,10.3,-12.0,35,10,pain first
+ETH 5D,2023-06-25,B + diamond + filled,1852.11,9.6,-16.9,15,50,gain first
+ETH 2D,2023-10-18,A + diamond + filled,1567.48,53.3,-0.3,52,2,pain first
+ETH 1D,2023-11-24,B + diamond + hollow + zone-exit B,2082.61,30.5,-4.7,49,3,pain first
+ETH 1D,2023-12-02,C + prime dot,2165.76,25.5,-3.0,41,32,pain first
+ETH 2D,2023-12-03,D + diamond + hollow + prime dot + diamond+dot,2243.29,21.2,-6.4,39,31,pain first
+ETH 5D,2024-01-06,D,2584.77,54.8,-16.2,60,15,pain first
+ETH 2D,2024-01-29,B + diamond + filled,2342.96,74.7,-4.4,42,2,pain first
+ETH 3D,2024-01-31,B + diamond + hollow + prime dot + diamond+dot + zone-exit B,2308.03,77.4,-1.8,39,3,pain first
+ETH 5D,2024-02-05,C + prime dot,2487.84,64.6,-0.6,35,5,pain first
+ETH 5D,2024-04-30,B + zone-exit B,3117.41,27.5,-8.3,25,10,pain first
+ETH 5D,2024-05-25,B,3762.11,3.4,-25.3,10,40,gain first
+ETH 5D,2024-07-19,B + diamond + filled,3482.9,0.1,-39.2,5,15,gain first
+ETH 3D,2024-08-13,A + diamond + filled + prime dot + diamond+dot,2570.5,9.7,-16.4,9,24,gain first
+ETH 5D,2024-08-18,A,2623.3,7.5,-18.0,5,15,gain first
+ETH 3D,2024-09-15,A + prime dot,2342.1,47.2,-2.8,57,3,pain first
+ETH 5D,2024-09-17,A,2613.16,31.9,-11.6,55,15,pain first
+ETH 2D,2024-10-15,B + diamond + filled + prime dot + diamond+dot,2610.54,56.9,-9.8,52,20,pain first
+ETH 3D,2024-11-11,B + diamond + filled + prime dot + diamond+dot,3191.45,28.8,-5.6,33,3,pain first
+ETH 5D,2024-11-16,B,3072.24,33.7,-5.2,30,56,gain first
+ETH 2D,2024-11-22,C,3397.51,20.9,-14.2,24,52,gain first
+ETH 2D,2025-03-18,A + diamond + filled,2057.06,33.2,-32.8,56,22,pain first
+ETH 5D,2025-03-27,A,1822.03,53.1,-24.1,60,10,pain first
+ETH 2D,2025-04-13,A + diamond + filled + prime dot + diamond+dot,1624.03,77.3,-5.3,58,2,pain first
+ETH 3D,2025-04-13,A + prime dot,1588.64,81.3,-3.2,57,3,pain first
+ETH 5D,2025-04-21,A + diamond + filled,1785.95,61.3,-3.0,50,5,pain first
+ETH 3D,2025-04-28,A + prime dot,1793.79,60.6,-2.4,42,6,pain first
+ETH 5D,2025-07-05,B,2769.83,78.9,-0.5,50,5,pain first
+ETH 5D,2025-08-14,D,4315.37,14.8,-18.7,10,55,gain first
+ETH 5D,2025-12-02,A,3039.13,14.4,-31.8,5,60,gain first

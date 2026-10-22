@@ -1,0 +1,256 @@
+//@version=5
+// ============================================================================
+// WGMI — DIRECTION ENGINE v3.2
+// Framework origin: Michael Howell global liquidity. Successor to v3.1.
+// ----------------------------------------------------------------------------
+// THE ENGINE IS UNCHANGED. Same 21-country M2 basket, same z-scores, same
+// weights, same day-to-bar conversion. On any chart v3.1 and v3.2 plot the
+// identical line. Everything new is readout, banding and alerts.
+//
+// WHAT v3.2 ADDS, AND THE MEASUREMENT BEHIND IT
+//
+// 1) THE LINE THAT MATTERS IS -0.5, AND IT IS NOW DRAWN AS SUCH.
+//    A single threshold beats the five-band reading, and it beats the sign.
+//    BTC 1D, 2014-2026, 60-day forward:
+//
+//                          share of bars   up 60d    edge   median
+//        ALL BARS
+//          DIR >= -0.5          61%          65%      +7    +12.5%
+//          DIR <  -0.5          39%          47%     -11     -2.3%
+//                                                  18pp gap
+//        INSIDE BULL WINDOWS
+//          DIR >= -0.5          70%          73%      +2    +19.9%
+//          DIR <  -0.5          30%          66%      -5    +14.8%
+//                                                   7pp gap
+//
+//    The -0.5 level is not a round number chosen for neatness - it is where
+//    the measured step actually is. Above it is ordinary bull behaviour,
+//    below it is a bull market with liquidity leaning against it.
+//
+// 2) MOST OF THAT 18-POINT GAP IS A CYCLE PROXY, AND THE CHART SAYS SO.
+//    DIR sits above -0.5 on 70% of bull-window bars and only 35% of
+//    bear-year bars. So the all-bars gap is largely the engine reporting
+//    which phase you are in - information you already have if you run any
+//    cycle filter. What survives the filter is 7 points, not 18. Real, but
+//    a quarter of what the raw figure advertises. The v3 header said the
+//    edge fails out-of-sample without saying why; this is why.
+//
+// 3) THE READOUT NOW SHOWS A BAND, NOT A SIGN. "UP/DOWN" throws away the
+//    magnitude, and magnitude is where the differences are: +0.5 to +1 scored
+//    +12 all-bars while above +1 scored +11 and below -1.5 scored -15. A
+//    binary up/down puts the first two in the same bucket as everything else
+//    positive. The table now names the band and quotes both its all-bars and
+//    its in-bull figure, so the gap between them is visible every time.
+//
+// 4) ALERTS FIRE ON BAND TRANSITIONS, NOT JUST THE ZERO CROSS. Crossing zero
+//    is not the meaningful event - the measured steps are at -1.5, -0.5, +0.5
+//    and +1. The zero-cross alerts are kept for compatibility.
+//
+// 5) BARS-IN-BAND COUNTER. How long the reading has persisted, since a single
+//    bar poking into a band is not the same as a quarter spent there.
+//
+// ============================================================================
+// CARRIED FORWARD FROM v3.1 AND v3 - STILL TRUE, STILL IMPORTANT
+//
+//   OUT-OF-SAMPLE THE EDGE DOES NOT SURVIVE. Chronological 65/35 split:
+//   at the in-sample-optimal 120d lead, 58.0% out-of-sample against a 59.2%
+//   always-up baseline. No lead beats the naive baseline out-of-sample. The
+//   in-sample 74.3% is contaminated.
+//
+//   n IS ABOUT 28-37 INDEPENDENT WINDOWS. At n=37, 73% against a 61% baseline
+//   is z~1.48, p~0.14 - not significant. Proving a +7pp edge at 80% power
+//   needs ~371 independent windows, about 91 years of Bitcoin. We have ten.
+//
+//   M2 REPAINTS. It is revised after publication, so every figure quoted here
+//   and in v3 used numbers that were not knowable in real time. Treat all of
+//   them as an upper bound, including the band table above.
+//
+//   THE LEAD IS A CONE, NOT A LINE. Flat 90-130d in-sample, and flat BELOW
+//   baseline out-of-sample. The cone expresses uncertainty, not a claim.
+//
+//   TIMING IS NOT DIRECTION. The impulse-dominant line times turns and scored
+//   56.4% on direction. Do not point with it.
+//
+//   1D AND ABOVE ONLY. Below 1D a 252-day window needs more bars than Pine
+//   will serve, so the engine draws nothing and says why.
+// ============================================================================
+indicator("WGMI — Direction Engine v3.2", shorttitle="WGMI-Dir-v3.2", overlay=false)
+
+// ============================ INPUTS ============================
+lead_min  = input.int(90,  "Projection cone: MIN lead (days)", minval=1, maxval=400, group="Projection")
+lead_mid  = input.int(110, "Projection cone: MID lead (headline line)", minval=1, maxval=400, group="Projection")
+lead_max  = input.int(130, "Projection cone: MAX lead (days)", minval=1, maxval=400, group="Projection")
+
+w_impulse = input.float(0.25, "Direction: impulse weight (rest = level)", minval=0.0, maxval=1.0, step=0.05, group="Direction")
+
+zlen           = input.int(252, "Z-Score Lookback (days)",        minval=20, group="Core")
+growth_period  = input.int(252, "Liquidity Growth Period (days)", minval=1,  group="Core")
+impulse_period = input.int(90,  "Impulse Period (days)",          minval=5,  group="Core")
+impulse_smooth = input.int(20,  "Impulse Smoothing (days)",       minval=1,  group="Core")
+zcap           = input.float(3.0,"Z-Score Cap (sigma)", minval=1.0, maxval=5.0, step=0.5, group="Core")
+
+show_timing = input.bool(true, "Show impulse (turn-timing) line",  group="Display")
+show_band   = input.bool(true, "Show projection cone",             group="Display")
+show_table  = input.bool(true, "Show readout",                     group="Display")
+strong_gate = input.float(0.5, "Strong threshold (sigma)", minval=0.1, maxval=2.0, step=0.1, group="Display")
+
+// ==================== TIMEFRAME SCALING ====================
+minPerBar  = timeframe.isseconds ? timeframe.multiplier / 60.0 :
+             timeframe.isminutes ? float(timeframe.multiplier) :
+             timeframe.isdaily   ? 1440.0 * timeframe.multiplier :
+             timeframe.isweekly  ? 1440.0 * 7 * timeframe.multiplier :
+             timeframe.ismonthly ? 1440.0 * 30.44 * timeframe.multiplier : 1440.0
+barsPerDay = minPerBar > 0 ? 1440.0 / minPerBar : 1.0
+tf_ok = barsPerDay <= 1.0
+scale = tf_ok ? barsPerDay : 1.0
+
+zlen_b           = int(math.max(1, math.round(zlen           * scale)))
+growth_period_b  = int(math.max(1, math.round(growth_period  * scale)))
+impulse_period_b = int(math.max(1, math.round(impulse_period * scale)))
+impulse_smooth_b = int(math.max(1, math.round(impulse_smooth * scale)))
+lead_min_b = int(math.max(1, math.round(lead_min * scale)))
+lead_mid_b = int(math.max(1, math.round(lead_mid * scale)))
+lead_max_b = int(math.max(1, math.round(lead_max * scale)))
+
+// ============================ HELPER ============================
+zscore(src, len, cap) =>
+    m  = ta.sma(src, len)
+    sd = ta.stdev(src, len)
+    z  = sd == 0 ? 0.0 : (src - m) / sd
+    math.max(math.min(z, cap), -cap)
+
+la = barmerge.lookahead_off
+
+// ===================== GLOBAL LIQUIDITY (M2) =====================
+EUM2D = request.security("ECONOMICS:EUM2*FX:EURUSD",     timeframe.period, close, lookahead=la)
+USM2D = request.security("ECONOMICS:USM2",               timeframe.period, close, lookahead=la)
+CAM2D = request.security("ECONOMICS:CAM2*FX_IDC:CADUSD", timeframe.period, close, lookahead=la)
+CHM2D = request.security("ECONOMICS:CHM2*FX_IDC:CHFUSD", timeframe.period, close, lookahead=la)
+GBM2D = request.security("ECONOMICS:GBM2*FX:GBPUSD",     timeframe.period, close, lookahead=la)
+FIPOP = request.security("ECONOMICS:FIM2/FX_IDC:USDFIM", timeframe.period, close, lookahead=la)
+RUM2D = request.security("ECONOMICS:RUM2*FX_IDC:RUBUSD", timeframe.period, close, lookahead=la)
+NZM2D = request.security("ECONOMICS:NZM2*FX_IDC:NZDUSD", timeframe.period, close, lookahead=la)
+CNM2D = request.security("ECONOMICS:CNM2*FX_IDC:CNYUSD", timeframe.period, close, lookahead=la)
+TWM2D = request.security("ECONOMICS:TWM2*FX_IDC:TWDUSD", timeframe.period, close, lookahead=la)
+HKM2D = request.security("ECONOMICS:HKM2*FX_IDC:HKDUSD", timeframe.period, close, lookahead=la)
+INM2D = request.security("ECONOMICS:INM2*FX_IDC:INRUSD", timeframe.period, close, lookahead=la)
+JPM2D = request.security("ECONOMICS:JPM2*FX_IDC:JPYUSD", timeframe.period, close, lookahead=la)
+PHM2D = request.security("ECONOMICS:PHM2*FX_IDC:PHPUSD", timeframe.period, close, lookahead=la)
+SGM2D = request.security("ECONOMICS:SGM2*FX_IDC:SGDUSD", timeframe.period, close, lookahead=la)
+BRM2D = request.security("ECONOMICS:BRM2*FX_IDC:BRLUSD", timeframe.period, close, lookahead=la)
+COM2D = request.security("ECONOMICS:COM2*FX_IDC:COPUSD", timeframe.period, close, lookahead=la)
+MXM2D = request.security("ECONOMICS:MXM2*FX_IDC:MXNUSD", timeframe.period, close, lookahead=la)
+AEM2D = request.security("ECONOMICS:AEM2*FX_IDC:AEDUSD", timeframe.period, close, lookahead=la)
+TRM2D = request.security("ECONOMICS:TRM2*FX_IDC:TRYUSD", timeframe.period, close, lookahead=la)
+ZAM2D = request.security("ECONOMICS:ZAM2*FX_IDC:ZARUSD", timeframe.period, close, lookahead=la)
+
+total_m2 = (EUM2D+CHM2D+GBM2D+FIPOP+RUM2D + USM2D+CAM2D + NZM2D + CNM2D+TWM2D+HKM2D+INM2D+JPM2D+PHM2D+SGM2D + BRM2D+COM2D+MXM2D + AEM2D+TRM2D + ZAM2D) / 1000000000000
+
+// ===================== ENGINE (identical to v3.1) =====================
+gl_growth   = (total_m2 - total_m2[growth_period_b]) / total_m2[growth_period_b] * 100
+gl_growth_s = ta.sma(gl_growth, impulse_smooth_b)
+gl_impulse  = ta.change(gl_growth_s, impulse_period_b)
+
+lev_z = zscore(gl_growth,  zlen_b, zcap)
+imp_z = zscore(gl_impulse, zlen_b, zcap)
+
+direction = imp_z * w_impulse + lev_z * (1.0 - w_impulse)
+timing    = imp_z * 0.75 + lev_z * 0.25
+
+// ===================== BANDS (new in v3.2) =====================
+// Cut points are where the measured 60-day figures actually step, not round numbers.
+bandOf(float z) =>
+    int b = 2
+    if z < -1.5
+        b := 0
+    else if z < -0.5
+        b := 1
+    else if z < 0.5
+        b := 2
+    else if z < 1.0
+        b := 3
+    else
+        b := 4
+    b
+
+bandName(int b) =>
+    b == 0 ? "below -1.5" : b == 1 ? "-1.5 to -0.5" : b == 2 ? "-0.5 to +0.5" : b == 3 ? "+0.5 to +1" : "above +1"
+
+bnd = bandOf(direction)
+var int bandBars = 0
+bandBars := bnd == bnd[1] ? bandBars + 1 : 1
+bandDays = int(math.round(bandBars / barsPerDay))
+
+// ===================== PLOTS =====================
+sign_agree = (direction >= 0 and gl_growth >= 0) or (direction < 0 and gl_growth < 0)
+strong     = sign_agree and math.abs(direction) >= strong_gate
+
+// coloured on the MEASURED cut (-0.5), not on the sign. a reading of -0.3 is
+// negative but sits in the better half, and the old colouring called it red.
+aboveCut = direction >= -0.5
+dir_col = aboveCut ? (strong ? color.new(color.lime, 0) : color.new(color.aqua, 0)) : (strong ? color.new(color.red, 0) : color.new(#ff6ec7, 0))
+
+dir_plot  = tf_ok ? direction : na
+time_plot = tf_ok and show_timing ? timing : na
+band_plot = tf_ok and show_band ? direction : na
+
+plot(band_plot, "Projection edge (min lead)", color=color.new(color.gray, 55), linewidth=1, offset=lead_min_b)
+plot(band_plot, "Projection edge (max lead)", color=color.new(color.gray, 55), linewidth=1, offset=lead_max_b)
+plot(dir_plot, "DIRECTION (level-dominant)", color=dir_col, linewidth=3, offset=lead_mid_b)
+plot(time_plot, "TIMING (impulse - turns, NOT direction)", color=color.new(color.orange, 35), linewidth=1)
+plot(gl_growth, "Raw YoY Liquidity Growth %", color=color.new(color.orange, 0), linewidth=2)
+plot(direction, "DIRECTION unshifted", color=color.new(color.white, 45), linewidth=1)
+plot(tf_ok ? float(bnd) : na, "Band 0-4", display=display.data_window)
+
+// band edges, so the measured cut points are visible rather than implied
+// -0.5 is the measured step. drawn solid and bright; everything else is faint.
+hTop = hline(3.0,  "",     color=color.new(color.gray, 100))
+hCut = hline(-0.5, "THE LINE: -0.5", color=color.new(color.yellow, 20), linewidth=2)
+hBot = hline(-3.0, "",     color=color.new(color.gray, 100))
+h15n = hline(-1.5, "-1.5", color=color.new(color.red, 80),   linestyle=hline.style_dotted)
+h0   = hline(0,    "Zero", color=color.new(color.gray, 60),  linestyle=hline.style_dotted)
+h05p = hline(0.5,  "+0.5", color=color.new(color.gray, 85),  linestyle=hline.style_dotted)
+h1p  = hline(1.0,  "+1.0", color=color.new(color.gray, 85),  linestyle=hline.style_dotted)
+// constant colours: fill() on hlines will not take a series colour
+fill(hCut, hTop, color=color.new(color.green, 96), title="above the line - 73% in bull windows")
+fill(hBot, hCut, color=color.new(color.red, 95),   title="below the line - 66% in bull windows")
+
+// shaded on the MEASURED cut, not on the sign
+bgcolor(not tf_ok ? na : (direction >= -0.5 ? color.new(color.green, 94) : color.new(color.red, 90)))
+bgcolor(tf_ok and not sign_agree ? color.new(color.orange, 88) : na, title="z vs raw disagree")
+
+// ===================== ALERTS =====================
+alertcondition(ta.crossover(direction, 0),  "Direction flips UP",   "WGMI: liquidity DIRECTION turned UP (context, ~1 quarter out)")
+alertcondition(ta.crossunder(direction, 0), "Direction flips DOWN", "WGMI: liquidity DIRECTION turned DOWN (context, ~1 quarter out)")
+alertcondition(ta.crossover(direction, 1.0),   "Enters the top band",    "WGMI: DIRECTION above +1")
+alertcondition(ta.crossunder(direction, 1.0),  "Leaves the top band",    "WGMI: DIRECTION dropped below +1")
+alertcondition(ta.crossunder(direction, -0.5), "CROSSES BELOW -0.5 (the line)", "WGMI: DIRECTION below -0.5. 66% at 60d inside bull windows vs 73% above.")
+alertcondition(ta.crossover(direction, -0.5),  "CROSSES ABOVE -0.5 (the line)", "WGMI: DIRECTION back above -0.5. 73% at 60d inside bull windows.")
+alertcondition(ta.crossunder(direction, -1.5), "Enters the bottom band", "WGMI: DIRECTION below -1.5")
+alertcondition(ta.crossover(direction, -1.5),  "Leaves the bottom band", "WGMI: DIRECTION back above -1.5")
+
+// ===================== READOUT =====================
+var table t = table.new(position.bottom_right, 1, 5, bgcolor=color.new(color.black, 25))
+if barstate.islast and show_table
+    if not tf_ok
+        table.cell(t, 0, 0, "CHART TIMEFRAME NOT SUPPORTED - " + timeframe.period, text_color=color.red, text_size=size.small)
+        table.cell(t, 0, 1, "This engine reasons in DAYS. A " + str.tostring(growth_period) + "-day window needs " + str.tostring(int(math.round(growth_period * barsPerDay))) + " bars here; Pine's hard limit is 5000.", text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 2, "Switch to 1D or higher - 1D, 2D, 3D, 5D and 1W all work.", text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 3, "Showing nothing rather than a line built from the wrong lookback.", text_color=color.silver, text_size=size.tiny)
+        table.cell(t, 0, 4, "", text_color=color.silver, text_size=size.tiny)
+    else
+        why  = sign_agree ? "" : (direction < 0 ? "  (raw still +" + str.tostring(gl_growth, "#.#") + "%/yr - red exaggerated)" : "  (raw still negative - green fragile)")
+        hdr  = (aboveCut ? "ABOVE the -0.5 line" : "BELOW the -0.5 line") + "   [" + str.tostring(direction, "0.00") + " sd]   band " + bandName(bnd) + ", held " + str.tostring(bandDays) + "d" + why
+        hcol = aboveCut ? color.lime : color.red
+        string r2 = "BTC 60d from here:  all bars 47% (-11), median -2.3%   -   inside bull windows 66% (-5), median +14.8%"
+        if aboveCut
+            r2 := "BTC 60d from here:  all bars 65% (+7), median +12.5%   -   inside bull windows 73% (+2), median +19.9%"
+        r3   = "Most of that 18pp gap is a CYCLE PROXY - DIR is above -0.5 on 70% of bull bars and 35% of bear bars. Inside a bull window the gap is 7pp."
+        r4   = "OUT-OF-SAMPLE 58.0% @120d vs 59.2% always-up baseline = NO EDGE. n~28-37 independent windows. M2 repaints (upper bound)."
+        eff  = "chart " + timeframe.period + " - " + str.tostring(barsPerDay, "#.###") + " bars/day - effective growth " + str.tostring(int(math.round(growth_period_b / barsPerDay))) + "d, z " + str.tostring(int(math.round(zlen_b / barsPerDay))) + "d, lead " + str.tostring(int(math.round(lead_mid_b / barsPerDay))) + "d"
+        lag  = barsPerDay >= 1.0 ? "" : "  - updates once per bar, a flip can show up to " + str.tostring(int(math.round(1.0 / barsPerDay))) + "d late"
+        table.cell(t, 0, 0, hdr, text_color=hcol, text_size=size.small)
+        table.cell(t, 0, 1, r2, text_color=color.new(color.aqua, 0), text_size=size.tiny)
+        table.cell(t, 0, 2, r3, text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 3, r4, text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 4, eff + lag, text_color=color.silver, text_size=size.tiny)

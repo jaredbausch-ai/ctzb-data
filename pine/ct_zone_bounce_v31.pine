@@ -1,0 +1,301 @@
+//@version=6
+// CT ZONE BOUNCE - ETH 2D  v3.1
+// A/B/C/D = where CT RSI bottomed.  A<40  B 40-55  C 55-65  D>65
+// gold + diamond = CT and Stoch troughs moved opposite ways (best setups)
+// lowercase grey = bear-year signal, skip.   trailing dot = stoch K 20-50
+// Stats basis: ETH 2D, 2018-2025 bull windows (2016-17 excluded, 2x the volatility)
+indicator("CT Zone Bounce v3.1", "CTZB", overlay=false, max_labels_count=500, max_lines_count=500)
+
+// ---- inputs ----
+gI = "Indicator"
+rsiLen  = input.int(14, "CT RSI length", group=gI, minval=2)
+rsiSrc  = input.source(close, "Source", group=gI)
+sigLen  = input.int(14, "Signal line", group=gI, minval=1)
+stLen   = input.int(14, "Stoch RSI length", group=gI, minval=2)
+smK     = input.int(3, "Stoch %K", group=gI, minval=1)
+smD     = input.int(3, "Stoch %D", group=gI, minval=1)
+pvL     = input.int(3, "Pivot left bars", group=gI, minval=1)
+pvR     = input.int(3, "Pivot right bars", group=gI, minval=1)
+
+gZ = "Zones"
+zBear = input.float(40, "Bearish control ceiling", group=gZ)
+bSpl  = input.float(55, "A/B vs C split", group=gZ)
+dSpl  = input.float(65, "C vs D split", group=gZ)
+
+gC = "Regime"
+oAuto = "Auto: bull since cycle low"
+oDate = "Manual: bull since my date"
+oBull = "Always BULL"
+oBear = "Always BEAR"
+oCal  = "Calendar windows"
+regMode = input.string(oAuto, "Regime source", options=[oAuto,oDate,oBull,oBear,oCal], group=gC)
+lowLook = input.int(250, "Auto: lookback for the cycle low", group=gC, minval=20)
+minRec  = input.float(25, "Auto: % recovery to call it bull", group=gC, minval=0)
+minBar  = input.int(10, "Auto: bars the low must hold", group=gC, minval=0)
+bullSince = input.time(timestamp("2026-06-24T00:00"), "Manual: bull starts", group=gC)
+b1s = input.time(timestamp("2014-12-04T00:00"), "Cal: bull 1 start", group=gC)
+b1e = input.time(timestamp("2017-12-17T00:00"), "Cal: bull 1 end", group=gC)
+b2s = input.time(timestamp("2018-12-17T00:00"), "Cal: bull 2 start", group=gC)
+b2e = input.time(timestamp("2021-11-10T00:00"), "Cal: bull 2 end", group=gC)
+b3s = input.time(timestamp("2022-11-10T00:00"), "Cal: bull 3 start", group=gC)
+b3e = input.time(timestamp("2025-10-06T00:00"), "Cal: bull 3 end", group=gC)
+
+gD = "Display"
+hz       = input.string("60d", "Stats horizon", options=["20d","40d","60d","90d","120d"], group=gD)
+waitCl   = input.bool(true, "Print only after the confirm candle CLOSES", group=gD)
+disOnly  = input.bool(false, "Show ONLY diamond signals", group=gD)
+showOff  = input.bool(true, "Ghost bear-year signals", group=gD)
+dimAli   = input.bool(true, "Dim non-diamond signals", group=gD)
+showConn = input.bool(false, "Line to prior trough", group=gD)
+showStoch= input.bool(true, "Plot Stoch RSI", group=gD)
+showLeg  = input.bool(true, "Show legend", group=gD)
+lTR = "Top right"
+lBR = "Bottom right"
+lBL = "Bottom left"
+lMR = "Middle right"
+legPosI = input.string(lTR, "Legend position", options=[lTR,lBR,lBL,lMR], group=gD)
+legSz   = input.string("Large", "Legend text size", options=["Small","Medium","Large","Huge"], group=gD)
+
+// ---- calc ----
+ct = ta.rsi(rsiSrc, rsiLen)
+sg = ta.ema(ct, sigLen)
+kL = ta.sma(ta.stoch(ct, ct, ct, stLen), smK)
+dL = ta.sma(kL, smD)
+
+inW(int a, int b) =>
+    time >= a and time <= b
+
+lowOff = ta.lowestbars(close, lowLook)
+barsLo = na(lowOff) ? 0 : -lowOff
+lowPx  = ta.lowest(close, lowLook)
+lowT   = barsLo >= 0 ? time[barsLo] : time
+recPct = lowPx > 0 ? (close / lowPx - 1) * 100 : 0.0
+
+regOK = barsLo >= minBar and recPct >= minRec
+if regMode == oDate
+    regOK := time >= bullSince
+else if regMode == oBull
+    regOK := true
+else if regMode == oBear
+    regOK := false
+else if regMode == oCal
+    regOK := inW(b1s,b1e) or inW(b2s,b2e) or inW(b3s,b3e)
+
+// ---- zones ----
+h100 = hline(100, "", color=color.new(color.gray, 85))
+hBul = hline(60, "Bull control floor", color=color.new(color.teal, 55))
+hMid = hline(50, "Neutral line", color=color.new(color.gray, 45), linestyle=hline.style_dashed)
+hBer = hline(40, "Bear control ceiling", color=color.new(color.red, 55))
+h0   = hline(0, "", color=color.new(color.gray, 85))
+fill(hBul, h100, color=color.new(color.teal, 93), title="Bull control")
+fill(hMid, hBul, color=color.new(color.teal, 97), title="Neutral bullish")
+fill(hBer, hMid, color=color.new(color.red, 97), title="Neutral bearish")
+fill(h0, hBer, color=color.new(color.red, 93), title="Bear control")
+
+plot(ct, "CT RSI", color=color.new(#7E57C2, 0), linewidth=2)
+plot(sg, "Signal", color=color.new(color.orange, 45))
+plot(showStoch ? kL : na, "Stoch %K", color=color.new(color.blue, 60))
+plot(showStoch ? dL : na, "Stoch %D", color=color.new(color.red, 70))
+
+// ---- pivots & disagreement ----
+pv  = ta.pivotlow(ct, pvL, pvR)
+isP = not na(pv)
+tK  = kL[pvR]
+pvB = bar_index - pvR
+bk  = isP ? (pv < zBear ? "A" : pv < bSpl ? "B" : pv < dSpl ? "C" : "D") : "-"
+
+var float pCt = na
+var float pK  = na
+var int   pB  = na
+
+barOK = barstate.isconfirmed or not waitCl
+sigBar = isP and regOK
+hasPrev = sigBar and not na(pCt)
+dCt = hasPrev ? pv - pCt : na
+dK  = hasPrev ? tK - pK : na
+dis = hasPrev and ((dCt > 0 and dK < 0) or (dCt < 0 and dK > 0))
+prime = isP and tK >= 20 and tK < 50
+
+// ---- stats: ETH 2D, 2018-2025 bull windows ----
+pick(string h, float a, float b, float c, float d, float e) =>
+    float r = e
+    if h == "20d"
+        r := a
+    else if h == "40d"
+        r := b
+    else if h == "60d"
+        r := c
+    else if h == "90d"
+        r := d
+    r
+
+hitD(string h) =>
+    pick(h, 56., 68., 88., 84., 76.)
+
+hitA(string h) =>
+    pick(h, 50., 60., 63., 65., 62.)
+
+upD(string h) =>
+    pick(h, 14.2, 30.0, 43.6, 66.4, 74.7)
+
+upA(string h) =>
+    pick(h, 10.3, 19.8, 31.9, 46.2, 57.5)
+
+avD(string h) =>
+    pick(h, 20.0, 37.5, 54.2, 73.7, 93.5)
+
+avA(string h) =>
+    pick(h, 18.1, 29.2, 42.3, 61.4, 82.0)
+
+hitB(string b, string h) =>
+    float r = 0.
+    if b == "A"
+        r := pick(h, 39., 55., 71., 71., 71.)
+    else if b == "B"
+        r := pick(h, 60., 63., 71., 71., 62.)
+    else if b == "C"
+        r := pick(h, 48., 67., 62., 62., 67.)
+    else
+        r := pick(h, 57., 71., 57., 71., 57.)
+    r
+
+upB(string b, string h) =>
+    float r = 0.
+    if b == "A"
+        r := pick(h, 9.9, 15.8, 31.7, 48.1, 61.9)
+    else if b == "B"
+        r := pick(h, 11.3, 29.0, 38.0, 53.3, 63.0)
+    else if b == "C"
+        r := pick(h, 16.4, 20.9, 31.7, 44.7, 57.1)
+    else
+        r := pick(h, 7.1, 21.2, 34.4, 57.0, 82.5)
+    r
+
+bkName(string b) =>
+    string r = "Dip inside bull control"
+    if b == "A"
+        r := "Bounce off bearish control"
+    else if b == "B"
+        r := "Bounce off neutral line"
+    else if b == "C"
+        r := "Bounce off bull-zone base"
+    r
+
+bkCol(string b) =>
+    color r = #FFA726
+    if b == "A"
+        r := #26A69A
+    else if b == "B"
+        r := #42A5F5
+    else if b == "C"
+        r := #AB47BC
+    r
+
+// ---- markers ----
+pass = not disOnly or dis
+draw = isP and (regOK or showOff) and pass and barOK
+
+hitShow = hasPrev ? (dis ? hitD(hz) : hitA(hz)) : hitB(bk, hz)
+upShow  = hasPrev ? (dis ? upD(hz) : upA(hz)) : upB(bk, hz)
+avShow  = hasPrev ? (dis ? avD(hz) : avA(hz)) : upB(bk, hz)
+
+if draw
+    string sym = regOK ? bk : str.lower(bk)
+    if dis and regOK
+        sym := "◆" + sym
+    if prime and regOK
+        sym := sym + "·"
+    if not regOK
+        sym := sym + " (bear)"
+
+    string t1 = (dis ? "◆ DISAGREEMENT" : "aligned") + "  |  " + bk + "\n"
+    string t2 = bkName(bk) + "\n"
+    string t3 = ""
+    if dis
+        t3 := (dCt > 0 ? "CT higher low + stoch deeper" : "CT lower low + stoch higher") + "\n"
+    string t4 = "CT trough " + str.tostring(pv, "#.#")
+    string t5 = hasPrev ? "  (prev " + str.tostring(pCt, "#.#") + ")\n" : "\n"
+    string t6 = "Stoch K   " + str.tostring(tK, "#.#")
+    string t7 = hasPrev ? "  (prev " + str.tostring(pK, "#.#") + ")\n" : "\n"
+    string t8 = prime ? "stoch 20-50 at trough (prime)\n" : ""
+    string t9 = "\nHISTORICAL " + hz + "\n"
+    string tA = "Hit rate     " + str.tostring(hitShow, "#") + "%\n"
+    string tB = "Upside med  +" + str.tostring(upShow, "#.#") + "%\n"
+    string tC = "Upside avg  +" + str.tostring(avShow, "#.#") + "%"
+    string tD = regOK ? "" : "\n\nBEAR YEAR - hit rate drops to 15-41%"
+    string tip = t1 + t2 + t3 + t4 + t5 + t6 + t7 + t8 + t9 + tA + tB + tC + tD
+
+    int tr = (dimAli and not dis) ? 45 : 0
+    color bg = dis ? color.new(#FFD54F, tr) : color.new(bkCol(bk), tr)
+    color tc = dis ? color.black : color.white
+    if not regOK
+        bg := color.new(color.gray, 75)
+        tc := color.new(color.silver, 20)
+    label.new(pvB, pv, text=sym, style=label.style_label_up, color=bg,
+       textcolor=tc, size=size.tiny, yloc=yloc.price, tooltip=tip)
+
+    if showConn and hasPrev
+        color lc = dis ? color.new(#FFD54F, 20) : color.new(color.gray, 80)
+        line.new(pB, pCt, pvB, pv, xloc=xloc.bar_index, color=lc,
+           width=dis ? 2 : 1, style=line.style_dotted)
+
+diaRow = dis and regOK and pass and barOK
+plotshape(diaRow, "Diamond row", shape.diamond, location.bottom,
+   color=color.new(#FFD54F, 0), size=size.tiny)
+bgcolor(regOK ? color.new(color.teal, 96) : na, title="Bull window")
+
+if sigBar and barOK
+    pCt := pv
+    pK  := tK
+    pB  := pvB
+
+// ---- alerts ----
+alertcondition(isP and regOK, "Any bounce", "CTZB signal")
+alertcondition(isP and regOK and dis, "Diamond bounce", "CTZB diamond")
+alertcondition(isP and regOK and dis and dCt > 0, "Diamond: CT higher low", "CTZB diamond up")
+alertcondition(isP and regOK and dis and dCt < 0, "Diamond: CT lower low", "CTZB diamond dn")
+alertcondition(isP and regOK and bk == "A", "A signal", "CTZB A")
+alertcondition(isP and regOK and bk == "B", "B signal", "CTZB B")
+alertcondition(isP and regOK and bk == "C", "C signal", "CTZB C")
+alertcondition(isP and regOK and bk == "D", "D signal", "CTZB D")
+
+// ---- legend ----
+lPos = legPosI == lBR ? position.bottom_right : legPosI == lBL ? position.bottom_left : legPosI == lMR ? position.middle_right : position.top_right
+sSz = legSz == "Small" ? size.small : legSz == "Medium" ? size.normal : legSz == "Huge" ? size.huge : size.large
+tSz = legSz == "Small" ? size.tiny : legSz == "Medium" ? size.small : legSz == "Huge" ? size.large : size.normal
+var table lg = table.new(lPos, 3, 8, border_width=1, frame_width=1, frame_color=color.new(color.gray, 50))
+
+cS(int r, string s, color bg, color tx) =>
+    table.cell(lg, 0, r, s, text_color=tx, bgcolor=bg, text_size=sSz)
+
+cT(int r, int c, string s) =>
+    table.cell(lg, c, r, s, text_color=color.silver, bgcolor=color.new(color.black, 60), text_size=tSz)
+
+row(int r, string s, color c, string a, string b) =>
+    cS(r, s, color.new(c, 0), s == "◆" ? color.black : color.white)
+    cT(r, 1, a)
+    cT(r, 2, b)
+
+if showLeg and barstate.islast
+    string sub = "forced"
+    if regMode == oAuto
+        sub := "low " + str.format_time(lowT, "yyyy-MM-dd") + "  +" + str.tostring(recPct, "#") + "%"
+    else if regMode == oDate
+        sub := "manual " + str.format_time(bullSince, "yyyy-MM-dd")
+    else if regMode == oCal
+        sub := "calendar"
+    color rBg = regOK ? color.new(color.teal, 10) : color.new(color.red, 40)
+    table.cell(lg, 0, 0, regOK ? "BULL" : "BEAR", text_color=regOK ? color.black : color.white, bgcolor=rBg, text_size=sSz)
+    cT(0, 1, sub)
+    table.merge_cells(lg, 1, 0, 2, 0)
+    cT(1, 0, "")
+    cT(1, 1, "Hit " + hz)
+    cT(1, 2, "Upside")
+    row(2, "◆", #FFD54F, str.tostring(hitD(hz), "#") + "%", "+" + str.tostring(upD(hz), "#") + "%")
+    row(3, "A", #26A69A, str.tostring(hitB("A", hz), "#") + "%", "+" + str.tostring(upB("A", hz), "#") + "%")
+    row(4, "B", #42A5F5, str.tostring(hitB("B", hz), "#") + "%", "+" + str.tostring(upB("B", hz), "#") + "%")
+    row(5, "C", #AB47BC, str.tostring(hitB("C", hz), "#") + "%", "+" + str.tostring(upB("C", hz), "#") + "%")
+    row(6, "D", #FFA726, str.tostring(hitB("D", hz), "#") + "%", "+" + str.tostring(upB("D", hz), "#") + "%")
+    cT(7, 0, "ETH")
+    cT(7, 1, "2018-25 basis")
+    table.merge_cells(lg, 1, 7, 2, 7)

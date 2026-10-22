@@ -1,0 +1,419 @@
+//@version=6
+// CTZB SCANNER v7
+// ---------------------------------------------------------------------------
+// NEW DEFAULT REGIME, matching CT Zone Bounce v10: the BTC 2D CT RSI bull
+// control zone, in place of a hand-entered window that ended on a known top.
+//     BEAR -> BULL   BTC 2D CT RSI closed >= 60 for 8 consecutive bars
+//     BULL -> BEAR   BTC 2D CT RSI closed <  60 for 10 consecutive bars
+// Every run of BTC 2D CT RSI >= 60 lasting 8+ bars happened inside a bull
+// window - 27 of them, none in a bear period. The longest a bear ever held
+// the zone was 7 bars. As a filter on pooled ETH/BTC diamonds it scores +7
+// in-sample and +13 out-of-sample, against +3 / +8 for the manual windows.
+// Untick "Use the CT RSI regime" to go back to the fixed window.
+//
+// THE ETH 5D CONFIRMATION reads strongest under this regime: 85% and +54.4%
+// upside within 10 days of a 5D trough, against 52% and +14.2% outside.
+// ---------------------------------------------------------------------------
+// CTZB SCANNER v6
+// ---------------------------------------------------------------------------
+// THREE FIXES. Two of them were stopping this script from compiling at all.
+//
+// 1) THE RANGE EXPANSION FILTER IS GONE. Re-measured on 348 pooled diamonds
+//    across nine charts it was worth nothing (73% filtered vs 73% unfiltered)
+//    and the signals it discarded had HIGHER upside (+38.5% vs +31.9%) and
+//    LOWER risk than the ones it kept. Both of v5's compile errors were inside
+//    the filter's own code: edgeFor() called rxOn() before rxOn() was declared,
+//    and the "filt" status cell was indented into a block that did not exist.
+//    Deleting the filter fixes both.
+//
+// 2) THE ETH 5D EDGES WERE MEASURED AGAINST THE WRONG BASELINE. Every tag on
+//    the 5D row was overstated by 12 to 23 points. The 5D's own baseline is
+//    84% - inside a bull window, EVERY trough on the ETH 5D went 84% at 60
+//    days - but the v5 numbers were computed against the ~68% ETH aggregate.
+//    So v5 showed ETH 5D diamond = +15 when the true figure is 0. On the 5D
+//    chart the tag adds nothing: the chart is the edge, not the symbol.
+//    EVERY cell in the edge table has now been re-derived against the chart's
+//    OWN baseline, and the baseline is displayed so the edge can be read.
+//
+// 3) THE 5D CONFIRMATION WINDOW IS STRONGER THAN v5 CLAIMED, and it is a
+//    DIFFERENT TEST from the row above - it asks what happens on the OTHER
+//    five charts when they print near an ETH 5D trough. Re-measured, n=1064:
+//        within 10 days of an ETH 5D trough   n=421   82% win   +41.3% upside
+//        outside                              n=643   63% win   +23.6% upside
+//    +18pp, and the upside nearly doubles. On diamonds alone, 84% vs 70%.
+//    This is the strongest single effect in the whole stack and it survived
+//    re-measurement. v5 understated it as +12.
+//    CAVEAT UNCHANGED: the same test with a BTC 5D confirmer shows nothing,
+//    so the mechanism is still unexplained. Promising, not proven.
+// ---------------------------------------------------------------------------
+// Watches ETH 1D/2D/3D/5D and BTC 1D/2D from one chart. Fires ONE alert when
+// any tag prints on any of them and tells you which. Also tracks confluence:
+// how many days since each other chart last printed.
+//
+// Put it on any chart, set an alert on "CTZB scan" with Once Per Bar Close.
+// Signals outside your bull window are shown greyed and do NOT alert.
+//
+// "?" PROVISIONAL markers REPAINT: a low whose left side is complete and whose
+// right side has held so far. After 1 bar held 57-64% confirm; after 2, 80-84%.
+// ---------------------------------------------------------------------------
+indicator("CTZB Scanner v7", "CTZB-SCAN", overlay=false)
+
+// ---- inputs ----
+gS = "Symbols"
+symA = input.symbol("COINBASE:ETHUSD", "Asset A", group=gS)
+symB = input.symbol("COINBASE:BTCUSD", "Asset B", group=gS)
+
+gT = "Timeframes"
+tf1 = input.timeframe("1D", "A: tf 1", group=gT)
+tf2 = input.timeframe("2D", "A: tf 2", group=gT)
+tf3 = input.timeframe("3D", "A: tf 3", group=gT)
+tf4 = input.timeframe("5D", "A: tf 4", group=gT)
+tf5 = input.timeframe("1D", "B: tf 1", group=gT)
+tf6 = input.timeframe("2D", "B: tf 2", group=gT)
+
+gI = "Signal settings"
+rl = input.int(14, "CT RSI length", group=gI)
+sl = input.int(14, "Signal line", group=gI)
+stl= input.int(14, "Stoch RSI length", group=gI)
+kk = input.int(3, "Stoch %K", group=gI)
+pL = input.int(3, "Pivot left", group=gI)
+pR = input.int(3, "Pivot right", group=gI)
+confDays = input.int(10, "Confluence window (days)", group=gI, minval=1)
+
+gF = "ETH 5D confirmation"
+use5 = input.bool(true, "Flag signals confirmed by the ETH 5D", group=gF)
+only5 = input.bool(false, "Alert ONLY on 5D-confirmed signals", group=gF)
+win5 = input.int(10, "5D window (days either side)", group=gF, minval=1)
+
+gC = "Regime"
+useRz  = input.bool(true, "Use the CT RSI regime (recommended)", group=gC)
+rzSym  = input.symbol("COINBASE:BTCUSD", "Regime driver", group=gC)
+rzTF   = input.timeframe("2D", "Regime timeframe", group=gC)
+rzLvl  = input.float(60, "Bull control floor", group=gC)
+rzEnter= input.int(8, "Bars above the floor to turn BULL", group=gC, minval=1)
+rzExit = input.int(10, "Bars below the floor to turn BEAR", group=gC, minval=1)
+useWin = input.bool(true, "Fallback: only alert inside the fixed window", group=gC)
+b4s = input.time(timestamp("2026-06-24T00:00"), "Bull window start", group=gC)
+b4e = input.time(timestamp("2029-12-31T00:00"), "Bull window end", group=gC)
+
+gA = "Alerts"
+aAll   = input.bool(false, "Alert on ANY trough", group=gA)
+aDia   = input.bool(true,  "Alert on diamonds", group=gA)
+aGold  = input.bool(true,  "Alert on gold (trough < 50)", group=gA)
+aBucket= input.bool(true,  "Alert on A and B buckets", group=gA)
+minEdge= input.int(10, "Only alert if edge >= this (pp)", group=gA)
+
+gP = "Provisional (repaints)"
+showProv = input.bool(true, "Show '?' for lows that have not confirmed yet", group=gP)
+provAlert= input.bool(false, "Alert when a provisional forms", group=gP)
+
+// ---- the per-timeframe engine, evaluated inside request.security ----
+f_state() =>
+    float ct = ta.rsi(close, rl)
+    float sg = ta.ema(ct, sl)
+    float k  = ta.sma(ta.stoch(ct, ct, ct, stl), kk)
+    float pvRaw = ta.pivotlow(ct, pL, pR)
+    bool isP = not na(pvRaw) and barstate.isconfirmed
+    float pv = isP ? pvRaw : na
+    // a pivot that exists but whose bar has not closed is treated as provisional
+    float tk = k[pR]
+    var float pCt = na
+    var float pK  = na
+    bool hasPrev = isP and not na(pCt)
+    float dCt = hasPrev ? pv - pCt : na
+    float dK  = hasPrev ? tk - pK : na
+    bool dis = hasPrev and ((dCt > 0 and dK < 0) or (dCt < 0 and dK > 0))
+    if isP
+        pCt := pv
+        pK  := tk
+    var int lastBar = na
+    if isP
+        lastBar := bar_index
+    int since = na(lastBar) ? 9999 : bar_index - lastBar
+    // PROVISIONAL: a low whose left side is done and whose right side has held so far
+    int prr = 0
+    for r = pR - 1 to 1
+        if prr == 0 and not na(ct[r + pL])
+            bool ok = true
+            for i = 1 to pL
+                if ct[r + i] <= ct[r]
+                    ok := false
+            for i = 0 to r - 1
+                if ct[i] < ct[r]
+                    ok := false
+            if ok
+                prr := r
+    float ptv = prr > 0 ? ct[prr] : na
+    float ptk = prr > 0 ? k[prr] : na
+    float pdc = prr > 0 and not na(pCt) ? ct[prr] - pCt : na
+    float pdk = prr > 0 and not na(pK) ? k[prr] - pK : na
+    bool pdis = not na(pdc) and ((pdc > 0 and pdk < 0) or (pdc < 0 and pdk > 0))
+    float f1 = isP ? 1.0 : 0.0
+    float f2 = dis ? 1.0 : 0.0
+    float f3 = pdis ? 1.0 : 0.0
+    [f1, na(pv) ? na : pv, na(tk) ? na : tk, f2, ct, sg, float(since), float(prr), ptv, f3]
+
+la = barmerge.lookahead_off
+[p1, t1, k1, d1, c1, g1, s1, q1, v1, w1] = request.security(symA, tf1, f_state(), lookahead=la)
+[p2, t2, k2, d2, c2, g2, s2, q2, v2, w2] = request.security(symA, tf2, f_state(), lookahead=la)
+[p3, t3, k3, d3, c3, g3, s3, q3, v3, w3] = request.security(symA, tf3, f_state(), lookahead=la)
+[p4, t4, k4, d4, c4, g4, s4, q4, v4, w4] = request.security(symA, tf4, f_state(), lookahead=la)
+[p5, t5, k5, d5, c5, g5, s5, q5, v5, w5] = request.security(symB, tf5, f_state(), lookahead=la)
+[p6, t6, k6, d6, c6, g6, s6, q6, v6, w6] = request.security(symB, tf6, f_state(), lookahead=la)
+
+f_rz() =>
+    float c = ta.rsi(close, rl)
+    var bool st = false
+    var int nUp = 0
+    var int nDn = 0
+    nUp := c >= rzLvl ? nUp + 1 : 0
+    nDn := c <  rzLvl ? nDn + 1 : 0
+    if not st and nUp >= rzEnter
+        st := true
+        nDn := 0
+    else if st and nDn >= rzExit
+        st := false
+        nUp := 0
+    st ? 1.0 : 0.0
+
+rzRaw = request.security(rzSym, rzTF, f_rz(), lookahead=barmerge.lookahead_off)
+rzOK = not na(rzRaw) and rzRaw > 0.5
+inWin = useRz ? rzOK : (not useWin or (time >= b4s and time <= b4e))
+
+// ---- backtested edge per chart+tag, in pp over THAT CHART'S OWN baseline ----
+// Re-derived from the CSV exports for this build. 60-day horizon, bull windows
+// only, entry at the close of the confirmation bar three pivots after the
+// trough. Own baselines: ETH 1D 69%, ETH 2D 69%, ETH 3D 71%, ETH 5D 84%,
+// BTC 1D 72%, BTC 2D 72%. Sample sizes are in nFor() and several are tiny -
+// ETH 5D bucket C is n=3 and ETH 3D bucket D is n=6. Read those as anecdote.
+edgeFor(int slot, string tag) =>
+    float e = 0.0
+    if tag == "A"
+        e := slot == 1 ? 1. : slot == 2 ? -1. : slot == 3 ? 18. : slot == 4 ? 16. : slot == 5 ? 8. : 7.
+    else if tag == "B"
+        e := slot == 1 ? -4. : slot == 2 ? -6. : slot == 3 ? -8. : slot == 4 ? -4. : slot == 5 ? -1. : 1.
+    else if tag == "C"
+        e := slot == 1 ? 0. : slot == 2 ? -11. : slot == 3 ? -7. : slot == 4 ? -17. : slot == 5 ? -11. : 0.
+    else if tag == "D"
+        e := slot == 1 ? -17. : slot == 2 ? -5. : slot == 3 ? 12. : slot == 4 ? -13. : slot == 5 ? 6. : -5.
+    else if tag == "dia"
+        e := slot == 1 ? 9. : slot == 2 ? 20. : slot == 3 ? -1. : slot == 4 ? -1. : slot == 5 ? 2. : -5.
+    else if tag == "gold"
+        e := slot == 1 ? 10. : slot == 2 ? 17. : slot == 3 ? -4. : slot == 4 ? -13. : slot == 5 ? -3. : -5.
+    else if tag == "Bdia"
+        e := slot == 1 ? 16. : slot == 2 ? 20. : slot == 3 ? 12. : slot == 4 ? -9. : slot == 5 ? -6. : -5.
+    e
+
+// how many signals each cell above rests on
+nFor(int slot, string tag) =>
+    int n = 0
+    if tag == "A"
+        n := slot == 1 ? 74 : slot == 2 ? 25 : slot == 3 ? 18 : slot == 4 ? 12 : slot == 5 ? 64 : 29
+    else if tag == "B"
+        n := slot == 1 ? 104 : slot == 2 ? 48 : slot == 3 ? 32 : slot == 4 ? 15 : slot == 5 ? 127 : 52
+    else if tag == "C"
+        n := slot == 1 ? 48 : slot == 2 ? 24 : slot == 3 ? 14 : slot == 4 ? 3 : slot == 5 ? 54 : 32
+    else if tag == "D"
+        n := slot == 1 ? 21 : slot == 2 ? 11 : slot == 3 ? 6 : slot == 4 ? 7 : slot == 5 ? 23 : 15
+    else if tag == "dia"
+        n := slot == 1 ? 59 : slot == 2 ? 35 : slot == 3 ? 20 : slot == 4 ? 12 : slot == 5 ? 81 : 48
+    else if tag == "gold"
+        n := slot == 1 ? 33 : slot == 2 ? 21 : slot == 3 ? 12 : slot == 4 ? 7 : slot == 5 ? 49 : 30
+    else if tag == "Bdia"
+        n := slot == 1 ? 27 : slot == 2 ? 19 : slot == 3 ? 6 : slot == 4 ? 8 : slot == 5 ? 38 : 18
+    n
+
+baseFor(int slot) =>
+    slot == 1 ? 69 : slot == 2 ? 69 : slot == 3 ? 71 : slot == 4 ? 84 : slot == 5 ? 72 : 72
+
+// strip the exchange prefix and the quote currency: COINBASE:ETHUSD -> ETH
+tick(string full) =>
+    string t = full
+    int ci = str.pos(full, ":")
+    if not na(ci)
+        t := str.substring(full, ci + 1)
+    t := str.replace_all(t, "USDT", "")
+    t := str.replace_all(t, "USDC", "")
+    t := str.replace_all(t, "USD", "")
+    t := str.replace_all(t, "PERP", "")
+    t
+
+nmA = tick(symA)
+nmB = tick(symB)
+
+nameOf(int slot) =>
+    string r = nmB + " " + tf6
+    if slot == 1
+        r := nmA + " " + tf1
+    else if slot == 2
+        r := nmA + " " + tf2
+    else if slot == 3
+        r := nmA + " " + tf3
+    else if slot == 4
+        r := nmA + " " + tf4
+    else if slot == 5
+        r := nmB + " " + tf5
+    r
+
+// ---- classify one slot ----
+tagOf(float p, float tr, float dis) =>
+    string s = ""
+    if p > 0.5
+        string bk = tr < 40 ? "A" : tr < 55 ? "B" : tr < 65 ? "C" : "D"
+        bool isd = dis > 0.5
+        bool gold = isd and tr < 50
+        s := (gold ? "GOLD " : isd ? "DIA " : "") + bk
+    s
+
+keyOf(float p, float tr, float dis) =>
+    string s = ""
+    if p > 0.5
+        bool isd = dis > 0.5
+        s := "any"
+        if isd and tr < 50
+            s := "gold"
+        else if isd and tr < 55
+            s := "Bdia"
+        else if isd
+            s := "dia"
+        else if tr < 40
+            s := "A"
+        else if tr < 55
+            s := "B"
+        else if tr < 65
+            s := "C"
+        else
+            s := "D"
+    s
+
+wanted(string key, float e) =>
+    bool ok = false
+    if key == "gold"
+        ok := aGold
+    else if key == "Bdia" or key == "dia"
+        ok := aDia
+    else if key == "A" or key == "B" or key == "C" or key == "D"
+        ok := aBucket
+    else
+        ok := aAll
+    ok and e >= minEdge
+
+// ---- build the alert message ----
+var string msg = ""
+msg := ""
+int nFired = 0
+fire = false
+
+chk(int slot, float p, float tr, float dis) =>
+    float dz = dis
+    string t = tagOf(p, tr, dz)
+    string k = keyOf(p, tr, dz)
+    float e = k == "" ? 0.0 : edgeFor(slot, k)
+    int nn = k == "" ? 0 : nFor(slot, k)
+    bool w = k != "" and wanted(k, e) and inWin
+    [t, e, w, nn]
+
+[T1, E1, W1, N1] = chk(1, p1, t1, d1)
+[T2, E2, W2, N2] = chk(2, p2, t2, d2)
+[T3, E3, W3, N3] = chk(3, p3, t3, d3)
+[T4, E4, W4, N4] = chk(4, p4, t4, d4)
+[T5, E5, W5, N5] = chk(5, p5, t5, d5)
+[T6, E6, W6, N6] = chk(6, p6, t6, d6)
+
+fire := W1 or W2 or W3 or W4 or W5 or W6
+if W1
+    msg := msg + nameOf(1) + " " + T1 + " (edge " + (E1 >= 0 ? "+" : "") + str.tostring(E1, "#") + "pp over a " + str.tostring(baseFor(1)) + "% base, n=" + str.tostring(N1) + ")  "
+if W2
+    msg := msg + nameOf(2) + " " + T2 + " (edge " + (E2 >= 0 ? "+" : "") + str.tostring(E2, "#") + "pp over a " + str.tostring(baseFor(2)) + "% base, n=" + str.tostring(N2) + ")  "
+if W3
+    msg := msg + nameOf(3) + " " + T3 + " (edge " + (E3 >= 0 ? "+" : "") + str.tostring(E3, "#") + "pp over a " + str.tostring(baseFor(3)) + "% base, n=" + str.tostring(N3) + ")  "
+if W4
+    msg := msg + nameOf(4) + " " + T4 + " (edge " + (E4 >= 0 ? "+" : "") + str.tostring(E4, "#") + "pp over a " + str.tostring(baseFor(4)) + "% base, n=" + str.tostring(N4) + ")  "
+if W5
+    msg := msg + nameOf(5) + " " + T5 + " (edge " + (E5 >= 0 ? "+" : "") + str.tostring(E5, "#") + "pp over a " + str.tostring(baseFor(5)) + "% base, n=" + str.tostring(N5) + ")  "
+if W6
+    msg := msg + nameOf(6) + " " + T6 + " (edge " + (E6 >= 0 ? "+" : "") + str.tostring(E6, "#") + "pp over a " + str.tostring(baseFor(6)) + "% base, n=" + str.tostring(N6) + ")  "
+
+// confluence: how many of the six printed recently
+bpd(string tf) =>
+    float m = timeframe.in_seconds(tf) / 60.0
+    m <= 0 ? 1.0 : 1440.0 / m
+d1s = s1 / bpd(tf1)
+d2s = s2 / bpd(tf2)
+d3s = s3 / bpd(tf3)
+d4s = s4 / bpd(tf4)
+d5s = s5 / bpd(tf5)
+d6s = s6 / bpd(tf6)
+nRecent = (d1s <= confDays ? 1 : 0) + (d2s <= confDays ? 1 : 0) + (d3s <= confDays ? 1 : 0)
+nRecent += (d4s <= confDays ? 1 : 0) + (d5s <= confDays ? 1 : 0) + (d6s <= confDays ? 1 : 0)
+
+// ---- ETH 5D confirmation: slot 4 is the A-asset 5D chart ----
+conf5 = use5 and d4s <= win5
+fire5 = fire and conf5
+fireOut = only5 ? fire5 : fire
+
+plot(nRecent, "Charts signalling within the window", color=color.new(#42A5F5, 0), style=plot.style_columns)
+hline(3, "3 of 6", color=color.new(color.gray, 60), linestyle=hline.style_dashed)
+
+// ---- readout ----
+var table tb = table.new(position.top_right, 5, 8, border_width=1, frame_width=1, frame_color=color.new(color.gray, 50))
+cc(int r, int c, string s, color tx, color bg) =>
+    table.cell(tb, c, r, s, text_color=tx, bgcolor=bg, text_size=size.small)
+
+provTag(int slot, float q, float tv, float dz) =>
+    string s = ""
+    if q > 0.5 and not na(tv)
+        string bk = tv < 40 ? "A" : tv < 55 ? "B" : tv < 65 ? "C" : "D"
+        s := "?" + (dz > 0.5 ? (tv < 50 ? "◆" : "◇") : "") + bk
+    s
+
+rowFor(int r, int slot, string t, float e, float since, float ctv, float sgv, string pt) =>
+    color bg = color.new(color.black, 55)
+    color tc = color.silver
+    if t != ""
+        bg := color.new(#2563A8, 10)
+        if str.contains(t, "GOLD")
+            bg := color.new(#D97706, 10)
+        else if str.contains(t, "DIA")
+            bg := color.new(#64748B, 10)
+        tc := color.white
+    cc(r, 0, nameOf(slot), color.white, bg)
+    string shown = t != "" ? t : (showProv and pt != "" ? pt : "-")
+    if t == "" and pt != ""
+        bg := color.new(#475569, 35)
+        tc := color.new(color.white, 25)
+    cc(r, 1, shown, tc, bg)
+    string es = t == "" ? "b" + str.tostring(baseFor(slot)) : (e >= 0 ? "+" : "") + str.tostring(e, "#")
+    cc(r, 2, es, t == "" ? color.new(color.silver, 55) : e >= 15 ? color.new(#26A69A, 0) : color.silver, bg)
+    color sc = since <= confDays ? color.new(#26A69A, 0) : color.new(color.silver, 45)
+    cc(r, 3, str.tostring(since, "#") + "d", sc, bg)
+    color zc = ctv > 60 ? color.new(#26A69A, 0) : ctv > 50 ? color.silver : color.new(color.red, 20)
+    cc(r, 4, str.tostring(ctv, "#") + (ctv > sgv ? " ^" : " v"), zc, bg)
+
+if barstate.islast
+    cc(0, 0, "CHART", color.white, color.new(color.black, 30))
+    cc(0, 1, "TAG", color.white, color.new(color.black, 30))
+    cc(0, 2, "EDGE", color.white, color.new(color.black, 30))
+    cc(0, 3, "LAST", color.white, color.new(color.black, 30))
+    cc(0, 4, "CT", color.white, color.new(color.black, 30))
+    rowFor(1, 1, T1, E1, d1s, c1, g1, provTag(1, q1, v1, w1))
+    rowFor(2, 2, T2, E2, d2s, c2, g2, provTag(2, q2, v2, w2))
+    rowFor(3, 3, T3, E3, d3s, c3, g3, provTag(3, q3, v3, w3))
+    rowFor(4, 4, T4, E4, d4s, c4, g4, provTag(4, q4, v4, w4))
+    rowFor(5, 5, T5, E5, d5s, c5, g5, provTag(5, q5, v5, w5))
+    rowFor(6, 6, T6, E6, d6s, c6, g6, provTag(6, q6, v6, w6))
+    cc(7, 0, inWin ? "BULL" : "OUT", inWin ? color.black : color.white, inWin ? color.new(#26A69A, 10) : color.new(color.red, 40))
+    color cf5 = conf5 ? color.new(#0E7490, 10) : color.new(color.black, 55)
+    cc(7, 1, conf5 ? "5D CONFIRMED" : "no 5D conf", conf5 ? color.white : color.new(color.silver, 40), cf5)
+    cc(7, 2, "", color.silver, cf5)
+    cc(7, 3, str.tostring(d4s, "#") + "d", conf5 ? color.white : color.new(color.silver, 45), cf5)
+    cc(7, 4, useRz ? "RSI regime" : "fixed window", color.new(color.silver, 25), color.new(color.black, 55))
+
+alertcondition(fireOut, "CTZB scan", "CTZB: signal fired. See the chart table for which.")
+alertcondition(fire5, "CTZB scan + 5D confirmed", "CTZB: signal fired WITH ETH 5D confirmation (85% vs 52% under the RSI regime, upside +54% vs +14%).")
+alertcondition(fire and nRecent >= 3, "CTZB scan + confluence", "CTZB: signal fired with 3+ charts recently active.")
+nProv = (q1 > 0.5 ? 1 : 0) + (q2 > 0.5 ? 1 : 0) + (q3 > 0.5 ? 1 : 0)
+nProv += (q4 > 0.5 ? 1 : 0) + (q5 > 0.5 ? 1 : 0) + (q6 > 0.5 ? 1 : 0)
+provOn = provAlert and inWin and nProv > 0
+alertcondition(provOn, "Provisional forming", "CTZB: a provisional low is forming")
+alertcondition(nRecent >= 4, "4+ charts active", "CTZB: 4 or more charts have printed within the confluence window.")

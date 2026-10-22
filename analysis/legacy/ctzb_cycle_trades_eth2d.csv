@@ -1,0 +1,15 @@
+entry_date,entry_price,setup_tags,exit_date,exit_price,return_pct,best_pct,day_of_peak,worst_pct,day_of_low
+2023-03-14,1656.8,B + diamond + filled,2023-05-13,1800.03,8.6,29.3,32,-1.2,2
+2023-08-23,1660.36,A + diamond + filled,2023-10-22,1766.27,6.4,8.4,60,-8.4,50
+2023-10-18,1567.48,A + diamond + filled,2023-12-17,2218.71,41.5,53.3,52,-0.3,2
+2023-12-03,2243.29,D + diamond + hollow + prime dot + diamond+dot,2024-01-31,2303.61,2.7,21.2,39,-6.4,31
+2024-01-29,2342.96,B + diamond + filled,2024-03-29,3507.51,49.7,74.7,42,-4.4,2
+2024-03-27,3561.1,B + diamond + hollow + zone-exit B,2024-05-26,3890.72,9.3,11.6,60,-21.0,34
+2024-04-08,3504.58,B + diamond + hollow + zone-exit B,2024-06-07,3680.84,5.0,13.4,48,-19.7,22
+2024-04-18,3057.93,A + diamond + filled + prime dot + diamond+dot,2024-06-17,3482.06,13.9,30.0,38,-8.0,12
+2024-10-15,2610.54,B + diamond + filled + prime dot + diamond+dot,2024-12-14,3957.7,51.6,56.9,52,-9.8,20
+2025-02-16,2744.1,A + diamond + filled,2025-04-17,1588.57,-42.1,4.0,6,-49.6,52
+2025-03-18,2057.06,A + diamond + filled,2025-05-17,2498.24,21.4,33.2,56,-32.8,22
+2025-04-13,1624.03,A + diamond + filled + prime dot + diamond+dot,2025-06-12,2580.21,58.9,77.3,58,-5.3,2
+2025-06-10,2772.39,B + diamond + hollow + prime dot + diamond+dot + zone-exit B,2025-08-09,4251.91,53.4,56.3,60,-23.8,12
+2025-10-16,3832.99,A + diamond + filled + prime dot + diamond+dot,2025-12-15,2961.96,-22.7,11.0,10,-31.6,36

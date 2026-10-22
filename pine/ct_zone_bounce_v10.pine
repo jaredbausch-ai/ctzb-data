@@ -1,0 +1,466 @@
+//@version=6
+// CT ZONE BOUNCE v10
+// ---------------------------------------------------------------------------
+// THREE CHANGES FROM v9, all driven by an out-of-sample test. Every setting was
+// frozen on data up to 31 Dec 2021 and then scored on 2022-2026 untouched.
+//
+// 1) NEW DEFAULT REGIME: THE CT RSI BULL CONTROL ZONE ON THE BTC 2D.
+//    The old default was four hand-entered windows that ENDED ON KNOWN CYCLE
+//    TOPS. You cannot trade that - on 10 Nov 2021 nobody rang a bell. The new
+//    default reads the market instead of the calendar and every input is known
+//    on the bar:
+//        BEAR -> BULL   BTC 2D CT RSI has closed >= 60 for 8 consecutive bars
+//        BULL -> BEAR   BTC 2D CT RSI has closed <  60 for 10 consecutive bars
+//    One level, the bull control floor, in both directions.
+//
+//    WHY 8 BARS. Every run of BTC 2D CT RSI >= 60 was measured and sorted by
+//    whether it sat inside a bull window or a bear period:
+//        runs of  8+ bars    27 in bull windows    0 in bear periods
+//        runs of 12+ bars    22                    0
+//        runs of 16+ bars    11                    0
+//    The longest a bear period ever held the zone was 7 bars. ETH 2D is the
+//    same, 23 runs of 8+ and none in a bear. The separation is clean and it
+//    does not depend on returns at all, so 8 is not fitted to the P&L.
+//
+//    Scored as a filter on pooled ETH/BTC diamonds:
+//        hindsight windows      edge +3 in-sample   +8 out   +5 full span
+//        halving +0 to +550d         +4             +10      +7
+//        THIS RULE                   +7             +13      +9
+//        no regime filter at all     +0              +2      +1
+//    Best on every span, and the bottom line is the one that matters: strip
+//    the regime filter out and the diamond is worth +1. The filter IS the edge.
+//
+//    The old windows are still here. Switch "Regime source" back to
+//    "Bull windows below" to get v9 behaviour exactly.
+//
+//    DO NOT combine this with a halving window. Requiring both was tested:
+//    89% win and +103.8% upside in-sample, 50% on 20 signals out-of-sample.
+//    Textbook overfitting. One rule or the other, never both.
+//
+// 2) THE HOLLOW-BEATS-FILLED NOTE IS GONE. v9 told you the hollow diamond was
+//    the stronger glyph. That was in-sample only:
+//        <=2021   hollow 80%   filled 70%    hollow ahead by 10
+//        2022-26  hollow 76%   filled 77%    hollow behind by 1
+//    It was one era's accident. Neither glyph reliably leads, so v10 says
+//    nothing about it.
+//
+// 3) THE PRIME DOT IS PROMOTED. Stoch K between 20 and 50 at the trough, on
+//    ETH and BTC diamonds:
+//        <=2021   with dot 73%   without 75%    -2
+//        2022-26  with dot 88%   without 71%   +16, upside +34.9% vs +16.5%
+//    Flat in-sample and the strongest single tag out of sample. It is still
+//    not a filter - it gets a bigger dot, its own tooltip block, and an alert.
+//
+// THE ETH 5D CONFIRMATION WINDOW survived everything and reads strongest under
+// the new regime: a signal on another chart within 10 days of an ETH 5D trough
+// went 85% with +54.4% upside, against 52% and +14.2% outside. +33pp. It also
+// holds with NO regime filter, so it does not depend on the cycle call at all.
+// ---------------------------------------------------------------------------
+// v9 removed the range expansion filter (it discarded a fifth of all diamonds
+// and the discarded group had HIGHER upside) and corrected the filled-diamond
+// tooltip figures, which had been contaminated by that filter's output.
+// v8 removed the green star and the WGMI block.
+// v6 added the "?" provisional marker, which REPAINTS by design.
+//
+// ROBUSTNESS: pivot width 2/3/4/5 gives 75/75/71/73% win. RSI length 8 to 28
+// declines smoothly from 79% to 72%. Neither sits on a spike. The bucket
+// boundaries ARE fragile - move 40/55/65 by five points and which letter looks
+// worst changes - so treat A/B/C/D as vocabulary, not measurement.
+indicator("CT Zone Bounce v10", "CTZB", overlay=false, max_labels_count=500, max_lines_count=500)
+
+gI = "Indicator"
+rsiLen = input.int(14, "CT RSI length", group=gI, minval=2)
+rsiSrc = input.source(close, "Source", group=gI)
+sigLen = input.int(14, "Signal line", group=gI, minval=1)
+stLen  = input.int(14, "Stoch RSI length", group=gI, minval=2)
+smK    = input.int(3, "Stoch %K", group=gI, minval=1)
+smD    = input.int(3, "Stoch %D", group=gI, minval=1)
+pvL    = input.int(3, "Pivot left bars", group=gI, minval=1)
+pvR    = input.int(3, "Pivot right bars", group=gI, minval=1)
+
+gZ = "Zones"
+zBear = input.float(40, "Bearish control ceiling", group=gZ)
+zMid  = input.float(50, "Neutral line (diamond split)", group=gZ)
+bSpl  = input.float(55, "A/B vs C split", group=gZ)
+dSpl  = input.float(65, "C vs D split", group=gZ)
+
+gC = "Regime"
+oRsi  = "CT RSI bull control zone (BTC 2D)"
+oWin  = "Bull windows below"
+oDate = "Bull from one date on"
+oBull = "Always BULL"
+oBear = "Always BEAR"
+regMode = input.string(oRsi, "Regime source", options=[oRsi,oWin,oDate,oBull,oBear], group=gC)
+rzSym   = input.symbol("COINBASE:BTCUSD", "Regime driver", group=gC)
+rzTF    = input.timeframe("2D", "Regime timeframe", group=gC)
+rzLvl   = input.float(60, "Bull control floor", group=gC)
+rzEnter = input.int(8, "Bars above the floor to turn BULL", group=gC, minval=1)
+rzExit  = input.int(10, "Bars below the floor to turn BEAR", group=gC, minval=1)
+bullSince = input.time(timestamp("2026-06-24T00:00"), "One date: bull starts", group=gC)
+useW1 = input.bool(true, "Window 1", inline="w1", group=gC)
+b1s = input.time(timestamp("2014-12-04T00:00"), "", inline="w1", group=gC)
+b1e = input.time(timestamp("2017-12-17T00:00"), "to", inline="w1", group=gC)
+useW2 = input.bool(true, "Window 2", inline="w2", group=gC)
+b2s = input.time(timestamp("2018-12-17T00:00"), "", inline="w2", group=gC)
+b2e = input.time(timestamp("2021-11-10T00:00"), "to", inline="w2", group=gC)
+useW3 = input.bool(true, "Window 3", inline="w3", group=gC)
+b3s = input.time(timestamp("2022-11-10T00:00"), "", inline="w3", group=gC)
+b3e = input.time(timestamp("2025-10-06T00:00"), "to", inline="w3", group=gC)
+useW4 = input.bool(true, "Window 4", inline="w4", group=gC)
+b4s = input.time(timestamp("2026-06-24T00:00"), "", inline="w4", group=gC)
+b4e = input.time(timestamp("2029-12-31T00:00"), "to", inline="w4", group=gC)
+
+gS = "Stats"
+aETH = "ETH  (baseline 67%)"
+aBTC = "BTC  (baseline 69%)"
+aXRP = "XRP  (baseline 54%)"
+aOTH = "Other  (untested)"
+statAsset = input.string(aETH, "Which asset's stats", options=[aETH,aBTC,aXRP,aOTH], group=gS)
+
+gD = "Display"
+waitCl   = input.bool(true, "Print only after the confirm candle CLOSES", group=gD)
+disOnly  = input.bool(false, "Show ONLY diamond signals", group=gD)
+showOff  = input.bool(true, "Ghost out-of-window signals", group=gD)
+dimAli   = input.bool(true, "Dim non-diamond signals", group=gD)
+showConn = input.bool(false, "Line to prior trough", group=gD)
+showStoch= input.bool(true, "Plot Stoch RSI", group=gD)
+
+gY = "Cycle position"
+showCyc = input.bool(true, "Show the cycle-day counter", group=gY)
+cl1 = input.time(timestamp("2015-01-14T00:00"), "Cycle low 1", group=gY)
+cl2 = input.time(timestamp("2018-12-15T00:00"), "Cycle low 2", group=gY)
+cl3 = input.time(timestamp("2022-11-21T00:00"), "Cycle low 3", group=gY)
+cl4 = input.time(timestamp("2026-06-24T00:00"), "Cycle low 4 (current)", group=gY)
+
+gP = "Provisional markers (repaint)"
+showProv = input.bool(true, "Show '?' early-warning markers", group=gP)
+// 1 bar held = 57-64% confirm.  2 bars held = 80-84% confirm.
+provMin  = input.int(1, "Bars held before showing", group=gP, minval=1)
+
+ct = ta.rsi(rsiSrc, rsiLen)
+sg = ta.ema(ct, sigLen)
+kL = ta.sma(ta.stoch(ct, ct, ct, stLen), smK)
+dL = ta.sma(kL, smD)
+
+inW(bool use, int a, int b) =>
+    use and time >= a and time <= b
+
+// The control-zone state machine. Evaluated on the driver chart, so it reads
+// the same whatever timeframe you put this indicator on.
+f_rz() =>
+    float c = ta.rsi(close, rsiLen)
+    var bool st = false
+    var int nUp = 0
+    var int nDn = 0
+    nUp := c >= rzLvl ? nUp + 1 : 0
+    nDn := c <  rzLvl ? nDn + 1 : 0
+    if not st and nUp >= rzEnter
+        st := true
+        nDn := 0
+    else if st and nDn >= rzExit
+        st := false
+        nUp := 0
+    st ? 1.0 : 0.0
+
+rzRaw = request.security(rzSym, rzTF, f_rz(), lookahead=barmerge.lookahead_off)
+rzOK = not na(rzRaw) and rzRaw > 0.5
+
+regOK = inW(useW1,b1s,b1e) or inW(useW2,b2s,b2e) or inW(useW3,b3s,b3e) or inW(useW4,b4s,b4e)
+if regMode == oRsi
+    regOK := rzOK
+else if regMode == oDate
+    regOK := time >= bullSince
+else if regMode == oBull
+    regOK := true
+else if regMode == oBear
+    regOK := false
+
+
+h100 = hline(100, "", color=color.new(color.gray, 85))
+hBul = hline(60, "Bull control floor", color=color.new(color.teal, 55))
+hMid = hline(50, "Neutral line", color=color.new(color.gray, 35), linestyle=hline.style_dashed)
+hBer = hline(40, "Bear control ceiling", color=color.new(color.red, 55))
+h0   = hline(0, "", color=color.new(color.gray, 85))
+fill(hBul, h100, color=color.new(color.teal, 93), title="Bull control")
+fill(hMid, hBul, color=color.new(color.teal, 97), title="Neutral bullish")
+fill(hBer, hMid, color=color.new(color.red, 97), title="Neutral bearish")
+fill(h0, hBer, color=color.new(color.red, 93), title="Bear control")
+
+plot(ct, "CT RSI", color=color.new(#7E57C2, 0), linewidth=2)
+plot(sg, "Signal", color=color.new(color.orange, 45))
+plot(showStoch ? kL : na, "Stoch %K", color=color.new(color.blue, 60))
+plot(showStoch ? dL : na, "Stoch %D", color=color.new(color.red, 70))
+
+// ---- EXTENSION FLAGS (context only - nothing is filtered on them) ----
+// Signals that went on to START a run of 3+ consecutive losers looked like
+// this at entry, measured on 979 signals across five charts:
+//                              starts a run    does not
+//     stoch at the trough           56.5          27.6
+//     price over the SMA50        +18.3%         +5.6%
+//     prior 20 days               +14.7%         +2.7%
+//     drawdown from the ATH       -22.5%        -44.3%
+// Scored on four flags built from that:
+//     0 flags  n=304   1% started a cluster   75% win
+//     1 flag   n=254   2%                     75%
+//     2 flags  n=185   8%                     68%
+//     3 flags  n=165   6%                     67%
+//     4 flags  n= 71  11%                     61%
+// An elevenfold spread on the cluster rate, but clusters are rare, so four
+// flags still means 89% of the time nothing happens. As a trade filter it is
+// worth +4 for the loss of 40% of the winners, which is not worth it. It
+// appears on the tooltip and nowhere else. Four of four means "extended,
+// size smaller, take profit sooner", never "skip".
+ma50p = ta.sma(close, 50)
+runUp = close[20] != 0 ? close / close[20] * 100 - 100 : 0.0
+var float athSeen = na
+athSeen := na(athSeen) ? close : math.max(athSeen, close)
+ddATH = athSeen != 0 ? close / athSeen * 100 - 100 : 0.0
+
+pv  = ta.pivotlow(ct, pvL, pvR)
+isP = not na(pv)
+tK  = kL[pvR]
+pvB = bar_index - pvR
+bk  = isP ? (pv < zBear ? "A" : pv < bSpl ? "B" : pv < dSpl ? "C" : "D") : "-"
+
+var float pCt = na
+var float pK  = na
+var int   pB  = na
+
+barOK = barstate.isconfirmed or not waitCl
+sigBar = isP and regOK
+hasPrev = sigBar and not na(pCt)
+dCt = hasPrev ? pv - pCt : na
+dK  = hasPrev ? tK - pK : na
+dis = hasPrev and ((dCt > 0 and dK < 0) or (dCt < 0 and dK > 0))
+below = isP and pv < zMid
+strong = dis and below
+prime = isP and tK >= 20 and tK < 50
+
+isETH = statAsset == aETH
+isBTC = statAsset == aBTC
+isXRP = statAsset == aXRP
+
+// ---------------------------------------------------------------------------
+// EVERY NUMBER BELOW WAS RE-DERIVED FROM THE CSV EXPORTS FOR THIS BUILD.
+// ETH figures are the 2D, BTC the 2D, XRP the 2D. Horizon 60 days unless the
+// name says 10. Measured only inside your bull windows.
+//   win  = close at the horizon is above the entry close
+//   UPSIDE = median best price REACHED, which is what you actually trade
+//   RISK = worst CLOSE between entry and the eventual peak
+// Tag counts: ETH all 143 / filled 21 / hollow 14.  BTC 176 / 30 / 18.
+//              XRP 169 / 34 / 10.
+// ---------------------------------------------------------------------------
+baseRate() =>
+    isETH ? 69. : isBTC ? 72. : isXRP ? 58. : na
+
+upOf(string t, int d) =>
+    float r = na
+    if t == "all"
+        r := isETH ? (d == 10 ? 8.3 : 37.5) : isBTC ? (d == 10 ? 5.7 : 24.9) : isXRP ? (d == 10 ? 6.7 : 26.9) : na
+    else if t == "filled"
+        r := isETH ? (d == 10 ? 10.2 : 43.6) : isBTC ? (d == 10 ? 7.1 : 25.1) : isXRP ? (d == 10 ? 11.9 : 27.4) : na
+    else
+        r := isETH ? (d == 10 ? 5.4 : 54.9) : isBTC ? (d == 10 ? 3.5 : 24.5) : isXRP ? (d == 10 ? 6.8 : 10.1) : na
+    r
+
+riskOf(string t) =>
+    float r = na
+    if t == "all"
+        r := isETH ? -2.5 : isBTC ? -2.0 : isXRP ? -4.9 : na
+    else if t == "filled"
+        r := isETH ? -3.0 : isBTC ? 0.0 : isXRP ? -2.5 : na
+    else
+        r := isETH ? -0.8 : isBTC ? -3.4 : isXRP ? -3.7 : na
+    r
+
+edgeOf(string t) =>
+    float r = na
+    if t == "all"
+        r := isETH ? 0. : isBTC ? 0. : isXRP ? 0. : na
+    else if t == "filled"
+        r := isETH ? 16. : isBTC ? -5. : isXRP ? 7. : na
+    else
+        r := isETH ? 24. : isBTC ? -5. : isXRP ? -38. : na
+    r
+
+nOf(string t) =>
+    int r = 0
+    if t == "all"
+        r := isETH ? 143 : isBTC ? 176 : isXRP ? 169 : 0
+    else if t == "filled"
+        r := isETH ? 21 : isBTC ? 30 : isXRP ? 34 : 0
+    else
+        r := isETH ? 14 : isBTC ? 18 : isXRP ? 10 : 0
+    r
+
+// The prime dot, measured on diamonds of either glyph. Pooled across nine
+// charts it is worth +8pp of win rate and +10 points of upside, and it is
+// positive at 10/20/30/60/90 days and on 8 of 9 charts. XRP is the exception.
+dotOf(string f) =>
+    string r = ""
+    if f == "up"
+        r := isETH ? "+56.3%" : isBTC ? "+29.5%" : isXRP ? "+14.5%" : "n/a"
+    else if f == "edge"
+        r := isETH ? "+22" : isBTC ? "+3" : isXRP ? "-14" : "n/a"
+    else
+        r := isETH ? "11" : isBTC ? "16" : isXRP ? "9" : "0"
+    r
+
+bkName(string b) =>
+    string r = "Dip inside bull control"
+    r := b == "A" ? "Bounce off bear control" : b == "B" ? "Bounce off neutral" : b == "C" ? "Bounce off bull base" : r
+    r
+
+bkCol(string b) =>
+    b == "A" ? #26A69A : b == "B" ? #42A5F5 : b == "C" ? #AB47BC : #FFA726
+
+fmtE(float e) =>
+    na(e) ? "n/a" : (e >= 0 ? "+" : "") + str.tostring(e, "#") + " pp"
+
+pass = disOnly ? dis : true
+draw = isP and (regOK or showOff) and pass and barOK
+
+if draw
+    string sym = regOK ? bk : str.lower(bk)
+    if dis and regOK
+        sym := (strong ? "◆" : "◇") + sym
+    if prime and regOK
+        sym := sym + "●"
+
+    string tg = not dis ? "all" : strong ? "filled" : "hollow"
+    float e = edgeOf(tg)
+    string t1 = "plain bounce\n"
+    if dis
+        t1 := strong ? "◆ filled diamond, trough below 50\n" : "◇ hollow diamond, trough above 50\n"
+    string t2 = bk + " - " + bkName(bk) + "\n"
+    string t3 = "CT trough " + str.tostring(pv, "#.#")
+    string t4 = hasPrev ? "  (prev " + str.tostring(pCt, "#.#") + ")\n" : "\n"
+    string t5 = "Stoch K   " + str.tostring(tK, "#.#") + "\n"
+    string t7 = ""
+    if prime
+        t7 := "\n● PRIME DOT - stoch 20-50 at the trough\n"
+        if dis
+            t7 := t7 + "   this chart: " + dotOf("up") + " upside, edge " + dotOf("edge") + " pp, n=" + dotOf("n") + "\n"
+            t7 := t7 + "   OUT OF SAMPLE 2022-26 on ETH+BTC diamonds:\n"
+            t7 := t7 + "   with the dot 88%, upside +34.9%\n"
+            t7 := t7 + "   without      71%, upside +16.5%\n"
+    else if dis
+        t7 := "no prime dot - stoch was outside 20-50 at the trough\n"
+    string t8 = "\nUPSIDE available (median best price reached):\n"
+    t8 := t8 + "  10 days  " + str.tostring(upOf(tg, 10), "+#.#") + "%\n"
+    t8 := t8 + "  60 days  " + str.tostring(upOf(tg, 60), "+#.#") + "%\n"
+    t8 := t8 + "RISK " + str.tostring(riskOf(tg), "#.#") + "%  worst close before the peak\n"
+    t8 := t8 + "edge " + fmtE(e) + " over a " + str.tostring(baseRate(), "#") + "% baseline, n=" + str.tostring(nOf(tg)) + "\n"
+    int xf = 0
+    xf := xf + (tK > 45 ? 1 : 0)
+    xf := xf + (not na(ma50p) and close / ma50p * 100 - 100 > 12 ? 1 : 0)
+    xf := xf + (ddATH > -20 ? 1 : 0)
+    xf := xf + (runUp > 8 ? 1 : 0)
+    string tX = "\nEXTENSION " + str.tostring(xf) + "/4"
+    tX := tX + (xf >= 3 ? "  - stretched. 61-67% historically, and 4/4 starts a\nrun of 3+ losers 11% of the time vs 1% at zero flags.\nSize smaller, take profit sooner. Not a reason to skip.\n" : "  - not stretched. 75% historically.\n")
+    string tA = regOK ? "" : "\n\nOutside your bull window"
+    string tip = t1 + t2 + t3 + t4 + t5 + t7 + t8 + tX + tA
+
+    int tr = (dimAli and not dis) ? 45 : 0
+    color bg = color.new(bkCol(bk), tr)
+    color tc = color.white
+    if dis
+        bg := strong ? color.new(#FFD54F, 0) : color.new(#FFD54F, 55)
+        tc := strong ? color.black : color.white
+    if not regOK
+        bg := color.new(color.gray, 75)
+        tc := color.new(color.silver, 20)
+    label.new(pvB, pv, text=sym, style=label.style_label_up, color=bg,
+       textcolor=tc, size=size.tiny, yloc=yloc.price, tooltip=tip)
+
+    if showConn and hasPrev
+        color lc = dis ? color.new(#FFD54F, 20) : color.new(color.gray, 80)
+        line.new(pB, pCt, pvB, pv, xloc=xloc.bar_index, color=lc, width=dis ? 2 : 1, style=line.style_dotted)
+
+diaRow = strong and regOK and pass and barOK
+plotshape(diaRow, "Diamond row", shape.diamond, location.bottom, color=color.new(#FFD54F, 0), size=size.tiny)
+primeRow = isP and prime and dis and regOK and barOK
+plotshape(primeRow, "Prime dot row", shape.circle, location.bottom, color=color.new(#26A69A, 0), size=size.tiny)
+bgcolor(regOK ? color.new(color.teal, 96) : na, title="Bull window")
+
+if sigBar and barOK
+    pCt := pv
+    pK  := tK
+    pB  := pvB
+
+// ---- PROVISIONAL: a low that has held, but not yet for pvR bars ----
+// Left side is already known; we just need the right side to have held so far.
+provAt(int r) =>
+    bool ok = r >= provMin and r < pvR and not na(ct[r + pvL])
+    float v = ok ? ct[r] : na
+    if ok
+        for i = 1 to pvL
+            if ct[r + i] <= v
+                ok := false
+        for i = 0 to r - 1
+            if ct[i] < v
+                ok := false
+    ok
+
+// take the OLDEST qualifying offset, i.e. the one closest to confirming
+pr = 0
+for r = pvR - 1 to provMin
+    if pr == 0 and provAt(r)
+        pr := r
+
+var label pLbl = na
+label.delete(pLbl)
+
+if showProv and pr > 0 and regOK and not isP and barstate.islast
+    float ppv = ct[pr]
+    float ptK = kL[pr]
+    string pbk = ppv < zBear ? "A" : ppv < bSpl ? "B" : ppv < dSpl ? "C" : "D"
+    bool pHas = not na(pCt)
+    float pdC = pHas ? ppv - pCt : na
+    float pdK = pHas ? ptK - pK : na
+    bool pdis = pHas and ((pdC > 0 and pdK < 0) or (pdC < 0 and pdK > 0))
+    bool pstr = pdis and ppv < zMid
+    string psym = "?" + (pdis ? (pstr ? "◆" : "◇") : "") + pbk
+    int need = pvR - pr
+    string pt = "PROVISIONAL - not confirmed\n"
+    pt := pt + "needs " + str.tostring(need) + " more bar(s) above " + str.tostring(ppv, "#.#") + "\n"
+    string wd = pdis ? (pstr ? "gold diamond" : "hollow diamond") : "plain " + pbk
+    pt := pt + "\nwould print as: " + wd + "\n"
+    pt := pt + "CT " + str.tostring(ppv, "#.#") + "  Stoch K " + str.tostring(ptK, "#.#") + "\n"
+    string od = need == 1 ? "80-84% of these confirm" : "57-64% of these confirm"
+    pt := pt + "\n" + od + " (ETH history).\nTHIS CAN VANISH."
+    color pbg = color.new(pdis ? #FFD54F : bkCol(pbk), 70)
+    pLbl := label.new(bar_index - pr, ppv, text=psym, style=label.style_label_up,
+       color=pbg, textcolor=color.new(color.white, 15), size=size.tiny,
+       yloc=yloc.price, tooltip=pt)
+
+alertcondition(isP and regOK and dis, "Any diamond", "CTZB diamond")
+alertcondition(isP and regOK and strong, "Filled diamond (trough below 50)", "CTZB filled diamond")
+alertcondition(isP and regOK and dis and not strong, "Hollow diamond (trough above 50)", "CTZB hollow diamond")
+alertcondition(isP and regOK and dis and prime, "Diamond + prime dot", "CTZB diamond with stoch 20-50")
+alertcondition(isP and regOK, "Any bounce", "CTZB signal")
+alertcondition(isP and regOK and prime, "Prime stoch (K 20-50)", "CTZB prime")
+alertcondition(isP and regOK and dis and prime, "Diamond + PRIME DOT", "CTZB diamond with the prime dot - strongest out-of-sample tag")
+alertcondition(isP and regOK and bk == "A", "A signal", "CTZB A")
+alertcondition(isP and regOK and bk == "B", "B signal", "CTZB B")
+alertcondition(isP and regOK and bk == "C", "C signal", "CTZB C")
+alertcondition(isP and regOK and bk == "D", "D signal", "CTZB D")
+provFire = showProv and pr > 0 and regOK and not isP
+alertcondition(provFire, "Provisional forming", "CTZB: provisional low forming, not yet confirmed")
+
+// ---- cycle position ----
+// Diamonds pooled across ETH/BTC 1D+2D by where in the cycle they fired:
+//   day   0-200  n=40  72% up, +28.6% upside
+//   day 200-400  n=35  66% up, +22.8% upside
+//   day 400-600  n=44  73% up, +26.2% upside
+//   day 600-900  n=63  83% up, +56.9% upside
+//   day 900+     n=39  79% up, +40.8% upside
+lastLow = time >= cl4 ? cl4 : time >= cl3 ? cl3 : time >= cl2 ? cl2 : cl1
+cycDay = int(math.floor((time - lastLow) / 86400000.0))
+cycBand = cycDay < 200 ? "0-200  weakest" : cycDay < 400 ? "200-400" : cycDay < 600 ? "400-600" : cycDay < 900 ? "600-900  best" : "900+"
+cycUp = cycDay < 200 ? "+28.6%" : cycDay < 400 ? "+22.8%" : cycDay < 600 ? "+26.2%" : cycDay < 900 ? "+56.9%" : "+40.8%"
+
+var table cycT = table.new(position.top_right, 1, 2, bgcolor=color.new(color.black, 30))
+if barstate.islast and showCyc
+    table.cell(cycT, 0, 0, "cycle day " + str.tostring(cycDay) + "   " + cycBand, text_color=cycDay >= 600 and cycDay < 900 ? color.lime : color.silver, text_size=size.tiny)
+    table.cell(cycT, 0, 1, "diamonds here: " + cycUp + " upside historically", text_color=color.new(color.silver, 25), text_size=size.tiny)

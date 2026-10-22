@@ -1,0 +1,751 @@
+//@version=6
+// CT ZONE BOUNCE v14
+// ---------------------------------------------------------------------------
+// v14 ADDS A LIVE CONFLUENCE BLOCK, above the odds table. Up to three companion charts are watched,
+// and the table now shows how many days since each one last printed, what tag
+// it was, and whether that falls inside the confluence window. Defaults to
+// this symbol's 3D and 5D plus BTC 2D; every slot is configurable and can be
+// pointed at the chart's own symbol or another one.
+//
+// WHAT CONFLUENCE IS ACTUALLY WORTH, so the block is read correctly:
+//   The ETH 5D window is the real one. A signal on another chart within 10
+//   days of an ETH 5D trough went 85% against 52% outside it. That survived
+//   out-of-sample testing and it holds with no regime filter at all.
+//   Two charts both printing B is NOT a win-rate edge. It looked like +10 on
+//   the hand-drawn windows and INVERTED to -8 under the live regime, on the
+//   same 39 signals. What it does reliably is halve the drawdown: paired
+//   signals ran -1.4% against -3.6% alone, on four of four tests. Treat
+//   confluence as a sizing input, not a reason to take a trade.
+// The block shows days and tags, which are facts. It does not multiply odds
+// together, because the measurement does not support doing that.
+// ---------------------------------------------------------------------------
+// CT ZONE BOUNCE v13
+// ---------------------------------------------------------------------------
+// v13 FIXES A BUG THAT MADE THE REGIME REWRITE YOUR DIAMOND HISTORY.
+//
+// THE BUG. The diamond compares a trough with the PREVIOUS trough. Until v13
+// the memory of that previous trough only updated when a signal was inside the
+// regime, so the regime was not just filtering which signals you trade - it
+// was deciding which trough counted as "previous", and therefore whether a
+// diamond existed at all. Switch "Regime source" and some diamonds appeared or
+// vanished on bars that had not changed.
+//
+// Measured across ETH 1D/2D/3D and BTC 1D/2D, comparing the hand-drawn windows
+// against the CT RSI regime on the 872 signals both of them show:
+//        chain gated by the regime (to v12)    8 of 872 disagree
+//        chain ungated (v13)                   0 of 872 disagree
+// One percent of signals were ambiguous for no good reason. A worked example,
+// ETH 3D on 2026-09-13, CT 62.3:
+//        hand-drawn windows   previous trough 47.3   -> hollow diamond
+//        CT RSI regime        previous trough 30.8   -> plain
+// The RSI regime had skipped the 2026-07-30 trough because BTC was not in its
+// bull state then, and chained all the way back to November instead. The low
+// immediately before it on the chart is 47.3, so hollow diamond is right.
+//
+// THE FIX. The previous-trough memory now updates on EVERY confirmed trough.
+// The regime still decides what is drawn, alerted and scored - it no longer
+// touches the momentum comparison. A diamond is now a property of the chart,
+// the same for everyone, whatever regime you have selected.
+//
+// WHAT IT COSTS. Almost nothing. Pooled ETH+BTC under the v11 regime, 60 days:
+//        chain gated     n=237   68%   +28.4%   edge +5
+//        chain ungated   n=233   67%   +27.9%   edge +4
+// Four signals and a point of edge, to make the chart stop contradicting
+// itself. Note that every figure measured before v13 used the gated chain, so
+// older numbers can differ by about this much. The difference is within noise.
+// ---------------------------------------------------------------------------
+// v15 FIXED THE RISK COLUMN. It had measured the worst CLOSE between entry and
+// the running peak, which missed every wick and ignored everything after the
+// high - and the peak lands around day 41 of a 60 day hold, so a third of the
+// trade was never counted. Measured against ETH 1D history the old column read
+// -3.8% where the true worst intraday low was -16.2%, understating drawdown by
+// roughly 4x, and up to 6.7x on bucket D. UPSIDE, WIN and EDGE were unaffected.
+// Expect every RISK number to get worse. That is the correction, not a
+// regression.
+//
+// v12 ADDED THE LIVE ODDS ENGINE. Every number on a signal is MEASURED by the
+// script from the history of the chart it is on, one pass, no lookahead: a
+// confirmed signal is filed in a pending queue with its entry close, each later
+// bar updates its running peak and its worst intraday low, and it is scored
+// once the horizon elapses. Drop it on any symbol and it works out that
+// chart's own odds. Verified against the batch study on ETH 2D before it was
+// written in Pine - any diamond n=35 89% +53.3%, filled n=21 86% +43.6%,
+// hollow n=14 93% +54.9%, zone-exit B n=20 75% +40.4%, all exact.
+// Read the n column: a 100% win rate on n=3 means nothing.
+// Still hardcoded, because one chart cannot measure them: the ETH 5D window,
+// the confluence finding, the cycle bands and the extension flags.
+//
+// v11 gave the bear side its own parameters. BULL after 8 bars at or above 60;
+// BEAR after 12 bars at or below 40. The asymmetry is real: 8+ bar runs above
+// 60 happened 27 times in bull windows and never in a bear, while dips below 40
+// are common in both, so the bear trigger has to be slower.
+// v10 promoted the prime dot and dropped the hollow-beats-filled claim.
+// v9 removed the range expansion filter. v8 removed the WGMI block and star.
+// v6 added the "?" provisional marker, which REPAINTS by design.
+indicator("CT Zone Bounce v14", "CTZB", overlay=false, max_labels_count=500, max_lines_count=500)
+
+gI = "Indicator"
+rsiLen = input.int(14, "CT RSI length", group=gI, minval=2)
+rsiSrc = input.source(close, "Source", group=gI)
+sigLen = input.int(14, "Signal line", group=gI, minval=1)
+stLen  = input.int(14, "Stoch RSI length", group=gI, minval=2)
+smK    = input.int(3, "Stoch %K", group=gI, minval=1)
+smD    = input.int(3, "Stoch %D", group=gI, minval=1)
+pvL    = input.int(3, "Pivot left bars", group=gI, minval=1)
+pvR    = input.int(3, "Pivot right bars", group=gI, minval=1)
+
+gZ = "Zones"
+zBear = input.float(40, "Bearish control ceiling", group=gZ)
+zMid  = input.float(50, "Neutral line (diamond split)", group=gZ)
+bSpl  = input.float(55, "A/B vs C split", group=gZ)
+dSpl  = input.float(65, "C vs D split", group=gZ)
+
+gC = "Regime"
+oRsi  = "CT RSI bull control zone (BTC 2D)"
+oWin  = "Bull windows below"
+oDate = "Bull from one date on"
+oBull = "Always BULL"
+oBear = "Always BEAR"
+regMode = input.string(oRsi, "Regime source", options=[oRsi,oWin,oDate,oBull,oBear], group=gC)
+rzSym   = input.symbol("COINBASE:BTCUSD", "Regime driver", group=gC)
+rzTF    = input.timeframe("2D", "Regime timeframe", group=gC)
+rzBull  = input.float(60, "BULL control floor", group=gC)
+rzBullN = input.int(8, "Bars at or above the floor to turn BULL", group=gC, minval=1)
+rzBear  = input.float(40, "BEAR control ceiling", group=gC)
+rzBearN = input.int(12, "Bars at or below the ceiling to turn BEAR", group=gC, minval=1)
+rzStart = input.bool(false, "Start in BULL before the first trigger", group=gC)
+bullSince = input.time(timestamp("2026-06-24T00:00"), "One date: bull starts", group=gC)
+useW1 = input.bool(true, "Window 1", inline="w1", group=gC)
+b1s = input.time(timestamp("2014-12-04T00:00"), "", inline="w1", group=gC)
+b1e = input.time(timestamp("2017-12-17T00:00"), "to", inline="w1", group=gC)
+useW2 = input.bool(true, "Window 2", inline="w2", group=gC)
+b2s = input.time(timestamp("2018-12-17T00:00"), "", inline="w2", group=gC)
+b2e = input.time(timestamp("2021-11-10T00:00"), "to", inline="w2", group=gC)
+useW3 = input.bool(true, "Window 3", inline="w3", group=gC)
+b3s = input.time(timestamp("2022-11-10T00:00"), "", inline="w3", group=gC)
+b3e = input.time(timestamp("2025-10-06T00:00"), "to", inline="w3", group=gC)
+useW4 = input.bool(true, "Window 4", inline="w4", group=gC)
+b4s = input.time(timestamp("2026-06-24T00:00"), "", inline="w4", group=gC)
+b4e = input.time(timestamp("2029-12-31T00:00"), "to", inline="w4", group=gC)
+
+gD = "Display"
+waitCl   = input.bool(true, "Print only after the confirm candle CLOSES", group=gD)
+disOnly  = input.bool(false, "Show ONLY diamond signals", group=gD)
+showOff  = input.bool(true, "Ghost out-of-window signals", group=gD)
+dimAli   = input.bool(true, "Dim non-diamond signals", group=gD)
+showConn = input.bool(false, "Line to prior trough", group=gD)
+showStoch= input.bool(true, "Plot Stoch RSI", group=gD)
+mkSize   = input.string("Normal", "Signal marker size", options=["Tiny","Small","Normal","Large","Huge"], group=gD)
+
+gY = "Cycle position"
+showCyc = input.bool(true, "Show the cycle-day counter", group=gY)
+cycPos  = input.string("Top left", "Cycle counter position", options=["Top left","Top centre","Bottom left","Top right"], group=gY, tooltip="Keep this away from the odds table. Top left is clear of a bottom-right odds table.")
+cl1 = input.time(timestamp("2015-01-14T00:00"), "Cycle low 1", group=gY)
+cl2 = input.time(timestamp("2018-12-15T00:00"), "Cycle low 2", group=gY)
+cl3 = input.time(timestamp("2022-11-21T00:00"), "Cycle low 3", group=gY)
+cl4 = input.time(timestamp("2026-06-24T00:00"), "Cycle low 4 (current)", group=gY)
+
+gO = "Live odds engine"
+showOdds = input.bool(true, "Show the measured odds table", group=gO)
+oHorizon = input.int(60, "Horizon in days", group=gO, minval=5)
+oMinN    = input.int(5, "Hide rows under this many signals", group=gO, minval=1)
+oPos     = input.string("Bottom right", "Table position", options=["Bottom right","Bottom left","Top left","Middle right"], group=gO)
+oSize    = input.string("Normal", "Text size", options=["Tiny","Small","Normal","Large","Huge"], group=gO)
+oTrim    = input.bool(true, "Hide bucket rows that show no edge", group=gO, tooltip="A/B/C/D rows whose edge is within 5 points of the baseline are dropped, since they are telling you nothing. The baseline row always stays.")
+
+gF = "Confluence  -  companion charts"
+showConf = input.bool(true, "Show the confluence block", group=gF)
+confWin  = input.int(10, "Window in days", group=gF, minval=1)
+c1Self = input.bool(true, "Slot 1 uses this chart's symbol", group=gF, inline="c1")
+c1Sym  = input.symbol("COINBASE:ETHUSD", "", group=gF, inline="c1")
+c1TF   = input.timeframe("3D", "tf", group=gF, inline="c1")
+c2Self = input.bool(true, "Slot 2 uses this chart's symbol", group=gF, inline="c2")
+c2Sym  = input.symbol("COINBASE:ETHUSD", "", group=gF, inline="c2")
+c2TF   = input.timeframe("5D", "tf", group=gF, inline="c2")
+c3Self = input.bool(false, "Slot 3 uses this chart's symbol", group=gF, inline="c3")
+c3Sym  = input.symbol("COINBASE:BTCUSD", "", group=gF, inline="c3")
+c3TF   = input.timeframe("2D", "tf", group=gF, inline="c3")
+
+gP = "Provisional markers (repaint)"
+showProv = input.bool(true, "Show '?' early-warning markers", group=gP)
+// 1 bar held = 57-64% confirm.  2 bars held = 80-84% confirm.
+provMin  = input.int(1, "Bars held before showing", group=gP, minval=1)
+
+ct = ta.rsi(rsiSrc, rsiLen)
+sg = ta.ema(ct, sigLen)
+kL = ta.sma(ta.stoch(ct, ct, ct, stLen), smK)
+dL = ta.sma(kL, smD)
+
+inW(bool use, int a, int b) =>
+    use and time >= a and time <= b
+
+// The control-zone state machine. Evaluated on the driver chart, so it reads
+// the same whatever timeframe you put this indicator on.
+f_rz() =>
+    float c = ta.rsi(close, rsiLen)
+    var bool st = rzStart
+    var int nUp = 0
+    var int nDn = 0
+    nUp := c >= rzBull ? nUp + 1 : 0
+    nDn := c <= rzBear ? nDn + 1 : 0
+    if nUp >= rzBullN
+        st := true
+        nDn := 0
+    else if nDn >= rzBearN
+        st := false
+        nUp := 0
+    st ? 1.0 : 0.0
+
+rzRaw = request.security(rzSym, rzTF, f_rz(), lookahead=barmerge.lookahead_off)
+rzOK = not na(rzRaw) and rzRaw > 0.5
+
+regOK = inW(useW1,b1s,b1e) or inW(useW2,b2s,b2e) or inW(useW3,b3s,b3e) or inW(useW4,b4s,b4e)
+if regMode == oRsi
+    regOK := rzOK
+else if regMode == oDate
+    regOK := time >= bullSince
+else if regMode == oBull
+    regOK := true
+else if regMode == oBear
+    regOK := false
+
+
+h100 = hline(100, "", color=color.new(color.gray, 85))
+hBul = hline(60, "Bull control floor", color=color.new(color.teal, 55))
+hMid = hline(50, "Neutral line", color=color.new(color.gray, 35), linestyle=hline.style_dashed)
+hBer = hline(40, "Bear control ceiling", color=color.new(color.red, 55))
+h0   = hline(0, "", color=color.new(color.gray, 85))
+fill(hBul, h100, color=color.new(color.teal, 93), title="Bull control")
+fill(hMid, hBul, color=color.new(color.teal, 97), title="Neutral bullish")
+fill(hBer, hMid, color=color.new(color.red, 97), title="Neutral bearish")
+fill(h0, hBer, color=color.new(color.red, 93), title="Bear control")
+
+plot(ct, "CT RSI", color=color.new(#7E57C2, 0), linewidth=2)
+plot(sg, "Signal", color=color.new(color.orange, 45))
+plot(showStoch ? kL : na, "Stoch %K", color=color.new(color.blue, 60))
+plot(showStoch ? dL : na, "Stoch %D", color=color.new(color.red, 70))
+
+// ---- EXTENSION FLAGS (context only - nothing is filtered on them) ----
+// Signals that went on to START a run of 3+ consecutive losers looked like
+// this at entry, measured on 979 signals across five charts:
+//                              starts a run    does not
+//     stoch at the trough           56.5          27.6
+//     price over the SMA50        +18.3%         +5.6%
+//     prior 20 days               +14.7%         +2.7%
+//     drawdown from the ATH       -22.5%        -44.3%
+// Scored on four flags built from that:
+//     0 flags  n=304   1% started a cluster   75% win
+//     1 flag   n=254   2%                     75%
+//     2 flags  n=185   8%                     68%
+//     3 flags  n=165   6%                     67%
+//     4 flags  n= 71  11%                     61%
+// An elevenfold spread on the cluster rate, but clusters are rare, so four
+// flags still means 89% of the time nothing happens. As a trade filter it is
+// worth +4 for the loss of 40% of the winners, which is not worth it. It
+// appears on the tooltip and nowhere else. Four of four means "extended,
+// size smaller, take profit sooner", never "skip".
+ma50p = ta.sma(close, 50)
+runUp = close[20] != 0 ? close / close[20] * 100 - 100 : 0.0
+var float athSeen = na
+athSeen := na(athSeen) ? close : math.max(athSeen, close)
+ddATH = athSeen != 0 ? close / athSeen * 100 - 100 : 0.0
+
+pv  = ta.pivotlow(ct, pvL, pvR)
+isP = not na(pv)
+tK  = kL[pvR]
+pvB = bar_index - pvR
+bk  = isP ? (pv < zBear ? "A" : pv < bSpl ? "B" : pv < dSpl ? "C" : "D") : "-"
+
+var float pCt = na
+var float pK  = na
+var int   pB  = na
+
+barOK = barstate.isconfirmed or not waitCl
+sigBar = isP and regOK
+hasPrev = isP and not na(pCt)
+dCt = hasPrev ? pv - pCt : na
+dK  = hasPrev ? tK - pK : na
+dis = hasPrev and ((dCt > 0 and dK < 0) or (dCt < 0 and dK > 0))
+below = isP and pv < zMid
+strong = dis and below
+prime = isP and tK >= 20 and tK < 50
+
+
+// ===========================================================================
+// LIVE ODDS ENGINE  -  measures this chart's own history, one pass, no lookahead
+// ===========================================================================
+// Tag rows: 0 all, 1 A, 2 B, 3 C, 4 D, 5 any diamond, 6 filled, 7 hollow,
+//           8 prime dot, 9 diamond+dot, 10 zone-exit B (left 60, dip held 50)
+oBarsPerDay = timeframe.in_seconds() / 86400.0
+oHold = math.max(1, math.round(oHorizon / math.max(oBarsPerDay, 0.0001)))
+
+var array<int>    tagN = array.new_int(11, 0)
+var array<int>    tagW = array.new_int(11, 0)
+var matrix<float> upM  = matrix.new<float>(11, 500, na)
+var matrix<float> rkM  = matrix.new<float>(11, 500, na)
+
+var array<int>   qBar = array.new_int()
+var array<float> qPx  = array.new_float()
+var array<float> qBst = array.new_float()
+var array<float> qMin = array.new_float()
+var array<int>   qBk  = array.new_int()
+var array<int>   qDi  = array.new_int()
+var array<int>   qPr  = array.new_int()
+var array<int>   qZn  = array.new_int()
+
+oRec(int t, float up, float rk, bool win) =>
+    int c = array.get(tagN, t)
+    array.set(tagN, t, c + 1)
+    if win
+        array.set(tagW, t, array.get(tagW, t) + 1)
+    if c < 500
+        matrix.set(upM, t, c, up)
+        matrix.set(rkM, t, c, rk)
+
+// track the current excursion out of the bull control zone
+var float zMin = na
+if ct >= rzBull
+    zMin := na
+else
+    zMin := na(zMin) ? ct : math.min(zMin, ct)
+
+// ---- 1. advance and score anything already pending (BEFORE filing new ones) ----
+if array.size(qBar) > 0
+    for ii = array.size(qBar) - 1 to 0
+        float bst = array.get(qBst, ii)
+        // RISK is the worst INTRADAY LOW across the whole hold. Until v15 this
+        // tracked the worst CLOSE and froze it at the running peak, which
+        // skipped every wick and ignored everything after the high. It read
+        // about a quarter of the real drawdown.
+        array.set(qMin, ii, math.min(array.get(qMin, ii), low))
+        if high > bst
+            array.set(qBst, ii, high)
+        if bar_index - array.get(qBar, ii) >= oHold
+            float px = array.get(qPx, ii)
+            float up = (array.get(qBst, ii) / px - 1) * 100
+            float rk = (array.get(qMin, ii) / px - 1) * 100
+            bool  wn = close > px
+            int   bq = array.get(qBk, ii)
+            int   dq = array.get(qDi, ii)
+            int   pq = array.get(qPr, ii)
+            int   zq = array.get(qZn, ii)
+            oRec(0, up, rk, wn)
+            oRec(bq, up, rk, wn)
+            if dq > 0
+                oRec(5, up, rk, wn)
+                oRec(dq == 1 ? 6 : 7, up, rk, wn)
+            if pq > 0
+                oRec(8, up, rk, wn)
+                if dq > 0
+                    oRec(9, up, rk, wn)
+            if zq > 0
+                oRec(10, up, rk, wn)
+            array.remove(qBar, ii)
+            array.remove(qPx, ii)
+            array.remove(qBst, ii)
+            array.remove(qMin, ii)
+            array.remove(qBk, ii)
+            array.remove(qDi, ii)
+            array.remove(qPr, ii)
+            array.remove(qZn, ii)
+
+// ---- 2. file a newly confirmed signal ----
+if isP and regOK and barstate.isconfirmed
+    int bkI = pv < zBear ? 1 : pv < bSpl ? 2 : pv < dSpl ? 3 : 4
+    int diI = dis ? (strong ? 1 : 2) : 0
+    int prI = prime ? 1 : 0
+    float zm = zMin[pvR]
+    bool zOK = bkI == 2 and ct[pvR] < rzBull and not na(zm) and zm >= zMid
+    array.push(qBar, bar_index)
+    array.push(qPx, close)
+    array.push(qBst, close)
+    array.push(qMin, close)
+    array.push(qBk, bkI)
+    array.push(qDi, diI)
+    array.push(qPr, prI)
+    array.push(qZn, zOK ? 1 : 0)
+
+// ---- 3. readers ----
+oN(int t) =>
+    array.get(tagN, t)
+
+oWin(int t) =>
+    int c = array.get(tagN, t)
+    c > 0 ? 100.0 * array.get(tagW, t) / c : na
+
+oUp(int t) =>
+    int c = math.min(array.get(tagN, t), 500)
+    float r = na
+    if c > 0
+        array<float> tmp = array.new_float()
+        for i = 0 to c - 1
+            array.push(tmp, matrix.get(upM, t, i))
+        r := array.median(tmp)
+    r
+
+oRk(int t) =>
+    int c = math.min(array.get(tagN, t), 500)
+    float r = na
+    if c > 0
+        array<float> tmp = array.new_float()
+        for i = 0 to c - 1
+            array.push(tmp, matrix.get(rkM, t, i))
+        r := array.median(tmp)
+    r
+
+oEdge(int t) =>
+    float a = oWin(t)
+    float z = oWin(0)
+    na(a) or na(z) ? na : a - z
+
+oName(int t) =>
+    t == 0 ? "all troughs" : t == 1 ? "A  <40" : t == 2 ? "B  40-55" : t == 3 ? "C  55-65" : t == 4 ? "D  >65" : t == 5 ? "any diamond" : t == 6 ? "filled <50" : t == 7 ? "hollow >=50" : t == 8 ? "prime dot" : t == 9 ? "diamond + dot" : "B out of the zone"
+
+// one tooltip line for a tag row
+oLine(string lead, int t) =>
+    string s = ""
+    if oN(t) >= oMinN
+        s := lead + "  n=" + str.tostring(oN(t)) + "  " + str.tostring(oWin(t), "#") + "%  up " + str.tostring(oUp(t), "+#.#") + "%  risk " + str.tostring(oRk(t), "#.#") + "%  edge " + str.tostring(oEdge(t), "+#") + "\n"
+    else if oN(t) > 0
+        s := lead + "  only n=" + str.tostring(oN(t)) + " so far, too few to score\n"
+    s
+
+bkName(string b) =>
+    string r = "Dip inside bull control"
+    r := b == "A" ? "Bounce off bear control" : b == "B" ? "Bounce off neutral" : b == "C" ? "Bounce off bull base" : r
+    r
+
+bkCol(string b) =>
+    b == "A" ? #26A69A : b == "B" ? #42A5F5 : b == "C" ? #AB47BC : #FFA726
+
+fmtE(float e) =>
+    na(e) ? "n/a" : (e >= 0 ? "+" : "") + str.tostring(e, "#") + " pp"
+
+mkTxt() =>
+    mkSize == "Huge" ? size.huge : mkSize == "Large" ? size.large : mkSize == "Normal" ? size.normal : mkSize == "Small" ? size.small : size.tiny
+
+pass = disOnly ? dis : true
+draw = isP and (regOK or showOff) and pass and barOK
+
+if draw
+    string sym = regOK ? bk : str.lower(bk)
+    if dis and regOK
+        sym := (strong ? "◆" : "◇") + sym
+    if prime and regOK
+        sym := sym + " ●"
+
+    string t1 = "plain bounce\n"
+    if dis
+        t1 := strong ? "◆ filled diamond, trough below 50\n" : "◇ hollow diamond, trough above 50\n"
+    string t2 = bk + " - " + bkName(bk) + "\n"
+    string t3 = "CT trough " + str.tostring(pv, "#.#")
+    string t4 = hasPrev ? "  (prev " + str.tostring(pCt, "#.#") + ")\n" : "\n"
+    string t5 = "Stoch K   " + str.tostring(tK, "#.#") + "\n"
+    int bkIx = pv < zBear ? 1 : pv < bSpl ? 2 : pv < dSpl ? 3 : 4
+    float zmT = zMin[pvR]
+    bool zOKT = bkIx == 2 and ct[pvR] < rzBull and not na(zmT) and zmT >= zMid
+    string t7 = ""
+    if prime
+        t7 := "\n● PRIME DOT - stoch 20-50 at the trough\n"
+    else if dis
+        t7 := "\nno prime dot - stoch was outside 20-50 at the trough\n"
+    string t8 = "\nMEASURED ON THIS CHART, " + str.tostring(oHorizon) + "-day horizon,\nas it stood when this signal printed:\n"
+    t8 := t8 + oLine(oName(0), 0)
+    t8 := t8 + oLine(oName(bkIx), bkIx)
+    if dis
+        t8 := t8 + oLine(oName(5), 5)
+        t8 := t8 + oLine(oName(strong ? 6 : 7), strong ? 6 : 7)
+    if prime
+        t8 := t8 + oLine(oName(8), 8)
+        if dis
+            t8 := t8 + oLine(oName(9), 9)
+    if zOKT
+        t8 := t8 + "\nTHIS IS THE ZONE-EXIT SETUP - left the bull zone,\nthe dip held " + str.tostring(zMid, "#") + ", trough in the B band:\n"
+        t8 := t8 + oLine(oName(10), 10)
+    t8 := t8 + "\nCONFLUENCE, measured across charts (not on this one):\n"
+    t8 := t8 + "  within 10 days of an ETH 5D trough: 85% vs 52%\n"
+    t8 := t8 + "  2D and 3D both printing B halves the drawdown,\n  but does NOT reliably raise the win rate\n"
+    int xf = 0
+    xf := xf + (tK > 45 ? 1 : 0)
+    xf := xf + (not na(ma50p) and close / ma50p * 100 - 100 > 12 ? 1 : 0)
+    xf := xf + (ddATH > -20 ? 1 : 0)
+    xf := xf + (runUp > 8 ? 1 : 0)
+    string tX = "\nEXTENSION " + str.tostring(xf) + "/4"
+    tX := tX + (xf >= 3 ? "  - stretched. 61-67% historically, and 4/4 starts a\nrun of 3+ losers 11% of the time vs 1% at zero flags.\nSize smaller, take profit sooner. Not a reason to skip.\n" : "  - not stretched. 75% historically.\n")
+    string tA = regOK ? "" : "\n\nOutside your bull window"
+    string tip = t1 + t2 + t3 + t4 + t5 + t7 + t8 + tX + tA
+
+    int tr = (dimAli and not dis) ? 45 : 0
+    color bg = color.new(bkCol(bk), tr)
+    color tc = color.white
+    if dis
+        bg := strong ? color.new(#FFD54F, 0) : color.new(#FFD54F, 55)
+        tc := strong ? color.black : color.white
+    if not regOK
+        bg := color.new(color.gray, 75)
+        tc := color.new(color.silver, 20)
+    label.new(pvB, pv, text=sym, style=label.style_label_up, color=bg,
+       textcolor=tc, size=mkTxt(), yloc=yloc.price, tooltip=tip)
+
+    if showConn and hasPrev
+        color lc = dis ? color.new(#FFD54F, 20) : color.new(color.gray, 80)
+        line.new(pB, pCt, pvB, pv, xloc=xloc.bar_index, color=lc, width=dis ? 2 : 1, style=line.style_dotted)
+
+diaRow = strong and regOK and pass and barOK
+primeRow = isP and prime and dis and regOK and barOK
+// plotshape's size argument must be a compile-time constant, so the marker
+// size input is served by one call per size. plotshape takes a series bool
+// straight, so the condition is a plain "and" - a "? x : na" ternary here is
+// a type error (CE10123: simple na used where series bool is expected).
+plotshape(mkSize == "Tiny" and diaRow, "Diamond row T", shape.diamond, location.bottom, color=color.new(#FFD54F, 0), size=size.tiny)
+plotshape(mkSize == "Small" and diaRow, "Diamond row S", shape.diamond, location.bottom, color=color.new(#FFD54F, 0), size=size.small)
+plotshape(mkSize == "Normal" and diaRow, "Diamond row N", shape.diamond, location.bottom, color=color.new(#FFD54F, 0), size=size.normal)
+plotshape(mkSize == "Large" and diaRow, "Diamond row L", shape.diamond, location.bottom, color=color.new(#FFD54F, 0), size=size.large)
+plotshape(mkSize == "Huge" and diaRow, "Diamond row H", shape.diamond, location.bottom, color=color.new(#FFD54F, 0), size=size.huge)
+plotshape(mkSize == "Tiny" and primeRow, "Prime dot row T", shape.circle, location.bottom, color=color.new(#26A69A, 0), size=size.tiny)
+plotshape(mkSize == "Small" and primeRow, "Prime dot row S", shape.circle, location.bottom, color=color.new(#26A69A, 0), size=size.small)
+plotshape(mkSize == "Normal" and primeRow, "Prime dot row N", shape.circle, location.bottom, color=color.new(#26A69A, 0), size=size.normal)
+plotshape(mkSize == "Large" and primeRow, "Prime dot row L", shape.circle, location.bottom, color=color.new(#26A69A, 0), size=size.large)
+plotshape(mkSize == "Huge" and primeRow, "Prime dot row H", shape.circle, location.bottom, color=color.new(#26A69A, 0), size=size.huge)
+bgcolor(regOK ? color.new(color.teal, 96) : na, title="Bull window")
+
+// v13: the chain is NOT gated by the regime. Every confirmed trough updates
+// the memory, so the diamond verdict is a property of the chart and does not
+// change when you switch regime source.
+if isP and barOK
+    pCt := pv
+    pK  := tK
+    pB  := pvB
+
+// ---- PROVISIONAL: a low that has held, but not yet for pvR bars ----
+// Left side is already known; we just need the right side to have held so far.
+provAt(int r) =>
+    bool ok = r >= provMin and r < pvR and not na(ct[r + pvL])
+    float v = ok ? ct[r] : na
+    if ok
+        for i = 1 to pvL
+            if ct[r + i] <= v
+                ok := false
+        for i = 0 to r - 1
+            if ct[i] < v
+                ok := false
+    ok
+
+// take the OLDEST qualifying offset, i.e. the one closest to confirming
+pr = 0
+for r = pvR - 1 to provMin
+    if pr == 0 and provAt(r)
+        pr := r
+
+var label pLbl = na
+label.delete(pLbl)
+
+if showProv and pr > 0 and regOK and not isP and barstate.islast
+    float ppv = ct[pr]
+    float ptK = kL[pr]
+    string pbk = ppv < zBear ? "A" : ppv < bSpl ? "B" : ppv < dSpl ? "C" : "D"
+    bool pHas = not na(pCt)
+    float pdC = pHas ? ppv - pCt : na
+    float pdK = pHas ? ptK - pK : na
+    bool pdis = pHas and ((pdC > 0 and pdK < 0) or (pdC < 0 and pdK > 0))
+    bool pstr = pdis and ppv < zMid
+    string psym = "?" + (pdis ? (pstr ? "◆" : "◇") : "") + pbk + (ptK >= 20 and ptK < 50 ? "●" : "")
+    int need = pvR - pr
+    string pt = "PROVISIONAL - not confirmed\n"
+    pt := pt + "needs " + str.tostring(need) + " more bar(s) above " + str.tostring(ppv, "#.#") + "\n"
+    string wd = pdis ? (pstr ? "gold diamond" : "hollow diamond") : "plain " + pbk
+    pt := pt + "\nwould print as: " + wd + "\n"
+    pt := pt + "CT " + str.tostring(ppv, "#.#") + "  Stoch K " + str.tostring(ptK, "#.#") + "\n"
+    string od = need == 1 ? "80-84% of these confirm" : "57-64% of these confirm"
+    pt := pt + "\n" + od + " (ETH history).  THIS CAN VANISH.\n"
+    int pbi = ppv < zBear ? 1 : ppv < bSpl ? 2 : ppv < dSpl ? 3 : 4
+    float pzm = zMin[pr]
+    bool pzOK = pbi == 2 and ct[pr] < rzBull and not na(pzm) and pzm >= zMid
+    bool pprime = ptK >= 20 and ptK < 50
+    pt := pt + "\nIF IT CONFIRMS, this is what that tag has paid\non this chart over " + str.tostring(oHorizon) + " days:\n"
+    pt := pt + oLine(oName(0), 0)
+    pt := pt + oLine(oName(pbi), pbi)
+    if pdis
+        pt := pt + oLine(oName(5), 5)
+        pt := pt + oLine(oName(pstr ? 6 : 7), pstr ? 6 : 7)
+    if pprime
+        pt := pt + oLine(oName(8), 8)
+        if pdis
+            pt := pt + oLine(oName(9), 9)
+    if pzOK
+        pt := pt + "\nZONE-EXIT SETUP - left the bull zone, dip held " + str.tostring(zMid, "#") + ":\n"
+        pt := pt + oLine(oName(10), 10)
+    pt := pt + "\nFront-running does not pay: buying 1 bar early\nmeans 31% of them never confirm, and those run\n4x the drawdown. Waiting cost nothing historically."
+    color pbg = color.new(pdis ? #FFD54F : bkCol(pbk), 70)
+    pLbl := label.new(bar_index - pr, ppv, text=psym, style=label.style_label_up,
+       color=pbg, textcolor=color.new(color.white, 15), size=mkTxt(),
+       yloc=yloc.price, tooltip=pt)
+
+
+
+// ---- confluence: what the companion charts last printed ----
+// Returns the time of that chart's last confirmed trough and its tag parts.
+// The chain here is ungated, exactly as on the main chart, so a companion's
+// diamond verdict does not depend on this chart's regime either.
+f_conf() =>
+    float c = ta.rsi(close, rsiLen)
+    float kk = ta.sma(ta.stoch(c, c, c, stLen), smK)
+    float p = ta.pivotlow(c, pvL, pvR)
+    bool isp = not na(p) and barstate.isconfirmed
+    float tk = kk[pvR]
+    var float pc = na
+    var float pk = na
+    var float lastT = na
+    var float lastB = na
+    var float lastD = na
+    var float lastP = na
+    bool dz = isp and not na(pc) and not na(tk) and ((p - pc > 0 and tk - pk < 0) or (p - pc < 0 and tk - pk > 0))
+    if isp and not na(tk)
+        lastT := time
+        lastB := p < zBear ? 1 : p < bSpl ? 2 : p < dSpl ? 3 : 4
+        lastD := dz ? (p < zMid ? 1 : 2) : 0
+        lastP := tk >= 20 and tk < 50 ? 1 : 0
+        pc := p
+        pk := tk
+    [lastT, lastB, lastD, lastP]
+
+cSym1 = c1Self ? syminfo.tickerid : c1Sym
+cSym2 = c2Self ? syminfo.tickerid : c2Sym
+cSym3 = c3Self ? syminfo.tickerid : c3Sym
+[k1t, k1b, k1d, k1p] = request.security(cSym1, c1TF, f_conf(), lookahead=barmerge.lookahead_off)
+[k2t, k2b, k2d, k2p] = request.security(cSym2, c2TF, f_conf(), lookahead=barmerge.lookahead_off)
+[k3t, k3b, k3d, k3p] = request.security(cSym3, c3TF, f_conf(), lookahead=barmerge.lookahead_off)
+
+cDays(float t) =>
+    na(t) ? na : (time - t) / 86400000.0
+
+cTag(float bq, float dq, float pq) =>
+    string s = "-"
+    if not na(bq)
+        string g = dq == 1 ? "◆" : dq == 2 ? "◇" : ""
+        s := g + (bq == 1 ? "A" : bq == 2 ? "B" : bq == 3 ? "C" : "D") + (pq == 1 ? " ●" : "")
+    s
+
+cName(string sy, string tf, bool self) =>
+    (self ? syminfo.ticker : str.replace_all(str.replace_all(sy, "COINBASE:", ""), "BINANCE:", "")) + " " + tf
+
+// ---- the measured-odds table ----
+// Four columns, not six: n rides along with the tag name and EDGE rides with
+// WIN, so the text can be set large and still fit the pane.
+oTblPos() =>
+    oPos == "Bottom left" ? position.bottom_left : oPos == "Top left" ? position.top_left : oPos == "Middle right" ? position.middle_right : position.bottom_right
+
+oTxt() =>
+    oSize == "Huge" ? size.huge : oSize == "Large" ? size.large : oSize == "Normal" ? size.normal : oSize == "Small" ? size.small : size.tiny
+
+var table oT = table.new(oTblPos(), 4, 20, border_width=1, frame_width=1, frame_color=color.new(color.gray, 55), bgcolor=color.new(color.black, 20))
+
+oCell(int r, int c, string s, color tx, color bgc) =>
+    table.cell(oT, c, r, s, text_color=tx, bgcolor=bgc, text_size=oTxt(), text_halign=c == 0 ? text.align_left : text.align_right)
+
+// a bucket row earns its place only if it is actually saying something
+oKeep(int t) =>
+    bool k = oN(t) >= oMinN
+    if k and oTrim and t >= 1 and t <= 4
+        float e = oEdge(t)
+        k := not na(e) and math.abs(e) >= 5
+    k
+
+// ORDER MATTERS. The table is anchored to the bottom of the pane, so the rows
+// written LAST sit at the bottom and are the ones that survive when the pane is
+// short. The odds go last on purpose: collapse the pane and you keep the odds,
+// open it full and the confluence block appears above them.
+if barstate.islast and showOdds
+    table.clear(oT, 0, 0, 3, 18)
+    color hb = color.new(#1E293B, 0)
+    color nb = color.new(color.black, 100)
+    int rr = 0
+    // ---- confluence FIRST, so it is what gets clipped on a short pane ----
+    if showConf
+        oCell(rr, 0, "CONFLUENCE  last print", color.white, hb)
+        oCell(rr, 1, "AGO", color.white, hb)
+        oCell(rr, 2, "TAG", color.white, hb)
+        oCell(rr, 3, "IN " + str.tostring(confWin) + "d", color.white, hb)
+        float d1 = cDays(k1t)
+        float d2 = cDays(k2t)
+        float d3 = cDays(k3t)
+        bool in1 = not na(d1) and d1 <= confWin
+        bool in2 = not na(d2) and d2 <= confWin
+        bool in3 = not na(d3) and d3 <= confWin
+        int nIn = (in1 ? 1 : 0) + (in2 ? 1 : 0) + (in3 ? 1 : 0)
+        rr := rr + 1
+        oCell(rr, 0, cName(c1Sym, c1TF, c1Self), in1 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 1, na(d1) ? "-" : str.tostring(d1, "#") + "d", in1 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 2, cTag(k1b, k1d, k1p), in1 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 3, in1 ? "yes" : "no", in1 ? #4ADE80 : color.new(color.silver, 45), nb)
+        rr := rr + 1
+        oCell(rr, 0, cName(c2Sym, c2TF, c2Self), in2 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 1, na(d2) ? "-" : str.tostring(d2, "#") + "d", in2 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 2, cTag(k2b, k2d, k2p), in2 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 3, in2 ? "yes" : "no", in2 ? #4ADE80 : color.new(color.silver, 45), nb)
+        rr := rr + 1
+        oCell(rr, 0, cName(c3Sym, c3TF, c3Self), in3 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 1, na(d3) ? "-" : str.tostring(d3, "#") + "d", in3 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 2, cTag(k3b, k3d, k3p), in3 ? #4ADE80 : color.silver, nb)
+        oCell(rr, 3, in3 ? "yes" : "no", in3 ? #4ADE80 : color.new(color.silver, 45), nb)
+        rr := rr + 1
+        oCell(rr, 0, nIn >= 2 ? "sizing: drawdown ran about half" : "sizing: no pairing right now", nIn >= 2 ? #4ADE80 : color.new(color.silver, 45), nb)
+        oCell(rr, 1, str.tostring(nIn) + "/3", nIn >= 2 ? #4ADE80 : color.new(color.silver, 45), nb)
+        oCell(rr, 2, "not a win-rate edge", color.new(color.silver, 55), nb)
+        oCell(rr, 3, "", color.silver, nb)
+        rr := rr + 1
+    // ---- odds LAST, so they are what you keep on a short pane ----
+    oCell(rr, 0, "MEASURED ON THIS CHART", color.white, hb)
+    oCell(rr, 1, "WIN", color.white, hb)
+    oCell(rr, 2, "UPSIDE", color.white, hb)
+    oCell(rr, 3, "RISK", color.white, hb)
+    rr := rr + 1
+    for t = 0 to 10
+        if oKeep(t) and rr < 18
+            float e = oEdge(t)
+            color tc = t == 0 ? color.new(color.silver, 10) : na(e) ? color.silver : e >= 10 ? #4ADE80 : e <= -5 ? #F87171 : color.silver
+            color rb = t == 0 ? color.new(#334155, 30) : nb
+            oCell(rr, 0, oName(t) + "   " + str.tostring(oN(t)), tc, rb)
+            oCell(rr, 1, t == 0 ? str.tostring(oWin(t), "#") + "%" : str.tostring(oWin(t), "#") + "%  " + str.tostring(e, "+#"), tc, rb)
+            oCell(rr, 2, str.tostring(oUp(t), "+#.#") + "%", tc, rb)
+            oCell(rr, 3, str.tostring(oRk(t), "#.#") + "%", color.new(color.silver, 25), rb)
+            rr := rr + 1
+    if rr < 19
+        oCell(rr, 0, str.tostring(oHorizon) + "d  -  " + str.tostring(array.size(qBar)) + " open", color.new(color.silver, 40), nb)
+        oCell(rr, 1, "n after the tag", color.new(color.silver, 55), nb)
+        oCell(rr, 2, "edge after WIN", color.new(color.silver, 55), nb)
+        oCell(rr, 3, "", color.silver, nb)
+
+alertcondition(isP and regOK and dis, "Any diamond", "CTZB diamond")
+alertcondition(isP and regOK and strong, "Filled diamond (trough below 50)", "CTZB filled diamond")
+alertcondition(isP and regOK and dis and not strong, "Hollow diamond (trough above 50)", "CTZB hollow diamond")
+alertcondition(isP and regOK and dis and prime, "Diamond + prime dot", "CTZB diamond with stoch 20-50")
+alertcondition(isP and regOK, "Any bounce", "CTZB signal")
+alertcondition(isP and regOK and prime, "Prime stoch (K 20-50)", "CTZB prime")
+alertcondition(isP and regOK and dis and prime, "Diamond + PRIME DOT", "CTZB diamond with the prime dot - strongest out-of-sample tag")
+alertcondition(isP and regOK and bk == "A", "A signal", "CTZB A")
+alertcondition(isP and regOK and bk == "B", "B signal", "CTZB B")
+alertcondition(isP and regOK and bk == "C", "C signal", "CTZB C")
+alertcondition(isP and regOK and bk == "D", "D signal", "CTZB D")
+provFire = showProv and pr > 0 and regOK and not isP
+alertcondition(provFire, "Provisional forming", "CTZB: provisional low forming, not yet confirmed")
+
+// ---- cycle position ----
+// Diamonds pooled across ETH/BTC 1D+2D by where in the cycle they fired:
+//   day   0-200  n=40  72% up, +28.6% upside
+//   day 200-400  n=35  66% up, +22.8% upside
+//   day 400-600  n=44  73% up, +26.2% upside
+//   day 600-900  n=63  83% up, +56.9% upside
+//   day 900+     n=39  79% up, +40.8% upside
+lastLow = time >= cl4 ? cl4 : time >= cl3 ? cl3 : time >= cl2 ? cl2 : cl1
+cycDay = int(math.floor((time - lastLow) / 86400000.0))
+cycBand = cycDay < 200 ? "0-200  weakest" : cycDay < 400 ? "200-400" : cycDay < 600 ? "400-600" : cycDay < 900 ? "600-900  best" : "900+"
+cycUp = cycDay < 200 ? "+28.6%" : cycDay < 400 ? "+22.8%" : cycDay < 600 ? "+26.2%" : cycDay < 900 ? "+56.9%" : "+40.8%"
+
+cycTblPos() =>
+    cycPos == "Top right" ? position.top_right : cycPos == "Top centre" ? position.top_center : cycPos == "Bottom left" ? position.bottom_left : position.top_left
+
+var table cycT = table.new(cycTblPos(), 1, 2, bgcolor=color.new(color.black, 20))
+if barstate.islast and showCyc
+    table.cell(cycT, 0, 0, "cycle day " + str.tostring(cycDay) + "   " + cycBand, text_color=cycDay >= 600 and cycDay < 900 ? color.lime : color.silver, text_size=oTxt())
+    table.cell(cycT, 0, 1, "diamonds here: " + cycUp + " upside historically", text_color=color.new(color.silver, 25), text_size=oTxt())

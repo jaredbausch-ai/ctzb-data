@@ -1,0 +1,285 @@
+//@version=5
+// ============================================================================
+// WGMI — DIRECTION ENGINE v3.1
+// Framework origin: Michael Howell global liquidity. Successor to WGMI-Compass.
+// ----------------------------------------------------------------------------
+// v3.1 CHANGES ONE THING ONLY: it works on timeframes other than 1D.
+// No input default, no weight, no threshold, and no line of engine maths has
+// been altered. On a 1D chart this file and v3 are numerically identical, and
+// that is the acceptance test — load both, they must overlay exactly.
+//
+// THE BUG IN v3 — it did not fail off the daily, it lied off the daily.
+//    Every day-denominated quantity was consumed as a BAR count:
+//        total_m2[growth_period]                 [252] -> 252 bars
+//        ta.sma(gl_growth, impulse_smooth)        20   -> 20 bars
+//        ta.change(gl_growth_s, impulse_period)   90   -> 90 bars
+//        zscore(gl_growth, zlen, zcap)           252   -> 252 bars
+//        offset = lead_min / lead_mid / lead_max       -> bars
+//    On 1D bars and days coincide, so v3 was correct there by accident of
+//    units. On a 2D chart the "252-day" growth window silently became 504
+//    days and the 110-day cone landed 220 days out. Nothing errored. The
+//    line just quietly measured something else while every input string
+//    still said "(days)" — the file documented an intent it did not honour.
+//
+// THE FIX — derive bars-per-day from the chart and convert days to bars.
+//    On 1D the factor is exactly 1.0, so every D2B conversion is an identity
+//    and nothing the 66.8%/58.0% figures rest on moves by a hair.
+//
+// SUPPORTED: 1D and above (1D, 2D, 3D, 5D, 1W all verified to fit).
+//    Below 1D the engine refuses and says why, rather than draw a plausible
+//    line built from the wrong window. That is not fussiness — Pine caps
+//    history at 5,000 bars, and a 252-day growth window needs 6,048 bars at
+//    1H and 24,192 at 15m. It is arithmetically impossible, not merely
+//    unwise, so the honest output is nothing plus an explanation.
+//
+// WHAT HIGHER TIMEFRAMES COST YOU — reporting lag, not accuracy.
+//    Above 1D the windows stay true to the day, but the line is only sampled
+//    once per bar. A direction flip mid-bar is not visible until that bar
+//    closes: up to 2 days late on 2D, 5 on 5D, 7 on weekly. Given the edge
+//    being claimed is a 90-130 day tilt, a few days of reporting lag is
+//    immaterial to the thesis — but it is stated here so it is known rather
+//    than discovered.
+//
+// ============================================================================
+// EVERYTHING BELOW THIS LINE IS v3's ORIGINAL HEADER, UNCHANGED.
+// ----------------------------------------------------------------------------
+// WHAT CHANGED IN v3, AND WHY — every change is backed by a measurement made on
+// 3,729 daily bars (2016-05-19 → 2026-08-03) against CoinMetrics BTC reference price.
+//
+// *** READ THIS FIRST — THE EDGE DOES NOT SURVIVE OUT-OF-SAMPLE ***
+//    Full-sample numbers look good and are MISLEADING. Split chronologically 65/35
+//    (in-sample 2016-05→2023-01, out-of-sample 2023-01→2026-08):
+//
+//        lead    IS hit%    OOS hit%   OOS "always up" baseline
+//         45      67.7%       49.4%          56.5%
+//         90      73.0%       56.4%          59.0%
+//        120      74.3%       58.0%          59.2%      <- IS-optimal
+//        127      73.9%       57.5%          60.1%
+//        180      72.1%       52.6%          68.6%
+//
+//    NOT ONE LEAD BEATS THE NAIVE BASELINE OUT-OF-SAMPLE. The same holds sweeping
+//    the impulse period (IS-optimal 110 -> OOS 56.0% vs 59.0% baseline).
+//    The flatness across leads is real but it is flat BELOW baseline out-of-sample;
+//    flat-and-wrong is indistinguishable from flat-and-robust if you never split.
+//    USE THIS AS CONTEXT, NOT AS A DIRECTIONAL FORECAST. It has not earned that.
+//
+// 1) THE DIRECTION LINE IS LEVEL-DOMINANT, AND THAT IS NOW THE HEADLINE.
+//    Of the two lines, level-dominant is the less bad one for direction:
+//        level-dominant  (w_impulse 0.25)   66.8% full-sample / 58.0% OOS
+//        impulse-dominant(w_impulse 0.75)   56.4% full-sample
+//        naive "always up" baseline         58.3% full-sample / 59.2% OOS
+//    The Split indicator plots the IMPULSE line as its headline. For DIRECTION that
+//    is the wrong line — it is built to time turns, not to point. v3 separates them:
+//    the level line points, the impulse line times. Do not read the impulse line
+//    as direction. But note the level line does not beat the baseline OOS either.
+//
+// 2) THE LEAD IS A CONE, NOT A LINE.
+//    Full-sample hit rate by lead: 90d 66.8% · 110d 67.1% · 120d 68.3% · 130d 67.8%.
+//    Flat across the whole range. I first read that flatness as robustness — it is NOT.
+//    Out-of-sample it is flat BELOW the baseline at every lead (see the table above), and
+//    flat-and-wrong looks identical to flat-and-robust until you split the sample.
+//    The cone is therefore drawn to express timing UNCERTAINTY, not to claim any lead
+//    works. Since no single lead is justified, v3 spans lead_min..lead_max rather than
+//    pretending to know it is exactly 120.
+//
+// 3) THE SAMPLE-SIZE CAVEAT IS ON THE CHART, PERMANENTLY.
+//    Those hit rates rest on ~28–37 INDEPENDENT (non-overlapping) 90d windows.
+//    At n=37, 73% vs a 61% baseline is z≈1.48, p≈0.14 — NOT statistically significant.
+//    Proving a +7pp edge at 80% power would need ~371 independent windows ≈ 91 years
+//    of Bitcoin. We have ten. Combined with the OOS failure above, this engine is
+//    CONTEXT — not a tilt, not a forecast — and the readout says so on every bar.
+//    Year-by-year the lead correlation swings from -0.68 (2023) to +0.75 (2017): the
+//    relationship is real in some regimes and inverted in others, and nothing tells
+//    you in advance which one you are in. That instability, not absence of signal, is
+//    the reason it cannot be traded.
+//
+// 4) THE RISK-ON COMPOSITE IS GONE FROM THE DIRECTION ENGINE.
+//    Split's CONFIRM line (−VIX, gold, gold/BTC, signed flow) scored 58.5% on 90d
+//    direction vs a 58.3% baseline — i.e. nothing. It is a coincident regime gauge,
+//    not a predictor, so it does not belong in a direction engine. Keep running it
+//    separately if you want the risk-on read; just never call it liquidity.
+//
+// KNOWN LIMITATION THIS SCRIPT CANNOT FIX — M2 REPAINT
+//    M2 is revised after publication, so every backtest above (and every one you have
+//    ever seen on this data) used numbers that were NOT knowable in real time. The
+//    true real-time edge is therefore unknown and is more likely below these figures
+//    than above. TradingView cannot serve point-in-time data; fixing this requires
+//    rebuilding on FRED ALFRED vintages locally. Treat the hit rates as an UPPER BOUND.
+// ============================================================================
+indicator("WGMI — Direction Engine v3.1", shorttitle="WGMI-Dir-v3.1", overlay=false)
+
+// ============================ INPUTS ============================
+// Every value below is in DAYS and is now honoured as days on any timeframe.
+lead_min  = input.int(90,  "Projection cone: MIN lead (days)", minval=1, maxval=400, group="Projection", tooltip="Measured edge is flat 90-130d. The cone spans your uncertainty rather than faking a point estimate.")
+lead_mid  = input.int(110, "Projection cone: MID lead (headline line)", minval=1, maxval=400, group="Projection")
+lead_max  = input.int(130, "Projection cone: MAX lead (days)", minval=1, maxval=400, group="Projection")
+
+w_impulse = input.float(0.25, "Direction: impulse weight (rest = level)", minval=0.0, maxval=1.0, step=0.05, group="Direction", tooltip="0.25 = level-dominant. Of the two lines this is the less-bad one for direction (full-sample 66.8% vs 56.4%), but NEITHER beats the always-up baseline out-of-sample. Raise toward 1 for turn-timing instead of direction.")
+
+zlen           = input.int(252, "Z-Score Lookback (days)",        minval=20, group="Core", tooltip="In DAYS. v3.1 converts to bars for the chart timeframe; on 1D this is a no-op.")
+growth_period  = input.int(252, "Liquidity Growth Period (days)", minval=1,  group="Core")
+impulse_period = input.int(90,  "Impulse Period (days)",          minval=5,  group="Core")
+impulse_smooth = input.int(20,  "Impulse Smoothing (days)",       minval=1,  group="Core")
+zcap           = input.float(3.0,"Z-Score Cap (σ)", minval=1.0, maxval=5.0, step=0.5, group="Core")
+
+show_timing = input.bool(true, "Show impulse (turn-timing) line",  group="Display")
+show_band   = input.bool(true, "Show projection cone",             group="Display")
+show_table  = input.bool(true, "Show readout + sample-size caveat",group="Display")
+strong_gate = input.float(0.5, "Strong threshold (σ)", minval=0.1, maxval=2.0, step=0.1, group="Display")
+
+// ==================== TIMEFRAME SCALING (the whole of v3.1) ====================
+// Ported from ETH_LogRegression_Sigma_Bands.pine:239-249, which is already working
+// in this repo. Crypto trades 24/7, so a calendar day is always 1440 minutes and
+// this conversion is exact rather than approximate.
+//
+// Deliberately written as plain inline arithmetic rather than a helper function.
+// timeframe.* built-ins are simple-typed and constant for the chart, so these stay
+// simple ints — the same type class as the input.int values they replace. Routing
+// them through a user function risks promoting them to series, and ta.sma/ta.stdev
+// lengths and the [] history operator are fussier about series lengths than about
+// simple ones. No reason to find out the hard way.
+minPerBar  = timeframe.isseconds ? timeframe.multiplier / 60.0 :
+             timeframe.isminutes ? float(timeframe.multiplier) :
+             timeframe.isdaily   ? 1440.0 * timeframe.multiplier :
+             timeframe.isweekly  ? 1440.0 * 7 * timeframe.multiplier :
+             timeframe.ismonthly ? 1440.0 * 30.44 * timeframe.multiplier : 1440.0
+barsPerDay = minPerBar > 0 ? 1440.0 / minPerBar : 1.0
+
+// 1D and above only. barsPerDay is 1.0 on daily, below 1.0 on anything longer.
+tf_ok = barsPerDay <= 1.0
+
+// When the timeframe is unsupported, scale by 1.0 rather than by the real factor.
+// The engine then computes ordinary daily-sized numbers that simply are not
+// plotted, instead of asking Pine for 6,048 bars of history and throwing a
+// runtime error over the top of the explanation we are trying to show.
+scale = tf_ok ? barsPerDay : 1.0
+
+zlen_b           = int(math.max(1, math.round(zlen           * scale)))
+growth_period_b  = int(math.max(1, math.round(growth_period  * scale)))
+impulse_period_b = int(math.max(1, math.round(impulse_period * scale)))
+impulse_smooth_b = int(math.max(1, math.round(impulse_smooth * scale)))
+
+lead_min_b = int(math.max(1, math.round(lead_min * scale)))
+lead_mid_b = int(math.max(1, math.round(lead_mid * scale)))
+lead_max_b = int(math.max(1, math.round(lead_max * scale)))
+
+// ============================ HELPER ============================
+zscore(src, len, cap) =>
+    m  = ta.sma(src, len)
+    sd = ta.stdev(src, len)
+    z  = sd == 0 ? 0.0 : (src - m) / sd
+    math.max(math.min(z, cap), -cap)
+
+la = barmerge.lookahead_off
+
+// ===================== GLOBAL LIQUIDITY (M2) — unchanged 21-country basket =====================
+// timeframe.period is kept deliberately. M2 is monthly data, so on 2D/5D/1W each
+// bar carries the same current monthly value it would on 1D — the series is a step
+// function either way and nothing is lost. Hardcoding "D" here would request a
+// timeframe LOWER than the chart on every supported case, which buys nothing and
+// changes the fetch semantics. This is also the pattern with 602 calls of precedent
+// across the WGMI corpus; a variable timeframe argument has zero.
+EUM2D = request.security("ECONOMICS:EUM2*FX:EURUSD",     timeframe.period, close, lookahead=la)
+USM2D = request.security("ECONOMICS:USM2",               timeframe.period, close, lookahead=la)
+CAM2D = request.security("ECONOMICS:CAM2*FX_IDC:CADUSD", timeframe.period, close, lookahead=la)
+CHM2D = request.security("ECONOMICS:CHM2*FX_IDC:CHFUSD", timeframe.period, close, lookahead=la)
+GBM2D = request.security("ECONOMICS:GBM2*FX:GBPUSD",     timeframe.period, close, lookahead=la)
+FIPOP = request.security("ECONOMICS:FIM2/FX_IDC:USDFIM", timeframe.period, close, lookahead=la)
+RUM2D = request.security("ECONOMICS:RUM2*FX_IDC:RUBUSD", timeframe.period, close, lookahead=la)
+NZM2D = request.security("ECONOMICS:NZM2*FX_IDC:NZDUSD", timeframe.period, close, lookahead=la)
+CNM2D = request.security("ECONOMICS:CNM2*FX_IDC:CNYUSD", timeframe.period, close, lookahead=la)
+TWM2D = request.security("ECONOMICS:TWM2*FX_IDC:TWDUSD", timeframe.period, close, lookahead=la)
+HKM2D = request.security("ECONOMICS:HKM2*FX_IDC:HKDUSD", timeframe.period, close, lookahead=la)
+INM2D = request.security("ECONOMICS:INM2*FX_IDC:INRUSD", timeframe.period, close, lookahead=la)
+JPM2D = request.security("ECONOMICS:JPM2*FX_IDC:JPYUSD", timeframe.period, close, lookahead=la)
+PHM2D = request.security("ECONOMICS:PHM2*FX_IDC:PHPUSD", timeframe.period, close, lookahead=la)
+SGM2D = request.security("ECONOMICS:SGM2*FX_IDC:SGDUSD", timeframe.period, close, lookahead=la)
+BRM2D = request.security("ECONOMICS:BRM2*FX_IDC:BRLUSD", timeframe.period, close, lookahead=la)
+COM2D = request.security("ECONOMICS:COM2*FX_IDC:COPUSD", timeframe.period, close, lookahead=la)
+MXM2D = request.security("ECONOMICS:MXM2*FX_IDC:MXNUSD", timeframe.period, close, lookahead=la)
+AEM2D = request.security("ECONOMICS:AEM2*FX_IDC:AEDUSD", timeframe.period, close, lookahead=la)
+TRM2D = request.security("ECONOMICS:TRM2*FX_IDC:TRYUSD", timeframe.period, close, lookahead=la)
+ZAM2D = request.security("ECONOMICS:ZAM2*FX_IDC:ZARUSD", timeframe.period, close, lookahead=la)
+
+total_m2 = (EUM2D+CHM2D+GBM2D+FIPOP+RUM2D + USM2D+CAM2D + NZM2D + CNM2D+TWM2D+HKM2D+INM2D+JPM2D+PHM2D+SGM2D + BRM2D+COM2D+MXM2D + AEM2D+TRM2D + ZAM2D) / 1000000000000
+
+// ===================== ENGINE =====================
+// Identical to v3 except that every length is now the bar-converted form of the
+// same day count. On 1D these _b values equal the raw inputs exactly.
+gl_growth   = (total_m2 - total_m2[growth_period_b]) / total_m2[growth_period_b] * 100
+gl_growth_s = ta.sma(gl_growth, impulse_smooth_b)
+gl_impulse  = ta.change(gl_growth_s, impulse_period_b)
+
+lev_z = zscore(gl_growth,  zlen_b, zcap)
+imp_z = zscore(gl_impulse, zlen_b, zcap)
+
+// DIRECTION = level-dominant. This is the line that measured 66.8%.
+direction = imp_z * w_impulse + lev_z * (1.0 - w_impulse)
+// TIMING = impulse-dominant. Fires early on turns; 56.4% on direction — do not point with it.
+timing    = imp_z * 0.75 + lev_z * 0.25
+
+// ===================== PLOTS =====================
+// Reality check: does the z-score lens agree with raw growth?
+sign_agree = (direction >= 0 and gl_growth >= 0) or (direction < 0 and gl_growth < 0)
+strong     = sign_agree and math.abs(direction) >= strong_gate
+
+dir_col = direction >= 0 ? (strong ? color.new(color.lime, 0) : color.new(color.aqua, 0)) : (strong ? color.new(color.red, 0) : color.new(#ff6ec7, 0))
+
+// Nothing plots on an unsupported timeframe. A blank pane plus the red readout is
+// honest; a line computed from a 42-day window while the header says 252 is not.
+dir_plot  = tf_ok ? direction : na
+time_plot = tf_ok and show_timing ? timing : na
+band_plot = tf_ok and show_band ? direction : na
+
+// The projection CONE: same series drawn at the two edge leads, filled between.
+// Width = how little we know about the exact lag. Honest by construction.
+// (Drawn as two edge lines rather than a filled band: fill() and plot-to-variable
+//  assignment are the only constructs here without precedent in the working WGMI
+//  scripts, so they are avoided for compile safety. The cone is the SPREAD between
+//  these two lines - same information, one less exotic construct.)
+plot(band_plot, "Projection edge (min lead)", color=color.new(color.gray, 55), linewidth=1, offset=lead_min_b)
+plot(band_plot, "Projection edge (max lead)", color=color.new(color.gray, 55), linewidth=1, offset=lead_max_b)
+
+// Headline line at the cone's midpoint
+plot(dir_plot, "DIRECTION (level-dominant)", color=dir_col, linewidth=3, offset=lead_mid_b)
+plot(time_plot, "TIMING (impulse - turns, NOT direction)", color=color.new(color.orange, 35), linewidth=1)
+
+// Raw series to data_window so they land in CSV exports for local validation
+plot(gl_growth, "Raw YoY Liquidity Growth %", color=color.new(color.orange, 0), linewidth=2)
+plot(direction, "DIRECTION unshifted", color=color.new(color.white, 45), linewidth=1)
+
+hline(0,  "Zero", color=color.gray)
+hline(1,  "+1σ",  color=color.new(color.green,60), linestyle=hline.style_dashed)
+hline(-1, "-1σ",  color=color.new(color.red,60),   linestyle=hline.style_dashed)
+
+bgcolor(not tf_ok ? na : (direction >= 0 ? color.new(color.green, 93) : color.new(color.red, 93)))
+// Amber tint = z-score and raw growth disagree -> the line is exaggerating, discount it
+bgcolor(tf_ok and not sign_agree ? color.new(color.orange, 88) : na, title="z vs raw disagree")
+
+alertcondition(ta.crossover(direction, 0),  "Direction flips UP",   "WGMI v3.1: liquidity DIRECTION turned UP (context, ~1 quarter out)")
+alertcondition(ta.crossunder(direction, 0), "Direction flips DOWN", "WGMI v3.1: liquidity DIRECTION turned DOWN (context, ~1 quarter out)")
+
+// ===================== READOUT =====================
+var table t = table.new(position.bottom_right, 1, 4, bgcolor=color.new(color.black, 25))
+if barstate.islast and show_table
+    if not tf_ok
+        table.cell(t, 0, 0, "CHART TIMEFRAME NOT SUPPORTED - " + timeframe.period, text_color=color.red, text_size=size.small)
+        table.cell(t, 0, 1, "This engine reasons in DAYS. A " + str.tostring(growth_period) + "-day window needs " + str.tostring(int(math.round(growth_period * barsPerDay))) + " bars here; Pine's hard limit is 5000.", text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 2, "Switch to 1D or higher - 1D, 2D, 3D, 5D and 1W all work.", text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 3, "Showing nothing rather than a line built from the wrong lookback.", text_color=color.silver, text_size=size.tiny)
+    else
+        dirw = direction >= 0 ? "UP" : "DOWN"
+        strw = strong ? "STRONG" : "weak"
+        why  = sign_agree ? "" : (direction < 0 ? "  (raw still +" + str.tostring(gl_growth, "#.#") + "%/yr - red exaggerated)" : "  (raw still negative - green fragile)")
+        hdr  = "DIRECTION " + str.tostring(lead_min) + "-" + str.tostring(lead_max) + "d out: " + dirw + " - " + strw + " [" + str.tostring(direction, "0.00") + " sd]" + why
+        hcol = direction >= 0 ? (strong ? color.lime : color.aqua) : (strong ? color.red : color.new(#ff6ec7, 0))
+        cav  = "n~28-37 independent windows - M2 repaints (upper bound) - CONTEXT ONLY, not a forecast."
+        // Effective windows in days, back-converted from the bars actually used, so
+        // rounding is visible rather than assumed. Matters most at 5D and 1W where
+        // day counts do not divide evenly (252d -> 50 bars -> 250d at 5D).
+        eff  = "chart " + timeframe.period + " - " + str.tostring(barsPerDay, "#.###") + " bars/day - effective growth " + str.tostring(int(math.round(growth_period_b / barsPerDay))) + "d, z " + str.tostring(int(math.round(zlen_b / barsPerDay))) + "d, impulse " + str.tostring(int(math.round(impulse_period_b / barsPerDay))) + "d, lead " + str.tostring(int(math.round(lead_mid_b / barsPerDay))) + "d"
+        lag  = barsPerDay >= 1.0 ? "" : "  - updates once per bar, so a flip can show up to " + str.tostring(int(math.round(1.0 / barsPerDay))) + "d late"
+        table.cell(t, 0, 0, hdr, text_color=hcol, text_size=size.small)
+        table.cell(t, 0, 1, "OUT-OF-SAMPLE 58.0% @120d vs 59.2% always-up baseline = NO EDGE. (In-sample 74.3% is contaminated.)", text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 2, cav, text_color=color.new(color.orange, 0), text_size=size.tiny)
+        table.cell(t, 0, 3, eff + lag, text_color=color.silver, text_size=size.tiny)
