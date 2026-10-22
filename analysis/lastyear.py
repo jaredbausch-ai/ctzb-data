@@ -28,7 +28,10 @@ Neighbouring days share most of their outcome window, so a year of daily
 forecasts is a handful of independent cases at 60/90 days. Every gate-ON day
 scorable at 60/90 falls inside 22 Oct - 5 Dec 2025: one episode, not a sample.
 
-Run from the repo root:  python3 -I analysis/lastyear.py [--start YYYY-MM-DD --end YYYY-MM-DD]
+Run from the repo root:  python3 -I analysis/lastyear.py [--start YYYY-MM-DD --end YYYY-MM-DD] [--csv out.csv]
+
+--csv writes one row per forecast: start price, the base forecast middle half
+and median, the closest-match median and the actual price, all in dollars.
 
 The window is a parameter so the identical method can be replayed on another
 year. 2023 (gate on from 25 Jan, a bull year) was replayed 22 Oct 2026 after
@@ -74,7 +77,10 @@ def score(rows, which):
 
 def main():
     global START, END
-    ap = argparse.ArgumentParser(); ap.add_argument('--start'); ap.add_argument('--end'); a = ap.parse_args()
+    ap = argparse.ArgumentParser(); ap.add_argument('--start'); ap.add_argument('--end'); ap.add_argument('--csv'); a = ap.parse_args()
+    out = open(a.csv, 'w') if a.csv else None
+    if out:
+        out.write('sym,H,forecast_date,target_date,gate,start,base_q25,base_med,base_q75,ana_med,actual\n')
     if a.start: START = dt.date.fromisoformat(a.start)
     if a.end: END = dt.date.fromisoformat(a.end)
     gate = T.gate_daily()
@@ -97,6 +103,12 @@ def main():
                 ch = T.pick(pool, X, np.array(T.vec(state[D], feats)), T.K_PRIMARY)
                 rows.append(dict(d=D, g=g, base=forecast(pool, oc), ana=forecast(ch, oc), act=oc[D], c0=cl[D],
                                  npool=len(pool)))
+            if out:
+                for r in rows:
+                    c0 = r['c0']; px = lambda x: round(c0 * (1 + x / 100), 2)
+                    out.write(f"{sym},{H},{r['d']},{r['d'] + dt.timedelta(days=H)},{int(r['g'])},{c0},"
+                              f"{px(r['base']['q25'])},{px(r['base']['med'])},{px(r['base']['q75'])},"
+                              f"{px(r['ana']['med'])},{px(r['act']['ret'])}\n")
             print(f'==================== {sym}  H={H}  forecasts {rows[0]["d"]} .. {rows[-1]["d"]}')
             for lab, sel in (('GATE ON  (primary)', [r for r in rows if r['g']]),
                              ('GATE OFF (variant)', [r for r in rows if not r['g']])):
