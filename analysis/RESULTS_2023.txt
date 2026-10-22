@@ -1,0 +1,200 @@
+==================== ETH  H=14  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 54%  median realised +0.6%
+    BASE   called up 100%  direction hit  54%  in IQR  90% (below   8% / above   2%)  median err   -2.5%  mean |err|   6.1%
+           up: fc  57% real  54% B 0.251  +10: fc  59% real  32% B 0.292  -10: fc  49% real  18% B 0.240  +20: fc  35% real   3% B 0.129  -20: fc  23% real   0% B 0.051
+    ANA    called up  91%  direction hit  52%  in IQR  82% (below  10% / above   8%)  median err   -2.5%  mean |err|   6.9%
+           up: fc  58% real  54% B 0.261  +10: fc  55% real  32% B 0.272  -10: fc  46% real  18% B 0.225  +20: fc  32% real   3% B 0.126  -20: fc  19% real   0% B 0.040
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 92%  median realised +10.1%
+    BASE   called up   0%  direction hit   8%  in IQR  52% (below   0% / above  48%)  median err  +11.7%  mean |err|  14.9%
+           up: fc  46% real  92% B 0.282  +10: fc  45% real  64% B 0.266  -10: fc  52% real   0% B 0.276  +20: fc  24% real  44% B 0.287  -20: fc  23% real   0% B 0.054
+    ANA    called up   0%  direction hit   8%  in IQR  44% (below   0% / above  56%)  median err  +17.8%  mean |err|  19.2%
+           up: fc  39% real  92% B 0.359  +10: fc  34% real  64% B 0.301  -10: fc  60% real   0% B 0.366  +20: fc  21% real  44% B 0.302  -20: fc  26% real   0% B 0.070
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  49%  analog  44%  realised  74%  med ret   +5.9%
+    2023-02 gate ON  n=28  base  58%  analog  63%  realised  50%  med ret   +0.1%
+    2023-03 gate ON  n=31  base  58%  analog  60%  realised  97%  med ret   +7.0%
+    2023-04 gate ON  n=30  base  58%  analog  62%  realised  40%  med ret   -1.3%
+    2023-05 gate ON  n=31  base  58%  analog  50%  realised  52%  med ret   +0.4%
+    2023-06 gate ON  n=30  base  58%  analog  57%  realised  63%  med ret   +1.9%
+    2023-07 gate ON  n=31  base  58%  analog  64%  realised  19%  med ret   -1.3%
+    2023-08 gate ON  n=31  base  57%  analog  55%  realised   0%  med ret   -5.5%
+    2023-09 gate ON  n=30  base  56%  analog  53%  realised  50%  med ret   +0.2%
+    2023-10 gate ON  n=31  base  56%  analog  57%  realised  77%  med ret  +13.7%
+    2023-11 gate ON  n=30  base  57%  analog  58%  realised  90%  med ret   +7.8%
+    2023-12 gate ON  n=31  base  57%  analog  60%  realised  68%  med ret   +2.1%
+
+==================== ETH  H=30  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 57%  median realised +1.6%
+    BASE   called up 100%  direction hit  57%  in IQR  94% (below   5% / above   0%)  median err   -4.7%  mean |err|   9.4%
+           up: fc  60% real  57% B 0.249  +10: fc  71% real  50% B 0.301  -10: fc  59% real  32% B 0.291  +20: fc  53% real  18% B 0.274  -20: fc  35% real   0% B 0.121
+    ANA    called up  97%  direction hit  56%  in IQR  86% (below  11% / above   3%)  median err   -6.4%  mean |err|  10.8%
+           up: fc  61% real  57% B 0.254  +10: fc  67% real  50% B 0.279  -10: fc  57% real  32% B 0.285  +20: fc  50% real  18% B 0.265  -20: fc  31% real   0% B 0.103
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 92%  median realised +8.9%
+    BASE   called up   0%  direction hit   8%  in IQR  64% (below   0% / above  36%)  median err  +13.0%  mean |err|  18.5%
+           up: fc  45% real  92% B 0.297  +10: fc  59% real  76% B 0.211  -10: fc  70% real  16% B 0.426  +20: fc  42% real  48% B 0.253  -20: fc  42% real   0% B 0.174
+    ANA    called up   0%  direction hit   8%  in IQR  48% (below   0% / above  52%)  median err  +17.0%  mean |err|  23.1%
+           up: fc  38% real  92% B 0.363  +10: fc  48% real  76% B 0.261  -10: fc  74% real  16% B 0.470  +20: fc  36% real  48% B 0.258  -20: fc  48% real   0% B 0.227
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  48%  analog  44%  realised  87%  med ret   +6.2%
+    2023-02 gate ON  n=28  base  60%  analog  66%  realised  68%  med ret   +6.1%
+    2023-03 gate ON  n=31  base  60%  analog  63%  realised 100%  med ret  +14.4%
+    2023-04 gate ON  n=30  base  61%  analog  62%  realised  30%  med ret   -2.3%
+    2023-05 gate ON  n=31  base  61%  analog  55%  realised  35%  med ret   -0.9%
+    2023-06 gate ON  n=30  base  61%  analog  61%  realised  77%  med ret   +2.5%
+    2023-07 gate ON  n=31  base  61%  analog  69%  realised   0%  med ret   -6.0%
+    2023-08 gate ON  n=31  base  60%  analog  57%  realised   3%  med ret   -9.1%
+    2023-09 gate ON  n=30  base  59%  analog  56%  realised  53%  med ret   +0.9%
+    2023-10 gate ON  n=31  base  58%  analog  59%  realised 100%  med ret  +16.3%
+    2023-11 gate ON  n=30  base  59%  analog  60%  realised 100%  med ret  +13.0%
+    2023-12 gate ON  n=31  base  59%  analog  64%  realised  61%  med ret   +2.7%
+
+==================== ETH  H=60  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 70%  median realised +7.0%
+    BASE   called up 100%  direction hit  70%  in IQR  92% (below   8% / above   0%)  median err  -10.7%  mean |err|  16.9%
+           up: fc  62% real  70% B 0.220  +10: fc  80% real  69% B 0.233  -10: fc  67% real  48% B 0.285  +20: fc  66% real  45% B 0.307  -20: fc  45% real   4% B 0.205
+    ANA    called up  95%  direction hit  65%  in IQR  89% (below  11% / above   0%)  median err   -9.6%  mean |err|  19.2%
+           up: fc  62% real  70% B 0.246  +10: fc  77% real  69% B 0.228  -10: fc  63% real  48% B 0.298  +20: fc  63% real  45% B 0.291  -20: fc  42% real   4% B 0.194
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 100%  median realised +12.6%
+    BASE   called up   0%  direction hit   0%  in IQR  88% (below   0% / above  12%)  median err  +18.1%  mean |err|  21.9%
+           up: fc  45% real 100% B 0.305  +10: fc  71% real 100% B 0.084  -10: fc  80% real  44% B 0.378  +20: fc  57% real  56% B 0.246  -20: fc  60% real   0% B 0.356
+    ANA    called up   0%  direction hit   0%  in IQR  48% (below   0% / above  52%)  median err  +31.8%  mean |err|  32.3%
+           up: fc  34% real 100% B 0.434  +10: fc  58% real 100% B 0.178  -10: fc  84% real  44% B 0.401  +20: fc  48% real  56% B 0.241  -20: fc  68% real   0% B 0.464
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  48%  analog  40%  realised 100%  med ret  +12.6%
+    2023-02 gate ON  n=28  base  62%  analog  64%  realised 100%  med ret  +15.8%
+    2023-03 gate ON  n=31  base  62%  analog  64%  realised 100%  med ret   +6.5%
+    2023-04 gate ON  n=30  base  62%  analog  65%  realised  33%  med ret   -1.8%
+    2023-05 gate ON  n=31  base  63%  analog  54%  realised  81%  med ret   +2.8%
+    2023-06 gate ON  n=30  base  63%  analog  63%  realised  33%  med ret   -2.5%
+    2023-07 gate ON  n=31  base  63%  analog  71%  realised   0%  med ret  -14.1%
+    2023-08 gate ON  n=31  base  63%  analog  56%  realised  26%  med ret   -7.0%
+    2023-09 gate ON  n=30  base  62%  analog  55%  realised 100%  med ret  +22.1%
+    2023-10 gate ON  n=31  base  61%  analog  60%  realised 100%  med ret  +35.7%
+    2023-11 gate ON  n=30  base  61%  analog  62%  realised 100%  med ret  +19.6%
+    2023-12 gate ON  n=31  base  62%  analog  64%  realised  97%  med ret  +24.7%
+
+==================== ETH  H=90  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 68%  median realised +12.9%
+    BASE   called up 100%  direction hit  68%  in IQR  98% (below   2% / above   0%)  median err  -12.6%  mean |err|  25.2%
+           up: fc  62% real  68% B 0.227  +10: fc  84% real  75% B 0.202  -10: fc  69% real  54% B 0.274  +20: fc  72% real  58% B 0.277  -20: fc  49% real   4% B 0.242
+    ANA    called up  94%  direction hit  63%  in IQR  90% (below   9% / above   1%)  median err  -10.5%  mean |err|  27.4%
+           up: fc  62% real  68% B 0.245  +10: fc  80% real  75% B 0.200  -10: fc  65% real  54% B 0.285  +20: fc  69% real  58% B 0.272  -20: fc  46% real   4% B 0.228
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 100%  median realised +36.2%
+    BASE   called up   0%  direction hit   0%  in IQR  64% (below   0% / above  36%)  median err  +40.4%  mean |err|  39.1%
+           up: fc  47% real 100% B 0.279  +10: fc  75% real 100% B 0.062  -10: fc  85% real  44% B 0.412  +20: fc  60% real 100% B 0.157  -20: fc  69% real   0% B 0.479
+    ANA    called up   0%  direction hit   0%  in IQR  36% (below   0% / above  64%)  median err  +49.4%  mean |err|  44.9%
+           up: fc  41% real 100% B 0.348  +10: fc  62% real 100% B 0.145  -10: fc  87% real  44% B 0.431  +20: fc  52% real 100% B 0.227  -20: fc  75% real   0% B 0.556
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  50%  analog  46%  realised 100%  med ret  +34.7%
+    2023-02 gate ON  n=28  base  63%  analog  66%  realised 100%  med ret  +13.4%
+    2023-03 gate ON  n=31  base  63%  analog  65%  realised  81%  med ret   +5.6%
+    2023-04 gate ON  n=30  base  63%  analog  64%  realised  43%  med ret   -0.7%
+    2023-05 gate ON  n=31  base  63%  analog  55%  realised  32%  med ret   -2.1%
+    2023-06 gate ON  n=30  base  64%  analog  61%  realised   0%  med ret  -11.2%
+    2023-07 gate ON  n=31  base  64%  analog  71%  realised   0%  med ret  -13.7%
+    2023-08 gate ON  n=31  base  63%  analog  56%  realised  87%  med ret  +14.9%
+    2023-09 gate ON  n=30  base  62%  analog  52%  realised 100%  med ret  +39.3%
+    2023-10 gate ON  n=31  base  61%  analog  56%  realised 100%  med ret  +40.7%
+    2023-11 gate ON  n=30  base  61%  analog  65%  realised 100%  med ret  +36.5%
+    2023-12 gate ON  n=31  base  61%  analog  66%  realised 100%  med ret  +59.3%
+
+==================== BTC  H=14  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 60%  median realised +1.4%
+    BASE   called up 100%  direction hit  60%  in IQR  75% (below  12% / above  13%)  median err   -1.0%  mean |err|   6.5%
+           up: fc  58% real  60% B 0.241  +10: fc  48% real  26% B 0.240  -10: fc  39% real  14% B 0.183  +20: fc  26% real  10% B 0.115  -20: fc  16% real   0% B 0.027
+    ANA    called up  79%  direction hit  55%  in IQR  76% (below   8% / above  15%)  median err   +0.0%  mean |err|   6.9%
+           up: fc  55% real  60% B 0.259  +10: fc  42% real  26% B 0.231  -10: fc  41% real  14% B 0.188  +20: fc  25% real  10% B 0.125  -20: fc  16% real   0% B 0.031
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 92%  median realised +15.8%
+    BASE   called up 100%  direction hit  92%  in IQR  24% (below   0% / above  76%)  median err  +15.4%  mean |err|  17.1%
+           up: fc  51% real  92% B 0.240  +10: fc  35% real  76% B 0.352  -10: fc  33% real   0% B 0.108  +20: fc  11% real  48% B 0.386  -20: fc  12% real   0% B 0.015
+    ANA    called up   4%  direction hit  12%  in IQR  20% (below   0% / above  80%)  median err  +19.5%  mean |err|  19.6%
+           up: fc  41% real  92% B 0.336  +10: fc  29% real  76% B 0.395  -10: fc  43% real   0% B 0.193  +20: fc   8% real  48% B 0.403  -20: fc  14% real   0% B 0.019
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  53%  analog  44%  realised  74%  med ret  +11.4%
+    2023-02 gate ON  n=28  base  58%  analog  57%  realised  57%  med ret   +2.8%
+    2023-03 gate ON  n=31  base  58%  analog  61%  realised  90%  med ret   +9.3%
+    2023-04 gate ON  n=30  base  59%  analog  61%  realised  40%  med ret   -2.5%
+    2023-05 gate ON  n=31  base  58%  analog  52%  realised  32%  med ret   -1.9%
+    2023-06 gate ON  n=30  base  58%  analog  55%  realised  70%  med ret   +4.1%
+    2023-07 gate ON  n=31  base  58%  analog  58%  realised  23%  med ret   -1.9%
+    2023-08 gate ON  n=31  base  57%  analog  56%  realised   6%  med ret   -4.0%
+    2023-09 gate ON  n=30  base  57%  analog  52%  realised  90%  med ret   +2.6%
+    2023-10 gate ON  n=31  base  57%  analog  55%  realised  97%  med ret   +9.0%
+    2023-11 gate ON  n=30  base  58%  analog  53%  realised  97%  med ret   +6.8%
+    2023-12 gate ON  n=31  base  58%  analog  50%  realised  74%  med ret   +1.6%
+
+==================== BTC  H=30  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 61%  median realised +3.9%
+    BASE   called up 100%  direction hit  61%  in IQR  79% (below  12% / above   9%)  median err   -1.5%  mean |err|  10.8%
+           up: fc  60% real  61% B 0.240  +10: fc  65% real  59% B 0.251  -10: fc  50% real  25% B 0.249  +20: fc  45% real  25% B 0.230  -20: fc  29% real   1% B 0.088
+    ANA    called up  94%  direction hit  62%  in IQR  79% (below  10% / above  11%)  median err   -1.6%  mean |err|  11.0%
+           up: fc  57% real  61% B 0.236  +10: fc  60% real  59% B 0.253  -10: fc  51% real  25% B 0.258  +20: fc  42% real  25% B 0.227  -20: fc  30% real   1% B 0.102
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 100%  median realised +16.8%
+    BASE   called up   0%  direction hit   0%  in IQR  36% (below   0% / above  64%)  median err  +17.9%  mean |err|  21.9%
+           up: fc  46% real 100% B 0.287  +10: fc  52% real  96% B 0.230  -10: fc  50% real   0% B 0.252  +20: fc  25% real  56% B 0.341  -20: fc  24% real   0% B 0.060
+    ANA    called up   0%  direction hit   0%  in IQR  12% (below   0% / above  88%)  median err  +23.8%  mean |err|  25.3%
+           up: fc  37% real 100% B 0.400  +10: fc  43% real  96% B 0.325  -10: fc  61% real   0% B 0.383  +20: fc  20% real  56% B 0.344  -20: fc  29% real   0% B 0.084
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  49%  analog  41%  realised  97%  med ret  +11.3%
+    2023-02 gate ON  n=28  base  60%  analog  58%  realised  68%  med ret  +12.8%
+    2023-03 gate ON  n=31  base  60%  analog  60%  realised  94%  med ret  +20.5%
+    2023-04 gate ON  n=30  base  61%  analog  59%  realised  20%  med ret   -4.7%
+    2023-05 gate ON  n=31  base  61%  analog  55%  realised  35%  med ret   -3.3%
+    2023-06 gate ON  n=30  base  60%  analog  58%  realised  67%  med ret  +13.4%
+    2023-07 gate ON  n=31  base  60%  analog  56%  realised   0%  med ret   -5.3%
+    2023-08 gate ON  n=31  base  59%  analog  56%  realised  39%  med ret   -7.3%
+    2023-09 gate ON  n=30  base  58%  analog  60%  realised 100%  med ret   +7.5%
+    2023-10 gate ON  n=31  base  59%  analog  55%  realised 100%  med ret  +26.0%
+    2023-11 gate ON  n=30  base  59%  analog  53%  realised 100%  med ret  +16.5%
+    2023-12 gate ON  n=31  base  60%  analog  56%  realised  52%  med ret   +0.2%
+
+==================== BTC  H=60  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 71%  median realised +12.4%
+    BASE   called up 100%  direction hit  71%  in IQR  77% (below  13% / above  11%)  median err   -2.4%  mean |err|  16.2%
+           up: fc  63% real  71% B 0.212  +10: fc  78% real  76% B 0.186  -10: fc  59% real  44% B 0.268  +20: fc  62% real  54% B 0.262  -20: fc  39% real   1% B 0.157
+    ANA    called up  94%  direction hit  65%  in IQR  62% (below  19% / above  19%)  median err   -0.9%  mean |err|  18.5%
+           up: fc  64% real  71% B 0.243  +10: fc  75% real  76% B 0.193  -10: fc  60% real  44% B 0.275  +20: fc  61% real  54% B 0.260  -20: fc  39% real   1% B 0.165
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 100%  median realised +24.8%
+    BASE   called up   0%  direction hit   0%  in IQR   4% (below   0% / above  96%)  median err  +29.3%  mean |err|  31.0%
+           up: fc  42% real 100% B 0.334  +10: fc  62% real 100% B 0.146  -10: fc  68% real  24% B 0.380  +20: fc  40% real 100% B 0.364  -20: fc  42% real   0% B 0.177
+    ANA    called up   0%  direction hit   0%  in IQR  12% (below   0% / above  88%)  median err  +36.9%  mean |err|  38.0%
+           up: fc  33% real 100% B 0.458  +10: fc  50% real 100% B 0.253  -10: fc  77% real  24% B 0.442  +20: fc  32% real 100% B 0.461  -20: fc  50% real   0% B 0.257
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  46%  analog  40%  realised 100%  med ret  +24.2%
+    2023-02 gate ON  n=28  base  63%  analog  72%  realised 100%  med ret  +22.7%
+    2023-03 gate ON  n=31  base  63%  analog  67%  realised  55%  med ret   +8.2%
+    2023-04 gate ON  n=30  base  64%  analog  71%  realised  33%  med ret   -4.6%
+    2023-05 gate ON  n=31  base  64%  analog  54%  realised 100%  med ret   +9.6%
+    2023-06 gate ON  n=30  base  63%  analog  56%  realised  60%  med ret   +7.6%
+    2023-07 gate ON  n=31  base  64%  analog  68%  realised   0%  med ret  -11.7%
+    2023-08 gate ON  n=31  base  64%  analog  60%  realised  48%  med ret   -4.0%
+    2023-09 gate ON  n=30  base  63%  analog  55%  realised 100%  med ret  +37.7%
+    2023-10 gate ON  n=31  base  62%  analog  63%  realised 100%  med ret  +46.0%
+    2023-11 gate ON  n=30  base  63%  analog  67%  realised 100%  med ret  +17.4%
+    2023-12 gate ON  n=31  base  63%  analog  68%  realised  87%  med ret  +18.0%
+
+==================== BTC  H=90  forecasts 2023-01-01 .. 2023-12-31
+  GATE ON  (primary): 340 days 2023-01-26 .. 2023-12-31  realised up 80%  median realised +20.0%
+    BASE   called up 100%  direction hit  80%  in IQR  87% (below   4% / above   9%)  median err   -1.4%  mean |err|  22.0%
+           up: fc  65% real  80% B 0.183  +10: fc  83% real  85% B 0.127  -10: fc  62% real  48% B 0.270  +20: fc  70% real  65% B 0.240  -20: fc  44% real   1% B 0.196
+    ANA    called up  93%  direction hit  79%  in IQR  65% (below  17% / above  18%)  median err   -1.2%  mean |err|  24.8%
+           up: fc  66% real  80% B 0.191  +10: fc  81% real  85% B 0.144  -10: fc  63% real  48% B 0.279  +20: fc  70% real  65% B 0.252  -20: fc  44% real   1% B 0.203
+  GATE OFF (variant): 25 days 2023-01-01 .. 2023-01-25  realised up 100%  median realised +52.5%
+    BASE   called up   0%  direction hit   0%  in IQR   0% (below   0% / above 100%)  median err  +62.5%  mean |err|  59.4%
+           up: fc  38% real 100% B 0.384  +10: fc  65% real 100% B 0.123  -10: fc  78% real  24% B 0.469  +20: fc  46% real 100% B 0.294  -20: fc  56% real   0% B 0.310
+    ANA    called up   0%  direction hit   0%  in IQR   0% (below   0% / above 100%)  median err  +65.4%  mean |err|  62.2%
+           up: fc  33% real 100% B 0.446  +10: fc  56% real 100% B 0.200  -10: fc  84% real  24% B 0.524  +20: fc  40% real 100% B 0.371  -20: fc  62% real   0% B 0.389
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2023-01 gate mix n=31  base  43%  analog  42%  realised 100%  med ret  +45.2%
+    2023-02 gate ON  n=28  base  65%  analog  76%  realised 100%  med ret  +19.7%
+    2023-03 gate ON  n=31  base  65%  analog  67%  realised  84%  med ret   +9.1%
+    2023-04 gate ON  n=30  base  65%  analog  73%  realised  83%  med ret   +3.4%
+    2023-05 gate ON  n=31  base  65%  analog  51%  realised  58%  med ret   +1.8%
+    2023-06 gate ON  n=30  base  66%  analog  58%  realised  27%  med ret   -3.8%
+    2023-07 gate ON  n=31  base  66%  analog  72%  realised  26%  med ret   -7.3%
+    2023-08 gate ON  n=31  base  66%  analog  59%  realised 100%  med ret  +26.9%
+    2023-09 gate ON  n=30  base  66%  analog  52%  realised 100%  med ret  +61.5%
+    2023-10 gate ON  n=31  base  65%  analog  69%  realised 100%  med ret  +50.5%
+    2023-11 gate ON  n=30  base  65%  analog  77%  realised 100%  med ret  +35.0%
+    2023-12 gate ON  n=31  base  65%  analog  71%  realised 100%  med ret  +58.1%
+

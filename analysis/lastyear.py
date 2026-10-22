@@ -28,9 +28,14 @@ Neighbouring days share most of their outcome window, so a year of daily
 forecasts is a handful of independent cases at 60/90 days. Every gate-ON day
 scorable at 60/90 falls inside 22 Oct - 5 Dec 2025: one episode, not a sample.
 
-Run from the repo root:  python3 -I analysis/lastyear.py
+Run from the repo root:  python3 -I analysis/lastyear.py [--start YYYY-MM-DD --end YYYY-MM-DD]
+
+The window is a parameter so the identical method can be replayed on another
+year. 2023 (gate on from 25 Jan, a bull year) was replayed 22 Oct 2026 after
+the last-year run, at Jared's request, with nothing else changed; output in
+RESULTS_2023.txt.
 """
-import sys, os, datetime as dt
+import sys, os, datetime as dt, argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
@@ -68,6 +73,10 @@ def score(rows, which):
 
 
 def main():
+    global START, END
+    ap = argparse.ArgumentParser(); ap.add_argument('--start'); ap.add_argument('--end'); a = ap.parse_args()
+    if a.start: START = dt.date.fromisoformat(a.start)
+    if a.end: END = dt.date.fromisoformat(a.end)
     gate = T.gate_daily()
     feats = T.SUBSETS['S12']
     for sym in ('ETH', 'BTC'):

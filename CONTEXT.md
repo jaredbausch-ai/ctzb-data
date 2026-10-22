@@ -305,6 +305,16 @@ calibrated (ETH realised up 49% / 58% against 54% / 55% forecast). The 60/90-day
 gate-on figures are that one 2025 stretch only. Forecasts reproduce the
 walk-forward exactly on the 11 shared days.
 
+**The rating replayed over 2023 — 22 Oct 2026.** `lastyear.py --start
+2023-01-01 --end 2023-12-31`, output `analysis/RESULTS_2023.txt`. Gate on all
+year from 26 Jan, 340 scorable days per horizon. The base rate's P(up) was
+close to calibrated (ETH forecast 57-62% vs realised 54-70%; BTC 58-65% vs
+60-80%), Brier at or below a coin flip at every horizon. The forecast range was
+too wide: realised returns landed inside the forecast middle half 90-98% of the
+time on ETH and 75-87% on BTC (target 50%), and the -20% touch it priced at
+16-49% happened 0-4% of the time. The closest-match version did not beat the
+base rate except BTC 30 days by 0.004.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
