@@ -104,6 +104,10 @@ def main():
                 print(f'  {lab}: {len(sel)} days {sel[0]["d"]} .. {sel[-1]["d"]}  '
                       f'realised up {100*np.mean([r["act"]["ret"]>0 for r in sel]):.0f}%  '
                       f'median realised {np.median([r["act"]["ret"] for r in sel]):+.1f}%')
+                ar = np.array([r['act']['ret'] for r in sel])
+                print(f'    forecast middle half (median over days): base {np.median([r["base"]["q25"] for r in sel]):+.1f}% to '
+                      f'{np.median([r["base"]["q75"] for r in sel]):+.1f}%   actual middle half {np.percentile(ar,25):+.1f}% to '
+                      f'{np.percentile(ar,75):+.1f}%   actual range {ar.min():+.1f}% to {ar.max():+.1f}%')
                 for which in ('base', 'ana'):
                     s = score(sel, which)
                     print(f'    {which.upper():<6} called up {s["callup"]:3.0f}%  direction hit {s["hit"]:3.0f}%  '
