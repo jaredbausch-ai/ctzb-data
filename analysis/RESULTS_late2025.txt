@@ -1,0 +1,128 @@
+==================== ETH  H=14  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 29%  median realised -9.8%
+    BASE   called up 100%  direction hit  29%  in IQR  49% (below  51% / above   0%)  median err  -11.2%  mean |err|  11.2%
+           up: fc  54% real  29% B 0.272  +10: fc  53% real  40% B 0.257  -10: fc  45% real  73% B 0.276  +20: fc  28% real   2% B 0.086  -20: fc  19% real  36% B 0.258
+    ANA    called up  31%  direction hit  62%  in IQR  44% (below  47% / above   9%)  median err   -7.7%  mean |err|  10.4%
+           up: fc  47% real  29% B 0.238  +10: fc  45% real  40% B 0.227  -10: fc  49% real  73% B 0.250  +20: fc  17% real   2% B 0.047  -20: fc  23% real  36% B 0.237
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 62%  median realised +4.7%
+    BASE   called up   0%  direction hit  38%  in IQR  96% (below   0% / above   4%)  median err   +5.6%  mean |err|   6.4%
+           up: fc  48% real  62% B 0.257  +10: fc  46% real  46% B 0.249  -10: fc  51% real  23% B 0.255  +20: fc  24% real   0% B 0.060  -20: fc  22% real   0% B 0.050
+    ANA    called up  19%  direction hit  42%  in IQR  81% (below   0% / above  19%)  median err   +5.1%  mean |err|   6.6%
+           up: fc  45% real  62% B 0.258  +10: fc  43% real  46% B 0.264  -10: fc  52% real  23% B 0.246  +20: fc  24% real   0% B 0.058  -20: fc  21% real   0% B 0.045
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  55%  analog  42%  realised   0%  med ret  -13.9%
+    2025-11 gate ON  n=30  base  54%  analog  50%  realised  40%  med ret   -4.5%
+    2025-12 gate mix n=31  base  49%  analog  45%  realised  55%  med ret   +4.6%
+
+==================== ETH  H=30  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 16%  median realised -6.4%
+    BASE   called up 100%  direction hit  16%  in IQR  69% (below  31% / above   0%)  median err   -9.5%  mean |err|  13.0%
+           up: fc  56% real  16% B 0.298  +10: fc  65% real  53% B 0.265  -10: fc  58% real  73% B 0.221  +20: fc  45% real  11% B 0.214  -20: fc  30% real  49% B 0.287
+    ANA    called up  36%  direction hit  67%  in IQR  73% (below  27% / above   0%)  median err   -3.7%  mean |err|   8.3%
+           up: fc  46% real  16% B 0.214  +10: fc  55% real  53% B 0.215  -10: fc  64% real  73% B 0.195  +20: fc  32% real  11% B 0.129  -20: fc  41% real  49% B 0.250
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 58%  median realised +1.2%
+    BASE   called up   0%  direction hit  42%  in IQR 100% (below   0% / above   0%)  median err   +3.4%  mean |err|   6.5%
+           up: fc  47% real  58% B 0.255  +10: fc  60% real  81% B 0.198  -10: fc  67% real  27% B 0.357  +20: fc  43% real   8% B 0.195  -20: fc  40% real   0% B 0.157
+    ANA    called up   8%  direction hit  50%  in IQR 100% (below   0% / above   0%)  median err   +4.1%  mean |err|   6.6%
+           up: fc  45% real  58% B 0.264  +10: fc  56% real  81% B 0.212  -10: fc  70% real  27% B 0.396  +20: fc  40% real   8% B 0.176  -20: fc  41% real   0% B 0.169
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  57%  analog  39%  realised   0%  med ret  -25.9%
+    2025-11 gate ON  n=30  base  56%  analog  48%  realised  13%  med ret   -4.4%
+    2025-12 gate mix n=31  base  49%  analog  45%  realised  58%  med ret   +1.1%
+
+==================== ETH  H=60  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 27%  median realised -7.0%
+    BASE   called up 100%  direction hit  27%  in IQR  64% (below  36% / above   0%)  median err  -19.0%  mean |err|  21.5%
+           up: fc  62% real  27% B 0.321  +10: fc  76% real  53% B 0.302  -10: fc  65% real  78% B 0.191  +20: fc  62% real  11% B 0.354  -20: fc  40% real  58% B 0.276
+    ANA    called up  71%  direction hit  56%  in IQR  91% (below   9% / above   0%)  median err  -10.6%  mean |err|  11.3%
+           up: fc  51% real  27% B 0.231  +10: fc  68% real  53% B 0.241  -10: fc  66% real  78% B 0.177  +20: fc  46% real  11% B 0.205  -20: fc  50% real  58% B 0.249
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -34.3%
+    BASE   called up   0%  direction hit 100%  in IQR   0% (below 100% / above   0%)  median err  -33.4%  mean |err|  33.1%
+           up: fc  49% real   0% B 0.245  +10: fc  73% real  85% B 0.143  -10: fc  76% real 100% B 0.057  +20: fc  59% real   8% B 0.331  -20: fc  55% real 100% B 0.207
+    ANA    called up  35%  direction hit  65%  in IQR   8% (below  92% / above   0%)  median err  -30.0%  mean |err|  30.6%
+           up: fc  48% real   0% B 0.229  +10: fc  68% real  85% B 0.147  -10: fc  75% real 100% B 0.064  +20: fc  55% real   8% B 0.292  -20: fc  54% real 100% B 0.213
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  62%  analog  42%  realised   0%  med ret  -24.6%
+    2025-11 gate ON  n=30  base  62%  analog  53%  realised  40%  med ret   -2.8%
+    2025-12 gate mix n=31  base  51%  analog  49%  realised   0%  med ret  -33.9%
+
+==================== ETH  H=90  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 0%  median realised -33.1%
+    BASE   called up 100%  direction hit   0%  in IQR   0% (below 100% / above   0%)  median err  -50.8%  mean |err|  51.2%
+           up: fc  62% real   0% B 0.390  +10: fc  80% real  53% B 0.322  -10: fc  67% real 100% B 0.107  +20: fc  68% real  11% B 0.428  -20: fc  44% real 100% B 0.312
+    ANA    called up  64%  direction hit  36%  in IQR   4% (below  96% / above   0%)  median err  -34.9%  mean |err|  33.7%
+           up: fc  49% real   0% B 0.248  +10: fc  75% real  53% B 0.261  -10: fc  70% real 100% B 0.091  +20: fc  54% real  11% B 0.262  -20: fc  55% real 100% B 0.200
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -31.6%
+    BASE   called up 100%  direction hit   0%  in IQR  46% (below  54% / above   0%)  median err  -35.5%  mean |err|  34.4%
+           up: fc  53% real   0% B 0.280  +10: fc  77% real  85% B 0.136  -10: fc  81% real 100% B 0.038  +20: fc  64% real   8% B 0.384  -20: fc  63% real 100% B 0.140
+    ANA    called up  42%  direction hit  58%  in IQR  88% (below  12% / above   0%)  median err  -29.6%  mean |err|  28.3%
+           up: fc  48% real   0% B 0.234  +10: fc  72% real  85% B 0.134  -10: fc  79% real 100% B 0.044  +20: fc  60% real   8% B 0.330  -20: fc  62% real 100% B 0.146
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  63%  analog  43%  realised   0%  med ret  -25.2%
+    2025-11 gate ON  n=30  base  62%  analog  51%  realised   0%  med ret  -35.3%
+    2025-12 gate mix n=31  base  54%  analog  49%  realised   0%  med ret  -31.7%
+
+==================== BTC  H=14  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 22%  median realised -7.1%
+    BASE   called up 100%  direction hit  22%  in IQR  42% (below  58% / above   0%)  median err   -9.0%  mean |err|   8.7%
+           up: fc  58% real  22% B 0.300  +10: fc  42% real   4% B 0.183  -10: fc  33% real  60% B 0.312  +20: fc  20% real   0% B 0.038  -20: fc  11% real  13% B 0.116
+    ANA    called up  91%  direction hit  31%  in IQR  42% (below  58% / above   0%)  median err   -8.6%  mean |err|   8.6%
+           up: fc  57% real  22% B 0.279  +10: fc  43% real   4% B 0.186  -10: fc  32% real  60% B 0.321  +20: fc  16% real   0% B 0.029  -20: fc  13% real  13% B 0.116
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 65%  median realised +2.3%
+    BASE   called up 100%  direction hit  65%  in IQR  88% (below   0% / above  12%)  median err   +1.7%  mean |err|   3.6%
+           up: fc  52% real  65% B 0.244  +10: fc  36% real   4% B 0.141  -10: fc  32% real   0% B 0.101  +20: fc  12% real   0% B 0.015  -20: fc  12% real   0% B 0.014
+    ANA    called up  65%  direction hit  46%  in IQR  88% (below   4% / above   8%)  median err   +1.4%  mean |err|   3.8%
+           up: fc  51% real  65% B 0.266  +10: fc  39% real   4% B 0.159  -10: fc  26% real   0% B 0.067  +20: fc  17% real   0% B 0.030  -20: fc  12% real   0% B 0.015
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  58%  analog  54%  realised   0%  med ret   -8.0%
+    2025-11 gate ON  n=30  base  58%  analog  59%  realised  30%  med ret   -4.5%
+    2025-12 gate mix n=31  base  53%  analog  51%  realised  58%  med ret   +0.8%
+
+==================== BTC  H=30  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 13%  median realised -9.4%
+    BASE   called up 100%  direction hit  13%  in IQR  38% (below  62% / above   0%)  median err  -13.9%  mean |err|  13.9%
+           up: fc  60% real  13% B 0.332  +10: fc  61% real   4% B 0.367  -10: fc  45% real  64% B 0.268  +20: fc  37% real   0% B 0.135  -20: fc  21% real  49% B 0.325
+    ANA    called up 100%  direction hit  13%  in IQR  27% (below  73% / above   0%)  median err  -14.1%  mean |err|  13.9%
+           up: fc  65% real  13% B 0.376  +10: fc  63% real   4% B 0.376  -10: fc  46% real  64% B 0.261  +20: fc  35% real   0% B 0.127  -20: fc  22% real  49% B 0.299
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 73%  median realised +1.8%
+    BASE   called up   0%  direction hit  27%  in IQR  96% (below   0% / above   4%)  median err   +2.1%  mean |err|   4.0%
+           up: fc  49% real  73% B 0.254  +10: fc  54% real  65% B 0.239  -10: fc  48% real   0% B 0.227  +20: fc  28% real   0% B 0.076  -20: fc  23% real   0% B 0.054
+    ANA    called up  42%  direction hit  62%  in IQR  85% (below   0% / above  15%)  median err   +2.0%  mean |err|   3.8%
+           up: fc  47% real  73% B 0.248  +10: fc  55% real  65% B 0.237  -10: fc  43% real   0% B 0.192  +20: fc  30% real   0% B 0.091  -20: fc  22% real   0% B 0.049
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  60%  analog  61%  realised   0%  med ret  -20.8%
+    2025-11 gate ON  n=30  base  60%  analog  66%  realised  13%  med ret   -7.4%
+    2025-12 gate mix n=31  base  51%  analog  50%  realised  68%  med ret   +1.4%
+
+==================== BTC  H=60  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 27%  median realised -10.7%
+    BASE   called up 100%  direction hit  27%  in IQR  40% (below  60% / above   0%)  median err  -22.3%  mean |err|  20.8%
+           up: fc  63% real  27% B 0.330  +10: fc  76% real  16% B 0.493  -10: fc  55% real  73% B 0.231  +20: fc  54% real   0% B 0.295  -20: fc  31% real  49% B 0.283
+    ANA    called up  98%  direction hit  29%  in IQR  40% (below  60% / above   0%)  median err  -15.9%  mean |err|  15.3%
+           up: fc  60% real  27% B 0.262  +10: fc  79% real  16% B 0.521  -10: fc  53% real  73% B 0.230  +20: fc  54% real   0% B 0.303  -20: fc  32% real  49% B 0.246
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -23.7%
+    BASE   called up   0%  direction hit 100%  in IQR   8% (below  92% / above   0%)  median err  -21.8%  mean |err|  21.7%
+           up: fc  47% real   0% B 0.221  +10: fc  65% real  69% B 0.215  -10: fc  63% real 100% B 0.136  +20: fc  45% real   0% B 0.198  -20: fc  38% real  96% B 0.370
+    ANA    called up  50%  direction hit  50%  in IQR   0% (below 100% / above   0%)  median err  -21.4%  mean |err|  22.1%
+           up: fc  47% real   0% B 0.227  +10: fc  67% real  69% B 0.208  -10: fc  60% real 100% B 0.160  +20: fc  44% real   0% B 0.192  -20: fc  37% real  96% B 0.387
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  64%  analog  55%  realised   0%  med ret  -20.7%
+    2025-11 gate ON  n=30  base  63%  analog  62%  realised  40%  med ret   -3.8%
+    2025-12 gate mix n=31  base  50%  analog  49%  realised   0%  med ret  -23.2%
+
+==================== BTC  H=90  forecasts 2025-10-22 .. 2025-12-31
+  GATE ON  (primary): 45 days 2025-10-22 .. 2025-12-05  realised up 0%  median realised -25.5%
+    BASE   called up 100%  direction hit   0%  in IQR   0% (below 100% / above   0%)  median err  -43.1%  mean |err|  43.4%
+           up: fc  67% real   0% B 0.453  +10: fc  81% real  16% B 0.561  -10: fc  59% real 100% B 0.167  +20: fc  64% real   0% B 0.407  -20: fc  36% real 100% B 0.414
+    ANA    called up 100%  direction hit   0%  in IQR   0% (below 100% / above   0%)  median err  -35.4%  mean |err|  35.1%
+           up: fc  65% real   0% B 0.430  +10: fc  88% real  16% B 0.643  -10: fc  56% real 100% B 0.197  +20: fc  67% real   0% B 0.460  -20: fc  37% real 100% B 0.405
+  GATE OFF (variant): 26 days 2025-12-06 .. 2025-12-31  realised up 0%  median realised -22.0%
+    BASE   called up   0%  direction hit 100%  in IQR  62% (below  38% / above   0%)  median err  -16.8%  mean |err|  16.4%
+           up: fc  45% real   0% B 0.205  +10: fc  69% real  69% B 0.213  -10: fc  72% real 100% B 0.079  +20: fc  50% real   0% B 0.246  -20: fc  51% real 100% B 0.239
+    ANA    called up   4%  direction hit  96%  in IQR  96% (below   4% / above   0%)  median err  -15.8%  mean |err|  15.6%
+           up: fc  44% real   0% B 0.191  +10: fc  70% real  69% B 0.202  -10: fc  73% real 100% B 0.072  +20: fc  51% real   0% B 0.262  -20: fc  52% real 100% B 0.231
+  by month (base fc up / analog fc up / realised up, mean over days)
+    2025-10 gate ON  n=10  base  68%  analog  61%  realised   0%  med ret  -19.7%
+    2025-11 gate ON  n=30  base  67%  analog  67%  realised   0%  med ret  -26.7%
+    2025-12 gate mix n=31  base  49%  analog  47%  realised   0%  med ret  -22.0%
+

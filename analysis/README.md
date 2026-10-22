@@ -24,6 +24,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `lastyear.py` | Replays the `twoweek.py` rating every day from 22 Oct 2025 to 21 Oct 2026 using only data knowable that day, and scores it: direction, Brier, calibration, middle-half band coverage, median miss. Gate-ON days are the primary result; gate-OFF days are rated against a gate-OFF pool as a labelled variant |
 | `RESULTS_lastyear.txt` | Captured output of `lastyear.py`, 22 Oct 2026 |
 | `RESULTS_2023.txt` | The same replay over 2023 (`--start 2023-01-01 --end 2023-12-31`), a full gate-on year |
+| `RESULTS_late2025.txt` | The same replay over 22 Oct – 31 Dec 2025 (`--start 2025-10-22 --end 2025-12-31`). Source of the late-2025 bars in the charts shown 22 Oct 2026 |
 
 `ctema.json` is a build artifact. Regenerate it with `ctema_build.py` whenever
 `data/` moves forward; the Action commits candles roughly six times a day, so
