@@ -1,0 +1,174 @@
+# Pre-trade checklist
+
+Run this before putting a position on. It does not replace the signal — the
+signal is still a confirmed trough with the regime gate on. This is the layer
+that sorts good signals from mediocre ones.
+
+Every number here is **reaching +20% within 60 days of entry**, measured from
+the close of the confirmation bar (`ei = ti + 3`), on regime-gated signals
+only. Pooled baseline across 9 charts and 993 signals, 2016–2025: **54%**.
+Per-chart baselines differ and are given where they matter — compare against
+the chart's own, not the pooled one.
+
+Tested dates are kept so a figure can be traced back to the run that produced
+it. Nothing goes in Tier 1 until it has survived both a per-chart and a
+per-year split.
+
+---
+
+## Tier 1 — validated. Stack these.
+
+### 1. CT RSI more than 5 points above the Signal line
+*Tested 22 Oct 2026. The strongest single filter found.*
+
+The Signal line is the orange line on the indicator: `ta.ema(ct_rsi, 14)`.
+Fitted with zero error over 1,879 ETH 2D bars.
+
+| | n | +20% | Edge | Med upside | Med 60d ret | Med DD |
+|---|---|---|---|---|---|---|
+| gap > +5 | 204 | **68%** | +15 | +33.7% | +14.6% | −4.7% |
+| baseline | 993 | 54% | — | +24.1% | +9.2% | −5.4% |
+
+Positive in **9 of 9** testable years. Per chart against each chart's own
+baseline: ETH 1D 64/45, ETH 2D 87/62, ETH 3D 59/55, ETH 5D 69/70, ETH 1W 86/68,
+BTC 1D 71/52, BTC 2D 66/52, BTC 3D 50/51, BTC 5D 55/47. Seven of nine positive,
+none of them carrying it.
+
+**The distance is the signal, not the cross.** See the failed list.
+
+### 2. CT above the Signal line **and** a prime dot
+*Tested 22 Oct 2026.* n=109, **72%**, edge +19, med upside +32.8%, med DD −4.0%.
+Positive in 8 of 9 years. ETH 2D 87%, ETH 3D 92%, BTC 1D 70%, BTC 2D 75%.
+Only miss: ETH 1D at 40% against a 45% baseline.
+
+### 3. CT above the Signal line **and** a diamond
+*Tested 22 Oct 2026.* n=110, **67%**, edge +14, med upside +31.7%.
+Positive in 8 of 8 testable years.
+
+> **These three overlap.** gap>5 and prime share 48 signals of 204/109;
+> gap>5 and diamond share 38. All three require CT above the line. This is one
+> condition read three ways, not three independent confirmations. All three
+> together is n=13 at 92% — too thin to use.
+
+### 4. Higher low versus the previous signal's entry
+*Tested 19 Oct 2026.* Compare this signal's entry close to the **previous
+signal's entry close** on the same chart.
+
+| | ETH | BTC |
+|---|---|---|
+| stepping up | 69% (n=292) | 57% (n=236) |
+| stepping down | 52% (n=263) | 45% (n=182) |
+
+Monotonic from −20% to +15%. Stacked: diamond + dot with a higher entry is 78%
+(n=46) against 55% for the same tag with a lower entry. Below −30% it inverts
+to 81% on ETH (n=21) — capitulation rather than a staircase, but thin.
+
+**This is a late-regime filter.** Spread by how long the regime has been on:
++3 (0–60 days), +6 (60–150), +15 (150–300), +19 (300+). Near useless on a
+fresh regime, worth 19 points deep into one. Check the regime age before
+leaning on it.
+
+### 5. Cross-timeframe agreement — ETH only
+*Tested 19 Oct 2026.* Backward-only count: how many other timeframes have
+**already** printed, never ones that print after.
+
+ETH 1D 58→67 (n=205/83), ETH 2D 59→71 (n=102/35). BTC 1D 52→52, BTC 2D 52→51 —
+**no edge on BTC**. ETH 3D and 5D give no reading; they almost never fire alone.
+
+A pooled figure across both assets reads as +12 everywhere and is wrong.
+
+### 6. Regime gate on
+`R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41)`. Not optional and not a
+tiebreaker — every number on this page is measured inside regime-on periods.
+Known blind spot: episode 2021-08-19 → 2022-01-25 stayed ON through the November
+2021 top, and troughs 60–150 days into it went 3-for-35.
+
+---
+
+## Costs to price in before sizing
+
+These are not filters. They are what the system charges regardless.
+
+| | |
+|---|---|
+| **Confirmation lag** | 3 bars — 3 days on 1D, 6 on 2D, 9 on 3D, 15 on 5D, 24 on 8D. Costs **23.9%** of the available upside paid up front and **51%** of the move. |
+| **Weekly diamond drawdown** | Median MAE **−18.5%** within 90 days of entry. 3 of 9 went past −30%. At 3.3x this is the liquidation question, not a cosmetic one. |
+| **The flush is front-loaded** | Median 100% of the eventual drawdown lands in the **first two weeks** after entry. Expect it; it is not a sign the signal failed. |
+| **Nothing marks the flush ending** | See failed list. There is no tested tell. |
+
+---
+
+## Failed — do not re-test
+
+| Idea | Result | Tested |
+|---|---|---|
+| CT merely **crossing** above the Signal line | 60% vs 54%, and **−35 in 2022**. The cross is not the edge, the distance is | 22 Oct 2026 |
+| Bullish divergence marking the end of the flush | **1 hit in 36 tests**, on both stochastic and CT RSI | 21 Oct 2026 |
+| CT/Signal cross as a bottom-marker | Fires 19% above the low, 14 days late, with −14.8% still to come | 21 Oct 2026 |
+| Money flow — MFI level, "money diamond" | No gradient; degrades existing tags when stacked | 19 Oct 2026 |
+| Regime-age dead zone at 60–150 days | Artifact. 56/40/87/3/11% across episodes | 19 Oct 2026 |
+| Inverted diamond as an exit | Median +2.2% vs +10.0% for holding | 19 Oct 2026 |
+| Four other mechanical exits + the 50-line cross | All lose to holding. **Five rules, five failures** | — |
+| Fibs, moving averages, Elliott counts, opens/closes | All empty | — |
+| Compression agreement across BTC/ETH | Retracted — one measurement counted twice | 21 Oct 2026 |
+| Green star / WGMI | Cannot be rebuilt; M2 data is revised after publication | — |
+
+---
+
+## Theory-craft — explicitly not supported by data
+
+Kept because it is worth watching, flagged because it has no statistics behind
+it. Do not present any of this as a tested result, and do not let it override
+Tier 1.
+
+- **The last-cycle BTC fractal overlay.** Aligned on the cycle high and the
+  double bottom. Points lower before it points up. Fractals are not tested TA;
+  there is confluence, and that is all there is.
+- **Three moving averages and a fib extension still underneath price.** The
+  observation stands on its own; fibs and MAs have both failed as filters here.
+- **2D stochastic bullish divergence helping CT break the 50 line.** Tested as a
+  flush-end marker and failed (1 of 36). Untested in this specific framing.
+
+---
+
+## Methodology guards
+
+Four of these came from a result that did not survive contact with them.
+
+1. **Split by chart before believing anything.** An ETH 2D finding of 90%
+   against a 43% baseline collapsed to a pooled 67%/50% with 3 of 10 charts
+   inverted. One chart can carry a pooled figure on its own.
+2. **Split by year.** The year baseline swings from 28% (2025) to 92% (2017).
+   Cycle position dominates every feature in Tier 1. A filter that is not
+   positive in most years is a year in disguise.
+3. **BTC and ETH are one sample for anything date-anchored.** Their anchors sit
+   0–4 days apart and their returns correlate 0.804. Cross-asset agreement is
+   only evidence for features that are not tied to the calendar.
+4. **Check for collinearity before counting two hits.** An EMA rises precisely
+   when its input is above it, so "EMA slope positive" and "CT above EMA" are
+   the same feature. A 21-feature grid contained ~17 independent tests.
+5. **Declare the candidate list before running it.** Report the failures next to
+   the hits. A filter found by poking at data already stared at for hours is
+   manufactured.
+6. **Baseline on regime-gated signals, not all troughs.** Otherwise the gate's
+   own edge is counted twice.
+
+---
+
+## Running it
+
+```
+python3 -I -c "
+import sys; sys.path.insert(0,'/home/claude/ctzb-data')
+import engine as E, regimes as R
+gate = R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41)
+sg, b = E.signals('data/ETH_2D.csv', regime=gate)
+ct = E.rsi(b['close'], 14); em = E.ema(list(ct), 14)
+i = len(b['close']) - 1
+print('CT', ct[i], 'Signal', em[i], 'gap', ct[i] - em[i])
+"
+```
+
+Weekly and anything above 8D is not in `data/` — those charts exist only as
+TradingView exports in `data/tradingview/`, where column 9 is CT RSI and
+column 10 is the Signal line directly.

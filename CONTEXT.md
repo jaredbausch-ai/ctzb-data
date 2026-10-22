@@ -1,6 +1,9 @@
 # CTZB — read this first
 
-Start every session here. This file exists because conversations get compacted
+Start every session here, then `docs/PRETRADE.md` — the filter checklist to run
+before a position goes on, with every validated filter's odds, the failed ideas
+that must not be re-tested, and the methodology guards that killed four
+findings. This file exists because conversations get compacted
 and the assistant loses everything that is not written down. If you are an
 assistant picking this up cold: read this file, then `README.md`, then the
 docstrings in `engine.py`, `troughs.py` and `odds.py`. Do not re-derive
@@ -153,6 +156,36 @@ assets reads like a +12 edge everywhere and is wrong** — an earlier framing in
 this session made that mistake before the split was run. Carried on the scanner
 as its own CONF column, deliberately not folded into the ODDS number.
 
+**CT RSI distance above the Signal line — tested 22 Oct 2026, WORKS. Best
+single filter found.** The Signal line is the orange line on the indicator and
+it is `ta.ema(ct_rsi, 14)` — fitted with zero error over 1,879 ETH 2D bars.
+Reaching +20% in 60 days, 993 regime-gated signals across 9 charts, pooled
+baseline 54%:
+
+| | n | +20% | edge |
+|---|---|---|---|
+| gap > +5 points | 204 | 68% | +15 |
+| above the line AND prime dot | 109 | 72% | +19 |
+| above the line AND diamond | 110 | 67% | +14 |
+| above the line, nothing else | 517 | 60% | +6 |
+
+gap>5 is positive in 9 of 9 testable years and 7 of 9 charts (ETH 2D 87/62,
+BTC 1D 71/52, the two misses are BTC 3D 50/51 and ETH 5D 69/70). prime is 8 of
+9 years, diamond 8 of 8.
+
+**The distance is the edge, not the cross.** Merely being above the line is
++6 and lost 35 points in 2022 — that one is noise. Do not treat a cross as a
+trigger; it was separately tested as a bottom-marker and fires 19% above the
+low, 14 days late, with −14.8% still to come.
+
+CAVEATS that belong with the figures. The three cuts overlap heavily — gap>5
+and prime share 48 of 204/109, gap>5 and diamond 38 — all require CT above the
+line, so this is one condition read three ways. The walk-forward gate never
+bound: all three qualified in every year, zero skipped, so it is a year-by-year
+stability test and not a true out-of-sample result. And of the 21 declared
+features, G/O were mathematically identical to A and H/R to B, because an EMA
+rises exactly when its input is above it — ~17 independent tests, not 21.
+
 **Higher low vs the previous signal — tested 19 Oct 2026, WORKS.** The one
 cluster feature that survives. Compare this signal's entry close to the
 *previous signal's* entry close on the same chart. Higher: ETH 69% reach +20%
@@ -220,8 +253,9 @@ rule has reached that conclusion.
 Four mechanical exits: a −5% stop, pivot-break, a probability ladder, and
 cut-and-re-enter. The 50-line cross exit beat holding 32% of the time. Fib
 levels are not special. Completed wave counts do not predict. A higher-low
-filter shrank the sample to +7. Of 92 filters tested, only the WGMI one cleared
-agreement across four datasets — and it is the one that cannot be rebuilt.
+filter shrank the sample to +7. Of 92 filters tested before 22 Oct, only the WGMI
+one cleared agreement across four datasets — and it is the one that cannot be
+rebuilt. The CT/Signal distance filter is the first clean survivor since.
 
 ## Where the current regime sits
 
