@@ -21,6 +21,8 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `newsetups.py` | What is forming and when it confirms |
 | `twoweek.py` | Market-state rating at 14/30/60/90 days: regime-on base rates, nearest-neighbour analogs on CT/gap/K across 1D–5D, and a walk-forward skill test. Also lists signals since the regime turned on, read against the Tier 1 cells. Both declared blocks are in the docstring |
 | `RESULTS_twoweek.txt` | Captured output of `twoweek.py`, 22 Oct 2026. **Walk-forward: no horizon shows skill over the base rate.** Blind replication agreed |
+| `lastyear.py` | Replays the `twoweek.py` rating every day from 22 Oct 2025 to 21 Oct 2026 using only data knowable that day, and scores it: direction, Brier, calibration, middle-half band coverage, median miss. Gate-ON days are the primary result; gate-OFF days are rated against a gate-OFF pool as a labelled variant |
+| `RESULTS_lastyear.txt` | Captured output of `lastyear.py`, 22 Oct 2026 |
 
 `ctema.json` is a build artifact. Regenerate it with `ctema_build.py` whenever
 `data/` moves forward; the Action commits candles roughly six times a day, so

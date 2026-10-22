@@ -295,6 +295,16 @@ changes. The live-state reconstruction (forming bars stepped exactly as
 TradingView paints them) equals the completed bar on every bar's last day and
 matched the board to the decimal, so the script is kept for that.
 
+**The rating replayed over the last year — 22 Oct 2026.** `analysis/lastyear.py`.
+The gate was on for only 94 of the 365 days (to 5 Dec 2025, then from 3 Sep
+2026). On the 22 Oct - 5 Dec 2025 stretch every forecast leaned up (base rate
+54-67% up) and the market fell: realised up 29% at 14 days, 16% at 30, 27% at
+60, 0% at 90 on ETH, with all 90-day outcomes below the forecast's 25th
+percentile. On the Sep-Oct 2026 stretch the 14/30-day base rate was close to
+calibrated (ETH realised up 49% / 58% against 54% / 55% forecast). The 60/90-day
+gate-on figures are that one 2025 stretch only. Forecasts reproduce the
+walk-forward exactly on the 11 shared days.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
