@@ -146,6 +146,16 @@ before spending a night on them.
 **Scratch dies.** Two generators were lost that way. Anything that produces a
 number someone will look at twice goes in this repo.
 
+**The indicator was not in version control until 22 Oct 2026.** For two weeks
+this repo held `engine.py` — the Python reimplementation — and the scanner, but
+not `ct_zone_bounce_v15.pine`, the 751-line source that actually paints the
+chart. It survived only in an uncommitted working directory that a container
+reset would have taken. It is now in `pine/` with its whole lineage. The lesson
+generalises: before trusting that the repo is complete, look for working
+directories outside it. Three were found on 22 Oct — `/home/claude/w`,
+`/tmp/*.csv`, and the session scratchpad — holding the indicator, three trade
+logs and every generator from the CT/Signal work.
+
 ## Where things live
 
 | | |
@@ -157,7 +167,9 @@ number someone will look at twice goes in this repo.
 | `odds.py` → `odds.json` | aggregate odds by chart and tag |
 | `waves.py` | swing segmentation and Elliott counts |
 | `fetch.py` | candle fetch, including 4H/12H |
+| `pine/` | **every Pine source**, indicator and scanner. `ct_zone_bounce_v15.pine` is the live indicator; `ctzb_scanner_v9.pine` the live scanner. See its README |
 | `analysis/` | generators for every figure quoted, plus `RESULTS_*.txt` captures. See its README |
+| `analysis/legacy/` | the 9-16 Oct generation behind the published v3/v4 odds pages. Figures there predate the current gate and the backward-only confluence window |
 | `docs/PRETRADE.md` | the pre-trade filter checklist — validated, failed, theory-craft, guards |
 | `docs/PROJECT_INSTRUCTIONS.md` | the block pasted into the Claude project's custom instructions |
 | `docs/artifacts/` | published pages, committed so git keeps every version |
