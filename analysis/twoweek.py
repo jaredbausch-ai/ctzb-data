@@ -44,6 +44,19 @@ outcome after seeing results; add a new declared block and report both.
   also       what is forming now on each chart (pivot low waiting on bars),
              read straight off the engine — reported, not scored
 
+SECOND DECLARED BLOCK (22 Oct 2026, after the 14-day run, before any longer
+horizon was looked at). Same universe, state, subsets, k, decluster and
+guards, run unchanged at H = 14, 30, 60, 90 calendar days. Outcomes add +/-20%
+touch and "+20% first" beside the +/-10% ones. Nothing about the method is
+tuned to the 14-day result. Requested as theory-craft; the walk-forward is
+what decides whether any horizon carries information. Longer horizons overlap
+more between neighbouring test days, so G1's 274-ish test days are far fewer
+independent cases at 60/90 than at 14.
+
+Also corrected in this pass: the backward agreement count in tier1() now
+scores against 1D/2D/3D/5D/8D, the same reference set as troughs.py. The
+first run omitted 8D.
+
 Run from the repo root:  python3 -I analysis/twoweek.py [--asof YYYY-MM-DD]
 """
 import sys, os, math, datetime as dt, argparse
@@ -52,7 +65,9 @@ import numpy as np
 import engine as E, regimes as R
 
 CHARTS = [('1D', 1), ('2D', 2), ('3D', 3), ('5D', 5)]
-HORIZON = 14
+HORIZONS = (14, 30, 60, 90)
+LEVELS = (10, 20)
+AGREE_REF = ['1D', '2D', '3D', '5D', '8D']
 KS = (20, 40, 80)
 K_PRIMARY = 40
 DECLUSTER = 10
@@ -121,25 +136,30 @@ def live_state(sym):
     return day, out
 
 
-def outcomes(day):
+def outcomes(day, H):
+    """{date: ret, mfe, mae, f10, f20} over the next H calendar days, full windows only.
+    fX = 1 when +X% is touched before -X%; a day touching both counts as down."""
     dd, c, h, l = day['date'], day['close'], day['high'], day['low']
     pos = {d: i for i, d in enumerate(dd)}
     res = {}
     for i, d in enumerate(dd):
-        end = d + dt.timedelta(days=HORIZON)
-        j = i + 1; hs = []; ls = []; last = None; first = None
+        end = d + dt.timedelta(days=H)
+        j = i + 1; hs = []; ls = []; last = None
+        first = {L: None for L in LEVELS}
         while j < len(dd) and dd[j] <= end:
             hs.append(h[j]); ls.append(l[j]); last = c[j]
-            if first is None:
-                up = h[j] >= c[i] * 1.10; dn = l[j] <= c[i] * 0.90
-                if dn: first = 0
-                elif up: first = 1
+            for L in LEVELS:
+                if first[L] is None:
+                    if l[j] <= c[i] * (1 - L / 100): first[L] = 0
+                    elif h[j] >= c[i] * (1 + L / 100): first[L] = 1
             j += 1
         if last is None or dd[j - 1] < end:
             continue
-        res[d] = dict(ret=(last / c[i] - 1) * 100, mfe=(max(hs) / c[i] - 1) * 100,
-                      mae=(min(ls) / c[i] - 1) * 100,
-                      first=0 if first is None else first)
+        r = dict(ret=(last / c[i] - 1) * 100, mfe=(max(hs) / c[i] - 1) * 100,
+                 mae=(min(ls) / c[i] - 1) * 100)
+        for L in LEVELS:
+            r[f'f{L}'] = first[L] or 0
+        res[d] = r
     return res, pos
 
 
@@ -187,21 +207,23 @@ def summ(days, oc):
     r = [oc[d] for d in days]
     if not r:
         return None
-    rets = sorted(x['ret'] for x in r)
-    return dict(n=len(r), up=100 * np.mean([x['ret'] > 0 for x in r]),
-                t10=100 * np.mean([x['mfe'] >= 10 for x in r]),
-                d10=100 * np.mean([x['mae'] <= -10 for x in r]),
-                first=100 * np.mean([x['first'] == 1 for x in r]),
-                med=float(np.median(rets)), q25=float(np.percentile(rets, 25)),
-                q75=float(np.percentile(rets, 75)),
-                mfe=float(np.median([x['mfe'] for x in r])),
-                mae=float(np.median([x['mae'] for x in r])))
+    rets = [x['ret'] for x in r]
+    out = dict(n=len(r), up=100 * np.mean([x > 0 for x in rets]),
+               med=float(np.median(rets)), q25=float(np.percentile(rets, 25)),
+               q75=float(np.percentile(rets, 75)),
+               mfe=float(np.median([x['mfe'] for x in r])),
+               mae=float(np.median([x['mae'] for x in r])))
+    for L in LEVELS:
+        out[f't{L}'] = 100 * np.mean([x['mfe'] >= L for x in r])
+        out[f'd{L}'] = 100 * np.mean([x['mae'] <= -L for x in r])
+        out[f'f{L}'] = 100 * np.mean([x[f'f{L}'] == 1 for x in r])
+    return out
 
 
 def fmt(s):
-    return (f"n={s['n']:>3}  up {s['up']:4.0f}%  +10 {s['t10']:4.0f}%  -10 {s['d10']:4.0f}%  "
-            f"+10 first {s['first']:4.0f}%  med {s['med']:+5.1f}% (IQR {s['q25']:+.1f}/{s['q75']:+.1f})  "
-            f"mfe {s['mfe']:+.1f}%  mae {s['mae']:+.1f}%")
+    lv = '  '.join(f"+{L} {s[f't{L}']:3.0f}% -{L} {s[f'd{L}']:3.0f}% +{L}first {s[f'f{L}']:3.0f}%" for L in LEVELS)
+    return (f"n={s['n']:>4}  up {s['up']:3.0f}%  {lv}  med {s['med']:+6.1f}% "
+            f"(IQR {s['q25']:+.1f}/{s['q75']:+.1f})  mfe {s['mfe']:+.1f}%  mae {s['mae']:+.1f}%")
 
 
 def forming(sym):
@@ -227,26 +249,62 @@ def tier1(sym, gate_on_since, asof):
     """Signals confirmed since the regime turned on, read against the Tier 1
     cells in docs/PRETRADE.md (reach +20% in 60 days). Reported, not re-scored:
     the odds quoted are the ones already validated there."""
+    g = R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41)
     rows = []
     allconf = {}
-    for tf, n in CHARTS:
-        g = R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41)
+    for tf in AGREE_REF:
         sig, b = E.signals(f'data/{sym}_{tf}.csv', regime=g, ungated=True)
-        ct = E.rsi(b['close'], 14); em = E.ema(ct, 14)
         allconf[tf] = [s['edate'] for s in sig]
+        if tf not in dict(CHARTS):
+            continue
+        ct = E.rsi(b['close'], 14); em = E.ema(ct, 14)
         for i, s in enumerate(sig):
             if s['edate'] < gate_on_since:
                 continue
             ei = s['ei']
-            gap = ct[ei] - em[ei]
             step = (s['entry'] / sig[i - 1]['entry'] - 1) * 100 if i else None
             rows.append(dict(tf=tf, ed=s['edate'], bk=s['bk'], dia=s['dis'], hollow=s['dis'] and not s['strong'],
-                             prime=s['prime'], gap=gap, step=step, entry=s['entry'],
+                             prime=s['prime'], gap=ct[ei] - em[ei], step=step, entry=s['entry'],
                              now=b['close'][-1]))
-    for r in rows:  # backward-only agreement: other charts that had ALREADY printed within 10 days
+    for r in rows:  # backward-only: other charts that had ALREADY printed within 10 days
         r['cf'] = sum(1 for tf, ds in allconf.items() if tf != r['tf']
                       and any(0 <= (r['ed'] - d).days <= 10 for d in ds))
     return sorted(rows, key=lambda r: r['ed'])
+
+
+def walkforward(on_days, oc, state, asof, H):
+    feats = SUBSETS['S12']
+    tests = [d for d in on_days if d >= WF_START and d in oc and (asof - d).days > H][::WF_STEP]
+    keys = ['up'] + [f'f{L}' for L in LEVELS]
+    yv = lambda o, k: float(o['ret'] > 0) if k == 'up' else float(o[k] == 1)
+    rec = []
+    for t in tests:
+        pool = [d for d in on_days if d in oc and (t - d).days > H and vec(state[d], feats) is not None]
+        if len(pool) < 200 or vec(state[t], feats) is None:
+            continue
+        X = np.array([vec(state[d], feats) for d in pool])
+        ch = pick(pool, X, np.array(vec(state[t], feats)), K_PRIMARY)
+        row = dict(t=t, ret=oc[t]['ret'])
+        for k in keys:
+            row[k] = (np.mean([yv(oc[d], k) for d in ch]), np.mean([yv(oc[d], k) for d in pool]), yv(oc[t], k))
+        rec.append(row)
+    bs = lambda p, y: float(np.mean((np.array(p) - np.array(y)) ** 2))
+    print(f'  G1 walk-forward H={H}: {len(rec)} test days {rec[0]["t"]} .. {rec[-1]["t"]}')
+    for k in keys:
+        a = bs([r[k][0] for r in rec], [r[k][2] for r in rec]); b_ = bs([r[k][1] for r in rec], [r[k][2] for r in rec])
+        print(f'    {k:<4} Brier analog {a:.4f}  base {b_:.4f}  {"ANALOG BETTER" if a < b_ else "base better"}')
+    p = np.array([r['up'][0] for r in rec]); y = np.array([r['up'][2] for r in rec]); rt = np.array([r['ret'] for r in rec])
+    q = np.quantile(p, [1 / 3, 2 / 3])
+    for lab, m in (('low', p <= q[0]), ('mid', (p > q[0]) & (p <= q[1])), ('high', p > q[1])):
+        print(f'    forecast tercile {lab:<4} n={m.sum():>3}  mean P(up) {100*p[m].mean():3.0f}%  '
+              f'realised up {100*y[m].mean():3.0f}%  med ret {np.median(rt[m]):+6.1f}%')
+    yrs = sorted({r['t'].year for r in rec})
+    better = 0
+    for yr in yrs:
+        sel = [r for r in rec if r['t'].year == yr]
+        a = bs([r['up'][0] for r in sel], [r['up'][2] for r in sel]); b_ = bs([r['up'][1] for r in sel], [r['up'][2] for r in sel])
+        better += a < b_
+    print(f'    years where analog P(up) beat base: {better} of {len(yrs)}')
 
 
 def main():
@@ -254,7 +312,7 @@ def main():
     gate = gate_daily()
     for sym in ('ETH', 'BTC'):
         day, state = live_state(sym)
-        oc, pos = outcomes(day)
+        pos = {d: i for i, d in enumerate(day['date'])}
         asof = dt.date.fromisoformat(a.asof) if a.asof else day['date'][-1]
         st0 = state[asof]
         on_days = [d for d in day['date'] if gate(d)]
@@ -270,69 +328,34 @@ def main():
             print('  forming: no pivot low waiting on bars on 1D/2D/3D/5D/8D')
         on_since = max(d for d in day['date'] if d <= asof and gate(d) and not gate(d - dt.timedelta(days=1)))
         print(f'  regime on since {on_since} ({(asof - on_since).days} days)')
-        print('  signals confirmed since then, Tier 1 read:')
+        print('  signals confirmed since then, Tier 1 read (agreement vs 1D/2D/3D/5D/8D):')
         for r in tier1(sym, on_since, asof):
             tags = (['hollow dmd' if r['hollow'] else 'filled dmd'] if r['dia'] else []) + (['prime'] if r['prime'] else [])
             print(f"    {r['tf']} {r['ed']} {r['bk']} {','.join(tags) or 'plain':<18} gap at entry {r['gap']:+6.2f}  "
                   f"step {('%+.1f%%' % r['step']) if r['step'] is not None else '-':>7}  agree {r['cf']}  "
                   f"entry {r['entry']:,.2f}  now {(r['now']/r['entry']-1)*100:+.1f}%")
-
-        base_days = [d for d in on_days if d in oc and (asof - d).days > EXCLUDE_RECENT]
-        print(f'\n  BASELINE regime-on days, 14d: {fmt(summ(base_days, oc))}')
-        all_days = [d for d in day['date'] if d in oc and (asof - d).days > EXCLUDE_RECENT]
-        print(f'  BASELINE all days,       14d: {fmt(summ(all_days, oc))}')
-
-        prim = None
-        for sname, feats in SUBSETS.items():
-            x0 = vec(st0, feats)
-            pool = [d for d in base_days if vec(state[d], feats) is not None]
-            X = np.array([vec(state[d], feats) for d in pool])
-            for k in KS:
-                ch = pick(pool, X, np.array(x0), k)
-                s = summ(ch, oc)
-                tag = '  <- PRIMARY' if (sname == 'S12' and k == K_PRIMARY) else ''
-                print(f'  {sname:<4} k={k:<3} {fmt(s)}{tag}')
-                if tag:
-                    prim = ch
-        print('\n  G2 primary analogs by year')
-        for y in sorted({d.year for d in prim}):
-            ys = [d for d in prim if d.year == y]
-            s = summ(ys, oc)
-            print(f'    {y}  n={s["n"]:>2}  up {s["up"]:4.0f}%  +10 first {s["first"]:4.0f}%  med {s["med"]:+5.1f}%')
-        print('  primary analog dates:', ' '.join(str(d) for d in sorted(prim)))
-
-        # G1 walk-forward skill
-        feats = SUBSETS['S12']
-        tests = [d for d in on_days if d >= WF_START and d in oc and (asof - d).days > HORIZON][::WF_STEP]
-        rec = []
-        for t in tests:
-            pool = [d for d in on_days if d in oc and (t - d).days > HORIZON
-                    and vec(state[d], feats) is not None]
-            if len(pool) < 200 or vec(state[t], feats) is None:
-                continue
-            X = np.array([vec(state[d], feats) for d in pool])
-            ch = pick(pool, X, np.array(vec(state[t], feats)), K_PRIMARY)
-            pu = np.mean([oc[d]['ret'] > 0 for d in ch])
-            pf = np.mean([oc[d]['first'] == 1 for d in ch])
-            bu = np.mean([oc[d]['ret'] > 0 for d in pool])
-            bf = np.mean([oc[d]['first'] == 1 for d in pool])
-            yu = float(oc[t]['ret'] > 0); yf = float(oc[t]['first'] == 1)
-            rec.append((t, pu, bu, yu, pf, bf, yf, oc[t]['ret']))
-        R_ = np.array([r[1:] for r in rec])
-        bs = lambda p, y: float(np.mean((p - y) ** 2))
-        print(f'\n  G1 walk-forward, {len(rec)} test days {rec[0][0]} .. {rec[-1][0]}')
-        print(f'    P(up)        Brier analog {bs(R_[:,0],R_[:,2]):.4f}  base {bs(R_[:,1],R_[:,2]):.4f}')
-        print(f'    P(+10 first) Brier analog {bs(R_[:,3],R_[:,5]):.4f}  base {bs(R_[:,4],R_[:,5]):.4f}')
-        q = np.quantile(R_[:, 0], [1 / 3, 2 / 3])
-        for lab, m in (('low', R_[:, 0] <= q[0]), ('mid', (R_[:, 0] > q[0]) & (R_[:, 0] <= q[1])),
-                       ('high', R_[:, 0] > q[1])):
-            print(f'    forecast tercile {lab:<4} n={m.sum():>3}  mean P(up) {100*R_[m,0].mean():4.0f}%  '
-                  f'realised up {100*R_[m,2].mean():4.0f}%  med ret {np.median(R_[m,6]):+5.1f}%')
-        print('    by year (Brier analog vs base, P(up))')
-        for y in sorted({r[0].year for r in rec}):
-            m = np.array([r[0].year == y for r in rec])
-            print(f'      {y}  n={m.sum():>3}  analog {bs(R_[m,0],R_[m,2]):.3f}  base {bs(R_[m,1],R_[m,2]):.3f}  '
-                  f'{"analog better" if bs(R_[m,0],R_[m,2]) < bs(R_[m,1],R_[m,2]) else "base better"}')
+        for H in HORIZONS:
+            oc, _ = outcomes(day, H)
+            print(f'\n  ---------- {sym} horizon {H} days ----------')
+            base_days = [d for d in on_days if d in oc and (asof - d).days > EXCLUDE_RECENT]
+            print(f'  BASELINE regime-on  {fmt(summ(base_days, oc))}')
+            all_days = [d for d in day['date'] if d in oc and (asof - d).days > EXCLUDE_RECENT]
+            print(f'  BASELINE all days   {fmt(summ(all_days, oc))}')
+            prim = None
+            for sname, feats in SUBSETS.items():
+                x0 = vec(st0, feats)
+                pool = [d for d in base_days if vec(state[d], feats) is not None]
+                X = np.array([vec(state[d], feats) for d in pool])
+                for k in KS:
+                    ch = pick(pool, X, np.array(x0), k)
+                    tag = '  <- PRIMARY' if (sname == 'S12' and k == K_PRIMARY) else ''
+                    print(f'  {sname:<4} k={k:<3}    {fmt(summ(ch, oc))}{tag}')
+                    if tag:
+                        prim = ch
+            print('  G2 primary analogs by year: ' + '  '.join(
+                f"{y} n={summ([d for d in prim if d.year == y], oc)['n']} up {summ([d for d in prim if d.year == y], oc)['up']:.0f}%"
+                for y in sorted({d.year for d in prim})))
+            walkforward(on_days, oc, state, asof, H)
         print()
 
 
