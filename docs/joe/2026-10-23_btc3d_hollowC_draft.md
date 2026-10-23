@@ -25,7 +25,7 @@ All regime-on BTC 3D signals, for context (n=92, 60 days after entry):
 - Ever +5% above entry within 90 days: 85%
 
 2. If ETH 1D or ETH 2D prints a CTZB signal by the 31 Oct daily close (00:00 UTC 1 Nov)
-Tested 22 Oct 2026: regime-on ETH signals with a BTC 3D signal already confirmed in the prior 10 days, 2016-2025. Reach +20% within 60 days:
+Tested 22 Oct 2026: regime-on ETH signals with ANY regime-on BTC 3D signal (any tag, not only this hollow C diamond) already confirmed in the prior 10 days, 2016-2025. With this specific hollow C diamond the pairing has never occurred (0 cases), so these figures are for BTC 3D signals in general. Reach +20% within 60 days:
 - ETH 1D: 73% with (n=95) vs 55% without (n=193). Positive in 9 of 10 years. Same result at a 5-day window.
 - ETH 2D: 77% with (n=39) vs 56% without (n=98). Mixed by year on small samples; no effect at a 5-day window. Weaker.
 Status: tested once. ETH 1D passed the year and overlap checks. Not yet validated; not part of the core filter set.

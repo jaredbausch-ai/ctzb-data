@@ -356,6 +356,9 @@ PROMISING on ETH 1D.** `analysis/xconf.py`, declared before running. A gated BTC
 ETH's own agreement strata and at a 5-day window. ETH 2D 77% vs 56% (n=39/98)
 but mixed by year on small n and gone at a 5-day window. In PRETRADE under
 "Promising", not Tier 1.
+The BTC side is ANY gated BTC 3D signal. Restricted to BTC 3D hollow C
+diamonds the pairing has never occurred (0 cases); to any hollow diamond, ETH
+1D n=5 (60% +20%, median drawdown from entry -24.8%) and ETH 2D n=2.
 
 **BTC 3D hollow C diamond + prime with a BTC 1D B + prime dot within 10 days
 — checked 23 Oct 2026: has never happened.** The 3D tag has confirmed twice
