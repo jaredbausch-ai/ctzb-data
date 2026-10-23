@@ -423,6 +423,17 @@ lens: 72% vs 66% and 49% vs 42%, fewer -20% touches in both periods, no price
 penalty. 8D rising plus waiting for green on day 5 adds nothing more and keeps
 only 26-30% of signals.
 
+**An unfiltered CTZB signal is no better than a random regime-on day — checked
+23 Oct 2026.** Reach +20% in 60d, all gated signals vs every regime-on day:
+ETH 71% vs 69% (2016-21), 47% vs 46% (2022-26); BTC 62% vs 64%, 36% vs 36%.
+Year by year the two track within a few points. The edge is the regime gate
+plus the filters (CT/Signal gap > 5, 8D CT rising, higher low, agreement) --
+consistent with the 9 Oct finding that the regime filter is the primary edge.
+2022-26 looks weak in absolute terms mainly because the market moves less:
+daily volatility fell from 5.7% to 3.6% (ETH) and 4.1% to 2.7% (BTC), a
+typical 60-day move from 44% to 28% (ETH) and 32% to 21% (BTC), so a fixed +20%
+target is a much higher bar; plus 2025, the gate's blind-spot year (BTC 14%).
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
