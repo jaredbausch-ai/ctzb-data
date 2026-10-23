@@ -392,6 +392,16 @@ ratio's own control zone changes nothing. ETH-USD after a ratio signal: at
 baseline. The oversold observation is unvalidated -- one look, not tested as
 its own filter.
 
+**Full cross-asset agreement map — tested 23 Oct 2026.** `analysis/xmap.py`,
+declared: every BTC 1D/2D/3D/5D into every ETH 1D/2D/3D/5D and back (32
+cells), with 5 pass criteria. Two passed: BTC 3D -> ETH 1D (73% vs 55%, the
+cell already found) and NEW ETH 2D -> BTC 1D (60% vs 44% reach +20% in 60d,
+n=136, 7 of 9 years, survives BTC's own agreement strata and a 5-day window).
+They mirror each other: a slower signal on one asset, then a 1D signal on the
+other. Near miss ETH 3D -> BTC 1D. BTC 1D/2D/5D -> ETH 1D all fail, so it is
+not a general "other asset agrees" effect. Two of 32 is close to what luck
+could produce; both recorded under "Promising" in PRETRADE, not Tier 1.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

@@ -1,0 +1,36 @@
+leader -> follower    with  without  diff  n with  years  own 0-1  own 2+   W=5  verdict
+BTC 1D -> ETH 1D       60%      66%    -5     259    3/5       -1     -21    -1  fails 1,3,4,5
+BTC 2D -> ETH 1D       60%      61%    -1     146    4/9       -1     -10    +4  fails 1,3,4,5
+BTC 3D -> ETH 1D       73%      55%   +18      95    7/8      +10     +31   +16  PROMISING
+BTC 5D -> ETH 1D       60%      61%    -1      57    5/9       -3      -4    +8  fails 1,3,4
+BTC 1D -> ETH 2D       61%      78%   -17     128    0/1      -28      +5    -2  fails 1,3,4,5
+BTC 2D -> ETH 2D       64%      56%    +9     101    4/7       -7     +40    +1  fails 1,3,4,5
+BTC 3D -> ETH 2D       77%      56%   +21      39    4/7      +20     +16    +3  fails 3,5
+BTC 5D -> ETH 2D       62%      62%    +1      24    2/5       -3      -3   +31  fails 1,2,3,4
+BTC 1D -> ETH 3D       55%      57%    -2      80    0/1      +29      -9   +13  fails 1,3,4
+BTC 2D -> ETH 3D       56%      50%    +6      71    0/2      -13      +5   +13  fails 1,3,4
+BTC 3D -> ETH 3D       63%      39%   +23      59    5/6      -67     +33   +18  fails 4
+BTC 5D -> ETH 3D       75%      53%   +22       8    0/0      n/a     +19    +5  fails 2,3,4
+BTC 1D -> ETH 5D       74%      62%   +12      34    0/1      +33     +11   -13  fails 3,5
+BTC 2D -> ETH 5D       69%      72%    -3      29    1/1      +20      -1    +9  fails 1,2,4
+BTC 3D -> ETH 5D       67%      79%   -12      33    0/0      -33      -6   +27  fails 1,3,4
+BTC 5D -> ETH 5D       65%      81%   -17      31    0/1      -20     -18   -19  fails 1,3,4,5
+
+ETH 1D -> BTC 1D       52%      50%    +2     257    2/5       +7     -23    -4  fails 1,3,4,5
+ETH 2D -> BTC 1D       60%      44%   +16     136    7/9      +12     +24    +7  PROMISING
+ETH 3D -> BTC 1D       56%      49%    +7      87    6/9       +8      +6   +11  fails 1
+ETH 5D -> BTC 1D       50%      52%    -2      48    3/8       +1      -7    -6  fails 1,3,4,5
+ETH 1D -> BTC 2D       52%      50%    +2     135    1/1      +52     -24   -10  fails 1,4,5
+ETH 2D -> BTC 2D       55%      41%   +14     109    3/6       -2     +36    +3  fails 3,4,5
+ETH 3D -> BTC 2D       56%      50%    +5      36    3/8       +8      +3   +12  fails 1,3
+ETH 5D -> BTC 2D       50%      52%    -2      16    1/3      +16      -9    -2  fails 1,2,3,4,5
+ETH 1D -> BTC 3D       51%      60%    -9      87    0/0      n/a     -12   +15  fails 1,3,4
+ETH 2D -> BTC 3D       49%      58%   -10      68    2/4      +20      -6    -9  fails 1,3,4,5
+ETH 3D -> BTC 3D       56%      43%   +13      55    3/5      -33     +19    +6  fails 3,4
+ETH 5D -> BTC 3D       62%      50%   +12       8    0/1      n/a     +16   +51  fails 2,3,4
+ETH 1D -> BTC 5D       49%      43%    +6      35    0/1      -29      -6   -10  fails 1,3,4,5
+ETH 2D -> BTC 5D       45%      50%    -5      31    0/1      +17     -20   +12  fails 1,3,4
+ETH 3D -> BTC 5D       47%      46%    +1      36    0/1      -36     +10    +9  fails 1,3,4
+ETH 5D -> BTC 5D       48%      44%    +4      31    1/1      +33      -1    -1  fails 1,4,5
+
+PROMISING cells: BTC 3D -> ETH 1D, ETH 2D -> BTC 1D

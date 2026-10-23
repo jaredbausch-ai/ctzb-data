@@ -104,6 +104,17 @@ the per-year split is the real test; it passes on 1D.
 
 ---
 
+### ETH 2D signal already confirmed within 10 days before a BTC 1D signal
+*Tested 23 Oct 2026, declared in `analysis/xmap.py` (32-cell map, 2 passed).*
+BTC 1D reach +20% in 60d: **60%** with (n=136) vs 44% without. Ahead in 7 of
+9 years; positive inside BTC's own agreement 0-1 (+12) and 2+ (+24); +7 at a
+5-day window. The mirror of the BTC 3D -> ETH 1D cell above, which the same
+map reproduced (73% vs 55%, 7 of 8 years). One of 32 cells, so treat as a
+candidate. Near miss: ETH 3D -> BTC 1D (+7, 6 of 9 years, both strata
+positive). Every other cell failed, including BTC 1D/2D/5D -> ETH 1D.
+
+---
+
 ## Costs to price in before sizing
 
 These are not filters. They are what the system charges regardless.
