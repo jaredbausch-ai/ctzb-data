@@ -1,0 +1,50 @@
+Baseline (no positioning filter), win / safe win / touched -20% / touched -30%:
+  ETH  2020-22: 73/66/39/24 n=119   2023-26: 48/45/29/19 n=224   OI 2022-24: 50/50/11/4 n=114   OI 2024-26: 45/40/46/34 n=110
+  BTC  2020-22: 56/52/42/27 n=120   2023-26: 36/36/19/2 n=222   OI 2022-24: 47/46/11/1 n=109   OI 2024-26: 26/26/27/4 n=113
+  ALL  2020-22: 64/59/41/25 n=239   2023-26: 42/40/24/11 n=446   OI 2022-24: 48/48/11/3 n=223   OI 2024-26: 35/33/36/18 n=223
+
+Single positioning features, ALL charts pooled (win yes vs no, discovery | holdout):
+  P1  funding negative            62% vs  65% (n 29/210), -20% 38 vs 41  |   50% vs  41% (n 40/406), -20% 8 vs 25
+  P2  funding 7d low third        61% vs  66% (n 80/159), -20% 42 vs 40  |   41% vs  43% (n 247/199), -20% 23 vs 25
+  P3  funding cooling             56% vs  73% (n 120/119), -20% 48 vs 34  |   37% vs  47% (n 221/225), -20% 25 vs 23
+  P4  funding below 90d median    56% vs  71% (n 107/132), -20% 50 vs 33  |   39% vs  46% (n 231/215), -20% 24 vs 23
+  P5  L/S below 90d median        57% vs  63% (n 97/117), -20% 53 vs 39  |   48% vs  36% (n 217/229), -20% 22 vs 25
+  P6  L/S falling 14d             59% vs  68% (n 120/113), -20% 45 vs 38  |   45% vs  39% (n 229/217), -20% 24 vs 24
+  P7  OI 14d change low third     43% vs  51% (n 75/148), -20% 11 vs 11  |   29% vs  41% (n 98/125), -20% 44 vs 30
+  P8  price down, OI up           53% vs  48% (n 30/193), -20% 10 vs 11  |   50% vs  34% (n 18/205), -20% 39 vs 36
+  P9  OI vs 30d avg low third     47% vs  49% (n 75/148), -20% 5 vs 14  |   22% vs  47% (n 107/116), -20% 47 vs 27
+  P10 OI fell more than price     50% vs  47% (n 103/120), -20% 7 vs 15  |   19% vs  48% (n 99/124), -20% 45 vs 29
+
+Tested 145 combos x 3 groups
+
+MEETS STANDARD (>=70% win, keeps >=80% of winners, both periods): none
+
+A-GRADE CANDIDATES (>=70% win and >=65% safe win, both periods, n>=15 each): 
+  ETH  L/S falling 14d + prime                          D: win 72% safe 72% keeps 15% of winners, -20% 44% -30% 44% (n=18)
+                                                       H: win 70% safe 70% keeps 13% of winners, -20% 15% -30% 15% (n=20)
+
+CLOSEST by worst-period win rate (n>=15 both):
+  ETH  L/S falling 14d + prime                          D: win 72% safe 72% keeps 15% of winners, -20% 44% -30% 44% (n=18)
+                                                       H: win 70% safe 70% keeps 13% of winners, -20% 15% -30% 15% (n=20)
+  ALL  L/S below 90d median + prime                     D: win 65% safe 65% keeps 13% of winners, -20% 46% -30% 46% (n=26)
+                                                       H: win 69% safe 64% keeps 17% of winners, -20% 20% -30% 4% (n=45)
+  ALL  L/S falling 14d + prime                          D: win 72% safe 72% keeps 18% of winners, -20% 36% -30% 36% (n=36)
+                                                       H: win 64% safe 64% keeps 17% of winners, -20% 16% -30% 8% (n=50)
+  ETH  L/S below 90d median + 8D rising                 D: win 63% safe 63% keeps 16% of winners, -20% 58% -30% 42% (n=19)
+                                                       H: win 66% safe 62% keeps 36% of winners, -20% 21% -30% 12% (n=58)
+  ETH  L/S below 90d median + prime                     D: win 62% safe 62% keeps 13% of winners, -20% 56% -30% 56% (n=16)
+                                                       H: win 80% safe 70% keeps 15% of winners, -20% 20% -30% 0% (n=20)
+  BTC  L/S falling 14d + prime                          D: win 72% safe 72% keeps 20% of winners, -20% 28% -30% 28% (n=18)
+                                                       H: win 60% safe 60% keeps 22% of winners, -20% 17% -30% 3% (n=30)
+  ALL  L/S falling 14d + gap>5                          D: win 71% safe 71% keeps 8% of winners, -20% 53% -30% 41% (n=17)
+                                                       H: win 59% safe 58% keeps 22% of winners, -20% 17% -30% 4% (n=69)
+  ETH  L/S below 90d median + higher entry              D: win 81% safe 81% keeps 23% of winners, -20% 48% -30% 38% (n=21)
+                                                       H: win 59% safe 56% keeps 30% of winners, -20% 20% -30% 9% (n=54)
+  ETH  funding 7d low third + own agree 2+              D: win 81% safe 69% keeps 15% of winners, -20% 31% -30% 31% (n=16)
+                                                       H: win 59% safe 57% keeps 35% of winners, -20% 17% -30% 11% (n=63)
+  ETH  funding below 90d median + 8D rising             D: win 58% safe 58% keeps 13% of winners, -20% 58% -30% 47% (n=19)
+                                                       H: win 62% safe 60% keeps 24% of winners, -20% 26% -30% 17% (n=42)
+  ETH  L/S falling 14d + diamond                        D: win 71% safe 65% keeps 14% of winners, -20% 41% -30% 35% (n=17)
+                                                       H: win 58% safe 50% keeps 14% of winners, -20% 23% -30% 19% (n=26)
+  ETH  L/S falling 14d + 8D rising                      D: win 58% safe 50% keeps 18% of winners, -20% 58% -30% 42% (n=26)
+                                                       H: win 62% safe 61% keeps 37% of winners, -20% 22% -30% 14% (n=64)

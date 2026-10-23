@@ -435,6 +435,21 @@ daily volatility fell from 5.7% to 3.6% (ETH) and 4.1% to 2.7% (BTC), a
 typical 60-day move from 44% to 28% (ETH) and 32% to 21% (BTC), so a fixed +20%
 target is a much higher bar; plus 2025, the gate's blind-spot year (BTC 14%).
 
+**Perp positioning (funding, long/short ratio, open interest) — tested 23 Oct
+2026, nothing meets Jared's standard.** `analysis/derivtest.py`, declared; 10
+positioning features alone, with each stack feature, and in pairs (145 combos x
+3 groups). Discovery 2020-22 / holdout 2023-26 for funding and L/S; OI only
+exists from Sep 2022, so 2022-24 / 2024-26 for OI. No combo keeps 80% of
+winners at 70%+. One narrow candidate: ETH prime + long/short ratio falling over
+14 days, 72% / 70% (n=18 / 20), keeps ~14% of winners, but touched -30% in 44%
+of the 2020-22 cases. OI washout features (OI down, OI below its 30d average,
+OI falling faster than price) were sharply worse in 2024-26 (19-29% vs 41-48%)
+but neutral or better in 2022-24 -- not stable. The only effect pointing the
+same way in both periods: funding cooling or below its 90-day median at entry
+is WORSE (56% vs 71-73%, then 37-39% vs 46-47%) -- a caution, below the bar.
+Contrarian "negative funding is bullish" was not supported (62% vs 65%, then
+50% vs 41% on n=40).
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
