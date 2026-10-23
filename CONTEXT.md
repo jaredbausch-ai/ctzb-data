@@ -331,6 +331,17 @@ In late 2025 it also priced some BTC -20% drops as LESS likely and was worse
 for it (BTC 90d -20 Brier 0.414 -> 0.593). Lookbacks 14 and 60 gave
 near-identical results, so 30 is not a fitted choice.
 
+**The vol-scaled range over all of ETH — 22 Oct 2026.** `analysis/fullhistory.py`.
+Every day from Jan 2017, gate ON and OFF (each against its own gate state's
+history). Whole record: price landed inside the middle half 50-53% of the time
+and inside the 5th-95th band 90-93% at 14/30/60/90 days, i.e. calibrated
+overall. It is NOT calibrated year by year: 2018 (gate still ON into the crash)
+had 9-38% inside the middle half with 49-91% below it; 2017 and 2020 ran above
+it; 2025 at 60/90d ran below it (43-49% below). The worst wide-band breaches:
+-40% past the 5th percentile (30d from 14 Feb 2020, the Covid crash), -46.6%
+(60d from 19 Apr 2022), +248% (30d from Feb 2017). The gate-OFF stretch Jul
+2018 - Feb 2019 cannot be scored: only 23 gate-off days existed before it.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
