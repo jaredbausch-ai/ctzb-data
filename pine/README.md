@@ -43,7 +43,12 @@ inside itself; it does not read any other indicator.
 
 `analysis/cone_mirror.py` is a bar-for-bar Python replica. Its printout is what
 the table should show (track record within a few tenths; n a day or two higher
-as the chart moves on). **Not yet confirmed compiling** — paste and check.
+as the chart moves on, plus one for the forming day, which the table scores
+provisionally). Reviewed line by line against the Pine v6 docs on 22 Oct 2026;
+one bug fixed (`barstate.isconfirmed` does not work inside `request.security`).
+Known cosmetic limit: on 2D/3D the past-forecast band can sit one day early
+where its target crosses 1 January, because those bars restart on New Year.
+**Not yet confirmed compiling** — paste and check.
 
 ## Other sources
 

@@ -123,7 +123,10 @@ fcast(Pool pl, int H, float vol) =>
 
 // score the forecast made H daily bars ago against today's close
 score(Stats st, float lo5, float lo25, float hi75, float hi95) =>
-    if barstate.isconfirmed and not na(lo25)
+    // no barstate.isconfirmed here: it does not work inside request.security.
+    // Not needed either - Pine rolls back var/UDT/array changes made on the
+    // forming bar on every tick, so only closed days are kept.
+    if not na(lo25)
         st.n += 1
         if close >= lo25 and close <= hi75
             st.mid += 1
@@ -133,7 +136,7 @@ score(Stats st, float lo5, float lo25, float hi75, float hi95) =>
 // add the outcome that closed today (made H bars ago) to its gate's pool
 addOutcome(Pool pl, float c0, float v0, int H, float hh, float ll) =>
     float sd = v0 * math.sqrt(H)
-    if barstate.isconfirmed and not na(sd) and sd > 0 and not na(c0)
+    if not na(sd) and sd > 0 and not na(c0)
         sortedInsert(pl.zr, math.log(close / c0) / sd)
         sortedInsert(pl.zf, math.log(hh / c0) / sd)
         sortedInsert(pl.za, math.log(ll / c0) / sd)
@@ -218,13 +221,15 @@ if barstate.islast and showCone and not na(d50)
     label.delete(lbHi)
     label.delete(lbMd)
     label.delete(lbLo)
+    // cone starts at the current chart bar (lines up with the band on 2D/3D);
+    // horizons are counted from the latest daily bar, so the targets are exact
     int dayMs = 86400000
     int t14 = tDay + 14 * dayMs
     int t30 = tDay + 30 * dayMs
     int t60 = tDay + 60 * dayMs
     int t90 = tDay + 90 * dayMs
     array<chart.point> w = array.new<chart.point>()
-    array.push(w, chart.point.from_time(tDay, cDay))
+    array.push(w, chart.point.from_time(time, cDay))
     array.push(w, chart.point.from_time(t14, a95))
     array.push(w, chart.point.from_time(t30, b95))
     array.push(w, chart.point.from_time(t60, c95))
@@ -235,7 +240,7 @@ if barstate.islast and showCone and not na(d50)
     array.push(w, chart.point.from_time(t14, a5))
     coneWide := polyline.new(w, curved = false, closed = true, xloc = xloc.bar_time, line_color = color.new(color.teal, 60), fill_color = color.new(color.teal, 90))
     array<chart.point> m = array.new<chart.point>()
-    array.push(m, chart.point.from_time(tDay, cDay))
+    array.push(m, chart.point.from_time(time, cDay))
     array.push(m, chart.point.from_time(t14, a75))
     array.push(m, chart.point.from_time(t30, b75))
     array.push(m, chart.point.from_time(t60, c75))
@@ -246,7 +251,7 @@ if barstate.islast and showCone and not na(d50)
     array.push(m, chart.point.from_time(t14, a25))
     coneMid := polyline.new(m, curved = false, closed = true, xloc = xloc.bar_time, line_color = color.new(color.teal, 30), fill_color = color.new(color.teal, 78))
     array<chart.point> md = array.new<chart.point>()
-    array.push(md, chart.point.from_time(tDay, cDay))
+    array.push(md, chart.point.from_time(time, cDay))
     array.push(md, chart.point.from_time(t14, a50))
     array.push(md, chart.point.from_time(t30, b50))
     array.push(md, chart.point.from_time(t60, c50))
