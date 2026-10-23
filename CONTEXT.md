@@ -543,6 +543,26 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**Jared's standard (set 23 Oct 2026):** bring nothing below a 70% win rate;
+a change to the stack should reach ~80% while cutting no more than 20% of the
+winners (equivalently: keep 80% of wins, cut 80% of losses). He trades ~3.3x,
+so drawdown below entry is the binding risk -- "if I get liquidated the game's
+over". Score candidates on SAFE wins (+20% before -20%) and -20% / -30% touch
+rates, not only reach +20%.
+
+**Search against that standard — 23 Oct 2026, `analysis/standard.py`:** 20
+features (10 from the stack, 10 standard outside indicators: MACD, ADX,
+Bollinger, 50d average, EMA20, OBV, Ichimoku, Williams %R, CCI) singly and in
+AND-pairs, 10 groups, 2,100 combos, both periods required. Nothing meets the
+standard in either framing (raw wins or safe wins): no filter keeps 80% of
+winners while lifting the rate to 70%+. What clears the 70% floor in BOTH
+periods (safe win, n >= 15 each) is a handful of narrow setups that keep only
+13-48% of winners, e.g. ETH 2D higher entry + 8D rising 87% / 73% (-30% touch
+17% / 7%); BTC 1D gap>5 + OBV above its average 78% / 75% (-30% 9% / 0%); ETH
+pooled prime + own agreement 2+ 76% / 72% (-20% touch 7% in 2022-26). With
+2,100 tries some of these are luck; treat as candidates for forward watch.
+
+
 **Only when he specifies drawdown "from entry" / "to entry price", this is the
 format he means (set 22 Oct 2026; not for other drawdown questions):** lead with the drawdown sat through *before the
 trade's high* (median, from entry), then a table of the worst individual trades
