@@ -175,16 +175,16 @@ def main():
 
         dates = sorted({d for s in oi.values() for d in s})
         def oi_row(d):
-            vals = [oi[s][d]['c'] if d in oi.get(s, {}) else '' for s in syms]
+            vals = [v if (v := oi.get(s, {}).get(d, {}).get('c')) is not None else '' for s in syms]
             num = [v for v in vals if v != '']
             return [d, round(sum(num), 2) if num else '', len(num)] + vals
         merge('oi', ['date', 'oi_usd_total', 'n_markets'] + syms, oi_row, dates)
 
         fdates = sorted({d for s in fr.values() for d in s})
         def fr_row(d):
-            vals = [fr[s][d]['c'] if d in fr.get(s, {}) else '' for s in syms]
+            vals = [v if (v := fr.get(s, {}).get(d, {}).get('c')) is not None else '' for s in syms]
             pairs = [(fr[s][d]['c'], oi[s][d]['c']) for s in syms
-                     if d in fr.get(s, {}) and d in oi.get(s, {}) and oi[s][d]['c']]
+                     if fr.get(s, {}).get(d, {}).get('c') is not None and oi.get(s, {}).get(d, {}).get('c')]
             w = sum(o for _, o in pairs)
             wavg = sum(f * o for f, o in pairs) / w if w else ''
             num = [v for v in vals if v != '']
@@ -194,7 +194,7 @@ def main():
         if ls_syms:
             ldates = sorted({d for s in ls.values() for d in s})
             def ls_row(d):
-                vals = [ls[s][d]['r'] if d in ls.get(s, {}) else '' for s in ls_syms]
+                vals = [v if (v := ls.get(s, {}).get(d, {}).get('r')) is not None else '' for s in ls_syms]
                 num = [v for v in vals if v != '']
                 return [d, sum(num) / len(num) if num else '', len(num)] + vals
             merge('lsratio', ['date', 'ls_ratio_mean', 'n_markets'] + ls_syms, ls_row, ldates)
