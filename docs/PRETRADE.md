@@ -85,6 +85,25 @@ Known blind spot: episode 2021-08-19 → 2022-01-25 stayed ON through the Novemb
 
 ---
 
+## Promising — passed some guards, not Tier 1 yet
+
+### BTC 3D signal already confirmed within 10 days before an ETH 1D / 2D signal
+*Tested 22 Oct 2026, declared in `analysis/xconf.py`.* Reach +20% in 60 days:
+
+| | with BTC 3D | without | n with / without | years positive |
+|---|---|---|---|---|
+| ETH 1D | **73%** | 55% | 95 / 193 | 9 of 10 (2017 −17) |
+| ETH 2D | **77%** | 56% | 39 / 98 | 6 of 9 testable, small n |
+
+Not collinear with ETH's own agreement: inside ETH-agreement 0–1 it is
+66% vs 56% (1D) and 74% vs 53% (2D); inside 2+ it is 79% vs 48% (1D) and 80%
+vs 64% (2D). ETH 1D also holds at a 5-day window (74% vs 58%). **ETH 2D does
+not** (65% vs 62% at 5 days), and both fade at 20 days (+9, +8). That window
+sensitivity on 2D is why this is not Tier 1. Date-anchored by construction, so
+the per-year split is the real test; it passes on 1D.
+
+---
+
 ## Costs to price in before sizing
 
 These are not filters. They are what the system charges regardless.

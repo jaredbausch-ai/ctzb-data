@@ -349,6 +349,14 @@ here: the bands are calibrated but carry no direction, and the median line is
 only price shifted forward, so on the chart it added nothing he would trade
 from. Crossed off. The code and results stay in the repo as the record.
 
+**Cross-asset confluence, BTC 3D -> ETH 1D / 2D — tested 22 Oct 2026,
+PROMISING on ETH 1D.** `analysis/xconf.py`, declared before running. A gated BTC
+3D signal already confirmed within 10 days before the ETH entry: ETH 1D 73% vs
+55% reach +20% in 60d (n=95/193), positive in 9 of 10 years, survives inside
+ETH's own agreement strata and at a 5-day window. ETH 2D 77% vs 56% (n=39/98)
+but mixed by year on small n and gone at a 5-day window. In PRETRADE under
+"Promising", not Tier 1.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

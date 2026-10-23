@@ -1,0 +1,52 @@
+==================== ETH 1D  (288 gated signals with a full 60d window)
+  baseline                      n=288  +20%  61%  med ret   +7.6%  med DD  -16.2%  days under   24
+  BTC 3D within 10d before    n= 95  +20%  73%  med ret  +14.8%  med DD  -14.3%  days under   20 <- primary
+  no BTC 3D within 10d         n=193  +20%  55%  med ret   +4.8%  med DD  -17.4%  days under   26
+  BTC 3D within  5d before    n= 46  +20%  74%  med ret  +11.6%  med DD  -14.4%  days under   23
+  no BTC 3D within  5d         n=242  +20%  58%  med ret   +7.4%  med DD  -16.5%  days under   24
+  BTC 3D within 20d before    n=178  +20%  64%  med ret   +6.9%  med DD  -14.6%  days under   21
+  no BTC 3D within 20d         n=110  +20%  55%  med ret   +7.8%  med DD  -18.0%  days under   26
+  by year, W=10 (with / without, +20% in 60d)
+    2016  with  83% (n=12)  without  55% (n=11)  diff  +29
+    2017  with  80% (n=10)  without  97% (n=30)  diff  -17
+    2018  with 100% (n= 2)  without  29% (n=17)  diff  +71
+    2019  with  67% (n= 9)  without  43% (n=14)  diff  +24
+    2020  with 100% (n=12)  without  74% (n=23)  diff  +26
+    2021  with  83% (n= 6)  without  63% (n=27)  diff  +20
+    2022  with  50% (n= 2)  without   0% (n= 1)  diff  +50
+    2023  with  58% (n=12)  without  35% (n=23)  diff  +24
+    2024  with  67% (n=21)  without  35% (n=23)  diff  +32
+    2025  with  44% (n= 9)  without  42% (n=24)  diff   +3
+  collinearity, W=10, inside ETH own agreement
+    ETH agree 0-1  with BTC 3D    n= 47  +20%  66%  med ret  +14.8%  med DD  -18.0%  days under   17
+    ETH agree 0-1  without        n=160  +20%  56%  med ret   +5.2%  med DD  -17.8%  days under   26
+    ETH agree 2+   with BTC 3D    n= 48  +20%  79%  med ret  +14.2%  med DD  -13.2%  days under   20
+    ETH agree 2+   without        n= 33  +20%  48%  med ret   +3.6%  med DD  -14.4%  days under   37
+    overlap: BTC 3D 95, ETH agree 2+ 81, both 48, expected by chance 26.7
+
+==================== ETH 2D  (137 gated signals with a full 60d window)
+  baseline                      n=137  +20%  62%  med ret   +9.3%  med DD  -14.8%  days under   21
+  BTC 3D within 10d before    n= 39  +20%  77%  med ret  +21.4%  med DD   -9.8%  days under   13 <- primary
+  no BTC 3D within 10d         n= 98  +20%  56%  med ret   +5.1%  med DD  -18.1%  days under   22
+  BTC 3D within  5d before    n= 20  +20%  65%  med ret  +13.3%  med DD  -14.1%  days under   32
+  no BTC 3D within  5d         n=117  +20%  62%  med ret   +9.3%  med DD  -15.3%  days under   17
+  BTC 3D within 20d before    n= 73  +20%  66%  med ret   +9.3%  med DD  -13.4%  days under   17
+  no BTC 3D within 20d         n= 64  +20%  58%  med ret  +10.1%  med DD  -17.9%  days under   24
+  by year, W=10 (with / without, +20% in 60d)
+    2016  with  60% (n= 5)  without  75% (n= 4)  diff  -15
+    2017  with 100% (n= 6)  without 100% (n=11)  diff   +0
+    2018  with  33% (n= 3)  without  50% (n= 8)  diff  -17
+    2019  with 100% (n= 3)  without  33% (n= 6)  diff  +67
+    2020  with 100% (n= 4)  without  79% (n=14)  diff  +21
+    2021  with 100% (n= 1)  without  56% (n=16)  diff  +44
+    2022  with 100% (n= 1)  without   0% (n= 1)  diff +100
+    2023  with  50% (n= 2)  without  44% (n=16)  diff   +6
+    2024  with  89% (n= 9)  without  36% (n=11)  diff  +53
+    2025  with  40% (n= 5)  without  36% (n=11)  diff   +4
+  collinearity, W=10, inside ETH own agreement
+    ETH agree 0-1  with BTC 3D    n= 19  +20%  74%  med ret  +11.4%  med DD  -13.4%  days under   21
+    ETH agree 0-1  without        n= 73  +20%  53%  med ret   +6.4%  med DD  -18.5%  days under   31
+    ETH agree 2+   with BTC 3D    n= 20  +20%  80%  med ret  +33.1%  med DD   -8.8%  days under   12
+    ETH agree 2+   without        n= 25  +20%  64%  med ret   +3.7%  med DD  -17.0%  days under   13
+    overlap: BTC 3D 39, ETH agree 2+ 45, both 20, expected by chance 12.8
+
