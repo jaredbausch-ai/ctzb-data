@@ -167,6 +167,7 @@ logs and every generator from the CT/Signal work.
 | `odds.py` → `odds.json` | aggregate odds by chart and tag |
 | `waves.py` | swing segmentation and Elliott counts |
 | `fetch.py` | candle fetch, including 4H/12H |
+| `fetch_derivs.py` → `data/derivs/` | BTC/ETH perp open interest (USD), funding and long/short ratio from Coinalyze, daily, 2019 on. Needs the repo secret `COINALYZE_API_KEY` (Jared adds it; the assistant does not handle the key). Runs in the Action after the candles; skips without the secret |
 | `pine/` | **every Pine source**, indicator and scanner. `ct_zone_bounce_v15.pine` is the live indicator; `ctzb_scanner_v9.pine` the live scanner. See its README |
 | `analysis/` | generators for every figure quoted, plus `RESULTS_*.txt` captures. See its README |
 | `analysis/legacy/` | the 9-16 Oct generation behind the published v3/v4 odds pages. Figures there predate the current gate and the backward-only confluence window |
