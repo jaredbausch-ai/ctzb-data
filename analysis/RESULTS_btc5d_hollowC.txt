@@ -9,8 +9,17 @@ BASE 90d    49    55    +4.9  +27.4  -15.6  -29.2   -51.8   -3.9   44   25   67 
 TAG dead (-30% before +5%, within a year): 0 of 3
 BASE dead (-30% before +5%, within a year): 6 of 50
 
+EVER PROFITABLE (within 90 days of entry; high above entry, even if it ended red)
+  TAG   n=  3  ever above entry 3 (100%)  ever +5% or more 2 (67%)  ended red at 90d 1, of which had been +5% or more first 0
+  BASE  n= 49  ever above entry 49 (100%)  ever +5% or more 40 (82%)  ended red at 90d 22, of which had been +5% or more first 13
+
 EVERY SIGNAL
 entry date       entry    CT     K prime    step   60d ret  60d up  60d DD DD pre-pk 90d ret  90d DD
 2017-01-26         923  57.3  33.9 yes    +50.9%    +18.0%  +47.3%   -3.6%     -0.0%  +50.0%   -3.6%
 2017-07-25       2,700  57.3   2.3 no    +123.2%    +55.5%  +84.4%   -7.4%     -7.4% +114.1%   -7.4%
 2025-01-21     104,734  61.5  12.9 no     +65.3%    -17.0%   +1.7%  -26.9%     -6.7%   -9.6%  -28.9%
+
+entry date   ever green  best gain (90d)  on day  ended (90d)
+2017-01-26          yes           +51.0%      90       +50.0%
+2017-07-25          yes          +129.2%      84      +114.1%
+2025-01-21          yes            +1.7%       5        -9.6%

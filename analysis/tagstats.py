@@ -16,7 +16,8 @@ Per signal, for H = 30 / 60 / 90 calendar days (only if the window is complete):
   ddday   days to the worst low
   hit     reached +10 / +20 / +30% within H days
   dead    fell -30% before ever gaining +5% (troughs.py definition), within 365d
-Also the -10% / -20% touch rate within H days.
+Also the -10% / -20% touch rate within H days, and whether each signal was ever
+in profit within 90 days (and by how much, on which day) even if it ended red.
 
 Entry quality only: there is no exit, so nothing here is a strategy return.
 Signals are computed, never fills.
@@ -121,6 +122,17 @@ def main():
     for lab, sel in (('TAG', tag), ('BASE', rows)):
         dn = [r for r in sel if r['dead'] is not None]
         print(f'{lab} dead (-30% before +5%, within a year): {len(dn)} of {len(sel)}')
+    print('\nEVER PROFITABLE (within 90 days of entry; high above entry, even if it ended red)')
+    for lab, sel in (('TAG', tag), ('BASE', rows)):
+        x = [r[90] for r in sel if r[90]]
+        if not x:
+            continue
+        green = [v for v in x if v['up'] > 0]; g5 = [v for v in x if v['up'] >= 5]
+        lost = [v for v in x if v['ret'] <= 0]
+        lostg5 = [v for v in lost if v['up'] >= 5]
+        print(f'  {lab:<5} n={len(x):>3}  ever above entry {len(green)} ({100*len(green)/len(x):.0f}%)  '
+              f'ever +5% or more {len(g5)} ({100*len(g5)/len(x):.0f}%)  ended red at 90d {len(lost)}, '
+              f'of which had been +5% or more first {len(lostg5)}')
     print('\nEVERY SIGNAL')
     print(f'{"entry date":<12}{"entry":>10}{"CT":>6}{"K":>6} {"prime":<6}{"step":>7}  '
           f'{"60d ret":>8}{"60d up":>8}{"60d DD":>8}{"DD pre-pk":>10}{"90d ret":>8}{"90d DD":>8}')
@@ -130,6 +142,11 @@ def main():
         print(f'{str(s["edate"]):<12}{r["c0"]:>10,.0f}{s["ct"]:>6.1f}{s["k"]:>6.1f} {("yes" if s["prime"] else "no"):<6}'
               f'{(f"{r[chr(115)+chr(116)+chr(101)+chr(112)]:+.1f}%" if r["step"] is not None else "-"):>7}  '
               f'{f(m6,"ret"):>8}{f(m6,"up"):>8}{f(m6,"dd"):>8}{f(m6,"ddpk"):>10}{f(m9,"ret"):>8}{f(m9,"dd"):>8}')
+    print(f'\n{"entry date":<12}{"ever green":>11}{"best gain (90d)":>17}{"on day":>8}{"ended (90d)":>13}')
+    for r in tag:
+        m = r[90]
+        if m:
+            print(f'{str(r["s"]["edate"]):<12}{("yes" if m["up"] > 0 else "no"):>11}{m["up"]:>+16.1f}%{m["dpk"]:>8}{m["ret"]:>+12.1f}%')
     pend = [r for r in tag if not r[90]]
     if pend:
         print('signals without a full 90-day window: ' + ', '.join(str(r['s']['edate']) for r in pend))
