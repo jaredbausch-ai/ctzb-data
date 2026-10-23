@@ -132,6 +132,7 @@ These are not filters. They are what the system charges regardless.
 | Compression agreement across BTC/ETH | Retracted — one measurement counted twice | 21 Oct 2026 |
 | Green star / WGMI | Cannot be rebuilt; M2 data is revised after publication | — |
 | Analog rating on CT/gap/K across 1D–5D, 14/30/60/90 days (`analysis/twoweek.py`) | Walk-forward: P(up) beats the base rate in no more than four testable years at any horizon (best 4 of 7); "+10% first" loses at every horizon on both assets; terciles invert at 60/90 (ETH) and 30 (BTC); answers flip with the feature subset. Blind replication agreed. Use the regime-on base rate | 22 Oct 2026 |
+| CTZB signals on the ETH/BTC ratio (`analysis/ethbtc.py`) | No tag beats "ratio CT below 40" on its own; all signals at baseline on 1D/2D/3D. The oversold lean is the RSI level, not the setup | 23 Oct 2026 |
 | Forecast cone / vol-scaled range as a trading tool (`pine/ctzb_forecast_cone.pine`) | Bands calibrated (~50% / ~90% over all ETH history) but no direction; median is price shifted forward. Not useful to trade from — set aside | 22 Oct 2026 |
 
 ---

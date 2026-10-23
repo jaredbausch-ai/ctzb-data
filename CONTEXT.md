@@ -367,6 +367,20 @@ side. BTC 1D B prime alone: 24 completed, 50% reach +20% in 60d, median 60d
 return +9.4%, median 60d drawdown -18.8%. The 21 Oct 2026 print can still pair
 if a BTC 1D B prime confirms by the 31 Oct close.
 
+**CTZB on the ETH/BTC ratio — tested 23 Oct 2026, the indicator adds nothing
+there.** `analysis/ethbtc.py`, declared before running; ratio built from
+Coinbase ETH/BTC closes on 1D/2D/3D/5D/8D (matches Jared's market-cap-ratio 3D
+export on 107 of 110 signals). Outcome: ETH beat BTC over 60 days. All-days
+baseline is 44% (the ratio has trended down). All signals: at baseline on
+1D/2D/3D (44-45%), above on 5D/8D (54%, 51%, n=68/39). Diamonds, prime, gap>5:
+no consistent effect. Only bucket A (CT < 40) cleared +10 on 3+ charts and holds
+by year (ahead in 10/11, 10/11, 8/9, 6/7 years) -- but EVERY bar with ratio CT
+< 40 does the same (52-58%), so it is plain ratio oversold, not the CTZB
+pivot. Bucket B signals run below baseline. Gating by the BTC regime or by the
+ratio's own control zone changes nothing. ETH-USD after a ratio signal: at
+baseline. The oversold observation is unvalidated -- one look, not tested as
+its own filter.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

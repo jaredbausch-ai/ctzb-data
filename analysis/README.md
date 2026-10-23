@@ -35,6 +35,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `RESULTS_btc5d_hollowC.txt` | `tagstats.py --chart BTC_5D --bucket C --diamond hollow`, 22 Oct 2026. n=3 |
 | `RESULTS_btc3d_hollowC_prime.txt` | `tagstats.py --chart BTC_3D --bucket C --diamond hollow --prime yes`, 22 Oct 2026. n=2, one still open |
 | `xconf.py`, `RESULTS_xconf.txt` | Cross-asset confluence: ETH 1D / 2D signals with a BTC 3D signal already confirmed within 5/10/20 days, per year and inside ETH's own agreement |
+| `ethbtc.py`, `RESULTS_ethbtc.txt`, `ethbtc_bars/` | CTZB on the ETH/BTC price ratio, 1D–8D, three gate variants, per tag vs all-days and vs plain oversold bars. `ethbtc_bars/` is rebuilt by the script |
 | `RESULTS_late2025.txt` | The same replay over 22 Oct – 31 Dec 2025 (`--start 2025-10-22 --end 2025-12-31`). Source of the late-2025 bars in the charts shown 22 Oct 2026 |
 
 `ctema.json` is a build artifact. Regenerate it with `ctema_build.py` whenever
