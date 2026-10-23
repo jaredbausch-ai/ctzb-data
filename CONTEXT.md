@@ -466,6 +466,12 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**When he asks for drawdowns / "max drawdown to entry", this is the format he
+means (set 22 Oct 2026):** lead with the drawdown sat through *before the
+trade's high* (median, from entry), then a table of the worst individual trades
+with columns Chart | Entry | Price | Worst | On day | 60d high | 60d return.
+`analysis/xconf.py` and `analysis/tagstats.py` print both.
+
 Answer what was asked. Do not volunteer conclusions from patterns in the
 numbers; if something looks wrong, ask one question rather than assume. No
 extra sections, no follow-up requests unless asked. When he asks for an
