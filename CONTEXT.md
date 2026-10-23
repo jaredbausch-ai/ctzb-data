@@ -402,6 +402,18 @@ other. Near miss ETH 3D -> BTC 1D. BTC 1D/2D/5D -> ETH 1D all fail, so it is
 not a general "other asset agrees" effect. Two of 32 is close to what luck
 could produce; both recorded under "Promising" in PRETRADE, not Tier 1.
 
+**Discovery/holdout sweep of 17 entry features + 5 in-trade reads — 23 Oct
+2026.** `analysis/sweep.py`, declared; cut points from 2016-2021 only, judged on
+2022-26. Entry survivors: 8D CT rising (+13 / +15, 7 of 8 charts, independent
+of Tier 1 #1 only where gap ≤ 5) and shallow pullback (+26 / +8, largely Tier 1
+#1 again). Fast CT recovery passed but is Tier 1 #1 restated. The holdout killed
+the 200d-average, 8D CT >= 50 and ratio features outright (sign flipped). Every
+in-trade read passed hard, 8/8 charts and 10/10 years: green on day 10 74% vs
+40% (holdout 55% vs 25%), down 10%+ by day 10 37% vs 71% (14% vs 46%). Recorded
+in PRETRADE as information for the discretionary exit -- NOT as exit rules.
+Neither live signal (BTC 3D 21 Oct, ETH 1D 20 Oct) has 8D CT rising or a
+top-third shallow pullback.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

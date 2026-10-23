@@ -115,6 +115,39 @@ positive). Every other cell failed, including BTC 1D/2D/5D -> ETH 1D.
 
 ---
 
+### Higher-timeframe CT rising — the asset's 8D CT RSI up on its last completed bar
+*Tested 23 Oct 2026, `analysis/sweep.py`: cut on 2016-2021, checked on 2022-26.*
+Reach +20% in 60d: 72% vs 59% (discovery), 49% vs 34% (holdout). 7 of 8
+charts, 8 of 10 years; fewer -20% touches (-13 / -10). **Adds nothing on top of
+Tier 1 #1** (gap>5 signals: 70% either way) but lifts the rest: gap ≤ 5
+signals 60% with it vs 46% without.
+
+### Shallow pullback — entry close near its 30-day high (top third per chart)
+*Same sweep.* 81% vs 55% (discovery), 45% vs 37% (holdout), 8 of 8 charts,
+but only 5 of 8 years. Mostly the same thing as Tier 1 #1 (almost every gap>5
+signal is a shallow pullback); among gap ≤ 5 signals it is 64% vs 49%, with
+-20% touches 27% vs 51%.
+
+---
+
+## In-trade reads — information for the discretionary exit, not exit rules
+
+*`analysis/sweep.py`, 23 Oct 2026.* Trades that had not already reached +20%
+by the check day. Reach +20% within 60 days of entry, discovery / holdout.
+Every one held on 8 of 8 charts and in 10 of 10 years, inside and outside
+Tier 1 #1. Partly mechanical (a trade already down has further to climb), but
+the size is the point.
+
+| State at the check | +20% yes vs no (2016-21) | +20% yes vs no (2022-26) | -20% touch, yes vs no |
+|---|---|---|---|
+| Green on day 5 | 74% vs 50% | 52% vs 28% | 22 / 20 pts lower |
+| Green on day 10 | 74% vs 40% | 55% vs 25% | 37 / 30 pts lower |
+| Chart CT above its Signal line on day 10 | 75% vs 44% | 51% vs 28% | 33 / 22 pts lower |
+| Price undercut the trough bar's low by day 10 | 39% vs 68% | 23% vs 50% | 36 / 23 pts higher |
+| Down 10% or more by day 10 | 37% vs 71% | 14% vs 46% | 46 / 45 pts higher |
+
+---
+
 ## Costs to price in before sizing
 
 These are not filters. They are what the system charges regardless.
@@ -143,6 +176,7 @@ These are not filters. They are what the system charges regardless.
 | Compression agreement across BTC/ETH | Retracted — one measurement counted twice | 21 Oct 2026 |
 | Green star / WGMI | Cannot be rebuilt; M2 data is revised after publication | — |
 | Analog rating on CT/gap/K across 1D–5D, 14/30/60/90 days (`analysis/twoweek.py`) | Walk-forward: P(up) beats the base rate in no more than four testable years at any horizon (best 4 of 7); "+10% first" loses at every horizon on both assets; terciles invert at 60/90 (ETH) and 30 (BTC); answers flip with the feature subset. Blind replication agreed. Use the regime-on base rate | 22 Oct 2026 |
+| Sweep 23 Oct 2026 (`analysis/sweep.py`), killed by the 2022-26 holdout or by chart/size rules: volume spike at the trough, long lower wick, third+ signal in 30 days, long gap since last signal, rebound already paid, high realised volatility, extended above the 200d average, above own 200d average (+7 then -30), 8D CT >= 50 (+7 then -21), asset oversold vs the other (-11 then +13), asset leading the other. Near misses, not passed: volume rising into confirmation (+7 / +15), other asset CT above its Signal (+7 / +10) | 23 Oct 2026 |
 | Gate blind-spot overlays: BTC > 200d SMA, bull zone revisited in 60d, BTC within 25% of 1y high, faster 8-bar exit (`analysis/gatefix.py`) | All failed a declared accept rule. Closest: 25%-off-high, removed 50% vs kept 58% (needed 10 pts). They cut normal bull-correction signals along with the top ones | 23 Oct 2026 |
 | CTZB signals on the ETH/BTC ratio (`analysis/ethbtc.py`) | No tag beats "ratio CT below 40" on its own; all signals at baseline on 1D/2D/3D. The oversold lean is the RSI level, not the setup | 23 Oct 2026 |
 | Forecast cone / vol-scaled range as a trading tool (`pine/ctzb_forecast_cone.pine`) | Bands calibrated (~50% / ~90% over all ETH history) but no direction; median is price shifted forward. Not useful to trade from — set aside | 22 Oct 2026 |

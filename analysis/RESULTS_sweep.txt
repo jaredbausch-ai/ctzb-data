@@ -1,0 +1,123 @@
+1120 gated signals with full 60d outcomes: discovery 658, holdout 462. +20% rate disc 66%, hold 42%
+
+feature                             compare                         DISC +20% yes/no (n)  lift      HOLD +20% yes/no (n)  lift  charts  -20% lift D/H  verdict
+volume spike at trough              top third vs bottom third           68/ 69 (221/222)    -1          36/ 45 (148/125)    -9     6/8         +2/+12  -
+volume rising into confirmation     top third vs bottom third           72/ 65 (221/222)    +7          50/ 35 (172/172)   +15     6/8         -3/-13  -
+long gap since last signal          top third vs bottom third           66/ 66 (247/258)    -0          36/ 46 (171/171)    -9     5/8         +2/+12  -
+shallow pullback (near 30d high)    top third vs bottom third           81/ 55 (221/222)   +26           45/ 37 (159/70)    +8     8/8        -17/-20  PASS odds, PASS risk
+big rebound already paid            top third vs bottom third           71/ 65 (222/222)    +6           29/ 41 (35/282)   -13     7/8          +9/+5  -
+long lower wick on trough bar       top third vs bottom third           65/ 64 (221/222)    +2          42/ 46 (160/138)    -5     3/8         -2/+10  -
+high realised volatility            top third vs bottom third           71/ 67 (221/222)    +5             0/ 43 (1/390)   -43     8/8        +15/+75  -
+volatility expanding (not compressed)top third vs bottom third           72/ 69 (212/212)    +2          43/ 36 (140/129)    +7     5/8        +12/+12  PASS risk
+extended above 200d average         top third vs bottom third           74/ 66 (208/209)    +8            7/ 48 (14/283)   -41     7/8        +14/+11  -
+fast CT recovery trough->entry      top third vs bottom third           71/ 59 (221/222)   +11          50/ 39 (186/155)   +11     6/8          -7/+3  PASS odds
+third+ signal in 30 days            yes vs no                           68/ 68 (374/125)    +0           41/ 41 (251/68)    +0     4/8          -1/-5  -
+asset oversold vs the other         yes vs no                           58/ 69 (158/500)   -11           52/ 39 (93/369)   +13     4/8          +8/-3  -
+asset leading the other             yes vs no                           68/ 66 (313/336)    +1          41/ 42 (231/231)    -2     3/8          +6/-0  -
+8D CT >= 50                         yes vs no                           67/ 60 (499/143)    +7          36/ 57 (339/123)   -21     4/8          -6/+3  -
+8D CT rising                        yes vs no                           72/ 59 (337/305)   +13          49/ 34 (232/230)   +15     7/8        -13/-10  PASS odds, PASS risk
+above own 200d average              yes vs no                           69/ 62 (503/113)    +7          32/ 62 (319/143)   -30     1/8          -4/+7  -
+other asset CT above its Signal     yes vs no                           69/ 62 (376/281)    +7          46/ 35 (276/186)   +10     6/8          -7/-1  -
+green on day 5                      yes vs no (in-trade)                74/ 50 (303/282)   +24          52/ 28 (243/213)   +25     8/8        -22/-20  PASS odds, PASS risk
+green on day 10                     yes vs no (in-trade)                74/ 40 (219/276)   +34          55/ 25 (198/240)   +30     8/8        -37/-30  PASS odds, PASS risk
+CT above Signal on day 10           yes vs no (in-trade)                75/ 44 (178/317)   +31          51/ 28 (197/241)   +23     8/8        -33/-22  PASS odds, PASS risk
+undercut trough low by day 10       yes vs no (in-trade)                39/ 68 (217/278)   -28          23/ 50 (190/248)   -27     8/8        +36/+23  PASS odds, PASS risk
+down 10%+ by day 10                 yes vs no (in-trade)                37/ 71 (234/261)   -34          14/ 46 (107/331)   -32     8/8        +46/+45  PASS odds, PASS risk
+
+SURVIVORS: F5g shallow pullback (near 30d high); F5g (risk) shallow pullback (near 30d high); F11g (risk) volatility expanding (not compressed); F17g fast CT recovery trough->entry; F13 8D CT rising; F13 (risk) 8D CT rising; T1 green on day 5; T1 (risk) green on day 5; T2 green on day 10; T2 (risk) green on day 10; T3 CT above Signal on day 10; T3 (risk) CT above Signal on day 10; T4 undercut trough low by day 10; T4 (risk) undercut trough low by day 10; T5 down 10%+ by day 10; T5 (risk) down 10%+ by day 10
+
+  F5g shallow pullback (near 30d high): inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 69% (n=169) vs 100% (n=9); -20% touch 30% vs 11%
+    gap>5 no : +20% 64% (n=211) vs 49% (n=283); -20% touch 27% vs 51%
+    per chart (+20% yes/no): ETH 1D 74/53  ETH 2D 81/50  ETH 3D 56/52  ETH 5D 75/62  BTC 1D 62/49  BTC 2D 64/53  BTC 3D 58/48  BTC 5D 48/43
+    by year (lift): 2016:+45 2017:-7 2018:+7 2019:+57 2020:-13 2021:+26 2024:+18 2025:-21   positive 5 of 8
+
+  F5g shallow pullback (near 30d high): inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 69% (n=169) vs 100% (n=9); -20% touch 30% vs 11%
+    gap>5 no : +20% 64% (n=211) vs 49% (n=283); -20% touch 27% vs 51%
+    per chart (+20% yes/no): ETH 1D 74/53  ETH 2D 81/50  ETH 3D 56/52  ETH 5D 75/62  BTC 1D 62/49  BTC 2D 64/53  BTC 3D 58/48  BTC 5D 48/43
+    by year (lift): 2016:+45 2017:-7 2018:+7 2019:+57 2020:-13 2021:+26 2024:+18 2025:-21   positive 5 of 8
+
+  F11g volatility expanding (not compressed): inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 73% (n=62) vs 68% (n=62); -20% touch 31% vs 24%
+    gap>5 no : +20% 58% (n=290) vs 54% (n=279); -20% touch 40% vs 27%
+    per chart (+20% yes/no): ETH 1D 63/63  ETH 2D 64/62  ETH 3D 62/59  ETH 5D 65/86  BTC 1D 59/47  BTC 2D 54/50  BTC 3D 62/52  BTC 5D 50/58
+    by year (lift): 2016:-80 2017:+0 2018:-14 2019:-27 2020:+21 2021:+25 2023:+36 2024:-29 2025:+12   positive 5 of 9
+
+  F17g fast CT recovery trough->entry: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 68% (n=186) vs 40% (n=5); -20% touch 26% vs 40%
+    gap>5 no : +20% 55% (n=221) vs 51% (n=372); -20% touch 41% vs 37%
+    per chart (+20% yes/no): ETH 1D 60/62  ETH 2D 80/50  ETH 3D 58/45  ETH 5D 65/75  BTC 1D 59/47  BTC 2D 55/48  BTC 3D 61/35  BTC 5D 56/47
+    by year (lift): 2016:+15 2017:-1 2018:+12 2019:+15 2020:+4 2021:+4 2022:+8 2023:+22 2024:+10 2025:-3   positive 8 of 10
+
+  F13 8D CT rising: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 70% (n=171) vs 70% (n=50); -20% touch 26% vs 28%
+    gap>5 no : +20% 60% (n=398) vs 46% (n=485); -20% touch 32% vs 42%
+    per chart (+20% yes/no): ETH 1D 69/52  ETH 2D 79/49  ETH 3D 63/43  ETH 5D 68/78  BTC 1D 60/43  BTC 2D 55/49  BTC 3D 54/47  BTC 5D 48/40
+    by year (lift): 2016:+30 2017:+4 2018:-14 2019:+16 2020:+2 2021:+6 2022:-45 2023:+16 2024:+20 2025:+10   positive 8 of 10
+
+  F13 8D CT rising: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 70% (n=171) vs 70% (n=50); -20% touch 26% vs 28%
+    gap>5 no : +20% 60% (n=398) vs 46% (n=485); -20% touch 32% vs 42%
+    per chart (+20% yes/no): ETH 1D 69/52  ETH 2D 79/49  ETH 3D 63/43  ETH 5D 68/78  BTC 1D 60/43  BTC 2D 55/49  BTC 3D 54/47  BTC 5D 48/40
+    by year (lift): 2016:+30 2017:+4 2018:-14 2019:+16 2020:+2 2021:+6 2022:-45 2023:+16 2024:+20 2025:+10   positive 8 of 10
+
+  T1 green on day 5: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 74% (n=111) vs 53% (n=81); -20% touch 24% vs 33%
+    gap>5 no : +20% 62% (n=435) vs 38% (n=414); -20% touch 28% vs 51%
+    per chart (+20% yes/no): ETH 1D 64/46  ETH 2D 73/46  ETH 3D 66/36  ETH 5D 77/53  BTC 1D 59/39  BTC 2D 64/33  BTC 3D 62/37  BTC 5D 61/23
+    by year (lift): 2016:+11 2017:+4 2018:+33 2019:+35 2020:+25 2021:+19 2022:+46 2023:+29 2024:+24 2025:+17   positive 10 of 10
+
+  T1 green on day 5: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 74% (n=111) vs 53% (n=81); -20% touch 24% vs 33%
+    gap>5 no : +20% 62% (n=435) vs 38% (n=414); -20% touch 28% vs 51%
+    per chart (+20% yes/no): ETH 1D 64/46  ETH 2D 73/46  ETH 3D 66/36  ETH 5D 77/53  BTC 1D 59/39  BTC 2D 64/33  BTC 3D 62/37  BTC 5D 61/23
+    by year (lift): 2016:+11 2017:+4 2018:+33 2019:+35 2020:+25 2021:+19 2022:+46 2023:+29 2024:+24 2025:+17   positive 10 of 10
+
+  T2 green on day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 69% (n=81) vs 50% (n=84); -20% touch 14% vs 43%
+    gap>5 no : +20% 64% (n=336) vs 30% (n=432); -20% touch 22% vs 57%
+    per chart (+20% yes/no): ETH 1D 71/34  ETH 2D 71/37  ETH 3D 61/37  ETH 5D 79/52  BTC 1D 63/27  BTC 2D 65/26  BTC 3D 47/41  BTC 5D 50/28
+    by year (lift): 2016:+46 2017:+21 2018:+43 2019:+19 2020:+28 2021:+15 2022:+67 2023:+27 2024:+31 2025:+22   positive 10 of 10
+
+  T2 green on day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 69% (n=81) vs 50% (n=84); -20% touch 14% vs 43%
+    gap>5 no : +20% 64% (n=336) vs 30% (n=432); -20% touch 22% vs 57%
+    per chart (+20% yes/no): ETH 1D 71/34  ETH 2D 71/37  ETH 3D 61/37  ETH 5D 79/52  BTC 1D 63/27  BTC 2D 65/26  BTC 3D 47/41  BTC 5D 50/28
+    by year (lift): 2016:+46 2017:+21 2018:+43 2019:+19 2020:+28 2021:+15 2022:+67 2023:+27 2024:+31 2025:+22   positive 10 of 10
+
+  T3 CT above Signal on day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 69% (n=91) vs 47% (n=74); -20% touch 13% vs 47%
+    gap>5 no : +20% 61% (n=284) vs 35% (n=484); -20% touch 24% vs 52%
+    per chart (+20% yes/no): ETH 1D 62/43  ETH 2D 69/40  ETH 3D 64/37  ETH 5D 86/48  BTC 1D 62/32  BTC 2D 65/32  BTC 3D 52/39  BTC 5D 44/32
+    by year (lift): 2016:+58 2017:+11 2018:+38 2019:+14 2020:+33 2021:+14 2022:+40 2023:+14 2024:+28 2025:+21   positive 10 of 10
+
+  T3 CT above Signal on day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 69% (n=91) vs 47% (n=74); -20% touch 13% vs 47%
+    gap>5 no : +20% 61% (n=284) vs 35% (n=484); -20% touch 24% vs 52%
+    per chart (+20% yes/no): ETH 1D 62/43  ETH 2D 69/40  ETH 3D 64/37  ETH 5D 86/48  BTC 1D 62/32  BTC 2D 65/32  BTC 3D 52/39  BTC 5D 44/32
+    by year (lift): 2016:+58 2017:+11 2018:+38 2019:+14 2020:+33 2021:+14 2022:+40 2023:+14 2024:+28 2025:+21   positive 10 of 10
+
+  T4 undercut trough low by day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 35% (n=34) vs 66% (n=131); -20% touch 53% vs 22%
+    gap>5 no : +20% 31% (n=373) vs 57% (n=395); -20% touch 56% vs 28%
+    per chart (+20% yes/no): ETH 1D 39/63  ETH 2D 24/73  ETH 3D 26/60  ETH 5D 60/62  BTC 1D 35/54  BTC 2D 23/57  BTC 3D 16/56  BTC 5D 11/44
+    by year (lift): 2016:-20 2017:-27 2018:-18 2019:+11 2020:-41 2021:-13 2022:-40 2023:-35 2024:-24 2025:-14   positive 1 of 10
+
+  T4 undercut trough low by day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 35% (n=34) vs 66% (n=131); -20% touch 53% vs 22%
+    gap>5 no : +20% 31% (n=373) vs 57% (n=395); -20% touch 56% vs 28%
+    per chart (+20% yes/no): ETH 1D 39/63  ETH 2D 24/73  ETH 3D 26/60  ETH 5D 60/62  BTC 1D 35/54  BTC 2D 23/57  BTC 3D 16/56  BTC 5D 11/44
+    by year (lift): 2016:-20 2017:-27 2018:-18 2019:+11 2020:-41 2021:-13 2022:-40 2023:-35 2024:-24 2025:-14   positive 1 of 10
+
+  T5 down 10%+ by day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 43% (n=44) vs 65% (n=121); -20% touch 59% vs 17%
+    gap>5 no : +20% 28% (n=297) vs 55% (n=471); -20% touch 72% vs 23%
+    per chart (+20% yes/no): ETH 1D 34/63  ETH 2D 33/67  ETH 3D 35/59  ETH 5D 42/72  BTC 1D 27/51  BTC 2D 18/57  BTC 3D 35/47  BTC 5D 0/52
+    by year (lift): 2016:-32 2017:-26 2018:-54 2019:-23 2020:-35 2021:-2 2022:-50 2023:-47 2024:-35 2025:-12   positive 0 of 10
+
+  T5 down 10%+ by day 10: inside Tier 1 #1 (CT > 5 above Signal) yes / no, full period
+    gap>5 yes: +20% 43% (n=44) vs 65% (n=121); -20% touch 59% vs 17%
+    gap>5 no : +20% 28% (n=297) vs 55% (n=471); -20% touch 72% vs 23%
+    per chart (+20% yes/no): ETH 1D 34/63  ETH 2D 33/67  ETH 3D 35/59  ETH 5D 42/72  BTC 1D 27/51  BTC 2D 18/57  BTC 3D 35/47  BTC 5D 0/52
+    by year (lift): 2016:-32 2017:-26 2018:-54 2019:-23 2020:-35 2021:-2 2022:-50 2023:-47 2024:-35 2025:-12   positive 0 of 10
