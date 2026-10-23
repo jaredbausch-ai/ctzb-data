@@ -52,8 +52,11 @@ def call(path, params=None, cost=1):
             return data
         except urllib.error.HTTPError as e:
             if e.code == 429:
-                wait = int(e.headers.get('Retry-After', '30')) + 1
-                print(f'  rate limited, waiting {wait}s'); time.sleep(wait); continue
+                try:
+                    wait = float(e.headers.get('Retry-After', '30')) + 1
+                except ValueError:
+                    wait = 31
+                print(f'  rate limited, waiting {wait:.0f}s'); time.sleep(wait); continue
             if e.code in (401, 403):
                 log(f'Coinalyze refused the key (HTTP {e.code}). Check the COINALYZE_API_KEY secret.')
                 flush(); sys.exit(1)
