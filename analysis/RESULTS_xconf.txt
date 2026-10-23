@@ -22,6 +22,20 @@
     ETH agree 0-1  without        n=160  +20%  56%  med ret   +5.2%  med DD  -17.8%  days under   26
     ETH agree 2+   with BTC 3D    n= 48  +20%  79%  med ret  +14.2%  med DD  -13.2%  days under   20
     ETH agree 2+   without        n= 33  +20%  48%  med ret   +3.6%  med DD  -14.4%  days under   37
+  max drawdown from entry (worst daily low), W=10, added 22 Oct after the declared run
+    30d with BTC 3D n= 95  median  -10.9%  25th pct  -21.9%  worst  -55.5%  touch -10%  52%  -20%  28%  -30%  15%  | before the high: median   -4.6%  worst  -34.0%
+    30d without    n=193  median  -13.4%  25th pct  -22.7%  worst  -67.3%  touch -10%  61%  -20%  31%  -30%  17%  | before the high: median   -5.6%  worst  -48.0%
+    60d with BTC 3D n= 95  median  -14.3%  25th pct  -28.4%  worst  -61.7%  touch -10%  61%  -20%  35%  -30%  23%  | before the high: median   -6.0%  worst  -55.5%
+    60d without    n=193  median  -17.4%  25th pct  -34.2%  worst  -67.3%  touch -10%  67%  -20%  44%  -30%  30%  | before the high: median   -6.8%  worst  -51.6%
+    90d with BTC 3D n= 95  median  -17.7%  25th pct  -36.1%  worst  -61.7%  touch -10%  65%  -20%  45%  -30%  33%  | before the high: median   -6.5%  worst  -55.5%
+    90d without    n=193  median  -18.6%  25th pct  -41.2%  worst  -73.6%  touch -10%  70%  -20%  48%  -30%  39%  | before the high: median   -7.9%  worst  -64.7%
+  worst 60d drawdowns, with BTC 3D (W=10)
+    2017-06-10  entry 340  worst -61.7% on day 36  60d high +23.5%  60d ret -13.2%
+    2017-06-29  entry 293  worst -55.5% on day 17  60d high +19.5%  60d ret +18.6%
+    2021-05-07  entry 3,485  worst -51.2% on day 46  60d high +25.8%  60d ret -33.4%
+    2016-11-05  entry 11  worst -47.9% on day 31  60d high +0.4%  60d ret +0.1%
+    2016-07-21  entry 13  worst -47.6% on day 12  60d high +20.6%  60d ret +3.2%
+    2016-11-01  entry 11  worst -46.4% on day 35  60d high +3.7%  60d ret -24.7%
     overlap: BTC 3D 95, ETH agree 2+ 81, both 48, expected by chance 26.7
 
 ==================== ETH 2D  (137 gated signals with a full 60d window)
@@ -48,5 +62,19 @@
     ETH agree 0-1  without        n= 73  +20%  53%  med ret   +6.4%  med DD  -18.5%  days under   31
     ETH agree 2+   with BTC 3D    n= 20  +20%  80%  med ret  +33.1%  med DD   -8.8%  days under   12
     ETH agree 2+   without        n= 25  +20%  64%  med ret   +3.7%  med DD  -17.0%  days under   13
+  max drawdown from entry (worst daily low), W=10, added 22 Oct after the declared run
+    30d with BTC 3D n= 39  median   -8.0%  25th pct  -16.0%  worst  -54.3%  touch -10%  41%  -20%  21%  -30%  13%  | before the high: median   -4.0%  worst  -18.1%
+    30d without    n= 98  median  -14.0%  25th pct  -23.1%  worst  -63.3%  touch -10%  60%  -20%  32%  -30%  14%  | before the high: median   -4.5%  worst  -33.7%
+    60d with BTC 3D n= 39  median   -9.8%  25th pct  -25.0%  worst  -68.8%  touch -10%  49%  -20%  28%  -30%  23%  | before the high: median   -6.4%  worst  -46.8%
+    60d without    n= 98  median  -18.1%  25th pct  -33.2%  worst  -63.3%  touch -10%  66%  -20%  46%  -30%  30%  | before the high: median   -4.8%  worst  -33.7%
+    90d with BTC 3D n= 39  median  -13.4%  25th pct  -36.5%  worst  -70.4%  touch -10%  54%  -20%  36%  -30%  36%  | before the high: median   -6.6%  worst  -46.8%
+    90d without    n= 98  median  -20.7%  25th pct  -37.1%  worst  -69.0%  touch -10%  70%  -20%  52%  -30%  37%  | before the high: median   -5.2%  worst  -63.3%
+  worst 60d drawdowns, with BTC 3D (W=10)
+    2018-01-28  entry 1,215  worst -68.8% on day 60  60d high +0.6%  60d ret -68.5%
+    2016-11-07  entry 11  worst -46.8% on day 29  60d high +8.0%  60d ret -7.2%
+    2025-01-20  entry 3,280  worst -46.5% on day 50  60d high +4.8%  60d ret -40.1%
+    2018-07-05  entry 467  worst -46.4% on day 40  60d high +10.4%  60d ret -38.2%
+    2016-10-02  entry 13  worst -41.3% on day 58  60d high +2.3%  60d ret -36.4%
+    2025-09-13  entry 4,669  worst -34.6% on day 52  60d high +1.9%  60d ret -26.9%
     overlap: BTC 3D 39, ETH agree 2+ 45, both 20, expected by chance 12.8
 

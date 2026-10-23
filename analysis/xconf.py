@@ -92,6 +92,20 @@ def main():
         for lab, sel in (('ETH agree 0-1', [r for r in rows if r['cf'] <= 1]), ('ETH agree 2+ ', [r for r in rows if r['cf'] >= 2])):
             print(f'    {lab}  with BTC 3D    {st([r for r in sel if r[10]])}')
             print(f'    {lab}  without        {st([r for r in sel if not r[10]])}')
+        print('  max drawdown from entry (worst daily low), W=10, added 22 Oct after the declared run')
+        for H in (30, 60, 90):
+            for lab, sel in (('with BTC 3D', [r for r in rows if r[10]]), ('without   ', [r for r in rows if not r[10]])):
+                x = [measure(day, pos, r['d'], r['s']['entry'], H) for r in sel]
+                x = [v for v in x if v]
+                dd = np.array([v['dd'] for v in x]); pk = np.array([v['ddpk'] for v in x])
+                print(f'    {H}d {lab} n={len(dd):>3}  median {np.median(dd):+6.1f}%  25th pct {np.percentile(dd,25):+6.1f}%  '
+                      f'worst {dd.min():+6.1f}%  touch -10% {100*np.mean(dd<=-10):3.0f}%  -20% {100*np.mean(dd<=-20):3.0f}%  '
+                      f'-30% {100*np.mean(dd<=-30):3.0f}%  | before the high: median {np.median(pk):+6.1f}%  worst {pk.min():+6.1f}%')
+        print('  worst 60d drawdowns, with BTC 3D (W=10)')
+        sel = sorted([r for r in rows if r[10]], key=lambda r: r['m']['dd'])[:6]
+        for r in sel:
+            print(f"    {r['d']}  entry {r['s']['entry']:,.0f}  worst {r['m']['dd']:+.1f}% on day {r['m']['ddday']}  "
+                  f"60d high {r['m']['up']:+.1f}%  60d ret {r['m']['ret']:+.1f}%")
         both = sum(1 for r in rows if r[10] and r['cf'] >= 2); a10 = sum(1 for r in rows if r[10]); c2 = sum(1 for r in rows if r['cf'] >= 2)
         print(f'    overlap: BTC 3D {a10}, ETH agree 2+ {c2}, both {both}, expected by chance {a10*c2/len(rows):.1f}')
         print()
