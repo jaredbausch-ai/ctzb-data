@@ -102,11 +102,16 @@ def history(path, symbols, start, extra=None):
             if extra:
                 params.update(extra)
             res = call(path, params, cost=len(chunk))
+            if res is not None and not isinstance(res, list):
+                log(f'unexpected reply on {path}: {str(res)[:300]}'); res = None
             if res is None and len(chunk) > 1:          # one bad symbol can sink a chunk: retry singly
                 res = []
                 for sym in chunk:
                     r1 = call(path, dict(params, symbols=sym), cost=1)
-                    res.extend(r1 or [])
+                    if isinstance(r1, list):
+                        res.extend(r1)
+                    elif r1 is not None:
+                        log(f'unexpected reply on {path} {sym}: {str(r1)[:300]}')
             for row in res or []:
                 for p in row.get('history', []):
                     d = dt.datetime.fromtimestamp(p['t'], dt.timezone.utc).date().isoformat()
@@ -196,4 +201,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception:
+        import traceback
+        log('CRASH: ' + traceback.format_exc()[-1500:])
+        flush()
+        raise
