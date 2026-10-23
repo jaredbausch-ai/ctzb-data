@@ -30,6 +30,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `forecasts_vol_2023.csv`, `forecasts_vol_late2025.csv` | Daily old vs new range and median, in dollars, both assets, all horizons. Source of the vol-scaled charts |
 | `fullhistory.py` | The adopted vol-scaled range over all of ETH history, gate ON and OFF (each against its own gate state), with a 5th–95th wide band and how far price breaks past it |
 | `RESULTS_fullhistory.txt`, `forecasts_full_eth.csv` | Its captured output and every daily forecast, all horizons |
+| `zone_dwell.py`, `RESULTS_zone_dwell.txt` | How many days BTC 2D CT RSI spends per visit in the bull (>=60), neutral and bear (<=40) zones, inside gate-on bull phases vs gate-off, per episode |
 | `RESULTS_late2025.txt` | The same replay over 22 Oct – 31 Dec 2025 (`--start 2025-10-22 --end 2025-12-31`). Source of the late-2025 bars in the charts shown 22 Oct 2026 |
 
 `ctema.json` is a build artifact. Regenerate it with `ctema_build.py` whenever

@@ -1,0 +1,22 @@
+BTC 2D, 2016-01-01 .. 2026-10-20 (last completed bar)
+Gate-on episodes: 2016-06-09 -> 2018-07-02, 2019-04-11 -> 2019-10-16, 2020-02-10 -> 2021-06-06, 2021-08-19 -> 2022-01-25, 2023-01-25 -> 2025-12-03, 2026-09-02 -> ongoing
+
+BULL PHASES (gate on at any bar of the visit)
+  zone      visits  avg days  median   min   max  share of days
+  bull          68      17.4       8     2    96            42%
+  neutral      103      12.6       8     2    46            46%
+  bear          40       7.8       4     1    32            11%
+
+BEAR PHASES (gate off throughout), for comparison
+  zone      visits  avg days  median   min   max  share of days
+  bull          11       5.8       4     2    14             6%
+  neutral       51      14.2       8     2    84            64%
+  bear          35       9.7       6     1    38            30%
+
+BY BULL EPISODE: visits / avg days
+  2016-06-09 -> 2018-07-02:  bull 16 / 20.6d   neutral 26 / 14.1d   bear 11 / 6.5d
+  2019-04-11 -> 2019-10-16:  bull 4 / 25.0d   neutral 5 / 16.4d   bear 2 / 14.0d
+  2020-02-10 -> 2021-06-06:  bull 14 / 17.4d   neutral 16 / 13.2d   bear 3 / 15.3d
+  2021-08-19 -> 2022-01-25:  bull 4 / 17.5d   neutral 8 / 8.5d   bear 5 / 9.0d
+  2023-01-25 -> 2025-12-03:  bull 27 / 14.5d   neutral 45 / 12.3d   bear 19 / 6.3d
+  2026-09-02 -> ongoing:  bull 3 / 16.0d   neutral 3 / 4.7d   bear 0
