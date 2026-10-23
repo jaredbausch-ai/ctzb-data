@@ -132,6 +132,14 @@ signal is a shallow pullback); among gap ≤ 5 signals it is 64% vs 49%, with
 
 ## In-trade reads — information for the discretionary exit, not exit rules
 
+**Not an entry rule.** Measured from the price you would actually pay
+(`analysis/delayed.py`, 23 Oct 2026), waiting for day 5 / day 10 and buying
+only if green costs +3% to +10% on the entry and leaves only +1 to +7 points of
+reach-+20%: 2022-26, confirmation entry 42%, buy green on day 5 45%, on day 10
+44%. The day-10 gap is mostly where the trade already went. The entry
+improvement that survives the same test is 8D CT rising: 49% vs 42%, -20%
+touches 20% vs 25%, no extra price paid, half the signals.
+
 *`analysis/sweep.py`, 23 Oct 2026.* Trades that had not already reached +20%
 by the check day. Reach +20% within 60 days of entry, discovery / holdout.
 Every one held on 8 of 8 charts and in 10 of 10 years, inside and outside

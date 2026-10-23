@@ -414,6 +414,15 @@ in PRETRADE as information for the discretionary exit -- NOT as exit rules.
 Neither live signal (BTC 3D 21 Oct, ETH 1D 20 Oct) has 8D CT rising or a
 top-third shallow pullback.
 
+**Day-5/10 as an ENTRY rule — tested 23 Oct 2026, mostly paid away.**
+`analysis/delayed.py`. Buying at the day-5 or day-10 close only if green, measured
+from that later price: 2016-21 71-73% vs 66%, 2022-26 44-45% vs 42%, after
+paying +3% to +10% more. The read is strong information about a trade already
+on, weak as a reason to wait. 8D CT rising at confirmation is the better entry
+lens: 72% vs 66% and 49% vs 42%, fewer -20% touches in both periods, no price
+penalty. 8D rising plus waiting for green on day 5 adds nothing more and keeps
+only 26-30% of signals.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

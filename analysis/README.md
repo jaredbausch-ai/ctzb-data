@@ -39,6 +39,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `gatefix.py`, `RESULTS_gatefix.txt` | Four declared overlays on the regime gate to fix the cycle-top blind spot, judged on the signals each removes. All rejected |
 | `xmap.py`, `RESULTS_xmap.txt` | Every BTC chart into every ETH chart and back (32 cells), declared pass criteria. Two passed |
 | `sweep.py`, `RESULTS_sweep.txt` | 17 entry features and 5 in-trade reads on 8 charts, cut points from 2016-21, judged on 2022-26 holdout, survivors checked inside Tier 1 #1 |
+| `delayed.py`, `RESULTS_delayed.txt` | Delayed entry (buy at day 5/10 if green, or unless broken) and the 8D-rising filter, measured from the price actually paid |
 | `RESULTS_late2025.txt` | The same replay over 22 Oct – 31 Dec 2025 (`--start 2025-10-22 --end 2025-12-31`). Source of the late-2025 bars in the charts shown 22 Oct 2026 |
 
 `ctema.json` is a build artifact. Regenerate it with `ctema_build.py` whenever
