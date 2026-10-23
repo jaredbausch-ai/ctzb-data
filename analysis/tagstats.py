@@ -17,7 +17,9 @@ Per signal, for H = 30 / 60 / 90 calendar days (only if the window is complete):
   hit     reached +10 / +20 / +30% within H days
   dead    fell -30% before ever gaining +5% (troughs.py definition), within 365d
 Also the -10% / -20% touch rate within H days, and whether each signal was ever
-in profit within 90 days (and by how much, on which day) even if it ended red.
+in profit within 90 days (and by how much, on which day) even if it ended red,
+and time under the entry price: daily closes below the confirmation close
+within H days, total and longest unbroken stretch.
 
 Entry quality only: there is no exit, so nothing here is a strategy return.
 Signals are computed, never fills.
@@ -42,7 +44,13 @@ def measure(day, pos, d0, c0, H):
     hi = [day['high'][k] for k in w]; lo = [day['low'][k] for k in w]
     kp = w[int(np.argmax(hi))]; kl = w[int(np.argmin(lo))]
     pre = [day['low'][k] for k in w if k <= kp]
-    return dict(ret=(day['close'][w[-1]] / c0 - 1) * 100, up=(max(hi) / c0 - 1) * 100,
+    under = [day['close'][k] < c0 for k in w]
+    run = best = 0
+    for u in under:
+        run = run + 1 if u else 0
+        best = max(best, run)
+    return dict(under=sum(under), urun=best,
+                ret=(day['close'][w[-1]] / c0 - 1) * 100, up=(max(hi) / c0 - 1) * 100,
                 dd=(min(lo) / c0 - 1) * 100, ddpk=(min(pre) / c0 - 1) * 100 if pre else 0.0,
                 dpk=(day['date'][kp] - d0).days, ddday=(day['date'][kl] - d0).days)
 
@@ -125,6 +133,16 @@ def main():
     for lab, sel in (('TAG', tag), ('BASE', rows)):
         dn = [r for r in sel if r['dead'] is not None]
         print(f'{lab} dead (-30% before +5%, within a year): {len(dn)} of {len(sel)}')
+    print('\nTIME UNDER THE ENTRY PRICE (daily closes below the confirmation close)')
+    print(f'  {"":<10}{"n":>4}{"avg days under":>16}{"median":>8}{"avg longest stretch":>21}{"median":>8}{"never under":>13}')
+    for H in HS:
+        for lab, sel in (('TAG', tag), ('BASE', rows)):
+            x = [r[H] for r in sel if r[H]]
+            if not x:
+                continue
+            u = np.array([v['under'] for v in x]); ru = np.array([v['urun'] for v in x])
+            print(f'  {lab+" "+str(H)+"d":<10}{len(x):>4}{u.mean():>16.1f}{np.median(u):>8.0f}{ru.mean():>21.1f}'
+                  f'{np.median(ru):>8.0f}{100*np.mean(u == 0):>12.0f}%')
     print('\nEVER PROFITABLE (within 90 days of entry; high above entry, even if it ended red)')
     for lab, sel in (('TAG', tag), ('BASE', rows)):
         x = [r[90] for r in sel if r[90]]
@@ -145,11 +163,13 @@ def main():
         print(f'{str(s["edate"]):<12}{r["c0"]:>10,.0f}{s["ct"]:>6.1f}{s["k"]:>6.1f} {("yes" if s["prime"] else "no"):<6}'
               f'{(f"{r[chr(115)+chr(116)+chr(101)+chr(112)]:+.1f}%" if r["step"] is not None else "-"):>7}  '
               f'{f(m6,"ret"):>8}{f(m6,"up"):>8}{f(m6,"dd"):>8}{f(m6,"ddpk"):>10}{f(m9,"ret"):>8}{f(m9,"dd"):>8}')
-    print(f'\n{"entry date":<12}{"ever green":>11}{"best gain (90d)":>17}{"on day":>8}{"ended (90d)":>13}')
+    print(f'\n{"entry date":<12}{"ever green":>11}{"best gain (90d)":>17}{"on day":>8}{"ended (90d)":>13}'
+          f'{"days under (90d)":>18}{"longest stretch":>17}')
     for r in tag:
         m = r[90]
         if m:
-            print(f'{str(r["s"]["edate"]):<12}{("yes" if m["up"] > 0 else "no"):>11}{m["up"]:>+16.1f}%{m["dpk"]:>8}{m["ret"]:>+12.1f}%')
+            print(f'{str(r["s"]["edate"]):<12}{("yes" if m["up"] > 0 else "no"):>11}{m["up"]:>+16.1f}%{m["dpk"]:>8}'
+                  f'{m["ret"]:>+12.1f}%{m["under"]:>18}{m["urun"]:>17}')
     pend = [r for r in tag if not r[90]]
     if pend:
         print('signals without a full 90-day window: ' + ', '.join(str(r['s']['edate']) for r in pend))
