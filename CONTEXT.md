@@ -357,6 +357,13 @@ ETH's own agreement strata and at a 5-day window. ETH 2D 77% vs 56% (n=39/98)
 but mixed by year on small n and gone at a 5-day window. In PRETRADE under
 "Promising", not Tier 1.
 
+**BTC 3D hollow C diamond + prime with a BTC 1D B + prime dot within 10 days
+— checked 23 Oct 2026: has never happened.** The 3D tag has confirmed twice
+(14 Jun 2025, 21 Oct 2026); neither had a BTC 1D B prime within 10 days either
+side. BTC 1D B prime alone: 24 completed, 50% reach +20% in 60d, median 60d
+return +9.4%, median 60d drawdown -18.8%. The 21 Oct 2026 print can still pair
+if a BTC 1D B prime confirms by the 31 Oct close.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
