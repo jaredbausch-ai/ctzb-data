@@ -34,6 +34,11 @@ EXCHANGE_NAMES = ('binance', 'bybit', 'okx', 'deribit', 'bitmex', 'coinbase', 'b
 PAUSE = 1.6          # seconds per symbol-call, stays under 40/min
 
 KEY = os.environ.get('COINALYZE_API_KEY', '').strip()
+LOG = []          # written to data/derivs/fetch_log.txt so failures are visible in the repo
+
+
+def log(msg):
+    print(msg); LOG.append(f'{dt.datetime.now(dt.timezone.utc):%Y-%m-%d %H:%M:%S} {msg}')
 
 
 def call(path, params=None, cost=1):
@@ -50,14 +55,25 @@ def call(path, params=None, cost=1):
                 wait = int(e.headers.get('Retry-After', '30')) + 1
                 print(f'  rate limited, waiting {wait}s'); time.sleep(wait); continue
             if e.code in (401, 403):
-                sys.exit(f'Coinalyze refused the key (HTTP {e.code}). Check the COINALYZE_API_KEY secret.')
+                log(f'Coinalyze refused the key (HTTP {e.code}). Check the COINALYZE_API_KEY secret.')
+                flush(); sys.exit(1)
+            if 400 <= e.code < 500:
+                body = e.read().decode('utf-8', 'replace')[:300]
+                log(f'HTTP {e.code} on {path} {dict((k, v) for k, v in (params or {}).items())}: {body}')
+                return None
             if attempt == 5:
-                raise
+                log(f'HTTP {e.code} on {path}, giving up'); return None
             time.sleep(2 ** attempt)
-        except Exception:
+        except Exception as e:
             if attempt == 5:
-                raise
+                log(f'{type(e).__name__} on {path}: {e}'); return None
             time.sleep(2 ** attempt)
+
+
+def flush():
+    os.makedirs(OUT, exist_ok=True)
+    with open(f'{OUT}/fetch_log.txt', 'w') as f:
+        f.write('\n'.join(LOG[-300:]) + '\n')
 
 
 def ts(d):
@@ -81,10 +97,17 @@ def history(path, symbols, start, extra=None):
         a = start
         while a <= today:
             b = min(dt.date(a.year, 12, 31), today)
-            params = dict(symbols=','.join(chunk), interval='daily', **{'from': ts(a), 'to': ts(b) + 86399})
+            now = int(time.time())
+            params = dict(symbols=','.join(chunk), interval='daily', **{'from': ts(a), 'to': min(ts(b) + 86399, now)})
             if extra:
                 params.update(extra)
-            for row in call(path, params, cost=len(chunk)) or []:
+            res = call(path, params, cost=len(chunk))
+            if res is None and len(chunk) > 1:          # one bad symbol can sink a chunk: retry singly
+                res = []
+                for sym in chunk:
+                    r1 = call(path, dict(params, symbols=sym), cost=1)
+                    res.extend(r1 or [])
+            for row in res or []:
                 for p in row.get('history', []):
                     d = dt.datetime.fromtimestamp(p['t'], dt.timezone.utc).date().isoformat()
                     out.setdefault(row['symbol'], {})[d] = p
@@ -104,14 +127,16 @@ def main():
         print('COINALYZE_API_KEY not set; skipping derivatives fetch.')
         return
     os.makedirs(OUT, exist_ok=True)
-    exch = {e['code']: e['name'] for e in call('/exchanges')}
-    markets = call('/future-markets')
+    ex = call('/exchanges'); markets = call('/future-markets')
+    if not ex or not markets:
+        log('could not read /exchanges or /future-markets'); flush(); sys.exit(1)
+    exch = {e['code']: e['name'] for e in ex}
     use = [m for m in markets if m.get('is_perpetual') and m.get('base_asset') in ASSETS
            and m.get('quote_asset') in QUOTES
            and any(n in exch.get(m['symbol'].rsplit('.', 1)[-1], '').lower() for n in EXCHANGE_NAMES)]
     with open(f'{OUT}/markets.json', 'w') as f:
         json.dump([dict(m, exchange_name=exch.get(m['symbol'].rsplit('.', 1)[-1])) for m in use], f, indent=1)
-    print(f'{len(use)} perpetual markets selected')
+    log(f'{len(use)} perpetual markets selected')
     for asset in ASSETS:
         syms = sorted(m['symbol'] for m in use if m['base_asset'] == asset)
         if not syms:
@@ -165,7 +190,9 @@ def main():
                 num = [v for v in vals if v != '']
                 return [d, sum(num) / len(num) if num else '', len(num)] + vals
             merge('lsratio', ['date', 'ls_ratio_mean', 'n_markets'] + ls_syms, ls_row, ldates)
-        print(f'{asset}: wrote {len(dates)} OI days, {len(fdates)} funding days')
+        log(f'{asset}: {len(syms)} markets from {start}; OI days {len(dates)}, funding days {len(fdates)}, '
+            f'long/short markets {len(ls_syms)}')
+    flush()
 
 
 if __name__ == '__main__':
