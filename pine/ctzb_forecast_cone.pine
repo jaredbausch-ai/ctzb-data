@@ -1,5 +1,5 @@
 //@version=6
-// CTZB Forecast Cone v1 - 22 Oct 2026
+// CTZB Forecast Cone v1.1 - 22 Oct 2026
 // Volatility-scaled forecast range (analysis/volrange.py, adopted 22 Oct 2026),
 // drawn on the price pane. One indicator for the 1D, 2D and 3D charts: it
 // detects the chart's timeframe itself. The forecast always runs on DAILY
@@ -10,8 +10,11 @@
 //    latest daily close. Inner band = middle half (25th-75th pct), outer band
 //    = 5th-95th.
 //  - Past forecasts: the band forecast H days earlier, plotted on the bar it
-//    was forecast FOR, so the misses are visible. On 3D the 14-day band is
-//    shifted 5 bars (15 days), the nearest whole bar; everything else is exact.
+//    was forecast FOR, so the misses are visible. Bands stop at the last
+//    candle; the past median line is off by default (it is mostly price
+//    shifted forward by H days, so it reads as a delayed copy of the
+//    candles). On 3D the 14-day band is shifted 5 bars (15 days), the
+//    nearest whole bar; everything else is exact.
 //  - Table: today's levels and the indicator's own live track record.
 //
 // How it works: every past day's H-day outcome is stored in units of that
@@ -29,6 +32,7 @@ indicator("CTZB Forecast Cone", shorttitle = "CTZB Cone", overlay = true, max_ba
 // ---------- inputs
 histH     = input.int(30, "Past-forecast band to plot (days)", options = [14, 30, 60, 90])
 showHist  = input.bool(true, "Plot past forecasts on price")
+showHistMed = input.bool(false, "Plot past forecast median line")
 showCone  = input.bool(true, "Draw forward cone")
 showTable = input.bool(true, "Show table")
 gateSym   = input.symbol("COINBASE:BTCUSD", "Regime gate symbol")
@@ -198,11 +202,15 @@ float h50 = histH == 14 ? a50 : histH == 30 ? b50 : histH == 60 ? c50 : d50
 float h75 = histH == 14 ? a75 : histH == 30 ? b75 : histH == 60 ? c75 : d75
 float h95 = histH == 14 ? a95 : histH == 30 ? b95 : histH == 60 ? c95 : d95
 
-pl95 = plot(showHist ? h95 : na, "Forecast 95th pct", color = color.new(color.teal, 60), offset = shiftBars)
-pl75 = plot(showHist ? h75 : na, "Forecast 75th pct", color = color.new(color.teal, 30), offset = shiftBars)
-plot(showHist ? h50 : na, "Forecast median", color = color.orange, linewidth = 2, offset = shiftBars)
-pl25 = plot(showHist ? h25 : na, "Forecast 25th pct", color = color.new(color.teal, 30), offset = shiftBars)
-pl5  = plot(showHist ? h5 : na, "Forecast 5th pct", color = color.new(color.teal, 60), offset = shiftBars)
+// stop the past bands at the last candle: forecasts whose date has not come
+// yet are the forward cone's job, so they are not drawn twice
+bool arrived = bar_index <= last_bar_index - shiftBars
+bool drawHist = showHist and arrived
+pl95 = plot(drawHist ? h95 : na, "Forecast 95th pct", color = color.new(color.teal, 60), offset = shiftBars)
+pl75 = plot(drawHist ? h75 : na, "Forecast 75th pct", color = color.new(color.teal, 30), offset = shiftBars)
+plot(drawHist and showHistMed ? h50 : na, "Forecast median", color = color.orange, linewidth = 2, offset = shiftBars)
+pl25 = plot(drawHist ? h25 : na, "Forecast 25th pct", color = color.new(color.teal, 30), offset = shiftBars)
+pl5  = plot(drawHist ? h5 : na, "Forecast 5th pct", color = color.new(color.teal, 60), offset = shiftBars)
 fill(pl95, pl5, color = color.new(color.teal, 92), title = "Wide band")
 fill(pl75, pl25, color = color.new(color.teal, 82), title = "Middle half")
 

@@ -32,10 +32,11 @@ since. Verify before relying on it.
 
 ## The forecast cone
 
-`ctzb_forecast_cone.pine` (22 Oct 2026, v1) draws the adopted volatility-scaled
+`ctzb_forecast_cone.pine` (22 Oct 2026, v1.1) draws the adopted volatility-scaled
 forecast range (`analysis/volrange.py`) on the price pane: a cone 14/30/60/90
 days forward, the band each bar was forecast to land in (offset onto the bar
-it was for), and a table with today's levels and the indicator's own live
+it was for, stopping at the last candle; the past median line is a toggle, off
+by default), and a table with today's levels and the indicator's own live
 track record. One script for 1D, 2D and 3D charts; it detects the timeframe and
 always computes on daily bars underneath, so the numbers are the same on every
 chart. It carries the mechanical regime gate (BTC 2D CT RSI control zone)
