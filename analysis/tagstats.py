@@ -63,6 +63,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--chart', default='BTC_5D'); ap.add_argument('--bucket', default='C')
     ap.add_argument('--diamond', default='hollow', choices=['hollow', 'filled', 'any', 'none'])
+    ap.add_argument('--prime', default='any', choices=['any', 'yes', 'no'])
     a = ap.parse_args()
     sym = a.chart.split('_')[0]
     gate = R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41)
@@ -86,6 +87,8 @@ def main():
         s = r['s']
         if a.bucket != 'any' and s['bk'] != a.bucket:
             return False
+        if a.prime != 'any' and s['prime'] != (a.prime == 'yes'):
+            return False
         if a.diamond == 'none':
             return not s['dis']
         if a.diamond == 'any':
@@ -95,7 +98,7 @@ def main():
         return s['dis'] and s['strong']
 
     tag = [r for r in rows if want(r)]
-    name = f"{a.chart.replace('_', ' ')} {a.bucket} {a.diamond} diamond"
+    name = f"{a.chart.replace('_', ' ')} {a.bucket} {a.diamond} diamond" + ('' if a.prime == 'any' else f' prime={a.prime}')
 
     def block(sel, H):
         x = [r[H] for r in sel if r[H]]

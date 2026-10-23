@@ -1,0 +1,23 @@
+BTC 3D C hollow diamond prime=yes: 2 signals (gated), baseline all BTC 3D signals: 94
+             n   up%  medret  medUp  medDD   DD25 worstDD   DDpk  dPk  dDD  +10  +20  +30  -10  -20
+TAG 30d      1   100   +13.7  +16.8   -6.9   -6.9    -6.9   -6.9   30    8  100    0    0    0    0
+BASE 30d    92    63    +6.4  +13.5   -8.4  -19.1   -48.1   -4.3   17    8   60   35   23   42   24
+TAG 60d      1   100   +17.0  +17.3   -6.9   -6.9    -6.9   -6.9   60    8  100    0    0    0    0
+BASE 60d    92    63    +9.8  +23.0   -9.9  -24.2   -49.7   -4.8   41   14   76   51   38   49   32
+TAG 90d      1   100   +10.1  +18.1   -6.9   -6.9    -6.9   -6.9   61    8  100    0    0    0    0
+BASE 90d    92    65   +16.9  +29.5  -13.5  -28.0   -49.7   -5.5   55   18   79   62   47   54   38
+TAG dead (-30% before +5%, within a year): 0 of 2
+BASE dead (-30% before +5%, within a year): 10 of 94
+
+EVER PROFITABLE (within 90 days of entry; high above entry, even if it ended red)
+  TAG   n=  1  ever above entry 1 (100%)  ever +5% or more 1 (100%)  ended red at 90d 0, of which had been +5% or more first 0
+  BASE  n= 92  ever above entry 92 (100%)  ever +5% or more 78 (85%)  ended red at 90d 32, of which had been +5% or more first 18
+
+EVERY SIGNAL
+entry date       entry    CT     K prime    step   60d ret  60d up  60d DD DD pre-pk 90d ret  90d DD
+2025-06-12     105,465  55.4  25.7 yes    +26.1%    +17.0%  +17.3%   -6.9%     -6.9%  +10.1%   -6.9%
+2026-10-19      84,025  58.3  25.9 yes     -0.4%         -       -       -         -       -       -
+
+entry date   ever green  best gain (90d)  on day  ended (90d)
+2025-06-12          yes           +18.1%      61       +10.1%
+signals without a full 90-day window: 2026-10-19
