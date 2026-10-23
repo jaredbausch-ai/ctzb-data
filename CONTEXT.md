@@ -342,6 +342,13 @@ it; 2025 at 60/90d ran below it (43-49% below). The worst wide-band breaches:
 (60d from 19 Apr 2022), +248% (30d from Feb 2017). The gate-OFF stretch Jul
 2018 - Feb 2019 cannot be scored: only 23 gate-off days existed before it.
 
+**Market-state forecast as a tool — tried 22 Oct 2026, Jared is not using it.
+Do not re-propose.** The whole thread above (two-week rating, last-year and
+2023 replays, vol-scaled range, full-history run, the forecast-cone Pine) ended
+here: the bands are calibrated but carry no direction, and the median line is
+only price shifted forward, so on the chart it added nothing he would trade
+from. Crossed off. The code and results stay in the repo as the record.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

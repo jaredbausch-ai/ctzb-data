@@ -30,7 +30,10 @@ since. Verify before relying on it.
 
 `ctzb_scanner.pine` (unnumbered) and `v6`, `v7`, `v8` are the earlier chain.
 
-## The forecast cone
+## The forecast cone — not in use
+
+Tried 22 Oct 2026 and set aside by Jared: the bands hold up but carry no
+direction, and the median is price shifted forward. Kept as the record.
 
 `ctzb_forecast_cone.pine` (22 Oct 2026, v1.1) draws the adopted volatility-scaled
 forecast range (`analysis/volrange.py`) on the price pane: a cone 14/30/60/90
