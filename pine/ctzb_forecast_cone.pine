@@ -1,0 +1,299 @@
+//@version=6
+// CTZB Forecast Cone v1 - 22 Oct 2026
+// Volatility-scaled forecast range (analysis/volrange.py, adopted 22 Oct 2026),
+// drawn on the price pane. One indicator for the 1D, 2D and 3D charts: it
+// detects the chart's timeframe itself. The forecast always runs on DAILY
+// bars underneath, so its numbers are identical on every chart; only the
+// drawing adapts.
+//
+//  - Cone: where price is forecast to be 14 / 30 / 60 / 90 days out, from the
+//    latest daily close. Inner band = middle half (25th-75th pct), outer band
+//    = 5th-95th.
+//  - Past forecasts: the band forecast H days earlier, plotted on the bar it
+//    was forecast FOR, so the misses are visible. On 3D the 14-day band is
+//    shifted 5 bars (15 days), the nearest whole bar; everything else is exact.
+//  - Table: today's levels and the indicator's own live track record.
+//
+// How it works: every past day's H-day outcome is stored in units of that
+// day's own 30-day volatility, split by the CTZB regime gate (BTC 2D CT RSI
+// control zone: 8 bars >= 60 turns it on, 13 bars < 41 turns it off, read
+// from the previous completed 2D bar). Today's forecast takes the quantiles
+// of the same-gate history and rescales them by today's volatility. Nothing
+// is fitted; a day enters history only once its H-day outcome has closed.
+//
+// Market state only - there is no exit, so nothing here is a strategy return.
+// Python mirror with the expected numbers: analysis/cone_mirror.py
+
+indicator("CTZB Forecast Cone", shorttitle = "CTZB Cone", overlay = true, max_bars_back = 500, max_polylines_count = 20, max_labels_count = 20)
+
+// ---------- inputs
+histH     = input.int(30, "Past-forecast band to plot (days)", options = [14, 30, 60, 90])
+showHist  = input.bool(true, "Plot past forecasts on price")
+showCone  = input.bool(true, "Draw forward cone")
+showTable = input.bool(true, "Show table")
+gateSym   = input.symbol("COINBASE:BTCUSD", "Regime gate symbol")
+
+if not timeframe.isdaily
+    runtime.error("CTZB Forecast Cone runs on daily-based charts (1D, 2D, 3D).")
+
+// ---------- regime gate: BTC 2D CT RSI control zone, previous completed 2D bar
+f_gate() =>
+    float ct = ta.rsi(close, 14)
+    var bool st = false
+    var int up = 0
+    var int dn = 0
+    up := not na(ct) and ct >= 60 ? up + 1 : 0
+    dn := not na(ct) and ct < 41 ? dn + 1 : 0
+    if not st and up >= 8
+        st := true
+        dn := 0
+    else if st and dn >= 13
+        st := false
+        up := 0
+    st[1]
+
+// ---------- sorted pools
+type Pool
+    array<float> zr
+    array<float> zf
+    array<float> za
+
+type Stats
+    int n = 0
+    int mid = 0
+    int wide = 0
+
+newPool() =>
+    Pool.new(array.new<float>(), array.new<float>(), array.new<float>())
+
+lowerBound(array<float> a, float x) =>
+    int lo = 0
+    int hi = array.size(a)
+    while lo < hi
+        int mid = int(math.floor((lo + hi) / 2.0))
+        if array.get(a, mid) < x
+            lo := mid + 1
+        else
+            hi := mid
+    lo
+
+upperBound(array<float> a, float x) =>
+    int lo = 0
+    int hi = array.size(a)
+    while lo < hi
+        int mid = int(math.floor((lo + hi) / 2.0))
+        if array.get(a, mid) <= x
+            lo := mid + 1
+        else
+            hi := mid
+    lo
+
+sortedInsert(array<float> a, float x) =>
+    array.insert(a, lowerBound(a, x), x)
+
+qlin(array<float> a, float p) =>
+    int n = array.size(a)
+    float pos = p / 100.0 * (n - 1)
+    int lo = int(math.floor(pos))
+    int hi = math.min(lo + 1, n - 1)
+    float a0 = array.get(a, lo)
+    a0 + (array.get(a, hi) - a0) * (pos - lo)
+
+// forecast for one horizon from a pool
+fcast(Pool pl, int H, float vol) =>
+    float s0 = vol * math.sqrt(H)
+    float q5 = na
+    float q25 = na
+    float q50 = na
+    float q75 = na
+    float q95 = na
+    float u10 = na
+    float d10 = na
+    int n = array.size(pl.zr)
+    if n >= 200 and not na(s0) and s0 > 0
+        q5  := close * math.exp(qlin(pl.zr, 5) * s0)
+        q25 := close * math.exp(qlin(pl.zr, 25) * s0)
+        q50 := close * math.exp(qlin(pl.zr, 50) * s0)
+        q75 := close * math.exp(qlin(pl.zr, 75) * s0)
+        q95 := close * math.exp(qlin(pl.zr, 95) * s0)
+        float nf = float(n)
+        u10 := (nf - lowerBound(pl.zf, math.log(1.10) / s0)) / nf
+        d10 := upperBound(pl.za, math.log(0.90) / s0) / nf
+    [q5, q25, q50, q75, q95, u10, d10]
+
+// score the forecast made H daily bars ago against today's close
+score(Stats st, float lo5, float lo25, float hi75, float hi95) =>
+    if barstate.isconfirmed and not na(lo25)
+        st.n += 1
+        if close >= lo25 and close <= hi75
+            st.mid += 1
+        if close >= lo5 and close <= hi95
+            st.wide += 1
+
+// add the outcome that closed today (made H bars ago) to its gate's pool
+addOutcome(Pool pl, float c0, float v0, int H, float hh, float ll) =>
+    float sd = v0 * math.sqrt(H)
+    if barstate.isconfirmed and not na(sd) and sd > 0 and not na(c0)
+        sortedInsert(pl.zr, math.log(close / c0) / sd)
+        sortedInsert(pl.zf, math.log(hh / c0) / sd)
+        sortedInsert(pl.za, math.log(ll / c0) / sd)
+
+// ---------- the whole engine, evaluated on DAILY bars
+engine(string gs) =>
+    bool gateOn = request.security(gs, "2D", f_gate(), lookahead = barmerge.lookahead_on)
+    // clamp exchange flash prints (same rule as engine.py)
+    float bodyLo = math.min(open, close)
+    float bodyHi = math.max(open, close)
+    float loC = low < 0.5 * bodyLo ? bodyLo : low
+    float hiC = high > 2.0 * bodyHi ? bodyHi : high
+    float vol = ta.stdev(math.log(close / close[1]), 30)
+    var Pool p14on  = newPool()
+    var Pool p14off = newPool()
+    var Pool p30on  = newPool()
+    var Pool p30off = newPool()
+    var Pool p60on  = newPool()
+    var Pool p60off = newPool()
+    var Pool p90on  = newPool()
+    var Pool p90off = newPool()
+    var Stats s14 = Stats.new()
+    var Stats s30 = Stats.new()
+    var Stats s60 = Stats.new()
+    var Stats s90 = Stats.new()
+    // 1. forecast from history that closed before today
+    [a5, a25, a50, a75, a95, au, ad] = fcast(gateOn ? p14on : p14off, 14, vol)
+    [b5, b25, b50, b75, b95, bu, bd] = fcast(gateOn ? p30on : p30off, 30, vol)
+    [c5, c25, c50, c75, c95, cu, cd] = fcast(gateOn ? p60on : p60off, 60, vol)
+    [d5, d25, d50, d75, d95, du, dd] = fcast(gateOn ? p90on : p90off, 90, vol)
+    // 2. score the forecasts whose day has arrived
+    score(s14, a5[14], a25[14], a75[14], a95[14])
+    score(s30, b5[30], b25[30], b75[30], b95[30])
+    score(s60, c5[60], c25[60], c75[60], c95[60])
+    score(s90, d5[90], d25[90], d75[90], d95[90])
+    // 3. only then add today's closed outcomes to history
+    float hh14 = ta.highest(hiC, 14)
+    float ll14 = ta.lowest(loC, 14)
+    float hh30 = ta.highest(hiC, 30)
+    float ll30 = ta.lowest(loC, 30)
+    float hh60 = ta.highest(hiC, 60)
+    float ll60 = ta.lowest(loC, 60)
+    float hh90 = ta.highest(hiC, 90)
+    float ll90 = ta.lowest(loC, 90)
+    addOutcome(gateOn[14] ? p14on : p14off, close[14], vol[14], 14, hh14, ll14)
+    addOutcome(gateOn[30] ? p30on : p30off, close[30], vol[30], 30, hh30, ll30)
+    addOutcome(gateOn[60] ? p60on : p60off, close[60], vol[60], 60, hh60, ll60)
+    addOutcome(gateOn[90] ? p90on : p90off, close[90], vol[90], 90, hh90, ll90)
+    [a5, a25, a50, a75, a95, au, ad, b5, b25, b50, b75, b95, bu, bd, c5, c25, c50, c75, c95, cu, cd, d5, d25, d50, d75, d95, du, dd, s14.n, s14.mid, s14.wide, s30.n, s30.mid, s30.wide, s60.n, s60.mid, s60.wide, s90.n, s90.mid, s90.wide, gateOn, time, close]
+
+[a5, a25, a50, a75, a95, au, ad, b5, b25, b50, b75, b95, bu, bd, c5, c25, c50, c75, c95, cu, cd, d5, d25, d50, d75, d95, du, dd, n14, m14, w14, n30, m30, w30, n60, m60, w60, n90, m90, w90, gateNow, tDay, cDay] = request.security(syminfo.tickerid, "1D", engine(gateSym), lookahead = barmerge.lookahead_off)
+
+// ---------- past forecasts plotted on the bar they were for
+int barDays = timeframe.multiplier
+int shiftBars = math.round(histH / float(barDays))
+float h5  = histH == 14 ? a5  : histH == 30 ? b5  : histH == 60 ? c5  : d5
+float h25 = histH == 14 ? a25 : histH == 30 ? b25 : histH == 60 ? c25 : d25
+float h50 = histH == 14 ? a50 : histH == 30 ? b50 : histH == 60 ? c50 : d50
+float h75 = histH == 14 ? a75 : histH == 30 ? b75 : histH == 60 ? c75 : d75
+float h95 = histH == 14 ? a95 : histH == 30 ? b95 : histH == 60 ? c95 : d95
+
+pl95 = plot(showHist ? h95 : na, "Forecast 95th pct", color = color.new(color.teal, 60), offset = shiftBars)
+pl75 = plot(showHist ? h75 : na, "Forecast 75th pct", color = color.new(color.teal, 30), offset = shiftBars)
+plot(showHist ? h50 : na, "Forecast median", color = color.orange, linewidth = 2, offset = shiftBars)
+pl25 = plot(showHist ? h25 : na, "Forecast 25th pct", color = color.new(color.teal, 30), offset = shiftBars)
+pl5  = plot(showHist ? h5 : na, "Forecast 5th pct", color = color.new(color.teal, 60), offset = shiftBars)
+fill(pl95, pl5, color = color.new(color.teal, 92), title = "Wide band")
+fill(pl75, pl25, color = color.new(color.teal, 82), title = "Middle half")
+
+// ---------- forward cone from the latest daily close
+var polyline coneWide = na
+var polyline coneMid  = na
+var polyline coneMed  = na
+var label lbHi = na
+var label lbMd = na
+var label lbLo = na
+
+if barstate.islast and showCone and not na(d50)
+    polyline.delete(coneWide)
+    polyline.delete(coneMid)
+    polyline.delete(coneMed)
+    label.delete(lbHi)
+    label.delete(lbMd)
+    label.delete(lbLo)
+    int dayMs = 86400000
+    int t14 = tDay + 14 * dayMs
+    int t30 = tDay + 30 * dayMs
+    int t60 = tDay + 60 * dayMs
+    int t90 = tDay + 90 * dayMs
+    array<chart.point> w = array.new<chart.point>()
+    array.push(w, chart.point.from_time(tDay, cDay))
+    array.push(w, chart.point.from_time(t14, a95))
+    array.push(w, chart.point.from_time(t30, b95))
+    array.push(w, chart.point.from_time(t60, c95))
+    array.push(w, chart.point.from_time(t90, d95))
+    array.push(w, chart.point.from_time(t90, d5))
+    array.push(w, chart.point.from_time(t60, c5))
+    array.push(w, chart.point.from_time(t30, b5))
+    array.push(w, chart.point.from_time(t14, a5))
+    coneWide := polyline.new(w, curved = false, closed = true, xloc = xloc.bar_time, line_color = color.new(color.teal, 60), fill_color = color.new(color.teal, 90))
+    array<chart.point> m = array.new<chart.point>()
+    array.push(m, chart.point.from_time(tDay, cDay))
+    array.push(m, chart.point.from_time(t14, a75))
+    array.push(m, chart.point.from_time(t30, b75))
+    array.push(m, chart.point.from_time(t60, c75))
+    array.push(m, chart.point.from_time(t90, d75))
+    array.push(m, chart.point.from_time(t90, d25))
+    array.push(m, chart.point.from_time(t60, c25))
+    array.push(m, chart.point.from_time(t30, b25))
+    array.push(m, chart.point.from_time(t14, a25))
+    coneMid := polyline.new(m, curved = false, closed = true, xloc = xloc.bar_time, line_color = color.new(color.teal, 30), fill_color = color.new(color.teal, 78))
+    array<chart.point> md = array.new<chart.point>()
+    array.push(md, chart.point.from_time(tDay, cDay))
+    array.push(md, chart.point.from_time(t14, a50))
+    array.push(md, chart.point.from_time(t30, b50))
+    array.push(md, chart.point.from_time(t60, c50))
+    array.push(md, chart.point.from_time(t90, d50))
+    coneMed := polyline.new(md, curved = false, closed = false, xloc = xloc.bar_time, line_color = color.orange, line_width = 2)
+    lbHi := label.new(t90, d95, "95th " + str.tostring(math.round(d95)), xloc = xloc.bar_time, style = label.style_label_left, color = color.new(color.teal, 70), textcolor = color.white, size = size.small)
+    lbMd := label.new(t90, d50, "median " + str.tostring(math.round(d50)), xloc = xloc.bar_time, style = label.style_label_left, color = color.new(color.orange, 30), textcolor = color.white, size = size.small)
+    lbLo := label.new(t90, d5, "5th " + str.tostring(math.round(d5)), xloc = xloc.bar_time, style = label.style_label_left, color = color.new(color.teal, 70), textcolor = color.white, size = size.small)
+
+// ---------- table
+pct(float x) => na(x) ? "-" : str.tostring(math.round(x * 100)) + "%"
+px(float x) => na(x) ? "-" : str.tostring(math.round(x))
+rec(int n, int mid, int wide) => n == 0 ? "-" : str.tostring(math.round(100.0 * mid / n)) + "% / " + str.tostring(math.round(100.0 * wide / n)) + "%  (" + str.tostring(n) + ")"
+
+var table tb = table.new(position.top_right, 6, 6, bgcolor = color.new(color.black, 15), border_color = color.new(color.gray, 60), border_width = 1)
+
+if barstate.islast and showTable
+    color hc = color.white
+    table.cell(tb, 0, 0, "Gate " + (gateNow ? "ON" : "OFF"), text_color = gateNow ? color.lime : color.red, text_size = size.small)
+    table.cell(tb, 1, 0, "Median", text_color = hc, text_size = size.small)
+    table.cell(tb, 2, 0, "Middle half", text_color = hc, text_size = size.small)
+    table.cell(tb, 3, 0, "5th - 95th", text_color = hc, text_size = size.small)
+    table.cell(tb, 4, 0, "+10% / -10% touch", text_color = hc, text_size = size.small)
+    table.cell(tb, 5, 0, "Track record: in middle / in wide (n)", text_color = hc, text_size = size.small)
+    table.cell(tb, 0, 1, "14d", text_color = hc, text_size = size.small)
+    table.cell(tb, 1, 1, px(a50), text_color = color.orange, text_size = size.small)
+    table.cell(tb, 2, 1, px(a25) + " - " + px(a75), text_color = hc, text_size = size.small)
+    table.cell(tb, 3, 1, px(a5) + " - " + px(a95), text_color = hc, text_size = size.small)
+    table.cell(tb, 4, 1, pct(au) + " / " + pct(ad), text_color = hc, text_size = size.small)
+    table.cell(tb, 5, 1, rec(n14, m14, w14), text_color = hc, text_size = size.small)
+    table.cell(tb, 0, 2, "30d", text_color = hc, text_size = size.small)
+    table.cell(tb, 1, 2, px(b50), text_color = color.orange, text_size = size.small)
+    table.cell(tb, 2, 2, px(b25) + " - " + px(b75), text_color = hc, text_size = size.small)
+    table.cell(tb, 3, 2, px(b5) + " - " + px(b95), text_color = hc, text_size = size.small)
+    table.cell(tb, 4, 2, pct(bu) + " / " + pct(bd), text_color = hc, text_size = size.small)
+    table.cell(tb, 5, 2, rec(n30, m30, w30), text_color = hc, text_size = size.small)
+    table.cell(tb, 0, 3, "60d", text_color = hc, text_size = size.small)
+    table.cell(tb, 1, 3, px(c50), text_color = color.orange, text_size = size.small)
+    table.cell(tb, 2, 3, px(c25) + " - " + px(c75), text_color = hc, text_size = size.small)
+    table.cell(tb, 3, 3, px(c5) + " - " + px(c95), text_color = hc, text_size = size.small)
+    table.cell(tb, 4, 3, pct(cu) + " / " + pct(cd), text_color = hc, text_size = size.small)
+    table.cell(tb, 5, 3, rec(n60, m60, w60), text_color = hc, text_size = size.small)
+    table.cell(tb, 0, 4, "90d", text_color = hc, text_size = size.small)
+    table.cell(tb, 1, 4, px(d50), text_color = color.orange, text_size = size.small)
+    table.cell(tb, 2, 4, px(d25) + " - " + px(d75), text_color = hc, text_size = size.small)
+    table.cell(tb, 3, 4, px(d5) + " - " + px(d95), text_color = hc, text_size = size.small)
+    table.cell(tb, 4, 4, pct(du) + " / " + pct(dd), text_color = hc, text_size = size.small)
+    table.cell(tb, 5, 4, rec(n90, m90, w90), text_color = hc, text_size = size.small)
+    table.cell(tb, 0, 5, "Targets: 50% in middle, 90% in wide. Market state only - not a trade. Chart: " + str.tostring(barDays) + "D, forecast runs on 1D.", text_color = color.gray, text_size = size.tiny)
+    table.merge_cells(tb, 0, 5, 5, 5)

@@ -30,6 +30,21 @@ since. Verify before relying on it.
 
 `ctzb_scanner.pine` (unnumbered) and `v6`, `v7`, `v8` are the earlier chain.
 
+## The forecast cone
+
+`ctzb_forecast_cone.pine` (22 Oct 2026, v1) draws the adopted volatility-scaled
+forecast range (`analysis/volrange.py`) on the price pane: a cone 14/30/60/90
+days forward, the band each bar was forecast to land in (offset onto the bar
+it was for), and a table with today's levels and the indicator's own live
+track record. One script for 1D, 2D and 3D charts; it detects the timeframe and
+always computes on daily bars underneath, so the numbers are the same on every
+chart. It carries the mechanical regime gate (BTC 2D CT RSI control zone)
+inside itself; it does not read any other indicator.
+
+`analysis/cone_mirror.py` is a bar-for-bar Python replica. Its printout is what
+the table should show (track record within a few tenths; n a day or two higher
+as the chart moves on). **Not yet confirmed compiling** — paste and check.
+
 ## Other sources
 
 | file | what it is |
