@@ -270,7 +270,18 @@ same calendar, so for any effect anchored to dates they are one sample, not two.
 That check is only meaningful for features that are not time-anchored -- it was
 real for the higher-low filter and worthless for this.
 
-**The regime gate has a cycle-top blind spot -- found 19 Oct 2026, untested.**
+**The regime gate has a cycle-top blind spot -- found 19 Oct 2026; four fixes
+tested 23 Oct 2026, all FAILED.** `analysis/gatefix.py`, declared with an
+accept rule before running. The problem is real and large: across 8 charts,
+signals in the last 180 days of the three gate episodes that ran through tops
+(2018, 2022, 2025) reach +20% in 60d 29% of the time (n=208) against 62% for
+everything else (n=912). Overlays tried, each rejected: BTC above its 200d SMA;
+BTC 2D CT revisited 60 within 60 days; BTC within 25% of its 1-year high
+(closest -- removed 50% vs kept 58%, 7 of 8 charts, worse in 6 of 8 years, but
+short of the 10-point bar); a faster 8-bar bear exit. Each removes good
+signals from normal bull corrections along with the bad ones at tops. Do not
+retune the 25% threshold after the fact; a new idea needs a new declaration.
+Original note:
 Regime episode 2021-08-19 to 2022-01-25 stayed ON straight through the November
 2021 cycle top, and the 35 troughs that fired 60-150 days into it went 3-for-35
 (3%). This is a weakness in a filter already relied on everywhere, not a new

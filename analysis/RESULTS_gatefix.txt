@@ -1,0 +1,37 @@
+BASE (current gate), 8 charts pooled: n=1120  +20%  56%  med ret   +9.7%  med DD  -14.0%  dead 130
+  of which in the last 180 days of the three blind-spot episodes: n= 208  +20%  29%  med ret  -12.5%  med DD  -27.3%  dead 58
+  everything else:                                             n= 912  +20%  62%  med ret  +13.9%  med DD  -11.7%  dead 72
+
+==================== O1 BTC > 200d SMA
+  KEPT     n= 880  +20%  57%  med ret  +10.1%  med DD  -13.5%  dead 106
+  REMOVED  n= 240  +20%  53%  med ret   +7.1%  med DD  -15.7%  dead 24   (21% of signals)
+  removed from the blind-spot tails: 77 of 208 there; from everywhere else: 163 of 912
+  per chart, base -> kept: ETH 1D 61->63  ETH 2D 62->66  ETH 3D 55->57  ETH 5D 70->75  BTC 1D 52->51  BTC 2D 52->51  BTC 3D 51->50  BTC 5D 47->46   kept >= base on 4 of 8
+  by year, removed/kept: 2016: 19%/68% (n=16)  2018: 44%/17% (n=50)  2019: 46%/63% (n=13)  2020: 100%/77% (n=19)  2021: 46%/54% (n=26)  2022: removed 31% (n=16) / kept none  2023: 79%/41% (n=29)  2024: 56%/45% (n=39)  2025: 47%/22% (n=32)   removed worse in 3 of 8
+
+==================== O2 bull zone seen in 60d
+  KEPT     n= 969  +20%  56%  med ret   +9.7%  med DD  -14.1%  dead 111
+  REMOVED  n= 151  +20%  59%  med ret  +10.0%  med DD  -11.6%  dead 19   (13% of signals)
+  removed from the blind-spot tails: 51 of 208 there; from everywhere else: 100 of 912
+  per chart, base -> kept: ETH 1D 61->62  ETH 2D 62->63  ETH 3D 55->58  ETH 5D 70->74  BTC 1D 52->49  BTC 2D 52->50  BTC 3D 51->49  BTC 5D 47->41   kept >= base on 4 of 8
+  by year, removed/kept: 2016: 81%/55% (n=16)  2018: 40%/24% (n=50)  2019: 50%/62% (n=8)  2020: 100%/80% (n=2)  2021: 100%/52% (n=1)  2022: 42%/0% (n=12)  2023: 100%/41% (n=20)  2024: 41%/49% (n=29)  2025: 92%/21% (n=13)   removed worse in 2 of 9
+
+==================== O3 BTC < 25% off 1y high
+  KEPT     n= 856  +20%  58%  med ret  +11.7%  med DD  -12.7%  dead 93
+  REMOVED  n= 264  +20%  50%  med ret   +1.7%  med DD  -17.0%  dead 37   (24% of signals)
+  removed from the blind-spot tails: 104 of 208 there; from everywhere else: 160 of 912
+  per chart, base -> kept: ETH 1D 61->63  ETH 2D 62->65  ETH 3D 55->62  ETH 5D 70->77  BTC 1D 52->51  BTC 2D 52->52  BTC 3D 51->52  BTC 5D 47->49   kept >= base on 7 of 8
+  by year, removed/kept: 2016: 71%/59% (n=7)  2017: 86%/92% (n=7)  2018: 33%/50% (n=75)  2019: 76%/51% (n=34)  2020: 80%/81% (n=44)  2021: 42%/56% (n=33)  2022: removed 31% (n=16) / kept none  2023: 41%/52% (n=37)  2025: 0%/30% (n=11)   removed worse in 6 of 8
+
+==================== O4 faster exit (8 bars <41)
+  KEPT     n=1017  +20%  56%  med ret   +9.8%  med DD  -14.2%  dead 120
+  REMOVED  n= 103  +20%  58%  med ret   +9.2%  med DD  -11.4%  dead 10   (9% of signals)
+  removed from the blind-spot tails: 29 of 208 there; from everywhere else: 74 of 912
+  per chart, base -> kept: ETH 1D 61->61  ETH 2D 62->63  ETH 3D 55->56  ETH 5D 70->72  BTC 1D 52->51  BTC 2D 52->51  BTC 3D 51->50  BTC 5D 47->44   kept >= base on 3 of 8
+  by year, removed/kept: 2018: 28%/38% (n=32)  2019: 50%/61% (n=2)  2020: 85%/78% (n=52)  2021: 17%/54% (n=6)  2022: 62%/0% (n=8)  2025: 0%/28% (n=3)   removed worse in 4 of 6
+
+ACCEPTANCE (declared): (a) removed >=10 pts worse  (b) kept>=base on 6/8 charts  (c) removes <=25%  (d) worse in most years
+  O1 BTC > 200d SMA              a False b False c True  d False -> REJECT
+  O2 bull zone seen in 60d       a False b False c True  d False -> REJECT
+  O3 BTC < 25% off 1y high       a False b True  c True  d True  -> REJECT
+  O4 faster exit (8 bars <41)    a False b False c True  d True  -> REJECT
