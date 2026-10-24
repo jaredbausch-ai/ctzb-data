@@ -1,3 +1,5 @@
+SENT 24 Oct 2026 ~23:22 UTC to jlmauro11@gmail.com, cc themaurogroup+kinvault@mail.grokbot.com, as a reply in the "ETHKROS: full package for review" thread. The sent body is this text unwrapped.
+
 Subject: Re: ETHKROS: full package for review — what the signal produces
 
 Joe,
