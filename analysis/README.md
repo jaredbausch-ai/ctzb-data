@@ -43,6 +43,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `standard.py`, `RESULTS_standard.txt` | 2,100 single/pair filter combos (stack + 10 outside indicators) against Jared's 70/80 standard, raw wins and leverage-aware safe wins. Nothing meets it; narrow 70%+ setups listed |
 | `derivtest.py`, `RESULTS_derivtest.txt` | Funding, long/short ratio and open interest (Coinalyze) against the 70/80 standard, alone and combined with the stack |
 | `confirmlag.py`, `RESULTS_confirmlag.txt` | Buying at the trough bar, trough+1, trough+2 vs the confirmation close, ETH and BTC 1D–2W, 365-day window, every ETH 2W trough listed |
+| `grokpack.py`, `RESULTS_grokpack.txt`, `grokpack.json` | Capabilities pack, 24 Oct 2026: base rates, tags, filters, backward-only confluence grid (713 cells, survivors and small-sample highs), the 44 v4-page confluence rows recomputed both ways, and in-trade reads. Every figure recomputed under current rules |
 | `posread.py` | Positioning read for a signal (funding vs 90d median and direction, long/short ratio, OI 14d change). Part of every signal-statistics report |
 | `snapshot.py` | Market snapshot: price context, volatility percentile, 8D direction, every signal since the gate turned on with its day-5/10 status and warnings, forming troughs, regime distance from switching off |
 | `RESULTS_late2025.txt` | The same replay over 22 Oct – 31 Dec 2025 (`--start 2025-10-22 --end 2025-12-31`). Source of the late-2025 bars in the charts shown 22 Oct 2026 |

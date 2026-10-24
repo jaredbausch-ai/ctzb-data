@@ -1,0 +1,409 @@
+CAPABILITIES PACK -- recomputed 2026-10-24 | entry quality only, signals not fills
+
+LAYER 1  base rate, regime on, reach +20% within 60 days
+  ETH 1D  n= 288 win   61%  [16-21  71% (173) | 22-26  45% (115)]  green60  60%  safe  56%  ddpk   -6.5%  t20  41%  t30  27%
+  ETH 2D  n= 137 win   62%  [16-21   72% (81) | 22-26   48% (56)]  green60  61%  safe  58%  ddpk   -5.2%  t20  41%  t30  28%
+  ETH 3D  n=  87 win   55%  [16-21   67% (48) | 22-26   41% (39)]  green60  61%  safe  51%  ddpk   -5.4%  t20  39%  t30  29%
+  ETH 5D  n=  47 win   70%  [16-21   76% (25) | 22-26   64% (22)]  green60  72%  safe  64%  ddpk   -5.3%  t20  30%  t30  17%
+  ETH 8D  n=  24 win   79%  [16-21   79% (14) | 22-26   80% (10)]  green60  67%  safe  75%  ddpk   -4.3%  t20  29%  t30  12%
+  BTC 1D  n= 279 win   52%  [16-21  61% (167) | 22-26  38% (112)]  green60  64%  safe  48%  ddpk   -4.7%  t20  30%  t30  13%
+  BTC 2D  n= 141 win   52%  [16-21   60% (83) | 22-26   40% (58)]  green60  62%  safe  49%  ddpk   -4.6%  t20  30%  t30  15%
+  BTC 3D  n=  92 win   51%  [16-21   65% (52) | 22-26   32% (40)]  green60  63%  safe  45%  ddpk   -4.8%  t20  32%  t30  14%
+  BTC 5D  n=  49 win   47%  [16-21   62% (29) | 22-26   25% (20)]  green60  53%  safe  47%  ddpk   -3.9%  t20  39%  t30  16%
+  BTC 8D  n=  28 win   50%  [16-21   59% (17) | 22-26   36% (11)]  green60  61%  safe  50%  ddpk   -4.6%  t20  39%  t30  11%
+
+LAYER 2  tags per chart (lift = tag win minus chart base)
+  ETH 1D  A               lift  -10  n=  97 win   51%  [16-21   60% (48) | 22-26   41% (49)]  green60  58%  safe  42%  ddpk   -6.5%  t20  48%  t30  34%
+  ETH 1D  B               lift   -2  n= 116 win   59%  [16-21   68% (73) | 22-26   42% (43)]  green60  59%  safe  57%  ddpk   -5.3%  t20  36%  t30  26%
+  ETH 1D  C               lift  +18  n=  52 win   79%  [16-21   86% (37) | 22-26   60% (15)]  green60  67%  safe  75%  ddpk   -8.3%  t20  33%  t30  17%
+  ETH 1D  D               lift  +13  n=  23 win   74%  [16-21   80% (15) | 22-26    62% (8)]  green60  52%  safe  65%  ddpk   -9.6%  t20  52%  t30  30%
+  ETH 1D  diamond         lift  +11  n=  61 win   72%  [16-21   75% (44) | 22-26   65% (17)]  green60  67%  safe  66%  ddpk   -6.4%  t20  36%  t30  26%
+  ETH 1D  filled diamond  lift   +4  n=  40 win   65%  [16-21   69% (26) | 22-26   57% (14)]  green60  62%  safe  60%  ddpk   -5.7%  t20  38%  t30  28%
+  ETH 1D  hollow diamond  lift  +25  n=  21 win   86%  [16-21   83% (18) | 22-26   100% (3)]  green60  76%  safe  76%  ddpk   -8.0%  t20  33%  t30  24%
+  ETH 1D  A+diamond       lift   +0  n=  18 win   61%  [16-21   64% (11) | 22-26    57% (7)]  green60  56%  safe  56%  ddpk   -6.2%  t20  44%  t30  28%
+  ETH 1D  B+diamond       lift   +9  n=  30 win   70%  [16-21   71% (21) | 22-26    67% (9)]  green60  70%  safe  67%  ddpk   -4.6%  t20  33%  t30  27%
+  ETH 1D  prime           lift   +0  n=  72 win   61%  [16-21   70% (47) | 22-26   44% (25)]  green60  53%  safe  57%  ddpk   -6.6%  t20  46%  t30  32%
+  ETH 1D  prime+diamond   lift  +18  n=  19 win   79%  [16-21   86% (14) | 22-26    60% (5)]  green60  63%  safe  74%  ddpk   -6.1%  t20  42%  t30  26%
+  ETH 2D  A               lift  -15  n=  36 win   47%  [16-21   50% (16) | 22-26   45% (20)]  green60  56%  safe  42%  ddpk   -6.6%  t20  47%  t30  33%
+  ETH 2D  B               lift   +3  n=  63 win   65%  [16-21   74% (38) | 22-26   52% (25)]  green60  62%  safe  62%  ddpk   -4.4%  t20  35%  t30  24%
+  ETH 2D  C               lift   +0  n=  24 win   62%  [16-21   73% (15) | 22-26    44% (9)]  green60  62%  safe  62%  ddpk   -6.3%  t20  46%  t30  33%
+  ETH 2D  D               lift  +24  n=  14 win   86%  [16-21   92% (12) | 22-26    50% (2)]  green60  64%  safe  79%  ddpk   -6.5%  t20  43%  t30  21%
+  ETH 2D  diamond         lift   +9  n=  34 win   71%  [16-21   79% (19) | 22-26   60% (15)]  green60  76%  safe  65%  ddpk   -4.8%  t20  32%  t30  24%
+  ETH 2D  filled diamond  lift   +3  n=  20 win   65%  [16-21    67% (9) | 22-26   64% (11)]  green60  70%  safe  60%  ddpk   -5.0%  t20  35%  t30  30%
+  ETH 2D  hollow diamond  lift  +17  n=  14 win   79%  [16-21   90% (10) | 22-26    50% (4)]  green60  86%  safe  71%  ddpk   -3.6%  t20  29%  t30  14%
+  ETH 2D  A+diamond       lift  -12  n=  12 win   50%  [16-21    50% (4) | 22-26    50% (8)]  green60  58%  safe  42%  ddpk   -5.2%  t20  50%  t30  42%
+  ETH 2D  B+diamond       lift  +13  n=  16 win   75%  [16-21   80% (10) | 22-26    67% (6)]  green60  88%  safe  69%  ddpk   -4.8%  t20  25%  t30  12%
+  ETH 2D  prime           lift  +19  n=  31 win   81%  [16-21   76% (17) | 22-26   86% (14)]  green60  68%  safe  77%  ddpk   -4.6%  t20  32%  t30  23%
+  ETH 2D  prime+diamond   lift  +15  n=  13 win   77%  [16-21    71% (7) | 22-26    83% (6)]  green60  69%  safe  69%  ddpk   -4.1%  t20  38%  t30  31%
+  ETH 3D  A               lift   +3  n=  24 win   58%  [16-21    75% (8) | 22-26   50% (16)]  green60  67%  safe  54%  ddpk   -4.3%  t20  33%  t30  25%
+  ETH 3D  B               lift   -4  n=  37 win   51%  [16-21   56% (25) | 22-26   42% (12)]  green60  54%  safe  46%  ddpk   -5.3%  t20  46%  t30  32%
+  ETH 3D  C               lift   -2  n=  15 win   53%  [16-21    75% (8) | 22-26    29% (7)]  green60  60%  safe  47%  ddpk  -11.9%  t20  40%  t30  33%
+  ETH 3D  D               lift   +8  n=  11 win   64%  [16-21    86% (7) | 22-26    25% (4)]  green60  73%  safe  64%  ddpk   -9.6%  t20  27%  t30  18%
+  ETH 3D  diamond         lift   -0  n=  20 win   55%  [16-21   58% (12) | 22-26    50% (8)]  green60  55%  safe  55%  ddpk   -6.2%  t20  35%  t30  30%
+  ETH 3D  filled diamond  lift  -10  n=  11 win   45%  [16-21    40% (5) | 22-26    50% (6)]  green60  45%  safe  45%  ddpk   -4.1%  t20  36%  t30  27%
+  ETH 3D  hollow diamond  lift  +11  n=   9 win   67%  [16-21    71% (7) | 22-26    50% (2)]  green60  67%  safe  67%  ddpk   -9.6%  t20  33%  t30  33%
+  ETH 3D  A+diamond       lift  -12  n=   7 win   43%  [16-21    67% (3) | 22-26    25% (4)]  green60  43%  safe  43%  ddpk   -4.0%  t20  29%  t30  29%
+  ETH 3D  B+diamond       lift   +2  n=   7 win   57%  [16-21    25% (4) | 22-26   100% (3)]  green60  57%  safe  57%  ddpk   -6.9%  t20  43%  t30  29%
+  ETH 3D  prime           lift  +24  n=  24 win   79%  [16-21   80% (15) | 22-26    78% (9)]  green60  79%  safe  79%  ddpk   -3.7%  t20  21%  t30  17%
+  ETH 3D  prime+diamond   lift  +11  n=   6 win   67%  [16-21    67% (3) | 22-26    67% (3)]  green60  83%  safe  67%  ddpk   -7.6%  t20  17%  t30   0%
+  ETH 5D  A               lift   +1  n=  14 win   71%  [16-21    83% (6) | 22-26    62% (8)]  green60  71%  safe  64%  ddpk   -4.5%  t20  36%  t30  14%
+  ETH 5D  B               lift   +5  n=  20 win   75%  [16-21   90% (10) | 22-26   60% (10)]  green60  80%  safe  70%  ddpk   -5.0%  t20  20%  t30  10%
+  ETH 5D  D               lift   -4  n=   9 win   67%  [16-21    71% (7) | 22-26    50% (2)]  green60  67%  safe  56%  ddpk   -6.3%  t20  33%  t30  22%
+  ETH 5D  diamond         lift   -4  n=   9 win   67%  [16-21   100% (4) | 22-26    40% (5)]  green60  78%  safe  56%  ddpk   -4.0%  t20  22%  t30  11%
+  ETH 5D  hollow diamond  lift  +10  n=   5 win   80%  [16-21   100% (4) | 22-26     0% (1)]  green60 100%  safe  60%  ddpk   -7.2%  t20  20%  t30   0%
+  ETH 5D  B+diamond       lift  -20  n=   6 win   50%  [16-21   100% (3) | 22-26     0% (3)]  green60  67%  safe  50%  ddpk   -4.7%  t20  17%  t30  17%
+  ETH 5D  prime           lift  +17  n=   8 win   88%  [16-21    83% (6) | 22-26   100% (2)]  green60  88%  safe  88%  ddpk   -4.6%  t20  12%  t30  12%
+  ETH 8D  B               lift  -12  n=   9 win   67%  [16-21    50% (4) | 22-26    80% (5)]  green60  44%  safe  56%  ddpk   -5.9%  t20  44%  t30  11%
+  ETH 8D  C               lift   -1  n=   9 win   78%  [16-21    83% (6) | 22-26    67% (3)]  green60  78%  safe  78%  ddpk   -1.6%  t20  22%  t30  11%
+  ETH 8D  diamond         lift  -12  n=   6 win   67%  [16-21    60% (5) | 22-26   100% (1)]  green60  67%  safe  67%  ddpk   -2.8%  t20  33%  t30  33%
+  BTC 1D  A               lift   -7  n=  79 win   44%  [16-21   50% (44) | 22-26   37% (35)]  green60  61%  safe  43%  ddpk   -4.7%  t20  37%  t30  13%
+  BTC 1D  B               lift   -1  n= 117 win   50%  [16-21   56% (71) | 22-26   41% (46)]  green60  61%  safe  47%  ddpk   -3.9%  t20  31%  t30  15%
+  BTC 1D  C               lift   +8  n=  54 win   59%  [16-21   83% (30) | 22-26   29% (24)]  green60  67%  safe  56%  ddpk   -5.2%  t20  20%  t30   7%
+  BTC 1D  D               lift  +10  n=  29 win   62%  [16-21   68% (22) | 22-26    43% (7)]  green60  79%  safe  52%  ddpk   -6.6%  t20  31%  t30  14%
+  BTC 1D  diamond         lift   +1  n=  66 win   53%  [16-21   68% (41) | 22-26   28% (25)]  green60  70%  safe  48%  ddpk   -4.8%  t20  24%  t30  12%
+  BTC 1D  filled diamond  lift   -7  n=  38 win   45%  [16-21   50% (22) | 22-26   38% (16)]  green60  63%  safe  42%  ddpk   -5.4%  t20  29%  t30  13%
+  BTC 1D  hollow diamond  lift  +13  n=  28 win   64%  [16-21   89% (19) | 22-26    11% (9)]  green60  79%  safe  57%  ddpk   -4.0%  t20  18%  t30  11%
+  BTC 1D  A+diamond       lift   +1  n=  21 win   52%  [16-21   62% (13) | 22-26    38% (8)]  green60  71%  safe  52%  ddpk   -4.3%  t20  19%  t30  14%
+  BTC 1D  B+diamond       lift   -2  n=  24 win   50%  [16-21   60% (15) | 22-26    33% (9)]  green60  62%  safe  46%  ddpk   -6.4%  t20  29%  t30   8%
+  BTC 1D  prime           lift   +8  n=  65 win   60%  [16-21   66% (38) | 22-26   52% (27)]  green60  66%  safe  58%  ddpk   -4.5%  t20  29%  t30  15%
+  BTC 1D  prime+diamond   lift   +1  n=  19 win   53%  [16-21   69% (13) | 22-26    17% (6)]  green60  68%  safe  53%  ddpk   -4.3%  t20  21%  t30  11%
+  BTC 2D  A               lift   -4  n=  38 win   47%  [16-21   50% (18) | 22-26   45% (20)]  green60  53%  safe  47%  ddpk   -4.4%  t20  29%  t30   8%
+  BTC 2D  B               lift   -4  n=  52 win   48%  [16-21   61% (31) | 22-26   29% (21)]  green60  62%  safe  46%  ddpk   -3.7%  t20  35%  t30  19%
+  BTC 2D  C               lift   +8  n=  32 win   59%  [16-21   65% (23) | 22-26    44% (9)]  green60  69%  safe  53%  ddpk   -4.9%  t20  28%  t30  16%
+  BTC 2D  D               lift   +6  n=  19 win   58%  [16-21   64% (11) | 22-26    50% (8)]  green60  74%  safe  53%  ddpk   -7.9%  t20  26%  t30  16%
+  BTC 2D  diamond         lift   +4  n=  36 win   56%  [16-21   59% (17) | 22-26   53% (19)]  green60  53%  safe  50%  ddpk   -3.7%  t20  28%  t30  17%
+  BTC 2D  filled diamond  lift   +7  n=  24 win   58%  [16-21   60% (10) | 22-26   57% (14)]  green60  50%  safe  58%  ddpk   -2.5%  t20  21%  t30  12%
+  BTC 2D  hollow diamond  lift   -2  n=  12 win   50%  [16-21    57% (7) | 22-26    40% (5)]  green60  58%  safe  33%  ddpk   -7.8%  t20  42%  t30  25%
+  BTC 2D  A+diamond       lift   +8  n=  15 win   60%  [16-21    60% (5) | 22-26   60% (10)]  green60  47%  safe  60%  ddpk   -3.5%  t20  20%  t30  13%
+  BTC 2D  B+diamond       lift   -2  n=  10 win   50%  [16-21    60% (5) | 22-26    40% (5)]  green60  50%  safe  50%  ddpk   -1.6%  t20  30%  t30  10%
+  BTC 2D  prime           lift  +14  n=  29 win   66%  [16-21   62% (16) | 22-26   69% (13)]  green60  69%  safe  59%  ddpk   -3.6%  t20  34%  t30  21%
+  BTC 2D  prime+diamond   lift  +26  n=   9 win   78%  [16-21    67% (3) | 22-26    83% (6)]  green60  67%  safe  67%  ddpk   -1.8%  t20  33%  t30  33%
+  BTC 3D  A               lift   -1  n=  18 win   50%  [16-21    62% (8) | 22-26   40% (10)]  green60  50%  safe  44%  ddpk   -8.1%  t20  50%  t30  17%
+  BTC 3D  B               lift   -5  n=  37 win   46%  [16-21   57% (21) | 22-26   31% (16)]  green60  59%  safe  46%  ddpk   -3.3%  t20  22%  t30  11%
+  BTC 3D  C               lift   +1  n=  23 win   52%  [16-21   64% (14) | 22-26    33% (9)]  green60  74%  safe  39%  ddpk   -4.2%  t20  39%  t30  17%
+  BTC 3D  D               lift  +13  n=  14 win   64%  [16-21    89% (9) | 22-26    20% (5)]  green60  71%  safe  50%  ddpk   -8.2%  t20  21%  t30  14%
+  BTC 3D  diamond         lift   -1  n=  16 win   50%  [16-21    71% (7) | 22-26    33% (9)]  green60  56%  safe  44%  ddpk   -7.2%  t20  25%  t30   0%
+  BTC 3D  filled diamond  lift   +3  n=  11 win   55%  [16-21    60% (5) | 22-26    50% (6)]  green60  55%  safe  45%  ddpk   -9.4%  t20  36%  t30   0%
+  BTC 3D  hollow diamond  lift  -11  n=   5 win   40%  [16-21   100% (2) | 22-26     0% (3)]  green60  60%  safe  40%  ddpk   -6.9%  t20   0%  t30   0%
+  BTC 3D  A+diamond       lift  +32  n=   6 win   83%  [16-21   100% (3) | 22-26    67% (3)]  green60  67%  safe  67%  ddpk  -12.5%  t20  50%  t30   0%
+  BTC 3D  B+diamond       lift  -34  n=   6 win   17%  [16-21     0% (2) | 22-26    25% (4)]  green60  33%  safe  17%  ddpk   -2.1%  t20  17%  t30   0%
+  BTC 3D  prime           lift   -8  n=  14 win   43%  [16-21    83% (6) | 22-26    12% (8)]  green60  64%  safe  36%  ddpk   -7.1%  t20  29%  t30  21%
+  BTC 5D  A               lift   +3  n=   6 win   50%  [16-21    67% (3) | 22-26    33% (3)]  green60  50%  safe  50%  ddpk   -8.0%  t20  33%  t30   0%
+  BTC 5D  B               lift   -3  n=  23 win   43%  [16-21   62% (13) | 22-26   20% (10)]  green60  48%  safe  43%  ddpk   -3.4%  t20  43%  t30  22%
+  BTC 5D  C               lift   -1  n=  13 win   46%  [16-21    57% (7) | 22-26    33% (6)]  green60  69%  safe  46%  ddpk   -3.9%  t20  38%  t30   8%
+  BTC 5D  D               lift  +10  n=   7 win   57%  [16-21    67% (6) | 22-26     0% (1)]  green60  43%  safe  57%  ddpk   -7.5%  t20  29%  t30  29%
+  BTC 5D  diamond         lift  +10  n=  14 win   57%  [16-21   70% (10) | 22-26    25% (4)]  green60  36%  safe  57%  ddpk   -3.4%  t20  50%  t30  29%
+  BTC 5D  filled diamond  lift  +16  n=   8 win   62%  [16-21    80% (5) | 22-26    33% (3)]  green60  38%  safe  62%  ddpk   -3.4%  t20  50%  t30  25%
+  BTC 5D  hollow diamond  lift   +3  n=   6 win   50%  [16-21    60% (5) | 22-26     0% (1)]  green60  33%  safe  50%  ddpk   -3.9%  t20  50%  t30  33%
+  BTC 5D  B+diamond       lift   +3  n=   6 win   50%  [16-21    67% (3) | 22-26    33% (3)]  green60  33%  safe  50%  ddpk   -2.7%  t20  67%  t30  33%
+  BTC 5D  prime           lift  +13  n=  10 win   60%  [16-21    75% (8) | 22-26     0% (2)]  green60  80%  safe  60%  ddpk   -1.1%  t20  20%  t30  10%
+  BTC 8D  B               lift   -8  n=  12 win   42%  [16-21    29% (7) | 22-26    60% (5)]  green60  58%  safe  42%  ddpk   -4.0%  t20  42%  t30  25%
+  BTC 8D  C               lift   +6  n=   9 win   56%  [16-21    80% (5) | 22-26    25% (4)]  green60  56%  safe  56%  ddpk   -1.5%  t20  33%  t30   0%
+  BTC 8D  D               lift  +10  n=   5 win   60%  [16-21    75% (4) | 22-26     0% (1)]  green60  60%  safe  60%  ddpk  -10.1%  t20  60%  t30   0%
+  BTC 8D  diamond         lift  +17  n=   6 win   67%  [16-21    80% (5) | 22-26     0% (1)]  green60  67%  safe  67%  ddpk   -2.3%  t20  50%  t30   0%
+  BTC 8D  prime           lift  +36  n=   7 win   86%  [16-21   100% (5) | 22-26    50% (2)]  green60  86%  safe  86%  ddpk   -1.0%  t20  29%  t30   0%
+
+LAYER 3  filters (lift vs the same group without the filter)
+  CT>Signal by 5+          ETH 1D     lift  +19 (without 57%, 7/9 yrs ahead)  n=  51 win   76%  [16-21   86% (28) | 22-26   65% (23)]  green60  69%  safe  75%  ddpk   -4.9%  t20  33%  t30  24%
+  CT>Signal by 5+          ETH 2D     lift  +32 (without 55%, 5/8 yrs ahead)  n=  30 win   87%  [16-21   91% (23) | 22-26    71% (7)]  green60  70%  safe  87%  ddpk   -6.1%  t20  30%  t30  17%
+  CT>Signal by 5+          ETH 3D     lift   +5 (without 54%, 3/7 yrs ahead)  n=  22 win   59%  [16-21    78% (9) | 22-26   46% (13)]  green60  73%  safe  59%  ddpk   -6.7%  t20  23%  t30  14%
+  CT>Signal by 5+          ETH 5D     lift   -1 (without 71%, 2/8 yrs ahead)  n=  13 win   69%  [16-21    57% (7) | 22-26    83% (6)]  green60  69%  safe  62%  ddpk   -5.9%  t20  38%  t30  23%
+  CT>Signal by 5+          ETH 8D     lift  +12 (without 75%, 3/6 yrs ahead)  n=   8 win   88%  [16-21    75% (4) | 22-26   100% (4)]  green60  75%  safe  88%  ddpk   -6.9%  t20  25%  t30  12%
+  CT>Signal by 5+          BTC 1D     lift  +24 (without 47%, 9/9 yrs ahead)  n=  49 win   71%  [16-21   81% (26) | 22-26   61% (23)]  green60  73%  safe  69%  ddpk   -4.0%  t20  20%  t30   6%
+  CT>Signal by 5+          BTC 2D     lift  +17 (without 48%, 7/8 yrs ahead)  n=  29 win   66%  [16-21   79% (14) | 22-26   53% (15)]  green60  66%  safe  66%  ddpk   -3.2%  t20  21%  t30  10%
+  CT>Signal by 5+          BTC 3D     lift   -1 (without 51%, 3/7 yrs ahead)  n=  18 win   50%  [16-21    75% (8) | 22-26   30% (10)]  green60  67%  safe  33%  ddpk   -5.7%  t20  33%  t30  11%
+  CT>Signal by 5+          BTC 5D     lift  +10 (without 45%, 3/7 yrs ahead)  n=  11 win   55%  [16-21    83% (6) | 22-26    20% (5)]  green60  45%  safe  55%  ddpk   -3.4%  t20  18%  t30   9%
+  CT>Signal by 5+          ETH pooled lift  +18 (without 58%, 9/9 yrs ahead)  n= 124 win   76%  [16-21   83% (71) | 22-26   66% (53)]  green60  70%  safe  74%  ddpk   -6.0%  t20  31%  t30  19%
+  CT>Signal by 5+          BTC pooled lift  +15 (without 48%, 9/9 yrs ahead)  n= 111 win   63%  [16-21   77% (57) | 22-26   48% (54)]  green60  66%  safe  59%  ddpk   -3.9%  t20  24%  t30   9%
+  CT>Signal + prime        ETH 1D     lift   +4 (without 60%, 5/8 yrs ahead)  n=  34 win   65%  [16-21   77% (22) | 22-26   42% (12)]  green60  56%  safe  65%  ddpk   -6.3%  t20  44%  t30  38%
+  CT>Signal + prime        ETH 2D     lift  +30 (without 57%, 6/8 yrs ahead)  n=  23 win   87%  [16-21   79% (14) | 22-26   100% (9)]  green60  70%  safe  83%  ddpk   -4.1%  t20  30%  t30  22%
+  CT>Signal + prime        ETH 3D     lift  +44 (without 49%, 6/7 yrs ahead)  n=  13 win   92%  [16-21    89% (9) | 22-26   100% (4)]  green60  77%  safe  92%  ddpk   -5.3%  t20  23%  t30  15%
+  CT>Signal + prime        BTC 1D     lift  +21 (without 49%, 7/9 yrs ahead)  n=  30 win   70%  [16-21   70% (20) | 22-26   70% (10)]  green60  73%  safe  67%  ddpk   -3.6%  t20  33%  t30  23%
+  CT>Signal + prime        BTC 2D     lift  +26 (without 49%, 7/7 yrs ahead)  n=  16 win   75%  [16-21    83% (6) | 22-26   70% (10)]  green60  81%  safe  69%  ddpk   -1.9%  t20  25%  t30  12%
+  CT>Signal + prime        ETH pooled lift  +17 (without 60%, 6/9 yrs ahead)  n=  74 win   77%  [16-21   79% (48) | 22-26   73% (26)]  green60  65%  safe  76%  ddpk   -5.3%  t20  35%  t30  28%
+  CT>Signal + prime        BTC pooled lift  +23 (without 49%, 8/9 yrs ahead)  n=  54 win   72%  [16-21   77% (31) | 22-26   65% (23)]  green60  78%  safe  69%  ddpk   -3.5%  t20  30%  t30  19%
+  CT>Signal + diamond      ETH 1D     lift  +29 (without 58%, 8/8 yrs ahead)  n=  24 win   88%  [16-21   94% (17) | 22-26    71% (7)]  green60  71%  safe  83%  ddpk   -7.9%  t20  29%  t30  25%
+  CT>Signal + diamond      ETH 2D     lift  +34 (without 57%, 6/8 yrs ahead)  n=  21 win   90%  [16-21   87% (15) | 22-26   100% (6)]  green60  86%  safe  81%  ddpk   -4.1%  t20  24%  t30  19%
+  CT>Signal + diamond      ETH 3D     lift   -6 (without 56%, 3/6 yrs ahead)  n=   8 win   50%  [16-21    75% (4) | 22-26    25% (4)]  green60  62%  safe  50%  ddpk  -10.1%  t20  25%  t30  12%
+  CT>Signal + diamond      BTC 1D     lift  +10 (without 50%, 5/10 yrs ahead)  n=  35 win   60%  [16-21   73% (22) | 22-26   38% (13)]  green60  71%  safe  54%  ddpk   -3.9%  t20  26%  t30  17%
+  CT>Signal + diamond      BTC 2D     lift   +7 (without 51%, 5/6 yrs ahead)  n=  19 win   58%  [16-21    75% (8) | 22-26   45% (11)]  green60  58%  safe  53%  ddpk   -2.1%  t20  21%  t30  11%
+  CT>Signal + diamond      ETH pooled lift  +22 (without 59%, 8/9 yrs ahead)  n=  60 win   82%  [16-21   88% (40) | 22-26   70% (20)]  green60  75%  safe  75%  ddpk   -5.5%  t20  28%  t30  22%
+  CT>Signal + diamond      BTC pooled lift  +11 (without 50%, 7/10 yrs ahead)  n=  66 win   61%  [16-21   74% (38) | 22-26   43% (28)]  green60  65%  safe  56%  ddpk   -3.7%  t20  26%  t30  14%
+  higher entry             ETH 1D     lift  +18 (without 52%, 7/9 yrs ahead)  n= 145 win   70%  [16-21   76% (97) | 22-26   56% (48)]  green60  63%  safe  67%  ddpk   -6.1%  t20  37%  t30  24%
+  higher entry             ETH 2D     lift  +20 (without 51%, 4/9 yrs ahead)  n=  76 win   71%  [16-21   75% (53) | 22-26   61% (23)]  green60  64%  safe  67%  ddpk   -4.8%  t20  39%  t30  24%
+  higher entry             ETH 3D     lift  +10 (without 50%, 2/9 yrs ahead)  n=  45 win   60%  [16-21   76% (25) | 22-26   40% (20)]  green60  64%  safe  58%  ddpk   -7.8%  t20  31%  t30  22%
+  higher entry             ETH 5D     lift   +6 (without 67%, 1/7 yrs ahead)  n=  26 win   73%  [16-21   80% (15) | 22-26   64% (11)]  green60  77%  safe  69%  ddpk   -5.6%  t20  19%  t30  12%
+  higher entry             ETH 8D     lift   -1 (without 80%, 0/6 yrs ahead)  n=  14 win   79%  [16-21    88% (8) | 22-26    67% (6)]  green60  64%  safe  79%  ddpk   -4.5%  t20  21%  t30  14%
+  higher entry             BTC 1D     lift  +11 (without 46%, 7/10 yrs ahead)  n= 154 win   56%  [16-21   67% (94) | 22-26   40% (60)]  green60  67%  safe  52%  ddpk   -4.3%  t20  28%  t30  14%
+  higher entry             BTC 2D     lift  +16 (without 42%, 6/9 yrs ahead)  n=  82 win   59%  [16-21   66% (50) | 22-26   47% (32)]  green60  70%  safe  56%  ddpk   -3.9%  t20  27%  t30  16%
+  higher entry             BTC 3D     lift  +11 (without 45%, 3/9 yrs ahead)  n=  52 win   56%  [16-21   70% (30) | 22-26   36% (22)]  green60  69%  safe  52%  ddpk   -4.8%  t20  23%  t30  15%
+  higher entry             BTC 5D     lift  +12 (without 40%, 4/8 yrs ahead)  n=  29 win   52%  [16-21   76% (17) | 22-26   17% (12)]  green60  59%  safe  52%  ddpk   -3.4%  t20  31%  t30  17%
+  higher entry             BTC 8D     lift  +37 (without 27%, 1/7 yrs ahead)  n=  17 win   65%  [16-21   73% (11) | 22-26    50% (6)]  green60  65%  safe  65%  ddpk   -4.8%  t20  35%  t30  12%
+  higher entry             ETH pooled lift  +16 (without 53%, 5/9 yrs ahead)  n= 306 win   69%  [16-21  77% (198) | 22-26  56% (108)]  green60  65%  safe  66%  ddpk   -5.9%  t20  35%  t30  22%
+  higher entry             BTC pooled lift  +13 (without 44%, 5/10 yrs ahead)  n= 334 win   57%  [16-21  68% (202) | 22-26  39% (132)]  green60  67%  safe  54%  ddpk   -4.1%  t20  28%  t30  15%
+  2+ own charts before     ETH 1D     lift   +8 (without 58%, 7/9 yrs ahead)  n=  81 win   67%  [16-21   77% (43) | 22-26   55% (38)]  green60  60%  safe  65%  ddpk   -6.4%  t20  28%  t30  15%
+  2+ own charts before     ETH 2D     lift  +14 (without 58%, 5/10 yrs ahead)  n=  45 win   71%  [16-21   76% (25) | 22-26   65% (20)]  green60  67%  safe  71%  ddpk   -4.9%  t20  31%  t30  18%
+  2+ own charts before     ETH 3D     lift  +33 (without 25%, 4/6 yrs ahead)  n=  79 win   58%  [16-21   67% (45) | 22-26   47% (34)]  green60  63%  safe  54%  ddpk   -5.3%  t20  37%  t30  28%
+  2+ own charts before     BTC 1D     lift   +2 (without 51%, 5/10 yrs ahead)  n=  89 win   53%  [16-21   59% (54) | 22-26   43% (35)]  green60  65%  safe  52%  ddpk   -3.4%  t20  27%  t30  13%
+  2+ own charts before     BTC 2D     lift   +2 (without 51%, 4/10 yrs ahead)  n=  55 win   53%  [16-21   62% (29) | 22-26   42% (26)]  green60  67%  safe  51%  ddpk   -3.9%  t20  29%  t30  16%
+  2+ own charts before     BTC 5D     lift  +30 (without 22%, 3/5 yrs ahead)  n=  40 win   52%  [16-21   65% (26) | 22-26   29% (14)]  green60  58%  safe  52%  ddpk   -3.8%  t20  30%  t30  18%
+  2+ own charts before     BTC 8D     lift  +25 (without 33%, 1/7 yrs ahead)  n=  19 win   58%  [16-21   67% (12) | 22-26    43% (7)]  green60  58%  safe  58%  ddpk   -4.5%  t20  42%  t30  16%
+  2+ own charts before     ETH pooled lift   +8 (without 58%, 6/10 yrs ahead)  n= 264 win   66%  [16-21  73% (147) | 22-26  56% (117)]  green60  64%  safe  64%  ddpk   -5.5%  t20  31%  t30  20%
+  2+ own charts before     BTC pooled lift   +1 (without 50%, 4/10 yrs ahead)  n= 288 win   52%  [16-21  62% (167) | 22-26  37% (121)]  green60  63%  safe  49%  ddpk   -4.2%  t20  30%  t30  15%
+  8D rising                ETH 1D     lift  +15 (without 54%, 5/8 yrs ahead)  n= 124 win   69%  [16-21   75% (77) | 22-26   60% (47)]  green60  63%  safe  66%  ddpk   -7.1%  t20  33%  t30  20%
+  8D rising                ETH 2D     lift  +27 (without 52%, 7/9 yrs ahead)  n=  52 win   79%  [16-21   84% (31) | 22-26   71% (21)]  green60  75%  safe  75%  ddpk   -6.3%  t20  29%  t30  19%
+  8D rising                ETH 3D     lift  +19 (without 45%, 5/9 yrs ahead)  n=  49 win   63%  [16-21   77% (26) | 22-26   48% (23)]  green60  65%  safe  59%  ddpk   -8.7%  t20  35%  t30  24%
+  8D rising                ETH 5D     lift   -9 (without 78%, 2/6 yrs ahead)  n=  38 win   68%  [16-21   75% (20) | 22-26   61% (18)]  green60  68%  safe  66%  ddpk   -5.3%  t20  29%  t30  16%
+  8D rising                ETH 8D     lift  +33 (without 60%, 2/5 yrs ahead)  n=  14 win   93%  [16-21    89% (9) | 22-26   100% (5)]  green60  79%  safe  93%  ddpk   -3.2%  t20  14%  t30   7%
+  8D rising                BTC 1D     lift  +17 (without 43%, 6/9 yrs ahead)  n= 143 win   60%  [16-21   68% (91) | 22-26   46% (52)]  green60  70%  safe  56%  ddpk   -4.5%  t20  26%  t30  12%
+  8D rising                BTC 2D     lift   +7 (without 49%, 6/8 yrs ahead)  n=  65 win   55%  [16-21   68% (34) | 22-26   42% (31)]  green60  68%  safe  51%  ddpk   -4.8%  t20  26%  t30  14%
+  8D rising                BTC 3D     lift   +6 (without 47%, 4/9 yrs ahead)  n=  54 win   54%  [16-21   68% (31) | 22-26   35% (23)]  green60  70%  safe  44%  ddpk   -5.5%  t20  30%  t30  15%
+  8D rising                BTC 8D     lift  +35 (without 25%, 1/5 yrs ahead)  n=  20 win   60%  [16-21   62% (13) | 22-26    57% (7)]  green60  65%  safe  60%  ddpk   -4.6%  t20  35%  t30  15%
+  8D rising                ETH pooled lift  +18 (without 53%, 7/10 yrs ahead)  n= 277 win   71%  [16-21  78% (163) | 22-26  61% (114)]  green60  67%  safe  68%  ddpk   -6.3%  t20  31%  t30  19%
+  8D rising                BTC pooled lift  +12 (without 44%, 7/10 yrs ahead)  n= 326 win   56%  [16-21  67% (196) | 22-26  41% (130)]  green60  67%  safe  52%  ddpk   -4.7%  t20  29%  t30  13%
+  8D rising + higher entry ETH 1D     lift  +20 (without 54%, 7/8 yrs ahead)  n=  91 win   75%  [16-21   79% (58) | 22-26   67% (33)]  green60  64%  safe  70%  ddpk   -6.0%  t20  32%  t30  21%
+  8D rising + higher entry ETH 2D     lift  +34 (without 53%, 5/6 yrs ahead)  n=  38 win   87%  [16-21   91% (23) | 22-26   80% (15)]  green60  79%  safe  82%  ddpk   -6.1%  t20  26%  t30  13%
+  8D rising + higher entry ETH 3D     lift  +15 (without 50%, 3/8 yrs ahead)  n=  31 win   65%  [16-21   76% (17) | 22-26   50% (14)]  green60  61%  safe  65%  ddpk   -8.2%  t20  29%  t30  23%
+  8D rising + higher entry ETH 5D     lift  +10 (without 65%, 2/7 yrs ahead)  n=  24 win   75%  [16-21   79% (14) | 22-26   70% (10)]  green60  75%  safe  71%  ddpk   -5.6%  t20  21%  t30  12%
+  8D rising + higher entry ETH 8D     lift  +33 (without 67%, 2/6 yrs ahead)  n=   9 win  100%  [16-21   100% (5) | 22-26   100% (4)]  green60  78%  safe 100%  ddpk   -5.9%  t20  11%  t30  11%
+  8D rising + higher entry BTC 1D     lift  +14 (without 46%, 6/9 yrs ahead)  n= 114 win   60%  [16-21   69% (72) | 22-26   43% (42)]  green60  71%  safe  55%  ddpk   -4.6%  t20  26%  t30  14%
+  8D rising + higher entry BTC 2D     lift  +16 (without 46%, 7/8 yrs ahead)  n=  50 win   62%  [16-21   74% (27) | 22-26   48% (23)]  green60  72%  safe  58%  ddpk   -3.9%  t20  22%  t30  10%
+  8D rising + higher entry BTC 3D     lift  +10 (without 47%, 3/8 yrs ahead)  n=  33 win   58%  [16-21   71% (21) | 22-26   33% (12)]  green60  73%  safe  52%  ddpk   -4.4%  t20  24%  t30  15%
+  8D rising + higher entry BTC 5D     lift  +19 (without 36%, 4/8 yrs ahead)  n=  27 win   56%  [16-21   81% (16) | 22-26   18% (11)]  green60  63%  safe  56%  ddpk   -3.2%  t20  26%  t30  15%
+  8D rising + higher entry BTC 8D     lift  +36 (without 31%, 1/7 yrs ahead)  n=  15 win   67%  [16-21   70% (10) | 22-26    60% (5)]  green60  67%  safe  67%  ddpk   -6.6%  t20  33%  t30  13%
+  8D rising + higher entry ETH pooled lift  +22 (without 54%, 8/8 yrs ahead)  n= 193 win   77%  [16-21  82% (117) | 22-26   68% (76)]  green60  68%  safe  73%  ddpk   -6.0%  t20  28%  t30  18%
+  8D rising + higher entry BTC pooled lift  +15 (without 45%, 7/9 yrs ahead)  n= 239 win   60%  [16-21  72% (146) | 22-26   41% (93)]  green60  70%  safe  56%  ddpk   -4.4%  t20  26%  t30  13%
+  8D rising + CT>Signal    ETH 1D     lift  +19 (without 55%, 7/8 yrs ahead)  n=  82 win   74%  [16-21   82% (49) | 22-26   64% (33)]  green60  63%  safe  71%  ddpk   -6.1%  t20  29%  t30  20%
+  8D rising + CT>Signal    ETH 2D     lift  +32 (without 53%, 7/9 yrs ahead)  n=  39 win   85%  [16-21   91% (22) | 22-26   76% (17)]  green60  79%  safe  79%  ddpk   -6.4%  t20  23%  t30  13%
+  8D rising + CT>Signal    ETH 3D     lift  +10 (without 52%, 5/10 yrs ahead)  n=  29 win   62%  [16-21   80% (15) | 22-26   43% (14)]  green60  69%  safe  62%  ddpk   -9.6%  t20  24%  t30  14%
+  8D rising + CT>Signal    ETH 5D     lift   +6 (without 67%, 3/8 yrs ahead)  n=  26 win   73%  [16-21   77% (13) | 22-26   69% (13)]  green60  69%  safe  69%  ddpk   -5.6%  t20  31%  t30  15%
+  8D rising + CT>Signal    ETH 8D     lift  +12 (without 75%, 2/7 yrs ahead)  n=   8 win   88%  [16-21    75% (4) | 22-26   100% (4)]  green60  75%  safe  88%  ddpk   -5.0%  t20  12%  t30   0%
+  8D rising + CT>Signal    BTC 1D     lift  +17 (without 46%, 7/9 yrs ahead)  n=  92 win   63%  [16-21   70% (60) | 22-26   50% (32)]  green60  72%  safe  58%  ddpk   -4.2%  t20  30%  t30  16%
+  8D rising + CT>Signal    BTC 2D     lift  +15 (without 47%, 7/8 yrs ahead)  n=  47 win   62%  [16-21   71% (24) | 22-26   52% (23)]  green60  70%  safe  57%  ddpk   -4.2%  t20  23%  t30  11%
+  8D rising + CT>Signal    BTC 3D     lift  +25 (without 43%, 5/8 yrs ahead)  n=  31 win   68%  [16-21   78% (18) | 22-26   54% (13)]  green60  81%  safe  58%  ddpk   -5.5%  t20  23%  t30   6%
+  8D rising + CT>Signal    BTC 5D     lift   -3 (without 48%, 3/9 yrs ahead)  n=  22 win   45%  [16-21   70% (10) | 22-26   25% (12)]  green60  50%  safe  45%  ddpk   -4.6%  t20  32%  t30   9%
+  8D rising + CT>Signal    BTC 8D     lift  +14 (without 43%, 1/7 yrs ahead)  n=  14 win   57%  [16-21    67% (9) | 22-26    40% (5)]  green60  64%  safe  57%  ddpk   -5.7%  t20  36%  t30   7%
+  8D rising + CT>Signal    ETH pooled lift  +19 (without 56%, 9/10 yrs ahead)  n= 184 win   75%  [16-21  83% (103) | 22-26   65% (81)]  green60  69%  safe  72%  ddpk   -6.2%  t20  27%  t30  16%
+  8D rising + CT>Signal    BTC pooled lift  +15 (without 46%, 7/10 yrs ahead)  n= 206 win   61%  [16-21  71% (121) | 22-26   47% (85)]  green60  70%  safe  56%  ddpk   -4.4%  t20  28%  t30  12%
+  8D rising + prime        ETH 1D     lift   +1 (without 61%, 4/7 yrs ahead)  n=  34 win   62%  [16-21   73% (22) | 22-26   42% (12)]  green60  56%  safe  59%  ddpk   -6.4%  t20  32%  t30  21%
+  8D rising + prime        ETH 2D     lift  +43 (without 57%, 5/6 yrs ahead)  n=  15 win  100%  [16-21   100% (7) | 22-26   100% (8)]  green60  87%  safe  93%  ddpk   -5.3%  t20  20%  t30   7%
+  8D rising + prime        ETH 3D     lift  +44 (without 49%, 5/6 yrs ahead)  n=  13 win   92%  [16-21    88% (8) | 22-26   100% (5)]  green60  77%  safe  92%  ddpk   -5.3%  t20  23%  t30  15%
+  8D rising + prime        BTC 1D     lift   +6 (without 51%, 5/9 yrs ahead)  n=  44 win   57%  [16-21   62% (24) | 22-26   50% (20)]  green60  61%  safe  55%  ddpk   -5.1%  t20  32%  t30  16%
+  8D rising + prime        BTC 2D     lift  +14 (without 50%, 6/7 yrs ahead)  n=  14 win   64%  [16-21    57% (7) | 22-26    71% (7)]  green60  71%  safe  57%  ddpk   -3.8%  t20  36%  t30  21%
+  8D rising + prime        BTC 5D     lift  +19 (without 44%, 1/5 yrs ahead)  n=   8 win   62%  [16-21    71% (7) | 22-26     0% (1)]  green60  88%  safe  62%  ddpk   -1.9%  t20  12%  t30  12%
+  8D rising + prime        ETH pooled lift  +19 (without 59%, 6/7 yrs ahead)  n=  70 win   79%  [16-21   81% (43) | 22-26   74% (27)]  green60  70%  safe  76%  ddpk   -5.4%  t20  26%  t30  16%
+  8D rising + prime        BTC pooled lift  +11 (without 50%, 7/9 yrs ahead)  n=  77 win   61%  [16-21   68% (44) | 22-26   52% (33)]  green60  69%  safe  58%  ddpk   -4.5%  t20  29%  t30  16%
+  8D rising + diamond      ETH 1D     lift  +30 (without 58%, 6/8 yrs ahead)  n=  25 win   88%  [16-21   84% (19) | 22-26   100% (6)]  green60  84%  safe  80%  ddpk   -8.0%  t20  20%  t30  12%
+  8D rising + diamond      ETH 2D     lift  +20 (without 60%, 4/7 yrs ahead)  n=  15 win   80%  [16-21    88% (8) | 22-26    71% (7)]  green60  87%  safe  73%  ddpk   -5.4%  t20  27%  t30  13%
+  8D rising + diamond      ETH 3D     lift  +11 (without 53%, 2/7 yrs ahead)  n=  14 win   64%  [16-21   60% (10) | 22-26    75% (4)]  green60  64%  safe  64%  ddpk   -9.8%  t20  36%  t30  29%
+  8D rising + diamond      ETH 5D     lift   +6 (without 69%, 2/6 yrs ahead)  n=   8 win   75%  [16-21   100% (4) | 22-26    50% (4)]  green60  75%  safe  62%  ddpk   -3.5%  t20  25%  t30  12%
+  8D rising + diamond      BTC 1D     lift   +5 (without 51%, 3/9 yrs ahead)  n=  32 win   56%  [16-21   74% (23) | 22-26    11% (9)]  green60  72%  safe  50%  ddpk   -3.5%  t20  25%  t30  12%
+  8D rising + diamond      BTC 2D     lift   +6 (without 51%, 4/5 yrs ahead)  n=  14 win   57%  [16-21    80% (5) | 22-26    44% (9)]  green60  57%  safe  50%  ddpk   -3.0%  t20  21%  t30  14%
+  8D rising + diamond      BTC 3D     lift   -6 (without 52%, 4/8 yrs ahead)  n=  11 win   45%  [16-21    80% (5) | 22-26    17% (6)]  green60  55%  safe  36%  ddpk   -7.0%  t20  27%  t30   0%
+  8D rising + diamond      BTC 5D     lift  +26 (without 41%, 4/8 yrs ahead)  n=  12 win   67%  [16-21    78% (9) | 22-26    33% (3)]  green60  42%  safe  67%  ddpk   -3.4%  t20  42%  t30  25%
+  8D rising + diamond      ETH pooled lift  +21 (without 59%, 8/9 yrs ahead)  n=  65 win   80%  [16-21   81% (43) | 22-26   77% (22)]  green60  80%  safe  74%  ddpk   -6.9%  t20  25%  t30  15%
+  8D rising + diamond      BTC pooled lift   +7 (without 50%, 6/10 yrs ahead)  n=  73 win   58%  [16-21   76% (46) | 22-26   26% (27)]  green60  62%  safe  52%  ddpk   -3.9%  t20  29%  t30  12%
+
+LAYER 4  confluence, backward only (confirmer confirmed 0-10 days before entry)
+  713 cells tested; 83 survivors; 49 small-sample highs
+  SURV ETH 5D  all             <- ETH 1D  B        lift  +30 (without 59%; by period +23/+38; 4/8 yrs)  n=  18 win   89%  [16-21   90% (10) | 22-26    88% (8)]  green60  89%  safe  83%  ddpk   -6.3%  t20  17%  t30   0%
+  SURV ETH 2D  prime           <- BTC 1D  B        lift  +12 (without 75%; by period +16/+4; 3/8 yrs)  n=  15 win   87%  [16-21    86% (7) | 22-26    88% (8)]  green60  73%  safe  80%  ddpk   -2.6%  t20  33%  t30  13%
+  SURV ETH 2D  B               <- ETH 1D  diamond  lift  +31 (without 55%; by period +35/+10; 3/8 yrs)  n=  21 win   86%  [16-21   94% (16) | 22-26    60% (5)]  green60  76%  safe  81%  ddpk   -4.9%  t20  24%  t30  14%
+  SURV BTC 3D  all             <- ETH 3D  prime    lift  +40 (without 43%; by period +32/+47; 7/8 yrs)  n=  18 win   83%  [16-21   91% (11) | 22-26    71% (7)]  green60  89%  safe  83%  ddpk   -3.0%  t20  11%  t30   6%
+  SURV ETH 5D  all             <- BTC 1D  B        lift  +22 (without 60%; by period +18/+24; 4/8 yrs)  n=  22 win   82%  [16-21   85% (13) | 22-26    78% (9)]  green60  86%  safe  73%  ddpk   -6.3%  t20  23%  t30   9%
+  SURV ETH 2D  B               <- BTC 1D  diamond  lift  +22 (without 60%; by period +22/+19; 3/8 yrs)  n=  16 win   81%  [16-21   90% (10) | 22-26    67% (6)]  green60  81%  safe  75%  ddpk   -5.1%  t20  25%  t30  12%
+  SURV ETH 5D  all             <- ETH 2D  B        lift  +17 (without 65%; by period +7/+27; 3/8 yrs)  n=  16 win   81%  [16-21   80% (10) | 22-26    83% (6)]  green60  88%  safe  75%  ddpk   -4.5%  t20  19%  t30  19%
+  SURV ETH 1D  prime           <- BTC 3D  any      lift  +29 (without 51%; by period +29/+53; 6/8 yrs)  n=  25 win   80%  [16-21   92% (12) | 22-26   69% (13)]  green60  64%  safe  76%  ddpk   -4.9%  t20  32%  t30  16%
+  SURV ETH 2D  B               <- BTC 3D  any      lift  +22 (without 58%; by period +24/+23; 3/7 yrs)  n=  20 win   80%  [16-21   91% (11) | 22-26    67% (9)]  green60  70%  safe  80%  ddpk   -4.8%  t20  20%  t30  15%
+  SURV ETH 1D  all             <- ETH 5D  A        lift  +20 (without 60%; by period +17/+28; 6/8 yrs)  n=  15 win   80%  [16-21    88% (8) | 22-26    71% (7)]  green60  73%  safe  73%  ddpk   -4.5%  t20  27%  t30   7%
+  SURV ETH 1D  all             <- ETH 2D  prime    lift  +19 (without 59%; by period +11/+32; 7/8 yrs)  n=  31 win   77%  [16-21   81% (16) | 22-26   73% (15)]  green60  71%  safe  77%  ddpk   -6.3%  t20  26%  t30  19%
+  SURV ETH 2D  all             <- BTC 3D  any      lift  +21 (without 56%; by period +14/+32; 7/10 yrs)  n=  39 win   77%  [16-21   82% (22) | 22-26   71% (17)]  green60  69%  safe  74%  ddpk   -6.4%  t20  28%  t30  23%
+  SURV ETH 2D  all             <- BTC 3D  B        lift  +16 (without 60%; by period +12/+21; 4/7 yrs)  n=  17 win   76%  [16-21   82% (11) | 22-26    67% (6)]  green60  71%  safe  76%  ddpk   -4.8%  t20  29%  t30  24%
+  SURV ETH 5D  all             <- ETH 1D  any      lift  +19 (without 57%; by period +12/+21; 4/6 yrs)  n=  33 win   76%  [16-21   79% (19) | 22-26   71% (14)]  green60  79%  safe  73%  ddpk   -5.4%  t20  24%  t30  12%
+  SURV ETH 1D  all             <- BTC 3D  B        lift  +17 (without 58%; by period +22/+15; 6/9 yrs)  n=  40 win   75%  [16-21   90% (21) | 22-26   58% (19)]  green60  65%  safe  75%  ddpk   -6.0%  t20  18%  t30  10%
+  SURV ETH 2D  all             <- BTC 1D  diamond  lift  +17 (without 58%; by period +8/+27; 6/10 yrs)  n=  32 win   75%  [16-21   77% (22) | 22-26   70% (10)]  green60  69%  safe  69%  ddpk   -4.9%  t20  38%  t30  25%
+  SURV ETH 3D  all             <- ETH 2D  prime    lift  +26 (without 49%; by period +11/+43; 5/8 yrs)  n=  20 win   75%  [16-21   75% (12) | 22-26    75% (8)]  green60  75%  safe  70%  ddpk   -6.7%  t20  35%  t30  20%
+  SURV BTC 2D  prime           <- ETH 2D  any      lift  +31 (without 44%; by period +47/+3; 3/5 yrs)  n=  20 win   75%  [16-21   80% (10) | 22-26   70% (10)]  green60  75%  safe  70%  ddpk   -2.6%  t20  25%  t30  15%
+  SURV BTC 1D  C               <- ETH 1D  prime    lift  +22 (without 53%; by period +25/+6; 3/7 yrs)  n=  16 win   75%  [16-21  100% (10) | 22-26    33% (6)]  green60  81%  safe  69%  ddpk   -8.5%  t20   6%  t30   0%
+  SURV ETH 2D  all             <- ETH 5D  any      lift  +14 (without 60%; by period +19/+14; 4/8 yrs)  n=  19 win   74%  [16-21    89% (9) | 22-26   60% (10)]  green60  74%  safe  74%  ddpk   -4.9%  t20  26%  t30  11%
+  SURV ETH 5D  all             <- BTC 1D  any      lift  +12 (without 62%; by period +12/+10; 2/7 yrs)  n=  34 win   74%  [16-21   79% (19) | 22-26   67% (15)]  green60  76%  safe  68%  ddpk   -5.7%  t20  29%  t30  15%
+  SURV BTC 3D  all             <- BTC 2D  prime    lift  +27 (without 47%; by period +28/+21; 7/8 yrs)  n=  15 win   73%  [16-21    89% (9) | 22-26    50% (6)]  green60  80%  safe  67%  ddpk   -2.9%  t20  27%  t30  13%
+  SURV ETH 1D  all             <- ETH 3D  prime    lift  +13 (without 60%; by period +9/+24; 7/9 yrs)  n=  22 win   73%  [16-21   80% (10) | 22-26   67% (12)]  green60  68%  safe  73%  ddpk   -4.5%  t20  27%  t30  14%
+  SURV ETH 2D  all             <- BTC 2D  prime    lift  +13 (without 60%; by period +10/+23; 6/8 yrs)  n=  22 win   73%  [16-21   80% (10) | 22-26   67% (12)]  green60  64%  safe  68%  ddpk   -5.6%  t20  36%  t30  18%
+  SURV BTC 2D  C               <- ETH 2D  any      lift  +43 (without 30%; by period +42/+57; 4/5 yrs)  n=  22 win   73%  [16-21   80% (15) | 22-26    57% (7)]  green60  77%  safe  68%  ddpk   -5.3%  t20  18%  t30   9%
+  SURV ETH 1D  all             <- BTC 3D  any      lift  +18 (without 55%; by period +19/+22; 9/10 yrs)  n=  95 win   73%  [16-21   84% (51) | 22-26   59% (44)]  green60  66%  safe  66%  ddpk   -6.0%  t20  35%  t30  23%
+  SURV ETH 1D  A               <- BTC 3D  any      lift  +32 (without 40%; by period +28/+37; 8/10 yrs)  n=  32 win   72%  [16-21   80% (15) | 22-26   65% (17)]  green60  72%  safe  59%  ddpk   -6.6%  t20  41%  t30  28%
+  SURV BTC 1D  prime           <- ETH 3D  any      lift  +17 (without 55%; by period +20/+7; 3/7 yrs)  n=  21 win   71%  [16-21   79% (14) | 22-26    57% (7)]  green60  81%  safe  67%  ddpk   -5.5%  t20  29%  t30  19%
+  SURV ETH 2D  all             <- ETH 1D  diamond  lift  +12 (without 58%; by period +6/+9; 6/10 yrs)  n=  41 win   71%  [16-21   75% (32) | 22-26    56% (9)]  green60  66%  safe  66%  ddpk   -6.4%  t20  39%  t30  24%
+  SURV ETH 2D  B               <- BTC 2D  any      lift  +20 (without 50%; by period +10/+62; 4/7 yrs)  n=  47 win   70%  [16-21   77% (26) | 22-26   62% (21)]  green60  68%  safe  68%  ddpk   -4.9%  t20  28%  t30  21%
+  SURV BTC 1D  all             <- ETH 3D  prime    lift  +20 (without 50%; by period +26/+14; 8/9 yrs)  n=  23 win   70%  [16-21   85% (13) | 22-26   50% (10)]  green60  87%  safe  65%  ddpk   -2.7%  t20  13%  t30   4%
+  SURV ETH 3D  B               <- BTC 3D  B        lift  +31 (without 38%; by period +51/+3; 3/7 yrs)  n=  16 win   69%  [16-21    89% (9) | 22-26    43% (7)]  green60  75%  safe  69%  ddpk   -5.3%  t20  19%  t30  19%
+  SURV BTC 8D  all             <- BTC 1D  B        lift  +44 (without 25%; by period +27/+67; 1/6 yrs)  n=  16 win   69%  [16-21   70% (10) | 22-26    67% (6)]  green60  69%  safe  69%  ddpk   -4.1%  t20  31%  t30  12%
+  SURV ETH 1D  B               <- BTC 3D  any      lift  +15 (without 53%; by period +21/+21; 5/8 yrs)  n=  44 win   68%  [16-21   83% (23) | 22-26   52% (21)]  green60  66%  safe  66%  ddpk   -4.8%  t20  27%  t30  18%
+  SURV ETH 1D  B               <- BTC 3D  B        lift  +12 (without 56%; by period +26/+5; 4/7 yrs)  n=  22 win   68%  [16-21   91% (11) | 22-26   45% (11)]  green60  59%  safe  68%  ddpk   -5.0%  t20  18%  t30   9%
+  SURV ETH 1D  prime           <- BTC 1D  B        lift  +10 (without 58%; by period +15/+19; 4/8 yrs)  n=  22 win   68%  [16-21   82% (11) | 22-26   55% (11)]  green60  68%  safe  68%  ddpk   -6.4%  t20  32%  t30  18%
+  SURV ETH 3D  all             <- BTC 3D  B        lift  +18 (without 50%; by period +22/+19; 6/9 yrs)  n=  25 win   68%  [16-21   83% (12) | 22-26   54% (13)]  green60  68%  safe  68%  ddpk   -4.1%  t20  24%  t30  24%
+  SURV ETH 1D  all             <- BTC 1D  diamond  lift  +10 (without 58%; by period +10/+11; 7/9 yrs)  n=  84 win   68%  [16-21   78% (50) | 22-26   53% (34)]  green60  65%  safe  64%  ddpk   -6.4%  t20  38%  t30  27%
+  SURV ETH 1D  B               <- BTC 2D  any      lift  +20 (without 48%; by period +16/+28; 7/9 yrs)  n=  62 win   68%  [16-21   76% (38) | 22-26   54% (24)]  green60  68%  safe  66%  ddpk   -6.1%  t20  27%  t30  18%
+  SURV ETH 1D  B               <- ETH 2D  any      lift  +17 (without 50%; by period +20/+11; 6/9 yrs)  n=  58 win   67%  [16-21   78% (37) | 22-26   48% (21)]  green60  64%  safe  67%  ddpk   -5.1%  t20  26%  t30  16%
+  SURV ETH 3D  B               <- BTC 3D  any      lift  +44 (without 23%; by period +43/+56; 4/8 yrs)  n=  24 win   67%  [16-21   73% (15) | 22-26    56% (9)]  green60  71%  safe  67%  ddpk   -5.2%  t20  25%  t30  21%
+  SURV BTC 1D  C               <- BTC 2D  any      lift  +13 (without 53%; by period +18/+1; 2/7 yrs)  n=  24 win   67%  [16-21   93% (14) | 22-26   30% (10)]  green60  71%  safe  67%  ddpk   -5.5%  t20   8%  t30   0%
+  SURV BTC 1D  all             <- BTC 2D  prime    lift  +16 (without 50%; by period +9/+27; 7/9 yrs)  n=  21 win   67%  [16-21   69% (13) | 22-26    62% (8)]  green60  76%  safe  62%  ddpk   -6.1%  t20  29%  t30  14%
+  SURV ETH 3D  all             <- ETH 1D  B        lift  +18 (without 48%; by period +14/+13; 6/9 yrs)  n=  35 win   66%  [16-21   74% (23) | 22-26   50% (12)]  green60  69%  safe  60%  ddpk   -5.3%  t20  34%  t30  29%
+  SURV ETH 3D  all             <- ETH 1D  diamond  lift  +15 (without 51%; by period +9/+11; 7/9 yrs)  n=  26 win   65%  [16-21   72% (18) | 22-26    50% (8)]  green60  69%  safe  62%  ddpk   -7.7%  t20  38%  t30  27%
+  SURV ETH 1D  A               <- BTC 1D  diamond  lift  +22 (without 43%; by period +20/+18; 5/7 yrs)  n=  34 win   65%  [16-21   71% (21) | 22-26   54% (13)]  green60  62%  safe  62%  ddpk   -6.5%  t20  38%  t30  32%
+  SURV ETH 3D  all             <- ETH 2D  diamond  lift  +12 (without 52%; by period +14/+13; 5/10 yrs)  n=  25 win   64%  [16-21   77% (13) | 22-26   50% (12)]  green60  76%  safe  60%  ddpk   -8.9%  t20  24%  t30  24%
+  SURV BTC 2D  all             <- BTC 1D  prime    lift  +16 (without 47%; by period +13/+18; 6/9 yrs)  n=  41 win   63%  [16-21   69% (26) | 22-26   53% (15)]  green60  61%  safe  61%  ddpk   -3.9%  t20  27%  t30  15%
+  SURV BTC 1D  B               <- ETH 3D  any      lift  +19 (without 44%; by period +17/+23; 6/9 yrs)  n=  38 win   63%  [16-21   68% (22) | 22-26   56% (16)]  green60  74%  safe  63%  ddpk   -2.6%  t20  18%  t30  11%
+  SURV BTC 2D  A               <- ETH 2D  A        lift  +32 (without 32%; by period +45/+21; 2/5 yrs)  n=  19 win   63%  [16-21    75% (8) | 22-26   55% (11)]  green60  47%  safe  63%  ddpk   -4.8%  t20  26%  t30   0%
+  SURV BTC 2D  all             <- BTC 1D  diamond  lift  +17 (without 46%; by period +15/+14; 7/10 yrs)  n=  46 win   63%  [16-21   70% (30) | 22-26   50% (16)]  green60  74%  safe  57%  ddpk   -5.3%  t20  24%  t30  11%
+  SURV BTC 1D  all             <- ETH 2D  A        lift  +13 (without 50%; by period +15/+18; 7/8 yrs)  n=  35 win   63%  [16-21   75% (16) | 22-26   53% (19)]  green60  63%  safe  60%  ddpk   -7.0%  t20  29%  t30   3%
+  SURV BTC 1D  B               <- ETH 1D  prime    lift  +18 (without 45%; by period +14/+18; 6/9 yrs)  n=  35 win   63%  [16-21   65% (26) | 22-26    56% (9)]  green60  63%  safe  60%  ddpk   -3.9%  t20  31%  t30  14%
+  SURV ETH 3D  all             <- BTC 3D  any      lift  +23 (without 39%; by period +23/+39; 6/9 yrs)  n=  59 win   63%  [16-21   76% (29) | 22-26   50% (30)]  green60  68%  safe  59%  ddpk   -5.4%  t20  32%  t30  25%
+  SURV ETH 3D  all             <- BTC 2D  B        lift  +10 (without 52%; by period +3/+19; 4/9 yrs)  n=  29 win   62%  [16-21   69% (16) | 22-26   54% (13)]  green60  62%  safe  62%  ddpk   -5.1%  t20  31%  t30  24%
+  SURV ETH 3D  all             <- BTC 1D  B        lift  +11 (without 51%; by period +9/+15; 4/9 yrs)  n=  34 win   62%  [16-21   72% (18) | 22-26   50% (16)]  green60  62%  safe  59%  ddpk   -5.5%  t20  35%  t30  29%
+  SURV BTC 1D  B               <- ETH 2D  any      lift  +23 (without 39%; by period +18/+32; 8/9 yrs)  n=  60 win   62%  [16-21   66% (35) | 22-26   56% (25)]  green60  73%  safe  62%  ddpk   -3.8%  t20  18%  t30  13%
+  SURV BTC 3D  all             <- BTC 1D  prime    lift  +15 (without 47%; by period +8/+15; 5/9 yrs)  n=  26 win   62%  [16-21   71% (17) | 22-26    44% (9)]  green60  62%  safe  54%  ddpk   -4.0%  t20  42%  t30  15%
+  SURV ETH 3D  all             <- ETH 2D  B        lift  +10 (without 51%; by period +3/+14; 4/9 yrs)  n=  36 win   61%  [16-21   68% (22) | 22-26   50% (14)]  green60  67%  safe  58%  ddpk   -4.9%  t20  31%  t30  28%
+  SURV BTC 1D  all             <- ETH 3D  A        lift  +10 (without 51%; by period +9/+22; 8/9 yrs)  n=  28 win   61%  [16-21   70% (10) | 22-26   56% (18)]  green60  75%  safe  61%  ddpk   -3.7%  t20  18%  t30   0%
+  SURV BTC 2D  diamond         <- ETH 2D  any      lift  +23 (without 38%; by period +31/+17; 3/5 yrs)  n=  28 win   61%  [16-21   64% (14) | 22-26   57% (14)]  green60  54%  safe  57%  ddpk   -3.4%  t20  21%  t30  14%
+  SURV BTC 1D  diamond         <- ETH 2D  any      lift  +15 (without 45%; by period +13/+10; 4/8 yrs)  n=  35 win   60%  [16-21   74% (23) | 22-26   33% (12)]  green60  77%  safe  54%  ddpk   -5.8%  t20  23%  t30  14%
+  SURV BTC 2D  diamond         <- BTC 1D  A        lift  +10 (without 50%; by period +7/+15; 4/5 yrs)  n=  20 win   60%  [16-21    62% (8) | 22-26   58% (12)]  green60  50%  safe  60%  ddpk   -3.4%  t20  20%  t30  15%
+  SURV BTC 1D  all             <- ETH 2D  any      lift  +16 (without 44%; by period +18/+9; 7/9 yrs)  n= 136 win   60%  [16-21   70% (84) | 22-26   42% (52)]  green60  72%  safe  56%  ddpk   -4.8%  t20  25%  t30  12%
+  SURV BTC 1D  all             <- ETH 1D  prime    lift  +12 (without 48%; by period +10/+8; 6/10 yrs)  n=  89 win   60%  [16-21   68% (59) | 22-26   43% (30)]  green60  64%  safe  55%  ddpk   -4.6%  t20  33%  t30  12%
+  SURV ETH 3D  B               <- BTC 2D  B        lift  +14 (without 45%; by period +7/+37; 3/9 yrs)  n=  17 win   59%  [16-21   60% (10) | 22-26    57% (7)]  green60  59%  safe  59%  ddpk   -5.1%  t20  35%  t30  24%
+  SURV ETH 3D  B               <- ETH 2D  B        lift  +34 (without 25%; by period +45/+11; 3/5 yrs)  n=  29 win   59%  [16-21   65% (20) | 22-26    44% (9)]  green60  62%  safe  55%  ddpk   -4.6%  t20  34%  t30  31%
+  SURV BTC 3D  B               <- ETH 3D  any      lift  +40 (without 18%; by period +43/+42; 4/8 yrs)  n=  26 win   58%  [16-21   71% (14) | 22-26   42% (12)]  green60  65%  safe  58%  ddpk   -3.8%  t20  19%  t30  12%
+  SURV BTC 2D  all             <- BTC 1D  B        lift  +11 (without 47%; by period +7/+16; 6/9 yrs)  n=  66 win   58%  [16-21   64% (39) | 22-26   48% (27)]  green60  67%  safe  53%  ddpk   -3.7%  t20  33%  t30  14%
+  SURV BTC 3D  B               <- BTC 2D  B        lift  +26 (without 31%; by period +22/+30; 4/6 yrs)  n=  21 win   57%  [16-21   67% (12) | 22-26    44% (9)]  green60  71%  safe  57%  ddpk   -3.3%  t20  19%  t30  10%
+  SURV ETH 3D  all             <- ETH 2D  any      lift  +19 (without 38%; by period +18/+18; 3/5 yrs)  n=  79 win   57%  [16-21   68% (44) | 22-26   43% (35)]  green60  63%  safe  53%  ddpk   -5.4%  t20  37%  t30  28%
+  SURV BTC 5D  all             <- ETH 2D  B        lift  +14 (without 42%; by period +3/+20; 5/9 yrs)  n=  16 win   56%  [16-21   64% (11) | 22-26    40% (5)]  green60  69%  safe  56%  ddpk   -1.2%  t20  31%  t30  12%
+  SURV BTC 1D  A               <- BTC 2D  A        lift  +15 (without 41%; by period +6/+25; 7/9 yrs)  n=  18 win   56%  [16-21   55% (11) | 22-26    57% (7)]  green60  67%  safe  56%  ddpk   -4.4%  t20  28%  t30   6%
+  SURV BTC 5D  all             <- ETH 1D  B        lift  +14 (without 42%; by period +8/+12; 4/8 yrs)  n=  18 win   56%  [16-21   67% (12) | 22-26    33% (6)]  green60  72%  safe  56%  ddpk   -2.8%  t20  28%  t30  11%
+  SURV BTC 2D  B               <- BTC 1D  B        lift  +27 (without 29%; by period +24/+38; 4/8 yrs)  n=  38 win   55%  [16-21   68% (22) | 22-26   38% (16)]  green60  66%  safe  53%  ddpk   -3.5%  t20  34%  t30  13%
+  SURV ETH 3D  B               <- BTC 2D  any      lift  +18 (without 38%; by period +8/+50; 3/7 yrs)  n=  29 win   55%  [16-21   58% (19) | 22-26   50% (10)]  green60  59%  safe  52%  ddpk   -5.4%  t20  41%  t30  31%
+  SURV BTC 1D  A               <- BTC 2D  any      lift  +14 (without 39%; by period +14/+12; 7/9 yrs)  n=  28 win   54%  [16-21   59% (17) | 22-26   45% (11)]  green60  71%  safe  54%  ddpk   -5.8%  t20  25%  t30   7%
+  SURV ETH 1D  A               <- BTC 1D  any      lift  +31 (without 22%; by period +45/+17; 4/5 yrs)  n=  88 win   53%  [16-21   65% (43) | 22-26   42% (45)]  green60  57%  safe  44%  ddpk   -6.5%  t20  48%  t30  34%
+  SURV BTC 5D  all             <- BTC 2D  any      lift  +25 (without 27%; by period +13/+5; 3/5 yrs)  n=  38 win   53%  [16-21   63% (27) | 22-26   27% (11)]  green60  55%  safe  53%  ddpk   -4.5%  t20  34%  t30  18%
+  SURV ETH 2D  A               <- BTC 2D  A        lift  +12 (without 40%; by period +13/+17; 1/4 yrs)  n=  21 win   52%  [16-21    57% (7) | 22-26   50% (14)]  green60  62%  safe  43%  ddpk   -6.9%  t20  43%  t30  38%
+  SURV BTC 1D  filled diamond  <- ETH 1D  A        lift  +17 (without 35%; by period +9/+25; 3/6 yrs)  n=  21 win   52%  [16-21   54% (13) | 22-26    50% (8)]  green60  52%  safe  52%  ddpk   -3.9%  t20  33%  t30  10%
+  SURV BTC 1D  filled diamond  <- BTC 2D  any      lift  +10 (without 40%; by period +9/+4; 4/8 yrs)  n=  18 win   50%  [16-21   54% (13) | 22-26    40% (5)]  green60  72%  safe  44%  ddpk   -6.4%  t20  33%  t30  22%
+  SURV BTC 1D  A               <- ETH 1D  A        lift  +12 (without 36%; by period +10/+20; 5/9 yrs)  n=  54 win   48%  [16-21   54% (28) | 22-26   42% (26)]  green60  57%  safe  48%  ddpk   -4.6%  t20  37%  t30   7%
+  SMALL ETH 1D  diamond         <- ETH 5D  any      lift  +34 (without 66%)  n=  11 win  100%  [16-21   100% (7) | 22-26   100% (4)]  green60  82%  safe  82%  ddpk   -8.0%  t20  27%  t30  18%
+  SMALL ETH 1D  all             <- ETH 5D  prime    lift  +41 (without 59%)  n=  10 win  100%  [16-21   100% (8) | 22-26   100% (2)]  green60  90%  safe 100%  ddpk   -3.8%  t20   0%  t30   0%
+  SMALL ETH 1D  B               <- ETH 2D  prime    lift  +44 (without 56%)  n=   8 win  100%  [16-21   100% (5) | 22-26   100% (3)]  green60  75%  safe 100%  ddpk   -4.2%  t20   0%  t30   0%
+  SMALL ETH 2D  prime           <- BTC 2D  prime    lift  +26 (without 74%)  n=   8 win  100%  [16-21   100% (3) | 22-26   100% (5)]  green60  88%  safe 100%  ddpk   -4.6%  t20   0%  t30   0%
+  SMALL ETH 3D  prime           <- BTC 3D  B        lift  +31 (without 69%)  n=   8 win  100%  [16-21   100% (4) | 22-26   100% (4)]  green60  88%  safe 100%  ddpk   -3.1%  t20  12%  t30  12%
+  SMALL BTC 2D  filled diamond  <- ETH 2D  diamond  lift  +62 (without 38%)  n=   8 win  100%  [16-21   100% (4) | 22-26   100% (4)]  green60  75%  safe 100%  ddpk   -2.5%  t20   0%  t30   0%
+  SMALL ETH 2D  prime           <- BTC 3D  any      lift  +18 (without 74%)  n=  12 win   92%  [16-21    80% (5) | 22-26   100% (7)]  green60  83%  safe  92%  ddpk   -5.8%  t20   8%  t30   8%
+  SMALL ETH 5D  B               <- ETH 2D  B        lift  +42 (without 50%)  n=  12 win   92%  [16-21   100% (7) | 22-26    80% (5)]  green60 100%  safe  83%  ddpk   -4.5%  t20   8%  t30   8%
+  SMALL ETH 1D  B               <- BTC 2D  prime    lift  +36 (without 55%)  n=  11 win   91%  [16-21    89% (9) | 22-26   100% (2)]  green60  64%  safe  82%  ddpk   -9.2%  t20  36%  t30  18%
+  SMALL ETH 1D  prime+diamond   <- ETH 2D  any      lift  +28 (without 62%)  n=  11 win   91%  [16-21    89% (9) | 22-26   100% (2)]  green60  73%  safe  91%  ddpk   -4.6%  t20  27%  t30  18%
+  SMALL ETH 8D  all             <- BTC 1D  B        lift  +19 (without 71%)  n=  10 win   90%  [16-21    83% (6) | 22-26   100% (4)]  green60  80%  safe  90%  ddpk   -4.3%  t20  20%  t30  10%
+  SMALL ETH 5D  all             <- ETH 2D  prime    lift  +23 (without 66%)  n=   9 win   89%  [16-21    67% (3) | 22-26   100% (6)]  green60  89%  safe  89%  ddpk   -5.0%  t20  11%  t30  11%
+  SMALL BTC 1D  prime           <- BTC 2D  diamond  lift  +34 (without 55%)  n=   9 win   89%  [16-21    75% (4) | 22-26   100% (5)]  green60  89%  safe  78%  ddpk   -6.6%  t20  22%  t30  11%
+  SMALL BTC 3D  B               <- ETH 3D  prime    lift  +57 (without 32%)  n=   9 win   89%  [16-21    80% (5) | 22-26   100% (4)]  green60  89%  safe  89%  ddpk   -2.4%  t20  11%  t30  11%
+  SMALL ETH 1D  A               <- BTC 3D  diamond  lift  +40 (without 47%)  n=   8 win   88%  [16-21   100% (3) | 22-26    80% (5)]  green60  88%  safe  62%  ddpk   -6.1%  t20  25%  t30  12%
+  SMALL ETH 1D  D               <- BTC 1D  diamond  lift  +21 (without 67%)  n=   8 win   88%  [16-21   100% (4) | 22-26    75% (4)]  green60  50%  safe  75%  ddpk   -6.5%  t20  50%  t30  38%
+  SMALL ETH 2D  B               <- ETH 8D  any      lift  +26 (without 62%)  n=   8 win   88%  [16-21   100% (3) | 22-26    80% (5)]  green60  88%  safe  88%  ddpk   -2.2%  t20  25%  t30   0%
+  SMALL ETH 2D  B               <- BTC 2D  prime    lift  +26 (without 62%)  n=   8 win   88%  [16-21   100% (5) | 22-26    67% (3)]  green60  75%  safe  88%  ddpk   -2.3%  t20  12%  t30  12%
+  SMALL ETH 5D  B               <- BTC 1D  B        lift  +21 (without 67%)  n=   8 win   88%  [16-21   100% (6) | 22-26    50% (2)]  green60 100%  safe  88%  ddpk   -3.0%  t20   0%  t30   0%
+  SMALL BTC 1D  prime           <- BTC 2D  A        lift  +31 (without 56%)  n=   8 win   88%  [16-21   100% (2) | 22-26    83% (6)]  green60  62%  safe  88%  ddpk   -4.4%  t20  25%  t30   0%
+  SMALL ETH 2D  B               <- BTC 1D  prime    lift  +25 (without 60%)  n=  13 win   85%  [16-21   100% (9) | 22-26    50% (4)]  green60  85%  safe  85%  ddpk   -6.2%  t20  15%  t30   8%
+  SMALL ETH 2D  B               <- ETH 3D  any      lift  +23 (without 61%)  n=  12 win   83%  [16-21   100% (7) | 22-26    60% (5)]  green60  75%  safe  83%  ddpk   -5.7%  t20  17%  t30  17%
+  SMALL ETH 2D  B               <- BTC 3D  B        lift  +23 (without 61%)  n=  12 win   83%  [16-21    88% (8) | 22-26    75% (4)]  green60  75%  safe  83%  ddpk   -4.2%  t20  25%  t30  17%
+  SMALL ETH 2D  diamond         <- BTC 3D  any      lift  +20 (without 64%)  n=  12 win   83%  [16-21    88% (8) | 22-26    75% (4)]  green60  92%  safe  75%  ddpk   -5.1%  t20  17%  t30  17%
+  SMALL ETH 1D  B               <- ETH 2D  diamond  lift  +26 (without 56%)  n=  11 win   82%  [16-21    86% (7) | 22-26    75% (4)]  green60  82%  safe  82%  ddpk   -4.3%  t20  18%  t30   9%
+  SMALL ETH 2D  diamond         <- ETH 1D  prime    lift  +17 (without 65%)  n=  11 win   82%  [16-21    75% (8) | 22-26   100% (3)]  green60  82%  safe  73%  ddpk   -6.4%  t20  27%  t30  18%
+  SMALL ETH 5D  B               <- ETH 1D  B        lift  +15 (without 67%)  n=  11 win   82%  [16-21    86% (7) | 22-26    75% (4)]  green60  91%  safe  82%  ddpk   -5.4%  t20   9%  t30   0%
+  SMALL BTC 2D  diamond         <- ETH 2D  diamond  lift  +38 (without 44%)  n=  11 win   82%  [16-21    83% (6) | 22-26    80% (5)]  green60  73%  safe  82%  ddpk   -3.4%  t20   0%  t30   0%
+  SMALL BTC 2D  prime           <- ETH 1D  B        lift  +26 (without 56%)  n=  11 win   82%  [16-21    71% (7) | 22-26   100% (4)]  green60  82%  safe  73%  ddpk   -3.1%  t20  27%  t30   9%
+  SMALL ETH 1D  B+diamond       <- BTC 1D  diamond  lift  +15 (without 65%)  n=  10 win   80%  [16-21    67% (6) | 22-26   100% (4)]  green60  80%  safe  80%  ddpk   -5.8%  t20  30%  t30  20%
+  SMALL BTC 1D  C               <- ETH 1D  A        lift  +25 (without 55%)  n=  10 win   80%  [16-21   100% (7) | 22-26    33% (3)]  green60  80%  safe  80%  ddpk   -2.6%  t20  20%  t30   0%
+  SMALL BTC 2D  prime           <- BTC 1D  A        lift  +22 (without 58%)  n=  10 win   80%  [16-21   100% (3) | 22-26    71% (7)]  green60  80%  safe  80%  ddpk   -2.1%  t20  10%  t30  10%
+  SMALL ETH 2D  all             <- BTC 5D  diamond  lift  +17 (without 61%)  n=   9 win   78%  [16-21   100% (5) | 22-26    50% (4)]  green60  67%  safe  78%  ddpk   -3.5%  t20  56%  t30  11%
+  SMALL ETH 2D  C               <- ETH 1D  prime    lift  +24 (without 53%)  n=   9 win   78%  [16-21    83% (6) | 22-26    67% (3)]  green60  56%  safe  78%  ddpk   -4.3%  t20  44%  t30  33%
+  SMALL ETH 2D  filled diamond  <- BTC 2D  diamond  lift  +23 (without 55%)  n=   9 win   78%  [16-21    67% (3) | 22-26    83% (6)]  green60  89%  safe  78%  ddpk   -4.4%  t20  11%  t30  11%
+  SMALL BTC 1D  A               <- BTC 2D  diamond  lift  +38 (without 40%)  n=   9 win   78%  [16-21    75% (4) | 22-26    80% (5)]  green60  89%  safe  78%  ddpk   -6.6%  t20  11%  t30   0%
+  SMALL BTC 2D  A               <- ETH 2D  diamond  lift  +40 (without 38%)  n=   9 win   78%  [16-21   100% (4) | 22-26    60% (5)]  green60  67%  safe  78%  ddpk   -2.1%  t20  22%  t30   0%
+  SMALL BTC 2D  A               <- ETH 3D  any      lift  +40 (without 38%)  n=   9 win   78%  [16-21    71% (7) | 22-26   100% (2)]  green60  67%  safe  78%  ddpk   -5.1%  t20  22%  t30  11%
+  SMALL BTC 2D  D               <- BTC 1D  diamond  lift  +38 (without 40%)  n=   9 win   78%  [16-21    83% (6) | 22-26    67% (3)]  green60  89%  safe  67%  ddpk  -12.5%  t20  22%  t30  22%
+  SMALL ETH 1D  prime           <- BTC 3D  B        lift  +19 (without 58%)  n=  13 win   77%  [16-21    86% (7) | 22-26    67% (6)]  green60  62%  safe  77%  ddpk   -6.1%  t20  23%  t30   8%
+  SMALL BTC 2D  prime           <- ETH 1D  prime    lift  +21 (without 56%)  n=  13 win   77%  [16-21    71% (7) | 22-26    83% (6)]  green60  77%  safe  77%  ddpk   -3.1%  t20  23%  t30   0%
+  SMALL ETH 1D  A               <- BTC 3D  B        lift  +28 (without 47%)  n=  12 win   75%  [16-21    83% (6) | 22-26    67% (6)]  green60  67%  safe  75%  ddpk   -6.2%  t20  17%  t30   8%
+  SMALL ETH 3D  B               <- ETH 2D  diamond  lift  +35 (without 40%)  n=  12 win   75%  [16-21    75% (8) | 22-26    75% (4)]  green60  83%  safe  75%  ddpk   -5.1%  t20  17%  t30  17%
+  SMALL BTC 1D  B               <- ETH 3D  prime    lift  +27 (without 48%)  n=  12 win   75%  [16-21    86% (7) | 22-26    60% (5)]  green60  92%  safe  75%  ddpk   -3.0%  t20   8%  t30   8%
+  SMALL BTC 2D  C               <- ETH 2D  B        lift  +25 (without 50%)  n=  12 win   75%  [16-21    86% (7) | 22-26    60% (5)]  green60  83%  safe  75%  ddpk   -3.7%  t20   8%  t30   0%
+  SMALL BTC 2D  prime           <- BTC 1D  prime    lift  +16 (without 59%)  n=  12 win   75%  [16-21    57% (7) | 22-26   100% (5)]  green60  67%  safe  67%  ddpk   -3.8%  t20  33%  t30  17%
+  SMALL ETH 3D  all             <- BTC 5D  any      lift  +22 (without 53%)  n=   8 win   75%  [16-21    80% (5) | 22-26    67% (3)]  green60  88%  safe  75%  ddpk   -3.7%  t20  12%  t30   0%
+  SMALL ETH 3D  B               <- BTC 1D  diamond  lift  +30 (without 45%)  n=   8 win   75%  [16-21    83% (6) | 22-26    50% (2)]  green60  75%  safe  75%  ddpk   -6.1%  t20  12%  t30  12%
+  SMALL BTC 1D  all             <- ETH 5D  prime    lift  +24 (without 51%)  n=   8 win   75%  [16-21    67% (6) | 22-26   100% (2)]  green60  75%  safe  75%  ddpk   -2.3%  t20  25%  t30  12%
+
+LAYER 4b  the 44 v4 confluence rows, recomputed
+  v4 page figure | v4 method on today's data (trough dates +/-10d, green60) | backward only: green60 and win (+20%)
+  ETH 1D  A+diamond       <- ETH 5D  any      | page n=  8  88% vs  12% | old n= 10  90% vs  12% | now n=  2 green 100% vs  50%  win 100% vs  56%
+  BTC 2D  D               <- ETH 3D  any      | page n= 10 100% vs  44% | old n= 10 100% vs  44% | now n=  5 green  80% vs  71%  win  20% vs  71%
+  ETH 1D  filled diamond  <- ETH 5D  B        | page n=  8 100% vs  52% | old n=  9 100% vs  52% | now n=  3 green 100% vs  59%  win 100% vs  62%
+  ETH 3D  B               <- ETH 5D  any      | page n= 18  78% vs  32% | old n= 18  78% vs  32% | now n=  1 green   0% vs  56%  win   0% vs  53%
+  ETH 3D  B               <- ETH 5D  B        | page n= 15  80% vs  36% | old n= 15  80% vs  36% | now n=  1 green   0% vs  56%  win   0% vs  53%
+  ETH 1D  prime           <- ETH 5D  diamond  | page n= 10  90% vs  47% | old n=  9  89% vs  48% | now n=  2 green   0% vs  54%  win   0% vs  63%
+  ETH 3D  B               <- ETH 2D  diamond  | page n= 12  83% vs  40% | old n= 12  83% vs  40% | now n= 12 green  83% vs  40%  win  75% vs  40%
+  ETH 3D  diamond         <- BTC 1D  B        | page n= 12  67% vs  25% | old n= 12  75% vs  25% | now n=  7 green  71% vs  46%  win  71% vs  46%
+  ETH 1D  A               <- ETH 5D  any      | page n= 51  76% vs  36% | old n= 52  77% vs  36% | now n=  9 green  89% vs  55%  win  67% vs  49%
+  ETH 2D  B               <- ETH 5D  B        | page n= 24  88% vs  46% | old n= 24  88% vs  46% | now n=  7 green  86% vs  59%  win  86% vs  62%
+  BTC 1D  B               <- ETH 5D  diamond  | page n= 11 100% vs  60% | old n= 11 100% vs  57% | now n=  4 green 100% vs  59%  win 100% vs  49%
+  ETH 2D  B               <- ETH 5D  any      | page n= 29  83% vs  44% | old n= 29  83% vs  44% | now n=  9 green  78% vs  59%  win  78% vs  63%
+  BTC 1D  prime           <- BTC 2D  any      | page n= 65  72% vs  33% | old n= 57  70% vs  38% | now n= 34 green  68% vs  65%  win  62% vs  58%
+  ETH 1D  filled diamond  <- ETH 5D  any      | page n= 14  86% vs  48% | old n= 16  88% vs  46% | now n=  6 green 100% vs  56%  win 100% vs  59%
+  BTC 1D  A               <- ETH 5D  A        | page n= 16  94% vs  57% | old n= 16  94% vs  52% | now n=  2 green 100% vs  60%  win 100% vs  43%
+  ETH 1D  diamond         <- ETH 5D  B        | page n= 10 100% vs  64% | old n=  9 100% vs  62% | now n=  5 green  80% vs  66%  win 100% vs  70%
+  ETH 1D  prime           <- ETH 5D  any      | page n= 28  75% vs  39% | old n= 28  75% vs  39% | now n= 12 green  50% vs  53%  win  58% vs  62%
+  ETH 2D  prime           <- ETH 5D  any      | page n= 17  82% vs  47% | old n= 17  82% vs  50% | now n=  7 green  86% vs  62%  win  86% vs  79%
+  ETH 3D  A               <- ETH 1D  B        | page n=  9  89% vs  53% | old n=  9  89% vs  53% | now n=  2 green 100% vs  64%  win 100% vs  55%
+  ETH 3D  A               <- ETH 5D  A        | page n= 15  80% vs  44% | old n= 15  80% vs  44% | now n=  2 green 100% vs  64%  win 100% vs  55%
+  BTC 1D  all             <- ETH 5D  diamond  | page n= 27  96% vs  63% | old n= 25  96% vs  61% | now n= 13 green  77% vs  63%  win  69% vs  51%
+  ETH 2D  A               <- ETH 5D  A        | page n= 18  72% vs  39% | old n= 18  72% vs  39% | now n=  3 green 100% vs  52%  win 100% vs  42%
+  ETH 2D  B+diamond       <- ETH 5D  any      | page n=  8 100% vs  67% | old n=  8 100% vs  75% | now n=  0 green   -% vs  88%  win   -% vs  75%
+  BTC 2D  A               <- ETH 5D  A        | page n= 10  80% vs  47% | old n= 10  80% vs  43% | now n=  0 green   -% vs  53%  win   -% vs  47%
+  ETH 1D  D               <- ETH 3D  any      | page n= 10  70% vs  38% | old n= 10  70% vs  38% | now n= 11 green  45% vs  58%  win  64% vs  83%
+  ETH 2D  prime           <- ETH 5D  B        | page n=  9  89% vs  57% | old n=  9  89% vs  59% | now n=  4 green 100% vs  63%  win 100% vs  78%
+  ETH 3D  all             <- ETH 5D  any      | page n= 50  74% vs  42% | old n= 50  76% vs  41% | now n=  8 green  75% vs  59%  win  62% vs  54%
+  BTC 1D  A+diamond       <- ETH 5D  any      | page n= 10  90% vs  58% | old n= 10  90% vs  55% | now n=  3 green  67% vs  72%  win  33% vs  56%
+  ETH 2D  filled diamond  <- ETH 1D  B        | page n=  9  89% vs  58% | old n=  9  89% vs  55% | now n=  4 green  75% vs  69%  win  75% vs  62%
+  ETH 2D  filled diamond  <- BTC 2D  diamond  | page n=  9  89% vs  58% | old n=  9  89% vs  55% | now n=  9 green  89% vs  55%  win  78% vs  55%
+  BTC 1D  A               <- ETH 5D  diamond  | page n= 11  91% vs  60% | old n=  9  89% vs  57% | now n=  1 green 100% vs  60%  win 100% vs  44%
+  BTC 1D  prime           <- ETH 5D  B        | page n= 14  93% vs  62% | old n= 14  93% vs  59% | now n=  7 green  86% vs  64%  win  86% vs  57%
+  ETH 1D  B               <- ETH 5D  B        | page n= 25  84% vs  54% | old n= 25  84% vs  53% | now n= 12 green  67% vs  59%  win  58% vs  59%
+  ETH 1D  filled diamond  <- BTC 1D  B        | page n= 25  72% vs  42% | old n= 27  70% vs  46% | now n= 22 green  73% vs  50%  win  64% vs  67%
+  ETH 2D  all             <- ETH 5D  any      | page n= 66  76% vs  46% | old n= 66  76% vs  46% | now n= 19 green  74% vs  58%  win  74% vs  60%
+  ETH 3D  diamond         <- BTC 2D  B        | page n=  9  67% vs  36% | old n=  9  67% vs  45% | now n=  7 green  71% vs  46%  win  86% vs  38%
+  BTC 1D  C               <- BTC 2D  any      | page n= 45  73% vs  43% | old n= 41  76% vs  38% | now n= 24 green  71% vs  63%  win  67% vs  53%
+  ETH 1D  A               <- ETH 5D  A        | page n= 27  78% vs  49% | old n= 28  79% vs  49% | now n=  6 green  83% vs  56%  win  67% vs  49%
+  ETH 1D  prime           <- ETH 2D  diamond  | page n= 22  73% vs  44% | old n= 22  73% vs  44% | now n= 12 green  58% vs  52%  win  58% vs  62%
+  ETH 2D  B               <- ETH 5D  diamond  | page n=  8  88% vs  58% | old n=  6  83% vs  60% | now n=  3 green  67% vs  62%  win  67% vs  65%
+  ETH 2D  diamond         <- BTC 2D  diamond  | page n= 14  93% vs  64% | old n= 14  93% vs  65% | now n= 13 green  92% vs  67%  win  77% vs  67%
+  ETH 2D  prime           <- ETH 3D  any      | page n= 23  74% vs  44% | old n= 22  77% vs  44% | now n=  7 green  86% vs  62%  win 100% vs  75%
+  ETH 2D  prime           <- ETH 3D  diamond  | page n=  8  88% vs  58% | old n=  8  88% vs  61% | now n=  0 green   -% vs  68%  win   -% vs  81%
+  ETH 2D  prime           <- BTC 2D  diamond  | page n=  8  88% vs  58% | old n=  8  88% vs  61% | now n=  8 green  88% vs  61%  win  88% vs  78%
+
+LAYER 5  reads as the trade matures (trades not yet at +20% on the check day)
+  green on day 5                 ETH  yes: n= 272 win   68%  [16-21  77% (146) | 22-26  58% (126)]  green60  65%  safe  65%  ddpk   -4.2%  t20  33%  t30  21%
+                                 ETH  no:  n= 250 win   46%  [16-21  54% (138) | 22-26  36% (112)]  green60  52%  safe  39%  ddpk  -10.1%  t20  51%  t30  34%
+  green on day 5                 BTC  yes: n= 307 win   61%  [16-21  71% (176) | 22-26  47% (131)]  green60  71%  safe  59%  ddpk   -3.2%  t20  22%  t30   9%
+                                 BTC  no:  n= 260 win   36%  [16-21  45% (152) | 22-26  22% (108)]  green60  50%  safe  30%  ddpk   -8.3%  t20  45%  t30  20%
+  green on day 10                ETH  yes: n= 203 win   71%  [16-21  77% (102) | 22-26  64% (101)]  green60  72%  safe  68%  ddpk   -4.9%  t20  23%  t30   9%
+                                 ETH  no:  n= 261 win   37%  [16-21  45% (136) | 22-26  29% (125)]  green60  44%  safe  30%  ddpk   -9.3%  t20  59%  t30  43%
+  green on day 10                BTC  yes: n= 238 win   61%  [16-21  72% (128) | 22-26  47% (110)]  green60  72%  safe  59%  ddpk   -3.2%  t20  18%  t30   8%
+                                 BTC  no:  n= 274 win   29%  [16-21  36% (152) | 22-26  21% (122)]  green60  46%  safe  23%  ddpk   -8.4%  t20  51%  t30  22%
+  CT above Signal on day 10      ETH  yes: n= 192 win   66%  [16-21   78% (90) | 22-26  56% (102)]  green60  70%  safe  62%  ddpk   -6.3%  t20  28%  t30  13%
+                                 ETH  no:  n= 272 win   42%  [16-21  47% (148) | 22-26  35% (124)]  green60  47%  safe  36%  ddpk   -7.2%  t20  54%  t30  39%
+  CT above Signal on day 10      BTC  yes: n= 208 win   60%  [16-21  72% (100) | 22-26  48% (108)]  green60  72%  safe  59%  ddpk   -3.6%  t20  17%  t30   5%
+                                 BTC  no:  n= 304 win   33%  [16-21  41% (180) | 22-26  21% (124)]  green60  49%  safe  27%  ddpk   -7.3%  t20  48%  t30  23%
+  undercut trough low by day 10  ETH  yes: n= 199 win   34%  [16-21  42% (106) | 22-26   26% (93)]  green60  42%  safe  25%  ddpk   -9.3%  t20  62%  t30  47%
+                                 ETH  no:  n= 265 win   65%  [16-21  73% (132) | 22-26  58% (133)]  green60  67%  safe  63%  ddpk   -5.7%  t20  29%  t30  14%
+  undercut trough low by day 10  BTC  yes: n= 214 win   29%  [16-21  36% (114) | 22-26  21% (100)]  green60  45%  safe  24%  ddpk   -8.5%  t20  50%  t30  22%
+                                 BTC  no:  n= 298 win   54%  [16-21  63% (166) | 22-26  43% (132)]  green60  67%  safe  51%  ddpk   -3.8%  t20  25%  t30  11%
+  down 10%+ by day 10            ETH  yes: n= 203 win   35%  [16-21  42% (132) | 22-26   23% (71)]  green60  41%  safe  25%  ddpk  -12.5%  t20  68%  t30  50%
+                                 ETH  no:  n= 261 win   65%  [16-21  79% (106) | 22-26  55% (155)]  green60  68%  safe  64%  ddpk   -5.1%  t20  23%  t30  11%
+  down 10%+ by day 10            BTC  yes: n= 154 win   23%  [16-21  31% (113) | 22-26    2% (41)]  green60  36%  safe  14%  ddpk  -12.9%  t20  71%  t30  34%
+                                 BTC  no:  n= 358 win   53%  [16-21  66% (167) | 22-26  40% (191)]  green60  67%  safe  51%  ddpk   -4.2%  t20  21%  t30   8%

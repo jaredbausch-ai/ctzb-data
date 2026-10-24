@@ -617,6 +617,15 @@ pipeline can be automated end to end, and the only input needed from him is
 whether a position was taken, which can itself come from his Coinbase account
 (he trades Coinbase perps). Until live positions are logged, the statistics
 are entry quality only and do not show profitability.
+**Capabilities pack (24 Oct 2026, `analysis/grokpack.py`):** the source for
+anything sent to Joe's AI about what the signal can do. Recomputes every layer
+under current rules. The 44 confluence rows on the v4 odds page reproduce
+almost exactly with the v4 method (trough dates within +/-10 days either
+side, win = green at day 60), so nothing from that generation is missing.
+Made knowable (confirmer confirmed 0-10 days before entry), 28 of the 44 drop
+below 8 cases, mostly because ETH 5D, the commonest old confirmer, confirms 15
+days after its low. 8 keep a 10+ point lift on +20% reach.
+
 **Member leverage (decided 24 Oct 2026):** members trade whatever leverage
 they choose. Jared does not tell anyone what leverage to use. His own trades
 are public, including the leverage he is on. Members get the leverage tool
