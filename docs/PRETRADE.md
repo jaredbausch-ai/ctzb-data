@@ -156,6 +156,15 @@ the size is the point.
 
 ---
 
+## Positioning read — report with every signal's statistics
+
+`python3 -I analysis/posread.py --asset ETH --date <entry date>`. Funding versus
+its 90-day median, funding direction, long/short ratio, open-interest change.
+Caution only: funding below its 90-day median at entry ran 7-17 points worse in
+both test periods; nothing from positioning met the 70/80 standard.
+
+---
+
 ## Costs to price in before sizing
 
 These are not filters. They are what the system charges regardless.

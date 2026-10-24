@@ -559,6 +559,13 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**When he asks for statistics on a signal, always include the positioning read
+(set 23 Oct 2026):** run `python3 -I analysis/posread.py --asset <ETH|BTC>
+--date <entry date>` and report funding vs its 90-day median (below = caution
+flag), funding direction over two weeks, long/short ratio, and open interest
+change over 14 days. Label it a caution read, not a filter -- nothing from
+positioning met the standard.
+
 **Jared's standard (set 23 Oct 2026):** bring nothing below a 70% win rate;
 a change to the stack should reach ~80% while cutting no more than 20% of the
 winners (equivalently: keep 80% of wins, cut 80% of losses). He trades ~3.3x,

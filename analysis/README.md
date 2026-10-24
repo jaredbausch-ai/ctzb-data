@@ -42,6 +42,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `delayed.py`, `RESULTS_delayed.txt` | Delayed entry (buy at day 5/10 if green, or unless broken) and the 8D-rising filter, measured from the price actually paid |
 | `standard.py`, `RESULTS_standard.txt` | 2,100 single/pair filter combos (stack + 10 outside indicators) against Jared's 70/80 standard, raw wins and leverage-aware safe wins. Nothing meets it; narrow 70%+ setups listed |
 | `derivtest.py`, `RESULTS_derivtest.txt` | Funding, long/short ratio and open interest (Coinalyze) against the 70/80 standard, alone and combined with the stack |
+| `posread.py` | Positioning read for a signal (funding vs 90d median and direction, long/short ratio, OI 14d change). Part of every signal-statistics report |
 | `RESULTS_late2025.txt` | The same replay over 22 Oct – 31 Dec 2025 (`--start 2025-10-22 --end 2025-12-31`). Source of the late-2025 bars in the charts shown 22 Oct 2026 |
 
 `ctema.json` is a build artifact. Regenerate it with `ctema_build.py` whenever
