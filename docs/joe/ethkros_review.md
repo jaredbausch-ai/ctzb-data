@@ -85,3 +85,9 @@ month (Signal / Prime / Inner Table, base).
 | "Jared's own write-up favors 0.5–0.75x" | CONTEXT has Jared at ~3.3x, 35–40% of account per position. Source of the 0.5–0.75x not found in the repo |
 | Evidence slide: prime dot 70%→64%, diamond 68%→60%, untagged 58%→44%, "12 in a row" on ETH 2D prime dot | These are earlier figures from his emails. Since then (23 Oct): an unfiltered signal is no better than a random regime-on day, and no filter in 2,100 combinations reaches 70%+ while keeping 80% of the winners. Narrower setups do reach 70–80% (e.g. ETH 1D / 2D with a BTC 3D signal in the prior 10 days: 73% / 77%), but they keep only about 35–40% of the winners. The package does label its figures unverified |
 | Live alerts on the weekly | Weekly is only in the TradingView export, not the daily pipeline (`data/`) |
+
+## Jared's decisions
+
+| Date | Decision |
+|---|---|
+| 24 Oct | **Leverage is the member's choice.** No leverage band or cap on calls; Jared does not tell members what leverage to use. His own trades are public, leverage included. Members get the existing leverage tool (the one built for Joe's console). Replaces the package's 0.5–1x default, 2x cap and "Jared's write-up favors 0.5–0.75x" line |

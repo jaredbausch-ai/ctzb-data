@@ -617,6 +617,14 @@ pipeline can be automated end to end, and the only input needed from him is
 whether a position was taken, which can itself come from his Coinbase account
 (he trades Coinbase perps). Until live positions are logged, the statistics
 are entry quality only and do not show profitability.
+**Member leverage (decided 24 Oct 2026):** members trade whatever leverage
+they choose. Jared does not tell anyone what leverage to use. His own trades
+are public, including the leverage he is on. Members get the leverage tool
+already built for Joe (`docs/artifacts/joe-console.html`: leverage slider,
+liquidation point against the setup's historical drawdowns). This replaces
+the package's 0.5-1x default / 2x cap and per-call leverage band. The
+console's figures are hardcoded as of 19 Oct; it needs the live data feed
+before members use it.
 
 **Only when he specifies drawdown "from entry" / "to entry price", this is the
 format he means (set 22 Oct 2026; not for other drawdown questions):** lead with the drawdown sat through *before the
