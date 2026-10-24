@@ -606,6 +606,18 @@ pooled prime + own agreement 2+ 76% / 72% (-20% touch 7% in 2022-26). With
 2,100 tries some of these are luck; treat as candidates for forward watch.
 
 
+**ETHKROS direction (set 24 Oct 2026):** what is sold is **entries and
+probabilities**, plus Jared's live buy and sell calls by membership tier. Joe
+and his Grok AI never get the source code, so they do not fully understand the
+indicator; write for them in terms of what the signal outputs (chart, tag,
+entry, odds, drawdown), never how it is computed. Joe does not read these
+documents himself: everything sent goes into a Grok AI set up for this
+project, so write it for that reader. Jared's view: the work is done, the
+pipeline can be automated end to end, and the only input needed from him is
+whether a position was taken, which can itself come from his Coinbase account
+(he trades Coinbase perps). Until live positions are logged, the statistics
+are entry quality only and do not show profitability.
+
 **Only when he specifies drawdown "from entry" / "to entry price", this is the
 format he means (set 22 Oct 2026; not for other drawdown questions):** lead with the drawdown sat through *before the
 trade's high* (median, from entry), then a table of the worst individual trades
