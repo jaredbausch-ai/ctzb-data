@@ -71,6 +71,17 @@ times the bar: 3 days on 1D, 6 on 2D, **9 on 3D**, 15 on 5D, 24 on 8D. Verified
 across every chart; the only exceptions are single instances caused by
 irregular bar gaps in the data.
 
+**Buying "on the symbol" (tested 23 Oct 2026, `analysis/confirmlag.py`).** The
+symbol is drawn on the trough bar but appears 3 bars later, so the trough
+price was never buyable while the symbol was showing. Compared four entries
+over 365 days on ETH and BTC 1D–8D, 1W and 2W (2W run on both week pairings;
+TradingView's anchor unverified): trough close (hindsight), trough+1,
+trough+2, confirmation. "Ever traded above entry" is 100% for every entry on
+every chart, including the ones that never confirmed, so it does not separate
+them. The earliest buyable entry (trough+1) does not confirm 31–49% of the
+time and does not beat the confirmation close on +20% reach or drawdown. ETH
+2W: n = 15–17 confirmed troughs per pairing. Entry quality only.
+
 ## The setup
 
 CT RSI = `rsi(close, 14)`. Stoch = `sma(stoch(ct, ct, ct, 14), 3)` — the

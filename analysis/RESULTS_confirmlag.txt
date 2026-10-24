@@ -1,0 +1,244 @@
+
+==================== ETH  (gated, 365-day window, full windows only)
+
+ETH 1D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0     284        100%        97%        90%     +127%   -10.5%      35%      29%          0%          +5.4%
+  P1     410        100%        92%        84%     +119%   -15.2%      38%      31%         31%          +1.6%
+  P2     322        100%        92%        86%     +122%   -14.9%      39%      32%         12%          +0.4%
+  C3     283        100%        92%        87%     +120%   -15.5%      40%      33%          0%              -
+    P1 that never confirmed: n=126  ever green 100%  ever +20% 80%  med dd -17.3%  dd<=-30 31%
+    P2 that never confirmed: n=39  ever green 100%  ever +20% 79%  med dd -15.3%  dd<=-30 28%
+
+ETH 2D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0     135        100%        97%        91%     +124%    -8.7%      33%      24%          0%          +7.5%
+  P1     205        100%        92%        85%     +117%   -16.1%      40%      33%         34%          +3.5%
+  P2     164        100%        92%        86%     +116%   -15.5%      40%      31%         18%          +1.4%
+  C3     135        100%        90%        86%     +114%   -15.9%      41%      33%          0%              -
+    P1 that never confirmed: n=70  ever green 100%  ever +20% 80%  med dd -19.1%  dd<=-30 40%
+    P2 that never confirmed: n=29  ever green 100%  ever +20% 86%  med dd -18.6%  dd<=-30 31%
+
+ETH 3D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      86        100%        97%        90%     +125%    -8.8%      33%      23%          0%          +7.6%
+  P1     134        100%        90%        85%     +108%   -15.8%      39%      34%         36%          +4.4%
+  P2     105        100%        90%        85%     +105%   -14.1%      40%      35%         18%          +1.5%
+  C3      86        100%        90%        79%     +114%   -16.2%      41%      33%          0%              -
+    P1 that never confirmed: n=48  ever green 100%  ever +20% 79%  med dd -18.4%  dd<=-30 35%
+    P2 that never confirmed: n=19  ever green 100%  ever +20% 79%  med dd -29.5%  dd<=-30 47%
+
+ETH 5D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      46        100%       100%        96%     +133%    -5.4%      26%      15%          0%         +14.7%
+  P1      84        100%        88%        81%      +99%   -11.6%      35%      30%         45%          +6.9%
+  P2      61         98%        87%        79%     +105%   -14.5%      31%      25%         25%          +1.1%
+  C3      46        100%        93%        83%     +116%   -13.5%      35%      26%          0%              -
+    P1 that never confirmed: n=38  ever green 100%  ever +20% 63%  med dd -17.9%  dd<=-30 37%
+    P2 that never confirmed: n=15  ever green 93%  ever +20% 60%  med dd -17.3%  dd<=-30 20%
+
+ETH 8D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      24        100%       100%       100%     +148%    -5.3%      21%      17%          0%         +22.8%
+  P1      47         98%        85%        77%      +84%   -10.6%      34%      28%         49%         +11.9%
+  P2      34        100%        91%        85%     +116%   -13.2%      32%      24%         29%          +3.2%
+  C3      24        100%        92%        92%     +123%    -9.3%      25%      17%          0%              -
+    P1 that never confirmed: n=23  ever green 96%  ever +20% 52%  med dd -20.3%  dd<=-30 39%
+    P2 that never confirmed: n=10  ever green 100%  ever +20% 80%  med dd -21.8%  dd<=-30 40%
+
+ETH 1W
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      30        100%       100%        97%     +138%    -4.7%      17%      10%          0%         +21.4%
+  P1      55        100%        85%        80%     +104%   -14.6%      35%      29%         45%          +9.8%
+  P2      39        100%        95%        85%      +95%   -15.6%      41%      26%         23%          +2.7%
+  C3      30        100%        87%        87%     +118%   -13.3%      33%      23%          0%              -
+    P1 that never confirmed: n=25  ever green 100%  ever +20% 64%  med dd -18.7%  dd<=-30 44%
+    P2 that never confirmed: n=9  ever green 100%  ever +20% 100%  med dd -23.5%  dd<=-30 44%
+
+ETH 2W-a
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      17        100%       100%       100%     +134%    -7.5%      24%      12%          0%         +29.7%
+  P1      28        100%        86%        79%      +93%   -14.1%      43%      32%         39%         +18.5%
+  P2      17        100%        94%        82%     +101%   -15.3%      29%      29%          0%          +1.5%
+  C3      17        100%        94%        82%      +98%   -17.2%      41%      29%          0%              -
+    P1 that never confirmed: n=11  ever green 100%  ever +20% 64%  med dd -32.3%  dd<=-30 55%
+
+ETH 2W-b
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      15        100%       100%       100%     +159%    -9.1%      27%      20%          0%         +50.8%
+  P1      26        100%        85%        85%      +86%   -18.0%      42%      27%         42%         +33.8%
+  P2      18        100%        89%        78%     +106%   -11.1%      39%      28%         17%         +12.6%
+  C3      15        100%        80%        67%      +98%   -15.4%      40%      40%          0%              -
+    P1 that never confirmed: n=11  ever green 100%  ever +20% 73%  med dd -19.9%  dd<=-30 36%
+    P2 that never confirmed: n=3  ever green 100%  ever +20% 33%  med dd -2.5%  dd<=-30 0%
+
+ETH 2W-a UNGATED (variant)
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      23        100%       100%       100%     +134%   -12.5%      26%      17%          0%         +32.4%
+  P1      34        100%        88%        82%      +93%   -19.8%      47%      35%         32%         +15.1%
+  P2      23        100%        96%        87%     +101%   -16.0%      39%      39%          0%          +1.4%
+  C3      23        100%        96%        87%      +94%   -17.2%      43%      35%          0%              -
+    P1 that never confirmed: n=11  ever green 100%  ever +20% 64%  med dd -32.3%  dd<=-30 55%
+
+ETH 2W-b UNGATED (variant)
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      23        100%       100%       100%     +157%    -9.1%      22%      17%          0%         +30.3%
+  P1      37        100%        86%        86%      +80%   -19.5%      43%      30%         38%         +21.4%
+  P2      27        100%        89%        81%     +103%   -18.2%      44%      33%         15%         +11.8%
+  C3      23        100%        83%        70%      +98%   -15.4%      39%      39%          0%              -
+    P1 that never confirmed: n=14  ever green 100%  ever +20% 79%  med dd -30.7%  dd<=-30 50%
+    P2 that never confirmed: n=4  ever green 100%  ever +20% 50%  med dd -4.5%  dd<=-30 25%
+
+ETH 2W-a every gated trough
+  trough bar   T0 price  P1 price  C3 price  conf   T0 peak/dd     C3 peak/dd
+  2017-07-03        156       197       348  yes   +812% / -2%    +308% / -42%
+  2017-09-11        283       309       297  yes   +401% / -3%    +379% / -3%
+  2018-01-29          -       842         -  no    -              -
+  2018-03-26        400       620       714  yes   +107% / -3%    +0% / -4%
+  2018-07-02          -       466         -  no    -              -
+  2019-07-15          -       216         -  no    -              -
+  2019-08-26          -       211         -  no    -              -
+  2019-09-23        170       175       184  yes   +187% / -47%   +166% / -51%
+  2020-03-09        122       143       210  yes   +1568% / -3%   +1545% / -16%
+  2020-09-21        352       379       449  yes   +1144% / -6%   +985% / -1%
+  2021-02-22      1,728     1,784     2,241  yes   +182% / -11%   +117% / -24%
+  2021-05-17          -     2,510         -  no    -              -
+  2021-09-06      3,329     3,420     4,290  yes   +46% / -20%    +13% / -3%
+  2022-01-10      2,541     3,058     2,551  yes   +41% / -15%    +40% / -4%
+  2023-02-20      1,565     1,786     2,120  yes   +133% / -12%   +93% / -28%
+  2023-05-01          -     1,909         -  no    -              -
+  2023-05-29      1,753     1,900     1,889  yes   +134% / -13%   +117% / -19%
+  2023-09-04          -     1,733         -  no    -              -
+  2023-10-02      1,558     1,796     2,063  yes   +163% / -1%    +98% / -4%
+  2024-01-22      2,289     2,882     3,641  yes   +80% / -8%     +13% / -42%
+  2024-04-01          -     3,263         -  no    -              -
+  2024-04-29      2,928     3,824     3,418  yes   +40% / -28%    +20% / -38%
+  2024-06-24          -     3,536         -  no    -              -
+  2024-09-02      2,316     2,658     2,505  yes   +114% / -40%   +98% / -45%
+  2024-12-09          -     3,635         -  no    -              -
+  2025-03-31      1,597     1,792     2,552  yes   +210% / -4%    +94% / -17%
+  2025-06-09      2,228     2,571     3,497  yes   +122% / -2%    +42% / -0%
+  2025-09-15          -     4,156         -  no    -              -
+  2025-11-10      2,801     3,061     3,143  yes   open           open
+
+ETH 2W-b every gated trough
+  trough bar   T0 price  P1 price  C3 price  conf   T0 peak/dd     C3 peak/dd
+  2017-07-10        228       264       353  yes   +522% / -22%   +302% / -43%
+  2017-09-04        260       303       303  yes   +447% / -3%    +368% / -8%
+  2018-01-22          -       912         -  no    -              -
+  2018-03-19        378       534       729  yes   +119% / -4%    +2% / -6%
+  2018-06-11          -       486         -  no    -              -
+  2019-08-19        171       189       181  yes   +161% / -47%   +170% / -50%
+  2020-03-02        123       124       198  yes   +1556% / -18%  +1238% / -11%
+  2020-09-14        358       374       455  yes   +1126% / -7%   +961% / -5%
+  2021-02-15          -     1,849         -  no    -              -
+  2021-03-15      1,687     2,151     3,928  yes   +189% / -1%    +24% / -57%
+  2021-05-10          -     2,711         -  no    -              -
+  2021-06-07          -     2,323         -  no    -              -
+  2021-09-13      3,061     3,415     4,617  yes   +59% / -9%     +5% / -3%
+  2022-01-17          -     2,873         -  no    -              -
+  2023-05-08          -     1,890         -  no    -              -
+  2023-06-05      1,720     1,937     1,862  yes   +138% / -12%   +120% / -18%
+  2023-09-11      1,581     1,634     1,893  yes   +159% / -4%    +116% / -2%
+  2024-01-15      2,257     2,508     3,882  yes   +82% / -6%     +6% / -45%
+  2024-05-06      3,071     3,779     3,432  yes   +34% / -31%    +20% / -38%
+  2024-07-01          -     3,270         -  no    -              -
+  2024-07-29          -     2,748         -  no    -              -
+  2024-08-26      2,297     2,581     2,746  yes   +116% / -40%   +80% / -50%
+  2025-01-27          -     2,820         -  no    -              -
+  2025-03-24      1,580     1,587     2,498  yes   +214% / -12%   +98% / -15%
+  2025-06-16      2,501     2,973     4,252  yes   +98% / -5%     +17% / -4%
+  2025-08-25          -     4,447         -  no    -              -
+  2025-11-17          -     3,063         -  no    -              -
+
+==================== BTC  (gated, 365-day window, full windows only)
+
+BTC 1D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0     275        100%        95%        88%     +128%    -5.8%      22%      10%          0%          +3.8%
+  P1     412        100%        92%        83%     +109%    -9.8%      31%      14%         33%          +1.3%
+  P2     318        100%        92%        81%     +114%   -10.0%      29%      12%         14%          +0.4%
+  C3     274        100%        92%        82%     +117%    -8.9%      28%      12%          0%              -
+    P1 that never confirmed: n=137  ever green 100%  ever +20% 80%  med dd -16.8%  dd<=-30 19%
+    P2 that never confirmed: n=44  ever green 100%  ever +20% 77%  med dd -16.7%  dd<=-30 18%
+
+BTC 2D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0     139        100%        99%        91%     +116%    -4.4%      22%      11%          0%          +6.9%
+  P1     218        100%        90%        80%      +88%   -10.2%      30%      12%         36%          +3.7%
+  P2     162        100%        90%        81%     +112%   -10.6%      33%      14%         14%          +1.5%
+  C3     139        100%        93%        83%     +110%    -9.6%      29%      16%          0%              -
+    P1 that never confirmed: n=79  ever green 99%  ever +20% 70%  med dd -13.2%  dd<=-30 13%
+    P2 that never confirmed: n=23  ever green 100%  ever +20% 65%  med dd -19.0%  dd<=-30 13%
+
+BTC 3D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      90        100%        99%        91%     +141%    -4.0%      21%       8%          0%          +7.7%
+  P1     154        100%        92%        82%     +106%   -11.0%      30%      12%         42%          +3.7%
+  P2     111        100%        92%        83%     +110%   -10.0%      31%      14%         20%          +1.3%
+  C3      89        100%        94%        85%     +140%    -9.4%      34%      15%          0%              -
+    P1 that never confirmed: n=64  ever green 100%  ever +20% 77%  med dd -16.4%  dd<=-30 12%
+    P2 that never confirmed: n=22  ever green 100%  ever +20% 77%  med dd -18.5%  dd<=-30 9%
+
+BTC 5D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      48        100%        98%        92%     +119%    -3.8%      23%      12%          0%         +12.9%
+  P1      87        100%        89%        77%      +87%   -11.5%      32%      15%         45%          +4.4%
+  P2      61        100%        92%        79%     +114%   -12.2%      31%      16%         23%          +1.2%
+  C3      47        100%        91%        79%     +106%    -8.6%      30%      17%          0%              -
+    P1 that never confirmed: n=39  ever green 100%  ever +20% 72%  med dd -17.9%  dd<=-30 18%
+    P2 that never confirmed: n=14  ever green 100%  ever +20% 79%  med dd -17.9%  dd<=-30 21%
+
+BTC 8D
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      28        100%       100%        96%     +108%    -3.7%      18%       7%          0%         +13.6%
+  P1      45        100%        89%        78%      +81%    -8.7%      29%      13%         38%          +8.1%
+  P2      34        100%        91%        79%      +81%    -6.5%      35%      21%         18%          +3.2%
+  C3      28        100%        89%        71%      +92%    -8.0%      25%      14%          0%              -
+    P1 that never confirmed: n=17  ever green 100%  ever +20% 65%  med dd -18.1%  dd<=-30 24%
+    P2 that never confirmed: n=6  ever green 100%  ever +20% 83%  med dd -37.8%  dd<=-30 50%
+
+BTC 1W
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      36        100%       100%        97%     +120%    -4.3%      14%      11%          0%         +18.8%
+  P1      63        100%        90%        75%      +65%   -10.5%      27%      16%         43%         +10.2%
+  P2      44        100%        91%        77%      +94%    -8.7%      27%      18%         18%          +4.6%
+  C3      36        100%        92%        83%      +85%    -9.8%      22%      14%          0%              -
+    P1 that never confirmed: n=27  ever green 100%  ever +20% 52%  med dd -15.4%  dd<=-30 22%
+    P2 that never confirmed: n=8  ever green 100%  ever +20% 38%  med dd -28.9%  dd<=-30 50%
+
+BTC 2W-a
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      20        100%       100%        95%     +141%    -4.4%      10%      10%          0%         +18.7%
+  P1      29        100%        90%        79%      +78%    -7.2%      31%      17%         31%          +5.9%
+  P2      21        100%        86%        81%     +110%   -10.3%      29%      19%          5%          +4.4%
+  C3      20        100%        90%        80%     +104%   -13.0%      35%      20%          0%              -
+    P1 that never confirmed: n=9  ever green 100%  ever +20% 78%  med dd -28.1%  dd<=-30 33%
+    P2 that never confirmed: n=1  ever green 100%  ever +20% 100%  med dd -29.6%  dd<=-30 0%
+
+BTC 2W-b
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      16        100%       100%       100%     +113%    -7.5%      25%      12%          0%         +26.0%
+  P1      29        100%        93%        72%      +51%   -18.4%      41%      28%         45%         +11.7%
+  P2      19        100%        84%        79%      +87%    -6.3%      21%      11%         16%          +5.7%
+  C3      16        100%        88%        81%      +96%    -6.6%      19%      12%          0%              -
+    P1 that never confirmed: n=13  ever green 100%  ever +20% 54%  med dd -28.1%  dd<=-30 46%
+    P2 that never confirmed: n=3  ever green 100%  ever +20% 33%  med dd -1.1%  dd<=-30 0%
+
+BTC 2W-a UNGATED (variant)
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      26        100%       100%        96%     +128%    -5.5%      19%      15%          0%         +14.5%
+  P1      36        100%        92%        83%      +88%   -10.9%      33%      22%         28%          +5.0%
+  P2      28        100%        89%        86%     +110%   -10.4%      36%      25%          7%          +1.5%
+  C3      26        100%        92%        85%     +111%   -16.6%      38%      23%          0%              -
+    P1 that never confirmed: n=10  ever green 100%  ever +20% 80%  med dd -27.1%  dd<=-30 30%
+    P2 that never confirmed: n=2  ever green 100%  ever +20% 100%  med dd -27.3%  dd<=-30 0%
+
+BTC 2W-b UNGATED (variant)
+  entry    n  ever green  ever +10%  ever +20%  med peak   med dd  dd<=-20  dd<=-30  never conf  conf px above
+  T0      23        100%       100%       100%     +127%    -9.4%      26%      17%          0%         +16.2%
+  P1      37        100%        95%        78%      +81%   -18.4%      43%      30%         38%          +9.0%
+  P2      27        100%        89%        85%     +101%   -10.4%      30%      22%         15%          +3.8%
+  C3      23        100%        91%        87%     +110%    -7.7%      26%      22%          0%              -
+    P1 that never confirmed: n=14  ever green 100%  ever +20% 57%  med dd -29.2%  dd<=-30 50%
+    P2 that never confirmed: n=4  ever green 100%  ever +20% 50%  med dd -14.3%  dd<=-30 25%
