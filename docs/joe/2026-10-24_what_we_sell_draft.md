@@ -44,10 +44,35 @@ BTC 5D    62% (29)     25% (20)
 2022-26 is lower largely because the market moves less: ETH's daily
 volatility fell from 5.7% to 3.6%, so a fixed +20% is a higher bar.
 
-Narrower setups reach 70% to 90% but take far fewer trades. ETH 2D with the
-8-day chart rising: 84% then 71%, keeping about half of the winning signals.
-ETH 2D with a BTC 3-day signal in the 10 days before: 77% (39 signals).
-Smaller samples like these may not hold up going forward.
+BEST CONFLUENCE SETUPS
+
+Confluence means another chart, or the other asset, already signalled in the
+10 days before. Only signals that printed before entry count, never after, so
+it is knowable at the moment of the alert. Regime on, all years combined,
+share that reached +20% within 60 days. "Without" is the same setup minus the
+confluence.
+
+Setup                                                With   Without  Signals
+ETH 2D + BTC 3D signal before + 2 or more ETH charts  80%    64%       20
+ETH 1D + BTC 3D signal before + 2 or more ETH charts  79%    48%       48
+ETH 2D + BTC 3D signal before                         77%    56%       39
+ETH 1D + BTC 3D signal before                         73%    55%       95
+ETH 2D + 2 or more other ETH charts already signalled 71%    59%       35
+ETH 1D + 2 or more other ETH charts already signalled 67%    58%       83
+BTC 1D + ETH 2D signal before                         60%    44%      136
+
+Drawdown is lower with it too. With a BTC 3D signal before, the median worst
+dip within 60 days was -9.8% on ETH 2D (-18.1% without) and -14.3% on ETH 1D
+(-17.4% without). ETH 1D with a BTC 3D signal before came out ahead in 9 of 10
+years.
+
+Other narrow setups that held in both periods: ETH 2D with the 8-day chart
+rising, 84% then 71%, keeping about half of the winning signals; ETH 2D with a
+higher entry than the previous signal and the 8-day chart rising, 91% then
+80% (23 and 15 signals).
+
+Rows with under 50 signals are small samples and may not hold up going
+forward. The ETH 2D results also weaken if the window is 5 days instead of 10.
 
 WHAT WE CAN SELL
 
