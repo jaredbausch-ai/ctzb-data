@@ -60,9 +60,9 @@ Reconciling real exports he supplies is fine. Generating records is not.
 
 ### Joe — open as of 24 Oct 2026
 
-Sorted list with every repeat merged: `docs/joe/inbox_sorted.md`. Open: reissue
-a view-only Coinbase key (allowlist 67.191.123.90, Jared creates it himself,
-sent outside the bot-CC'd thread); the ETHKROS package, test site and
+Sorted list with every repeat merged: `docs/joe/inbox_sorted.md`. New view-only
+Coinbase key created and sent by Jared 24 Oct (allowlist 67.191.123.90), done.
+Open: the ETHKROS package, test site and
 calculator stats; his "extra edge" idea list; the carry-trade LTV model.
 ETHKROS is Joe's paid signal-club plan built on CTZB (tiers $249 / $799 /
 $2,500 Inner Table). The repo record still stands: no signal has been taken.
