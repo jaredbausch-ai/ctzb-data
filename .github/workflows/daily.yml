@@ -32,6 +32,9 @@ jobs:
       # Perp open interest, funding and long/short ratio from Coinalyze.
       # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
       # A failure here must not block the candle commit below.
+      - name: Fetch Coinbase Premium (no key needed)
+        run: python fetch_flows.py
+
       - name: Fetch derivatives positioning
         continue-on-error: true
         env:
