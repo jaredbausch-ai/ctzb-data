@@ -1,0 +1,331 @@
+section,chart,setup,confirmed_before_by,win_pct,win_2016_21_pct,n_2016_21,win_2022_26_pct,n_2022_26,without_pct,lift_pts,years_ahead,drawdown_before_high_median_pct,touched_minus20_pct,touched_minus30_pct,closed_green_day60_pct,n,evidence
+base,ETH 1D,any signal,,61,71,173,45,115,,,,-6.5,41,27,60,288,
+base,ETH 2D,any signal,,62,72,81,48,56,,,,-5.2,41,28,61,137,
+base,ETH 3D,any signal,,55,67,48,41,39,,,,-5.4,39,29,61,87,
+base,ETH 5D,any signal,,70,76,25,64,22,,,,-5.3,30,17,72,47,both periods 60%+
+base,ETH 8D,any signal,,79,79,14,80,10,,,,-4.3,29,12,67,24,both periods 60%+
+base,BTC 1D,any signal,,52,61,167,38,112,,,,-4.7,30,13,64,279,
+base,BTC 2D,any signal,,52,60,83,40,58,,,,-4.6,30,15,62,141,
+base,BTC 3D,any signal,,51,65,52,32,40,,,,-4.8,32,14,63,92,
+base,BTC 5D,any signal,,47,62,29,25,20,,,,-3.9,39,16,53,49,
+base,BTC 8D,any signal,,50,59,17,36,11,,,,-4.6,39,11,61,28,
+tag,ETH 1D,bucket A,,51,60,48,41,49,,-10,,-6.5,48,34,58,97,
+tag,ETH 1D,bucket B,,59,68,73,42,43,,-2,,-5.3,36,26,59,116,
+tag,ETH 1D,bucket C,,79,86,37,60,15,,18,,-8.3,33,17,67,52,both periods 60%+
+tag,ETH 1D,bucket D,,74,80,15,62,8,,13,,-9.6,52,30,52,23,both periods 60%+
+tag,ETH 1D,diamond,,72,75,44,65,17,,11,,-6.4,36,26,67,61,both periods 60%+
+tag,ETH 1D,filled diamond,,65,69,26,57,14,,4,,-5.7,38,28,62,40,
+tag,ETH 1D,hollow diamond,,86,83,18,100,3,,25,,-8.0,33,24,76,21,
+tag,ETH 1D,bucket A + diamond,,61,64,11,57,7,,0,,-6.2,44,28,56,18,small sample
+tag,ETH 1D,bucket B + diamond,,70,71,21,67,9,,9,,-4.6,33,27,70,30,both periods 60%+
+tag,ETH 1D,prime dot,,61,70,47,44,25,,0,,-6.6,46,32,53,72,
+tag,ETH 1D,prime dot + diamond,,79,86,14,60,5,,18,,-6.1,42,26,63,19,small sample
+tag,ETH 2D,bucket A,,47,50,16,45,20,,-15,,-6.6,47,33,56,36,
+tag,ETH 2D,bucket B,,65,74,38,52,25,,3,,-4.4,35,24,62,63,
+tag,ETH 2D,bucket C,,62,73,15,44,9,,0,,-6.3,46,33,62,24,
+tag,ETH 2D,bucket D,,86,92,12,50,2,,24,,-6.5,43,21,64,14,small sample
+tag,ETH 2D,diamond,,71,79,19,60,15,,9,,-4.8,32,24,76,34,both periods 60%+
+tag,ETH 2D,filled diamond,,65,67,9,64,11,,3,,-5.0,35,30,70,20,both periods 60%+
+tag,ETH 2D,hollow diamond,,79,90,10,50,4,,17,,-3.6,29,14,86,14,small sample
+tag,ETH 2D,bucket A + diamond,,50,50,4,50,8,,-12,,-5.2,50,42,58,12,small sample
+tag,ETH 2D,bucket B + diamond,,75,80,10,67,6,,13,,-4.8,25,12,88,16,small sample
+tag,ETH 2D,prime dot,,81,76,17,86,14,,19,,-4.6,32,23,68,31,both periods 60%+
+tag,ETH 2D,prime dot + diamond,,77,71,7,83,6,,15,,-4.1,38,31,69,13,small sample
+tag,ETH 3D,bucket A,,58,75,8,50,16,,3,,-4.3,33,25,67,24,
+tag,ETH 3D,bucket B,,51,56,25,42,12,,-4,,-5.3,46,32,54,37,
+tag,ETH 3D,bucket C,,53,75,8,29,7,,-2,,-11.9,40,33,60,15,small sample
+tag,ETH 3D,bucket D,,64,86,7,25,4,,8,,-9.6,27,18,73,11,small sample
+tag,ETH 3D,diamond,,55,58,12,50,8,,0,,-6.2,35,30,55,20,
+tag,ETH 3D,filled diamond,,45,40,5,50,6,,-10,,-4.1,36,27,45,11,small sample
+tag,ETH 3D,hollow diamond,,67,71,7,50,2,,11,,-9.6,33,33,67,9,small sample
+tag,ETH 3D,bucket A + diamond,,43,67,3,25,4,,-12,,-4.0,29,29,43,7,small sample
+tag,ETH 3D,bucket B + diamond,,57,25,4,100,3,,2,,-6.9,43,29,57,7,small sample
+tag,ETH 3D,prime dot,,79,80,15,78,9,,24,,-3.7,21,17,79,24,both periods 60%+
+tag,ETH 3D,prime dot + diamond,,67,67,3,67,3,,11,,-7.6,17,0,83,6,small sample
+tag,ETH 5D,bucket A,,71,83,6,62,8,,1,,-4.5,36,14,71,14,small sample
+tag,ETH 5D,bucket B,,75,90,10,60,10,,5,,-5.0,20,10,80,20,both periods 60%+
+tag,ETH 5D,bucket D,,67,71,7,50,2,,-4,,-6.3,33,22,67,9,small sample
+tag,ETH 5D,diamond,,67,100,4,40,5,,-4,,-4.0,22,11,78,9,small sample
+tag,ETH 5D,hollow diamond,,80,100,4,0,1,,10,,-7.2,20,0,100,5,small sample
+tag,ETH 5D,bucket B + diamond,,50,100,3,0,3,,-20,,-4.7,17,17,67,6,small sample
+tag,ETH 5D,prime dot,,88,83,6,100,2,,17,,-4.6,12,12,88,8,small sample
+tag,ETH 8D,bucket B,,67,50,4,80,5,,-12,,-5.9,44,11,44,9,small sample
+tag,ETH 8D,bucket C,,78,83,6,67,3,,-1,,-1.6,22,11,78,9,small sample
+tag,ETH 8D,diamond,,67,60,5,100,1,,-12,,-2.8,33,33,67,6,small sample
+tag,BTC 1D,bucket A,,44,50,44,37,35,,-7,,-4.7,37,13,61,79,
+tag,BTC 1D,bucket B,,50,56,71,41,46,,-1,,-3.9,31,15,61,117,
+tag,BTC 1D,bucket C,,59,83,30,29,24,,8,,-5.2,20,7,67,54,
+tag,BTC 1D,bucket D,,62,68,22,43,7,,10,,-6.6,31,14,79,29,
+tag,BTC 1D,diamond,,53,68,41,28,25,,1,,-4.8,24,12,70,66,
+tag,BTC 1D,filled diamond,,45,50,22,38,16,,-7,,-5.4,29,13,63,38,
+tag,BTC 1D,hollow diamond,,64,89,19,11,9,,13,,-4.0,18,11,79,28,
+tag,BTC 1D,bucket A + diamond,,52,62,13,38,8,,1,,-4.3,19,14,71,21,
+tag,BTC 1D,bucket B + diamond,,50,60,15,33,9,,-2,,-6.4,29,8,62,24,
+tag,BTC 1D,prime dot,,60,66,38,52,27,,8,,-4.5,29,15,66,65,
+tag,BTC 1D,prime dot + diamond,,53,69,13,17,6,,1,,-4.3,21,11,68,19,small sample
+tag,BTC 2D,bucket A,,47,50,18,45,20,,-4,,-4.4,29,8,53,38,
+tag,BTC 2D,bucket B,,48,61,31,29,21,,-4,,-3.7,35,19,62,52,
+tag,BTC 2D,bucket C,,59,65,23,44,9,,8,,-4.9,28,16,69,32,
+tag,BTC 2D,bucket D,,58,64,11,50,8,,6,,-7.9,26,16,74,19,small sample
+tag,BTC 2D,diamond,,56,59,17,53,19,,4,,-3.7,28,17,53,36,
+tag,BTC 2D,filled diamond,,58,60,10,57,14,,7,,-2.5,21,12,50,24,
+tag,BTC 2D,hollow diamond,,50,57,7,40,5,,-2,,-7.8,42,25,58,12,small sample
+tag,BTC 2D,bucket A + diamond,,60,60,5,60,10,,8,,-3.5,20,13,47,15,small sample
+tag,BTC 2D,bucket B + diamond,,50,60,5,40,5,,-2,,-1.6,30,10,50,10,small sample
+tag,BTC 2D,prime dot,,66,62,16,69,13,,14,,-3.6,34,21,69,29,both periods 60%+
+tag,BTC 2D,prime dot + diamond,,78,67,3,83,6,,26,,-1.8,33,33,67,9,small sample
+tag,BTC 3D,bucket A,,50,62,8,40,10,,-1,,-8.1,50,17,50,18,small sample
+tag,BTC 3D,bucket B,,46,57,21,31,16,,-5,,-3.3,22,11,59,37,
+tag,BTC 3D,bucket C,,52,64,14,33,9,,1,,-4.2,39,17,74,23,
+tag,BTC 3D,bucket D,,64,89,9,20,5,,13,,-8.2,21,14,71,14,small sample
+tag,BTC 3D,diamond,,50,71,7,33,9,,-1,,-7.2,25,0,56,16,small sample
+tag,BTC 3D,filled diamond,,55,60,5,50,6,,3,,-9.4,36,0,55,11,small sample
+tag,BTC 3D,hollow diamond,,40,100,2,0,3,,-11,,-6.9,0,0,60,5,small sample
+tag,BTC 3D,bucket A + diamond,,83,100,3,67,3,,32,,-12.5,50,0,67,6,small sample
+tag,BTC 3D,bucket B + diamond,,17,0,2,25,4,,-34,,-2.1,17,0,33,6,small sample
+tag,BTC 3D,prime dot,,43,83,6,12,8,,-8,,-7.1,29,21,64,14,small sample
+tag,BTC 5D,bucket A,,50,67,3,33,3,,3,,-8.0,33,0,50,6,small sample
+tag,BTC 5D,bucket B,,43,62,13,20,10,,-3,,-3.4,43,22,48,23,
+tag,BTC 5D,bucket C,,46,57,7,33,6,,-1,,-3.9,38,8,69,13,small sample
+tag,BTC 5D,bucket D,,57,67,6,0,1,,10,,-7.5,29,29,43,7,small sample
+tag,BTC 5D,diamond,,57,70,10,25,4,,10,,-3.4,50,29,36,14,small sample
+tag,BTC 5D,filled diamond,,62,80,5,33,3,,16,,-3.4,50,25,38,8,small sample
+tag,BTC 5D,hollow diamond,,50,60,5,0,1,,3,,-3.9,50,33,33,6,small sample
+tag,BTC 5D,bucket B + diamond,,50,67,3,33,3,,3,,-2.7,67,33,33,6,small sample
+tag,BTC 5D,prime dot,,60,75,8,0,2,,13,,-1.1,20,10,80,10,small sample
+tag,BTC 8D,bucket B,,42,29,7,60,5,,-8,,-4.0,42,25,58,12,small sample
+tag,BTC 8D,bucket C,,56,80,5,25,4,,6,,-1.5,33,0,56,9,small sample
+tag,BTC 8D,bucket D,,60,75,4,0,1,,10,,-10.1,60,0,60,5,small sample
+tag,BTC 8D,diamond,,67,80,5,0,1,,17,,-2.3,50,0,67,6,small sample
+tag,BTC 8D,prime dot,,86,100,5,50,2,,36,,-1.0,29,0,86,7,small sample
+filter,ETH 1D,momentum well above its signal line,,76,86,28,65,23,57,19,7/9,-4.9,33,24,69,51,both periods 60%+
+filter,ETH 2D,momentum well above its signal line,,87,91,23,71,7,55,32,5/8,-6.1,30,17,70,30,both periods 60%+
+filter,ETH 3D,momentum well above its signal line,,59,78,9,46,13,54,5,3/7,-6.7,23,14,73,22,
+filter,ETH 5D,momentum well above its signal line,,69,57,7,83,6,71,-1,2/8,-5.9,38,23,69,13,small sample
+filter,ETH 8D,momentum well above its signal line,,88,75,4,100,4,75,12,3/6,-6.9,25,12,75,8,small sample
+filter,BTC 1D,momentum well above its signal line,,71,81,26,61,23,47,24,9/9,-4.0,20,6,73,49,both periods 60%+
+filter,BTC 2D,momentum well above its signal line,,66,79,14,53,15,48,17,7/8,-3.2,21,10,66,29,
+filter,BTC 3D,momentum well above its signal line,,50,75,8,30,10,51,-1,3/7,-5.7,33,11,67,18,small sample
+filter,BTC 5D,momentum well above its signal line,,55,83,6,20,5,45,10,3/7,-3.4,18,9,45,11,small sample
+filter,ETH (all charts),momentum well above its signal line,,76,83,71,66,53,58,18,9/9,-6.0,31,19,70,124,both periods 60%+
+filter,BTC (all charts),momentum well above its signal line,,63,77,57,48,54,48,15,9/9,-3.9,24,9,66,111,
+filter,ETH 1D,momentum above its signal line + prime dot,,65,77,22,42,12,60,4,5/8,-6.3,44,38,56,34,
+filter,ETH 2D,momentum above its signal line + prime dot,,87,79,14,100,9,57,30,6/8,-4.1,30,22,70,23,both periods 60%+
+filter,ETH 3D,momentum above its signal line + prime dot,,92,89,9,100,4,49,44,6/7,-5.3,23,15,77,13,small sample
+filter,BTC 1D,momentum above its signal line + prime dot,,70,70,20,70,10,49,21,7/9,-3.6,33,23,73,30,both periods 60%+
+filter,BTC 2D,momentum above its signal line + prime dot,,75,83,6,70,10,49,26,7/7,-1.9,25,12,81,16,small sample
+filter,ETH (all charts),momentum above its signal line + prime dot,,77,79,48,73,26,60,17,6/9,-5.3,35,28,65,74,both periods 60%+
+filter,BTC (all charts),momentum above its signal line + prime dot,,72,77,31,65,23,49,23,8/9,-3.5,30,19,78,54,both periods 60%+
+filter,ETH 1D,momentum above its signal line + diamond,,88,94,17,71,7,58,29,8/8,-7.9,29,25,71,24,both periods 60%+
+filter,ETH 2D,momentum above its signal line + diamond,,90,87,15,100,6,57,34,6/8,-4.1,24,19,86,21,both periods 60%+
+filter,ETH 3D,momentum above its signal line + diamond,,50,75,4,25,4,56,-6,3/6,-10.1,25,12,62,8,small sample
+filter,BTC 1D,momentum above its signal line + diamond,,60,73,22,38,13,50,10,5/10,-3.9,26,17,71,35,
+filter,BTC 2D,momentum above its signal line + diamond,,58,75,8,45,11,51,7,5/6,-2.1,21,11,58,19,small sample
+filter,ETH (all charts),momentum above its signal line + diamond,,82,88,40,70,20,59,22,8/9,-5.5,28,22,75,60,both periods 60%+
+filter,BTC (all charts),momentum above its signal line + diamond,,61,74,38,43,28,50,11,7/10,-3.7,26,14,65,66,
+filter,ETH 1D,higher low,,70,76,97,56,48,52,18,7/9,-6.1,37,24,63,145,
+filter,ETH 2D,higher low,,71,75,53,61,23,51,20,4/9,-4.8,39,24,64,76,both periods 60%+
+filter,ETH 3D,higher low,,60,76,25,40,20,50,10,2/9,-7.8,31,22,64,45,
+filter,ETH 5D,higher low,,73,80,15,64,11,67,6,1/7,-5.6,19,12,77,26,both periods 60%+
+filter,ETH 8D,higher low,,79,88,8,67,6,80,-1,0/6,-4.5,21,14,64,14,small sample
+filter,BTC 1D,higher low,,56,67,94,40,60,46,11,7/10,-4.3,28,14,67,154,
+filter,BTC 2D,higher low,,59,66,50,47,32,42,16,6/9,-3.9,27,16,70,82,
+filter,BTC 3D,higher low,,56,70,30,36,22,45,11,3/9,-4.8,23,15,69,52,
+filter,BTC 5D,higher low,,52,76,17,17,12,40,12,4/8,-3.4,31,17,59,29,
+filter,BTC 8D,higher low,,65,73,11,50,6,27,37,1/7,-4.8,35,12,65,17,small sample
+filter,ETH (all charts),higher low,,69,77,198,56,108,53,16,5/9,-5.9,35,22,65,306,
+filter,BTC (all charts),higher low,,57,68,202,39,132,44,13,5/10,-4.1,28,15,67,334,
+filter,ETH 1D,same-asset agreement,,67,77,43,55,38,58,8,7/9,-6.4,28,15,60,81,
+filter,ETH 2D,same-asset agreement,,71,76,25,65,20,58,14,5/10,-4.9,31,18,67,45,both periods 60%+
+filter,ETH 3D,same-asset agreement,,58,67,45,47,34,25,33,4/6,-5.3,37,28,63,79,
+filter,BTC 1D,same-asset agreement,,53,59,54,43,35,51,2,5/10,-3.4,27,13,65,89,
+filter,BTC 2D,same-asset agreement,,53,62,29,42,26,51,2,4/10,-3.9,29,16,67,55,
+filter,BTC 5D,same-asset agreement,,52,65,26,29,14,22,30,3/5,-3.8,30,18,58,40,
+filter,BTC 8D,same-asset agreement,,58,67,12,43,7,33,25,1/7,-4.5,42,16,58,19,small sample
+filter,ETH (all charts),same-asset agreement,,66,73,147,56,117,58,8,6/10,-5.5,31,20,64,264,
+filter,BTC (all charts),same-asset agreement,,52,62,167,37,121,50,1,4/10,-4.2,30,15,63,288,
+filter,ETH 1D,higher timeframe rising,,69,75,77,60,47,54,15,5/8,-7.1,33,20,63,124,
+filter,ETH 2D,higher timeframe rising,,79,84,31,71,21,52,27,7/9,-6.3,29,19,75,52,both periods 60%+
+filter,ETH 3D,higher timeframe rising,,63,77,26,48,23,45,19,5/9,-8.7,35,24,65,49,
+filter,ETH 5D,higher timeframe rising,,68,75,20,61,18,78,-9,2/6,-5.3,29,16,68,38,both periods 60%+
+filter,ETH 8D,higher timeframe rising,,93,89,9,100,5,60,33,2/5,-3.2,14,7,79,14,small sample
+filter,BTC 1D,higher timeframe rising,,60,68,91,46,52,43,17,6/9,-4.5,26,12,70,143,
+filter,BTC 2D,higher timeframe rising,,55,68,34,42,31,49,7,6/8,-4.8,26,14,68,65,
+filter,BTC 3D,higher timeframe rising,,54,68,31,35,23,47,6,4/9,-5.5,30,15,70,54,
+filter,BTC 8D,higher timeframe rising,,60,62,13,57,7,25,35,1/5,-4.6,35,15,65,20,
+filter,ETH (all charts),higher timeframe rising,,71,78,163,61,114,53,18,7/10,-6.3,31,19,67,277,both periods 60%+
+filter,BTC (all charts),higher timeframe rising,,56,67,196,41,130,44,12,7/10,-4.7,29,13,67,326,
+filter,ETH 1D,higher timeframe rising + higher low,,75,79,58,67,33,54,20,7/8,-6.0,32,21,64,91,both periods 60%+
+filter,ETH 2D,higher timeframe rising + higher low,,87,91,23,80,15,53,34,5/6,-6.1,26,13,79,38,both periods 60%+
+filter,ETH 3D,higher timeframe rising + higher low,,65,76,17,50,14,50,15,3/8,-8.2,29,23,61,31,
+filter,ETH 5D,higher timeframe rising + higher low,,75,79,14,70,10,65,10,2/7,-5.6,21,12,75,24,both periods 60%+
+filter,ETH 8D,higher timeframe rising + higher low,,100,100,5,100,4,67,33,2/6,-5.9,11,11,78,9,small sample
+filter,BTC 1D,higher timeframe rising + higher low,,60,69,72,43,42,46,14,6/9,-4.6,26,14,71,114,
+filter,BTC 2D,higher timeframe rising + higher low,,62,74,27,48,23,46,16,7/8,-3.9,22,10,72,50,
+filter,BTC 3D,higher timeframe rising + higher low,,58,71,21,33,12,47,10,3/8,-4.4,24,15,73,33,
+filter,BTC 5D,higher timeframe rising + higher low,,56,81,16,18,11,36,19,4/8,-3.2,26,15,63,27,
+filter,BTC 8D,higher timeframe rising + higher low,,67,70,10,60,5,31,36,1/7,-6.6,33,13,67,15,small sample
+filter,ETH (all charts),higher timeframe rising + higher low,,77,82,117,68,76,54,22,8/8,-6.0,28,18,68,193,both periods 60%+
+filter,BTC (all charts),higher timeframe rising + higher low,,60,72,146,41,93,45,15,7/9,-4.4,26,13,70,239,
+filter,ETH 1D,higher timeframe rising + momentum above its signal line,,74,82,49,64,33,55,19,7/8,-6.1,29,20,63,82,both periods 60%+
+filter,ETH 2D,higher timeframe rising + momentum above its signal line,,85,91,22,76,17,53,32,7/9,-6.4,23,13,79,39,both periods 60%+
+filter,ETH 3D,higher timeframe rising + momentum above its signal line,,62,80,15,43,14,52,10,5/10,-9.6,24,14,69,29,
+filter,ETH 5D,higher timeframe rising + momentum above its signal line,,73,77,13,69,13,67,6,3/8,-5.6,31,15,69,26,both periods 60%+
+filter,ETH 8D,higher timeframe rising + momentum above its signal line,,88,75,4,100,4,75,12,2/7,-5.0,12,0,75,8,small sample
+filter,BTC 1D,higher timeframe rising + momentum above its signal line,,63,70,60,50,32,46,17,7/9,-4.2,30,16,72,92,
+filter,BTC 2D,higher timeframe rising + momentum above its signal line,,62,71,24,52,23,47,15,7/8,-4.2,23,11,70,47,
+filter,BTC 3D,higher timeframe rising + momentum above its signal line,,68,78,18,54,13,43,25,5/8,-5.5,23,6,81,31,
+filter,BTC 5D,higher timeframe rising + momentum above its signal line,,45,70,10,25,12,48,-3,3/9,-4.6,32,9,50,22,
+filter,BTC 8D,higher timeframe rising + momentum above its signal line,,57,67,9,40,5,43,14,1/7,-5.7,36,7,64,14,small sample
+filter,ETH (all charts),higher timeframe rising + momentum above its signal line,,75,83,103,65,81,56,19,9/10,-6.2,27,16,69,184,both periods 60%+
+filter,BTC (all charts),higher timeframe rising + momentum above its signal line,,61,71,121,47,85,46,15,7/10,-4.4,28,12,70,206,
+filter,ETH 1D,higher timeframe rising + prime dot,,62,73,22,42,12,61,1,4/7,-6.4,32,21,56,34,
+filter,ETH 2D,higher timeframe rising + prime dot,,100,100,7,100,8,57,43,5/6,-5.3,20,7,87,15,small sample
+filter,ETH 3D,higher timeframe rising + prime dot,,92,88,8,100,5,49,44,5/6,-5.3,23,15,77,13,small sample
+filter,BTC 1D,higher timeframe rising + prime dot,,57,62,24,50,20,51,6,5/9,-5.1,32,16,61,44,
+filter,BTC 2D,higher timeframe rising + prime dot,,64,57,7,71,7,50,14,6/7,-3.8,36,21,71,14,small sample
+filter,BTC 5D,higher timeframe rising + prime dot,,62,71,7,0,1,44,19,1/5,-1.9,12,12,88,8,small sample
+filter,ETH (all charts),higher timeframe rising + prime dot,,79,81,43,74,27,59,19,6/7,-5.4,26,16,70,70,both periods 60%+
+filter,BTC (all charts),higher timeframe rising + prime dot,,61,68,44,52,33,50,11,7/9,-4.5,29,16,69,77,
+filter,ETH 1D,higher timeframe rising + diamond,,88,84,19,100,6,58,30,6/8,-8.0,20,12,84,25,both periods 60%+
+filter,ETH 2D,higher timeframe rising + diamond,,80,88,8,71,7,60,20,4/7,-5.4,27,13,87,15,small sample
+filter,ETH 3D,higher timeframe rising + diamond,,64,60,10,75,4,53,11,2/7,-9.8,36,29,64,14,small sample
+filter,ETH 5D,higher timeframe rising + diamond,,75,100,4,50,4,69,6,2/6,-3.5,25,12,75,8,small sample
+filter,BTC 1D,higher timeframe rising + diamond,,56,74,23,11,9,51,5,3/9,-3.5,25,12,72,32,
+filter,BTC 2D,higher timeframe rising + diamond,,57,80,5,44,9,51,6,4/5,-3.0,21,14,57,14,small sample
+filter,BTC 3D,higher timeframe rising + diamond,,45,80,5,17,6,52,-6,4/8,-7.0,27,0,55,11,small sample
+filter,BTC 5D,higher timeframe rising + diamond,,67,78,9,33,3,41,26,4/8,-3.4,42,25,42,12,small sample
+filter,ETH (all charts),higher timeframe rising + diamond,,80,81,43,77,22,59,21,8/9,-6.9,25,15,80,65,both periods 60%+
+filter,BTC (all charts),higher timeframe rising + diamond,,58,76,46,26,27,50,7,6/10,-3.9,29,12,62,73,
+confluence,ETH 5D,any signal,ETH 1D bucket B,89,90,10,88,8,59,30,4/8,-6.3,17,0,89,18,passed confluence checks; small sample
+confluence,ETH 2D,prime dot,BTC 1D bucket B,87,86,7,88,8,75,12,3/8,-2.6,33,13,73,15,passed confluence checks; small sample
+confluence,ETH 2D,bucket B,ETH 1D diamond,86,94,16,60,5,55,31,3/8,-4.9,24,14,76,21,passed confluence checks
+confluence,BTC 3D,any signal,ETH 3D prime dot,83,91,11,71,7,43,40,7/8,-3.0,11,6,89,18,passed confluence checks; small sample
+confluence,ETH 5D,any signal,BTC 1D bucket B,82,85,13,78,9,60,22,4/8,-6.3,23,9,86,22,passed confluence checks
+confluence,ETH 2D,bucket B,BTC 1D diamond,81,90,10,67,6,60,22,3/8,-5.1,25,12,81,16,passed confluence checks; small sample
+confluence,ETH 5D,any signal,ETH 2D bucket B,81,80,10,83,6,65,17,3/8,-4.5,19,19,88,16,passed confluence checks; small sample
+confluence,ETH 1D,prime dot,BTC 3D any signal,80,92,12,69,13,51,29,6/8,-4.9,32,16,64,25,passed confluence checks
+confluence,ETH 2D,bucket B,BTC 3D any signal,80,91,11,67,9,58,22,3/7,-4.8,20,15,70,20,passed confluence checks
+confluence,ETH 1D,any signal,ETH 5D bucket A,80,88,8,71,7,60,20,6/8,-4.5,27,7,73,15,passed confluence checks; small sample
+confluence,ETH 1D,any signal,ETH 2D prime dot,77,81,16,73,15,59,19,7/8,-6.3,26,19,71,31,passed confluence checks
+confluence,ETH 2D,any signal,BTC 3D any signal,77,82,22,71,17,56,21,7/10,-6.4,28,23,69,39,passed confluence checks
+confluence,ETH 2D,any signal,BTC 3D bucket B,76,82,11,67,6,60,16,4/7,-4.8,29,24,71,17,passed confluence checks; small sample
+confluence,ETH 5D,any signal,ETH 1D any signal,76,79,19,71,14,57,19,4/6,-5.4,24,12,79,33,passed confluence checks
+confluence,ETH 1D,any signal,BTC 3D bucket B,75,90,21,58,19,58,17,6/9,-6.0,18,10,65,40,passed confluence checks
+confluence,ETH 2D,any signal,BTC 1D diamond,75,77,22,70,10,58,17,6/10,-4.9,38,25,69,32,passed confluence checks
+confluence,ETH 3D,any signal,ETH 2D prime dot,75,75,12,75,8,49,26,5/8,-6.7,35,20,75,20,passed confluence checks
+confluence,BTC 2D,prime dot,ETH 2D any signal,75,80,10,70,10,44,31,3/5,-2.6,25,15,75,20,passed confluence checks
+confluence,BTC 1D,bucket C,ETH 1D prime dot,75,100,10,33,6,53,22,3/7,-8.5,6,0,81,16,passed confluence checks; small sample
+confluence,ETH 2D,any signal,ETH 5D any signal,74,89,9,60,10,60,14,4/8,-4.9,26,11,74,19,passed confluence checks; small sample
+confluence,ETH 5D,any signal,BTC 1D any signal,74,79,19,67,15,62,12,2/7,-5.7,29,15,76,34,passed confluence checks
+confluence,BTC 3D,any signal,BTC 2D prime dot,73,89,9,50,6,47,27,7/8,-2.9,27,13,80,15,passed confluence checks; small sample
+confluence,ETH 1D,any signal,ETH 3D prime dot,73,80,10,67,12,60,13,7/9,-4.5,27,14,68,22,passed confluence checks
+confluence,ETH 2D,any signal,BTC 2D prime dot,73,80,10,67,12,60,13,6/8,-5.6,36,18,64,22,passed confluence checks
+confluence,BTC 2D,bucket C,ETH 2D any signal,73,80,15,57,7,30,43,4/5,-5.3,18,9,77,22,passed confluence checks
+confluence,ETH 1D,any signal,BTC 3D any signal,73,84,51,59,44,55,18,9/10,-6.0,35,23,66,95,passed confluence checks
+confluence,ETH 1D,bucket A,BTC 3D any signal,72,80,15,65,17,40,32,8/10,-6.6,41,28,72,32,passed confluence checks
+confluence,BTC 1D,prime dot,ETH 3D any signal,71,79,14,57,7,55,17,3/7,-5.5,29,19,81,21,passed confluence checks
+confluence,ETH 2D,any signal,ETH 1D diamond,71,75,32,56,9,58,12,6/10,-6.4,39,24,66,41,passed confluence checks
+confluence,ETH 2D,bucket B,BTC 2D any signal,70,77,26,62,21,50,20,4/7,-4.9,28,21,68,47,passed confluence checks
+confluence,BTC 1D,any signal,ETH 3D prime dot,70,85,13,50,10,50,20,8/9,-2.7,13,4,87,23,passed confluence checks
+confluence,ETH 3D,bucket B,BTC 3D bucket B,69,89,9,43,7,38,31,3/7,-5.3,19,19,75,16,passed confluence checks; small sample
+confluence,BTC 8D,any signal,BTC 1D bucket B,69,70,10,67,6,25,44,1/6,-4.1,31,12,69,16,passed confluence checks; small sample
+confluence,ETH 1D,bucket B,BTC 3D any signal,68,83,23,52,21,53,15,5/8,-4.8,27,18,66,44,passed confluence checks
+confluence,ETH 1D,bucket B,BTC 3D bucket B,68,91,11,45,11,56,12,4/7,-5.0,18,9,59,22,passed confluence checks
+confluence,ETH 1D,prime dot,BTC 1D bucket B,68,82,11,55,11,58,10,4/8,-6.4,32,18,68,22,passed confluence checks
+confluence,ETH 3D,any signal,BTC 3D bucket B,68,83,12,54,13,50,18,6/9,-4.1,24,24,68,25,passed confluence checks
+confluence,ETH 1D,any signal,BTC 1D diamond,68,78,50,53,34,58,10,7/9,-6.4,38,27,65,84,passed confluence checks
+confluence,ETH 1D,bucket B,BTC 2D any signal,68,76,38,54,24,48,20,7/9,-6.1,27,18,68,62,passed confluence checks
+confluence,ETH 1D,bucket B,ETH 2D any signal,67,78,37,48,21,50,17,6/9,-5.1,26,16,64,58,passed confluence checks
+confluence,ETH 3D,bucket B,BTC 3D any signal,67,73,15,56,9,23,44,4/8,-5.2,25,21,71,24,passed confluence checks
+confluence,BTC 1D,bucket C,BTC 2D any signal,67,93,14,30,10,53,13,2/7,-5.5,8,0,71,24,passed confluence checks
+confluence,BTC 1D,any signal,BTC 2D prime dot,67,69,13,62,8,50,16,7/9,-6.1,29,14,76,21,passed confluence checks
+confluence,ETH 3D,any signal,ETH 1D bucket B,66,74,23,50,12,48,18,6/9,-5.3,34,29,69,35,passed confluence checks
+confluence,ETH 3D,any signal,ETH 1D diamond,65,72,18,50,8,51,15,7/9,-7.7,38,27,69,26,passed confluence checks
+confluence,ETH 1D,bucket A,BTC 1D diamond,65,71,21,54,13,43,22,5/7,-6.5,38,32,62,34,passed confluence checks
+confluence,ETH 3D,any signal,ETH 2D diamond,64,77,13,50,12,52,12,5/10,-8.9,24,24,76,25,passed confluence checks
+confluence,BTC 2D,any signal,BTC 1D prime dot,63,69,26,53,15,47,16,6/9,-3.9,27,15,61,41,passed confluence checks
+confluence,BTC 1D,bucket B,ETH 3D any signal,63,68,22,56,16,44,19,6/9,-2.6,18,11,74,38,passed confluence checks
+confluence,BTC 2D,bucket A,ETH 2D bucket A,63,75,8,55,11,32,32,2/5,-4.8,26,0,47,19,passed confluence checks; small sample
+confluence,BTC 2D,any signal,BTC 1D diamond,63,70,30,50,16,46,17,7/10,-5.3,24,11,74,46,passed confluence checks
+confluence,BTC 1D,any signal,ETH 2D bucket A,63,75,16,53,19,50,13,7/8,-7.0,29,3,63,35,passed confluence checks
+confluence,BTC 1D,bucket B,ETH 1D prime dot,63,65,26,56,9,45,18,6/9,-3.9,31,14,63,35,passed confluence checks
+confluence,ETH 3D,any signal,BTC 3D any signal,63,76,29,50,30,39,23,6/9,-5.4,32,25,68,59,passed confluence checks
+confluence,ETH 3D,any signal,BTC 2D bucket B,62,69,16,54,13,52,10,4/9,-5.1,31,24,62,29,passed confluence checks
+confluence,ETH 3D,any signal,BTC 1D bucket B,62,72,18,50,16,51,11,4/9,-5.5,35,29,62,34,passed confluence checks
+confluence,BTC 1D,bucket B,ETH 2D any signal,62,66,35,56,25,39,23,8/9,-3.8,18,13,73,60,passed confluence checks
+confluence,BTC 3D,any signal,BTC 1D prime dot,62,71,17,44,9,47,15,5/9,-4.0,42,15,62,26,passed confluence checks
+confluence,ETH 3D,any signal,ETH 2D bucket B,61,68,22,50,14,51,10,4/9,-4.9,31,28,67,36,passed confluence checks
+confluence,BTC 1D,any signal,ETH 3D bucket A,61,70,10,56,18,51,10,8/9,-3.7,18,0,75,28,passed confluence checks
+confluence,BTC 2D,diamond,ETH 2D any signal,61,64,14,57,14,38,23,3/5,-3.4,21,14,54,28,passed confluence checks
+confluence,BTC 1D,diamond,ETH 2D any signal,60,74,23,33,12,45,15,4/8,-5.8,23,14,77,35,passed confluence checks
+confluence,BTC 2D,diamond,BTC 1D bucket A,60,62,8,58,12,50,10,4/5,-3.4,20,15,50,20,passed confluence checks
+confluence,BTC 1D,any signal,ETH 2D any signal,60,70,84,42,52,44,16,7/9,-4.8,25,12,72,136,passed confluence checks
+confluence,BTC 1D,any signal,ETH 1D prime dot,60,68,59,43,30,48,12,6/10,-4.6,33,12,64,89,passed confluence checks
+confluence,ETH 3D,bucket B,BTC 2D bucket B,59,60,10,57,7,45,14,3/9,-5.1,35,24,59,17,passed confluence checks; small sample
+confluence,ETH 3D,bucket B,ETH 2D bucket B,59,65,20,44,9,25,34,3/5,-4.6,34,31,62,29,passed confluence checks
+confluence,BTC 3D,bucket B,ETH 3D any signal,58,71,14,42,12,18,40,4/8,-3.8,19,12,65,26,passed confluence checks
+confluence,BTC 2D,any signal,BTC 1D bucket B,58,64,39,48,27,47,11,6/9,-3.7,33,14,67,66,passed confluence checks
+confluence,BTC 3D,bucket B,BTC 2D bucket B,57,67,12,44,9,31,26,4/6,-3.3,19,10,71,21,passed confluence checks
+confluence,ETH 3D,any signal,ETH 2D any signal,57,68,44,43,35,38,19,3/5,-5.4,37,28,63,79,passed confluence checks
+confluence,BTC 5D,any signal,ETH 2D bucket B,56,64,11,40,5,42,14,5/9,-1.2,31,12,69,16,passed confluence checks; small sample
+confluence,BTC 1D,bucket A,BTC 2D bucket A,56,55,11,57,7,41,15,7/9,-4.4,28,6,67,18,passed confluence checks; small sample
+confluence,BTC 5D,any signal,ETH 1D bucket B,56,67,12,33,6,42,14,4/8,-2.8,28,11,72,18,passed confluence checks; small sample
+confluence,BTC 2D,bucket B,BTC 1D bucket B,55,68,22,38,16,29,27,4/8,-3.5,34,13,66,38,passed confluence checks
+confluence,ETH 3D,bucket B,BTC 2D any signal,55,58,19,50,10,38,18,3/7,-5.4,41,31,59,29,passed confluence checks
+confluence,BTC 1D,bucket A,BTC 2D any signal,54,59,17,45,11,39,14,7/9,-5.8,25,7,71,28,passed confluence checks
+confluence,ETH 1D,bucket A,BTC 1D any signal,53,65,43,42,45,22,31,4/5,-6.5,48,34,57,88,passed confluence checks
+confluence,BTC 5D,any signal,BTC 2D any signal,53,63,27,27,11,27,25,3/5,-4.5,34,18,55,38,passed confluence checks
+confluence,ETH 2D,bucket A,BTC 2D bucket A,52,57,7,50,14,40,12,1/4,-6.9,43,38,62,21,passed confluence checks
+confluence,BTC 1D,filled diamond,ETH 1D bucket A,52,54,13,50,8,35,17,3/6,-3.9,33,10,52,21,passed confluence checks
+confluence,BTC 1D,filled diamond,BTC 2D any signal,50,54,13,40,5,40,10,4/8,-6.4,33,22,72,18,passed confluence checks; small sample
+confluence,BTC 1D,bucket A,ETH 1D bucket A,48,54,28,42,26,36,12,5/9,-4.6,37,7,57,54,passed confluence checks
+confluence,ETH 1D,diamond,ETH 5D any signal,100,100,7,100,4,66,34,5/6,-8.0,27,18,82,11,small sample (8-14)
+confluence,ETH 1D,any signal,ETH 5D prime dot,100,100,8,100,2,59,41,4/4,-3.8,0,0,90,10,small sample (8-14)
+confluence,ETH 1D,bucket B,ETH 2D prime dot,100,100,5,100,3,56,44,7/7,-4.2,0,0,75,8,small sample (8-14)
+confluence,ETH 2D,prime dot,BTC 2D prime dot,100,100,3,100,5,74,26,3/5,-4.6,0,0,88,8,small sample (8-14)
+confluence,ETH 3D,prime dot,BTC 3D bucket B,100,100,4,100,4,69,31,3/5,-3.1,12,12,88,8,small sample (8-14)
+confluence,BTC 2D,filled diamond,ETH 2D diamond,100,100,4,100,4,38,62,4/5,-2.5,0,0,75,8,small sample (8-14)
+confluence,ETH 2D,prime dot,BTC 3D any signal,92,80,5,100,7,74,18,1/6,-5.8,8,8,83,12,small sample (8-14)
+confluence,ETH 5D,bucket B,ETH 2D bucket B,92,100,7,80,5,50,42,2/5,-4.5,8,8,100,12,small sample (8-14)
+confluence,ETH 1D,bucket B,BTC 2D prime dot,91,89,9,100,2,55,36,6/7,-9.2,36,18,64,11,small sample (8-14)
+confluence,ETH 1D,prime dot + diamond,ETH 2D any signal,91,89,9,100,2,62,28,0/3,-4.6,27,18,73,11,small sample (8-14)
+confluence,ETH 8D,any signal,BTC 1D bucket B,90,83,6,100,4,71,19,1/5,-4.3,20,10,80,10,small sample (8-14)
+confluence,ETH 5D,any signal,ETH 2D prime dot,89,67,3,100,6,66,23,3/5,-5.0,11,11,89,9,small sample (8-14)
+confluence,BTC 1D,prime dot,BTC 2D diamond,89,75,4,100,5,55,34,4/6,-6.6,22,11,89,9,small sample (8-14)
+confluence,BTC 3D,bucket B,ETH 3D prime dot,89,80,5,100,4,32,57,4/5,-2.4,11,11,89,9,small sample (8-14)
+confluence,ETH 1D,bucket A,BTC 3D diamond,88,100,3,80,5,47,40,4/5,-6.1,25,12,88,8,small sample (8-14)
+confluence,ETH 1D,bucket D,BTC 1D diamond,88,100,4,75,4,67,21,1/3,-6.5,50,38,50,8,small sample (8-14)
+confluence,ETH 2D,bucket B,ETH 8D any signal,88,100,3,80,5,62,26,4/5,-2.2,25,0,88,8,small sample (8-14)
+confluence,ETH 2D,bucket B,BTC 2D prime dot,88,100,5,67,3,62,26,4/6,-2.3,12,12,75,8,small sample (8-14)
+confluence,ETH 5D,bucket B,BTC 1D bucket B,88,100,6,50,2,67,21,1/3,-3.0,0,0,100,8,small sample (8-14)
+confluence,BTC 1D,prime dot,BTC 2D bucket A,88,100,2,83,6,56,31,5/5,-4.4,25,0,62,8,small sample (8-14)
+confluence,ETH 2D,bucket B,BTC 1D prime dot,85,100,9,50,4,60,25,3/7,-6.2,15,8,85,13,small sample (8-14)
+confluence,ETH 2D,bucket B,ETH 3D any signal,83,100,7,60,5,61,23,4/7,-5.7,17,17,75,12,small sample (8-14)
+confluence,ETH 2D,bucket B,BTC 3D bucket B,83,88,8,75,4,61,23,3/6,-4.2,25,17,75,12,small sample (8-14)
+confluence,ETH 2D,diamond,BTC 3D any signal,83,88,8,75,4,64,20,2/4,-5.1,17,17,92,12,small sample (8-14)
+confluence,ETH 1D,bucket B,ETH 2D diamond,82,86,7,75,4,56,26,5/6,-4.3,18,9,82,11,small sample (8-14)
+confluence,ETH 2D,diamond,ETH 1D prime dot,82,75,8,100,3,65,17,3/6,-6.4,27,18,82,11,small sample (8-14)
+confluence,ETH 5D,bucket B,ETH 1D bucket B,82,86,7,75,4,67,15,1/3,-5.4,9,0,91,11,small sample (8-14)
+confluence,BTC 2D,diamond,ETH 2D diamond,82,83,6,80,5,44,38,4/6,-3.4,0,0,73,11,small sample (8-14)
+confluence,BTC 2D,prime dot,ETH 1D bucket B,82,71,7,100,4,56,26,3/6,-3.1,27,9,82,11,small sample (8-14)
+confluence,ETH 1D,bucket B + diamond,BTC 1D diamond,80,67,6,100,4,65,15,3/6,-5.8,30,20,80,10,small sample (8-14)
+confluence,BTC 1D,bucket C,ETH 1D bucket A,80,100,7,33,3,55,25,1/2,-2.6,20,0,80,10,small sample (8-14)
+confluence,BTC 2D,prime dot,BTC 1D bucket A,80,100,3,71,7,58,22,1/4,-2.1,10,10,80,10,small sample (8-14)
+confluence,ETH 2D,any signal,BTC 5D diamond,78,100,5,50,4,61,17,3/5,-3.5,56,11,67,9,small sample (8-14)
+confluence,ETH 2D,bucket C,ETH 1D prime dot,78,83,6,67,3,53,24,3/5,-4.3,44,33,56,9,small sample (8-14)
+confluence,ETH 2D,filled diamond,BTC 2D diamond,78,67,3,83,6,55,23,2/3,-4.4,11,11,89,9,small sample (8-14)
+confluence,BTC 1D,bucket A,BTC 2D diamond,78,75,4,80,5,40,38,5/5,-6.6,11,0,89,9,small sample (8-14)
+confluence,BTC 2D,bucket A,ETH 2D diamond,78,100,4,60,5,38,40,4/6,-2.1,22,0,67,9,small sample (8-14)
+confluence,BTC 2D,bucket A,ETH 3D any signal,78,71,7,100,2,38,40,4/6,-5.1,22,11,67,9,small sample (8-14)
+confluence,BTC 2D,bucket D,BTC 1D diamond,78,83,6,67,3,40,38,2/3,-12.5,22,22,89,9,small sample (8-14)
+confluence,ETH 1D,prime dot,BTC 3D bucket B,77,86,7,67,6,58,19,3/7,-6.1,23,8,62,13,small sample (8-14)
+confluence,BTC 2D,prime dot,ETH 1D prime dot,77,71,7,83,6,56,21,1/5,-3.1,23,0,77,13,small sample (8-14)
+confluence,ETH 1D,bucket A,BTC 3D bucket B,75,83,6,67,6,47,28,4/7,-6.2,17,8,67,12,small sample (8-14)
+confluence,ETH 3D,bucket B,ETH 2D diamond,75,75,8,75,4,40,35,4/7,-5.1,17,17,83,12,small sample (8-14)
+confluence,BTC 1D,bucket B,ETH 3D prime dot,75,86,7,60,5,48,27,5/7,-3.0,8,8,92,12,small sample (8-14)
+confluence,BTC 2D,bucket C,ETH 2D bucket B,75,86,7,60,5,50,25,3/6,-3.7,8,0,83,12,small sample (8-14)
+confluence,BTC 2D,prime dot,BTC 1D prime dot,75,57,7,100,5,59,16,3/6,-3.8,33,17,67,12,small sample (8-14)
+confluence,ETH 3D,any signal,BTC 5D any signal,75,80,5,67,3,53,22,5/7,-3.7,12,0,88,8,small sample (8-14)
+confluence,ETH 3D,bucket B,BTC 1D diamond,75,83,6,50,2,45,30,3/6,-6.1,12,12,75,8,small sample (8-14)
+confluence,BTC 1D,any signal,ETH 5D prime dot,75,67,6,100,2,51,24,3/4,-2.3,25,12,75,8,small sample (8-14)
