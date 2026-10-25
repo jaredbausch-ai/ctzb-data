@@ -35,6 +35,9 @@ jobs:
       - name: Fetch Coinbase Premium (no key needed)
         run: python fetch_flows.py
 
+      - name: Fetch stablecoin supply and ETF flows (no key needed)
+        run: python fetch_onchain.py
+
       - name: Fetch derivatives positioning
         continue-on-error: true
         env:
