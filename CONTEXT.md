@@ -470,6 +470,49 @@ is WORSE (56% vs 71-73%, then 37-39% vs 46-47%) -- a caution, below the bar.
 Contrarian "negative funding is bullish" was not supported (62% vs 65%, then
 50% vs 41% on n=40).
 
+**Positioning as a VETO rather than a selector — tested 25 Oct 2026, the one
+positioning result worth keeping.** `analysis/vetotest.py`, declared. The 23 Oct
+run asked whether positioning finds winners and required any rule to keep >= 80%
+of winners, which structurally excludes a veto: a veto may drop winners provided
+it drops proportionally more losers. Re-scored from the exclusion side on the
+same rows, gate, charts and discovery/holdout split. Baseline 685 signals,
+entries from 2020-06-01: ALL 50% win / 16% touched -30%; ETH 57% / 20%; BTC
+43% / 11%.
+
+**P3 "funding cooling" (7-day mean funding lower than 14 days earlier) read as
+SKIP-WHEN-TRUE is positive on 8 of 8 charts.**
+
+| | discovery 2020-22 | holdout 2023-26 |
+|---|---|---|
+| signals skipped | 120 | 221 |
+| win rate of what it skips | 56% (base 64%) | 37% (base 42%) |
+| win rate of what it keeps | 73% | 47% |
+| share of all losers removed | 62% | 54% |
+| share of all winners removed | 44% | 44% |
+| **share of all -30% touchers removed** | **55%** | **60%** |
+
+Per chart, kept-win edge: ETH 1D +8, 2D +10, 3D +10, 5D +1, BTC 1D +2, 2D +7,
+3D +8, 5D +4. Nothing inverted. P4 (funding below its 90-day median) is the same
+effect slightly weaker, 1 of 8 charts inverted; P3 and P4 are near-duplicates, do
+not count them as two. P7 and P9 (OI terciles) also cleared the pooled bar but
+their discovery-period -30% rates are 2-4%, which makes the -30% column
+meaningless there.
+
+Stacked: gap>5 alone is n=150, 65% win, 9% touched -30%. gap>5 with the veto
+applied is n=97, **72% win, 5% touched -30%**. The veto is NEGATIVELY correlated
+with gap>5 (co-occurs 53 times against 75 by chance), so it is removing
+something gap>5 cannot see rather than restating it.
+
+THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
+1. **Confirmatory, not blind.** The 23 Oct run had already flagged funding
+   cooling as pointing this way ("a caution, below the bar"). Testing a known
+   direction is weaker evidence than a declared sweep, and the veto bar itself
+   was written on 25 Oct after seeing that output.
+2. **It costs 44% of all winners** and skips half of all signals. That is the
+   real price and it does not shrink in either period.
+3. Entry quality only, as ever. No exit in the data, so none of this is a
+   strategy return.
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /

@@ -1,0 +1,132 @@
+685 regime-gated signals with positioning data, 8 charts, entries from 2020-06-01
+
+  baseline ETH  n=343  win 57%   safe 52%   touched -30% 20%
+  baseline BTC  n=342  win 43%   safe 42%   touched -30% 11%
+  baseline ALL  n=685  win 50%   safe 47%   touched -30% 16%
+
+EVERY POSITIONING FEATURE READ AS A VETO (skip the signal when true), all charts pooled
+EXCLUDED = what the veto throws away.  Good veto: low win, high -30%, cuts more losers than winners.
+
+veto                               per  n exc  exc win base win kept win base -30 kept -30  losers  winners   -30s
+------------------------------------------------------------------------------------------------------------------
+                                                                                            <-- share of each REMOVED by the veto
+P10      OI fell more than price   D      103      50%      48%      47%       3%       3%     44%      48%    33%
+                                   H       99      19%      35%      48%      18%      14%     56%      24%    59%
+                                   fails the bar   worst-period kept-win edge -2 pts
+
+P9       OI vs 30d avg low third   D       75      47%      48%      49%       3%       2%     35%      32%    50%
+                                   H      107      22%      35%      47%      18%      12%     58%      30%    66%
+                                   PASSES the bar   worst-period kept-win edge +1 pts
+
+P7       OI 14d change low third   D       75      43%      48%      51%       3%       2%     37%      30%    50%
+                                   H       98      29%      35%      41%      18%      15%     49%      35%    54%
+                                   PASSES the bar   worst-period kept-win edge +3 pts
+
+P8 (NOT) price down, OI up         D      193      48%      48%      53%       3%       3%     88%      85%    83%
+                                   H      205      34%      35%      50%      18%      17%     94%      89%    93%
+                                   fails the bar   worst-period kept-win edge +5 pts
+
+P5 (NOT) L/S below 90d median      D      117      63%      60%      57%      28%      33%     51%      57%    47%
+                                   H      229      36%      42%      48%      11%       8%     57%      44%    62%
+                                   fails the bar   worst-period kept-win edge -4 pts
+
+P3       funding cooling           D      120      56%      64%      73%      25%      23%     62%      44%    55%
+                                   H      221      37%      42%      47%      11%       8%     54%      44%    60%
+                                   PASSES the bar   worst-period kept-win edge +5 pts
+
+P4       funding below 90d median  D      107      56%      64%      71%      25%      19%     55%      39%    58%
+                                   H      231      39%      42%      46%      11%       8%     55%      48%    62%
+                                   PASSES the bar   worst-period kept-win edge +4 pts
+
+P6 (NOT) L/S falling 14d           D      113      68%      64%      59%      26%      29%     42%      52%    42%
+                                   H      217      39%      42%      45%      11%      10%     51%      45%    51%
+                                   fails the bar   worst-period kept-win edge -4 pts
+
+P7 (NOT) OI 14d change low third   D      148      51%      48%      43%       3%       4%     63%      70%    50%
+                                   H      125      41%      35%      29%      18%      22%     51%      65%    46%
+                                   fails the bar   worst-period kept-win edge -7 pts
+
+P2       funding 7d low third      D       80      61%      64%      66%      25%      27%     36%      32%    28%
+                                   H      247      41%      42%      43%      11%      10%     56%      54%    60%
+                                   fails the bar   worst-period kept-win edge +1 pts
+
+P1 (NOT) funding negative          D      210      65%      64%      62%      25%      24%     87%      88%    88%
+                                   H      406      41%      42%      50%      11%       5%     92%      89%    96%
+                                   fails the bar   worst-period kept-win edge -2 pts
+
+P2 (NOT) funding 7d low third      D      159      66%      64%      61%      25%      21%     64%      68%    72%
+                                   H      199      43%      42%      41%      11%      11%     44%      46%    40%
+                                   fails the bar   worst-period kept-win edge -3 pts
+
+P6       L/S falling 14d           D      120      59%      64%      68%      26%      22%     58%      48%    58%
+                                   H      229      45%      42%      39%      11%      11%     49%      55%    49%
+                                   fails the bar   worst-period kept-win edge -3 pts
+
+P4 (NOT) funding below 90d median  D      132      71%      64%      56%      25%      33%     45%      61%    42%
+                                   H      215      46%      42%      39%      11%      13%     45%      52%    38%
+                                   fails the bar   worst-period kept-win edge -8 pts
+
+P3 (NOT) funding cooling           D      119      73%      64%      56%      25%      28%     38%      56%    45%
+                                   H      225      47%      42%      37%      11%      13%     46%      56%    40%
+                                   fails the bar   worst-period kept-win edge -9 pts
+
+P10 (NOT)OI fell more than price   D      120      47%      48%      50%       3%       2%     56%      52%    67%
+                                   H      124      48%      35%      19%      18%      24%     44%      76%    41%
+                                   fails the bar   worst-period kept-win edge -16 pts
+
+P9 (NOT) OI vs 30d avg low third   D      148      49%      48%      47%       3%       4%     65%      68%    50%
+                                   H      116      47%      35%      22%      18%      25%     42%      70%    34%
+                                   fails the bar   worst-period kept-win edge -13 pts
+
+P5       L/S below 90d median      D       97      57%      60%      63%      28%      24%     49%      43%    53%
+                                   H      217      48%      42%      36%      11%      13%     43%      56%    38%
+                                   fails the bar   worst-period kept-win edge -6 pts
+
+P1       funding negative          D       29      62%      64%      65%      25%      25%     13%      12%    12%
+                                   H       40      50%      42%      41%      11%      11%      8%      11%     4%
+                                   fails the bar   worst-period kept-win edge -1 pts
+
+P8       price down, OI up         D       30      53%      48%      48%       3%       3%     12%      15%    17%
+                                   H       18      50%      35%      34%      18%      19%      6%      11%     7%
+                                   fails the bar   worst-period kept-win edge -1 pts
+
+
+PASSING VETOES: P3, P4, P7, P9
+
+(losers cut = share of ALL losing signals this veto removes; winners cut = share of all winners it costs)
+
+================================================================================================
+PER-CHART SPLIT of the two funding vetoes (the guard that killed four findings)
+================================================================================================
+
+P3  funding cooling  -- skip the signal when true
+  chart        n  base win  kept win   edge  base -30  kept -30  n kept
+  ETH_1D     171       55%       62%     +8       20%       11%      80
+  ETH_2D      86       56%       66%    +10       23%       18%      38
+  ETH_3D      54       54%       64%    +10       22%       24%      25
+  ETH_5D      32       72%       73%     +1       12%        8%      26
+  BTC_1D     166       44%       46%     +2        8%        8%      79
+  BTC_2D      90       43%       50%     +7       13%       15%      46
+  BTC_3D      55       44%       52%     +8       11%       15%      27
+  BTC_5D      31       35%       39%     +4       16%       22%      23
+  -> 0 of 8 charts flat or inverted
+
+P4  funding below 90d median  -- skip the signal when true
+  chart        n  base win  kept win   edge  base -30  kept -30  n kept
+  ETH_1D     171       55%       60%     +5       20%       14%      85
+  ETH_2D      86       56%       59%     +3       23%       18%      51
+  ETH_3D      54       54%       58%     +4       22%       15%      26
+  ETH_5D      32       72%       80%     +8       12%        5%      20
+  BTC_1D     166       44%       52%     +8        8%        8%      75
+  BTC_2D      90       43%       47%     +3       13%       13%      47
+  BTC_3D      55       44%       43%     -1       11%        7%      28
+  BTC_5D      31       35%       47%    +11       16%       20%      15
+  -> 1 of 8 charts flat or inverted
+
+================================================================================================
+IS THE VETO ALREADY DOING THE STACK'S JOB?  overlap with gap>5
+================================================================================================
+  P3: veto fires on 341/685, gap>5 on 150, both on 53 (chance would be 75) -- correlated
+      gap>5 alone: n=150 win 65% -30% 9%   | gap>5 AND veto applied: n=97 win 72% -30% 5%
+  P4: veto fires on 338/685, gap>5 on 150, both on 49 (chance would be 74) -- correlated
+      gap>5 alone: n=150 win 65% -30% 9%   | gap>5 AND veto applied: n=101 win 68% -30% 7%
