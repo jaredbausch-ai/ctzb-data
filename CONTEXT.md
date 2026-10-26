@@ -695,6 +695,9 @@ Done 25 Oct: all seven of his F1-review ideas tested in `analysis/joeideas.py`,
 none adopted; weekly momentum above its signal line is on forward watch for
 ETH only (logged as information, not a filter). Sent 25 Oct 21:21 ET:
 `docs/joe/2026-10-25_extra_edge_results_SENT.md`.
+26 Oct: Joe is holding the automated feed until the walkthrough; his
+approve-every-alert rule stands until then. Walkthrough set for when he is back
+in Florida from Colorado.
 
 **Member leverage (decided 24 Oct 2026):** members trade whatever leverage
 they choose. Jared does not tell anyone what leverage to use. His own trades
