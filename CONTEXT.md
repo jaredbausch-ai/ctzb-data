@@ -689,6 +689,10 @@ only. Jared accepted Joe's onboarding suggestion of a 1x start / 2x ceiling as
 guidance. Signal volume for sizing: ~160 per regime-on year across both
 assets, ~3 a week. Promised to Joe: test adaptive (Ehlers / Hilbert) cycle
 lengths and an Ehlers super smoother, declared first, and send results.
+Done 25 Oct: all seven of his F1-review ideas tested in `analysis/joeideas.py`,
+none adopted; weekly momentum above its signal line is on forward watch for
+ETH only (logged as information, not a filter). Sent 25 Oct 21:21 ET:
+`docs/joe/2026-10-25_extra_edge_results_SENT.md`.
 
 **Member leverage (decided 24 Oct 2026):** members trade whatever leverage
 they choose. Jared does not tell anyone what leverage to use. His own trades

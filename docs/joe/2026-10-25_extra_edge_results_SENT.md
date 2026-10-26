@@ -1,4 +1,4 @@
-DRAFT for Jared's review, not sent. Reply in the "ETHKROS: full package for review" thread, after the 26 Oct 00:43 UTC v2 reply that promised these tests.
+SENT 26 Oct 2026 ~01:21 UTC (25 Oct 21:21 ET), Gmail message 1a175cc38fe38718, approved by Jared.
 To jlmauro11@gmail.com, cc themaurogroup+kinvault@mail.grokbot.com.
 Source: analysis/joeideas.py, RESULTS_joeideas.txt, RESULTS_joeideas_extra.txt (25 Oct 2026).
 
