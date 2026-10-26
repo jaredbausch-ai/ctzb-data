@@ -58,6 +58,16 @@ HARD LINE, stated to him and to be maintained: **no fabricated transaction
 record, and no help constructing an account of where the 4.669 BTC went.**
 Reconciling real exports he supplies is fine. Generating records is not.
 
+### Joe — 25 Oct 2026
+
+Joe replied with ETHKROS v2 (deck, plan, evidence appendix, site). The
+appendix copies the capabilities document's sections 1-6 exactly and his CSV
+copy is byte-identical. His decisions: live calls Inner Table only;
+onboarding suggests a 1x start and 2x ceiling (labelled a suggestion); no
+alert goes out until Jared approves it. The last two are Jared's to accept or
+not. His question on the "BTC 3D + 2 or more ETH charts" rows is answered in
+`analysis/RESULTS_threeway.txt`. Open list: project doc `claude/joe-to-do.md`.
+
 ### Joe — open as of 24 Oct 2026
 
 Sorted list with every repeat merged: `docs/joe/inbox_sorted.md`. New view-only
