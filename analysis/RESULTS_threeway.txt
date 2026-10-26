@@ -1,0 +1,8 @@
+ETH 1D 2+ ETH charts   with BTC 3D  n=  48 win   79%  [16-21   91% (22) | 22-26   69% (26)]  green60  67%  safe  77%  ddpk   -6.1%  t20  23%  t30  10%
+ETH 1D 2+ ETH charts   without     n=  33 win   48%  [16-21   62% (21) | 22-26   25% (12)]  green60  52%  safe  48%  ddpk   -7.2%  t20  36%  t30  21%
+ETH 1D 0-1 ETH charts  with BTC 3D  n=  47 win   66%  [16-21   79% (29) | 22-26   44% (18)]  green60  66%  safe  55%  ddpk   -6.0%  t20  47%  t30  36%
+ETH 1D 0-1 ETH charts  without     n= 160 win   56%  [16-21  66% (101) | 22-26   39% (59)]  green60  58%  safe  51%  ddpk   -6.6%  t20  46%  t30  31%
+ETH 2D 2+ ETH charts   with BTC 3D  n=  20 win   80%  [16-21   73% (11) | 22-26    89% (9)]  green60  70%  safe  80%  ddpk   -7.0%  t20  25%  t30  20%
+ETH 2D 2+ ETH charts   without     n=  25 win   64%  [16-21   79% (14) | 22-26   45% (11)]  green60  64%  safe  64%  ddpk   -3.9%  t20  36%  t30  16%
+ETH 2D 0-1 ETH charts  with BTC 3D  n=  19 win   74%  [16-21   91% (11) | 22-26    50% (8)]  green60  68%  safe  68%  ddpk   -4.8%  t20  32%  t30  26%
+ETH 2D 0-1 ETH charts  without     n=  73 win   53%  [16-21   64% (45) | 22-26   36% (28)]  green60  55%  safe  48%  ddpk   -5.2%  t20  49%  t30  34%
