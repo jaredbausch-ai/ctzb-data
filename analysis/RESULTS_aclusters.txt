@@ -88,3 +88,26 @@ PART 2  every A signal: which comes first after entry, CT closing >= 50 (BREAK) 
               REJECT n= 145 win  37% [ 40%( 70)  35%( 75)] price at event  -2.4% day 2   gap +3
 
   VERDICT: gap ETH +23 BTC +21 (need +15 each); both periods both assets: True; REJECT lower on 4/4 charts (need 6); inside price state >= +10: False -> FAIL
+
+ADDENDUM  bounce between consecutive A signals inside a cluster (known at the later entry)
+  ETH later signal, bounce rejected under 50 n=  88 win  62% [ 65%( 40)  60%( 48)] price at event  +0.4% day 4
+  ETH later signal, bounce broke 50          n=  11 win   9% [  0%(  3)  12%(  8)] price at event  -0.5% day 2
+  BTC later signal, bounce rejected under 50 n=  62 win  52% [ 53%( 36)  50%( 26)] price at event  +0.2% day 3
+  BTC later signal, bounce broke 50          n=  13 win  23% [ 33%(  3)  20%( 10)] price at event  +0.2% day 3
+  ALL later signal, bounce rejected under 50 n= 150 win  58% [ 59%( 76)  57%( 74)] price at event  +0.3% day 3
+  ALL later signal, bounce broke 50          n=  24 win  17% [ 17%(  6)  17%( 18)] price at event  -0.3% day 2
+  by chart (later signal win: rejected under 50 | broke 50)
+    ETH 1D:  53% (n=53) |   0% (n=6)
+    ETH 2D:  63% (n=19) |  25% (n=4)
+    ETH 3D:  92% (n=12) |   0% (n=1)
+    ETH 5D: 100% (n=4) |   -  (n=0)
+    BTC 1D:  48% (n=40) |  50% (n=6)
+    BTC 2D:  56% (n=16) |   0% (n=5)
+    BTC 3D:  67% (n=6) |   0% (n=2)
+  per cluster: any bounce inside the cluster closed >= 50 (first entry to last trough)
+  ETH failed  n=  8  a bounce inside closed >= 50:  25% (2)
+  ETH working n= 31  a bounce inside closed >= 50:  29% (9)
+  BTC failed  n= 10  a bounce inside closed >= 50:  40% (4)
+  BTC working n= 23  a bounce inside closed >= 50:  30% (7)
+  ALL failed  n= 18  a bounce inside closed >= 50:  33% (6)
+  ALL working n= 54  a bounce inside closed >= 50:  30% (16)
