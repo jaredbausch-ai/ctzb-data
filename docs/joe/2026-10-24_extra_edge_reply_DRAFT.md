@@ -1,4 +1,4 @@
-DRAFT, not sent. Reply to Joe's 24 Oct "ETH Cross: ideas to scrape a little extra edge".
+SUPERSEDED: folded into docs/joe/2026-10-25_v2_reply_SENT.md and sent 25 Oct. The Gmail draft in the ETH Cross thread was not sent and can be deleted. Reply to Joe's 24 Oct "ETH Cross: ideas to scrape a little extra edge".
 To jlmauro11@gmail.com, cc themaurogroup+kinvault@mail.grokbot.com.
 
 ---
