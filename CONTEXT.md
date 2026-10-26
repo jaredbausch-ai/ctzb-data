@@ -155,6 +155,8 @@ at entry. The reach-+20% gradient across agreement levels collapses from
 reconciles with the dashboard). The dashboard still uses the symmetric one and
 is inflated accordingly.
 
+**Do not use WGMI in any analysis (Jared, 26 Oct 2026).** Keep the work to the CT build.
+
 **The green star / WGMI tag cannot be rebuilt.** It was diamond + WGMI liquidity
 timing below zero. `docs/reference/CTZB_tag_reference.pdf` states in its own
 limitations that the M2 data is revised after publication, so those figures were
