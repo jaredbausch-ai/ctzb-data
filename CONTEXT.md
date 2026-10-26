@@ -679,6 +679,17 @@ Made knowable (confirmer confirmed 0-10 days before entry), 28 of the 44 drop
 below 8 cases, mostly because ETH 5D, the commonest old confirmer, confirms 15
 days after its low. 8 keep a 10+ point lift on +20% reach.
 
+**Two streams (decided 25 Oct 2026, sent to Joe):** (1) an automated signal
+feed: every confirmed signal with its setup odds, drawdown, n and confluence,
+labelled computed, no approval needed, plus pre-print heads-ups once a low has
+held one or two closes (confirm odds by bars held, from
+`analysis/confirmlag.py`), updated each close. Signal and Prime tiers. (2)
+Jared's live trades only, logged from Coinbase with his leverage, Inner Table
+only. Jared accepted Joe's onboarding suggestion of a 1x start / 2x ceiling as
+guidance. Signal volume for sizing: ~160 per regime-on year across both
+assets, ~3 a week. Promised to Joe: test adaptive (Ehlers / Hilbert) cycle
+lengths and an Ehlers super smoother, declared first, and send results.
+
 **Member leverage (decided 24 Oct 2026):** members trade whatever leverage
 they choose. Jared does not tell anyone what leverage to use. His own trades
 are public, including the leverage he is on. Members get the leverage tool
