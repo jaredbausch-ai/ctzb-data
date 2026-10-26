@@ -1,0 +1,40 @@
+READ 1  BREAK-first vs REJECT-first, inside the existing in-trade reads (trades not at +20% by day 10)
+  ETH
+    green day 5                      | yes BREAK  72% ( 18) REJECT  47% ( 53) gap  +25 | no  BREAK  50% ( 10) REJECT  31% ( 62) gap  +19   NEW
+    green day 10                     | yes BREAK  75% ( 16) REJECT  53% ( 53) gap  +22 | no  BREAK  50% ( 12) REJECT  26% ( 62) gap  +24   NEW
+    CT above Signal day 10           | yes BREAK  71% ( 17) REJECT  43% ( 63) gap  +28 | no  BREAK  55% ( 11) REJECT  33% ( 52) gap  +22   NEW
+    undercut trough low by day 10    | yes BREAK  62% (  8) REJECT  19% ( 47) gap  +43 | no  BREAK  65% ( 20) REJECT  51% ( 68) gap  +14   NEW
+    down 10%+ by day 10              | yes BREAK  57% (  7) REJECT  20% ( 30) gap  +37 | no  BREAK  67% ( 21) REJECT  45% ( 85) gap  +22
+  BTC
+    green day 5                      | yes BREAK  60% ( 25) REJECT  53% ( 45) gap   +7 | no  BREAK  45% ( 11) REJECT  23% ( 52) gap  +22
+    green day 10                     | yes BREAK  62% ( 26) REJECT  63% ( 38) gap   -2 | no  BREAK  40% ( 10) REJECT  20% ( 59) gap  +20
+    CT above Signal day 10           | yes BREAK  60% ( 25) REJECT  49% ( 47) gap  +11 | no  BREAK  45% ( 11) REJECT  26% ( 50) gap  +19   NEW
+    undercut trough low by day 10    | yes BREAK  14% (  7) REJECT  30% ( 54) gap  -15 | no  BREAK  66% ( 29) REJECT  47% ( 43) gap  +19
+    down 10%+ by day 10              | yes BREAK   0% (  1) REJECT  16% ( 25) gap  -16 | no  BREAK  57% ( 35) REJECT  44% ( 72) gap  +13
+  ALL
+    green day 5                      | yes BREAK  65% ( 43) REJECT  50% ( 98) gap  +15 | no  BREAK  48% ( 21) REJECT  27% (114) gap  +20   NEW
+    green day 10                     | yes BREAK  67% ( 42) REJECT  57% ( 91) gap  +10 | no  BREAK  45% ( 22) REJECT  23% (121) gap  +22
+    CT above Signal day 10           | yes BREAK  64% ( 42) REJECT  45% (110) gap  +19 | no  BREAK  50% ( 22) REJECT  29% (102) gap  +21   NEW
+    undercut trough low by day 10    | yes BREAK  40% ( 15) REJECT  25% (101) gap  +15 | no  BREAK  65% ( 49) REJECT  50% (111) gap  +16   NEW
+    down 10%+ by day 10              | yes BREAK  50% (  8) REJECT  18% ( 55) gap  +32 | no  BREAK  61% ( 56) REJECT  45% (157) gap  +16   NEW
+  READ 1: separates inside both halves on 4/5 reads (need 4) -> NEW INFORMATION
+
+READ 2  later A signal in a cluster: bounce since the previous A signal closed >= 50, inside the Tier 1 entry features
+  ETH
+    higher entry than previous signal  | yes under 50  71% ( 28) broke 50   0% (  1) gap  +71 | no  under 50  58% ( 60) broke 50  10% ( 10) gap  +48   THIN
+    CT > Signal by 5+                  | yes under 50  85% ( 20) broke 50    -   (  0) gap   -  | no  under 50  56% ( 68) broke 50   9% ( 11) gap  +47   THIN
+    2+ other same-asset charts before  | yes under 50  78% ( 36) broke 50   0% (  2) gap  +78 | no  under 50  52% ( 52) broke 50  11% (  9) gap  +41   THIN
+    8D CT rising                       | yes under 50  78% ( 27) broke 50   0% (  1) gap  +78 | no  under 50  56% ( 61) broke 50  10% ( 10) gap  +46   THIN
+  BTC
+    higher entry than previous signal  | yes under 50  48% ( 21) broke 50  20% (  5) gap  +28 | no  under 50  54% ( 41) broke 50  25% (  8) gap  +29   NEW
+    CT > Signal by 5+                  | yes under 50  83% ( 12) broke 50   0% (  2) gap  +83 | no  under 50  44% ( 50) broke 50  27% ( 11) gap  +17   THIN
+    2+ other same-asset charts before  | yes under 50  62% ( 21) broke 50  25% (  8) gap  +37 | no  under 50  46% ( 41) broke 50  20% (  5) gap  +26   NEW
+    8D CT rising                       | yes under 50  59% ( 17) broke 50  50% (  2) gap   +9 | no  under 50  49% ( 45) broke 50  18% ( 11) gap  +31   THIN
+  ALL
+    higher entry than previous signal  | yes under 50  61% ( 49) broke 50  17% (  6) gap  +45 | no  under 50  56% (101) broke 50  17% ( 18) gap  +40   NEW
+    CT > Signal by 5+                  | yes under 50  84% ( 32) broke 50   0% (  2) gap  +84 | no  under 50  51% (118) broke 50  18% ( 22) gap  +33   THIN
+    2+ other same-asset charts before  | yes under 50  72% ( 57) broke 50  20% ( 10) gap  +52 | no  under 50  49% ( 93) broke 50  14% ( 14) gap  +35   NEW
+    8D CT rising                       | yes under 50  70% ( 44) broke 50  33% (  3) gap  +37 | no  under 50  53% (106) broke 50  14% ( 21) gap  +39   THIN
+  READ 2: testable on 2/4 features, separates on 2 (need 3 of 4) -> UNTESTABLE (too few broke-50 cases)
+
+  ENTRY QUALITY ONLY. Computed signals, not fills.

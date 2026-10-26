@@ -154,6 +154,28 @@ the size is the point.
 | Price undercut the trough bar's low by day 10 | 39% vs 68% | 23% vs 50% | 36 / 23 pts higher |
 | Down 10% or more by day 10 | 37% vs 71% | 14% vs 46% | 46 / 45 pts higher |
 
+### A signals only: does CT close at 50 before it turns down? (26 Oct 2026, partial)
+
+*`analysis/aclusters.py`, `analysis/areads.py`.* For an A signal (CT at the
+trough below 40), watch the chart's CT after entry. Either it closes at 50 or
+above first ("broke 50"), or it turns down from the 40-50 band first
+("rejected"). Known around day 2-4. Trades not yet at +20% at that point.
+
+| | Broke 50 first | Rejected first |
+|---|---|---|
+| ETH | 67% (30) | 43% (125) |
+| BTC | 59% (39) | 38% (99) |
+| 2016-21 / 2022-26, both assets | 88% / 49% | 44% / 39% |
+
+Not the same read as the five above: inside green/red on day 10, CT above or
+below its Signal on day 10, undercut or not, and down 10% or not, the gap stays
++10 to +32 points (both assets pooled; ETH +14 to +43). **Weaker than the five
+above, so partial:** it failed its first declared rule because almost every
+break comes with price already above entry; BTC loses the gap when green on
+day 10 (-2); it reverses in 2019 and 2025; and only ETH/BTC 1D and 2D have
+enough A signals to check by chart. Rejected-first is the common path, 224 of
+293. Report it on A signals as context, not as a filter.
+
 ---
 
 ## Positioning read — report with every signal's statistics
@@ -215,6 +237,11 @@ Tier 1.
   observation stands on its own; fibs and MAs have both failed as filters here.
 - **2D stochastic bullish divergence helping CT break the 50 line.** Tested as a
   flush-end marker and failed (1 of 36). Untested in this specific framing.
+- **The bounce between two A signals (26 Oct 2026, too thin to test).** In a
+  run of A signals on one chart, the next A signal reached +20% 58% of the time
+  (n=150) when the bounce since the previous one peaked under CT 50, and 17%
+  (n=24) when it closed above 50. Only 24 cases, so it could not be checked
+  inside the Tier 1 features (`analysis/areads.py`). Watch it; do not use it.
 
 ---
 
