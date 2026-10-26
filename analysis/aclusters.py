@@ -233,5 +233,57 @@ def main():
     json.dump(OUT, open(os.path.join(here, 'aclusters.json'), 'w'), indent=1, default=str)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and len(sys.argv) == 1:
     main()
+
+
+ADDENDUM = """ADDENDUM, declared 26 Oct 2026 after Part 1/2 ran, before this ran.
+Inside a cluster, the bounce between two consecutive A signals: the highest CT
+close from the earlier signal's entry to the later signal's trough bar. Known
+at the later signal's entry. Split the LATER signal by whether that bounce
+peaked below 50 ("rejected under 50") or closed at/above 50 ("broke 50").
+Also per cluster: did any bounce inside the cluster (first entry to last
+trough) close >= 50, failed vs working. Descriptive only; no pass rule, and
+it is not adopted from this run whatever it shows."""
+
+
+def addendum():
+    sigs, clusters = build()
+    L = ['\nADDENDUM  bounce between consecutive A signals inside a cluster (known at the later entry)']
+    pairs = []
+    for c in clusters:
+        a = c[0]['a']; tf = c[0]['tf']
+        S, b = E.signals(f'data/{a}_{tf}.csv', regime=GATE)
+        ct = E.rsi(b['close'], 14)
+        for p, q in zip(c, c[1:]):
+            ti = q['ei'] - 3
+            pk = max(ct[j] for j in range(p['ei'], ti + 1) if ct[j] is not None)
+            pairs.append(dict(q, pk=pk))
+    for a in ASSETS + ('ALL',):
+        for lab, sel in (('rejected under 50', lambda r: r['pk'] < 50), ('broke 50', lambda r: r['pk'] >= 50)):
+            G = [r for r in pairs if (a == 'ALL' or r['a'] == a) and sel(r)]
+            L.append(f'  {a:3} later signal, bounce {lab:17} {fg(grp(G))}')
+    L.append('  by chart (later signal win: rejected under 50 | broke 50)')
+    for a in ASSETS:
+        for tf in TFS:
+            G = [r for r in pairs if r['ch'] == f'{a} {tf}']
+            if not G: continue
+            u = grp([r for r in G if r['pk'] < 50]); o = grp([r for r in G if r['pk'] >= 50])
+            fmt = lambda x: f'{x["win"]:3.0f}% (n={x["n"]})' if x['n'] else '  -  (n=0)'
+            L.append(f'    {a} {tf}: {fmt(u)} | {fmt(o)}')
+    L.append('  per cluster: any bounce inside the cluster closed >= 50 (first entry to last trough)')
+    for a in ASSETS + ('ALL',):
+        for lab, sel in (('failed', lambda c: not any(r['win'] for r in c)), ('working', lambda c: any(r['win'] for r in c))):
+            X = [c for c in clusters if (a == 'ALL' or c[0]['a'] == a) and sel(c)]
+            k = 0
+            for c in X:
+                S, b = E.signals(f'data/{c[0]["a"]}_{c[0]["tf"]}.csv', regime=GATE); ct = E.rsi(b['close'], 14)
+                k += any(ct[j] is not None and ct[j] >= 50 for j in range(c[0]['ei'], c[-1]['ei'] - 3 + 1))
+            L.append(f'  {a:3} {lab:7} n={len(X):>3}  a bounce inside closed >= 50: {pct(k, len(X))} ({k})')
+    for l in L: print(l)
+    here = os.path.dirname(os.path.abspath(__file__))
+    open(os.path.join(here, 'RESULTS_aclusters.txt'), 'a').write('\n'.join(L) + '\n')
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'addendum':
+    addendum()

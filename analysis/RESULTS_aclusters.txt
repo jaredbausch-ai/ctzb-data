@@ -1,0 +1,90 @@
+A CLUSTERS AND THE CT 50 LINE -- declared, run 2026-10-26 | entry quality only, signals not fills
+
+PART 1  clusters (2+ consecutive A signals on one chart, each within 60 days of the last)
+  ETH failed  clusters n=  8  CT closed >= 50 in the span:  88% (7)  median highest CT 59.3
+  ETH working clusters n= 31  CT closed >= 50 in the span:  68% (21)  median highest CT 57.4
+  BTC failed  clusters n= 10  CT closed >= 50 in the span: 100% (10)  median highest CT 68.4
+  BTC working clusters n= 23  CT closed >= 50 in the span:  91% (21)  median highest CT 64.5
+  ALL failed  clusters n= 18  CT closed >= 50 in the span:  94% (17)  median highest CT 64.6
+  ALL working clusters n= 54  CT closed >= 50 in the span:  78% (42)  median highest CT 61.5
+  by chart (failed clusters: broke 50 / n | working: broke 50 / n)
+    ETH 1D: failed 5/5   working 12/15
+    ETH 2D: failed 1/2   working 4/7
+    ETH 3D: failed 1/1   working 4/5
+    ETH 5D: failed 0/0   working 1/4
+    ETH 8D: failed 0/0   working 0/0
+    BTC 1D: failed 6/6   working 12/13
+    BTC 2D: failed 2/2   working 7/7
+    BTC 3D: failed 2/2   working 2/3
+    BTC 5D: failed 0/0   working 0/0
+    BTC 8D: failed 0/0   working 0/0
+
+PART 2  every A signal: which comes first after entry, CT closing >= 50 (BREAK) or CT turning down from 40-50 (REJECT)
+  scored only if +20% had not already been reached by the event date
+  A signals 318; already at +20% before the event (excluded) 25
+  ETH BREAK   n=  30 win  67% [ 83%( 12)  56%( 18)] price at event  +4.8% day 3
+  ETH REJECT  n= 125 win  43% [ 46%( 52)  41%( 73)] price at event  -0.9% day 4
+  ETH NEITHER n=   0
+  BTC BREAK   n=  39 win  59% [ 92%( 12)  44%( 27)] price at event  +3.6% day 2
+  BTC REJECT  n=  99 win  38% [ 41%( 58)  34%( 41)] price at event  -0.5% day 3
+  BTC NEITHER n=   0
+  ALL BREAK   n=  69 win  62% [ 88%( 24)  49%( 45)] price at event  +3.9% day 2
+  ALL REJECT  n= 224 win  41% [ 44%(110)  39%(114)] price at event  -0.7% day 3
+  ALL NEITHER n=   0
+  by chart
+    ETH 1D  BREAK n=  16 win  62% [ 71%(  7)  56%(  9)] price at event  +4.2% day 2
+           REJECT n=  75 win  44% [ 51%( 35)  38%( 40)] price at event  -0.7% day 2  REJECT lower
+           NEITHER n=   0
+    ETH 2D  BREAK n=   7 win  71% [100%(  2)  60%(  5)] price at event  +6.2% day 2
+           REJECT n=  25 win  32% [ 27%( 11)  36%( 14)] price at event  -1.9% day 6  REJECT lower
+           NEITHER n=   0
+    ETH 3D  BREAK n=   4 win  50% [100%(  1)  33%(  3)] price at event  +5.6% day 3
+           REJECT n=  17 win  53% [ 50%(  4)  54%( 13)] price at event  -0.9% day 6  
+           NEITHER n=   0
+    ETH 5D  BREAK n=   3 win 100% [100%(  2) 100%(  1)] price at event  +3.9% day 5
+           REJECT n=   7 win  43% [ 50%(  2)  40%(  5)] price at event  -2.5% day 10  
+           NEITHER n=   0
+    ETH 8D  BREAK n=   0
+           REJECT n=   1 win 100% [   -     100%(  1)] price at event  +7.4% day 16  
+           NEITHER n=   0
+    BTC 1D  BREAK n=  20 win  55% [ 86%(  7)  38%( 13)] price at event  +2.8% day 1
+           REJECT n=  57 win  39% [ 40%( 35)  36%( 22)] price at event  -0.2% day 2  REJECT lower
+           NEITHER n=   0
+    BTC 2D  BREAK n=  14 win  64% [100%(  4)  50%( 10)] price at event  +3.6% day 2
+           REJECT n=  22 win  32% [ 25%( 12)  40%( 10)] price at event  -0.8% day 4  REJECT lower
+           NEITHER n=   0
+    BTC 3D  BREAK n=   4 win  50% [100%(  1)  33%(  3)] price at event  +8.1% day 4
+           REJECT n=  13 win  46% [ 57%(  7)  33%(  6)] price at event  -2.4% day 6  
+           NEITHER n=   0
+    BTC 5D  BREAK n=   1 win 100% [   -     100%(  1)] price at event  +2.9% day 5
+           REJECT n=   5 win  40% [ 67%(  3)   0%(  2)] price at event  -4.2% day 5  
+           NEITHER n=   0
+    BTC 8D  BREAK n=   0
+           REJECT n=   2 win  50% [100%(  1)   0%(  1)] price at event  -1.0% day 12  
+           NEITHER n=   0
+  by year (both assets)
+    2016  BREAK n=  5  80%   REJECT n= 22  50%
+    2017  BREAK n=  5 100%   REJECT n=  3 100%
+    2018  BREAK n=  7  86%   REJECT n= 30  33%
+    2019  BREAK n=  1   0%   REJECT n= 20  50%
+    2020  BREAK n=  4 100%   REJECT n= 11  91%
+    2021  BREAK n=  2 100%   REJECT n= 24  17%
+    2022  BREAK n=  2  50%   REJECT n= 13  15%
+    2023  BREAK n= 15  67%   REJECT n= 23  61%
+    2024  BREAK n= 16  56%   REJECT n= 32  44%
+    2025  BREAK n= 12  17%   REJECT n= 46  30%
+  inside price state at the event (close above vs below entry)
+    ETH green BREAK n=  27 win  70% [ 90%( 10)  59%( 17)] price at event  +5.2% day 3
+              REJECT n=  46 win  48% [ 44%( 16)  50%( 30)] price at event  +2.4% day 5   gap +23
+    ETH red   BREAK n=   3 win  33% [ 50%(  2)   0%(  1)] price at event -11.9% day 22
+              REJECT n=  79 win  41% [ 47%( 36)  35%( 43)] price at event  -2.7% day 2   gap -7
+    BTC green BREAK n=  37 win  59% [ 91%( 11)  46%( 26)] price at event  +3.6% day 2
+              REJECT n=  33 win  48% [ 54%( 24)  33%(  9)] price at event  +1.8% day 4   gap +11
+    BTC red   BREAK n=   2 win  50% [100%(  1)   0%(  1)] price at event  -0.7% day 1
+              REJECT n=  66 win  33% [ 32%( 34)  34%( 32)] price at event  -1.8% day 2   gap +17
+    ALL green BREAK n=  64 win  64% [ 90%( 21)  51%( 43)] price at event  +4.5% day 2
+              REJECT n=  79 win  48% [ 50%( 40)  46%( 39)] price at event  +2.2% day 5   gap +16
+    ALL red   BREAK n=   5 win  40% [ 67%(  3)   0%(  2)] price at event  -1.8% day 3
+              REJECT n= 145 win  37% [ 40%( 70)  35%( 75)] price at event  -2.4% day 2   gap +3
+
+  VERDICT: gap ETH +23 BTC +21 (need +15 each); both periods both assets: True; REJECT lower on 4/4 charts (need 6); inside price state >= +10: False -> FAIL
