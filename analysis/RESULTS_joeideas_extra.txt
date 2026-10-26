@@ -1,0 +1,36 @@
+ADDED CHECKS (after the declared run; not part of the pass rules)
+
+A. 5b weekly momentum above its signal line, inside the chart's own momentum-vs-signal state (1D-5D pooled)
+  ETH own chart above its signal line: with n= 158 win  71% [ 82%( 91)  55%( 67)] ddpk  -6.0% t30  19% | w/o n= 136 win  66% [ 78%( 77)  51%( 59)] ddpk  -5.4% t30  21%
+  ETH own chart below its signal line: with n=  75 win  67% [ 79%( 47)  46%( 28)] ddpk  -6.7% t30  15% | w/o n= 190 win  47% [ 54%(112)  37%( 78)] ddpk  -6.3% t30  42%
+  ETH pooled: with n= 233 win  70% [ 81%(138)  53%( 95)] ddpk  -6.0% t30  18% | w/o n= 326 win  55% [ 63%(189)  43%(137)] ddpk  -5.9% t30  33%
+  BTC own chart above its signal line: with n= 145 win  64% [ 79%( 89)  41%( 56)] ddpk  -5.1% t30   9% | w/o n= 141 win  48% [ 54%( 74)  42%( 67)] ddpk  -3.4% t30  18%
+  BTC own chart below its signal line: with n=  92 win  50% [ 65%( 54)  29%( 38)] ddpk  -5.6% t30   5% | w/o n= 183 win  44% [ 52%(114)  30%( 69)] ddpk  -5.2% t30  19%
+  BTC pooled: with n= 237 win  59% [ 73%(143)  36%( 94)] ddpk  -5.3% t30   8% | w/o n= 324 win  46% [ 53%(188)  36%(136)] ddpk  -4.3% t30  19%
+
+B. Independent data source for 5b on ETH 2D: TradingView ETH 1W export instead of weekly bars built from Coinbase daily
+  ETH 2D with n=  54 win  72% [ 82%( 34)  55%( 20)] ddpk  -4.9% t30  22% | w/o n=  83 win  55% [ 64%( 47)  44%( 36)] ddpk  -5.2% t30  31%
+
+C. 3b full-cross entry: price paid vs the confirmation close, and share of troughs that get a cross within 15 bars
+  ETH 1D: median +0.9% above the confirmation close; cross within 15 bars on 75% of troughs
+  ETH 2D: median +0.6% above the confirmation close; cross within 15 bars on 67% of troughs
+  ETH 3D: median +3.7% above the confirmation close; cross within 15 bars on 68% of troughs
+  ETH 5D: median +9.5% above the confirmation close; cross within 15 bars on 77% of troughs
+  ETH 8D: median +24.6% above the confirmation close; cross within 15 bars on 58% of troughs
+  BTC 1D: median +1.3% above the confirmation close; cross within 15 bars on 68% of troughs
+  BTC 2D: median +1.0% above the confirmation close; cross within 15 bars on 71% of troughs
+  BTC 3D: median +4.5% above the confirmation close; cross within 15 bars on 59% of troughs
+  BTC 5D: median +3.5% above the confirmation close; cross within 15 bars on 66% of troughs
+  BTC 8D: median +16.3% above the confirmation close; cross within 15 bars on 71% of troughs
+
+D. Dominant cycle sanity: distribution of the measured cycle (bars) per chart
+  ETH 1D: 10th 16.8  median 21.9  90th 28.9
+  ETH 2D: 10th 17.7  median 22.3  90th 30.2
+  ETH 3D: 10th 17.9  median 24.0  90th 30.4
+  ETH 5D: 10th 18.3  median 22.6  90th 31.5
+  ETH 8D: 10th 17.5  median 20.9  90th 27.5
+  BTC 1D: 10th 16.7  median 21.5  90th 29.8
+  BTC 2D: 10th 17.2  median 22.7  90th 31.7
+  BTC 3D: 10th 17.9  median 23.3  90th 30.3
+  BTC 5D: 10th 17.1  median 21.3  90th 28.6
+  BTC 8D: 10th 16.6  median 22.0  90th 29.6

@@ -1,0 +1,247 @@
+JOE IDEAS -- declared tests, run 2026-10-25 | entry quality only, signals not fills
+
+baseline: array engine reproduces engine.signals exactly on all 10 charts
+
+IDEA 1  live cycle length
+  1a half cycle ETH 1D  variant n= 285 win  61% [ 71%(171)  46%(114)] ddpk  -6.4% t30  27%
+                ETH 1D  current n= 288 win  61% [ 71%(173)  45%(115)] ddpk  -6.5% t30  27%  better both periods: YES  | 293 vs 296 signals, 98% within 3 bars of a current trough, median length 11
+  1a half cycle ETH 2D  variant n= 141 win  63% [ 73%( 82)  49%( 59)] ddpk  -4.9% t30  27%
+                ETH 2D  current n= 137 win  62% [ 72%( 81)  48%( 56)] ddpk  -5.2% t30  28%  better both periods: YES  | 143 vs 138 signals, 95% within 3 bars of a current trough, median length 11.0
+  1a half cycle ETH 3D  variant n=  89 win  56% [ 69%( 51)  39%( 38)] ddpk  -5.4% t30  29%
+                ETH 3D  current n=  87 win  55% [ 67%( 48)  41%( 39)] ddpk  -5.4% t30  29%  better both periods: no  | 90 vs 88 signals, 97% within 3 bars of a current trough, median length 12.0
+  1a half cycle ETH 5D  variant n=  50 win  68% [ 74%( 27)  61%( 23)] ddpk  -5.3% t30  20%
+                ETH 5D  current n=  47 win  70% [ 76%( 25)  64%( 22)] ddpk  -5.3% t30  17%  better both periods: no  | 51 vs 48 signals, 94% within 3 bars of a current trough, median length 11.0
+  1a half cycle ETH 8D  variant n=  25 win  76% [ 80%( 15)  70%( 10)] ddpk  -3.2% t30  12%
+                ETH 8D  current n=  24 win  79% [ 79%( 14)  80%( 10)] ddpk  -4.3% t30  12%  better both periods: no  | 25 vs 24 signals, 96% within 3 bars of a current trough, median length 10
+  1a half cycle BTC 1D  variant n= 285 win  53% [ 63%(171)  39%(114)] ddpk  -4.7% t30  12%
+                BTC 1D  current n= 279 win  52% [ 61%(167)  38%(112)] ddpk  -4.7% t30  13%  better both periods: YES  | 292 vs 285 signals, 97% within 3 bars of a current trough, median length 11
+  1a half cycle BTC 2D  variant n= 139 win  52% [ 61%( 82)  39%( 57)] ddpk  -4.6% t30  15%
+                BTC 2D  current n= 141 win  52% [ 60%( 83)  40%( 58)] ddpk  -4.6% t30  15%  better both periods: no  | 141 vs 143 signals, 100% within 3 bars of a current trough, median length 11
+  1a half cycle BTC 3D  variant n=  91 win  52% [ 67%( 51)  32%( 40)] ddpk  -4.5% t30  13%
+                BTC 3D  current n=  92 win  51% [ 65%( 52)  32%( 40)] ddpk  -4.8% t30  14%  better both periods: no  | 93 vs 94 signals, 99% within 3 bars of a current trough, median length 12.0
+  1a half cycle BTC 5D  variant n=  50 win  48% [ 63%( 30)  25%( 20)] ddpk  -4.5% t30  18%
+                BTC 5D  current n=  49 win  47% [ 62%( 29)  25%( 20)] ddpk  -3.9% t30  16%  better both periods: no  | 51 vs 50 signals, 98% within 3 bars of a current trough, median length 11
+  1a half cycle BTC 8D  variant n=  31 win  48% [ 61%( 18)  31%( 13)] ddpk  -4.5% t30  10%
+                BTC 8D  current n=  28 win  50% [ 59%( 17)  36%( 11)] ddpk  -4.6% t30  11%  better both periods: no  | 31 vs 28 signals, 90% within 3 bars of a current trough, median length 11.0
+  1a half cycle: better in both periods on 3/10 charts; signals 1210 vs 1194 (101%); median timing vs current on shared troughs +0 bars -> FAIL
+
+  1b full cycle ETH 1D  variant n= 278 win  60% [ 71%(163)  44%(115)] ddpk  -6.2% t30  27%
+                ETH 1D  current n= 288 win  61% [ 71%(173)  45%(115)] ddpk  -6.5% t30  27%  better both periods: no  | 285 vs 296 signals, 99% within 3 bars of a current trough, median length 22
+  1b full cycle ETH 2D  variant n= 132 win  63% [ 71%( 77)  51%( 55)] ddpk  -5.3% t30  27%
+                ETH 2D  current n= 137 win  62% [ 72%( 81)  48%( 56)] ddpk  -5.2% t30  28%  better both periods: no  | 133 vs 138 signals, 98% within 3 bars of a current trough, median length 22.0
+  1b full cycle ETH 3D  variant n=  87 win  54% [ 65%( 48)  41%( 39)] ddpk  -5.6% t30  30%
+                ETH 3D  current n=  87 win  55% [ 67%( 48)  41%( 39)] ddpk  -5.4% t30  29%  better both periods: no  | 88 vs 88 signals, 97% within 3 bars of a current trough, median length 24.0
+  1b full cycle ETH 5D  variant n=  47 win  70% [ 79%( 24)  61%( 23)] ddpk  -5.4% t30  19%
+                ETH 5D  current n=  47 win  70% [ 76%( 25)  64%( 22)] ddpk  -5.3% t30  17%  better both periods: no  | 47 vs 48 signals, 98% within 3 bars of a current trough, median length 23.0
+  1b full cycle ETH 8D  variant n=  23 win  78% [ 79%( 14)  78%(  9)] ddpk  -4.1% t30  13%
+                ETH 8D  current n=  24 win  79% [ 79%( 14)  80%( 10)] ddpk  -4.3% t30  12%  better both periods: no  | 23 vs 24 signals, 100% within 3 bars of a current trough, median length 21
+  1b full cycle BTC 1D  variant n= 275 win  52% [ 61%(163)  39%(112)] ddpk  -4.6% t30  12%
+                BTC 1D  current n= 279 win  52% [ 61%(167)  38%(112)] ddpk  -4.7% t30  13%  better both periods: no  | 281 vs 285 signals, 99% within 3 bars of a current trough, median length 22
+  1b full cycle BTC 2D  variant n= 138 win  52% [ 60%( 81)  40%( 57)] ddpk  -4.7% t30  15%
+                BTC 2D  current n= 141 win  52% [ 60%( 83)  40%( 58)] ddpk  -4.6% t30  15%  better both periods: YES  | 140 vs 143 signals, 100% within 3 bars of a current trough, median length 23
+  1b full cycle BTC 3D  variant n=  91 win  52% [ 67%( 51)  32%( 40)] ddpk  -4.8% t30  13%
+                BTC 3D  current n=  92 win  51% [ 65%( 52)  32%( 40)] ddpk  -4.8% t30  14%  better both periods: no  | 93 vs 94 signals, 100% within 3 bars of a current trough, median length 23.0
+  1b full cycle BTC 5D  variant n=  46 win  48% [ 67%( 27)  21%( 19)] ddpk  -4.4% t30  17%
+                BTC 5D  current n=  49 win  47% [ 62%( 29)  25%( 20)] ddpk  -3.9% t30  16%  better both periods: no  | 47 vs 50 signals, 98% within 3 bars of a current trough, median length 22
+  1b full cycle BTC 8D  variant n=  25 win  48% [ 53%( 15)  40%( 10)] ddpk  -4.8% t30  12%
+                BTC 8D  current n=  28 win  50% [ 59%( 17)  36%( 11)] ddpk  -4.6% t30  11%  better both periods: no  | 25 vs 28 signals, 100% within 3 bars of a current trough, median length 22.0
+  1b full cycle: better in both periods on 1/10 charts; signals 1162 vs 1194 (97%); median timing vs current on shared troughs +0.0 bars -> FAIL
+
+IDEA 2  super smoother on the stochastic (troughs unchanged; tags change)
+  2a period 3  prime   ETH 1D  smoothed n=  58 win  66% [ 78%( 37)  43%( 21)] ddpk  -7.6% t30  26%
+                       ETH 1D  current  n=  72 win  61% [ 70%( 47)  44%( 25)] ddpk  -6.6% t30  32%  better both: no
+  2a period 3  prime   ETH 2D  smoothed n=  24 win  75% [ 69%( 13)  82%( 11)] ddpk  -3.5% t30  21%
+                       ETH 2D  current  n=  31 win  81% [ 76%( 17)  86%( 14)] ddpk  -4.6% t30  23%  better both: no
+  2a period 3  prime   ETH 3D  smoothed n=  18 win  83% [ 77%( 13) 100%(  5)] ddpk  -5.0% t30  22%
+                       ETH 3D  current  n=  24 win  79% [ 80%( 15)  78%(  9)] ddpk  -3.7% t30  17%  better both: no
+  2a period 3  prime   ETH 5D  smoothed n=   5 win  80% [ 67%(  3) 100%(  2)] ddpk  -4.9% t30  20%
+                       ETH 5D  current  n=   8 win  88% [ 83%(  6) 100%(  2)] ddpk  -4.6% t30  12%  better both: no
+  2a period 3  prime   ETH 8D  smoothed n=   4 win 100% [100%(  4)    -  ] ddpk  -2.2% t30   0%
+                       ETH 8D  current  n=   3 win  67% [100%(  2)   0%(  1)] ddpk  -1.1% t30   0%  better both: no
+  2a period 3  prime   ETH pooled smoothed n= 109 win  72% [ 77%( 70)  64%( 39)] ddpk  -5.6% t30  23%
+                       ETH pooled current  n= 138 win  70% [ 75%( 87)  63%( 51)] ddpk  -4.9% t30  25%  better both: YES
+  2a period 3  prime   BTC 1D  smoothed n=  58 win  59% [ 64%( 33)  52%( 25)] ddpk  -4.5% t30  17%
+                       BTC 1D  current  n=  65 win  60% [ 66%( 38)  52%( 27)] ddpk  -4.5% t30  15%  better both: no
+  2a period 3  prime   BTC 2D  smoothed n=  23 win  61% [ 53%( 15)  75%(  8)] ddpk  -4.0% t30  22%
+                       BTC 2D  current  n=  29 win  66% [ 62%( 16)  69%( 13)] ddpk  -3.6% t30  21%  better both: no
+  2a period 3  prime   BTC 3D  smoothed n=  15 win  47% [ 83%(  6)  22%(  9)] ddpk  -7.4% t30  20%
+                       BTC 3D  current  n=  14 win  43% [ 83%(  6)  12%(  8)] ddpk  -7.1% t30  21%  better both: no
+  2a period 3  prime   BTC 5D  smoothed n=   5 win  80% [ 80%(  5)    -  ] ddpk  -2.7% t30  20%
+                       BTC 5D  current  n=  10 win  60% [ 75%(  8)   0%(  2)] ddpk  -1.1% t30  10%  better both: no
+  2a period 3  prime   BTC 8D  smoothed n=   8 win  62% [ 60%(  5)  67%(  3)] ddpk  -4.3% t30  12%
+                       BTC 8D  current  n=   7 win  86% [100%(  5)  50%(  2)] ddpk  -1.0% t30   0%  better both: no
+  2a period 3  prime   BTC pooled smoothed n= 109 win  59% [ 64%( 64)  51%( 45)] ddpk  -4.3% t30  18%
+                       BTC pooled current  n= 125 win  61% [ 70%( 73)  48%( 52)] ddpk  -4.0% t30  16%  better both: no
+  2a period 3  diamond ETH 1D  smoothed n=  62 win  65% [ 73%( 41)  48%( 21)] ddpk  -7.1% t30  29%
+                       ETH 1D  current  n=  61 win  72% [ 75%( 44)  65%( 17)] ddpk  -6.4% t30  26%  better both: no
+  2a period 3  diamond ETH 2D  smoothed n=  32 win  75% [ 79%( 19)  69%( 13)] ddpk  -5.0% t30  25%
+                       ETH 2D  current  n=  34 win  71% [ 79%( 19)  60%( 15)] ddpk  -4.8% t30  24%  better both: no
+  2a period 3  diamond ETH 3D  smoothed n=  21 win  52% [ 78%(  9)  33%( 12)] ddpk  -5.4% t30  33%
+                       ETH 3D  current  n=  20 win  55% [ 58%( 12)  50%(  8)] ddpk  -6.2% t30  30%  better both: no
+  2a period 3  diamond ETH 5D  smoothed n=  13 win  62% [ 80%(  5)  50%(  8)] ddpk  -4.0% t30  15%
+                       ETH 5D  current  n=   9 win  67% [100%(  4)  40%(  5)] ddpk  -4.0% t30  11%  better both: no
+  2a period 3  diamond ETH 8D  smoothed n=   6 win  67% [ 60%(  5) 100%(  1)] ddpk  -2.8% t30  33%
+                       ETH 8D  current  n=   6 win  67% [ 60%(  5) 100%(  1)] ddpk  -2.8% t30  33%  better both: no
+  2a period 3  diamond ETH pooled smoothed n= 134 win  65% [ 75%( 79)  51%( 55)] ddpk  -5.3% t30  28%
+                       ETH pooled current  n= 130 win  68% [ 74%( 84)  59%( 46)] ddpk  -5.3% t30  25%  better both: no
+  2a period 3  diamond BTC 1D  smoothed n=  68 win  49% [ 65%( 40)  25%( 28)] ddpk  -4.6% t30  12%
+                       BTC 1D  current  n=  66 win  53% [ 68%( 41)  28%( 25)] ddpk  -4.8% t30  12%  better both: no
+  2a period 3  diamond BTC 2D  smoothed n=  40 win  50% [ 60%( 20)  40%( 20)] ddpk  -3.4% t30  18%
+                       BTC 2D  current  n=  36 win  56% [ 59%( 17)  53%( 19)] ddpk  -3.7% t30  17%  better both: no
+  2a period 3  diamond BTC 3D  smoothed n=  20 win  55% [ 64%( 11)  44%(  9)] ddpk  -7.2% t30   5%
+                       BTC 3D  current  n=  16 win  50% [ 71%(  7)  33%(  9)] ddpk  -7.2% t30   0%  better both: no
+  2a period 3  diamond BTC 5D  smoothed n=  18 win  56% [ 69%( 13)  20%(  5)] ddpk  -3.8% t30  22%
+                       BTC 5D  current  n=  14 win  57% [ 70%( 10)  25%(  4)] ddpk  -3.4% t30  29%  better both: no
+  2a period 3  diamond BTC 8D  smoothed n=   5 win  80% [100%(  4)   0%(  1)] ddpk  -1.1% t30   0%
+                       BTC 8D  current  n=   6 win  67% [ 80%(  5)   0%(  1)] ddpk  -2.3% t30   0%  better both: no
+  2a period 3  diamond BTC pooled smoothed n= 151 win  52% [ 66%( 88)  32%( 63)] ddpk  -4.3% t30  13%
+                       BTC pooled current  n= 138 win  54% [ 68%( 80)  36%( 58)] ddpk  -4.4% t30  13%  better both: no
+  2a period 3: prime better on 0/10, diamond on 0/10; pooled {('prime', 'ETH'): True, ('prime', 'BTC'): False, ('diamond', 'ETH'): False, ('diamond', 'BTC'): False} -> FAIL
+
+  2b period 10 prime   ETH 1D  smoothed n=  85 win  64% [ 70%( 54)  52%( 31)] ddpk  -7.7% t30  28%
+                       ETH 1D  current  n=  72 win  61% [ 70%( 47)  44%( 25)] ddpk  -6.6% t30  32%  better both: YES
+  2b period 10 prime   ETH 2D  smoothed n=  40 win  75% [ 71%( 24)  81%( 16)] ddpk  -5.1% t30  15%
+                       ETH 2D  current  n=  31 win  81% [ 76%( 17)  86%( 14)] ddpk  -4.6% t30  23%  better both: no
+  2b period 10 prime   ETH 3D  smoothed n=  20 win  65% [ 67%( 12)  62%(  8)] ddpk  -3.4% t30  20%
+                       ETH 3D  current  n=  24 win  79% [ 80%( 15)  78%(  9)] ddpk  -3.7% t30  17%  better both: no
+  2b period 10 prime   ETH 5D  smoothed n=   9 win  56% [ 60%(  5)  50%(  4)] ddpk  -6.3% t30  44%
+                       ETH 5D  current  n=   8 win  88% [ 83%(  6) 100%(  2)] ddpk  -4.6% t30  12%  better both: no
+  2b period 10 prime   ETH 8D  smoothed n=   4 win  75% [100%(  3)   0%(  1)] ddpk  -1.0% t30   0%
+                       ETH 8D  current  n=   3 win  67% [100%(  2)   0%(  1)] ddpk  -1.1% t30   0%  better both: no
+  2b period 10 prime   ETH pooled smoothed n= 158 win  66% [ 70%( 98)  60%( 60)] ddpk  -6.0% t30  24%
+                       ETH pooled current  n= 138 win  70% [ 75%( 87)  63%( 51)] ddpk  -4.9% t30  25%  better both: no
+  2b period 10 prime   BTC 1D  smoothed n=  74 win  66% [ 70%( 47)  59%( 27)] ddpk  -4.8% t30  12%
+                       BTC 1D  current  n=  65 win  60% [ 66%( 38)  52%( 27)] ddpk  -4.5% t30  15%  better both: YES
+  2b period 10 prime   BTC 2D  smoothed n=  37 win  65% [ 72%( 18)  58%( 19)] ddpk  -4.0% t30  16%
+                       BTC 2D  current  n=  29 win  66% [ 62%( 16)  69%( 13)] ddpk  -3.6% t30  21%  better both: no
+  2b period 10 prime   BTC 3D  smoothed n=  16 win  56% [ 75%(  8)  38%(  8)] ddpk  -3.3% t30  19%
+                       BTC 3D  current  n=  14 win  43% [ 83%(  6)  12%(  8)] ddpk  -7.1% t30  21%  better both: no
+  2b period 10 prime   BTC 5D  smoothed n=  10 win  40% [ 50%(  6)  25%(  4)] ddpk  -4.4% t30  20%
+                       BTC 5D  current  n=  10 win  60% [ 75%(  8)   0%(  2)] ddpk  -1.1% t30  10%  better both: no
+  2b period 10 prime   BTC 8D  smoothed n=   4 win  50% [100%(  1)  33%(  3)] ddpk  -1.2% t30   0%
+                       BTC 8D  current  n=   7 win  86% [100%(  5)  50%(  2)] ddpk  -1.0% t30   0%  better both: no
+  2b period 10 prime   BTC pooled smoothed n= 141 win  62% [ 70%( 80)  52%( 61)] ddpk  -4.3% t30  14%
+                       BTC pooled current  n= 125 win  61% [ 70%( 73)  48%( 52)] ddpk  -4.0% t30  16%  better both: YES
+  2b period 10 diamond ETH 1D  smoothed n=  61 win  66% [ 70%( 44)  53%( 17)] ddpk  -7.3% t30  30%
+                       ETH 1D  current  n=  61 win  72% [ 75%( 44)  65%( 17)] ddpk  -6.4% t30  26%  better both: no
+  2b period 10 diamond ETH 2D  smoothed n=  39 win  59% [ 70%( 20)  47%( 19)] ddpk  -5.3% t30  28%
+                       ETH 2D  current  n=  34 win  71% [ 79%( 19)  60%( 15)] ddpk  -4.8% t30  24%  better both: no
+  2b period 10 diamond ETH 3D  smoothed n=  19 win  68% [ 78%(  9)  60%( 10)] ddpk  -5.4% t30  11%
+                       ETH 3D  current  n=  20 win  55% [ 58%( 12)  50%(  8)] ddpk  -6.2% t30  30%  better both: YES
+  2b period 10 diamond ETH 5D  smoothed n=   9 win  78% [100%(  4)  60%(  5)] ddpk  -5.3% t30  11%
+                       ETH 5D  current  n=   9 win  67% [100%(  4)  40%(  5)] ddpk  -4.0% t30  11%  better both: no
+  2b period 10 diamond ETH 8D  smoothed n=   5 win  60% [ 50%(  4) 100%(  1)] ddpk  -2.4% t30  40%
+                       ETH 8D  current  n=   6 win  67% [ 60%(  5) 100%(  1)] ddpk  -2.8% t30  33%  better both: no
+  2b period 10 diamond ETH pooled smoothed n= 133 win  65% [ 72%( 81)  54%( 52)] ddpk  -5.9% t30  26%
+                       ETH pooled current  n= 130 win  68% [ 74%( 84)  59%( 46)] ddpk  -5.3% t30  25%  better both: no
+  2b period 10 diamond BTC 1D  smoothed n=  69 win  51% [ 62%( 47)  27%( 22)] ddpk  -5.8% t30  14%
+                       BTC 1D  current  n=  66 win  53% [ 68%( 41)  28%( 25)] ddpk  -4.8% t30  12%  better both: no
+  2b period 10 diamond BTC 2D  smoothed n=  40 win  50% [ 58%( 19)  43%( 21)] ddpk  -4.6% t30  18%
+                       BTC 2D  current  n=  36 win  56% [ 59%( 17)  53%( 19)] ddpk  -3.7% t30  17%  better both: no
+  2b period 10 diamond BTC 3D  smoothed n=  14 win  50% [ 60%(  5)  44%(  9)] ddpk  -5.8% t30   0%
+                       BTC 3D  current  n=  16 win  50% [ 71%(  7)  33%(  9)] ddpk  -7.2% t30   0%  better both: no
+  2b period 10 diamond BTC 5D  smoothed n=  16 win  50% [ 78%(  9)  14%(  7)] ddpk  -3.4% t30  19%
+                       BTC 5D  current  n=  14 win  57% [ 70%( 10)  25%(  4)] ddpk  -3.4% t30  29%  better both: no
+  2b period 10 diamond BTC 8D  smoothed n=   7 win  57% [ 60%(  5)  50%(  2)] ddpk  -4.5% t30  14%
+                       BTC 8D  current  n=   6 win  67% [ 80%(  5)   0%(  1)] ddpk  -2.3% t30   0%  better both: no
+  2b period 10 diamond BTC pooled smoothed n= 146 win  51% [ 62%( 85)  34%( 61)] ddpk  -4.6% t30  14%
+                       BTC pooled current  n= 138 win  54% [ 68%( 80)  36%( 58)] ddpk  -4.4% t30  13%  better both: no
+  2b period 10: prime better on 2/10, diamond on 1/10; pooled {('prime', 'ETH'): False, ('prime', 'BTC'): True, ('diamond', 'ETH'): False, ('diamond', 'BTC'): False} -> FAIL
+
+IDEA 3  phase-difference entry vs the confirmation entry, same troughs
+  3a gap starts closing ETH 1D  entry   n= 373 win  59% [ 71%(217)  42%(156)] ddpk  -6.4% t30  28%  never confirmed  29%  median bars vs confirmation -1
+                        ETH 1D  confirm n= 288 win  61% [ 71%(173)  45%(115)] ddpk  -6.5% t30  27%  at least as good both periods: no
+  3a gap starts closing ETH 2D  entry   n= 194 win  58% [ 67%(117)  44%( 77)] ddpk  -5.6% t30  32%  never confirmed  34%  median bars vs confirmation -1.0
+                        ETH 2D  confirm n= 137 win  62% [ 72%( 81)  48%( 56)] ddpk  -5.2% t30  28%  at least as good both periods: no
+  3a gap starts closing ETH 3D  entry   n= 130 win  56% [ 65%( 68)  47%( 62)] ddpk  -4.9% t30  31%  never confirmed  35%  median bars vs confirmation -1.0
+                        ETH 3D  confirm n=  87 win  55% [ 67%( 48)  41%( 39)] ddpk  -5.4% t30  29%  at least as good both periods: no
+  3a gap starts closing ETH 5D  entry   n=  74 win  54% [ 62%( 37)  46%( 37)] ddpk  -5.6% t30  31%  never confirmed  41%  median bars vs confirmation -1.5
+                        ETH 5D  confirm n=  47 win  70% [ 76%( 25)  64%( 22)] ddpk  -5.3% t30  17%  at least as good both periods: no
+  3a gap starts closing ETH 8D  entry   n=  43 win  63% [ 75%( 20)  52%( 23)] ddpk  -5.9% t30  23%  never confirmed  44%  median bars vs confirmation -2
+                        ETH 8D  confirm n=  24 win  79% [ 79%( 14)  80%( 10)] ddpk  -4.3% t30  12%  at least as good both periods: no
+  3a gap starts closing BTC 1D  entry   n= 391 win  51% [ 61%(228)  36%(163)] ddpk  -5.1% t30  16%  never confirmed  32%  median bars vs confirmation -1
+                        BTC 1D  confirm n= 279 win  52% [ 61%(167)  38%(112)] ddpk  -4.7% t30  13%  at least as good both periods: no
+  3a gap starts closing BTC 2D  entry   n= 207 win  50% [ 57%(121)  41%( 86)] ddpk  -4.7% t30  17%  never confirmed  35%  median bars vs confirmation -1
+                        BTC 2D  confirm n= 141 win  52% [ 60%( 83)  40%( 58)] ddpk  -4.6% t30  15%  at least as good both periods: no
+  3a gap starts closing BTC 3D  entry   n= 143 win  50% [ 59%( 81)  39%( 62)] ddpk  -5.1% t30  12%  never confirmed  38%  median bars vs confirmation -1
+                        BTC 3D  confirm n=  92 win  51% [ 65%( 52)  32%( 40)] ddpk  -4.8% t30  14%  at least as good both periods: no
+  3a gap starts closing BTC 5D  entry   n=  83 win  45% [ 59%( 44)  28%( 39)] ddpk  -3.7% t30  13%  never confirmed  42%  median bars vs confirmation -1
+                        BTC 5D  confirm n=  49 win  47% [ 62%( 29)  25%( 20)] ddpk  -3.9% t30  16%  at least as good both periods: no
+  3a gap starts closing BTC 8D  entry   n=  41 win  61% [ 76%( 21)  45%( 20)] ddpk  -4.4% t30   5%  never confirmed  37%  median bars vs confirmation -1
+                        BTC 8D  confirm n=  28 win  50% [ 59%( 17)  36%( 11)] ddpk  -4.6% t30  11%  at least as good both periods: YES
+  3a gap starts closing: at least as good in both periods on 1/10 charts, drawdown no worse on 4/10 -> FAIL
+
+  3b full cross         ETH 1D  entry   n= 216 win  59% [ 67%(129)  47%( 87)] ddpk  -5.6% t30  31%  never confirmed   0%  median bars vs confirmation +3.0
+                        ETH 1D  confirm n= 288 win  61% [ 71%(173)  45%(115)] ddpk  -6.5% t30  27%  at least as good both periods: no
+  3b full cross         ETH 2D  entry   n=  93 win  68% [ 76%( 55)  55%( 38)] ddpk  -4.9% t30  27%  never confirmed   0%  median bars vs confirmation +2
+                        ETH 2D  confirm n= 137 win  62% [ 72%( 81)  48%( 56)] ddpk  -5.2% t30  28%  at least as good both periods: YES
+  3b full cross         ETH 3D  entry   n=  60 win  68% [ 75%( 32)  61%( 28)] ddpk  -7.3% t30  17%  never confirmed   0%  median bars vs confirmation +3.5
+                        ETH 3D  confirm n=  87 win  55% [ 67%( 48)  41%( 39)] ddpk  -5.4% t30  29%  at least as good both periods: YES
+  3b full cross         ETH 5D  entry   n=  37 win  65% [ 71%( 21)  56%( 16)] ddpk  -4.1% t30  24%  never confirmed   0%  median bars vs confirmation +4
+                        ETH 5D  confirm n=  47 win  70% [ 76%( 25)  64%( 22)] ddpk  -5.3% t30  17%  at least as good both periods: no
+  3b full cross         ETH 8D  entry   n=  14 win  57% [ 62%(  8)  50%(  6)] ddpk  -6.5% t30  21%  never confirmed   0%  median bars vs confirmation +3.0
+                        ETH 8D  confirm n=  24 win  79% [ 79%( 14)  80%( 10)] ddpk  -4.3% t30  12%  at least as good both periods: no
+  3b full cross         BTC 1D  entry   n= 191 win  54% [ 64%(108)  41%( 83)] ddpk  -3.7% t30  13%  never confirmed   0%  median bars vs confirmation +3
+                        BTC 1D  confirm n= 279 win  52% [ 61%(167)  38%(112)] ddpk  -4.7% t30  13%  at least as good both periods: YES
+  3b full cross         BTC 2D  entry   n= 102 win  61% [ 81%( 57)  36%( 45)] ddpk  -3.0% t30  13%  never confirmed   0%  median bars vs confirmation +3.0
+                        BTC 2D  confirm n= 141 win  52% [ 60%( 83)  40%( 58)] ddpk  -4.6% t30  15%  at least as good both periods: no
+  3b full cross         BTC 3D  entry   n=  54 win  57% [ 74%( 31)  35%( 23)] ddpk  -4.9% t30  11%  never confirmed   0%  median bars vs confirmation +4.0
+                        BTC 3D  confirm n=  92 win  51% [ 65%( 52)  32%( 40)] ddpk  -4.8% t30  14%  at least as good both periods: YES
+  3b full cross         BTC 5D  entry   n=  33 win  52% [ 65%( 20)  31%( 13)] ddpk  -2.7% t30  12%  never confirmed   0%  median bars vs confirmation +5
+                        BTC 5D  confirm n=  49 win  47% [ 62%( 29)  25%( 20)] ddpk  -3.9% t30  16%  at least as good both periods: YES
+  3b full cross         BTC 8D  entry   n=  20 win  60% [ 69%( 13)  43%(  7)] ddpk  -3.8% t30  15%  never confirmed   0%  median bars vs confirmation +4.0
+                        BTC 8D  confirm n=  28 win  50% [ 59%( 17)  36%( 11)] ddpk  -4.6% t30  11%  at least as good both periods: no
+  3b full cross: at least as good in both periods on 5/10 charts, drawdown no worse on 7/10 -> FAIL
+
+IDEA 5  weekly-chart agreement before the signal
+  5a weekly momentum rising                 ETH 1D  with n= 120 win  64% [ 75%( 75)  47%( 45)] ddpk  -6.9% t30  24%
+                                            ETH 1D  w/o  n= 168 win  58% [ 68%( 98)  44%( 70)] ddpk  -6.4% t30  30%  ahead both periods: YES
+  5a weekly momentum rising                 ETH 2D  with n=  53 win  68% [ 76%( 34)  53%( 19)] ddpk  -6.4% t30  26%
+                                            ETH 2D  w/o  n=  84 win  58% [ 68%( 47)  46%( 37)] ddpk  -4.7% t30  29%  ahead both periods: YES
+  5a weekly momentum rising                 ETH 3D  with n=  52 win  56% [ 77%( 26)  35%( 26)] ddpk  -5.4% t30  29%
+                                            ETH 3D  w/o  n=  35 win  54% [ 55%( 22)  54%( 13)] ddpk  -6.9% t30  29%  ahead both periods: no
+  5a weekly momentum rising                 ETH 5D  with n=  36 win  64% [ 71%( 21)  53%( 15)] ddpk  -5.3% t30  19%
+                                            ETH 5D  w/o  n=  11 win  91% [100%(  4)  86%(  7)] ddpk  -4.9% t30   9%  ahead both periods: no
+                                            ETH inside 8D rising: with n= 180 win  68% [ 78%(106)  54%( 74)] ddpk  -7.1% t30  21% | w/o n=  83 win  73% [ 75%( 48)  71%( 35)] ddpk  -5.2% t30  18%
+                                            ETH inside 8D not rising: with n=  81 win  52% [ 68%( 50)  26%( 31)] ddpk  -4.4% t30  33% | w/o n= 215 win  53% [ 64%(123)  39%( 92)] ddpk  -5.9% t30  33%
+  5a weekly momentum rising                 ETH pooled lift +4  with n= 261 win  63% [ 75%(156)  46%(105)] ddpk  -6.1% t30  25%
+  5a weekly momentum rising                 BTC 1D  with n= 125 win  55% [ 67%( 79)  35%( 46)] ddpk  -4.7% t30  12%
+                                            BTC 1D  w/o  n= 154 win  49% [ 56%( 88)  39%( 66)] ddpk  -4.6% t30  14%  ahead both periods: no
+  5a weekly momentum rising                 BTC 2D  with n=  59 win  49% [ 54%( 35)  42%( 24)] ddpk  -5.1% t30  14%
+                                            BTC 2D  w/o  n=  82 win  54% [ 65%( 48)  38%( 34)] ddpk  -4.1% t30  16%  ahead both periods: no
+  5a weekly momentum rising                 BTC 3D  with n=  62 win  50% [ 64%( 36)  31%( 26)] ddpk  -6.1% t30  13%
+                                            BTC 3D  w/o  n=  30 win  53% [ 69%( 16)  36%( 14)] ddpk  -4.3% t30  17%  ahead both periods: no
+  5a weekly momentum rising                 BTC 5D  with n=  39 win  49% [ 62%( 24)  27%( 15)] ddpk  -3.8% t30  15%
+                                            BTC 5D  w/o  n=  10 win  40% [ 60%(  5)  20%(  5)] ddpk  -7.5% t30  20%  ahead both periods: YES
+                                            BTC inside 8D rising: with n= 221 win  57% [ 66%(137)  40%( 84)] ddpk  -5.0% t30  14% | w/o n=  85 win  55% [ 70%( 46)  38%( 39)] ddpk  -4.4% t30  12%
+                                            BTC inside 8D not rising: with n=  64 win  36% [ 51%( 37)  15%( 27)] ddpk  -4.7% t30   9% | w/o n= 191 win  48% [ 56%(111)  38%( 80)] ddpk  -4.6% t30  16%
+  5a weekly momentum rising                 BTC pooled lift +2  with n= 285 win  52% [ 63%(174)  34%(111)] ddpk  -4.9% t30  13%
+  5a weekly momentum rising: pooled lift ETH +4 BTC +2; ahead in both periods on 3/8 charts; inside 8D halves {ETH up: -5, ETH dn: -2, BTC up: +1, BTC dn: -12} -> FAIL
+
+  5b weekly momentum above its signal line  ETH 1D  with n= 123 win  70% [ 79%( 78)  53%( 45)] ddpk  -6.7% t30  16%
+                                            ETH 1D  w/o  n= 165 win  54% [ 64%( 95)  40%( 70)] ddpk  -6.5% t30  36%  ahead both periods: YES
+  5b weekly momentum above its signal line  ETH 2D  with n=  54 win  72% [ 82%( 34)  55%( 20)] ddpk  -4.9% t30  22%
+                                            ETH 2D  w/o  n=  83 win  55% [ 64%( 47)  44%( 36)] ddpk  -5.2% t30  31%  ahead both periods: YES
+  5b weekly momentum above its signal line  ETH 3D  with n=  35 win  66% [ 94%( 17)  39%( 18)] ddpk  -8.2% t30  17%
+                                            ETH 3D  w/o  n=  52 win  48% [ 52%( 31)  43%( 21)] ddpk  -4.1% t30  37%  ahead both periods: no
+  5b weekly momentum above its signal line  ETH 5D  with n=  21 win  67% [ 67%(  9)  67%( 12)] ddpk  -4.9% t30  14%
+                                            ETH 5D  w/o  n=  26 win  73% [ 81%( 16)  60%( 10)] ddpk  -5.8% t30  19%  ahead both periods: no
+                                            ETH inside 8D rising: with n= 152 win  72% [ 81%( 84)  62%( 68)] ddpk  -7.1% t30  18% | w/o n= 111 win  67% [ 73%( 70)  56%( 41)] ddpk  -6.2% t30  23%
+                                            ETH inside 8D not rising: with n=  81 win  64% [ 81%( 54)  30%( 27)] ddpk  -5.0% t30  17% | w/o n= 215 win  49% [ 58%(119)  38%( 96)] ddpk  -5.9% t30  39%
+  5b weekly momentum above its signal line  ETH pooled lift +15  with n= 233 win  70% [ 81%(138)  53%( 95)] ddpk  -6.0% t30  18%
+  5b weekly momentum above its signal line  BTC 1D  with n= 124 win  60% [ 72%( 80)  39%( 44)] ddpk  -4.7% t30   7%
+                                            BTC 1D  w/o  n= 155 win  45% [ 51%( 87)  37%( 68)] ddpk  -4.6% t30  17%  ahead both periods: YES
+  5b weekly momentum above its signal line  BTC 2D  with n=  58 win  62% [ 76%( 33)  44%( 25)] ddpk  -5.4% t30   7%
+                                            BTC 2D  w/o  n=  83 win  45% [ 50%( 50)  36%( 33)] ddpk  -3.7% t30  20%  ahead both periods: YES
+  5b weekly momentum above its signal line  BTC 3D  with n=  39 win  51% [ 71%( 21)  28%( 18)] ddpk  -6.9% t30  10%
+                                            BTC 3D  w/o  n=  53 win  51% [ 61%( 31)  36%( 22)] ddpk  -4.3% t30  17%  ahead both periods: no
+  5b weekly momentum above its signal line  BTC 5D  with n=  16 win  50% [ 78%(  9)  14%(  7)] ddpk  -4.6% t30   6%
+                                            BTC 5D  w/o  n=  33 win  45% [ 55%( 20)  31%( 13)] ddpk  -3.8% t30  21%  ahead both periods: no
+                                            BTC inside 8D rising: with n= 176 win  62% [ 77%(106)  40%( 70)] ddpk  -5.3% t30   7% | w/o n= 130 win  48% [ 53%( 77)  40%( 53)] ddpk  -4.1% t30  22%
+                                            BTC inside 8D not rising: with n=  61 win  48% [ 62%( 37)  25%( 24)] ddpk  -4.6% t30   8% | w/o n= 194 win  44% [ 52%(111)  34%( 83)] ddpk  -4.6% t30  16%
+  5b weekly momentum above its signal line  BTC pooled lift +13  with n= 237 win  59% [ 73%(143)  36%( 94)] ddpk  -5.3% t30   8%
+  5b weekly momentum above its signal line: pooled lift ETH +15 BTC +13; ahead in both periods on 4/8 charts; inside 8D halves {ETH up: +6, ETH dn: +15, BTC up: +15, BTC dn: +3} -> FAIL
+
+IDEA 7  funding cost around resets (Binance USDT perpetual, 8-hour funding)
+  ETH: 378 signal entries since 2020-01-21; funding per 8h interval at entry median 0.0100% (all days 0.0089%); a 60-day hold pays median 1.66% of position, 90th pct 6.40%
+  BTC: 378 signal entries since 2020-01-21; funding per 8h interval at entry median 0.0100% (all days 0.0085%); a 60-day hold pays median 1.35% of position, 90th pct 5.03%
