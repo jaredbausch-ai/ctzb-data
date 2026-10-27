@@ -1,0 +1,44 @@
+FRONT-RUNNING A FORMING LOW (buy one bar after the low) vs the confirmation close -- run 2026-10-27
+entry quality only, computed signals, not fills
+
+ETH 1D
+  ALL buy 1 bar after the low   n= 418 +20%  59% [ 69%(246)  45%(172)] dip  -6.5%  -20%  40%  -30%  26%   never confirmed  31%
+      of those, never confirmed  n= 129 +20%  50% [ 61%( 71)  38%( 58)] dip  -7.8%  -20%  43%  -30%  28%
+      confirmation close         n= 289 +20%  61% [ 71%(174)  45%(115)] dip  -6.5%  -20%  41%  -30%  28%   paid +1.6% over the 1-bar price
+  A   buy 1 bar after the low   n= 112 +20%  47% [ 52%( 58)  43%( 54)] dip  -7.8%  -20%  50%  -30%  38%   never confirmed  13%
+      of those, never confirmed  n=  15 +20%  33% [ 44%(  9)  17%(  6)] dip -13.1%  -20%  60%  -30%  53%
+      confirmation close         n=  97 +20%  51% [ 60%( 48)  41%( 49)] dip  -6.5%  -20%  48%  -30%  34%   paid +0.7% over the 1-bar price
+  B   buy 1 bar after the low   n= 183 +20%  60% [ 71%(108)  44%( 75)] dip  -5.4%  -20%  35%  -30%  25%   never confirmed  36%
+      of those, never confirmed  n=  66 +20%  52% [ 62%( 34)  41%( 32)] dip  -7.3%  -20%  38%  -30%  26%
+      confirmation close         n= 117 +20%  59% [ 69%( 74)  42%( 43)] dip  -5.4%  -20%  37%  -30%  26%   paid +1.9% over the 1-bar price
+  A with a BTC 3D signal 0-10 days before: 1 bar after n=  40 +20%  60% [ 58%( 19)  62%( 21)] dip  -7.1%  -20%  45%  -30%  35%
+                                       confirmation n=  32 +20%  72% [ 80%( 15)  65%( 17)] dip  -6.6%  -20%  41%  -30%  28%
+  B with a BTC 3D signal 0-10 days before: 1 bar after n=  73 +20%  62% [ 80%( 41)  38%( 32)] dip  -5.8%  -20%  29%  -30%  26%
+                                       confirmation n=  44 +20%  68% [ 83%( 23)  52%( 21)] dip  -4.8%  -20%  27%  -30%  18%
+
+ETH 2D
+  ALL buy 1 bar after the low   n= 211 +20%  58% [ 68%(127)  44%( 84)] dip  -6.2%  -20%  44%  -30%  31%   never confirmed  35%
+      of those, never confirmed  n=  73 +20%  48% [ 56%( 45)  36%( 28)] dip -11.0%  -20%  64%  -30%  49%
+      confirmation close         n= 138 +20%  62% [ 72%( 82)  48%( 56)] dip  -5.1%  -20%  41%  -30%  28%   paid +3.4% over the 1-bar price
+  A   buy 1 bar after the low   n=  48 +20%  46% [ 52%( 23)  40%( 25)] dip  -6.4%  -20%  52%  -30%  31%   never confirmed  25%
+      of those, never confirmed  n=  12 +20%  42% [ 57%(  7)  20%(  5)] dip -13.7%  -20%  75%  -30%  58%
+      confirmation close         n=  36 +20%  47% [ 50%( 16)  45%( 20)] dip  -6.6%  -20%  47%  -30%  33%   paid +2.6% over the 1-bar price
+  B   buy 1 bar after the low   n=  90 +20%  59% [ 71%( 52)  42%( 38)] dip  -5.1%  -20%  38%  -30%  36%   never confirmed  29%
+      of those, never confirmed  n=  26 +20%  42% [ 62%( 13)  23%( 13)] dip -10.5%  -20%  62%  -30%  62%
+      confirmation close         n=  64 +20%  66% [ 74%( 39)  52%( 25)] dip  -4.2%  -20%  36%  -30%  25%   paid +1.9% over the 1-bar price
+  A with a BTC 3D signal 0-10 days before: 1 bar after n=  17 +20%  59% [ 56%(  9)  62%(  8)] dip  -8.8%  -20%  53%  -30%  35%
+                                       confirmation n=  10 +20%  70% [ 50%(  4)  83%(  6)] dip -10.5%  -20%  40%  -30%  40%
+  B with a BTC 3D signal 0-10 days before: 1 bar after n=  36 +20%  75% [ 89%( 19)  59%( 17)] dip  -5.1%  -20%  28%  -30%  25%
+                                       confirmation n=  20 +20%  80% [ 91%( 11)  67%(  9)] dip  -4.8%  -20%  20%  -30%  15%
+
+BTC 2D
+  ALL buy 1 bar after the low   n= 221 +20%  49% [ 57%(128)  38%( 93)] dip  -5.2%  -20%  34%  -30%  16%   never confirmed  36%
+      of those, never confirmed  n=  80 +20%  40% [ 47%( 45)  31%( 35)] dip  -9.8%  -20%  49%  -30%  26%
+      confirmation close         n= 141 +20%  52% [ 60%( 83)  40%( 58)] dip  -4.6%  -20%  30%  -30%  15%   paid +3.6% over the 1-bar price
+  A   buy 1 bar after the low   n=  42 +20%  52% [ 57%( 21)  48%( 21)] dip  -5.0%  -20%  36%  -30%  10%   never confirmed  10%
+      of those, never confirmed  n=   4 +20%  50% [ 67%(  3)   0%(  1)] dip  -8.7%  -20%  75%  -30%  75%
+      confirmation close         n=  38 +20%  47% [ 50%( 18)  45%( 20)] dip  -4.4%  -20%  29%  -30%   8%   paid +3.0% over the 1-bar price
+  B   buy 1 bar after the low   n=  87 +20%  43% [ 52%( 50)  30%( 37)] dip  -4.2%  -20%  39%  -30%  22%   never confirmed  40%
+      of those, never confirmed  n=  35 +20%  34% [ 37%( 19)  31%( 16)] dip  -8.1%  -20%  54%  -30%  29%
+      confirmation close         n=  52 +20%  48% [ 61%( 31)  29%( 21)] dip  -3.7%  -20%  35%  -30%  19%   paid +3.1% over the 1-bar price
+
