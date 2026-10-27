@@ -544,6 +544,59 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**RANKING BY FAILURE INSTEAD OF WIN RATE — 27 Oct 2026. A redirect, and it
+reorders everything.** `analysis/failtest.py`. Jared's criticism, which was
+correct: every filter in this repo had been ranked on "reached +20% in 60 days".
+At ~3.3x a win that first draws down 28% is not a win -- he is liquidated or
+shaken out long before it arrives. **Win rate overstates the real result and
+every ranking built on it was measuring the wrong variable.**
+
+Baseline failure rates, 1,120 gated signals: ALL LIQ30 20% / LIQ20 36% / median
+drawdown -14.0%. ETH 27% / 40% / -16.0%. BTC 14% / 31% / -10.8%.
+
+**The reordering.** Ranked by how much each cuts the -30% rate (ALL):
+
+| feature | n | LIQ30 | cut | med dd | win |
+|---|---|---|---|---|---|
+| 2D/3D stoch divergence | 125 | 13% | **-8** | -11.6% | 62% |
+| funding NOT cooling | 359 | 13% | -7 | -11.8% | 56% |
+| gap>5 | 223 | 14% | -6 | -10.6% | 70% |
+| CT>Signal | 580 | 17% | -4 | -11.7% | 63% |
+| confluence 2+ | 515 | 17% | -3 | -11.8% | 58% |
+| **160D trough DUE** | 465 | 18% | **-2** | -10.9% | 59% |
+
+**The divergence test recorded immediately above as "does not clear the bar" is
+the single best drawdown filter in the whole feature set.** It was dismissed
+because it was scored on win rate. Conversely the 160D projection -- the biggest
+win-rate finding of the week at +12 -- is near the BOTTOM for risk at -2. It is
+a win-rate filter, not a risk filter, and should be described that way.
+
+**THE STACK, which is the actionable part.** funding-not-cooling AND gap>5:
+
+| | n | LIQ30 | vs base | med dd | win | keeps |
+|---|---|---|---|---|---|---|
+| ALL | 102 | **6%** | -14 | -8.8% | 71% | 9% |
+| ETH | 53 | **6%** | -21 | -10.6% | 75% | 9% |
+| BTC | 49 | **6%** | -8 | -6.3% | 65% | 9% |
+
+Liquidation risk cut by two thirds on all three scopes, win rate UP, median
+drawdown nearly halved. It keeps only 9% of signals -- roughly ten a year across
+eight charts -- which is the cost.
+
+THREE CAUTIONS:
+1. **Year stability of the single filters is weak.** Stoch divergence cuts
+   LIQ30 by -22/-14/-7/-23/0/-12 but **+13 in 2025**, on cells of 5-28. Funding
+   not-cooling runs -7/+1/0/-9/+3. The effect lives in the stack, not the parts.
+2. **Bucket A is NOT reliably dangerous.** Pooled it looked worse (+2 ALL, +4
+   ETH, median dd -15.4%), but by year it runs 37 vs 18, 8 vs 23, 40 vs 94, 4 vs
+   15, 5 vs 6, 41 vs 42, 0 vs 0, 9 vs 10, 32 vs 15 -- mixed, and 2018 is strongly
+   the other way. Pooled artefact. Do not act on it.
+3. n=102 stacked, and the filters were ranked after the targets were known.
+
+STANDING CHANGE: report **LIQ30, LIQ20, median drawdown and win rate together**
+for any new filter. A filter that lifts win rate while leaving drawdown alone is
+worth less here than one that does the reverse.
+
 **Higher-timeframe bullish divergence at a 1D/2D print — tested 27 Oct 2026,
 DOES NOT CLEAR THE BAR, but one thread kept.** `analysis/htfdiv.py`, declared.
 Jared's idea. Price/oscillator divergence (lower low in price, higher low in the

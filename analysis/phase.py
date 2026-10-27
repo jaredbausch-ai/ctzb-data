@@ -73,5 +73,7 @@ def run(target, label):
         print(f'  {f"{lo:.1f}-{hi:.1f}":<14}{len(S):>6}{w:>6.0f}%{w-W:>+7.0f}{100*sum(r["d30"] for r in S)/len(S):>6.0f}%')
     return rows
 
-for tgt,lab in ((F.NOMINAL['40D'],'40D degree'),(F.NOMINAL['80D'],'80D degree'),(F.NOMINAL['160D'],'160D degree')):
-    run(tgt,lab)
+
+if __name__ == '__main__':
+    for tgt,lab in ((F.NOMINAL['40D'],'40D degree'),(F.NOMINAL['80D'],'80D degree'),(F.NOMINAL['160D'],'160D degree')):
+        run(tgt,lab)

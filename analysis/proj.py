@@ -74,5 +74,6 @@ def run(target,label):
         print()
     return rows
 
-for tgt,lab in ((F.NOMINAL['40D'],'40D'),(F.NOMINAL['80D'],'80D'),(F.NOMINAL['160D'],'160D')):
-    run(tgt,lab)
+if __name__ == '__main__':
+    for tgt, lab in ((F.NOMINAL['40D'], '40D'), (F.NOMINAL['80D'], '80D'), (F.NOMINAL['160D'], '160D')):
+        run(tgt, lab)
