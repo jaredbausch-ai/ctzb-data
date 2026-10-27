@@ -1,0 +1,26 @@
+1120 regime-gated signals, 8 charts, 2016-06-12 -> 2025-12-14
+baseline: n=1120 win 56%  touched -30% 20%
+
+feat                              n true  win|T  win|F  edge  -30|T  -30|F  cover
+---------------------------------------------------------------------------------
+H1   above 20D FLD (nominal)         721    59%    50%    +9    19%    22%   100%
+H2   above 20D FLD (adaptive)        711    60%    50%   +10    19%    23%   100%
+H3   above 40D FLD (adaptive)        667    62%    47%   +15    17%    25%   100%
+H4   above 80D FLD (adaptive)        683    62%    47%   +14    18%    23%   100%
+H5   crossed 20D FLD <=3 bars        479    56%    56%    +1    20%    21%   100%
+H6   above 20D AND 40D               538    64%    49%   +15    17%    24%   100%
+H7   above 20D,40D,80D               461    65%    50%   +16    16%    23%   100%
+H8   clean 20D period exists         117    31%    59%   -28    30%    19%   100%
+
+Largest absolute edges: H8 -28, H7 +16, H3 +15
+
+PER-CHART for those three (edge = win|true minus win|false):
+  chart              H8          H7          H3
+  ETH_1D            -12         +17         +22
+  ETH_2D            -20         +23         +26
+  ETH_3D            -38          +1          +2
+  ETH_5D            -70          +7           -
+  BTC_1D            -43         +21         +18
+  BTC_2D            -32         +14          +7
+  BTC_3D            -29         +24         +22
+  BTC_5D              -          +7           -

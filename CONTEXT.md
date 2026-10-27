@@ -544,6 +544,49 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Hurst FLDs — tested 26 Oct 2026, FAILED. It is momentum wearing a cycle
+costume.** `analysis/fld.py` (library) and `analysis/fldtest.py` (declared test),
+1,120 gated signals, 8 charts, baseline 56% win / 20% touched -30%.
+
+Built faithfully: the FLD is the candle MIDPOINT displaced forward by half the
+cycle wavelength, plus an adaptive version whose displacement follows a measured
+per-bar period, which is what "accounting for cycle shift" means in code.
+
+Two measurements worth keeping regardless of the verdict:
+- **Crypto cycles run 1.15-1.34x Hurst's nominal wavelengths**, consistently on
+  both assets at all four degrees (20D nominal 17 bars, measured ~21; 40D 34 vs
+  ~41; 80D 68 vs ~86; 160D 136 vs ~182). The nominal model is the wrong input here.
+- A clean in-band period exists only **36-60%** of the time. The cycle is not
+  always there.
+
+THE KILL SHOT. "Price above its FLD" means "close above the midpoint from N bars
+ago", which is nearly plain momentum. Benchmarked against `close > close[N]` at
+the same three lookbacks:
+
+| | n | win | -30% | edge |
+|---|---|---|---|---|
+| H7 above 20D, 40D and 80D FLDs | 461 | 65% | 16% | +16 |
+| plain momentum, same lookbacks | 434 | 65% | 16% | +15 |
+
+They agree on **93%** of signals, and the cases where they disagree are both at
+baseline (60% and 58% on n=53 and n=26). Worse, against the stack that already
+exists: gap>5 alone is 70% win / 14% touched -30%; gap>5 AND H7 is 69% / 16%.
+**It makes the stack slightly worse.** Do not re-test the FLD as a selector.
+
+H8 ("a clean 20D period is measurable at entry") looked like a veto at -28
+pooled, 31% against 59%, but by year it runs +28, -24, +21, -20, -36, -9, -25 on
+cells of 7-27. Two years positive, five negative. Noise.
+
+TWO BUGS CAUGHT IN THIS RUN, both recorded because the shape recurs:
+1. The first period measurement used an FFT whose search band spanned ~2 bins, so
+   it returned window/3 for every chart and every year. The "drift" it reported
+   was the window size. Replaced with autocorrelation at 1-bar resolution.
+2. The bandpass was CENTRED (`np.convolve` `mode='same'`), so bp[i] depended on
+   bars after i, and every adaptive feature inherited the lookahead. It was worth
+   +6 on the 20D feature. The giveaway was that the one feature touching no
+   measurement scored +9 while everything measured scored +16. **If a filter
+   needs a centred smoother to work, it does not work.**
+
 **Money flow (MFI) — tested 19 Oct 2026, failed.** On 478 ETH troughs with
 TradingView's own MFI column, against a 60% baseline for reaching +20% in 60
 days: MFI level gives no gradient (67% / 54% / 59% / 66% across <20 / 20-40 /
