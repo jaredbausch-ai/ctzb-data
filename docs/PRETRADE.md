@@ -245,6 +245,19 @@ Tier 1.
 
 ---
 
+## A second lens: volatility-scaled target (26 Oct 2026)
+
+The headline win stays a fixed +20% in 60 days. Because the market moves less
+each cycle, `analysis/voltarget.py` also measures a scaled target: +20% x the
+365-day daily volatility at entry / the asset's 2016-21 median (about 12% in
+2023-25). 2022-26 base rates rise from ETH 48% to 61% and BTC 36% to 59%;
+2016-21 barely moves. Every ETH filter keeps a both-periods lift under it. On
+BTC, higher entry and 2+ own charts lose their 2022-26 lift and CT > Signal by
+5+ falls to +1. Use it to show the recent market fairly, not to re-select
+filters.
+
+---
+
 ## Methodology guards
 
 Four of these came from a result that did not survive contact with them.

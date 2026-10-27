@@ -467,6 +467,16 @@ daily volatility fell from 5.7% to 3.6% (ETH) and 4.1% to 2.7% (BTC), a
 typical 60-day move from 44% to 28% (ETH) and 32% to 21% (BTC), so a fixed +20%
 target is a much higher bar; plus 2025, the gate's blind-spot year (BTC 14%).
 
+**A clusters and the CT 50 line — tested 26 Oct 2026, partial in-trade read.**
+`analysis/aclusters.py`, `analysis/areads.py`, declared. Failed A clusters did
+break 50 (17 of 18), so "failed clusters get rejected at 50" is not what the
+data shows. After an A signal, CT closing at 50 first runs 67% (ETH, n=30) /
+59% (BTC, n=39) against 43% / 38% when it turns down from 40-50 first; it failed
+its first rule (breaks come with price already green) but holds inside 4 of
+the 5 existing in-trade reads. In PRETRADE as a partial in-trade read, never a
+filter. The bounce between two A signals closing above 50 (17%, n=24 vs 58%,
+n=150) is too thin to test; on the watch list.
+
 **Volatility-scaled target — measured 26 Oct 2026, a second lens, not adopted.**
 `analysis/voltarget.py`, declared. Target = 20% x (365-day daily sigma at entry
 / the asset's 2016-21 median), so +20% in the old market and ~12% in 2023-25.
