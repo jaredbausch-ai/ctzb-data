@@ -1,0 +1,47 @@
+  phase bin          n    win   edge   -30%
+  0.2-0.4          127    54%     -2    24%
+  0.4-0.6          155    54%     -2    15%
+  0.6-0.8          150    53%     -4    22%
+  0.8-1.0          650    58%     +2    19%
+
+160D degree  n=965  baseline win 53%  -30% 21%
+  phase bin          n    win   edge   -30%
+  0.2-0.4          115    46%     -7    26%
+  0.4-0.6          114    49%     -4    16%
+  0.6-0.8          125    54%     +0    25%
+  0.8-1.0          611    55%     +2    20%
+REAL  n=965  edge +11.5
+
+1 PLACEBO: projected troughs jittered by a random offset, 40 draws
+   shuffled edges: median +1.5  p5 -3.5  p95 +7.0  max +7.9
+   real edge +11.5 beaten by 0/40 shuffles  -> empirical p = 0.000
+
+2 GRADIENT: win rate by distance to projected low (fine bins)
+   bin                n    win
+   -0.50 to +0.00   287    61%
+   +0.00 to +0.10    82    50%
+   +0.10 to +0.20    96    61%
+   +0.20 to +0.30    94    37%
+   +0.30 to +0.45   174    52%
+   +0.45 to +0.60   117    50%
+   +0.60 to +1.10   115    46%
+
+3 HOLDOUT: discovery 2016-2021, holdout 2022-2025, same fixed rule
+   discovery  n=503   due 225  win  70%   not 278  win  59%   edge +11
+     ETH  due 116   72%   not 127   63%   edge +9
+     BTC  due 109   68%   not 151   56%   edge +12
+   holdout    n=462   due 240  win  49%   not 222  win  33%   edge +16
+     ETH  due 121   52%   not 111   41%   edge +11
+     BTC  due 119   46%   not 111   25%   edge +21
+
+4 PARAMETERS: does the edge survive different settings?
+   setting                            n    edge
+   as written (k=.25, band 1.5/0.5)   965   +11.5
+   confirm lag k=0.15               971   +13.8
+   confirm lag k=0.35               961    +8.8
+   band 1.3/0.7                    1009   +11.0
+   band 2.0/0.4                     961   +10.8
+   threshold 0.15                   965    +9.7
+   threshold 0.30                   965    +5.5
+
+[exited with code 0]

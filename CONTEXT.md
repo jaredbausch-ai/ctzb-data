@@ -544,6 +544,55 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Projected-low CONFIDENCE BATTERY — 27 Oct 2026. Three of four pass; the
+feature is now the strongest candidate in the project apart from the regime
+gate.** `analysis/projrobust.py`, results in `RESULTS_projrobust.txt`. Real
+pooled edge on the 160D DUE feature: **+11.5** (n=965).
+
+**1. PLACEBO — passes hard.** Every projected trough date jittered by a random
+offset, re-scored 40 times. Shuffled edges: median +1.5, p95 +7.0, **max +7.9**.
+The real +11.5 was beaten by **0 of 40** shuffles. The actual projection dates
+carry the information; this is not an artefact of how signals are distributed in
+time. Note the shuffled median is +1.5 rather than 0, so the construct has a
+small positive bias of its own -- the real edge clears it by a wide margin
+anyway.
+
+**2. GRADIENT — the weak result, and the honest caveat.** Win rate by distance
+to the projected low is NOT a smooth decay:
+
+| distance | n | win |
+|---|---|---|
+| -0.50 to 0.00 (overdue) | 287 | 61% |
+| 0.00 to 0.10 | 82 | 50% |
+| 0.10 to 0.20 | 96 | 61% |
+| 0.20 to 0.30 | 94 | **37%** |
+| 0.30 to 0.45 | 174 | 52% |
+| 0.45 to 0.60 | 117 | 50% |
+| 0.60 to 1.10 | 115 | 46% |
+
+Jagged: 61, 50, 61, 37, 52, 50, 46. The bin CLOSEST to the projected low (0.00
+to 0.10) is only 50%, below the overdue bin. A good part of the +11.5 comes from
+the 0.20-0.30 cell being unusually bad rather than the near-zero cells being
+unusually good. The coarse direction is right -- near bins average ~58%, far
+bins ~49% -- but "closer to the low is better" is NOT what the data says, and
+anyone describing it that way is over-reading it.
+
+**3. HOLDOUT — passes, on both assets in both periods.** Rule fixed, discovery
+2016-2021 vs holdout 2022-2025: discovery **+11** (ETH +9, BTC +12), holdout
+**+16** (ETH +11, BTC +21). Absolute win rates are far lower in the holdout (49%
+vs 70%) because it spans the bear years, but the EDGE survives and widens. This
+is the result that moves it past "interesting".
+
+**4. PARAMETERS — passes.** Confirmation lag k=0.15 gives +13.8 and k=0.35 gives
++8.8; bandpass 1.3/0.7 gives +11.0 and 2.0/0.4 gives +10.8. Threshold 0.15 gives
++9.7 and 0.30 gives +5.5. Every setting positive, +5.5 to +13.8. Not fitted to
+the settings I happened to write. The fall-off at threshold 0.30 is consistent
+with the gradient: widening the window pulls in the bad 0.20-0.30 cell.
+
+STILL OUTSTANDING: the gradient's shape is not the clean cycle story, the ETH
+confluence interaction rests on n=103 with the stacked cell at n=31, and 2025
+inverts. The feature has not been put into docs/PRETRADE.md.
+
 **Projected low x confluence — tested 27 Oct 2026. Jared's interaction, and it
 holds on ETH.** `analysis/projconf.py`. His argument: a print landing inside a
 projected cycle-low window WITH other timeframes confirming should resolve
