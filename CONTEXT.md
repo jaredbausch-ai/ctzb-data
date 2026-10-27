@@ -544,6 +544,52 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Hurst FORWARD CYCLE PROJECTION — tested 27 Oct 2026. The best new candidate
+since the CT/Signal distance, and it came from Jared correcting the test.** After
+the FLD came back as momentum in disguise, he pointed out that Hurst is used to
+locate cycle bottoms and tops *ahead of time*, and that the useful question is
+whether a larger-degree low being due makes the lower-timeframe prints real
+rather than a failed cluster. That is a different construct from the one tested
+on 26 Oct and it survives the check the FLD failed.
+
+`analysis/proj.py`. projected_next = last CONFIRMED trough of the bandpassed
+series + measured period; `dist = (projected_next - i) / period`, everything
+known at the entry bar. DUE means dist < 0.2.
+
+**The edge strengthens with cycle degree and only the largest is consistent:**
+40D +4 (5 of 8 charts), 80D +3 (5 of 8), **160D +12, positive on 8 of 8**
+(E1D +9, E2D +5, E3D +7, E5D +23, B1D +13, B2D +12, B3D +23, B5D +8).
+160D: DUE n=465 win 59%, not-due n=500 win 48%.
+
+IT PASSES THE MOMENTUM BENCHMARK, which is what separates it from the FLD.
+Plain `close > close[half-period]` gives +3 against this feature's +12; they
+agree on only 53% of signals; DUE-but-not-momentum wins 57% while
+momentum-but-not-DUE wins 48%. The information is in the projection.
+
+**It stacks.** gap>5 alone: n=195, 67% win, 15% touched -30%. gap>5 AND due:
+n=94, **74% win, 9% touched -30%**. The drawdown number is the one that matters
+at 3.3x -- the -30% touch rate falls by two fifths.
+
+By year, 7 of 8 positive: +16, +9, +27, +7, +22, +47, +17, and **2025 at -21**,
+which is the gate's known blind-spot year. Regime-age strata: +34 / -11 / +39 /
++6, with the negative in the 60-150 band this file already flags as artefact-
+prone, so it is not simply restating the regime.
+
+NOT YET ADOPTED, four reasons:
+1. **n=94 stacked.** Thin.
+2. **2025 inverts** at -21.
+3. **Found by iteration, not declaration.** Phase was tested first and failed
+   (`analysis/phase.py`); projection was the second attempt. Two tries is better
+   than cherry-picking and worse than a declared sweep.
+4. **No walk-forward.** Needs the discovery/holdout treatment before it goes
+   into docs/PRETRADE.md.
+
+ALSO WORTH KEEPING: `analysis/phase.py` failed for an instructive reason. A
+trough is only confirmed a quarter-period after it happens, so a BACKWARD phase
+measure can never observe "just past a cycle low" -- that bin is structurally
+empty. If a cycle measure needs to know where the last trough was, it is already
+too late. Forward projection is the only causal form.
+
 **Hurst FLDs — tested 26 Oct 2026, FAILED. It is momentum wearing a cycle
 costume.** `analysis/fld.py` (library) and `analysis/fldtest.py` (declared test),
 1,120 gated signals, 8 charts, baseline 56% win / 20% touched -30%.

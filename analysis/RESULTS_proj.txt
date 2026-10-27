@@ -1,0 +1,128 @@
+
+40D degree  n=1111  baseline win 56%  -30% 20%
+  phase bin          n    win   edge   -30%
+  0.2-0.4          139    53%     -3    25%
+  0.4-0.6          144    51%     -5    22%
+  0.6-0.8          164    57%     +1    20%
+  0.8-1.0          662    57%     +1    18%
+
+80D degree  n=1086  baseline win 57%  -30% 20%
+  phase bin          n    win   edge   -30%
+  0.2-0.4          127    54%     -2    24%
+  0.4-0.6          155    54%     -2    15%
+  0.6-0.8          150    53%     -4    22%
+  0.8-1.0          650    58%     +2    19%
+
+160D degree  n=965  baseline win 53%  -30% 21%
+  phase bin          n    win   edge   -30%
+  0.2-0.4          115    46%     -7    26%
+  0.4-0.6          114    49%     -4    16%
+  0.6-0.8          125    54%     +0    25%
+  0.8-1.0          611    55%     +2    20%
+
+40D  n=1111  baseline win 56%
+  periods to next        n    win   edge   -30%
+  due / overdue        450    59%     +3    18%
+  0.1-0.3              232    56%     -0    20%
+  0.3-0.5              206    56%     -0    19%
+  0.5-0.7              150    47%     -9    25%
+  0.7-1.0 (just had one)    73    58%     +2    25%
+  -> trough DUE (<0.2 periods): n=538 win 58%  vs rest 54%  edge +4
+     per chart: E1D +5  E2D +7  E3D -5  E5D +13  B1D +6  B2D +7  B3D -6  B5D -2  
+
+80D  n=1086  baseline win 57%
+  periods to next        n    win   edge   -30%
+  due / overdue        426    59%     +3    18%
+  0.1-0.3              219    55%     -1    25%
+  0.3-0.5              225    54%     -2    16%
+  0.5-0.7              162    53%     -3    22%
+  0.7-1.0 (just had one)    54    61%     +5    19%
+  -> trough DUE (<0.2 periods): n=542 win 58%  vs rest 55%  edge +3
+     per chart: E1D +6  E2D +7  E3D -4  E5D +6  B1D +1  B2D +0  B3D +7  B5D -9  
+
+160D  n=965  baseline win 53%
+  periods to next        n    win   edge   -30%
+  due / overdue        369    59%     +5    18%
+  0.1-0.3              190    49%     -4    27%
+  0.3-0.5              237    54%     +0    18%
+  0.5-0.7              132    48%     -5    23%
+  0.7-1.0 (just had one)    37    35%    -18    24%
+  -> trough DUE (<0.2 periods): n=465 win 59%  vs rest 48%  edge +12
+     per chart: E1D +9  E2D +5  E3D +7  E5D +23  B1D +13  B2D +12  B3D +23  B5D +8  
+
+40D degree  n=1111  baseline win 56%  -30% 20%
+  phase bin          n    win   edge   -30%
+  0.2-0.4          139    53%     -3    25%
+  0.4-0.6          144    51%     -5    22%
+  0.6-0.8          164    57%     +1    20%
+  0.8-1.0          662    57%     +1    18%
+
+80D degree  n=1086  baseline win 57%  -30% 20%
+  phase bin          n    win   edge   -30%
+  0.2-0.4          127    54%     -2    24%
+  0.4-0.6          155    54%     -2    15%
+  0.6-0.8          150    53%     -4    22%
+  0.8-1.0          650    58%     +2    19%
+
+160D degree  n=965  baseline win 53%  -30% 21%
+  phase bin          n    win   edge   -30%
+  0.2-0.4          115    46%     -7    26%
+  0.4-0.6          114    49%     -4    16%
+  0.6-0.8          125    54%     +0    25%
+  0.8-1.0          611    55%     +2    20%
+
+40D  n=1111  baseline win 56%
+  periods to next        n    win   edge   -30%
+  due / overdue        450    59%     +3    18%
+  0.1-0.3              232    56%     -0    20%
+  0.3-0.5              206    56%     -0    19%
+  0.5-0.7              150    47%     -9    25%
+  0.7-1.0 (just had one)    73    58%     +2    25%
+  -> trough DUE (<0.2 periods): n=538 win 58%  vs rest 54%  edge +4
+     per chart: E1D +5  E2D +7  E3D -5  E5D +13  B1D +6  B2D +7  B3D -6  B5D -2  
+
+80D  n=1086  baseline win 57%
+  periods to next        n    win   edge   -30%
+  due / overdue        426    59%     +3    18%
+  0.1-0.3              219    55%     -1    25%
+  0.3-0.5              225    54%     -2    16%
+  0.5-0.7              162    53%     -3    22%
+  0.7-1.0 (just had one)    54    61%     +5    19%
+  -> trough DUE (<0.2 periods): n=542 win 58%  vs rest 55%  edge +3
+     per chart: E1D +6  E2D +7  E3D -4  E5D +6  B1D +1  B2D +0  B3D +7  B5D -9  
+
+160D  n=965  baseline win 53%
+  periods to next        n    win   edge   -30%
+  due / overdue        369    59%     +5    18%
+  0.1-0.3              190    49%     -4    27%
+  0.3-0.5              237    54%     +0    18%
+  0.5-0.7              132    48%     -5    23%
+  0.7-1.0 (just had one)    37    35%    -18    24%
+  -> trough DUE (<0.2 periods): n=465 win 59%  vs rest 48%  edge +12
+     per chart: E1D +9  E2D +5  E3D +7  E5D +23  B1D +13  B2D +12  B3D +23  B5D +8  
+n=965  DUE n=465 win 59%   not-due n=500 win 48%   edge +12
+
+1. MOMENTUM BENCHMARK (close > close[half-period], the trap that killed the FLD)
+   plain momentum  n=649 win 54% vs 51%  edge +3
+   agrees with DUE on 511/965 = 53%
+   DUE but not momentum: n=135 win 57%   momentum but not DUE: n=319 win 48%
+
+2. BY YEAR
+   2017  due n=28   win 100%   not n=44   win  84%   edge +16
+   2018  due n=33   win  39%   not n=46   win  30%   edge +9
+   2019  due n=43   win  74%   not n=46   win  48%   edge +27
+   2020  due n=41   win  85%   not n=91   win  78%   edge +7
+   2021  due n=80   win  61%   not n=51   win  39%   edge +22
+   2023  due n=88   win  67%   not n=55   win  20%   edge +47
+   2024  due n=90   win  56%   not n=75   win  39%   edge +17
+   2025  due n=59   win  15%   not n=79   win  37%   edge -21
+
+3. REGIME AGE STRATA (the check that exposed the higher-low filter)
+   0-60 days  due n=62    95%   not n=31    61%   edge +34
+   60-150 days  due n=79    27%   not n=77    38%   edge -11
+   150-300 days  due n=58    90%   not n=95    51%   edge +39
+   300-+ days  due n=266   54%   not n=297   48%   edge +6
+
+4. ADDS TO gap>5?
+   gap>5 alone      n=195   win 67%  -30% 15%
+   gap>5 AND due    n=94    win 74%  -30% 9%
