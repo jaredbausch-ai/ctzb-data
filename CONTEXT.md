@@ -544,6 +544,38 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Projected low x confluence — tested 27 Oct 2026. Jared's interaction, and it
+holds on ETH.** `analysis/projconf.py`. His argument: a print landing inside a
+projected cycle-low window WITH other timeframes confirming should resolve
+differently from a descending staircase. Confluence is backward-only.
+
+ETH, 160D degree, baseline 57%:
+
+| | n | win | touched -30% |
+|---|---|---|---|
+| due AND 2+ agree | 103 | **69%** | 17% |
+| due, 0-1 agree | 134 | 56% | 30% |
+| not due, 2+ agree | 116 | 58% | 22% |
+| not due, 0-1 agree | 122 | 48% | 33% |
+
+**Neither half works alone** -- projection alone 56%, confluence alone 58%,
+both 69% -- which is the interaction he predicted rather than two additive
+effects. The -30% touch rate nearly halves across the same split, 33% to 17%.
+
+On BTC the confluence half adds nothing (56% with agreement, 57% without); the
+projection carries it alone. Consistent with the existing record that confluence
+lift is ETH-only. The 80D degree is +4 everywhere, confirming 160D does the work.
+
+Stacked on gap>5, ETH: 70%/22% -> 76%/17% with due -> 77%/10% with due and
+confluence, but that last cell is **n=31** and must not be acted on.
+
+MULTIPLE-COMPARISON CAUTION, stated because the cell count is now high: this run
+examined 24 cells (4 combinations x 3 scopes x 2 degrees). The ETH +12 sits at
+roughly 2.5 standard errors, which is suggestive and not conclusive at that cell
+count. What keeps it interesting is the SHAPE matching the prediction --
+both-together beating either-alone, with drawdown moving the same way -- rather
+than any single cell.
+
 **Hurst FORWARD CYCLE PROJECTION — tested 27 Oct 2026. The best new candidate
 since the CT/Signal distance, and it came from Jared correcting the test.** After
 the FLD came back as momentum in disguise, he pointed out that Hurst is used to
