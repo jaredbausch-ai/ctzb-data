@@ -544,6 +544,40 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Higher-timeframe bullish divergence at a 1D/2D print — tested 27 Oct 2026,
+DOES NOT CLEAR THE BAR, but one thread kept.** `analysis/htfdiv.py`, declared.
+Jared's idea. Price/oscillator divergence (lower low in price, higher low in the
+oscillator at a confirmed trough) -- NOT the diamond, which is oscillator vs
+oscillator. Only divergences confirmed on or before the signal's entry date count.
+
+**CT RSI divergence is dead**: 34 instances, edge -1. The effect, such as it is,
+is entirely in the STOCHASTIC version, which matches what Jared watches on the
+chart.
+
+The headline looked strong -- 2D stoch divergence n=54, 72% win vs 55%, +17,
+with -30% at 9% against 21% -- and most of it was a SAME-TIMEFRAME CONFOUND. For
+a 2D signal, "divergence on 2D" is the same chart, not a higher one. Split out:
+
+| | n | win | edge | -30% |
+|---|---|---|---|---|
+| 1D signal, 2D divergence (true HTF) | 36 | 69% | +14 | 11% |
+| 2D signal, 2D divergence (same chart) | 18 | 78% | +22 | 6% |
+
+Restricted to genuine higher-timeframe only (1D signals, divergence on 2D or 3D):
+**n=52, 62% vs 56%, +6** -- and by asset, **ETH is +0** (61% vs 61%), BTC +12 on
+n=19. By year the cells are 4-18 signals running +22, 0, +26, +5, -5, +46.
+
+THE ONE THREAD WORTH KEEPING: the drawdown number is the most stable quantity in
+the run. 11% touched -30% with divergence against 22% without, and it holds at
+11% / 11% / 6% / 13% across every split. If real it is a RISK filter rather than
+a win-rate filter, which at 3.3x is the more useful kind. But it fires on only
+75 of 845 signals (9%) and cannot be separated from chance at that size. Do not
+re-test as a win-rate filter; if revisited, test it as a drawdown filter with a
+placebo, the way the 160D projection was tested.
+
+METHOD NOTE: always check whether a "higher timeframe" feature is being measured
+on the signal's own chart. Here it was worth 8 of the 14 points.
+
 **Projected-low CONFIDENCE BATTERY — 27 Oct 2026. Three of four pass; the
 feature is now the strongest candidate in the project apart from the regime
 gate.** `analysis/projrobust.py`, results in `RESULTS_projrobust.txt`. Real
