@@ -467,6 +467,15 @@ daily volatility fell from 5.7% to 3.6% (ETH) and 4.1% to 2.7% (BTC), a
 typical 60-day move from 44% to 28% (ETH) and 32% to 21% (BTC), so a fixed +20%
 target is a much higher bar; plus 2025, the gate's blind-spot year (BTC 14%).
 
+**Volatility-scaled target — measured 26 Oct 2026, a second lens, not adopted.**
+`analysis/voltarget.py`, declared. Target = 20% x (365-day daily sigma at entry
+/ the asset's 2016-21 median), so +20% in the old market and ~12% in 2023-25.
+Base rate 2022-26: ETH 48% -> 61%, BTC 36% -> 59%; 2016-21 unchanged. 2025 BTC
+13% -> 47%. Signals still match a random regime-on day (ETH 61% vs 58%, BTC
+59% vs 58%). ETH filters all keep a both-periods lift; BTC higher entry (-2) and
+2+ own charts (-3) lose theirs in 2022-26, BTC CT > Signal by 5+ drops to +1.
+The fixed +20% stays the headline definition unless Jared changes it.
+
 **Perp positioning (funding, long/short ratio, open interest) — tested 23 Oct
 2026, nothing meets Jared's standard.** `analysis/derivtest.py`, declared; 10
 positioning features alone, with each stack feature, and in pairs (145 combos x

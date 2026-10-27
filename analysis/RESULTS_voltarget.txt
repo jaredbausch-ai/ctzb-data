@@ -1,0 +1,62 @@
+VOL-SCALED TARGET -- declared, run 2026-10-26 | entry quality only, signals not fills
+  sigma_ref (2016-21 median daily sigma, 365d): ETH 5.54%  BTC 4.16%
+
+Q1  base rate, all regime-on signals: fixed +20% | scaled (365d) | scaled (180d)
+  ETH 16-21: fixed  69% (271) | scaled  67% (271) | scaled180  68% (271)   median target 20.0%
+  ETH 22-26: fixed  48% (242) | scaled  61% (242) | scaled180  65% (242)   median target 12.0%
+  BTC 16-21: fixed  62% (295) | scaled  63% (295) | scaled180  62% (295)   median target 20.0%
+  BTC 22-26: fixed  36% (241) | scaled  59% (241) | scaled180  59% (241)   median target 12.4%
+  by year (both assets): fixed | scaled | median scaled target ETH / BTC
+    2017: fixed  90% (114) | scaled  91% (114) | target ETH 24.0%  BTC 15.2%
+    2018: fixed  34% ( 83) | scaled  27% ( 83) | target ETH 24.4%  BTC 25.8%
+    2019: fixed  57% ( 96) | scaled  59% ( 96) | target ETH 18.5%  BTC 17.9%
+    2020: fixed  81% (138) | scaled  81% (138) | target ETH 19.5%  BTC 20.5%
+    2021: fixed  53% (135) | scaled  55% (135) | target ETH 20.6%  BTC 20.3%
+    2022: fixed  33% ( 18) | scaled  39% ( 18) | target ETH 19.3%  BTC 19.5%
+    2023: fixed  50% (148) | scaled  64% (148) | target ETH 13.1%  BTC 13.2%
+    2024: fixed  49% (173) | scaled  65% (173) | target ETH 10.2%  BTC 12.1%
+    2025: fixed  28% (144) | scaled  51% (144) | target ETH 13.7%  BTC 12.4%
+  by chart: fixed 16-21 / 22-26 | scaled 16-21 / 22-26
+    ETH 1D: fixed  68% (133) /  45% (115) | scaled  66% (133) /  57% (115)
+    ETH 2D: fixed  69% ( 64) /  48% ( 56) | scaled  67% ( 64) /  57% ( 56)
+    ETH 3D: fixed  67% ( 39) /  41% ( 39) | scaled  67% ( 39) /  67% ( 39)
+    ETH 5D: fixed  73% ( 22) /  64% ( 22) | scaled  73% ( 22) /  73% ( 22)
+    ETH 8D: fixed  77% ( 13) /  80% ( 10) | scaled  69% ( 13) /  80% ( 10)
+    BTC 1D: fixed  62% (141) /  38% (112) | scaled  65% (141) /  62% (112)
+    BTC 2D: fixed  61% ( 71) /  40% ( 58) | scaled  61% ( 71) /  55% ( 58)
+    BTC 3D: fixed  67% ( 43) /  32% ( 40) | scaled  67% ( 43) /  58% ( 40)
+    BTC 5D: fixed  64% ( 25) /  25% ( 20) | scaled  64% ( 25) /  50% ( 20)
+    BTC 8D: fixed  53% ( 15) /  36% ( 11) | scaled  53% ( 15) /  55% ( 11)
+
+Q2  signals vs every regime-on day, scaled (365d) target
+  ETH 16-21: signals scaled  67% (271) vs regime-on days  67% (1218)  (fixed:  69% (271) vs  67% (1218))
+  ETH 22-26: signals scaled  61% (242) vs regime-on days  58% (1071)  (fixed:  48% (242) vs  46% (1071))
+  BTC 16-21: signals scaled  63% (295) vs regime-on days  64% (1358)  (fixed:  62% (295) vs  64% (1358))
+  BTC 22-26: signals scaled  59% (241) vs regime-on days  58% (1071)  (fixed:  36% (241) vs  36% (1071))
+
+Q3  filter lift (with minus without), 2016-21 / 2022-26, fixed vs scaled
+  ETH
+    CT > Signal by 5+          fix 16-21  78%( 54) vs  66% lift  +11 | fix 22-26  66%( 53) vs  43% lift  +23 | BOTH || sca 16-21  76%( 54) vs  65% lift  +11 | sca 22-26  77%( 53) vs  56% lift  +21 | BOTH ||
+    CT > Signal + prime        fix 16-21  77%( 35) vs  67% lift  +10 | fix 22-26  73%( 26) vs  45% lift  +28 | BOTH || sca 16-21  77%( 35) vs  66% lift  +11 | sca 22-26  77%( 26) vs  59% lift  +18 | BOTH ||
+    CT > Signal + diamond      fix 16-21  85%( 27) vs  67% lift  +18 | fix 22-26  70%( 20) vs  46% lift  +24 | BOTH || sca 16-21  78%( 27) vs  66% lift  +12 | sca 22-26  75%( 20) vs  59% lift  +16 | BOTH ||
+    higher entry               fix 16-21  74%(158) vs  61% lift  +13 | fix 22-26  56%(108) vs  43% lift  +13 | BOTH || sca 16-21  72%(158) vs  61% lift  +10 | sca 22-26  68%(108) vs  55% lift  +12 | BOTH ||
+    2+ own charts before       fix 16-21  73%(124) vs  65% lift   +7 | fix 22-26  56%(117) vs  41% lift  +16 | BOTH || sca 16-21  71%(124) vs  64% lift   +7 | sca 22-26  68%(117) vs  54% lift  +13 | BOTH ||
+    8D CT rising               fix 16-21  73%(135) vs  64% lift   +9 | fix 22-26  61%(114) vs  37% lift  +25 | BOTH || sca 16-21  72%(135) vs  62% lift   +9 | sca 22-26  73%(114) vs  50% lift  +23 | BOTH ||
+    BTC 3D before (ETH 1D/2D)  fix 16-21  84%( 50) vs  63% lift  +21 | fix 22-26  62%( 61) vs  37% lift  +25 | BOTH || sca 16-21  84%( 50) vs  61% lift  +23 | sca 22-26  66%( 61) vs  52% lift  +14 | BOTH ||
+  BTC
+    CT > Signal by 5+          fix 16-21  78%( 51) vs  59% lift  +19 | fix 22-26  48%( 54) vs  33% lift  +16 | BOTH || sca 16-21  78%( 51) vs  60% lift  +18 | sca 22-26  59%( 54) vs  58% lift   +1 | BOTH ||
+    CT > Signal + prime        fix 16-21  76%( 29) vs  61% lift  +15 | fix 22-26  65%( 23) vs  33% lift  +32 | BOTH || sca 16-21  79%( 29) vs  62% lift  +18 | sca 22-26  74%( 23) vs  57% lift  +17 | BOTH ||
+    CT > Signal + diamond      fix 16-21  72%( 32) vs  61% lift  +11 | fix 22-26  43%( 28) vs  35% lift   +8 | BOTH || sca 16-21  69%( 32) vs  63% lift   +6 | sca 22-26  61%( 28) vs  58% lift   +2 | BOTH ||
+    higher entry               fix 16-21  66%(173) vs  57% lift   +9 | fix 22-26  39%(132) vs  32% lift   +7 | BOTH || sca 16-21  69%(173) vs  56% lift  +13 | sca 22-26  58%(132) vs  60% lift   -2 | no ||
+    2+ own charts before       fix 16-21  64%(134) vs  61% lift   +3 | fix 22-26  37%(121) vs  35% lift   +2 | BOTH || sca 16-21  66%(134) vs  61% lift   +4 | sca 22-26  57%(121) vs  60% lift   -3 | no ||
+    8D CT rising               fix 16-21  66%(164) vs  57% lift   +9 | fix 22-26  41%(130) vs  31% lift  +10 | BOTH || sca 16-21  69%(164) vs  56% lift  +12 | sca 22-26  61%(130) vs  56% lift   +5 | BOTH ||
+
+Q4  the last bull run, by year and asset: fixed | scaled (365d)
+  2023 ETH: fixed  46% ( 76) | scaled  61% ( 76)  median target 13.1%
+  2023 BTC: fixed  54% ( 72) | scaled  68% ( 72)  median target 13.2%
+  2024 ETH: fixed  54% ( 90) | scaled  68% ( 90)  median target 10.2%
+  2024 BTC: fixed  42% ( 83) | scaled  63% ( 83)  median target 12.1%
+  2025 ETH: fixed  45% ( 67) | scaled  55% ( 67)  median target 13.7%
+  2025 BTC: fixed  13% ( 77) | scaled  47% ( 77)  median target 12.4%
+
+  ENTRY QUALITY ONLY. Computed signals, not fills. Nothing adopted from this run.
