@@ -1,6 +1,6 @@
 chart,dataTo,lastPrint,lastEntry,lastTag,daysSince,ctNow,forming,formingTag,barsNeeded,formingGrade,formingLenses,formingHtfDiv,formingMarker,closeNow,closeDate
-ETH 1D,2026-10-28,2026-10-17,2026-10-20,A,8,39.2,yes,A,1,A (provisional),BTC3 + FUND + FCOOL,no,no,2358.63,2026-10-28
-ETH 2D,2026-10-28,2026-09-14,2026-09-20,C + prime dot,38,43.6,yes,B,1,A (provisional),BTC3 + FUND + FCOOL,no,no,2358.63,2026-10-28
-ETH 3D,2026-10-28,2026-09-13,2026-09-22,C + diamond + hollow,36,47.6,yes,B,2,B (provisional),FUND + FCOOL,no,no,2358.63,2026-10-28
-ETH 5D,2026-10-28,2026-09-13,2026-09-28,C,30,52.0,yes,B + zone-exit B + prime dot,2,B (provisional),FUND + FCOOL,no,yes,2358.63,2026-10-28
-ETH 8D,2026-10-24,2025-06-18,2025-07-12,B,469,50.8,no,,,,,,,2358.63,2026-10-28
+ETH 1D,2026-10-28,2026-10-17,2026-10-20,A,8,39.1,yes,A,1,A (provisional),BTC3 + FUND + FCOOL,no,no,2357.91,2026-10-28
+ETH 2D,2026-10-28,2026-09-14,2026-09-20,C + prime dot,38,43.6,yes,B,1,A (provisional),BTC3 + FUND + FCOOL,no,no,2357.91,2026-10-28
+ETH 3D,2026-10-28,2026-09-13,2026-09-22,C + diamond + hollow,36,47.5,yes,B,2,B (provisional),FUND + FCOOL,no,no,2357.91,2026-10-28
+ETH 5D,2026-10-28,2026-09-13,2026-09-28,C,30,51.9,yes,B + zone-exit B + prime dot,2,B (provisional),FUND + FCOOL,no,yes,2357.91,2026-10-28
+ETH 8D,2026-10-24,2025-06-18,2025-07-12,B,469,50.8,no,,,,,,,2357.91,2026-10-28
