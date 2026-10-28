@@ -1,0 +1,142 @@
+KROWN-STYLE PUT/CALL EVENTS -- declared 27 Oct 2026, run 2026-10-28
+Deribit only, no ETF options. Context, not a filter. Signals are computed, never fills.
+
+Q2  EVENT STUDY: medians of the largest drop (dn), largest rise (up) and close change (ret) after each event
+
+  BTC put/call events, BTC price (2017-05-21 to 2026-10-25)
+  BOTTOM band (call-heavy) events    n= 36 | 7d dn  -6.0 up  +4.5 ret  +0.0 | 14d dn  -8.8 up  +6.2 ret  -3.5 | 30d dn -14.1 up  +8.2 ret  -3.3 | 60d dn -19.4 up +16.2 ret  -3.0
+                                           -5% before +5%:  56% (36)   -10% before +10%:  57% (35)   30d drop of 10%+:  56%   median day of the 30d low 14
+  TOP band (put-heavy) events        n= 31 | 7d dn  -4.6 up  +6.0 ret  -0.5 | 14d dn  -5.8 up  +7.5 ret  +2.2 | 30d dn  -9.4 up +14.1 ret  +5.0 | 60d dn  -9.7 up +19.5 ret +12.8
+                                           -5% before +5%:  45% (31)   -10% before +10%:  32% (31)   30d drop of 10%+:  42%   median day of the 30d low 8
+  every weekly close (baseline)      n=484 | 7d dn  -4.8 up  +4.8 ret  +0.3 | 14d dn  -6.3 up  +7.5 ret  +1.3 | 30d dn  -9.2 up +12.2 ret  +1.8 | 60d dn -13.0 up +18.9 ret  +3.6
+                                           -5% before +5%:  49% (484)   -10% before +10%:  43% (477)   30d drop of 10%+:  45%   median day of the 30d low 11
+  BOTTOM events, regime on           n= 23 | 7d dn  -5.3 up  +4.6 ret  +0.1 | 14d dn  -9.5 up  +6.4 ret  -3.6 | 30d dn -14.9 up  +8.4 ret  -3.3 | 60d dn -19.8 up +13.1 ret  -6.5
+                                           -5% before +5%:  61% (23)   -10% before +10%:  59% (22)   30d drop of 10%+:  57%   median day of the 30d low 15
+  BOTTOM events, regime off          n= 13 | 7d dn  -6.7 up  +3.6 ret  -0.4 | 14d dn  -7.2 up  +5.9 ret  -1.8 | 30d dn -13.2 up  +7.1 ret  -3.2 | 60d dn -17.0 up +27.2 ret +13.9
+                                           -5% before +5%:  46% (13)   -10% before +10%:  54% (13)   30d drop of 10%+:  54%   median day of the 30d low 13
+  bottom-band event dates: 2017-10-29, 2018-02-04, 2018-03-18, 2018-04-22, 2018-07-29, 2018-11-11, 2018-12-16, 2019-05-26, 2019-09-08, 2019-12-01, 2019-12-29, 2020-05-31, 2020-12-20, 2021-01-17, 2021-05-30, 2021-06-13, 2021-07-04, 2021-07-25, 2021-08-29, 2022-01-02, 2022-07-24, 2023-01-15, 2023-05-21, 2023-06-25, 2023-07-16, 2024-06-09, 2024-06-23, 2024-07-21, 2025-01-05, 2025-01-19, 2025-06-08, 2025-11-09, 2025-11-30, 2026-01-04, 2026-05-10, 2026-07-19, 2026-09-13
+  top-band event dates:    2018-08-19, 2019-01-27, 2019-02-24, 2019-03-24, 2019-09-01, 2019-09-29, 2020-05-10, 2020-08-30, 2020-09-20, 2020-10-18, 2021-01-03, 2021-04-18, 2022-01-23, 2022-02-06, 2022-04-17, 2022-05-01, 2022-06-19, 2023-09-03, 2023-12-17, 2024-01-28, 2024-07-07, 2024-08-11, 2024-09-08, 2025-01-12, 2025-02-02, 2025-03-02, 2025-03-30, 2025-11-16, 2026-02-08, 2026-03-22, 2026-06-21, 2026-10-11
+    2017: 1 bottom events, 30d median drop -10.2%, close +62.0%
+    2018: 6 bottom events, 30d median drop -24.7%, close  -6.4%
+    2019: 4 bottom events, 30d median drop -14.1%, close +12.0%
+    2020: 2 bottom events, 30d median drop  -6.7%, close +24.9%
+    2021: 6 bottom events, 30d median drop -19.1%, close  +4.4%
+    2022: 2 bottom events, 30d median drop -19.3%, close -11.4%
+    2023: 4 bottom events, 30d median drop  -5.6%, close  +1.1%
+    2024: 3 bottom events, 30d median drop -23.2%, close -13.4%
+    2025: 5 bottom events, 30d median drop  -9.5%, close  -2.2%
+    2026: 3 bottom events, 30d median drop -20.4%, close -17.3%
+
+  BTC put/call events, ETH price (2017-05-21 to 2026-10-25)
+  BOTTOM band (call-heavy) events    n= 36 | 7d dn  -6.6 up  +5.2 ret  +0.5 | 14d dn -11.6 up  +7.9 ret  -1.0 | 30d dn -17.0 up  +9.6 ret  -1.8 | 60d dn -24.8 up +22.4 ret  -3.0
+                                           -5% before +5%:  53% (36)   -10% before +10%:  61% (36)   30d drop of 10%+:  69%   median day of the 30d low 14
+  TOP band (put-heavy) events        n= 31 | 7d dn  -7.5 up  +7.2 ret  -1.5 | 14d dn  -9.2 up +10.4 ret  +2.7 | 30d dn -11.5 up +14.5 ret  +1.3 | 60d dn -15.0 up +27.1 ret  +7.3
+                                           -5% before +5%:  48% (31)   -10% before +10%:  45% (31)   30d drop of 10%+:  61%   median day of the 30d low 9
+  every weekly close (baseline)      n=484 | 7d dn  -5.9 up  +6.9 ret  +0.4 | 14d dn  -8.4 up  +9.7 ret  +0.6 | 30d dn -13.3 up +15.6 ret  +1.6 | 60d dn -17.9 up +26.4 ret  +5.6
+                                           -5% before +5%:  51% (484)   -10% before +10%:  48% (483)   30d drop of 10%+:  60%   median day of the 30d low 10
+  BOTTOM events, regime on           n= 23 | 7d dn  -6.7 up  +7.4 ret  +0.7 | 14d dn -13.6 up  +8.6 ret  -1.9 | 30d dn -16.2 up  +9.6 ret  -2.2 | 60d dn -26.9 up +19.0 ret -12.6
+                                           -5% before +5%:  52% (23)   -10% before +10%:  61% (23)   30d drop of 10%+:  74%   median day of the 30d low 14
+  BOTTOM events, regime off          n= 13 | 7d dn  -6.5 up  +5.0 ret  -0.2 | 14d dn  -7.9 up  +5.8 ret  +0.7 | 30d dn -23.0 up  +8.3 ret  +0.2 | 60d dn -23.6 up +27.1 ret +21.4
+                                           -5% before +5%:  54% (13)   -10% before +10%:  62% (13)   30d drop of 10%+:  62%   median day of the 30d low 16
+  bottom-band event dates: 2017-10-29, 2018-02-04, 2018-03-18, 2018-04-22, 2018-07-29, 2018-11-11, 2018-12-16, 2019-05-26, 2019-09-08, 2019-12-01, 2019-12-29, 2020-05-31, 2020-12-20, 2021-01-17, 2021-05-30, 2021-06-13, 2021-07-04, 2021-07-25, 2021-08-29, 2022-01-02, 2022-07-24, 2023-01-15, 2023-05-21, 2023-06-25, 2023-07-16, 2024-06-09, 2024-06-23, 2024-07-21, 2025-01-05, 2025-01-19, 2025-06-08, 2025-11-09, 2025-11-30, 2026-01-04, 2026-05-10, 2026-07-19, 2026-09-13
+  top-band event dates:    2018-08-19, 2019-01-27, 2019-02-24, 2019-03-24, 2019-09-01, 2019-09-29, 2020-05-10, 2020-08-30, 2020-09-20, 2020-10-18, 2021-01-03, 2021-04-18, 2022-01-23, 2022-02-06, 2022-04-17, 2022-05-01, 2022-06-19, 2023-09-03, 2023-12-17, 2024-01-28, 2024-07-07, 2024-08-11, 2024-09-08, 2025-01-12, 2025-02-02, 2025-03-02, 2025-03-30, 2025-11-16, 2026-02-08, 2026-03-22, 2026-06-21, 2026-10-11
+    2017: 1 bottom events, 30d median drop  -8.1%, close +54.4%
+    2018: 6 bottom events, 30d median drop -32.9%, close  -3.9%
+    2019: 4 bottom events, 30d median drop -15.9%, close  +8.8%
+    2020: 2 bottom events, 30d median drop -10.3%, close +55.8%
+    2021: 6 bottom events, 30d median drop -21.9%, close  -0.7%
+    2022: 2 bottom events, 30d median drop -29.4%, close -11.4%
+    2023: 4 bottom events, 30d median drop  -6.1%, close  -1.5%
+    2024: 3 bottom events, 30d median drop -24.2%, close -17.3%
+    2025: 5 bottom events, 30d median drop -26.9%, close  -7.4%
+    2026: 3 bottom events, 30d median drop -32.9%, close -29.0%
+
+  ETH put/call events, ETH price (2019-06-16 to 2026-10-25)
+  BOTTOM band (call-heavy) events    n= 26 | 7d dn  -4.2 up  +7.5 ret  -0.9 | 14d dn  -7.7 up  +9.1 ret  -0.1 | 30d dn -10.6 up +17.6 ret  +6.0 | 60d dn -14.4 up +26.7 ret  +3.6
+                                           -5% before +5%:  31% (26)   -10% before +10%:  38% (26)   30d drop of 10%+:  50%   median day of the 30d low 10
+  TOP band (put-heavy) events        n= 22 | 7d dn  -9.7 up  +6.6 ret  -4.6 | 14d dn -11.9 up  +7.4 ret  -4.1 | 30d dn -15.6 up  +9.8 ret  -0.8 | 60d dn -21.6 up +14.9 ret  +4.6
+                                           -5% before +5%:  41% (22)   -10% before +10%:  59% (22)   30d drop of 10%+:  73%   median day of the 30d low 8
+  every weekly close (baseline)      n=376 | 7d dn  -5.6 up  +6.6 ret  +0.4 | 14d dn  -7.7 up  +9.4 ret  +0.8 | 30d dn -12.2 up +14.1 ret  +1.8 | 60d dn -16.6 up +25.1 ret  +5.9
+                                           -5% before +5%:  48% (376)   -10% before +10%:  46% (375)   30d drop of 10%+:  58%   median day of the 30d low 10
+  BOTTOM events, regime on           n= 16 | 7d dn  -5.5 up  +7.7 ret  -1.1 | 14d dn  -9.5 up  +9.6 ret  -1.3 | 30d dn -12.7 up +17.6 ret  +3.4 | 60d dn -14.4 up +27.0 ret  +6.8
+                                           -5% before +5%:  31% (16)   -10% before +10%:  50% (16)   30d drop of 10%+:  56%   median day of the 30d low 11
+  BOTTOM events, regime off          n= 10 | 7d dn  -3.6 up  +5.1 ret  +1.4 | 14d dn  -4.2 up  +8.6 ret  +3.3 | 30d dn  -8.1 up +16.7 ret  +6.3 | 60d dn -15.0 up +23.9 ret  -3.1
+                                           -5% before +5%:  30% (10)   -10% before +10%:  20% (10)   30d drop of 10%+:  40%   median day of the 30d low 8
+  bottom-band event dates: 2019-06-23, 2019-08-04, 2019-11-17, 2020-06-21, 2020-08-23, 2020-10-25, 2020-12-20, 2021-01-31, 2021-08-08, 2021-12-19, 2022-07-17, 2022-08-07, 2022-10-16, 2023-05-28, 2023-07-16, 2023-11-26, 2024-01-21, 2024-04-07, 2024-11-10, 2025-02-16, 2025-07-13, 2025-12-14, 2026-01-04, 2026-07-12, 2026-07-26, 2026-08-23
+  top-band event dates:    2020-03-01, 2020-03-15, 2020-06-28, 2020-08-30, 2021-04-11, 2022-03-20, 2022-04-10, 2022-11-06, 2023-03-12, 2023-05-14, 2023-12-10, 2023-12-24, 2024-01-14, 2024-03-24, 2024-04-28, 2024-07-28, 2024-09-01, 2025-03-09, 2025-03-30, 2025-09-07, 2026-01-25, 2026-05-31, 2026-10-18
+    2019: 3 bottom events, 30d median drop -35.0%, close -31.0%
+    2020: 4 bottom events, 30d median drop -11.2%, close +28.4%
+    2021: 3 bottom events, 30d median drop  -4.0%, close +13.3%
+    2022: 3 bottom events, 30d median drop -16.4%, close  -4.2%
+    2023: 3 bottom events, 30d median drop  -6.4%, close  -1.0%
+    2024: 3 bottom events, 30d median drop -11.8%, close +13.9%
+    2025: 3 bottom events, 30d median drop  -9.5%, close  +8.5%
+    2026: 4 bottom events, 30d median drop  -5.6%, close  +8.0%
+
+Q1  CONFLUENCE: our setups with a put/call band event in the 14 days up to entry (own asset)
+
+  ETH (384 signals with put/call history)
+    all signals                put-heavy TOP      overlap  13%  with n=  50 -30%  16% -20%  36% dip  -12.4% win  62%
+                                                                w/o  n= 334 -30%  20% -20%  31% dip  -14.2% win  57%
+    all signals                call-heavy BOTTOM  overlap  13%  with n=  49 -30%  10% -20%  24% dip  -10.9% win  61%
+                                                                w/o  n= 335 -30%  21% -20%  33% dip  -14.4% win  58%
+    CT > Signal by 5+          put-heavy TOP      overlap   5%  with n=   4 -30%   0% -20%  25% dip   -5.2% win  75%
+                                                                w/o  n=  81 -30%  14% -20%  22% dip  -10.6% win  72%
+    CT > Signal by 5+          call-heavy BOTTOM  overlap  19%  with n=  16 -30%   0% -20%  12% dip   -6.2% win  88%
+                                                                w/o  n=  69 -30%  16% -20%  25% dip  -10.7% win  68%
+    CT > Signal + prime        put-heavy TOP      overlap  10%  with n=   5 -30%   0% -20%   0% dip   -4.9% win 100%
+                                                                w/o  n=  46 -30%  28% -20%  35% dip  -10.4% win  70%
+    CT > Signal + prime        call-heavy BOTTOM  overlap  14%  with n=   7 -30%   0% -20%  14% dip   -6.4% win 100%
+                                                                w/o  n=  44 -30%  30% -20%  34% dip   -9.9% win  68%
+    CT > Signal + diamond      put-heavy TOP      overlap   5%  with n=   2 -30%  50% -20%  50% dip  -17.0% win 100%
+                                                                w/o  n=  36 -30%  17% -20%  25% dip  -10.2% win  78%
+    CT > Signal + diamond      call-heavy BOTTOM  overlap  21%  with n=   8 -30%   0% -20%  12% dip   -8.4% win  88%
+                                                                w/o  n=  30 -30%  23% -20%  30% dip  -10.7% win  77%
+    higher entry               put-heavy TOP      overlap   9%  with n=  19 -30%  21% -20%  53% dip  -21.0% win  53%
+                                                                w/o  n= 184 -30%  14% -20%  24% dip  -13.4% win  67%
+    higher entry               call-heavy BOTTOM  overlap  16%  with n=  33 -30%   0% -20%  18% dip  -10.7% win  70%
+                                                                w/o  n= 170 -30%  17% -20%  29% dip  -14.1% win  65%
+    2+ own charts before       put-heavy TOP      overlap   7%  with n=  13 -30%  15% -20%  23% dip   -9.2% win  85%
+                                                                w/o  n= 169 -30%  12% -20%  22% dip  -12.0% win  66%
+    2+ own charts before       call-heavy BOTTOM  overlap  16%  with n=  30 -30%   7% -20%  17% dip   -9.5% win  70%
+                                                                w/o  n= 152 -30%  14% -20%  24% dip  -12.6% win  66%
+    8D CT rising               put-heavy TOP      overlap   9%  with n=  18 -30%  17% -20%  28% dip   -8.9% win  78%
+                                                                w/o  n= 172 -30%  17% -20%  28% dip  -14.2% win  65%
+    8D CT rising               call-heavy BOTTOM  overlap  13%  with n=  24 -30%  17% -20%  29% dip  -11.6% win  58%
+                                                                w/o  n= 166 -30%  17% -20%  28% dip  -14.0% win  67%
+    ETH 1D/2D + BTC 3D before  put-heavy TOP      overlap  12%  with n=  10 -30%  30% -20%  50% dip  -20.5% win  60%
+                                                                w/o  n=  75 -30%  15% -20%  20% dip  -10.5% win  72%
+    ETH 1D/2D + BTC 3D before  call-heavy BOTTOM  overlap  16%  with n=  14 -30%   7% -20%  14% dip  -11.5% win  71%
+                                                                w/o  n=  71 -30%  18% -20%  25% dip  -10.5% win  70%
+
+  BTC (485 signals with put/call history)
+    all signals                put-heavy TOP      overlap  15%  with n=  72 -30%   6% -20%  28% dip  -10.7% win  54%
+                                                                w/o  n= 413 -30%  15% -20%  32% dip  -12.0% win  45%
+    all signals                call-heavy BOTTOM  overlap  14%  with n=  68 -30%   7% -20%  53% dip  -20.6% win  34%
+                                                                w/o  n= 417 -30%  15% -20%  28% dip  -10.5% win  48%
+    CT > Signal by 5+          put-heavy TOP      overlap  12%  with n=  12 -30%   0% -20%  42% dip   -6.8% win  75%
+                                                                w/o  n=  85 -30%   9% -20%  19% dip   -8.6% win  59%
+    CT > Signal by 5+          call-heavy BOTTOM  overlap   9%  with n=   9 -30%   0% -20%  44% dip  -19.1% win  44%
+                                                                w/o  n=  88 -30%   9% -20%  19% dip   -8.1% win  62%
+    CT > Signal + prime        put-heavy TOP      overlap  15%  with n=   7 -30%   0% -20%  29% dip  -11.8% win  71%
+                                                                w/o  n=  39 -30%  21% -20%  28% dip   -8.1% win  69%
+    CT > Signal + prime        call-heavy BOTTOM  overlap  11%  with n=   5 -30%  40% -20%  80% dip  -23.5% win  40%
+                                                                w/o  n=  41 -30%  15% -20%  22% dip   -7.5% win  73%
+    CT > Signal + diamond      put-heavy TOP      overlap  15%  with n=   8 -30%   0% -20%  25% dip   -7.3% win  50%
+                                                                w/o  n=  46 -30%  15% -20%  24% dip  -13.2% win  54%
+    CT > Signal + diamond      call-heavy BOTTOM  overlap  17%  with n=   9 -30%  11% -20%  44% dip  -15.3% win  33%
+                                                                w/o  n=  45 -30%  13% -20%  20% dip  -10.8% win  58%
+    higher entry               put-heavy TOP      overlap  11%  with n=  29 -30%   0% -20%  31% dip   -9.2% win  62%
+                                                                w/o  n= 237 -30%  17% -20%  27% dip  -10.5% win  48%
+    higher entry               call-heavy BOTTOM  overlap  13%  with n=  34 -30%   6% -20%  38% dip  -17.3% win  47%
+                                                                w/o  n= 232 -30%  16% -20%  26% dip   -9.5% win  50%
+    2+ own charts before       put-heavy TOP      overlap  14%  with n=  32 -30%   3% -20%  31% dip   -9.8% win  47%
+                                                                w/o  n= 196 -30%  17% -20%  31% dip  -11.4% win  47%
+    2+ own charts before       call-heavy BOTTOM  overlap  13%  with n=  30 -30%  13% -20%  57% dip  -24.0% win  33%
+                                                                w/o  n= 198 -30%  16% -20%  27% dip   -9.8% win  49%
+    8D CT rising               put-heavy TOP      overlap  14%  with n=  36 -30%   8% -20%  42% dip  -14.2% win  53%
+                                                                w/o  n= 227 -30%  14% -20%  26% dip   -9.9% win  51%
+    8D CT rising               call-heavy BOTTOM  overlap  15%  with n=  40 -30%  10% -20%  50% dip  -20.7% win  38%
+                                                                w/o  n= 223 -30%  14% -20%  24% dip   -8.8% win  53%
+
+  Context only. Nothing adopted. ETH and BTC are one sample for date-anchored events.

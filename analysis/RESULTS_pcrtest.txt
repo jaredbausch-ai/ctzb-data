@@ -1,0 +1,137 @@
+PUT/CALL AT THE SIGNAL -- declared 27 Oct 2026, run 2026-10-28 | entry quality only, signals not fills
+
+ETH: 393 signals with put/call data, 2019-06-15 to 2025-12-06
+  baseline                         n= 393 -30%  21% -20%  35% dip  -15.1% win  56%
+  P1 put-heavy (pct>=80)           with n=  98 -30%  18% -20%  38% dip  -16.0% win  58%
+                                   w/o  n= 295 -30%  22% -20%  34% dip  -14.9% win  55%   -30% cut +3  win +3  years 2/5  -> fail
+      to 2021  with n=  38 -30%  18% -20%  32% dip  -13.6% win  82% | w/o n= 123 -30%  24% -20%  45% dip  -17.4% win  65%
+      2022 on  with n=  60 -30%  18% -20%  42% dip  -17.0% win  43% | w/o n= 172 -30%  20% -20%  26% dip  -12.1% win  48%
+      ETH 1D   -30%  15% vs  23%  win  54% vs  54%  (n 54/144)
+      ETH 2D   -30%  33% vs  21%  win  57% vs  55%  (n 21/76)
+      ETH 3D   -30%  20% vs  21%  win  73% vs  49%  (n 15/47)
+      ETH 5D   -30%   0% vs  18%  win  62% vs  71%  (n 8/28)
+  P2 call-heavy (pct<=20)          with n=  90 -30%  20% -20%  28% dip  -15.1% win  54%
+                                   w/o  n= 303 -30%  21% -20%  37% dip  -15.3% win  56%   -30% cut +1  win -2  years 2/6  -> fail
+      to 2021  with n=  39 -30%  21% -20%  31% dip  -13.4% win  77% | w/o n= 122 -30%  23% -20%  45% dip  -18.5% win  66%
+      2022 on  with n=  51 -30%  20% -20%  25% dip  -15.2% win  37% | w/o n= 181 -30%  20% -20%  31% dip  -13.7% win  50%
+      ETH 1D   -30%  15% vs  22%  win  56% vs  53%  (n 39/159)
+      ETH 2D   -30%  29% vs  22%  win  54% vs  57%  (n 28/69)
+      ETH 3D   -30%  19% vs  22%  win  38% vs  61%  (n 16/46)
+      ETH 5D   -30%  14% vs  14%  win  86% vs  66%  (n 7/29)
+  P3 put/call rising 7d            with n= 195 -30%  19% -20%  36% dip  -14.7% win  54%
+                                   w/o  n= 198 -30%  22% -20%  33% dip  -15.8% win  58%   -30% cut +3  win -3  years 4/6  -> fail
+      to 2021  with n=  76 -30%  22% -20%  42% dip  -15.5% win  68% | w/o n=  85 -30%  22% -20%  41% dip  -17.0% win  69%
+      2022 on  with n= 119 -30%  18% -20%  33% dip  -14.3% win  45% | w/o n= 113 -30%  22% -20%  27% dip  -14.4% win  49%
+      ETH 1D   -30%  23% vs  18%  win  50% vs  59%  (n 106/92)
+      ETH 2D   -30%  21% vs  25%  win  52% vs  58%  (n 42/55)
+      ETH 3D   -30%  14% vs  27%  win  62% vs  48%  (n 29/33)
+      ETH 5D   -30%   6% vs  22%  win  72% vs  67%  (n 18/18)
+  P4 put spike (day > 1.25x 7d)    with n=  86 -30%  19% -20%  42% dip  -15.8% win  56%
+                                   w/o  n= 307 -30%  21% -20%  33% dip  -14.9% win  56%   -30% cut +3  win -0  years 3/6  -> fail
+      to 2021  with n=  39 -30%  15% -20%  49% dip  -19.5% win  64% | w/o n= 122 -30%  25% -20%  39% dip  -16.2% win  70%
+      2022 on  with n=  47 -30%  21% -20%  36% dip  -14.2% win  49% | w/o n= 185 -30%  19% -20%  29% dip  -14.4% win  46%
+      ETH 1D   -30%  26% vs  19%  win  43% vs  57%  (n 46/152)
+      ETH 2D   -30%  12% vs  26%  win  65% vs  54%  (n 17/80)
+      ETH 3D   -30%   7% vs  26%  win  73% vs  49%  (n 15/47)
+      ETH 5D   -30%  12% vs  14%  win  75% vs  68%  (n 8/28)
+  P5 premium put-heavy (pct>=80)   with n= 107 -30%  28% -20%  46% dip  -19.0% win  44%
+                                   w/o  n= 286 -30%  18% -20%  31% dip  -14.2% win  60%   -30% cut -10  win -17  years 3/6  -> fail
+      to 2021  with n=  40 -30%  30% -20%  45% dip  -18.7% win  68% | w/o n= 121 -30%  20% -20%  40% dip  -16.0% win  69%
+      2022 on  with n=  67 -30%  27% -20%  46% dip  -19.2% win  30% | w/o n= 165 -30%  17% -20%  24% dip  -12.5% win  54%
+      ETH 1D   -30%  28% vs  18%  win  41% vs  60%  (n 61/137)
+      ETH 2D   -30%  31% vs  21%  win  38% vs  62%  (n 26/71)
+      ETH 3D   -30%  33% vs  18%  win  42% vs  58%  (n 12/50)
+      ETH 5D   -30%  12% vs  14%  win  88% vs  64%  (n 8/28)
+  K1 Krown top band, weekly close  with n=  40 -30%  20% -20%  48% dip  -19.6% win  52%
+                                   w/o  n= 353 -30%  21% -20%  33% dip  -14.8% win  56%   -30% cut +1  win -4  years 1/4  -> fail
+      to 2021  with n=  12 -30%  17% -20%  50% dip  -23.1% win  67% | w/o n= 149 -30%  23% -20%  41% dip  -16.3% win  69%
+      2022 on  with n=  28 -30%  21% -20%  46% dip  -19.6% win  46% | w/o n= 204 -30%  20% -20%  28% dip  -14.2% win  47%
+      ETH 1D   -30%  10% vs  22%  win  57% vs  54%  (n 21/177)
+      ETH 2D   -30%  31% vs  23%  win  38% vs  58%  (n 13/84)
+      ETH 3D   -30%  50% vs  19%  win  50% vs  55%  (n 4/58)
+      ETH 5D   -30%   0% vs  15%  win 100% vs  68%  (n 2/34)
+  K2 Krown top band, last 14 days  with n= 106 -30%  18% -20%  34% dip  -16.2% win  58%
+                                   w/o  n= 287 -30%  22% -20%  35% dip  -14.8% win  55%   -30% cut +4  win +2  years 1/5  -> fail
+      to 2021  with n=  41 -30%  24% -20%  41% dip  -18.5% win  73% | w/o n= 120 -30%  22% -20%  42% dip  -15.9% win  68%
+      2022 on  with n=  65 -30%  14% -20%  29% dip  -15.2% win  48% | w/o n= 167 -30%  22% -20%  31% dip  -14.2% win  47%
+      ETH 1D   -30%  13% vs  23%  win  57% vs  53%  (n 53/145)
+      ETH 2D   -30%  26% vs  23%  win  56% vs  56%  (n 27/70)
+      ETH 3D   -30%  25% vs  20%  win  56% vs  54%  (n 16/46)
+      ETH 5D   -30%  10% vs  15%  win  70% vs  69%  (n 10/26)
+  K3 Krown bottom band, last 14 days with n= 121 -30%  13% -20%  27% dip  -14.2% win  51%
+                                   w/o  n= 272 -30%  24% -20%  38% dip  -16.0% win  58%   -30% cut +11  win -7  years 4/6  -> fail
+      to 2021  with n=  59 -30%  14% -20%  36% dip  -14.0% win  69% | w/o n= 102 -30%  27% -20%  45% dip  -18.4% win  69%
+      2022 on  with n=  62 -30%  13% -20%  19% dip  -14.2% win  34% | w/o n= 170 -30%  22% -20%  34% dip  -14.7% win  52%
+      ETH 1D   -30%  12% vs  25%  win  50% vs  56%  (n 60/138)
+      ETH 2D   -30%  19% vs  26%  win  44% vs  62%  (n 32/65)
+      ETH 3D   -30%  11% vs  25%  win  56% vs  55%  (n 18/44)
+      ETH 5D   -30%   9% vs  16%  win  73% vs  68%  (n 11/25)
+
+BTC: 486 signals with put/call data, 2017-05-18 to 2025-12-14
+  baseline                         n= 486 -30%  16% -20%  32% dip  -12.0% win  49%
+  P1 put-heavy (pct>=80)           with n=  91 -30%  19% -20%  31% dip  -11.9% win  49%
+                                   w/o  n= 395 -30%  15% -20%  32% dip  -12.0% win  49%   -30% cut -4  win +1  years 3/6  -> fail
+      to 2021  with n=  41 -30%  39% -20%  51% dip  -24.4% win  39% | w/o n= 215 -30%  25% -20%  41% dip  -14.2% win  64%
+      2022 on  with n=  50 -30%   2% -20%  14% dip   -9.3% win  58% | w/o n= 180 -30%   3% -20%  22% dip  -11.3% win  30%
+      BTC 1D   -30%  15% vs  14%  win  53% vs  48%  (n 53/187)
+      BTC 2D   -30%  15% vs  16%  win  45% vs  50%  (n 20/104)
+      BTC 3D   -30%  30% vs  14%  win  50% vs  49%  (n 10/69)
+      BTC 5D   -30%  38% vs  14%  win  38% vs  46%  (n 8/35)
+  P2 call-heavy (pct<=20)          with n= 103 -30%  15% -20%  44% dip  -18.9% win  42%
+                                   w/o  n= 383 -30%  16% -20%  29% dip  -10.5% win  51%   -30% cut +1  win -9  years 3/8  -> fail
+      to 2021  with n=  59 -30%  20% -20%  47% dip  -19.3% win  63% | w/o n= 197 -30%  29% -20%  41% dip  -15.0% win  59%
+      2022 on  with n=  44 -30%   7% -20%  39% dip  -17.7% win  14% | w/o n= 186 -30%   2% -20%  16% dip   -9.8% win  41%
+      BTC 1D   -30%  14% vs  15%  win  42% vs  51%  (n 43/197)
+      BTC 2D   -30%  13% vs  17%  win  43% vs  50%  (n 23/101)
+      BTC 3D   -30%  19% vs  16%  win  43% vs  52%  (n 21/58)
+      BTC 5D   -30%  12% vs  22%  win  38% vs  48%  (n 16/27)
+  P3 put/call rising 7d            with n= 234 -30%  15% -20%  28% dip  -11.4% win  50%
+                                   w/o  n= 252 -30%  16% -20%  36% dip  -12.5% win  48%   -30% cut +0  win +2  years 3/8  -> fail
+      to 2021  with n= 125 -30%  27% -20%  38% dip  -16.0% win  60% | w/o n= 131 -30%  27% -20%  47% dip  -17.8% win  60%
+      2022 on  with n= 109 -30%   2% -20%  17% dip  -10.1% win  39% | w/o n= 121 -30%   3% -20%  24% dip  -10.5% win  34%
+      BTC 1D   -30%  15% vs  13%  win  50% vs  48%  (n 136/104)
+      BTC 2D   -30%   9% vs  22%  win  52% vs  47%  (n 56/68)
+      BTC 3D   -30%  26% vs  12%  win  48% vs  50%  (n 27/52)
+      BTC 5D   -30%  20% vs  18%  win  47% vs  43%  (n 15/28)
+  P4 put spike (day > 1.25x 7d)    with n=  75 -30%  21% -20%  36% dip  -14.2% win  47%
+                                   w/o  n= 411 -30%  15% -20%  31% dip  -11.5% win  49%   -30% cut -7  win -2  years 3/8  -> fail
+      to 2021  with n=  47 -30%  32% -20%  47% dip  -19.6% win  55% | w/o n= 209 -30%  26% -20%  42% dip  -15.0% win  61%
+      2022 on  with n=  28 -30%   4% -20%  18% dip   -9.5% win  32% | w/o n= 202 -30%   2% -20%  21% dip  -10.5% win  37%
+      BTC 1D   -30%  18% vs  14%  win  50% vs  49%  (n 44/196)
+      BTC 2D   -30%  21% vs  15%  win  43% vs  50%  (n 14/110)
+      BTC 3D   -30%  22% vs  16%  win  67% vs  47%  (n 9/70)
+      BTC 5D   -30%  38% vs  14%  win  12% vs  51%  (n 8/35)
+  P5 premium put-heavy (pct>=80)   with n= 129 -30%  19% -20%  37% dip  -13.6% win  43%
+                                   w/o  n= 357 -30%  14% -20%  30% dip  -11.3% win  51%   -30% cut -5  win -8  years 4/8  -> fail
+      to 2021  with n=  64 -30%  38% -20%  55% dip  -22.3% win  45% | w/o n= 192 -30%  24% -20%  39% dip  -13.1% win  65%
+      2022 on  with n=  65 -30%   2% -20%  20% dip   -9.9% win  40% | w/o n= 165 -30%   3% -20%  21% dip  -10.5% win  35%
+      BTC 1D   -30%  20% vs  12%  win  39% vs  53%  (n 71/169)
+      BTC 2D   -30%  18% vs  15%  win  50% vs  49%  (n 40/84)
+      BTC 3D   -30%  17% vs  16%  win  42% vs  51%  (n 12/67)
+      BTC 5D   -30%  33% vs  16%  win  33% vs  46%  (n 6/37)
+  K1 Krown top band, weekly close  with n=  39 -30%   3% -20%  18% dip  -10.5% win  64%
+                                   w/o  n= 447 -30%  17% -20%  33% dip  -12.0% win  47%   -30% cut +14  win +17  years 3/4  -> fail
+      to 2021  with n=  12 -30%   8% -20%  25% dip  -13.8% win  67% | w/o n= 244 -30%  28% -20%  43% dip  -16.4% win  60%
+      2022 on  with n=  27 -30%   0% -20%  15% dip   -9.8% win  63% | w/o n= 203 -30%   3% -20%  21% dip  -10.3% win  33%
+      BTC 1D   -30%   0% vs  16%  win  74% vs  47%  (n 19/221)
+      BTC 2D   -30%   8% vs  17%  win  58% vs  48%  (n 12/112)
+      BTC 3D   -30%   0% vs  18%  win  40% vs  50%  (n 5/74)
+      BTC 5D   -30%   0% vs  20%  win  67% vs  42%  (n 3/40)
+  K2 Krown top band, last 14 days  with n= 116 -30%  11% -20%  34% dip  -12.8% win  49%
+                                   w/o  n= 370 -30%  17% -20%  32% dip  -11.5% win  49%   -30% cut +6  win +0  years 2/6  -> fail
+      to 2021  with n=  46 -30%  28% -20%  48% dip  -19.4% win  46% | w/o n= 210 -30%  27% -20%  41% dip  -14.9% win  63%
+      2022 on  with n=  70 -30%   0% -20%  24% dip  -10.5% win  51% | w/o n= 160 -30%   4% -20%  19% dip  -10.2% win  29%
+      BTC 1D   -30%  12% vs  15%  win  47% vs  50%  (n 57/183)
+      BTC 2D   -30%  15% vs  16%  win  52% vs  48%  (n 27/97)
+      BTC 3D   -30%   0% vs  22%  win  53% vs  48%  (n 19/60)
+      BTC 5D   -30%  15% vs  20%  win  46% vs  43%  (n 13/30)
+  K3 Krown bottom band, last 14 days with n= 133 -30%  12% -20%  43% dip  -17.8% win  39%
+                                   w/o  n= 353 -30%  17% -20%  28% dip  -10.1% win  52%   -30% cut +5  win -13  years 5/8  -> fail
+      to 2021  with n=  71 -30%  18% -20%  46% dip  -18.9% win  66% | w/o n= 185 -30%  31% -20%  41% dip  -14.2% win  58%
+      2022 on  with n=  62 -30%   5% -20%  39% dip  -16.9% win   8% | w/o n= 168 -30%   2% -20%  14% dip   -9.0% win  46%
+      BTC 1D   -30%  11% vs  16%  win  42% vs  52%  (n 66/174)
+      BTC 2D   -30%   6% vs  20%  win  38% vs  53%  (n 32/92)
+      BTC 3D   -30%  19% vs  16%  win  43% vs  52%  (n 21/58)
+      BTC 5D   -30%  21% vs  17%  win  21% vs  55%  (n 14/29)
+
+  ENTRY QUALITY ONLY. Computed signals, not fills.

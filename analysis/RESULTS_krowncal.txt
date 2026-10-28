@@ -1,0 +1,34 @@
+
+BTC volume put/call, our 100-day percentile of the 7-day average
+  his week 2021-04-19: our max in that week 77 | within a week either side 96 TOP BAND
+  his week 2021-12-06: our max in that week 87 | within a week either side 87 
+  his week 2023-09-11: our max in that week 100 | within a week either side 100 TOP BAND
+  his week 2023-12-18: our max in that week 90 | within a week either side 98 TOP BAND
+  his week 2024-07-08: our max in that week 100 | within a week either side 100 TOP BAND
+  his week 2025-03-03: our max in that week 98 | within a week either side 99 TOP BAND
+  his week 2025-12-08: our max in that week 92 | within a week either side 97 TOP BAND
+  his week 2026-03-02: our max in that week 42 | within a week either side 91 
+  his week 2026-04-06: our max in that week 91 | within a week either side 91 
+  his week 2026-06-08: our max in that week 60 | within a week either side 100 TOP BAND
+  his week 2026-08-03: our max in that week 49 | within a week either side 56 
+  his week 2026-08-17: our max in that week 15 | within a week either side 50 
+  his week 2026-10-19: our max in that week 99 | within a week either side 100 TOP BAND
+  his weeks reaching our top band (+/- a week): 8/13 | any random week since 2021: 33%
+  25 Oct 2026: ours day 1.09, 7d 0.93, pct 83 | Krown day 0.60, 7d 0.76, pct 83
+
+BTC premium put/call, our 100-day percentile of the 7-day average
+  his week 2021-04-19: our max in that week 100 | within a week either side 100 TOP BAND
+  his week 2021-12-06: our max in that week 93 | within a week either side 100 TOP BAND
+  his week 2023-09-11: our max in that week 95 | within a week either side 95 TOP BAND
+  his week 2023-12-18: our max in that week 88 | within a week either side 90 
+  his week 2024-07-08: our max in that week 100 | within a week either side 100 TOP BAND
+  his week 2025-03-03: our max in that week 100 | within a week either side 100 TOP BAND
+  his week 2025-12-08: our max in that week 75 | within a week either side 85 
+  his week 2026-03-02: our max in that week 60 | within a week either side 80 
+  his week 2026-04-06: our max in that week 30 | within a week either side 95 TOP BAND
+  his week 2026-06-08: our max in that week 88 | within a week either side 88 
+  his week 2026-08-03: our max in that week 70 | within a week either side 80 
+  his week 2026-08-17: our max in that week 32 | within a week either side 43 
+  his week 2026-10-19: our max in that week 99 | within a week either side 100 TOP BAND
+  his weeks reaching our top band (+/- a week): 7/13 | any random week since 2021: 38%
+  25 Oct 2026: ours day 0.79, 7d 0.85, pct 82 | Krown day 0.60, 7d 0.76, pct 83

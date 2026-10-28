@@ -240,6 +240,19 @@ misrepresentation.
 
 ## What has been tested and failed
 
+**Options put/call (Krown-style) — run 28 Oct 2026, FAILED as a filter, kept as
+context.** Data: Deribit history API, `fetch_pcr.py` -> `data/options/`, BTC
+from Nov 2016 (thin until 2018), ETH from Mar 2019, refreshed by `pcr.yml`.
+Calibration (`analysis/krowncal.py`): our BTC volume pct100 of the 7-day average
+hit the top band within a week of 8/13 of his marked weeks (random week 33%);
+25 Oct percentile 83 matched his 83, though raw ratios differ (his feed is not
+Deribit-only). `analysis/pcrtest.py` (declared 27 Oct): all P1-P5 and K1-K3 fail
+on both assets. BTC K1 (top band at weekly close) 64% vs 47%, -30% 3% vs 17%,
+n=39, fails only on years (3/4). `analysis/pcrevents.py`: his bottom-band
+(call-heavy) events, BTC, are followed by a median 30-day drop of -14.1% vs
+-9.2% for any week, with a 10% drop first 57% vs 43%. Jared: context, not a
+filter change. Do not re-test as a filter.
+
 **Confluence lift is ETH-only — measured 19 Oct 2026.** Backward-only agreement,
 2+ other timeframes already printed vs 0-1, reaching +20% in 60 days:
 ETH 1D 58->67 (+9, n=205/83), ETH 2D 59->71 (+13, n=102/35), BTC 1D 52->52 (+0,
