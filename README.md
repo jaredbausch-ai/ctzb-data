@@ -76,6 +76,17 @@ regime, what is forming on each chart, and the next buy dates.
 `engine.py` and `regimes.py` sit beside it. The date comes from the clock;
 `--today YYYY-MM-DD` overrides it for testing.
 
+`grade_live.py` runs next in the Action. It applies the conviction grade
+(defined and tested in `analysis/grade.py`, `grade2.py`, `grade3.py`; see
+docs/PRETRADE.md) and writes `datasets/grades.csv`, plus grade and flag columns
+on `forward.csv` and `live.csv` and the latest close on `live.csv`. The
+dashboard page (copy in `docs/artifacts/eth-setup-standard.html`) reads
+`status`, `live`, `grades` and `forward`.
+
+`fetch_pcr.py` runs hourly in its own workflow (`.github/workflows/pcr.yml`):
+daily options put/call for BTC and ETH from Deribit's free trade history into
+`data/options/`, plus a daily open-interest snapshot.
+
 ### The traded tier is derived, not stored
 
 `--tier` decides which chart-and-tag combinations get traded. Nothing is

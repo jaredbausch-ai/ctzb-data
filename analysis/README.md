@@ -48,6 +48,15 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `threeway.py`, `RESULTS_threeway.txt` | Recheck of the two BTC 3D + 2 ETH charts confluence rows |
 | `aclusters.py`, `RESULTS_aclusters.txt`, `aclusters.json` | A clusters and the CT 50 line, 26 Oct 2026: did failed A clusters break 50; after an A signal, does CT close at 50 or turn down from 40-50 first; addendum on the bounce between two A signals. Declared; the main read failed its rule |
 | `areads.py`, `RESULTS_areads.txt` | The two A-cluster reads tested inside the existing in-trade reads and the Tier 1 entry features. The CT 50 read holds inside 4 of 5 reads (partial in-trade read); the bounce read is too thin to test |
+| `frontrun.py`, `RESULTS_frontrun.txt` | Buying one bar after a forming low vs the confirmation close, by bucket and with a BTC 3D signal before (27 Oct 2026 pre-trade read) |
+| `pcrtest.py` | Options put/call at the signal (declared 27 Oct before any data): P1-P5 and Krown-style K1-K3, risk and win pass rules, placebo. Waits on data/options backfill |
+| `pcrevents.py` | Krown-style put/call band events: setup confluence and an event study of his downside signals (declared 27 Oct, context only). Waits on data/options backfill |
+| `hurstlow.py`, `RESULTS_hurstlow.txt` | Hurst forward cycle lows rebuilt on price swing lows (causal stream identical to the Pine); 160D not carried |
+| `hurstcal.py`, `RESULTS_hurstcal.txt`, `RESULTS_hurstcal_run1_hindsight.txt` | Projection calibration variants; the "early" bias was a roll-forward artefact; nothing adopted |
+| `hurstnest.py`, `RESULTS_hurstnest.txt` | Narrowing the 160D window: signals time big lows within days, the window cannot pick which. Hurst closed |
+| `grade.py`, `RESULTS_grade.txt`, `grade.json` | Conviction grade, declared: lens keep/overlap rules, grades C/B/A/A+, per-grade record with dips and upside |
+| `grade2.py`, `RESULTS_grade2.txt`, `grade2.json` | Grade addendum: divergence on own / higher charts, ETH 2D before BTC (BTCX joins BTC; higher-chart divergence a flag) |
+| `grade3.py`, `RESULTS_grade3.txt`, `grade3.json` | Grade audit of every documented read not yet tried: funding not cooling counted on ETH, diamond-or-prime a flag, the rest dropped |
 | `voltarget.py`, `RESULTS_voltarget.txt`, `voltarget.json` | Volatility-scaled success target (+20% x 365-day sigma / 2016-21 median), 26 Oct 2026: base rates by period, year and chart, random-day check, filter lifts fixed vs scaled, the 2023-25 run. A second lens, not adopted |
 | `posread.py` | Positioning read for a signal (funding vs 90d median and direction, long/short ratio, OI 14d change). Part of every signal-statistics report |
 | `snapshot.py` | Market snapshot: price context, volatility percentile, 8D direction, every signal since the gate turned on with its day-5/10 status and warnings, forming troughs, regime distance from switching off |
