@@ -291,7 +291,8 @@ placebo); weekly momentum above its signal line (ETH: adds nothing once CT >
 Signal by 5+ is known; BTC: failed the placebo); the other asset's CT above its
 Signal (failed the per-period rule); 8D CT rising on ETH (adds nothing once the
 higher-entry lens is known); same-asset agreement and higher entry on BTC (no
-effect on BTC).
+effect on BTC); an ETH 3D signal before a BTC 1D/2D entry (no effect in
+2022-26; `analysis/grade4.py`).
 
 Upside = the highest high within 60 days of entry (the best possible exit, not
 a return; exits are discretionary). Worst on record is not worst possible.

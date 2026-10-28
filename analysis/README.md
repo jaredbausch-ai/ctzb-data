@@ -57,6 +57,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `grade.py`, `RESULTS_grade.txt`, `grade.json` | Conviction grade, declared: lens keep/overlap rules, grades C/B/A/A+, per-grade record with dips and upside |
 | `grade2.py`, `RESULTS_grade2.txt`, `grade2.json` | Grade addendum: divergence on own / higher charts, ETH 2D before BTC (BTCX joins BTC; higher-chart divergence a flag) |
 | `grade3.py`, `RESULTS_grade3.txt`, `grade3.json` | Grade audit of every documented read not yet tried: funding not cooling counted on ETH, diamond-or-prime a flag, the rest dropped |
+| `grade4.py`, `RESULTS_grade4.txt` | Last audit item: ETH 3D before BTC 1D/2D (the cross-asset map's near miss). Not added |
 | `voltarget.py`, `RESULTS_voltarget.txt`, `voltarget.json` | Volatility-scaled success target (+20% x 365-day sigma / 2016-21 median), 26 Oct 2026: base rates by period, year and chart, random-day check, filter lifts fixed vs scaled, the 2023-25 run. A second lens, not adopted |
 | `posread.py` | Positioning read for a signal (funding vs 90d median and direction, long/short ratio, OI 14d change). Part of every signal-statistics report |
 | `snapshot.py` | Market snapshot: price context, volatility percentile, 8D direction, every signal since the gate turned on with its day-5/10 status and warnings, forming troughs, regime distance from switching off |
