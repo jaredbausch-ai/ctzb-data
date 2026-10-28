@@ -1,14 +1,15 @@
 name: Options put/call (Deribit)
 
-# Builds data/options/ from Deribit's free trade history. Hourly until the
-# backfill reaches 2016/2019, then each run is a quick forward fill plus the
+# Builds data/options/ from Deribit's free trade history. Every 3 hours, each
+# run backfilling for up to 5 hours until history reaches 2016/2019 (GitHub's
+# hourly schedule proved unreliable: 2 runs in 8 hours on 28 Oct), then each run is a quick forward fill plus the
 # daily open-interest snapshot. Its own concurrency group: it must NOT share one
 # with the candle job, because GitHub cancels a pending run when a newer run
 # joins the same group, and the hourly runs here would cancel candle runs.
 # Both jobs rebase and retry their push instead.
 on:
   schedule:
-    - cron: "40 * * * *"
+    - cron: "40 */3 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -24,7 +25,7 @@ concurrency:
 jobs:
   pcr:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 320
     steps:
       - uses: actions/checkout@v4
 
@@ -32,8 +33,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Fetch put/call (forward fill, OI snapshot, then backfill for 35 min)
-        run: python fetch_pcr.py --budget 2100
+      - name: Fetch put/call (forward fill, OI snapshot, then backfill for up to 5 hours)
+        run: python fetch_pcr.py --budget 18000
 
       - name: Commit if anything changed
         if: always()
