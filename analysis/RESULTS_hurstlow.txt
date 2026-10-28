@@ -1,0 +1,90 @@
+HURST FORWARD CYCLE LOWS ON PRICE -- declared 27 Oct 2026, run 2026-10-27
+entry quality only, computed signals, not fills
+
+Q1  prediction accuracy (error = actual low - projected, in periods)
+  160D ETH 1D: lows 19  median |error| 0.33 periods, within 0.2:  22%, median error -0.33 | price position at kept lows median 0.00
+  160D ETH 2D: lows 19  median |error| 0.33 periods, within 0.2:  28%, median error -0.33 | price position at kept lows median 0.00
+  160D ETH 3D: lows 19  median |error| 0.33 periods, within 0.2:  17%, median error -0.33 | price position at kept lows median 0.00
+  160D ETH 5D: lows 19  median |error| 0.33 periods, within 0.2:  17%, median error -0.33 | price position at kept lows median 0.00
+  160D BTC 1D: lows 15  median |error| 0.33 periods, within 0.2:  36%, median error -0.33 | price position at kept lows median 0.00
+  160D BTC 2D: lows 15  median |error| 0.32 periods, within 0.2:  36%, median error -0.32 | price position at kept lows median 0.00
+  160D BTC 3D: lows 15  median |error| 0.32 periods, within 0.2:  36%, median error -0.32 | price position at kept lows median 0.00
+  160D BTC 5D: lows 15  median |error| 0.32 periods, within 0.2:  29%, median error -0.32 | price position at kept lows median 0.00
+  80D ETH 1D: lows 32  median |error| 0.23 periods, within 0.2:  48%, median error -0.15 | price position at kept lows median 0.00
+  80D ETH 2D: lows 32  median |error| 0.21 periods, within 0.2:  48%, median error -0.12 | price position at kept lows median 0.00
+  80D ETH 3D: lows 32  median |error| 0.23 periods, within 0.2:  48%, median error -0.13 | price position at kept lows median 0.00
+  80D ETH 5D: lows 31  median |error| 0.27 periods, within 0.2:  40%, median error -0.15 | price position at kept lows median 0.00
+  80D BTC 1D: lows 34  median |error| 0.15 periods, within 0.2:  61%, median error -0.15 | price position at kept lows median 0.00
+  80D BTC 2D: lows 34  median |error| 0.16 periods, within 0.2:  61%, median error -0.16 | price position at kept lows median 0.00
+  80D BTC 3D: lows 34  median |error| 0.16 periods, within 0.2:  61%, median error -0.15 | price position at kept lows median 0.00
+  80D BTC 5D: lows 34  median |error| 0.18 periods, within 0.2:  64%, median error -0.08 | price position at kept lows median 0.00
+
+Q2  160D: signals by whether a price-cycle low is DUE (dist < 0.2)
+  ETH DUE n= 278 -30%  26% -20%  42% dip  -14.3% +20%  63%
+      not n= 267 -30%  27% -20%  37% dip  -16.4% +20%  57%
+  BTC DUE n= 210 -30%  12% -20%  30% dip  -13.8% +20%  43%
+      not n= 221 -30%  11% -20%  29% dip  -10.2% +20%  48%
+  ALL DUE n= 488 -30%  20% -20%  37% dip  -14.2% +20%  55%
+      not n= 488 -30%  20% -20%  33% dip  -14.2% +20%  53%
+    to 2021: DUE n= 269 -30%  24% -20%  40% dip  -13.6% +20%  72% | not n= 245 -30%  31% -20%  48% dip  -19.0% +20%  57%
+    2022 on: DUE n= 219 -30%  15% -20%  33% dip  -14.2% +20%  33% | not n= 243 -30%   8% -20%  19% dip  -10.2% +20%  49%
+    ETH 1D: -30%  28% vs  24%  +20%  63% vs  57%  (n 147/131)
+    ETH 2D: -30%  27% vs  29%  +20%  63% vs  60%  (n 62/72)
+    ETH 3D: -30%  24% vs  33%  +20%  59% vs  51%  (n 41/45)
+    ETH 5D: -30%  18% vs  16%  +20%  75% vs  63%  (n 28/19)
+    BTC 1D: -30%   7% vs  13%  +20%  46% vs  46%  (n 99/114)
+    BTC 2D: -30%  15% vs  11%  +20%  40% vs  53%  (n 55/55)
+    BTC 3D: -30%  18% vs   3%  +20%  41% vs  49%  (n 34/35)
+    BTC 5D: -30%  18% vs  18%  +20%  36% vs  47%  (n 22/17)
+    2016: -30%   0% vs  68%  +20% 100% vs  42%  (n 5/19)
+    2017: -30%  29% vs  10%  +20%  95% vs  94%  (n 41/31)
+    2018: -30%  45% vs  68%  +20%  68% vs  20%  (n 22/44)
+    2019: -30%  14% vs   8%  +20%  68% vs  42%  (n 63/26)
+    2020: -30%   0% vs  11%  +20%  85% vs  76%  (n 61/71)
+    2021: -30%  44% vs  39%  +20%  52% vs  54%  (n 77/54)
+    2022: -30%  27% vs 100%  +20%  33% vs   0%  (n 15/1)
+    2023: -30%   0% vs   0%  +20%  24% vs  64%  (n 54/89)
+    2024: -30%   8% vs  11%  +20%  43% vs  52%  (n 72/93)
+    2025: -30%  29% vs  13%  +20%  29% vs  25%  (n 78/60)
+
+Q3  ETH, 160D DUE x 2+ same-asset charts agreeing
+  due, 2+ agree        n= 126 -30%  20% -20%  33% dip  -10.7% +20%  71%
+  due, 0-1 agree       n= 152 -30%  32% -20%  49% dip  -19.5% +20%  57%
+  not due, 2+ agree    n= 117 -30%  21% -20%  30% dip  -16.2% +20%  58%
+  not due, 0-1 agree   n= 150 -30%  31% -20%  42% dip  -17.4% +20%  57%
+
+Q4  same rows, proj.py bandpass construct, 160D
+  bandpass DUE n= 465 -30%  18% -20%  30% dip  -10.9% +20%  59%
+  bandpass not n= 500 -30%  23% -20%  41% dip  -16.0% +20%  48%
+
+  160D: -30% cut -0.4, +20% lift +1.2; by period [(7.265002655337227, 14.976101964949542), (-7.249563109532668, -16.50600372061559)]; charts same direction 3/8
+  VERDICT 160D: NOT CARRIED
+
+Q2  80D: signals by whether a price-cycle low is DUE (dist < 0.2)
+  ETH DUE n= 252 -30%  33% -20%  45% dip  -18.3% +20%  62%
+      not n= 298 -30%  21% -20%  35% dip  -14.4% +20%  60%
+  BTC DUE n= 242 -30%  14% -20%  25% dip   -8.9% +20%  59%
+      not n= 300 -30%  14% -20%  34% dip  -12.4% +20%  48%
+  ALL DUE n= 494 -30%  23% -20%  35% dip  -13.5% +20%  61%
+      not n= 598 -30%  17% -20%  34% dip  -13.5% +20%  54%
+    to 2021: DUE n= 307 -30%  30% -20%  44% dip  -16.2% +20%  67% | not n= 323 -30%  24% -20%  39% dip  -14.5% +20%  69%
+    2022 on: DUE n= 187 -30%  13% -20%  20% dip  -11.3% +20%  50% | not n= 275 -30%  10% -20%  29% dip  -13.0% +20%  36%
+    ETH 1D: -30%  35% vs  19%  +20%  60% vs  60%  (n 126/154)
+    ETH 2D: -30%  33% vs  24%  +20%  64% vs  60%  (n 64/72)
+    ETH 3D: -30%  30% vs  27%  +20%  58% vs  52%  (n 43/44)
+    ETH 5D: -30%  21% vs  14%  +20%  74% vs  68%  (n 19/28)
+    BTC 1D: -30%  13% vs  13%  +20%  58% vs  50%  (n 115/153)
+    BTC 2D: -30%  10% vs  19%  +20%  60% vs  47%  (n 67/70)
+    BTC 3D: -30%  16% vs  13%  +20%  63% vs  43%  (n 43/46)
+    BTC 5D: -30%  29% vs  10%  +20%  53% vs  45%  (n 17/31)
+    2016: -30%  42% vs   8%  +20%  67% vs  81%  (n 24/37)
+    2017: -30%  32% vs  15%  +20%  92% vs  92%  (n 53/85)
+    2018: -30%  71% vs  59%  +20%  32% vs  37%  (n 38/41)
+    2019: -30%  12% vs  14%  +20%  62% vs  59%  (n 52/37)
+    2020: -30%   9% vs   2%  +20%  78% vs  83%  (n 74/58)
+    2021: -30%  38% vs  46%  +20%  59% vs  46%  (n 66/65)
+    2023: -30%   0% vs   0%  +20%  69% vs  37%  (n 54/89)
+    2024: -30%   8% vs  11%  +20%  49% vs  47%  (n 84/81)
+    2025: -30%  35% vs  16%  +20%  31% vs  26%  (n 49/89)
+
+  ENTRY QUALITY ONLY. Computed signals, not fills.
