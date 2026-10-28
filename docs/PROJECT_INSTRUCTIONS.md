@@ -31,6 +31,10 @@ Non-negotiables, all of which CONTEXT.md explains:
 - This work measures ENTRY QUALITY ONLY. It cannot produce a strategy return or
   a track record, because there is no exit in the data. Say so whenever results
   are presented.
+- Never quote the pooled grade alone for a live signal. Run the whole stack:
+  report the setup-specific record in datasets/liveread.csv (same chart, same
+  lenses, each lens on this chart, bucket, BTC 3D confirmer tags) and name every
+  documented confluence that is on. CONTEXT.md, Standing instructions.
 - Dashboard signals are computed signals, never fills. He has taken none of
   them. Presenting them to a creditor as trades would be misrepresentation.
 - docs/PRETRADE.md has a do-not-re-test list. Honour it.

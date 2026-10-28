@@ -121,6 +121,13 @@
     <div class="vd" id="vd"><span class="dot"></span><span class="t"></span><span class="s"></span></div>
   </div>
 </details>
+<details class="fold" open><summary><span>This setup — every read we have</span></summary>
+  <div class="panel tw"><table id="lrtab" data-source="liveread" data-row-key="chart,read"><thead><tr>
+    <th data-field="chart">Chart</th><th data-field="read">Read</th><th data-field="n">Setups</th><th data-field="reach20">+20%</th>
+    <th data-field="touched30">Touched &minus;30%</th><th data-field="medDip">Median dip</th><th data-field="worstTenthMedian">Worst-case median</th><th data-field="sample">Sample</th>
+  </tr></thead><tbody></tbody></table></div>
+  <p class="note" style="padding:0 2px;margin-top:9px">Recomputed every run for each forming low: the pooled grade, this chart with these exact lenses, each lens on and off this chart, the bucket, and the BTC 3D confirmer&rsquo;s own tags. Provisional until the low confirms. Historical rates, %. Entry quality only &mdash; computed signals, not fills.</p>
+</details>
 <details class="fold"><summary><span>The ladder — where every chart sits</span></summary>
   <div class="panel">
     <div class="armhdr"><div class="armstate" id="armState">—</div><div class="armsub" id="armSub">—</div></div>
@@ -307,6 +314,7 @@ dash.onData(()=>{
     fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","worstTenthMedian","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
+  const lr=dash.data("liveread"); if(lr.status==="ok"){fillTable("lrtab",lr.data||[],["chart","read","n","reach20","touched30","medDip","worstTenthMedian","sample"]);}
   if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}
   if(TIERS.length&&LIVE.length){drawAction(); drawLadder();}
   render();

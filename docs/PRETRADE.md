@@ -249,6 +249,8 @@ Tier 1.
 
 ## Conviction grade — report with every signal (27-28 Oct 2026)
 
+**Report the setup's own record, not just the grade.** `datasets/liveread.csv` (recomputed every run, shown on the dashboard as "This setup — every read we have") gives this chart with these exact lenses, each lens on vs off this chart, the bucket and the BTC 3D confirmer's tags. Lead with that; the pooled grade is context.
+
 *`analysis/grade.py`, `grade2.py` (addendum), `grade3.py` (audit of every
 documented read), all declared, with placebo checks on the added lenses.*
 Not a filter: every signal is still a signal; the grade says how much history

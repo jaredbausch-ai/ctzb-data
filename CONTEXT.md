@@ -1008,6 +1008,17 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**Never quote the pooled grade alone (set 28 Oct 2026, after Jared had to correct it).**
+Any read on a live or forming signal runs the whole stack and reports the
+setup-specific record from `datasets/liveread.csv` (written by `grade_live.py`
+every pipeline run): this chart with exactly / at least these lenses, each lens
+on vs off this chart, the bucket, and the BTC 3D confirmer's own tags (diamond,
+prime, bucket) with this chart's record after that kind of confirmer. The pooled
+grade averages every chart and every mix; it is context, not the number for the
+trade. The same file is the source for anything client-facing. Before answering,
+check every documented confluence in PRETRADE.md (Tier 1, Promising, flags) and
+name each one that is on, with its record.
+
 **When he asks for statistics on a signal, always include the positioning read
 (set 23 Oct 2026):** run `python3 -I analysis/posread.py --asset <ETH|BTC>
 --date <entry date>` and report funding vs its 90-day median (below = caution
