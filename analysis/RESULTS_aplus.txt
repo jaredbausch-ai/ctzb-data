@@ -1,0 +1,77 @@
+A+ ONLY -- ETH 1D-5D, 2020 on | 104 signals | entry quality only, computed signals, not fills
+
+  all A+         n=104 | +10%  86% +20%  75% +30%  57% | +20% before -20%  72% | green at 60d  74% | best move median +34.9% | dip first median -5.5% 1-in-10 -14.8% | 60d dip median -10.9% 1-in-10 -27.1% | touched -20%  17% -30%   7% | days to high 41
+  2020-21        n= 42 | +10%  98% +20%  95% +30%  79% | +20% before -20%  88% | green at 60d  90% | best move median +68.3% | dip first median -6.3% 1-in-10 -17.8% | 60d dip median -11.5% 1-in-10 -27.1% | touched -20%  19% -30%   7% | days to high 53
+  2022-26        n= 62 | +10%  77% +20%  61% +30%  42% | +20% before -20%  61% | green at 60d  63% | best move median +25.6% | dip first median -4.9% 1-in-10 -14.2% | 60d dip median -10.6% 1-in-10 -26.6% | touched -20%  16% -30%   6% | days to high 35
+  ETH 1D         n= 51 | +10%  86% +20%  76% +30%  55% | +20% before -20%  75% | green at 60d  73% | best move median +34.9% | dip first median -4.9% 1-in-10 -14.3% | 60d dip median -11.4% 1-in-10 -27.7% | touched -20%  18% -30%   8% | days to high 40
+  ETH 2D         n= 22 | +10%  77% +20%  77% +30%  64% | +20% before -20%  77% | green at 60d  68% | best move median +55.2% | dip first median -6.5% 1-in-10 -14.3% | 60d dip median -10.6% 1-in-10 -26.6% | touched -20%  14% -30%   5% | days to high 45
+  ETH 3D         n= 18 | +10%  89% +20%  67% +30%  50% | +20% before -20%  61% | green at 60d  78% | best move median +30.2% | dip first median -5.5% 1-in-10 -19.6% | 60d dip median -11.2% 1-in-10 -25.7% | touched -20%  17% -30%   6% | days to high 40
+  ETH 5D         n= 13 | +10%  92% +20%  77% +30%  62% | +20% before -20%  69% | green at 60d  85% | best move median +35.0% | dip first median -5.9% 1-in-10 -16.2% | 60d dip median -12.0% 1-in-10 -27.1% | touched -20%  23% -30%   8% | days to high 43
+
+By year (signals | episodes):
+  2020 (9 ep.)   n= 24 | +10% 100% +20% 100% +30%  96% | +20% before -20% 100% | green at 60d 100% | best move median +71.8% | dip first median -5.7% 1-in-10 -14.3% | 60d dip median -6.0% 1-in-10 -14.3% | touched -20%   0% -30%   0% | days to high 56
+  2021 (5 ep.)   n= 18 | +10%  94% +20%  89% +30%  56% | +20% before -20%  72% | green at 60d  78% | best move median +36.7% | dip first median -6.8% 1-in-10 -25.8% | 60d dip median -19.0% 1-in-10 -51.2% | touched -20%  44% -30%  17% | days to high 36
+  2023 (8 ep.)   n= 21 | +10%  76% +20%  57% +30%  33% | +20% before -20%  57% | green at 60d  71% | best move median +21.7% | dip first median -5.9% 1-in-10 -14.7% | 60d dip median -9.0% 1-in-10 -19.4% | touched -20%   0% -30%   0% | days to high 41
+  2024 (9 ep.)   n= 29 | +10%  79% +20%  69% +30%  45% | +20% before -20%  69% | green at 60d  55% | best move median +28.8% | dip first median -4.9% 1-in-10 -14.2% | 60d dip median -13.7% 1-in-10 -27.7% | touched -20%  21% -30%   3% | days to high 26
+  2025 (7 ep.)   n= 12 | +10%  75% +20%  50% +30%  50% | +20% before -20%  50% | green at 60d  67% | best move median +38.6% | dip first median -4.5% 1-in-10 -9.3% | 60d dip median -7.3% 1-in-10 -44.1% | touched -20%  33% -30%  25% | days to high 37
+
+Episodes: 38 | at least one signal reached +20%: 27 | every signal in it touched -30%: 5
+Episode list (first signal date, charts, best move of the best signal, worst 60d dip of the first signal):
+  2020-04-18  1D  best +35%  first-signal 60d dip -11%  +20%: yes
+  2020-05-09  1D  best +21%  first-signal 60d dip -16%  +20%: yes
+  2020-05-27  1D, 2D, 3D, 5D  best +71%  first-signal 60d dip -2%  +20%: yes
+  2020-07-06  1D  best +102%  first-signal 60d dip -5%  +20%: yes
+  2020-07-22  1D, 2D, 3D  best +85%  first-signal 60d dip -2%  +20%: yes
+  2020-10-09  1D, 2D, 5D  best +74%  first-signal 60d dip -1%  +20%: yes
+  2020-11-05  1D, 2D  best +180%  first-signal 60d dip -0%  +20%: yes
+  2020-11-21  2D  best +160%  first-signal 60d dip -13%  +20%: yes
+  2020-12-17  1D, 2D, 3D, 5D  best +226%  first-signal 60d dip -14%  +20%: yes
+  2021-02-03  1D, 3D, 5D  best +29%  first-signal 60d dip -23%  +20%: yes
+  2021-04-03  1D, 2D, 3D, 5D  best +118%  first-signal 60d dip -14%  +20%: yes
+  2021-05-07  1D, 5D  best +26%  first-signal 60d dip -51%  +20%: yes
+  2021-10-01  1D, 2D  best +47%  first-signal 60d dip -2%  +20%: yes
+  2021-11-08  1D  best +1%  first-signal 60d dip -36%  +20%: no
+  2023-02-20  1D, 3D  best +33%  first-signal 60d dip -20%  +20%: yes
+  2023-04-05  1D  best +12%  first-signal 60d dip -9%  +20%: no
+  2023-04-30  2D  best +8%  first-signal 60d dip -13%  +20%: no
+  2023-05-30  1D, 2D, 5D  best +10%  first-signal 60d dip -15%  +20%: no
+  2023-07-01  1D, 2D  best +6%  first-signal 60d dip -20%  +20%: no
+  2023-10-03  1D, 3D  best +46%  first-signal 60d dip -8%  +20%: yes
+  2023-10-21  1D, 3D, 5D  best +48%  first-signal 60d dip -0%  +20%: yes
+  2023-11-26  1D, 2D, 3D, 5D  best +32%  first-signal 60d dip -4%  +20%: yes
+  2024-01-10  1D, 5D  best +55%  first-signal 60d dip -16%  +20%: yes
+  2024-02-07  1D  best +69%  first-signal 60d dip -1%  +20%: yes
+  2024-02-20  1D, 3D  best +36%  first-signal 60d dip -5%  +20%: yes
+  2024-04-29  1D  best +24%  first-signal 60d dip -12%  +20%: yes
+  2024-05-17  1D, 3D, 5D  best +28%  first-signal 60d dip -9%  +20%: yes
+  2024-08-23  1D  best +2%  first-signal 60d dip -22%  +20%: no
+  2024-09-19  1D, 2D  best +40%  first-signal 60d dip -6%  +20%: yes
+  2024-10-12  1D, 2D  best +65%  first-signal 60d dip -5%  +20%: yes
+  2024-11-01  1D, 2D, 3D, 5D  best +64%  first-signal 60d dip -6%  +20%: yes
+  2025-01-20  2D  best +5%  first-signal 60d dip -47%  +20%: no
+  2025-04-19  1D, 3D  best +79%  first-signal 60d dip -5%  +20%: yes
+  2025-07-04  1D, 2D, 5D  best +98%  first-signal 60d dip -1%  +20%: yes
+  2025-08-10  3D  best +17%  first-signal 60d dip -10%  +20%: no
+  2025-08-24  2D  best +0%  first-signal 60d dip -27%  +20%: no
+  2025-10-06  3D  best +2%  first-signal 60d dip -44%  +20%: no
+  2025-12-04  1D  best +11%  first-signal 60d dip -31%  +20%: no
+
+Lens combinations behind A+:
+  GAP + HIGH + AGREE + FUND + FCOOL: 24
+  HIGH + AGREE + FUND + FCOOL: 15
+  GAP + HIGH + FUND + FCOOL: 9
+  GAP + HIGH + AGREE + BTC3 + FUND + FCOOL: 9
+  HIGH + AGREE + BTC3 + FUND + FCOOL: 8
+  HIGH + AGREE + BTC3 + FCOOL: 6
+  GAP + HIGH + AGREE + FUND: 6
+  HIGH + BTC3 + FUND + FCOOL: 5
+  GAP + HIGH + AGREE + BTC3 + FCOOL: 3
+  AGREE + BTC3 + FUND + FCOOL: 3
+  GAP + HIGH + AGREE + BTC3 + FUND: 3
+  GAP + HIGH + BTC3 + FCOOL: 2
+  GAP + HIGH + AGREE + BTC3: 2
+  GAP + HIGH + BTC3 + FUND: 2
+  GAP + HIGH + AGREE + FCOOL: 2
+  HIGH + AGREE + BTC3 + FUND: 2
+  GAP + HIGH + BTC3 + FUND + FCOOL: 2
+  GAP + AGREE + FUND + FCOOL: 1
