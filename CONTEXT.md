@@ -748,6 +748,11 @@ agreeing still reads 71% / -30% 20% vs 57-58% elsewhere (n=126), unsplit by
 period -- watch only. On the same rows the bandpass construct reads DUE 59% /
 -30% 18% vs 48% / 23%: whatever it measures, it is not a cycle low.
 
+**HURST IS CLOSED (Jared, 27 Oct 2026).** He deleted the indicator after the
+results below. Do not re-open Hurst cycles, FLDs or cycle-low projections. The
+open problem it was meant to solve stays open: telling a big-low signal apart
+from the ordinary ones, i.e. weeding out losing clusters.
+
 **Narrowing the 160D window -- measured 27 Oct 2026, `analysis/hurstnest.py`,
 declared.** (1) Every real 160D low (ETH 18/18, BTC 15/15, 1D chart) was
 followed by an UNGATED CTZB 1D/2D signal confirming 0-4 days later, median 2
