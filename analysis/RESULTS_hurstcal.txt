@@ -1,0 +1,40 @@
+HURST CYCLE-LOW CALIBRATION -- declared 27 Oct 2026, run 2026-10-27 | accuracy only
+
+160D
+  ETH 1D: V0 0.33/28%  V1 0.28/44%  V2 0.33/28%  V3 0.33/22%  V4 0.19/56%  V5 0.24/42%  V6 0.26/25%
+  ETH 2D: V0 0.33/33%  V1 0.27/44%  V2 0.33/33%  V3 0.32/22%  V4 0.19/50%  V5 0.25/42%  V6 0.27/25%
+  ETH 3D: V0 0.33/22%  V1 0.27/44%  V2 0.33/22%  V3 0.33/22%  V4 0.20/50%  V5 0.25/33%  V6 0.27/25%
+  ETH 5D: V0 0.30/22%  V1 0.25/44%  V2 0.30/22%  V3 0.30/28%  V4 0.20/50%  V5 0.26/33%  V6 0.26/25%
+  BTC 1D: V0 0.30/43%  V1 0.22/50%  V2 0.30/43%  V3 0.25/43%  V4 0.22/43%  V5 0.28/27%  V6 0.24/45%
+  BTC 2D: V0 0.30/43%  V1 0.22/50%  V2 0.30/43%  V3 0.25/43%  V4 0.22/43%  V5 0.28/27%  V6 0.24/45%
+  BTC 3D: V0 0.30/43%  V1 0.21/50%  V2 0.30/43%  V3 0.24/43%  V4 0.22/43%  V5 0.33/25%  V6 0.23/50%
+  BTC 5D: V0 0.30/36%  V1 0.23/43%  V2 0.30/36%  V3 0.23/29%  V4 0.26/36%  V5 0.28/27%  V6 0.25/45%
+  pooled ETH/BTC 1D+2D:            discovery (to 2021)                     | holdout (2022 on)
+    V0: n=26 |err| 0.32 in-window  27% bias -0.32 | n=38 |err| 0.32 in-window  42% bias -0.32
+    V1: n=26 |err| 0.19 in-window  54% bias -0.19 | n=38 |err| 0.26 in-window  42% bias -0.22
+    V2: n=26 |err| 0.32 in-window  27% bias -0.32 | n=38 |err| 0.32 in-window  42% bias -0.32
+    V3: n=26 |err| 0.37 in-window  38% bias -0.37 | n=38 |err| 0.29 in-window  26% bias -0.25
+    V4: n=26 |err| 0.20 in-window  50% bias -0.19 | n=38 |err| 0.21 in-window  47% bias -0.15
+    V5: n=12 |err| 0.24 in-window  33% bias -0.21 | n=34 |err| 0.32 in-window  35% bias -0.32
+    V6: n=12 |err| 0.24 in-window  33% bias -0.21 | n=34 |err| 0.26 in-window  35% bias -0.26
+  chosen on discovery: V1 -> holdout n=38 |err| 0.26 in-window  42% bias -0.22 vs V0 n=38 |err| 0.32 in-window  42% bias -0.32 -> KEEP V0
+
+80D
+  ETH 1D: V0 0.32/32%  V1 0.26/32%  V2 0.32/35%  V3 0.31/39%  V4 0.24/42%  V5 0.29/42%  V6 0.21/50%
+  ETH 2D: V0 0.34/35%  V1 0.26/39%  V2 0.32/39%  V3 0.27/42%  V4 0.22/39%  V5 0.34/43%  V6 0.23/50%
+  ETH 3D: V0 0.32/35%  V1 0.24/35%  V2 0.31/35%  V3 0.26/39%  V4 0.22/42%  V5 0.23/46%  V6 0.19/57%
+  ETH 5D: V0 0.32/30%  V1 0.26/33%  V2 0.31/27%  V3 0.26/40%  V4 0.22/40%  V5 0.22/48%  V6 0.21/48%
+  BTC 1D: V0 0.28/39%  V1 0.24/42%  V2 0.31/36%  V3 0.27/39%  V4 0.19/55%  V5 0.23/33%  V6 0.20/52%
+  BTC 2D: V0 0.27/39%  V1 0.25/45%  V2 0.32/36%  V3 0.28/39%  V4 0.17/58%  V5 0.29/38%  V6 0.23/45%
+  BTC 3D: V0 0.31/39%  V1 0.25/42%  V2 0.33/36%  V3 0.27/36%  V4 0.17/58%  V5 0.22/41%  V6 0.20/52%
+  BTC 5D: V0 0.27/45%  V1 0.23/45%  V2 0.31/33%  V3 0.26/39%  V4 0.22/48%  V5 0.30/33%  V6 0.22/44%
+  pooled ETH/BTC 1D+2D:            discovery (to 2021)                     | holdout (2022 on)
+    V0: n=68 |err| 0.21 in-window  46% bias -0.17 | n=60 |err| 0.39 in-window  27% bias -0.39
+    V1: n=68 |err| 0.26 in-window  37% bias -0.26 | n=60 |err| 0.23 in-window  43% bias -0.18
+    V2: n=68 |err| 0.30 in-window  40% bias -0.20 | n=60 |err| 0.32 in-window  33% bias -0.32
+    V3: n=68 |err| 0.20 in-window  51% bias -0.19 | n=60 |err| 0.32 in-window  27% bias -0.32
+    V4: n=68 |err| 0.20 in-window  50% bias -0.16 | n=60 |err| 0.21 in-window  47% bias -0.19
+    V5: n=54 |err| 0.21 in-window  48% bias -0.19 | n=56 |err| 0.40 in-window  30% bias -0.40
+    V6: n=54 |err| 0.16 in-window  61% bias -0.05 | n=56 |err| 0.23 in-window  38% bias -0.23
+  chosen on discovery: V6 -> holdout n=56 |err| 0.23 in-window  38% bias -0.23 vs V0 n=60 |err| 0.39 in-window  27% bias -0.39 -> ADOPT V6
+

@@ -73,12 +73,34 @@ def swing_lows(low, tgt):
     return kept
 
 
-def dist_series(low, tgt, shift=0.0):
-    kept = swing_lows(low, tgt); n = len(low); out = [None] * n; proj_at = [None] * n
-    known = []; ki = 0
+def stream(low, tgt):
+    """Causal version of swing_lows, identical to the Pine indicator: at bar i a
+    low confirmed at i (candidate j = i - R) is appended, or replaces the last
+    low if within 0.6 tgt and lower, or is ignored. Returns per bar the list of
+    known lows and an event code ('new' / 'replace' / None). Fixed 27 Oct 2026
+    late: swing_lows() resolved replacements with hindsight, so a low that was
+    later replaced was never 'known' even while it stood."""
+    Lb, Rb = max(2, round(0.5 * tgt)), max(2, round(0.25 * tgt))
+    n = len(low); known = []; ev = [None] * n; snap = [None] * n
     for i in range(n):
-        while ki < len(kept) and kept[ki][1] <= i:
-            known.append(kept[ki][0]); ki += 1
+        j = i - Rb
+        if j >= Lb:
+            w = low[j - Lb:i + 1]
+            if low[j] == min(w) and not any(low[x] == low[j] for x in range(j - Lb, j)):
+                if known and j - known[-1] < 0.6 * tgt:
+                    if low[j] < low[known[-1]]:
+                        known = known[:-1] + [j]; ev[i] = 'replace'
+                else:
+                    known = known + [j]; ev[i] = 'new'
+        snap[i] = known
+    return snap, ev
+
+
+def dist_series(low, tgt, shift=0.0):
+    snap, ev = stream(low, tgt); n = len(low); out = [None] * n; proj_at = [None] * n
+    kept = [(snap[i][-1], i) for i in range(n) if ev[i] == 'new']
+    for i in range(n):
+        known = snap[i]
         if not known: continue
         sp = [known[k] - known[k - 1] for k in range(max(1, len(known) - 3), len(known))]
         per = st.median(sp) if len(sp) >= 2 else 1.25 * tgt

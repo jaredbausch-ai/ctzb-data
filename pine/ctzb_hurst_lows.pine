@@ -1,5 +1,5 @@
 //@version=6
-// CTZB Hurst Lows v1 - 27 Oct 2026
+// CTZB Hurst Lows v1.1 - 27 Oct 2026
 // Forward-looking Hurst cycle lows, drawn from PRICE swing lows. Identical
 // construct to analysis/hurstlow.py, so what you see here is what was measured.
 //
@@ -14,19 +14,21 @@
 //   period around it. Background tint = "DUE" (within 0.2 period), the state
 //   the test scored.
 //
-// WHAT THE TEST SAID (27 Oct 2026, analysis/RESULTS_hurstlow.txt). Read it
-// before trusting the boxes:
-//   160D: the actual low came a median 0.33 period (~55 days) EARLIER than
-//         projected; only 17-36% landed inside the +/-0.2 window. Signals
-//         inside the DUE window did no better overall, and the effect flipped
-//         sign between 2016-21 and 2022-26. Not carried.
-//   80D:  tighter. BTC 61% inside the window, ETH 40-48%, median miss
-//         0.15-0.27 period, also early-biased.
-//   The dotted line at each swing low marks where the previous projection
-//   had put it, so the miss is visible on the chart.
+// v1.1 (27 Oct 2026, late): no roll-forward. v1 jumped the projection a whole
+// period ahead once a low was half a period late; that made late lows score as
+// "early" and was the source of the early bias reported at first. Against the
+// plain projection (last low + period) lows are about as often early as late
+// (median error -0.20 ETH 160D, ~0 elsewhere), but the spread is wide: 20-33%
+// arrive more than half a period late. Cycles have LENGTHENED since 2022
+// (median gap between lows, 1D: ETH 160D 145 -> 174 days, BTC 174 -> 206;
+// 80D ETH 89 -> 114, BTC 84 -> 96), all longer than Hurst's nominal 136 / 68.
+// Signals inside a 160D DUE window did no better overall and the effect flipped
+// between 2016-21 and 2022-26 (analysis/RESULTS_hurstlow.txt). Not carried.
+// The dotted line at each swing low marks where the previous projection had
+// put it, so the miss is visible on the chart.
 // Context only. Not a filter. Computed, not fills.
 
-indicator("CTZB Hurst Lows v1", overlay = true, max_boxes_count = 50, max_labels_count = 300, max_lines_count = 300)
+indicator("CTZB Hurst Lows v1.1", overlay = true, max_boxes_count = 50, max_labels_count = 300, max_lines_count = 300)
 
 show160 = input.bool(true,  "Show 160D degree", group = "Degrees")
 show80  = input.bool(true,  "Show 80D degree",  group = "Degrees")
@@ -90,9 +92,7 @@ degree(float nomDays, bool on, color col, string nm) =>
     per := math.min(math.max(per, 0.8 * tgt), 1.6 * tgt)
     float proj = na
     if n > 0
-        proj := array.get(lows, n - 1) + per
-        while proj < bar_index - 0.5 * per
-            proj += per
+        proj := array.get(lows, n - 1) + per      // no roll-forward: a late low shows as OVERDUE
     lastProj := proj
     float dist = n > 0 ? (proj - bar_index) / per : na
     int projT = n > 0 ? int(time + (proj - bar_index) * tfMs) : na
@@ -127,9 +127,9 @@ if barstate.islast
         table.cell(tb, 0, 1, "160D")
         table.cell(tb, 1, 1, str.format_time(t160, "yyyy-MM-dd", "UTC"))
         table.cell(tb, 2, 1, str.tostring(math.round(win * p160)))
-        table.cell(tb, 3, 1, d160 < win ? "yes" : "no")
+        table.cell(tb, 3, 1, d160 < -win ? "overdue " + str.tostring(math.round(-d160 * p160)) + "d" : d160 < win ? "yes" : "no")
     if show80 and not na(t80)
         table.cell(tb, 0, 2, "80D")
         table.cell(tb, 1, 2, str.format_time(t80, "yyyy-MM-dd", "UTC"))
         table.cell(tb, 2, 2, str.tostring(math.round(win * p80)))
-        table.cell(tb, 3, 2, d80 < win ? "yes" : "no")
+        table.cell(tb, 3, 2, d80 < -win ? "overdue " + str.tostring(math.round(-d80 * p80)) + "d" : d80 < win ? "yes" : "no")

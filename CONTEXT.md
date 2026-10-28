@@ -731,8 +731,15 @@ surrounding cycle range at those troughs: median 0.43 ETH 1D / 0.47 BTC 1D /
 times a phase point of the filter, not a bottom, which may be why the gradient
 is jagged. Rebuilt on actual price swing lows (`analysis/hurstlow.py`, declared,
 and `pine/ctzb_hurst_lows.pine`, the same construct): 160D price-low
-projections miss by a median 0.33 period, consistently EARLY (the real low comes
-~55 days before the projection), only 17-36% inside +/-0.2 period; DUE vs not
+projections first appeared to miss a median 0.33 period EARLY -- that was an
+artefact of the roll-forward rule (a projection half a period overdue jumped a
+whole period ahead, so late lows scored as early). Against the plain
+projection, last low + period, errors centre near zero (ETH 160D -0.20, others
+-0.0 to +0.04) but 20-33% of lows arrive more than half a period late. Cycles
+have LENGTHENED since 2022 (median gap between lows, 1D: ETH 160D 145 -> 174
+days, BTC 174 -> 206; 80D 89 -> 114 / 84 -> 96), not shortened. The
+hurstcal.py bias-correction variants were correcting that artefact, so none is
+adopted despite the rule's "ADOPT V6" on 80D. Signals: DUE vs not
 at signals is flat pooled (+20% 55% vs 53%, -30% 20% vs 20%) and flips sign
 between periods (72/57 then 33/49). NOT CARRIED. 80D is tighter (BTC 61% inside
 the window, ETH 40-48%, median miss 0.15-0.27, also early). ETH 160D DUE x 2+
