@@ -52,6 +52,7 @@ Run from the repo root with `python3 -I analysis/<script>.py`.
 | `pcrtest.py` | Options put/call at the signal (declared 27 Oct before any data): P1-P5 and Krown-style K1-K3, risk and win pass rules, placebo. Run 28 Oct: all fail, context only |
 | `pcrevents.py` | Krown-style put/call band events: setup confluence and an event study of his downside signals (declared 27 Oct, context only). Run 28 Oct |
 | `krowncal.py` | Our Deribit put/call percentile vs the weeks Krown marked (docs/reference/krown_pcr_reference.md). 8/13 matched, 28 Oct |
+| `usdtd_div.py` | USDT dominance 2D (his TV export, data/ext/): bearish Stoch divergence and CT RSI rejected at 50, then USDT.D / ETH / BTC over 20-60d. Declared 28 Oct, context only. Both together: 1 prior case (Jan 2024) |
 | `hurstlow.py`, `RESULTS_hurstlow.txt` | Hurst forward cycle lows rebuilt on price swing lows (causal stream identical to the Pine); 160D not carried |
 | `hurstcal.py`, `RESULTS_hurstcal.txt`, `RESULTS_hurstcal_run1_hindsight.txt` | Projection calibration variants; the "early" bias was a roll-forward artefact; nothing adopted |
 | `hurstnest.py`, `RESULTS_hurstnest.txt` | Narrowing the 160D window: signals time big lows within days, the window cannot pick which. Hurst closed |
