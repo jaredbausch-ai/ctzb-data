@@ -11,7 +11,10 @@ re-choose lenses. The lens list is read from analysis/grade.json.
   median). BTC lenses: GAP, UP8 (8D CT rising). 8D signals are not graded.
 
 Writes / changes, in datasets/:
-  grades.csv     the record of each grade: signals per year, +20% in 60 days
+  grades.csv     the record of each grade (worstTenthMedian = the median dip
+                 among the worst 10% of that grade's signals, the "worst-case
+                 median" the dashboard sizes against, at Jared's request 28 Oct):
+                 signals per year, +20% in 60 days
                  with its worst plausible rate, touched -30% / -20%, median dip
                  in 60 days, median dip before the high, the 1-in-4 and 1-in-10
                  dips, median / top-quarter / largest upside. ETH from 2020
@@ -142,14 +145,15 @@ def main():
             G = [r for r in G0 if r['grade'] == g]
             n = len(G)
             if not n:
-                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '']); continue
+                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '', '']); continue
             k = sum(r['win'] for r in G); dds = sorted(r['m']['dd'] for r in G); ups = sorted(r['m']['up'] for r in G)
             out.append([a, g, n, round(n / yrs, 1), round(100 * k / n), round(wilson_lo(k, n)),
                         round(100 * sum(r['t30'] for r in G) / n), round(100 * sum(r['t20'] for r in G) / n),
                         round(st.median(dds), 1), round(st.median(r['m']['ddpk'] for r in G), 1),
                         round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                         round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
-                        f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1)])
+                        f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1),
+                        round(st.median(dds[:max(1, round(0.10 * n))]), 1)])
     G0 = [r for r in rows if r['a'] == 'ETH' and r['tf'] in GRADED_TF and r['fund'] is not None and r['fcool_ok']]
     yrs = max(1, len({r['yr'] for r in G0}))
     for r in rows: r['marker'] = bool(r['prime'] or r['dis'])
@@ -163,10 +167,11 @@ def main():
                     round(st.median(dds), 1), round(st.median(r['m']['ddpk'] for r in G), 1),
                     round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                     round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
-                    f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1)])
+                    f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1),
+                    round(st.median(dds[:max(1, round(0.10 * n))]), 1)])
     wcsv(os.path.join(OUT, 'grades.csv'),
          ['asset', 'grade', 'n', 'perYear', 'reach20', 'worstPlausible', 'touched30', 'touched20', 'medDip',
-          'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip'], out)
+          'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip', 'worstTenthMedian'], out)
 
     # ---- forward.csv: grade each row ----
     dates = {}

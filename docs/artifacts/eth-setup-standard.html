@@ -112,7 +112,7 @@
       <div class="c"><div class="v" id="liq">—</div><div class="k lab">Liquidates at</div></div>
       <div class="c"><div class="v" id="typ">—</div><div class="k lab">Typical dip first</div></div>
       <div class="c"><div class="v wn" id="badc">—</div><div class="k lab">Bad case · 1 in 10</div></div>
-      <div class="c"><div class="v bd" id="wrst">—</div><div class="k lab">Worst on record</div></div>
+      <div class="c"><div class="v bd" id="wrst">—</div><div class="k lab">Worst-case median</div></div>
     </div>
     <div class="vd" id="order" style="background:var(--panel);border-top:1px solid var(--rule2);margin:0 -16px 0">
       <span class="dot" style="background:var(--cy)"></span>
@@ -130,10 +130,10 @@
 <details class="fold"><summary><span>What each grade has done</span></summary>
   <div class="panel tw"><table id="tiertab" data-source="grades" data-row-key="asset,grade"><thead><tr>
     <th data-field="grade">Grade</th><th data-field="n">Setups</th><th data-field="reach20">+20%</th>
-    <th data-field="medDipBeforeHigh">Typical</th><th data-field="dip1in10">Bad case</th><th data-field="worstDip">Worst</th>
+    <th data-field="medDipBeforeHigh">Typical</th><th data-field="dip1in10">Bad case</th><th data-field="worstTenthMedian">Worst-case median</th>
     <th data-source="maxsafe" data-field="maxSafe">Max safe exposure</th>
   </tr></thead><tbody></tbody></table></div>
-  <p class="note" style="padding:0 2px;margin-top:9px">ETH signals since 2020. Typical = median dip before the high; bad case = 1 in 10; worst = worst on record within 60 days.</p>
+  <p class="note" style="padding:0 2px;margin-top:9px">ETH signals since 2020. Typical = median dip before the high; bad case = 1 in 10; worst-case median = median of the worst 10%, within 60 days.</p>
 </details>
 <details class="fold"><summary><span>The live record — every signal this year</span></summary>
   <div class="panel tw"><table id="fwdtab" data-source="forward" data-row-key="chart,entry"><thead><tr>
@@ -156,7 +156,7 @@
   <div class="panel notes">
     <p class="note"><b>Computed signals, not trades.</b> No position is represented here.</p>
     <p class="note"><b>No exit rule is in any number.</b> "+20%" means price touched it, not that it was sold.</p>
-    <p class="note"><b>Worst on record is not worst possible.</b> Leave margin; do not size to the line.</p>
+    <p class="note"><b>The worst-case median is not the worst.</b> Half of the bad cases went deeper. Leave margin; do not size to the line.</p>
     <p class="note"><b>The regime filter has a known blind spot.</b> It stayed on through the November 2021 top.</p>
   </div>
 </details>
@@ -177,8 +177,8 @@ const short=v=>v>=1000000?"$"+(v/1000000).toFixed(2)+"M":"$"+Math.round(v/1000)+
 const T=()=>TIERS.find(t=>t.id===tier)||TIERS[0];
 const el=(tag,cls,txt)=>{const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.textContent=txt; return e;};
 dash.calc("maxsafe",{inputs:["grades"],title:"Max safe exposure",
-  description:"Account exposure at which liquidation (5% maintenance margin, whole account as collateral) sits at the grade's worst dip on record.",
-  fn:(grades)=>grades.filter(r=>r.asset==="ETH"&&String(r.n)!=="0"&&r.worstDip!=="").map(r=>({asset:r.asset,grade:r.grade,maxSafe:(1/(Math.abs(+r.worstDip)/100+0.05)).toFixed(2)+"x"}))});
+  description:"Account exposure at which liquidation (5% maintenance margin, whole account as collateral) sits at the grade's worst-case median dip (the median of its worst 10%).",
+  fn:(grades)=>grades.filter(r=>r.asset==="ETH"&&String(r.n)!=="0"&&r.worstTenthMedian!=="").map(r=>({asset:r.asset,grade:r.grade,maxSafe:(1/(Math.abs(+r.worstTenthMedian)/100+0.05)).toFixed(2)+"x"}))});
 
 function drawTiers(){
   const h=$("tiers"); h.textContent="";
@@ -219,20 +219,20 @@ function render(){
   const clears=liqPct<=-100||liqPct<t.worst;
   $("orderTxt").textContent="With "+money(cap)+" — "+money(committed)+" committed and "+money(reserve)+" in USDC — "
     +nContracts.toLocaleString("en-US")+" contracts, "+ethQty.toFixed(1)+" ETH at $"+PRICE.toLocaleString("en-US",{minimumFractionDigits:2})
-    +(clears?". Survives grade "+t.label+"'s worst on record.":". Past the safe limit — "+safeN.toLocaleString("en-US")+" contracts survives every "+t.label+" drawdown on record.");
+    +(clears?". Survives grade "+t.label+"'s worst-case median.":". Past the safe limit — "+safeN.toLocaleString("en-US")+" contracts survives grade "+t.label+"'s worst-case median.");
   const pos=v=>Math.max(0,Math.min(100,Math.abs(v)/SPAN*100));
   const shown=liqPct<=-SPAN?null:liqPct;
   const tr=$("track"); tr.textContent="";
   tr.appendChild(el("div","base")); const z=el("div","zone"); z.style.width=(shown===null?100:pos(shown))+"%"; tr.appendChild(z);
-  [["typical",t.med],["bad case",t.bad],["worst",t.worst]].forEach(([lb,v])=>{const m=el("div","m"); m.style.left=pos(v)+"%";
+  [["typical",t.med],["bad case",t.bad],["worst-case median",t.worst]].forEach(([lb,v])=>{const m=el("div","m"); m.style.left=pos(v)+"%";
     m.appendChild(el("i",null,lb.toUpperCase())); m.appendChild(el("u",null,v.toFixed(1)+"%")); tr.appendChild(m);});
   const lq=el("div",shown===null?"m":"m liq"); lq.style.left=(shown===null?99:pos(shown))+"%";
   lq.appendChild(el("i",null,"LIQUIDATION")); lq.appendChild(el("u",null,shown===null?"off scale":shown.toFixed(0)+"%")); tr.appendChild(lq);
   const d=$("vd"), dot=d.querySelector(".dot"), ti=d.querySelector(".t"), s2=d.querySelector(".s");
   let c,txt,sub;
-  if(clears){c="var(--ok)";txt="Cleared";sub="Liquidation sits beyond every "+t.label+" drawdown on record.";}
-  else if(liqPct<t.bad){c="var(--warn)";txt="Marginal";sub="Survives the 1-in-10 case, not the worst on record. "+safeN.toLocaleString("en-US")+" contracts clears every past case.";}
-  else {c="var(--bad)";txt="Liquidation risk";sub="A 1-in-10 "+t.label+" drawdown ends the position. "+safeN.toLocaleString("en-US")+" contracts clears every past case.";}
+  if(clears){c="var(--ok)";txt="Cleared";sub="Liquidation sits beyond grade "+t.label+"'s worst-case median dip.";}
+  else if(liqPct<t.bad){c="var(--warn)";txt="Marginal";sub="Survives the 1-in-10 case, not the worst-case median. "+safeN.toLocaleString("en-US")+" contracts clears it.";}
+  else {c="var(--bad)";txt="Liquidation risk";sub="A 1-in-10 "+t.label+" drawdown ends the position. "+safeN.toLocaleString("en-US")+" contracts clears the worst-case median.";}
   dot.style.background=c; ti.style.color=c; ti.textContent=txt; s2.textContent=sub;
   drawTiers(); drawSizes();
 }
@@ -254,7 +254,7 @@ function drawAction(){
   l.textContent=forming.map(r=>r.chart+" ("+gOf(r)+")").join(", ")+" — "+top.barsNeeded+" bar"+(top.barsNeeded==="1"?"":"s")+" from confirming. Grade is provisional until then.";
   if(t){
     [[t.win+"%","Reach +20%",t.win>=70?"gd":"dm"],[t.med.toFixed(1)+"%","Typical dip first","dm"],
-     [t.bad.toFixed(1)+"%","Bad case, 1 in 10","wn"],[t.worst.toFixed(1)+"%","Worst on record","bd"]].forEach(([v,k,c])=>{
+     [t.bad.toFixed(1)+"%","Bad case, 1 in 10","wn"],[t.worst.toFixed(1)+"%","Worst-case median","bd"]].forEach(([v,k,c])=>{
       const cell=el("div","c"); cell.appendChild(el("div","v "+c,v)); cell.appendChild(el("div","k lab",k)); st.appendChild(cell);});
   }
   const b=el("b",null,"Lenses: "); nx.appendChild(b); nx.appendChild(document.createTextNode(top.formingLenses||"none"));
@@ -298,11 +298,11 @@ dash.onData(()=>{
   const g=dash.data("grades"), lv=dash.data("live"), fw=dash.data("forward"), ms=dash.data("maxsafe");
   if(g.status==="ok"){
     TIERS=(g.data||[]).filter(r=>r.asset==="ETH"&&["A+","A","B","C"].includes(r.grade)&&String(r.n)!=="0")
-      .map(r=>({id:r.grade,label:r.grade,n:+r.n,win:+r.reach20,med:+r.medDipBeforeHigh,bad:+r.dip1in10,worst:+r.worstDip}));
+      .map(r=>({id:r.grade,label:r.grade,n:+r.n,win:+r.reach20,med:+r.medDipBeforeHigh,bad:+r.dip1in10,worst:+r.worstTenthMedian}));
     const ms_=ms.status==="ok"?(ms.data||[]):[];
     const rows=(g.data||[]).filter(r=>r.asset==="ETH"&&["A+","A","B","C"].includes(r.grade)&&String(r.n)!=="0")
       .map(r=>Object.assign({},r,{maxSafe:(ms_.find(m=>m.grade===r.grade)||{}).maxSafe}));
-    fillTable("tiertab",rows,["grade","n","reach20","medDipBeforeHigh","dip1in10","worstDip","maxSafe"]);
+    fillTable("tiertab",rows,["grade","n","reach20","medDipBeforeHigh","dip1in10","worstTenthMedian","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
   if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}

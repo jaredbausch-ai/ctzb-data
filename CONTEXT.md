@@ -767,7 +767,7 @@ tried): FCOOL (funding not cooling) COUNTED on ETH (ETH now 6 lenses); MARKER
 (diamond or prime dot) passed but is a FLAG; dropped: PRIMEGAP, DIAGAP,
 SHALLOW, VOLRISE, OTHCT, WKMOM. Final ETH grade (2020 on): A+ 75% / -30% 7%
 (n 104, ~17/yr), A 62% / 21%, B 53% / 21%, C 44% / 30%. Note A and B tie on
--30% pooled. The dashboard page was REBUILT 28 Oct on the daily datasets, in the original dark console style with type-in amounts (Jared preferred it)
+-30% pooled. The dashboard page was REBUILT 28 Oct on the daily datasets, in the original dark console style with type-in amounts (Jared preferred it); it sizes against the WORST-CASE MEDIAN (median dip of the worst 10% of the grade's signals, grades.csv `worstTenthMedian`), not the worst on record, at Jared's request 28 Oct. The worst cases are NOT early-ETH artefacts: the deepest dips since 2020 came from May 2021, Nov-Dec 2021 and Dec 2024-Feb 2025
 (copy in docs/artifacts/eth-setup-standard.html): forming lows with grade,
 sizing against the grade's 1-in-10 and worst dips, grade table, graded live
 record, chart ladder. The old fixed 19 Oct "three checks" console is gone.
