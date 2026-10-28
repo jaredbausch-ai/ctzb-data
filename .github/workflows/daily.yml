@@ -7,7 +7,11 @@ on:
     # dashboard task had already looked. Running every four hours means a
     # delayed run costs little, since the commit step is a no-op when
     # nothing changed.
-    - cron: "20 1,5,9,13,17,21 * * *"
+    # Every candle on every chart closes at 00:00 UTC (8 PM ET in summer, 7 PM
+    # in winter). The first run of the day fires 7 minutes after that close so
+    # a confirmation is scored as soon as the bar is final (changed 28 Oct
+    # 2026); the other five keep the four-hour cadence.
+    - cron: "7 0,4,8,12,16,20 * * *"
   workflow_dispatch:
 
 permissions:
