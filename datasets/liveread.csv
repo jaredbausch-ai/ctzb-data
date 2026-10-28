@@ -332,6 +332,29 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 2D open, day 37, entry 2026-09-21",CT above its Signal on day 10 [in-trade],no,73,48,41,-7.0,-26.5,full history (record with the same answer)
 "ETH 2D open, day 37, entry 2026-09-21",Undercut the trough low (day 10 so far) [in-trade],no,89,81,13,-4.8,-9.2,full history (record with the same answer)
 "ETH 2D open, day 37, entry 2026-09-21",Down 10%+ (day 10 so far) [in-trade],no,87,77,15,-3.9,-7.3,full history (record with the same answer)
+"ETH 3D forming (provisional), confirms 2026-11-05",Grade B: FUND + FCOOL,grade,,,,,,
+"ETH 3D forming (provisional), confirms 2026-11-05",This chart with at least these lenses,record,17,65,6,-8.2,-14.0,from 2020
+"ETH 3D forming (provisional), confirms 2026-11-05",This chart with exactly these lenses,record,0,,,,,from 2020
+"ETH 3D forming (provisional), confirms 2026-11-05","This chart, every signal",record,87,55,29,-5.4,-17.0,full history
+"ETH 3D forming (provisional), confirms 2026-11-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,65,54,34,-5.3,-18.7,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,42,50,36,-4.1,-18.6,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,8,25,38,-11.6,-22.5,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Funding at or above its 90-day median [grade lens (ETH) + positioning],ON,27,52,15,-4.5,-15.0,from 2020-03-21 (record with it on)
+"ETH 3D forming (provisional), confirms 2026-11-05",Funding not cooling (7-day mean >= 14 days earlier) [grade lens (ETH)],ON,25,64,24,-8.2,-16.3,from 2020-03-21 (record with it on)
+"ETH 3D forming (provisional), confirms 2026-11-05",8D CT RSI rising on its last closed bar [grade lens (BTC) + Promising],off,38,45,34,-4.0,-19.2,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05","Bullish Stoch divergence on a higher chart, last 10 days [flag]",off,86,55,29,-5.5,-17.0,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",A diamond or a prime dot [flag],off,49,45,31,-8.7,-19.7,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",CT above Signal and a prime dot [Tier 1 #2],off,74,49,31,-6.2,-18.5,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",CT above Signal and a diamond [Tier 1 #3],off,79,56,30,-5.3,-17.0,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,55,55,33,-5.1,-17.0,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Diamond (filled / hollow) [tag],off,67,55,28,-5.4,-17.0,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Prime dot [tag],off,63,46,33,-8.4,-19.6,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Weekly momentum above its signal line [forward watch],off,52,48,37,-4.1,-20.5,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Prime dot + 2+ own charts agreeing [forward watch],off,63,46,33,-8.4,-19.6,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Prime dot + long/short ratio falling over 14 days [forward watch],off,45,47,24,-5.4,-16.5,from 2020-07-07 (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",Bucket B on this chart [tag],ON,37,51,32,-5.3,-17.0,full history
+"ETH 3D forming (provisional), confirms 2026-11-05",Regime gate [Tier 1 #6],ON,,,,,,on for 56 days
+"ETH 3D forming (provisional), confirms 2026-11-05",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 2.30 vs 1.96 2 wks ago; OI +0.3% in 14d,,,,,,
 "ETH 3D open, day 34, entry 2026-09-24",Grade A: AGREE + FUND + FCOOL,grade,,,,,,
 "ETH 3D open, day 34, entry 2026-09-24",This chart with at least these lenses,record,15,73,7,-5.6,-11.5,from 2020
 "ETH 3D open, day 34, entry 2026-09-24",This chart with exactly these lenses,record,1,100,0,-2.8,-2.8,from 2020
@@ -367,6 +390,29 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 3D open, day 34, entry 2026-09-24",CT above its Signal on day 10 [in-trade],YES,38,74,8,-4.1,-10.2,full history (record with the same answer)
 "ETH 3D open, day 34, entry 2026-09-24",Undercut the trough low (day 10 so far) [in-trade],no,60,68,15,-4.9,-11.2,full history (record with the same answer)
 "ETH 3D open, day 34, entry 2026-09-24",Down 10%+ (day 10 so far) [in-trade],no,48,69,10,-4.0,-8.8,full history (record with the same answer)
+"ETH 5D forming (provisional), confirms 2026-11-11",Grade B: FUND + FCOOL,grade,,,,,,
+"ETH 5D forming (provisional), confirms 2026-11-11",This chart with at least these lenses,record,19,79,11,-5.3,-5.9,from 2020
+"ETH 5D forming (provisional), confirms 2026-11-11",This chart with exactly these lenses,record,0,,,,,from 2020
+"ETH 5D forming (provisional), confirms 2026-11-11","This chart, every signal",record,47,70,17,-5.3,-12.0,full history
+"ETH 5D forming (provisional), confirms 2026-11-11",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,34,71,15,-5.1,-11.8,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,21,67,24,-5.0,-16.0,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,6,83,0,-9.7,-12.1,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Funding at or above its 90-day median [grade lens (ETH) + positioning],ON,22,77,9,-5.3,-11.8,from 2020-03-30 (record with it on)
+"ETH 5D forming (provisional), confirms 2026-11-11",Funding not cooling (7-day mean >= 14 days earlier) [grade lens (ETH)],ON,27,74,7,-5.3,-8.3,from 2020-03-30 (record with it on)
+"ETH 5D forming (provisional), confirms 2026-11-11",8D CT RSI rising on its last closed bar [grade lens (BTC) + Promising],off,9,78,22,-5.0,-8.2,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11","Bullish Stoch divergence on a higher chart, last 10 days [flag]",off,46,70,17,-5.1,-11.8,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",A diamond or a prime dot [flag],ON,15,73,13,-4.0,-7.2,full history (record with it on)
+"ETH 5D forming (provisional), confirms 2026-11-11",CT above Signal and a prime dot [Tier 1 #2],off,43,70,16,-5.3,-12.7,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",CT above Signal and a diamond [Tier 1 #3],off,41,68,17,-5.9,-12.7,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,31,68,16,-5.0,-11.6,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Diamond (filled / hollow) [tag],off,38,71,18,-5.6,-13.6,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Prime dot [tag],ON,8,88,12,-4.6,-5.0,full history (record with it on)
+"ETH 5D forming (provisional), confirms 2026-11-11",Weekly momentum above its signal line [forward watch],off,26,73,19,-5.8,-13.0,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Prime dot + 2+ own charts agreeing [forward watch],off,41,68,17,-5.3,-14.4,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Prime dot + long/short ratio falling over 14 days [forward watch],off,29,69,14,-5.4,-14.4,from 2020-07-13 (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11",Bucket B on this chart [tag],ON,20,75,10,-5.0,-7.7,full history
+"ETH 5D forming (provisional), confirms 2026-11-11",Regime gate [Tier 1 #6],ON,,,,,,on for 56 days
+"ETH 5D forming (provisional), confirms 2026-11-11",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 2.30 vs 1.96 2 wks ago; OI +0.3% in 14d,,,,,,
 "ETH 5D open, day 26, entry 2026-10-02",Grade B: GAP + AGREE,grade,,,,,,
 "ETH 5D open, day 26, entry 2026-10-02",This chart with at least these lenses,record,9,78,11,-5.9,-12.7,from 2020
 "ETH 5D open, day 26, entry 2026-10-02",This chart with exactly these lenses,record,0,,,,,from 2020
@@ -680,6 +726,27 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 2D open, day 23, entry 2026-10-05",CT above its Signal on day 10 [in-trade],no,79,34,24,-8.5,-19.3,full history (record with the same answer)
 "BTC 2D open, day 23, entry 2026-10-05",Undercut the trough low (day 10 so far) [in-trade],YES,47,23,28,-13.0,-21.7,full history (record with the same answer)
 "BTC 2D open, day 23, entry 2026-10-05",Down 10%+ (day 10 so far) [in-trade],no,102,65,8,-3.7,-6.5,full history (record with the same answer)
+"BTC 3D forming (provisional), confirms 2026-11-02",Grade C: no lenses,grade,,,,,,
+"BTC 3D forming (provisional), confirms 2026-11-02",This chart with at least these lenses,record,92,51,14,-4.8,-9.9,full history
+"BTC 3D forming (provisional), confirms 2026-11-02",This chart with exactly these lenses,record,33,48,12,-7.4,-11.3,full history
+"BTC 3D forming (provisional), confirms 2026-11-02","This chart, every signal",record,92,51,14,-4.8,-9.9,full history
+"BTC 3D forming (provisional), confirms 2026-11-02",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,74,51,15,-4.6,-9.9,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,40,45,12,-5.4,-13.1,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,7,86,29,-7.4,-7.4,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",Funding at or above its 90-day median [grade lens (ETH) + positioning],ON,31,39,6,-3.9,-9.2,from 2020-03-21 (record with it on)
+"BTC 3D forming (provisional), confirms 2026-11-02",Funding not cooling (7-day mean >= 14 days earlier) [grade lens (ETH)],ON,28,50,14,-3.1,-9.5,from 2020-03-21 (record with it on)
+"BTC 3D forming (provisional), confirms 2026-11-02",8D CT RSI rising on its last closed bar [grade lens (BTC) + Promising],off,38,47,13,-3.6,-11.7,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02","Bullish Stoch divergence on a higher chart, last 10 days [flag]",off,91,51,14,-4.8,-9.9,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",A diamond or a prime dot [flag],off,64,52,16,-4.4,-9.2,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",CT above Signal and a prime dot [Tier 1 #2],off,87,51,14,-4.9,-9.9,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",CT above Signal and a diamond [Tier 1 #3],off,86,49,15,-4.8,-9.9,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,58,47,17,-5.6,-11.7,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",Diamond (filled / hollow) [tag],off,76,51,17,-4.4,-9.2,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",Prime dot [tag],off,78,53,13,-4.6,-9.9,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],no data,74,50,18,-6.6,-11.4,from 2017-06-05 (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02",Bucket B on this chart [tag],ON,37,46,11,-3.3,-7.8,full history
+"BTC 3D forming (provisional), confirms 2026-11-02",Regime gate [Tier 1 #6],ON,,,,,,on for 56 days
+"BTC 3D forming (provisional), confirms 2026-11-02",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 1.72 vs 1.34 2 wks ago; OI +4.5% in 14d,,,,,,
 "BTC 3D open, day 34, entry 2026-09-24",Grade C: UP8,grade,,,,,,
 "BTC 3D open, day 34, entry 2026-09-24",This chart with at least these lenses,record,54,54,15,-5.5,-9.0,full history
 "BTC 3D open, day 34, entry 2026-09-24",This chart with exactly these lenses,record,41,54,17,-4.4,-9.2,full history
@@ -731,6 +798,27 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 3D open, day 7, entry 2026-10-21",Green on day 5 [in-trade],no,43,37,19,-7.4,-14.9,full history (record with the same answer)
 "BTC 3D open, day 7, entry 2026-10-21",Undercut the trough low (day 7 so far) [in-trade],YES,25,16,28,-10.1,-22.3,full history (record with the same answer)
 "BTC 3D open, day 7, entry 2026-10-21",Down 10%+ (day 7 so far) [in-trade],no,69,57,6,-4.2,-7.8,full history (record with the same answer)
+"BTC 5D forming (provisional), confirms 2026-11-11",Grade C: no lenses,grade,,,,,,
+"BTC 5D forming (provisional), confirms 2026-11-11",This chart with at least these lenses,record,49,47,16,-3.9,-13.0,full history
+"BTC 5D forming (provisional), confirms 2026-11-11",This chart with exactly these lenses,record,5,40,20,-3.6,-26.8,full history
+"BTC 5D forming (provisional), confirms 2026-11-11","This chart, every signal",record,49,47,16,-3.9,-13.0,full history
+"BTC 5D forming (provisional), confirms 2026-11-11",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,38,45,18,-5.2,-15.9,full history (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,20,40,15,-8.9,-20.6,full history (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,9,22,11,-9.8,-24.4,full history (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11",Funding at or above its 90-day median [grade lens (ETH) + positioning],ON,15,47,20,-3.9,-16.2,from 2020-03-30 (record with it on)
+"BTC 5D forming (provisional), confirms 2026-11-11",Funding not cooling (7-day mean >= 14 days earlier) [grade lens (ETH)],ON,24,42,21,-3.9,-16.4,from 2020-03-30 (record with it on)
+"BTC 5D forming (provisional), confirms 2026-11-11",8D CT RSI rising on its last closed bar [grade lens (BTC) + Promising],off,5,40,20,-3.6,-26.8,full history (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11","Bullish Stoch divergence on a higher chart, last 10 days [flag]",off,49,47,16,-3.9,-13.0,full history (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11",A diamond or a prime dot [flag],ON,21,62,19,-3.0,-7.5,full history (record with it on)
+"BTC 5D forming (provisional), confirms 2026-11-11",CT above Signal and a prime dot [Tier 1 #2],ON,1,100,0,-7.5,-7.5,full history (record with it on)
+"BTC 5D forming (provisional), confirms 2026-11-11",CT above Signal and a diamond [Tier 1 #3],ON,3,33,33,-3.0,-26.9,full history (record with it on)
+"BTC 5D forming (provisional), confirms 2026-11-11",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,29,45,21,-5.5,-19.7,full history (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11",Diamond (filled / hollow) [tag],ON,14,57,29,-3.4,-19.6,full history (record with it on)
+"BTC 5D forming (provisional), confirms 2026-11-11",Prime dot [tag],ON,10,60,10,-1.1,-4.3,full history (record with it on)
+"BTC 5D forming (provisional), confirms 2026-11-11",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],no data,40,42,20,-4.6,-16.7,from 2017-07-29 (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11",Bucket C on this chart [tag],ON,13,46,8,-3.9,-15.6,full history
+"BTC 5D forming (provisional), confirms 2026-11-11",Regime gate [Tier 1 #6],ON,,,,,,on for 56 days
+"BTC 5D forming (provisional), confirms 2026-11-11",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 1.72 vs 1.34 2 wks ago; OI +4.5% in 14d,,,,,,
 "BTC 5D open, day 26, entry 2026-10-02",Grade C: GAP,grade,,,,,,
 "BTC 5D open, day 26, entry 2026-10-02",This chart with at least these lenses,record,11,55,9,-3.4,-8.6,full history
 "BTC 5D open, day 26, entry 2026-10-02",This chart with exactly these lenses,record,0,,,,,full history
@@ -757,4 +845,25 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 5D open, day 26, entry 2026-10-02",CT above its Signal on day 10 [in-trade],YES,24,62,4,-3.3,-7.7,full history (record with the same answer)
 "BTC 5D open, day 26, entry 2026-10-02",Undercut the trough low (day 10 so far) [in-trade],no,40,55,12,-3.6,-9.2,full history (record with the same answer)
 "BTC 5D open, day 26, entry 2026-10-02",Down 10%+ (day 10 so far) [in-trade],no,36,61,6,-3.7,-7.7,full history (record with the same answer)
+"BTC 8D forming (provisional), confirms 2026-11-16",Grade C: no lenses,grade,,,,,,
+"BTC 8D forming (provisional), confirms 2026-11-16",This chart with at least these lenses,record,28,50,11,-4.6,-13.0,full history
+"BTC 8D forming (provisional), confirms 2026-11-16",This chart with exactly these lenses,record,8,25,0,-7.8,-19.9,full history
+"BTC 8D forming (provisional), confirms 2026-11-16","This chart, every signal",record,28,50,11,-4.6,-13.0,full history
+"BTC 8D forming (provisional), confirms 2026-11-16",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,24,54,8,-3.7,-10.6,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,11,27,9,-4.5,-19.2,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,9,33,0,-10.1,-17.5,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",Funding at or above its 90-day median [grade lens (ETH) + positioning],ON,8,62,12,-3.5,-9.7,from 2020-04-05 (record with it on)
+"BTC 8D forming (provisional), confirms 2026-11-16",Funding not cooling (7-day mean >= 14 days earlier) [grade lens (ETH)],ON,15,53,7,-4.8,-8.8,from 2020-04-05 (record with it on)
+"BTC 8D forming (provisional), confirms 2026-11-16",8D CT RSI rising on its last closed bar [grade lens (BTC) + Promising],off,8,25,0,-7.8,-19.9,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16","Bullish Stoch divergence on a higher chart, last 10 days [flag]",off,28,50,11,-4.6,-13.0,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",A diamond or a prime dot [flag],off,19,37,16,-6.6,-17.5,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",CT above Signal and a prime dot [Tier 1 #2],off,26,46,12,-4.1,-13.0,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",CT above Signal and a diamond [Tier 1 #3],off,25,48,12,-4.8,-10.6,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,20,45,10,-4.1,-12.9,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",Diamond (filled / hollow) [tag],off,22,45,14,-5.7,-13.0,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",Prime dot [tag],off,21,38,14,-4.8,-17.5,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],no data,24,42,12,-5.7,-18.4,from 2017-08-12 (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16",Bucket C on this chart [tag],ON,9,56,0,-1.5,-8.8,full history
+"BTC 8D forming (provisional), confirms 2026-11-16",Regime gate [Tier 1 #6],ON,,,,,,on for 56 days
+"BTC 8D forming (provisional), confirms 2026-11-16",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 1.72 vs 1.34 2 wks ago; OI +4.5% in 14d,,,,,,
 (all),"CT RSI day-ten three-state read (CONTEXT open items): the definition of ""both agree"" is not written in the repo, so it cannot be computed yet.",not computed,,,,,,
