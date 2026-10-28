@@ -246,6 +246,37 @@ Tier 1.
 
 ---
 
+## Conviction grade — report with every signal (27 Oct 2026)
+
+*`analysis/grade.py`, declared.* Not a filter: every signal is still a
+signal; the grade says how much history supports it, for sizing. Grade =
+count of independent lenses present, equal weights: C = 0-1, B = 2, A = 3,
+A+ = 4+.
+
+**ETH lenses:** CT > Signal by 5+; entry above the previous signal; 2+ other
+ETH charts confirmed 0-10 days before; BTC 3D confirmed 0-10 days before (1D/2D
+only); funding at or above its 90-day median (2020 on). 8D CT rising was
+dropped: it adds nothing once the higher-entry lens is known.
+
+| ETH grade (with funding, 2020 on) | per year | +20% in 60d | worst plausible | touched -30% | median dip |
+|---|---|---|---|---|---|
+| A+ | 10 | 77% (61) | 65% | 7% | -10.6% |
+| A | 10 | 66% (61) | 53% | 13% | -13.7% |
+| B | 15 | 61% (88) | 51% | 17% | -15.2% |
+| C | 24 | 45% (146) | 37% | 29% | -15.9% |
+
+Without funding (full history 2016 on): A+ 88% (25), -30% 12%; A 75% (83),
+16%; B 64% (121), 25%; C 55% (330), 32%. Ordered in both periods and in 5 of 5
+(with funding) / 6 of 8 (without) years. C holds 41% of signals but 61% of
+the -30% touches; A+ holds 17% of signals and 6% of them.
+
+**BTC:** only two lenses survive (CT > Signal by 5+, 8D CT rising), so BTC
+grades top out at B. B 66% (89), -30% 7% vs C 48% (472), 15%, ordered in both
+periods -- but that comparison was not the declared test (A/A+ vs C), so treat
+BTC grades as provisional.
+
+---
+
 ## A second lens: volatility-scaled target (26 Oct 2026)
 
 The headline win stays a fixed +20% in 60 days. Because the market moves less

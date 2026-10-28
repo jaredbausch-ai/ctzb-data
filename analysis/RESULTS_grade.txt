@@ -1,0 +1,96 @@
+CONVICTION GRADE -- declared 27 Oct 2026, run 2026-10-27 | entry quality only, computed signals, not fills
+
+STEP 1  lens effect vs its absence: -30% cut / +20% lift, by period
+  ETH GAP   to 2021 cut  +2.5 lift +15.9 (n 67/260) | 2022 on cut +17.4 lift +20.6 (n 49/183)  -> KEEP
+  ETH HIGH  to 2021 cut  +6.8 lift +12.8 (n 190/137) | 2022 on cut +16.1 lift +14.1 (n 102/130)  -> KEEP
+  ETH AGREE to 2021 cut  +8.7 lift  +2.8 (n 135/192) | 2022 on cut +13.8 lift +17.0 (n 111/121)  -> KEEP
+  ETH UP8   to 2021 cut +12.2 lift +12.0 (n 154/173) | 2022 on cut +13.2 lift +23.9 (n 109/123)  -> KEEP
+  ETH BTC3  to 2021 cut  +8.2 lift +17.3 (n 73/181) | 2022 on cut  +2.1 lift +25.0 (n 61/110)  -> KEEP
+  ETH FUND  to 2021 cut +17.1 lift  -2.3 (n 73/51) | 2022 on cut  +7.2 lift  +6.4 (n 122/110)  -> KEEP
+  BTC GAP   to 2021 cut +10.5 lift +21.5 (n 54/277) | 2022 on cut  -1.5 lift +16.9 (n 53/177)  -> KEEP
+  BTC HIGH  to 2021 cut  -1.8 lift +15.2 (n 191/140) | 2022 on cut  -3.0 lift  +6.2 (n 126/104)  -> drop
+  BTC AGREE to 2021 cut  -0.3 lift  +0.6 (n 155/176) | 2022 on cut  -3.5 lift  +1.5 (n 114/116)  -> drop
+  BTC UP8   to 2021 cut  +1.0 lift +12.5 (n 183/148) | 2022 on cut  +2.1 lift  +8.1 (n 123/107)  -> KEEP
+  BTC FUND  to 2021 cut  +3.1 lift  +8.2 (n 69/57) | 2022 on cut  +3.2 lift  +4.6 (n 109/121)  -> KEEP
+
+STEP 2  overlap between kept lenses
+  ETH GAP+HIGH: together  21% of signals vs  12% by chance; GAP inside HIGH yes/no: cut +2 lift +10, cut +27 lift +2 | HIGH inside GAP yes/no: cut -12 lift +23, cut +13 lift +14
+  ETH GAP+AGREE: together  15% of signals vs  10% by chance; GAP inside AGREE yes/no: cut +9 lift +10, cut +4 lift +18 | AGREE inside GAP yes/no: cut +14 lift +9, cut +10 lift +18
+  ETH GAP+UP8: together  16% of signals vs  11% by chance; GAP inside UP8 yes/no: cut +9 lift +11, cut +9 lift +17 | UP8 inside GAP yes/no: cut +5 lift +9, cut +4 lift +15
+  ETH GAP+BTC3: together   6% of signals vs   5% by chance; GAP inside BTC3 yes/no: cut +5 lift +15, cut +12 lift +17 | BTC3 inside GAP yes/no: cut -2 lift +15, cut +5 lift +17
+  ETH GAP+FUND: together  17% of signals vs  12% by chance; GAP inside FUND yes/no: cut +9 lift +18, cut +5 lift +15 | FUND inside GAP yes/no: cut +13 lift +4, cut +8 lift +2
+  ETH HIGH+AGREE: together  30% of signals vs  24% by chance; HIGH inside AGREE yes/no: cut +14 lift +8, cut +9 lift +20 | AGREE inside HIGH yes/no: cut +12 lift +10, cut +7 lift +22
+  ETH HIGH+UP8: together  35% of signals vs  26% by chance; HIGH inside UP8 yes/no: cut +16 lift +26, cut +10 lift +4 | UP8 inside HIGH yes/no: cut +4 lift +21, cut -2 lift -1  -> UP8 adds nothing inside HIGH: DROP UP8
+  ETH HIGH+BTC3: together  14% of signals vs  12% by chance; HIGH inside BTC3 yes/no: cut +16 lift +31, cut +12 lift +13 | BTC3 inside HIGH yes/no: cut +5 lift +23, cut +0 lift +6
+  ETH HIGH+FUND: together  37% of signals vs  29% by chance; HIGH inside FUND yes/no: cut +13 lift +21, cut +8 lift +15 | FUND inside HIGH yes/no: cut +9 lift +2, cut +4 lift -4
+  ETH AGREE+BTC3: together  14% of signals vs  11% by chance; AGREE inside BTC3 yes/no: cut +22 lift +28, cut +9 lift +13 | BTC3 inside AGREE yes/no: cut +8 lift +21, cut -6 lift +6
+  ETH AGREE+FUND: together  26% of signals vs  26% by chance; AGREE inside FUND yes/no: cut +12 lift +19, cut +11 lift +18 | FUND inside AGREE yes/no: cut +11 lift +5, cut +10 lift +4
+  ETH BTC3+FUND: together  11% of signals vs  13% by chance; BTC3 inside FUND yes/no: cut -0 lift +12, cut +10 lift +24 | FUND inside BTC3 yes/no: cut +3 lift -3, cut +13 lift +9
+  ETH lenses in the grade: GAP, HIGH, AGREE, BTC3, FUND
+  BTC GAP+UP8: together  18% of signals vs  12% by chance; GAP inside UP8 yes/no: cut +9 lift +18, cut -5 lift +12 | UP8 inside GAP yes/no: cut +10 lift +9, cut -4 lift +3
+  BTC GAP+FUND: together  13% of signals vs  11% by chance; GAP inside FUND yes/no: cut +4 lift +14, cut +6 lift +22 | FUND inside GAP yes/no: cut -1 lift +0, cut +2 lift +8  -> FUND adds nothing inside GAP: DROP FUND
+  BTC lenses in the grade: GAP, UP8
+
+STEP 3-4  GRADES WITHOUT FUND (full history)
+  ETH (559 signals, 10 regime-on years; lenses GAP, HIGH, AGREE, BTC3)
+    C   33.0/yr  n= 330 +20%  55% (worst plausible  49%) -30%  32% -20%  46% dip  -18.2%
+         to 2021: n= 194 +20%  65% (worst plausible  58%) -30%  35% -20%  51% dip  -20.5%
+         2022 on: n= 136 +20%  40% (worst plausible  32%) -30%  27% -20%  40% dip  -16.4%
+    B   12.1/yr  n= 121 +20%  64% (worst plausible  55%) -30%  25% -20%  33% dip  -14.7%
+         to 2021: n=  73 +20%  75% (worst plausible  64%) -30%  33% -20%  42% dip  -16.0%
+         2022 on: n=  48 +20%  46% (worst plausible  33%) -30%  12% -20%  19% dip  -13.6%
+    A    8.3/yr  n=  83 +20%  75% (worst plausible  64%) -30%  16% -20%  27% dip  -11.0%
+         to 2021: n=  47 +20%  83% (worst plausible  70%) -30%  23% -20%  36% dip  -12.7%
+         2022 on: n=  36 +20%  64% (worst plausible  48%) -30%   6% -20%  14% dip  -10.4%
+    A+   2.5/yr  n=  25 +20%  88% (worst plausible  70%) -30%  12% -20%  28% dip  -14.2%
+         to 2021: n=  13 +20%  92% (worst plausible  67%) -30%  15% -20%  38% dip  -18.2%
+         2022 on: n=  12 +20%  83% (worst plausible  55%) -30%   8% -20%  17% dip  -10.2%
+    by year (+20% / -30%): 2017 A/A+ 92%/15% vs C 95%/18%; 2018 A/A+ 50%/50% vs C 32%/84%; 2019 A/A+ 57%/43% vs C 54%/8%; 2020 A/A+ 100%/0% vs C 78%/8%; 2021 A/A+ 85%/31% vs C 57%/43%; 2023 A/A+ 58%/0% vs C 46%/0%; 2024 A/A+ 77%/4% vs C 36%/30%; 2025 A/A+ 60%/20% vs C 41%/43%
+    -> both periods ordered: [True, True], years ordered 6/8: GRADE WORKS
+  STEP 5  ETH where the failures sit (share of each group in each grade)
+    all signals   C  59%  B  22%  A  15%  A+   4%  (n 559)
+    missed +20%   C  69%  B  20%  A  10%  A+   1%  (n 218)
+    touched -30%  C  69%  B  20%  A   9%  A+   2%  (n 150)
+  BTC (561 signals, 10 regime-on years; lenses GAP, UP8)
+    C   47.2/yr  n= 472 +20%  48% (worst plausible  44%) -30%  15% -20%  33% dip  -11.8%
+         to 2021: n= 284 +20%  59% (worst plausible  53%) -30%  23% -20%  40% dip  -13.9%
+         2022 on: n= 188 +20%  32% (worst plausible  26%) -30%   3% -20%  22% dip  -11.0%
+    B    8.9/yr  n=  89 +20%  66% (worst plausible  56%) -30%   7% -20%  22% dip   -8.3%
+         to 2021: n=  47 +20%  79% (worst plausible  65%) -30%  13% -20%  30% dip  -10.8%
+         2022 on: n=  42 +20%  52% (worst plausible  38%) -30%   0% -20%  14% dip   -6.4%
+    A    0.0/yr  n=   0
+         to 2021: n=   0
+         2022 on: n=   0
+    A+   0.0/yr  n=   0
+         to 2021: n=   0
+         2022 on: n=   0
+    by year (+20% / -30%): 
+    -> both periods ordered: [False, False], years ordered 0/0: GRADE DOES NOT HOLD
+  STEP 5  BTC where the failures sit (share of each group in each grade)
+    all signals   C  84%  B  16%  A   0%  A+   0%  (n 561)
+    missed +20%   C  89%  B  11%  A   0%  A+   0%  (n 274)
+    touched -30%  C  92%  B   8%  A   0%  A+   0%  (n 78)
+
+STEP 3-4  GRADES WITH FUND (2020 on)
+  ETH (356 signals, 6 regime-on years; lenses GAP, HIGH, AGREE, BTC3, FUND)
+    C   24.3/yr  n= 146 +20%  45% (worst plausible  37%) -30%  29% -20%  40% dip  -15.9%
+         to 2021: n=  43 +20%  70% (worst plausible  55%) -30%  30% -20%  42% dip  -10.2%
+         2022 on: n= 103 +20%  35% (worst plausible  26%) -30%  29% -20%  39% dip  -16.3%
+    B   14.7/yr  n=  88 +20%  61% (worst plausible  51%) -30%  17% -20%  33% dip  -15.2%
+         to 2021: n=  34 +20%  74% (worst plausible  57%) -30%  18% -20%  35% dip  -16.2%
+         2022 on: n=  54 +20%  54% (worst plausible  41%) -30%  17% -20%  31% dip  -14.9%
+    A   10.2/yr  n=  61 +20%  66% (worst plausible  53%) -30%  13% -20%  21% dip  -13.7%
+         to 2021: n=  23 +20%  91% (worst plausible  73%) -30%  13% -20%  26% dip  -14.0%
+         2022 on: n=  38 +20%  50% (worst plausible  35%) -30%  13% -20%  18% dip  -13.6%
+    A+  10.2/yr  n=  61 +20%  77% (worst plausible  65%) -30%   7% -20%  18% dip  -10.6%
+         to 2021: n=  24 +20%  92% (worst plausible  74%) -30%   8% -20%  21% dip  -10.6%
+         2022 on: n=  37 +20%  68% (worst plausible  51%) -30%   5% -20%  16% dip  -10.5%
+    by year (+20% / -30%): 2020 A/A+ 100%/0% vs C 94%/0%; 2021 A/A+ 82%/23% vs C 52%/52%; 2023 A/A+ 48%/0% vs C 33%/0%; 2024 A/A+ 71%/6% vs C 38%/28%; 2025 A/A+ 50%/36% vs C 38%/50%
+    -> both periods ordered: [True, True], years ordered 5/5: GRADE WORKS
+  STEP 5  ETH where the failures sit (share of each group in each grade)
+    all signals   C  41%  B  25%  A  17%  A+  17%  (n 356)
+    missed +20%   C  54%  B  23%  A  14%  A+   9%  (n 149)
+    touched -30%  C  61%  B  21%  A  11%  A+   6%  (n 70)
+  BTC: FUND not kept, same as without
+
+  ENTRY QUALITY ONLY. Computed signals, not fills. Grades are historical rates, not forecasts.

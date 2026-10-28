@@ -748,6 +748,16 @@ agreeing still reads 71% / -30% 20% vs 57-58% elsewhere (n=126), unsplit by
 period -- watch only. On the same rows the bandpass construct reads DUE 59% /
 -30% 18% vs 48% / 23%: whatever it measures, it is not a cycle low.
 
+**CONVICTION GRADE -- built 27 Oct 2026, `analysis/grade.py`, declared. WORKS
+on ETH.** Grade = number of independent lenses present (C 0-1, B 2, A 3, A+ 4+),
+for sizing, never for excluding. ETH lenses: GAP (CT > Signal by 5+), HIGH
+(higher entry), AGREE (2+ ETH charts before), BTC3 (BTC 3D before, 1D/2D), FUND
+(funding at/above 90d median, 2020 on). UP8 dropped (nothing inside HIGH).
+ETH with FUND: A+ 77% / -30% 7% (n 61, ~10/yr), A 66% / 13%, B 61% / 17%, C 45%
+/ 29%; ordered both periods, 5/5 years. BTC keeps only GAP and UP8 (HIGH,
+AGREE fail on BTC; FUND adds nothing inside GAP), so BTC tops out at B -- B 66%
+/ 7% vs C 48% / 15%, provisional. See docs/PRETRADE.md "Conviction grade".
+
 **HURST IS CLOSED (Jared, 27 Oct 2026).** He deleted the indicator after the
 results below. Do not re-open Hurst cycles, FLDs or cycle-low projections. The
 open problem it was meant to solve stays open: telling a big-low signal apart

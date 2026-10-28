@@ -1,0 +1,28 @@
+{
+ "lenses": {
+  "ETH": [
+   "GAP",
+   "HIGH",
+   "AGREE",
+   "BTC3",
+   "FUND"
+  ],
+  "BTC": [
+   "GAP",
+   "UP8"
+  ]
+ },
+ "no_fund": {
+  "ETH": {
+   "works": true
+  },
+  "BTC": {
+   "works": false
+  }
+ },
+ "with_fund": {
+  "ETH": {
+   "works": true
+  }
+ }
+}
