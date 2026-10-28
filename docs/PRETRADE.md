@@ -258,12 +258,15 @@ ETH charts confirmed 0-10 days before; BTC 3D confirmed 0-10 days before (1D/2D
 only); funding at or above its 90-day median (2020 on). 8D CT rising was
 dropped: it adds nothing once the higher-entry lens is known.
 
-| ETH grade (with funding, 2020 on) | per year | +20% in 60d | worst plausible | touched -30% | median dip (60d) | median dip before the high | 1 in 4 dipped past | 1 in 10 dipped past |
-|---|---|---|---|---|---|---|---|---|
-| A+ | 10 | 77% (61) | 65% | 7% | -10.6% | -6.1% | -18.2% | -27.1% |
-| A | 10 | 66% (61) | 53% | 13% | -13.7% | -5.4% | -19.4% | -32.8% |
-| B | 15 | 61% (88) | 51% | 17% | -15.2% | -7.5% | -25.7% | -38.6% |
-| C | 24 | 45% (146) | 37% | 29% | -15.9% | -5.6% | -32.2% | -42.7% |
+| ETH grade (with funding, 2020 on) | per year | +20% in 60d | worst plausible | touched -30% | median dip (60d) | median dip before the high | 1 in 4 dipped past | 1 in 10 dipped past | median max upside | top quarter upside | largest |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| A+ | 10 | 77% (61) | 65% | 7% | -10.6% | -6.1% | -18.2% | -27.1% | +38.5% | +68.3% | +220.7% |
+| A | 10 | 66% (61) | 53% | 13% | -13.7% | -5.4% | -19.4% | -32.8% | +28.5% | +62.3% | +225.7% |
+| B | 15 | 61% (88) | 51% | 17% | -15.2% | -7.5% | -25.7% | -38.6% | +28.6% | +53.1% | +182.0% |
+| C | 24 | 45% (146) | 37% | 29% | -15.9% | -5.6% | -32.2% | -42.7% | +17.9% | +53.1% | +218.7% |
+
+Upside = the highest high within 60 days of entry (the best possible exit, not
+a return; exits are discretionary).
 
 Median dip (60d) = the worst low anywhere in the 60 days after entry. Median dip
 before the high = the worst low before the 60-day high was made, which is the
