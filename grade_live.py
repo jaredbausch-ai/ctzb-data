@@ -34,9 +34,19 @@ import engine as E
 import grokpack as GP
 import pcrtest as PT
 from sweep import closed_index
+from htfdiv import divergences
+ORDER = ('1D', '2D', '3D', '5D', '8D')
 
 OUT = os.path.join(HERE, 'datasets')
 LENSES = json.load(open(os.path.join(HERE, 'analysis', 'grade.json')))['lenses']
+# Addendum (analysis/grade2.py, 27 Oct 2026): BTCX passed every step and its
+# placebo, so it joins the BTC grade (BTC can now reach A). DIVH (bullish Stoch
+# divergence on a higher chart, ETH) also passed, but folded into the count it
+# put ETH grade A below B in 2022-26, so it is shown as a separate flag next to
+# the grade, with its own record, not counted as a star.
+ADD = json.load(open(os.path.join(HERE, 'analysis', 'grade2.json')))
+for _a, _ks in ADD.items():
+    LENSES[_a] = LENSES[_a] + [k for k in _ks if k != 'DIVH']
 GRADED_TF = ('1D', '2D', '3D', '5D')
 
 
@@ -48,6 +58,7 @@ def lens_flags(r):
         'UP8': bool(r['up8']),
         'BTC3': bool(r['btc3']),
         'FUND': r['fund'] is True,
+        'BTCX': bool(r.get('btcx')),
     }
 
 
@@ -81,8 +92,18 @@ def main():
     fb = PT.funding_below()
     b3 = [x['d0'] for x in allsig[('BTC', '3D')]]
     last_fund = {a: max((d for (aa, d) in fb if aa == a), default=None) for a in ('ETH', 'BTC')}
+    e2 = [x['d0'] for x in allsig[('ETH', '2D')]]
+    DV = {(a, tf): [d for d, _ in divergences(f'data/{a}_{tf}.csv', osc='k')] for a in ('ETH', 'BTC') for tf in ORDER}
+
+    def flags_at(a, tf, d0):
+        near = lambda lst: any(0 <= (d0 - d).days <= 10 for d in lst)
+        return dict(btcx=a == 'BTC' and tf in ('1D', '2D') and near(e2),
+                    divh=any(near(DV[(a, t)]) for t in ORDER[ORDER.index(tf) + 1:]))
     every = [r for lst in allsig.values() for r in lst]
+    for r in rows:
+        r.update(flags_at(r['a'], r['tf'], r['d0']))
     for r in every:
+        r.update(flags_at(r['a'], r['tf'], r['d0']))
         if 'agree' not in r:
             r['agree'] = sum(1 for t in GP.TFS if t != r['tf'] and
                              any(0 <= (r['d0'] - x['d0']).days <= 10 for x in allsig[(r['a'], t)]))
@@ -112,6 +133,18 @@ def main():
                         round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                         round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
                         f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}'])
+    G0 = [r for r in rows if r['a'] == 'ETH' and r['tf'] in GRADED_TF and r['fund'] is not None]
+    yrs = max(1, len({r['yr'] for r in G0}))
+    for lab, sel in (('HTF divergence', lambda r: r['divh']), ('no HTF divergence', lambda r: not r['divh'])):
+        G = [r for r in G0 if sel(r)]; n = len(G)
+        if not n: continue
+        k = sum(r['win'] for r in G); dds = sorted(r['m']['dd'] for r in G); ups = sorted(r['m']['up'] for r in G)
+        out.append(['ETH', lab, n, round(n / yrs, 1), round(100 * k / n), round(wilson_lo(k, n)),
+                    round(100 * sum(r['t30'] for r in G) / n), round(100 * sum(r['t20'] for r in G) / n),
+                    round(st.median(dds), 1), round(st.median(r['m']['ddpk'] for r in G), 1),
+                    round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
+                    round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
+                    f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}'])
     wcsv(os.path.join(OUT, 'grades.csv'),
          ['asset', 'grade', 'n', 'perYear', 'reach20', 'worstPlausible', 'touched30', 'touched20', 'medDip',
           'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample'], out)
@@ -127,27 +160,28 @@ def main():
     fp = os.path.join(OUT, 'forward.csv')
     if os.path.exists(fp):
         h, rs = rcsv(fp)
-        h = [c for c in h if c not in ('grade', 'lenses')]
+        h = [c for c in h if c not in ('grade', 'lenses', 'htfDiv')]
         rs = [x[:len(h)] for x in rs]
         ci, ei = h.index('chart'), h.index('entry')
         new = []
         for x in rs:
             r = by_key.get((x[ci], x[ei]))
-            new.append(x + ([r['grade'], r['lensnames']] if r else ['', 'not matched']))
-        wcsv(fp, h + ['grade', 'lenses'], new)
+            dv = ('yes' if r['divh'] else 'no') if (r and r['a'] == 'ETH') else ''
+            new.append(x + ([r['grade'], r['lensnames'], dv] if r else ['', 'not matched', '']))
+        wcsv(fp, h + ['grade', 'lenses', 'htfDiv'], new)
 
     # ---- live.csv: provisional grade of a forming low ----
     lp = os.path.join(OUT, 'live.csv')
     if os.path.exists(lp):
         h, rs = rcsv(lp)
-        h = [c for c in h if c not in ('formingGrade', 'formingLenses')]
+        h = [c for c in h if c not in ('formingGrade', 'formingLenses', 'formingHtfDiv')]
         rs = [x[:len(h)] for x in rs]
         today = {}
         new = []
         for x in rs:
             ch = x[h.index('chart')]; a, tf = ch.split()
             if x[h.index('forming')] != 'yes' or tf not in GRADED_TF:
-                new.append(x + ['', '']); continue
+                new.append(x + ['', '', '']); continue
             b = E.load(f'data/{a}_{tf}.csv'); ct = E.rsi(b['close'], 14); em = E.ema(ct, 14)
             i = len(b['close']) - 1; d0 = b['date'][i]
             sig = allsig[(a, tf)]
@@ -160,9 +194,10 @@ def main():
                      agree=sum(1 for t in GP.TFS if t != tf and any(0 <= (d0 - y['d0']).days <= 10 for y in allsig[(a, t)])),
                      btc3=a == 'ETH' and tf in ('1D', '2D') and any(0 <= (d0 - d).days <= 10 for d in b3),
                      fund=None if fu is None else (not fb[(a, fu)]))
+            r.update(flags_at(a, tf, d0))
             g, names = grade_of(r)
-            new.append(x + [g + ' (provisional)', names])
-        wcsv(lp, h + ['formingGrade', 'formingLenses'], new)
+            new.append(x + [g + ' (provisional)', names, ('yes' if r['divh'] else 'no') if a == 'ETH' else ''])
+        wcsv(lp, h + ['formingGrade', 'formingLenses', 'formingHtfDiv'], new)
     print('grades.csv written; forward.csv and live.csv graded')
 
 

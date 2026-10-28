@@ -1,0 +1,63 @@
+GRADE ADDENDUM: DIVS, DIVH, BTCX -- declared 27 Oct 2026, run 2026-10-27 | entry quality only, computed signals, not fills
+
+ETH
+  STEP 1 DIVS: to 2021 cut +10.0 lift +16.5 (n 35/292) | 2022 on cut  -9.2 lift  +5.6 (n 25/207) | pooled cut +2.1 lift +11.9  -> drop
+  STEP 1 DIVH: to 2021 cut +21.9 lift  +7.2 (n 18/309) | 2022 on cut  +6.9 lift +21.2 (n 29/203) | pooled cut +15.4 lift +10.1  -> pass
+  PLACEBO DIVH on cut: real +15.4 vs shuffled median +6.1, p95 +13.0 -> KEEP
+  ETH lenses added: DIVH
+
+BTC
+  STEP 1 DIVS: to 2021 cut +17.1 lift +22.9 (n 18/313) | 2022 on cut  -1.4 lift  -1.7 (n 26/204) | pooled cut +10.2 lift +3.7  -> drop
+  STEP 1 DIVH: to 2021 cut +13.1 lift +30.3 (n 11/320) | 2022 on cut  -4.8 lift +14.8 (n 14/216) | pooled cut +6.2 lift +17.6  -> drop
+  STEP 1 BTCX: to 2021 cut  +2.0 lift +19.0 (n 149/101) | 2022 on cut  -0.7 lift  +5.5 (n 96/74) | pooled cut +0.2 lift +14.1  -> pass
+  PLACEBO BTCX on lift: real +14.1 vs shuffled median +0.4, p95 +6.3 -> KEEP
+  BTC lenses added: BTCX
+
+STEP 3 ETH, grade.py lenses (GAP, HIGH, AGREE, BTC3, FUND; 356 signals)
+    A+  10.2/yr n=  61 +20%  77% (worst plausible  65%) -30%   7% -20%  18% dip  -10.6% dip-before-high  -6.1% dip 1-in-4  -18.2% 1-in-10  -27.1% | max upside median  +38.5% top quarter  +68.3% largest +220.7% | 1-in-10 dip  -27.1% dip before high  -6.1% median upside +38.5%
+         to 2021: n=  24 +20%  92% (worst plausible  74%) -30%   8% -20%  21% dip  -10.6% dip-before-high  -6.9% dip 1-in-4  -19.0% 1-in-10  -29.0% | max upside median  +68.3% top quarter +105.5% largest +220.7%
+         2022 on: n=  37 +20%  68% (worst plausible  51%) -30%   5% -20%  16% dip  -10.5% dip-before-high  -4.9% dip 1-in-4  -16.2% 1-in-10  -25.7% | max upside median  +28.8% top quarter  +41.8% largest  +78.9%
+    A   10.2/yr n=  61 +20%  66% (worst plausible  53%) -30%  13% -20%  21% dip  -13.7% dip-before-high  -5.4% dip 1-in-4  -19.4% 1-in-10  -32.8% | max upside median  +28.5% top quarter  +62.3% largest +225.7% | 1-in-10 dip  -32.8% dip before high  -5.4% median upside +28.5%
+         to 2021: n=  23 +20%  91% (worst plausible  73%) -30%  13% -20%  26% dip  -14.0% dip-before-high  -5.8% dip 1-in-4  -22.2% 1-in-10  -30.8% | max upside median  +53.5% top quarter +105.5% largest +225.7%
+         2022 on: n=  38 +20%  50% (worst plausible  35%) -30%  13% -20%  18% dip  -13.6% dip-before-high  -5.1% dip 1-in-4  -19.4% 1-in-10  -44.1% | max upside median  +21.8% top quarter  +33.5% largest  +97.5%
+    B   14.7/yr n=  88 +20%  61% (worst plausible  51%) -30%  17% -20%  33% dip  -15.2% dip-before-high  -7.5% dip 1-in-4  -25.7% 1-in-10  -38.6% | max upside median  +28.6% top quarter  +53.1% largest +182.0% | 1-in-10 dip  -38.6% dip before high  -7.5% median upside +28.6%
+         to 2021: n=  34 +20%  74% (worst plausible  57%) -30%  18% -20%  35% dip  -16.2% dip-before-high  -9.4% dip 1-in-4  -28.2% 1-in-10  -36.3% | max upside median  +47.3% top quarter  +74.8% largest +182.0%
+         2022 on: n=  54 +20%  54% (worst plausible  41%) -30%  17% -20%  31% dip  -14.9% dip-before-high  -5.1% dip 1-in-4  -23.8% 1-in-10  -38.6% | max upside median  +27.4% top quarter  +33.7% largest  +89.0%
+    C   24.3/yr n= 146 +20%  45% (worst plausible  37%) -30%  29% -20%  40% dip  -15.9% dip-before-high  -5.6% dip 1-in-4  -32.2% 1-in-10  -42.7% | max upside median  +17.9% top quarter  +53.1% largest +218.7% | 1-in-10 dip  -42.7% dip before high  -5.6% median upside +17.9%
+         to 2021: n=  43 +20%  70% (worst plausible  55%) -30%  30% -20%  42% dip  -10.2% dip-before-high  -6.0% dip 1-in-4  -34.2% 1-in-10  -46.1% | max upside median  +43.2% top quarter  +81.7% largest +218.7%
+         2022 on: n= 103 +20%  35% (worst plausible  26%) -30%  29% -20%  39% dip  -16.3% dip-before-high  -5.3% dip 1-in-4  -31.8% 1-in-10  -39.8% | max upside median  +13.0% top quarter  +33.5% largest +104.8%
+STEP 3 ETH, with additions (GAP, HIGH, AGREE, BTC3, FUND, DIVH; 356 signals)
+    A+  11.2/yr n=  67 +20%  79% (worst plausible  68%) -30%   6% -20%  16% dip  -10.5% dip-before-high  -5.9% dip 1-in-4  -16.2% 1-in-10  -27.1% | max upside median  +37.8% top quarter  +65.4% largest +220.7% | 1-in-10 dip  -27.1% dip before high  -5.9% median upside +37.8%
+         to 2021: n=  26 +20%  92% (worst plausible  76%) -30%   8% -20%  19% dip  -10.6% dip-before-high  -6.9% dip 1-in-4  -18.2% 1-in-10  -29.0% | max upside median  +68.3% top quarter  +95.8% largest +220.7%
+         2022 on: n=  41 +20%  71% (worst plausible  56%) -30%   5% -20%  15% dip  -10.0% dip-before-high  -4.6% dip 1-in-4  -16.2% 1-in-10  -25.3% | max upside median  +28.8% top quarter  +41.8% largest  +78.9%
+    A   10.8/yr n=  65 +20%  60% (worst plausible  48%) -30%  17% -20%  25% dip  -14.2% dip-before-high  -5.8% dip 1-in-4  -19.6% 1-in-10  -44.5% | max upside median  +26.1% top quarter  +62.3% largest +225.7% | 1-in-10 dip  -44.5% dip before high  -5.8% median upside +26.1%
+         to 2021: n=  23 +20%  91% (worst plausible  73%) -30%  13% -20%  26% dip  -14.0% dip-before-high  -5.9% dip 1-in-4  -22.2% 1-in-10  -30.8% | max upside median  +53.5% top quarter +105.5% largest +225.7%
+         2022 on: n=  42 +20%  43% (worst plausible  29%) -30%  19% -20%  24% dip  -14.2% dip-before-high  -5.5% dip 1-in-4  -19.6% 1-in-10  -44.5% | max upside median  +16.7% top quarter  +33.5% largest  +97.5%
+    B   14.3/yr n=  86 +20%  66% (worst plausible  56%) -30%  14% -20%  33% dip  -14.9% dip-before-high  -7.3% dip 1-in-4  -23.8% 1-in-10  -34.6% | max upside median  +31.7% top quarter  +54.4% largest +182.0% | 1-in-10 dip  -34.6% dip before high  -7.3% median upside +31.7%
+         to 2021: n=  34 +20%  74% (worst plausible  57%) -30%  18% -20%  35% dip  -16.2% dip-before-high  -9.2% dip 1-in-4  -28.2% 1-in-10  -36.3% | max upside median  +47.3% top quarter  +74.8% largest +182.0%
+         2022 on: n=  52 +20%  62% (worst plausible  48%) -30%  12% -20%  31% dip  -13.5% dip-before-high  -5.6% dip 1-in-4  -22.9% 1-in-10  -32.5% | max upside median  +29.1% top quarter  +36.8% largest  +89.0%
+    C   23.0/yr n= 138 +20%  42% (worst plausible  34%) -30%  31% -20%  41% dip  -16.3% dip-before-high  -5.6% dip 1-in-4  -33.4% 1-in-10  -45.0% | max upside median  +15.0% top quarter  +45.6% largest +218.7% | 1-in-10 dip  -45.0% dip before high  -5.6% median upside +15.0%
+         to 2021: n=  41 +20%  68% (worst plausible  53%) -30%  32% -20%  44% dip  -10.3% dip-before-high  -6.5% dip 1-in-4  -34.2% 1-in-10  -46.1% | max upside median  +39.5% top quarter  +82.7% largest +218.7%
+         2022 on: n=  97 +20%  31% (worst plausible  23%) -30%  31% -20%  39% dip  -16.4% dip-before-high  -5.1% dip 1-in-4  -32.9% 1-in-10  -39.8% | max upside median  +12.2% top quarter  +31.3% largest +104.8%
+STEP 3 BTC, grade.py lenses (GAP, UP8; 561 signals)
+    A+ n=0
+    A  n=0
+    B    8.9/yr n=  89 +20%  66% (worst plausible  56%) -30%   7% -20%  22% dip   -8.3% dip-before-high  -4.1% dip 1-in-4  -17.8% 1-in-10  -27.3% | max upside median  +34.0% top quarter  +52.8% largest +230.2% | 1-in-10 dip  -27.3% dip before high  -4.1% median upside +34.0%
+         to 2021: n=  47 +20%  79% (worst plausible  65%) -30%  13% -20%  30% dip  -10.8% dip-before-high  -5.5% dip 1-in-4  -21.7% 1-in-10  -31.4% | max upside median  +45.5% top quarter +111.6% largest +230.2%
+         2022 on: n=  42 +20%  52% (worst plausible  38%) -30%   0% -20%  14% dip   -6.4% dip-before-high  -3.6% dip 1-in-4  -15.9% 1-in-10  -21.0% | max upside median  +20.4% top quarter  +41.3% largest  +66.5%
+    C   47.2/yr n= 472 +20%  48% (worst plausible  44%) -30%  15% -20%  33% dip  -11.8% dip-before-high  -4.8% dip 1-in-4  -26.0% 1-in-10  -34.7% | max upside median  +18.8% top quarter  +48.6% largest +244.2% | 1-in-10 dip  -34.7% dip before high  -4.8% median upside +18.8%
+         to 2021: n= 284 +20%  59% (worst plausible  53%) -30%  23% -20%  40% dip  -13.9% dip-before-high  -4.8% dip 1-in-4  -29.5% 1-in-10  -46.2% | max upside median  +28.4% top quarter  +59.5% largest +244.2%
+         2022 on: n= 188 +20%  32% (worst plausible  26%) -30%   3% -20%  22% dip  -11.0% dip-before-high  -4.7% dip 1-in-4  -18.9% 1-in-10  -26.7% | max upside median  +13.8% top quarter  +27.0% largest  +84.9%
+STEP 3 BTC, with additions (GAP, UP8, BTCX; 561 signals)
+    A+ n=0
+    A    4.4/yr n=  44 +20%  77% (worst plausible  63%) -30%   7% -20%  18% dip   -7.9% dip-before-high  -3.9% dip 1-in-4  -15.9% 1-in-10  -27.3% | max upside median  +42.0% top quarter  +58.0% largest +208.6% | 1-in-10 dip  -27.3% dip before high  -3.9% median upside +42.0%
+         to 2021: n=  26 +20%  85% (worst plausible  66%) -30%  12% -20%  23% dip  -10.9% dip-before-high  -3.9% dip 1-in-4  -17.8% 1-in-10  -30.8% | max upside median  +46.6% top quarter +102.2% largest +208.6%
+         2022 on: n=  18 +20%  67% (worst plausible  44%) -30%   0% -20%  11% dip   -5.9% dip-before-high  -3.9% dip 1-in-4  -14.9% 1-in-10  -20.2% | max upside median  +38.8% top quarter  +42.9% largest  +66.5%
+    B   14.3/yr n= 143 +20%  56% (worst plausible  48%) -30%  15% -20%  27% dip   -9.6% dip-before-high  -4.3% dip 1-in-4  -20.6% 1-in-10  -37.3% | max upside median  +25.7% top quarter  +49.9% largest +230.2% | 1-in-10 dip  -37.3% dip before high  -4.3% median upside +25.7%
+         to 2021: n=  82 +20%  70% (worst plausible  59%) -30%  24% -20%  35% dip  -10.2% dip-before-high  -5.9% dip 1-in-4  -28.7% 1-in-10  -48.3% | max upside median  +34.6% top quarter  +73.4% largest +230.2%
+         2022 on: n=  61 +20%  38% (worst plausible  27%) -30%   2% -20%  15% dip   -8.7% dip-before-high  -3.3% dip 1-in-4  -16.9% 1-in-10  -21.0% | max upside median  +15.7% top quarter  +27.4% largest  +56.6%
+    C   37.4/yr n= 374 +20%  46% (worst plausible  41%) -30%  14% -20%  35% dip  -11.9% dip-before-high  -4.8% dip 1-in-4  -26.5% 1-in-10  -32.8% | max upside median  +17.5% top quarter  +47.0% largest +244.2% | 1-in-10 dip  -32.8% dip before high  -4.8% median upside +17.5%
+         to 2021: n= 223 +20%  56% (worst plausible  49%) -30%  22% -20%  42% dip  -15.8% dip-before-high  -4.7% dip 1-in-4  -29.1% 1-in-10  -42.1% | max upside median  +26.2% top quarter  +58.5% largest +244.2%
+         2022 on: n= 151 +20%  32% (worst plausible  25%) -30%   3% -20%  24% dip  -11.3% dip-before-high  -4.8% dip 1-in-4  -19.3% 1-in-10  -26.9% | max upside median  +13.4% top quarter  +27.0% largest  +84.9%
+
+  ENTRY QUALITY ONLY. Computed signals, not fills.

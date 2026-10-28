@@ -757,6 +757,11 @@ ETH with FUND: A+ 77% / -30% 7% (n 61, ~10/yr), A 66% / 13%, B 61% / 17%, C 45%
 / 29%; ordered both periods, 5/5 years. BTC keeps only GAP and UP8 (HIGH,
 AGREE fail on BTC; FUND adds nothing inside GAP), so BTC tops out at B -- B 66%
 / 7% vs C 48% / 15%, provisional. See docs/PRETRADE.md "Conviction grade".
+ADDENDUM 27 Oct late (`analysis/grade2.py`, declared, placebo): BTCX (ETH 2D
+before a BTC 1D/2D entry) joins the BTC grade, which now reaches A (77% / -30%
+7%, n 44). Higher-chart Stoch divergence (DIVH) passed on ETH but muddied the
+A/B ordering when counted, so it is a separate flag beside the grade (74% /
+11% with, 56% / 21% without). Own-chart divergence failed on both assets.
 
 **Grade on the dashboard (27 Oct 2026).** `grade_live.py` runs in the daily
 Action after refresh.py (numpy installed in that step; continue-on-error so it

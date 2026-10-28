@@ -278,10 +278,20 @@ Without funding (full history 2016 on): A+ 88% (25), -30% 12%; A 75% (83),
 (with funding) / 6 of 8 (without) years. C holds 41% of signals but 61% of
 the -30% touches; A+ holds 17% of signals and 6% of them.
 
-**BTC:** only two lenses survive (CT > Signal by 5+, 8D CT rising), so BTC
-grades top out at B. B 66% (89), -30% 7% vs C 48% (472), 15%, ordered in both
-periods -- but that comparison was not the declared test (A/A+ vs C), so treat
-BTC grades as provisional.
+**BTC:** three lenses (CT > Signal by 5+, 8D CT rising, and -- added by the
+declared addendum `analysis/grade2.py` -- an ETH 2D signal confirmed 0-10 days
+before a BTC 1D/2D entry, placebo passed). BTC now reaches A: A 77% (44), -30%
+7%, 1-in-10 dip -27.3%; B 56% (143), 15%; C 46% (374), 14%. A beats C in both
+periods; B is not better than C on the -30% rate.
+
+**Higher-chart divergence (ETH), a flag beside the grade, not a star.** A
+bullish Stoch divergence (price lower low, Stoch K higher low) confirmed on a
+HIGHER chart than the signal's in the 10 days before entry. Passed the lens
+rules and its placebo (-30% cut +15.4 vs shuffled p95 +13.0), but counted as a
+star it put ETH A below B in 2022-26, so it is reported separately: with it
+74% (38), -30% 11%, median dip -6.6%; without 56% (318), 21%, -14.7% (2020 on).
+Divergence on the signal's OWN chart failed (-30% worse in 2022-26 on both
+assets).
 
 ---
 
