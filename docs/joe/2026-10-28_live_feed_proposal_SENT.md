@@ -19,3 +19,13 @@ private before paid views go live.
 Open decisions for the meeting: who builds the admin portal and member screens; where
 the backend runs; who can approve; free-tier delay; alert channels; what Grok reads and
 writes back; when the repo goes private.
+
+## Follow-up sent 28 Oct 2026 ~19:25 ET (reply in the same thread, cc his Grok)
+Joe replied 15:01 ET with his lean on all six decisions (who builds: Jared feed+backend,
+Joe's side portal+member screens under ETHKROS; Cloudflare in ETHKROS's name, both admins;
+approvals Joe+Jared only, logged, never automatic; free tier delay >= 24h, ideally until the
+entry window closes; email + member site at launch, Telegram once stable, live calls Inner
+Table only; Grok read-only, no write-back at launch). The proposal doc and PDF were updated
+to record those leans. The follow-up email carries the whole write-up as text, diagrams
+described in words (the PDF could not be attached from the session; Jared has it). Still
+open: repo private timing, Grok's format/update rate, when Telegram is added.
