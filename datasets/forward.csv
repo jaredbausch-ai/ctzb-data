@@ -1,12 +1,12 @@
-chart,entry,tier,tag,entryClose,elapsed,status,d10,d30,d60,best,worst,grade,lenses,htfDiv
-ETH 1D,2026-09-05,yes,C + diamond + hollow,2480.61,52,open,-3.4,9.2,,13.2,-8.3,C,,no
-ETH 1D,2026-09-13,no,C,2475.86,44,open,8.4,0.8,,13.4,-8.1,C,,no
-ETH 1D,2026-09-18,yes,B + diamond + hollow + zone-exit B,2611.34,39,open,2.9,-7.8,,7.5,-12.8,B,HIGH + FUND,no
-ETH 2D,2026-09-20,no,C + prime dot,2775.58,36,open,-2.5,-10.9,,0.5,-18.0,B,GAP + FUND,no
-ETH 3D,2026-09-22,no,C + diamond + hollow,2687.28,33,open,-0.0,-12.4,,3.3,-15.3,B,AGREE + FUND,no
-ETH 1D,2026-09-26,no,C,2695.53,31,open,0.1,-13.9,,3.0,-15.6,A,HIGH + AGREE + BTC3,no
-ETH 5D,2026-09-28,yes,C,2668.13,25,open,-8.4,,,2.7,-14.7,B,GAP + AGREE,no
-ETH 1D,2026-10-05,no,C + prime dot,2709.6,22,open,-10.0,,,0.6,-16.0,C,HIGH,no
-ETH 1D,2026-10-11,no,A,2534.22,16,open,-2.5,,,1.7,-10.2,C,,no
-ETH 1D,2026-10-15,no,A,2439.45,12,open,-4.6,,,3.5,-6.7,C,FUND,no
-ETH 1D,2026-10-20,no,A,2446.62,7,open,,,,3.2,-7.0,B,HIGH + FUND,no
+chart,entry,tier,tag,entryClose,elapsed,status,d10,d30,d60,best,worst,grade,lenses,htfDiv,marker
+ETH 1D,2026-09-05,yes,C + diamond + hollow,2480.61,52,open,-3.4,9.2,,13.2,-8.3,C,,no,yes
+ETH 1D,2026-09-13,no,C,2475.86,44,open,8.4,0.8,,13.4,-8.1,C,FCOOL,no,no
+ETH 1D,2026-09-18,yes,B + diamond + hollow + zone-exit B,2611.34,39,open,2.9,-7.8,,7.5,-12.8,A,HIGH + FUND + FCOOL,no,yes
+ETH 2D,2026-09-20,no,C + prime dot,2775.58,36,open,-2.5,-10.9,,0.5,-18.0,A,GAP + FUND + FCOOL,no,yes
+ETH 3D,2026-09-22,no,C + diamond + hollow,2687.28,33,open,-0.0,-12.4,,3.3,-15.3,A,AGREE + FUND + FCOOL,no,yes
+ETH 1D,2026-09-26,no,C,2695.53,31,open,0.1,-13.9,,3.0,-15.6,A,HIGH + AGREE + BTC3,no,no
+ETH 5D,2026-09-28,yes,C,2668.13,25,open,-8.4,,,2.7,-14.7,B,GAP + AGREE,no,no
+ETH 1D,2026-10-05,no,C + prime dot,2709.6,22,open,-10.0,,,0.6,-16.0,C,HIGH,no,yes
+ETH 1D,2026-10-11,no,A,2534.22,16,open,-2.5,,,1.7,-10.2,C,,no,no
+ETH 1D,2026-10-15,no,A,2439.45,12,open,-4.6,,,3.5,-6.7,B,FUND + FCOOL,no,no
+ETH 1D,2026-10-20,no,A,2446.62,7,open,,,,3.2,-7.0,A,HIGH + FUND + FCOOL,no,no

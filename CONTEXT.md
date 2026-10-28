@@ -762,15 +762,22 @@ before a BTC 1D/2D entry) joins the BTC grade, which now reaches A (77% / -30%
 7%, n 44). Higher-chart Stoch divergence (DIVH) passed on ETH but muddied the
 A/B ordering when counted, so it is a separate flag beside the grade (74% /
 11% with, 56% / 21% without). Own-chart divergence failed on both assets.
+AUDIT 28 Oct (`analysis/grade3.py`, declared, every documented read not yet
+tried): FCOOL (funding not cooling) COUNTED on ETH (ETH now 6 lenses); MARKER
+(diamond or prime dot) passed but is a FLAG; dropped: PRIMEGAP, DIAGAP,
+SHALLOW, VOLRISE, OTHCT, WKMOM. Final ETH grade (2020 on): A+ 75% / -30% 7%
+(n 104, ~17/yr), A 62% / 21%, B 53% / 21%, C 44% / 30%. Note A and B tie on
+-30% pooled. The dashboard page was REBUILT 28 Oct on the daily datasets
+(copy in docs/artifacts/eth-setup-standard.html): forming lows with grade,
+sizing against the grade's 1-in-10 and worst dips, grade table, graded live
+record, chart ladder. The old fixed 19 Oct "three checks" console is gone.
 
 **Grade on the dashboard (27 Oct 2026).** `grade_live.py` runs in the daily
 Action after refresh.py (numpy installed in that step; continue-on-error so it
 cannot block the candle commit). The dashboard (artifact 6tH6hXMh3EYLvUUEM9XgSJ)
 got a "Conviction grade" section that reads the grades, live and forward
-datasets, so it updates daily. NOTE: the rest of that page (the "ETH Setup
-Standard" sizing console, header "data through 19 Oct 2026") is hand-written
-with fixed numbers and does NOT read any dataset; only the new grade section is
-live.
+datasets, so it updates daily. (Superseded 28 Oct: the whole page was rebuilt on the datasets; see the
+audit note below.)
 
 **HURST IS CLOSED (Jared, 27 Oct 2026).** He deleted the indicator after the
 results below. Do not re-open Hurst cycles, FLDs or cycle-low projections. The

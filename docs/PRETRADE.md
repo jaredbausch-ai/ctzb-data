@@ -246,52 +246,55 @@ Tier 1.
 
 ---
 
-## Conviction grade — report with every signal (27 Oct 2026)
+## Conviction grade — report with every signal (27-28 Oct 2026)
 
-*`analysis/grade.py`, declared.* Not a filter: every signal is still a
-signal; the grade says how much history supports it, for sizing. Grade =
-count of independent lenses present, equal weights: C = 0-1, B = 2, A = 3,
-A+ = 4+.
+*`analysis/grade.py`, `grade2.py` (addendum), `grade3.py` (audit of every
+documented read), all declared, with placebo checks on the added lenses.*
+Not a filter: every signal is still a signal; the grade says how much history
+supports it, for sizing. Grade = count of independent lenses present, equal
+weights: C = 0-1, B = 2, A = 3, A+ = 4+. Applied daily by `grade_live.py`;
+shown on the dashboard.
 
-**ETH lenses:** CT > Signal by 5+; entry above the previous signal; 2+ other
-ETH charts confirmed 0-10 days before; BTC 3D confirmed 0-10 days before (1D/2D
-only); funding at or above its 90-day median (2020 on). 8D CT rising was
-dropped: it adds nothing once the higher-entry lens is known.
+**ETH lenses (6):** CT > Signal by 5+; entry above the previous signal; 2+
+other ETH charts confirmed 0-10 days before; BTC 3D confirmed 0-10 days before
+(1D/2D); funding at or above its 90-day median; funding not cooling (7-day mean
+at or above its level 14 days earlier). The two funding lenses passed the
+overlap test as separate reads, but both are funding: an A that rests on
+both is worth reading as one funding star plus the rest.
 
-| ETH grade (with funding, 2020 on) | per year | +20% in 60d | worst plausible | touched -30% | median dip (60d) | median dip before the high | 1 in 4 dipped past | 1 in 10 dipped past | median max upside | top quarter upside | largest |
+| ETH grade (2020 on) | per year | +20% in 60d | worst plausible | touched -30% | median dip (60d) | median dip before the high | 1 in 4 dipped past | 1 in 10 dipped past | worst on record | median max upside | top-quarter upside |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| A+ | 10 | 77% (61) | 65% | 7% | -10.6% | -6.1% | -18.2% | -27.1% | +38.5% | +68.3% | +220.7% |
-| A | 10 | 66% (61) | 53% | 13% | -13.7% | -5.4% | -19.4% | -32.8% | +28.5% | +62.3% | +225.7% |
-| B | 15 | 61% (88) | 51% | 17% | -15.2% | -7.5% | -25.7% | -38.6% | +28.6% | +53.1% | +182.0% |
-| C | 24 | 45% (146) | 37% | 29% | -15.9% | -5.6% | -32.2% | -42.7% | +17.9% | +53.1% | +218.7% |
+| A+ | 17.3 | 75% (104) | 66% | 7% | -10.9% | -5.5% | -18.6% | -27.1% | -57.0% | +34.9% | +68.3% |
+| A | 10.2 | 62% (61) | 50% | 21% | -15.0% | -7.9% | -23.8% | -35.3% | -50.5% | +28.5% | +56.3% |
+| B | 13.5 | 53% (81) | 42% | 21% | -15.3% | -4.6% | -28.2% | -39.9% | -52.3% | +22.5% | +48.2% |
+| C | 18.3 | 44% (110) | 35% | 30% | -16.4% | -6.1% | -33.4% | -41.6% | -52.2% | +15.1% | +53.1% |
+
+**BTC lenses (3):** CT > Signal by 5+; 8D CT rising; an ETH 2D signal
+confirmed 0-10 days before a BTC 1D/2D entry. BTC tops out at A.
+
+| BTC grade (2016 on) | per year | +20% in 60d | worst plausible | touched -30% | median dip (60d) | median dip before the high | 1 in 4 dipped past | 1 in 10 dipped past | worst on record | median max upside | top-quarter upside |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| A | 4.4 | 77% (44) | 63% | 7% | -7.9% | -3.9% | -15.9% | -27.3% | -39.9% | +42.0% | +58.0% |
+| B | 14.3 | 56% (143) | 48% | 15% | -9.6% | -4.3% | -20.6% | -37.3% | -70.1% | +25.7% | +49.9% |
+| C | 37.4 | 46% (374) | 41% | 14% | -11.9% | -4.8% | -26.5% | -32.8% | -62.3% | +17.5% | +47.0% |
+
+**Flags beside the grade, not counted (ETH):** they passed the lens rules and
+placebo but, counted as stars, broke the grade's ordering.
+- Bullish Stoch divergence on a HIGHER chart, confirmed in the 10 days before
+  entry: 74% (38), touched -30% 11%, against 56% and 21% without.
+- A diamond or a prime dot: 66% (136), touched -30% 21%, against 53% and 19% without.
+
+**Tried and not used (audit, 28 Oct):** CT above Signal + prime and + diamond
+(-30% worse in one period); divergence on the signal's own chart (-30% worse
+2022-26); shallow pullback and volume rising into confirmation (failed the
+placebo); weekly momentum above its signal line (ETH: adds nothing once CT >
+Signal by 5+ is known; BTC: failed the placebo); the other asset's CT above its
+Signal (failed the per-period rule); 8D CT rising on ETH (adds nothing once the
+higher-entry lens is known); same-asset agreement and higher entry on BTC (no
+effect on BTC).
 
 Upside = the highest high within 60 days of entry (the best possible exit, not
-a return; exits are discretionary).
-
-Median dip (60d) = the worst low anywhere in the 60 days after entry. Median dip
-before the high = the worst low before the 60-day high was made, which is the
-drawdown sat through on the way to the best exit. The 1-in-4 and 1-in-10
-columns are the tail that matters for leverage.
-
-Without funding (full history 2016 on): A+ 88% (25), -30% 12%; A 75% (83),
-16%; B 64% (121), 25%; C 55% (330), 32%. Ordered in both periods and in 5 of 5
-(with funding) / 6 of 8 (without) years. C holds 41% of signals but 61% of
-the -30% touches; A+ holds 17% of signals and 6% of them.
-
-**BTC:** three lenses (CT > Signal by 5+, 8D CT rising, and -- added by the
-declared addendum `analysis/grade2.py` -- an ETH 2D signal confirmed 0-10 days
-before a BTC 1D/2D entry, placebo passed). BTC now reaches A: A 77% (44), -30%
-7%, 1-in-10 dip -27.3%; B 56% (143), 15%; C 46% (374), 14%. A beats C in both
-periods; B is not better than C on the -30% rate.
-
-**Higher-chart divergence (ETH), a flag beside the grade, not a star.** A
-bullish Stoch divergence (price lower low, Stoch K higher low) confirmed on a
-HIGHER chart than the signal's in the 10 days before entry. Passed the lens
-rules and its placebo (-30% cut +15.4 vs shuffled p95 +13.0), but counted as a
-star it put ETH A below B in 2022-26, so it is reported separately: with it
-74% (38), -30% 11%, median dip -6.6%; without 56% (318), 21%, -14.7% (2020 on).
-Divergence on the signal's OWN chart failed (-30% worse in 2022-26 on both
-assets).
+a return; exits are discretionary). Worst on record is not worst possible.
 
 ---
 

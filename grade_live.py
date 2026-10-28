@@ -47,6 +47,12 @@ LENSES = json.load(open(os.path.join(HERE, 'analysis', 'grade.json')))['lenses']
 ADD = json.load(open(os.path.join(HERE, 'analysis', 'grade2.json')))
 for _a, _ks in ADD.items():
     LENSES[_a] = LENSES[_a] + [k for k in _ks if k != 'DIVH']
+# Audit (analysis/grade3.py, 28 Oct 2026): FCOOL (funding not cooling) counted
+# on ETH; MARKER (diamond or prime dot) passed but is a flag, not a star.
+AUD = json.load(open(os.path.join(HERE, 'analysis', 'grade3.json')))
+for _a, _ks in AUD['counted'].items():
+    LENSES[_a] = LENSES[_a] + _ks
+FLAGS = {'DIVH': 'HTF divergence', 'MARKER': 'diamond or prime dot'}
 GRADED_TF = ('1D', '2D', '3D', '5D')
 
 
@@ -59,6 +65,7 @@ def lens_flags(r):
         'BTC3': bool(r['btc3']),
         'FUND': r['fund'] is True,
         'BTCX': bool(r.get('btcx')),
+        'FCOOL': bool(r.get('fcool')),
     }
 
 
@@ -95,10 +102,18 @@ def main():
     e2 = [x['d0'] for x in allsig[('ETH', '2D')]]
     DV = {(a, tf): [d for d, _ in divergences(f'data/{a}_{tf}.csv', osc='k')] for a in ('ETH', 'BTC') for tf in ORDER}
 
+    from grade3 import funding_series
+    FS = {a: funding_series(a) for a in ('ETH', 'BTC')}
+
     def flags_at(a, tf, d0):
         near = lambda lst: any(0 <= (d0 - d).days <= 10 for d in lst)
+        f = FS[a]
+        w7 = [f[d0 - dt.timedelta(days=k)] for k in range(7) if d0 - dt.timedelta(days=k) in f]
+        w7b = [f[d0 - dt.timedelta(days=14 + k)] for k in range(7) if d0 - dt.timedelta(days=14 + k) in f]
+        ok = len(w7) >= 5 and len(w7b) >= 5
         return dict(btcx=a == 'BTC' and tf in ('1D', '2D') and near(e2),
-                    divh=any(near(DV[(a, t)]) for t in ORDER[ORDER.index(tf) + 1:]))
+                    divh=any(near(DV[(a, t)]) for t in ORDER[ORDER.index(tf) + 1:]),
+                    fcool_ok=ok, fcool=ok and sum(w7) / len(w7) >= sum(w7b) / len(w7b))
     every = [r for lst in allsig.values() for r in lst]
     for r in rows:
         r.update(flags_at(r['a'], r['tf'], r['d0']))
@@ -118,6 +133,8 @@ def main():
         G0 = [r for r in rows if r['a'] == a and r['tf'] in GRADED_TF]
         if 'FUND' in LENSES[a]:
             G0 = [r for r in G0 if r['fund'] is not None]
+        if 'FCOOL' in LENSES[a]:
+            G0 = [r for r in G0 if r['fcool_ok']]
         for r in G0:
             r['grade'], _ = grade_of(r)
         yrs = max(1, len({r['yr'] for r in G0}))
@@ -125,17 +142,19 @@ def main():
             G = [r for r in G0 if r['grade'] == g]
             n = len(G)
             if not n:
-                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}']); continue
+                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '']); continue
             k = sum(r['win'] for r in G); dds = sorted(r['m']['dd'] for r in G); ups = sorted(r['m']['up'] for r in G)
             out.append([a, g, n, round(n / yrs, 1), round(100 * k / n), round(wilson_lo(k, n)),
                         round(100 * sum(r['t30'] for r in G) / n), round(100 * sum(r['t20'] for r in G) / n),
                         round(st.median(dds), 1), round(st.median(r['m']['ddpk'] for r in G), 1),
                         round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                         round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
-                        f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}'])
-    G0 = [r for r in rows if r['a'] == 'ETH' and r['tf'] in GRADED_TF and r['fund'] is not None]
+                        f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1)])
+    G0 = [r for r in rows if r['a'] == 'ETH' and r['tf'] in GRADED_TF and r['fund'] is not None and r['fcool_ok']]
     yrs = max(1, len({r['yr'] for r in G0}))
-    for lab, sel in (('HTF divergence', lambda r: r['divh']), ('no HTF divergence', lambda r: not r['divh'])):
+    for r in rows: r['marker'] = bool(r['prime'] or r['dis'])
+    for lab, sel in (('HTF divergence', lambda r: r['divh']), ('no HTF divergence', lambda r: not r['divh']),
+                     ('diamond or prime dot', lambda r: r['marker']), ('no diamond or prime dot', lambda r: not r['marker'])):
         G = [r for r in G0 if sel(r)]; n = len(G)
         if not n: continue
         k = sum(r['win'] for r in G); dds = sorted(r['m']['dd'] for r in G); ups = sorted(r['m']['up'] for r in G)
@@ -144,10 +163,10 @@ def main():
                     round(st.median(dds), 1), round(st.median(r['m']['ddpk'] for r in G), 1),
                     round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                     round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
-                    f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}'])
+                    f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1)])
     wcsv(os.path.join(OUT, 'grades.csv'),
          ['asset', 'grade', 'n', 'perYear', 'reach20', 'worstPlausible', 'touched30', 'touched20', 'medDip',
-          'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample'], out)
+          'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip'], out)
 
     # ---- forward.csv: grade each row ----
     dates = {}
@@ -160,28 +179,29 @@ def main():
     fp = os.path.join(OUT, 'forward.csv')
     if os.path.exists(fp):
         h, rs = rcsv(fp)
-        h = [c for c in h if c not in ('grade', 'lenses', 'htfDiv')]
+        h = [c for c in h if c not in ('grade', 'lenses', 'htfDiv', 'marker')]
         rs = [x[:len(h)] for x in rs]
         ci, ei = h.index('chart'), h.index('entry')
         new = []
         for x in rs:
             r = by_key.get((x[ci], x[ei]))
             dv = ('yes' if r['divh'] else 'no') if (r and r['a'] == 'ETH') else ''
-            new.append(x + ([r['grade'], r['lensnames'], dv] if r else ['', 'not matched', '']))
-        wcsv(fp, h + ['grade', 'lenses', 'htfDiv'], new)
+            mk = ('yes' if (r['prime'] or r['dis']) else 'no') if (r and r['a'] == 'ETH') else ''
+            new.append(x + ([r['grade'], r['lensnames'], dv, mk] if r else ['', 'not matched', '', '']))
+        wcsv(fp, h + ['grade', 'lenses', 'htfDiv', 'marker'], new)
 
     # ---- live.csv: provisional grade of a forming low ----
     lp = os.path.join(OUT, 'live.csv')
     if os.path.exists(lp):
         h, rs = rcsv(lp)
-        h = [c for c in h if c not in ('formingGrade', 'formingLenses', 'formingHtfDiv')]
+        h = [c for c in h if c not in ('formingGrade', 'formingLenses', 'formingHtfDiv', 'formingMarker', 'closeNow', 'closeDate')]
         rs = [x[:len(h)] for x in rs]
         today = {}
         new = []
         for x in rs:
             ch = x[h.index('chart')]; a, tf = ch.split()
             if x[h.index('forming')] != 'yes' or tf not in GRADED_TF:
-                new.append(x + ['', '', '']); continue
+                new.append(x + ['', '', '', '']); continue
             b = E.load(f'data/{a}_{tf}.csv'); ct = E.rsi(b['close'], 14); em = E.ema(ct, 14)
             i = len(b['close']) - 1; d0 = b['date'][i]
             sig = allsig[(a, tf)]
@@ -196,8 +216,12 @@ def main():
                      fund=None if fu is None else (not fb[(a, fu)]))
             r.update(flags_at(a, tf, d0))
             g, names = grade_of(r)
-            new.append(x + [g + ' (provisional)', names, ('yes' if r['divh'] else 'no') if a == 'ETH' else ''])
-        wcsv(lp, h + ['formingGrade', 'formingLenses', 'formingHtfDiv'], new)
+            ft = x[h.index('formingTag')].lower()
+            mk = ('yes' if ('diamond' in ft or 'prime' in ft) else 'no') if a == 'ETH' else ''
+            new.append(x + [g + ' (provisional)', names, ('yes' if r['divh'] else 'no') if a == 'ETH' else '', mk])
+        dd1 = {a: E.load(f'data/{a}_1D.csv') for a in ('ETH', 'BTC')}
+        new = [x + [round(dd1[x[0].split()[0]]['close'][-1], 2), str(dd1[x[0].split()[0]]['date'][-1])] for x in new]
+        wcsv(lp, h + ['formingGrade', 'formingLenses', 'formingHtfDiv', 'formingMarker', 'closeNow', 'closeDate'], new)
     print('grades.csv written; forward.csv and live.csv graded')
 
 

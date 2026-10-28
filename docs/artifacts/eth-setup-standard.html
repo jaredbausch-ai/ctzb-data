@@ -1,0 +1,184 @@
+<style>
+.cz{max-width:1100px;margin-inline:auto;font-family:var(--font-anthropic-sans);font-variant-numeric:tabular-nums;color:var(--color-fg)}
+.cz h1{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);margin:0}
+.cz .take{color:var(--color-fg-muted);font-size:var(--cds-font-size-body);margin:var(--cds-gap-xs) 0 var(--cds-gap-md);max-width:70ch}
+.cz .kv{display:flex;flex-wrap:wrap;gap:var(--cds-gap-sm) var(--cds-gap-lg);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.cz .kv b{color:var(--color-fg);font-weight:500}
+.cz h2{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:var(--cds-gap-xl) 0 var(--cds-gap-sm)}
+.cz .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);margin-bottom:var(--cds-gap-md)}
+.cz .card h3{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-xs)}
+.cz .note{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:0 0 var(--cds-gap-sm);max-width:80ch}
+.cz .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:var(--cds-gap-md)}
+.cz .tw{overflow-x:auto}
+.cz table{width:100%;border-collapse:collapse;font-size:var(--cds-font-size-caption)}
+.cz th{text-align:right;color:var(--color-fg-muted);font-weight:500;padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.cz td{text-align:right;padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.cz th:first-child,.cz td:first-child,.cz th.l,.cz td.l{text-align:left}
+.cz tr:last-child td{border-bottom:0}
+.cz .ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:var(--cds-gap-md);margin:var(--cds-gap-sm) 0}
+.cz label{display:block;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.cz input[type=number]{width:100%;font:inherit;font-size:var(--cds-font-size-body);padding:var(--cds-pad-xs) var(--cds-pad-sm);background:var(--color-bg);color:var(--color-fg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius)}
+.cz .seg{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs);margin-top:var(--cds-gap-xs)}
+.cz .seg button{font:inherit;font-size:var(--cds-font-size-caption);padding:var(--cds-pad-xs) var(--cds-pad-sm);background:var(--color-bg);color:var(--color-fg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);cursor:pointer}
+.cz .seg button[aria-pressed=true]{border-color:var(--color-fg);font-weight:600}
+.cz .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));gap:var(--cds-gap-sm);margin-top:var(--cds-gap-sm)}
+.cz .tile{border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-sm)}
+.cz .tile .v{font-family:var(--font-anthropic-serif);font-size:var(--cds-font-size-title);line-height:1.2}
+.cz .tile .k{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.cz .verdict{margin-top:var(--cds-gap-sm);padding:var(--cds-pad-sm);border-radius:var(--cds-radius);border:1px solid var(--color-border-line);font-size:var(--cds-font-size-body)}
+.cz .ok{color:var(--color-ok)} .cz .warn{color:var(--color-warn)} .cz .bad{color:var(--color-bad)}
+.cz [data-dash-source-state=refreshing]{opacity:.5}
+.cz [data-dash-source-state=empty]{color:transparent}
+.cz ul{margin:0;padding-left:1.2em;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.cz li{margin:0 0 var(--cds-gap-xs)}
+</style>
+<div class="cz">
+  <h1 id="top">ETH Setup Standard</h1>
+  <p class="take" id="takeaway">—</p>
+  <div class="kv">
+    <span>Scored as of <b data-source="status" data-field="value" data-where="item=Scored%20as%20of">—</b></span>
+    <span>Regime <b data-source="status" data-field="value" data-where="item=Market%20regime">—</b></span>
+    <span>Next buy date <b data-source="status" data-field="value" data-where="item=Next%20buy%20date">—</b></span>
+    <span>ETH close <b data-source="live" data-field="closeNow" data-where="chart=ETH%201D">—</b> on <b data-source="live" data-field="closeDate" data-where="chart=ETH%201D">—</b></span>
+  </div>
+
+  <h2 id="now">Forming now</h2>
+  <div class="card">
+    <p class="note">A low that has started to form, and the grade it would carry if it confirmed today. Provisional: CT against its Signal line, price against the last entry and funding all move until it confirms.</p>
+    <div class="tw"><table id="forming" data-source="live" data-row-key="chart"><thead><tr>
+      <th data-field="chart">Chart</th><th data-field="formingTag">Forming tag</th><th data-field="barsNeeded">Bars to confirm</th>
+      <th data-field="formingGrade">Grade</th><th class="l" data-field="formingLenses">Lenses present</th>
+      <th data-field="formingHtfDiv">Higher-chart divergence</th><th data-field="formingMarker">Diamond or prime dot</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <h2 id="size">Sizing against the grade</h2>
+  <div class="card">
+    <p class="note">Pick the signal's grade and your position. Liquidation assumes the whole account backs the position (idle USDC counts as collateral, as on Coinbase) and 5% maintenance margin. It is compared with how far that grade's signals have historically dipped within 60 days. Worst on record is not worst possible.</p>
+    <label>Grade (ETH)</label>
+    <div class="seg" id="gradepick"></div>
+    <div class="ctl">
+      <div><label for="cap">Account (USD)</label><input type="number" id="cap" value="1000000" min="0" step="10000"></div>
+      <div><label for="com">Committed to this trade (% of account)</label><input type="number" id="com" value="30" min="1" max="100" step="1"></div>
+      <div><label for="lev">Leverage on the committed part (x)</label><input type="number" id="lev" value="3.3" min="1" max="20" step="0.1"></div>
+      <div><label for="csz">Contract size (ETH)</label><input type="number" id="csz" value="0.1" min="0.001" step="0.01"></div>
+    </div>
+    <div class="tiles">
+      <div class="tile"><div class="v" id="o-notional">—</div><div class="k">Position value</div></div>
+      <div class="tile"><div class="v" id="o-contracts">—</div><div class="k">Contracts at today's close</div></div>
+      <div class="tile"><div class="v" id="o-expo">—</div><div class="k">Account exposure</div></div>
+      <div class="tile"><div class="v" id="o-liq">—</div><div class="k">Liquidates at (from entry)</div></div>
+      <div class="tile"><div class="v" id="g-p10">—</div><div class="k">Grade's 1-in-10 dip</div></div>
+      <div class="tile"><div class="v" id="g-worst">—</div><div class="k">Grade's worst on record</div></div>
+      <div class="tile"><div class="v" id="o-maxsafe">—</div><div class="k">Exposure that survives the worst</div></div>
+    </div>
+    <div class="verdict" id="verdict">—</div>
+  </div>
+
+  <h2 id="grades">What each grade has done</h2>
+  <div class="card">
+    <p class="note">A grade counts how many independent, tested lenses a signal has: C for none or one, B two, A three, A+ four or more. It sizes signals; it does not skip them. <b>ETH lenses:</b> CT more than 5 above its Signal line; entry above the previous signal; 2+ other ETH charts confirmed in the 10 days before; a BTC 3D signal in the 10 days before (1D and 2D); funding at or above its 90-day median; funding not cooling (7-day average at or above 14 days earlier). <b>BTC lenses:</b> CT more than 5 above its Signal line; 8D CT rising; an ETH 2D signal in the 10 days before (1D and 2D). The last four rows are flags shown beside the grade, not counted in it. Percentages are of signals; dips and upside are % from entry within 60 days. ETH from 2020 (when funding data starts), BTC from 2016.</p>
+    <div class="tw"><table id="gradetab" data-source="grades" data-row-key="asset,grade"><thead><tr>
+      <th data-field="asset">Asset</th><th data-field="grade">Grade</th><th data-field="n">Signals</th><th data-field="perYear">Per year</th>
+      <th data-field="reach20">+20% in 60d</th><th data-field="worstPlausible">Worst plausible</th><th data-field="touched30">Touched &minus;30%</th>
+      <th data-field="medDipBeforeHigh">Dip before high</th><th data-field="dip1in10">1-in-10 dip</th><th data-field="worstDip">Worst dip</th>
+      <th data-field="medUpside">Median upside</th><th data-field="upsideTopQuarter">Top-quarter upside</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <h2 id="record">The live record, graded</h2>
+  <div class="card">
+    <p class="note">Every ETH signal since 1 January 2026, rebuilt from price each day, with the grade it carried at entry. Day 10 is the close 10 days after entry; best and worst are the extremes within 60 days, % from entry.</p>
+    <div class="tw"><table id="fwd" data-source="forward" data-row-key="chart,entry"><thead><tr>
+      <th data-field="chart">Chart</th><th data-field="entry">Entry</th><th data-field="grade">Grade</th><th class="l" data-field="lenses">Lenses</th>
+      <th data-field="htfDiv">HTF div.</th><th data-field="marker">Marker</th><th data-field="status">Status</th>
+      <th data-field="d10">Day 10</th><th data-field="best">Best</th><th data-field="worst">Worst</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <h2 id="ladder">Where every chart sits</h2>
+  <div class="card">
+    <div class="tw"><table id="ladtab" data-source="live" data-row-key="chart"><thead><tr>
+      <th data-field="chart">Chart</th><th data-field="ctNow">CT RSI now</th><th data-field="lastTag">Last signal tag</th>
+      <th data-field="lastEntry">Last entry</th><th data-field="daysSince">Days since</th><th data-field="forming">Forming</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <h2 id="notes">What this is, and is not</h2>
+  <div class="card"><ul>
+    <li><b>Computed signals, not trades.</b> Nothing here is a position taken. It is what the indicator flagged, measured against what price then did.</li>
+    <li><b>No exit is in any number.</b> "+20% in 60d" means price touched that level, not that it was sold there. Upside is the best possible exit, not a return.</li>
+    <li><b>Odds, not certainty.</b> A grade is a historical rate for that kind of setup. "Worst plausible" is the low end of a 95% range for the +20% rate.</li>
+    <li><b>Worst on record is not worst possible.</b> Leave margin; do not size to the line.</li>
+    <li><b>The regime filter has a known blind spot.</b> It stayed on through the November 2021 top, when signals 60 to 150 days into the regime went 3 for 35.</li>
+    <li>Entry is the close of the confirmation bar, three bars after the RSI low. Regime filter applied to Bitcoin 2D. Coinbase prices. Not financial advice.</li>
+  </ul></div>
+</div>
+<script>
+(function(){
+  var MM=0.05, grade='A+';
+  var $=function(id){return document.getElementById(id);};
+  var pct=function(v){return (v>0?'+':'')+v.toFixed(1)+'%';};
+  var money=function(v){return '$'+Math.round(v).toLocaleString('en-US');};
+  function rowsOf(id){var d=dash.data(id);return d.status==='ok'?(d.data||[]):null;}
+  function fill(tableId, src, cols, keep){
+    var tb=document.querySelector('#'+tableId+' tbody'); if(!tb) return;
+    while(tb.firstChild) tb.removeChild(tb.firstChild);
+    var rows=rowsOf(src);
+    var line=function(t){var tr=document.createElement('tr');var td=document.createElement('td');td.colSpan=cols.length;td.textContent=t;tr.appendChild(td);tb.appendChild(tr);};
+    if(rows===null){ line(dash.data(src).status==='error'?'Failed to load':'—'); return; }
+    rows=rows.filter(keep);
+    if(!rows.length){ line('None'); return; }
+    rows.forEach(function(r){
+      var tr=document.createElement('tr');
+      cols.forEach(function(c){var td=document.createElement('td');var v=r[c];td.textContent=(v===undefined||v===null||v==='')?'—':String(v);
+        if(c==='formingLenses'||c==='lenses') td.className='l'; tr.appendChild(td);});
+      tb.appendChild(tr);
+    });
+  }
+  function gradeRow(){var g=rowsOf('grades');if(!g)return null;return g.find(function(r){return r.asset==='ETH'&&r.grade===grade;})||null;}
+  function drawPick(){
+    var h=$('gradepick'); while(h.firstChild) h.removeChild(h.firstChild);
+    ['A+','A','B','C'].forEach(function(g){var b=document.createElement('button');b.textContent=g;b.setAttribute('aria-pressed',String(g===grade));
+      b.addEventListener('click',function(){grade=g;drawPick();size();});h.appendChild(b);});
+  }
+  function size(){
+    var cap=+$('cap').value||0, com=(+$('com').value||0)/100, lev=+$('lev').value||1, csz=+$('csz').value||0.1;
+    var committed=cap*com, notional=committed*lev, expo=cap>0?notional/cap:0;
+    var liq=notional>0?-((cap-MM*notional)/notional)*100:null;
+    var lr=rowsOf('live'), eth=lr?lr.find(function(r){return r.chart==='ETH 1D';}):null, px=eth?+eth.closeNow:null;
+    $('o-notional').textContent=money(notional);
+    $('o-contracts').textContent=px?Math.floor(notional/px/csz).toLocaleString('en-US'):'—';
+    $('o-expo').textContent=expo.toFixed(2)+'x';
+    $('o-liq').textContent=liq===null?'—':(liq<=-100?'never':pct(liq));
+    var g=gradeRow(), p10=$('g-p10'), w=$('g-worst');
+    p10.setAttribute('data-source','grades');p10.setAttribute('data-field','dip1in10');
+    w.setAttribute('data-source','grades');w.setAttribute('data-field','worstDip');
+    var where='asset=ETH&grade='+encodeURIComponent(grade);
+    p10.setAttribute('data-where',where); w.setAttribute('data-where',where);
+    var v=$('verdict'); v.className='verdict';
+    if(!g){p10.textContent='—';w.textContent='—';$('o-maxsafe').textContent='—';v.textContent='—';return;}
+    var d10=+g.dip1in10, wd=+g.worstDip;
+    p10.textContent=String(g.dip1in10)+'%'; w.textContent=String(g.worstDip)+'%';
+    $('o-maxsafe').textContent=(1/(Math.abs(wd)/100+MM)).toFixed(2)+'x';
+    if(liq===null){v.textContent='—';return;}
+    if(liq<=wd){v.classList.add('ok');v.textContent='Liquidation ('+(liq<=-100?'never':pct(liq))+') sits beyond every dip a '+grade+' ETH signal has made on record ('+g.worstDip+'%).';}
+    else if(liq<=d10){v.classList.add('warn');v.textContent='Liquidation ('+pct(liq)+') survives the 1-in-10 dip ('+g.dip1in10+'%) but not the worst on record ('+g.worstDip+'%).';}
+    else {v.classList.add('bad');v.textContent='Liquidation ('+pct(liq)+') is inside the 1-in-10 dip ('+g.dip1in10+'%): about one '+grade+' signal in ten has dipped past it.';}
+  }
+  ['cap','com','lev','csz'].forEach(function(id){$(id).addEventListener('input',size);});
+  drawPick();
+  dash.onData(function(){
+    var lr=rowsOf('live'), forming=lr?lr.filter(function(r){return r.forming==='yes';}):null;
+    var t=$('takeaway');
+    if(!lr){t.textContent='—';}
+    else if(!forming.length){t.textContent='Nothing is forming on the tracked ETH charts. The grade table and the live record below update every day.';}
+    else {t.textContent=forming.map(function(r){return r.chart+' is forming, '+r.barsNeeded+' bar'+(r.barsNeeded==='1'?'':'s')+' from confirming, grade '+r.formingGrade;}).join('; ')+'.';}
+    fill('forming','live',['chart','formingTag','barsNeeded','formingGrade','formingLenses','formingHtfDiv','formingMarker'],function(r){return r.forming==='yes';});
+    fill('gradetab','grades',['asset','grade','n','perYear','reach20','worstPlausible','touched30','medDipBeforeHigh','dip1in10','worstDip','medUpside','upsideTopQuarter'],function(r){return String(r.n)!=='0';});
+    fill('fwd','forward',['chart','entry','grade','lenses','htfDiv','marker','status','d10','best','worst'],function(){return true;});
+    fill('ladtab','live',['chart','ctNow','lastTag','lastEntry','daysSince','forming'],function(){return true;});
+    size();
+  });
+})();
+</script>
