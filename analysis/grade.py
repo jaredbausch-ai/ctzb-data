@@ -30,6 +30,8 @@ STEP 3  GRADE = number of surviving lenses present, equal weights (no fitted
 STEP 4  REPORT per grade and asset: signals per regime-on year, +20% in 60
         days with its worst plausible rate (95% Wilson lower bound), touched
         -30%, touched -20%, median worst dip; by period; by year.
+        (Added 27 Oct 23:25 at Jared's request, reporting only: median dip
+        before the high, and the dip that 1 in 4 / 1 in 10 signals exceeded.)
         The grade WORKS if, per asset, touched -30% falls and +20% rises from C
         to A/A+ in both periods, and the A/A+ vs C ordering holds in most years
         with n >= 5 in both.
@@ -67,13 +69,17 @@ def wilson_lo(k, n, z=1.96):
 def S(G):
     if not G: return None
     n = len(G); k = sum(r['win'] for r in G)
+    dds = sorted(r['m']['dd'] for r in G)
     return dict(n=n, win=100 * k / n, lo=wilson_lo(k, n), l30=100 * sum(r['t30'] for r in G) / n,
-                l20=100 * sum(r['t20'] for r in G) / n, dd=st.median(r['m']['dd'] for r in G))
+                l20=100 * sum(r['t20'] for r in G) / n, dd=st.median(dds),
+                ddpk=st.median(r['m']['ddpk'] for r in G),
+                dd75=dds[int(0.25 * (n - 1))], dd90=dds[int(0.10 * (n - 1))])
 
 
 def fs(s):
     return 'n=   0' if not s else (f'n={s["n"]:>4} +20% {s["win"]:3.0f}% (worst plausible {s["lo"]:3.0f}%) '
-                                  f'-30% {s["l30"]:3.0f}% -20% {s["l20"]:3.0f}% dip {s["dd"]:+6.1f}%')
+                                  f'-30% {s["l30"]:3.0f}% -20% {s["l20"]:3.0f}% dip {s["dd"]:+6.1f}% '
+                                  f'dip-before-high {s["ddpk"]:+5.1f}% dip 1-in-4 {s["dd75"]:+6.1f}% 1-in-10 {s["dd90"]:+6.1f}%')
 
 
 def eff(G, k):

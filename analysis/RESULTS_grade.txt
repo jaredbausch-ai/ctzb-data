@@ -33,18 +33,18 @@ STEP 2  overlap between kept lenses
 
 STEP 3-4  GRADES WITHOUT FUND (full history)
   ETH (559 signals, 10 regime-on years; lenses GAP, HIGH, AGREE, BTC3)
-    C   33.0/yr  n= 330 +20%  55% (worst plausible  49%) -30%  32% -20%  46% dip  -18.2%
-         to 2021: n= 194 +20%  65% (worst plausible  58%) -30%  35% -20%  51% dip  -20.5%
-         2022 on: n= 136 +20%  40% (worst plausible  32%) -30%  27% -20%  40% dip  -16.4%
-    B   12.1/yr  n= 121 +20%  64% (worst plausible  55%) -30%  25% -20%  33% dip  -14.7%
-         to 2021: n=  73 +20%  75% (worst plausible  64%) -30%  33% -20%  42% dip  -16.0%
-         2022 on: n=  48 +20%  46% (worst plausible  33%) -30%  12% -20%  19% dip  -13.6%
-    A    8.3/yr  n=  83 +20%  75% (worst plausible  64%) -30%  16% -20%  27% dip  -11.0%
-         to 2021: n=  47 +20%  83% (worst plausible  70%) -30%  23% -20%  36% dip  -12.7%
-         2022 on: n=  36 +20%  64% (worst plausible  48%) -30%   6% -20%  14% dip  -10.4%
-    A+   2.5/yr  n=  25 +20%  88% (worst plausible  70%) -30%  12% -20%  28% dip  -14.2%
-         to 2021: n=  13 +20%  92% (worst plausible  67%) -30%  15% -20%  38% dip  -18.2%
-         2022 on: n=  12 +20%  83% (worst plausible  55%) -30%   8% -20%  17% dip  -10.2%
+    C   33.0/yr  n= 330 +20%  55% (worst plausible  49%) -30%  32% -20%  46% dip  -18.2% dip-before-high  -6.0% dip 1-in-4  -34.7% 1-in-10  -47.0%
+         to 2021: n= 194 +20%  65% (worst plausible  58%) -30%  35% -20%  51% dip  -20.5% dip-before-high  -7.2% dip 1-in-4  -38.4% 1-in-10  -51.8%
+         2022 on: n= 136 +20%  40% (worst plausible  32%) -30%  27% -20%  40% dip  -16.4% dip-before-high  -5.1% dip 1-in-4  -31.7% 1-in-10  -39.8%
+    B   12.1/yr  n= 121 +20%  64% (worst plausible  55%) -30%  25% -20%  33% dip  -14.7% dip-before-high  -5.4% dip 1-in-4  -27.7% 1-in-10  -44.5%
+         to 2021: n=  73 +20%  75% (worst plausible  64%) -30%  33% -20%  42% dip  -16.0% dip-before-high  -5.4% dip 1-in-4  -37.6% 1-in-10  -46.4%
+         2022 on: n=  48 +20%  46% (worst plausible  33%) -30%  12% -20%  19% dip  -13.6% dip-before-high  -6.0% dip 1-in-4  -19.6% 1-in-10  -32.8%
+    A    8.3/yr  n=  83 +20%  75% (worst plausible  64%) -30%  16% -20%  27% dip  -11.0% dip-before-high  -5.6% dip 1-in-4  -23.4% 1-in-10  -45.0%
+         to 2021: n=  47 +20%  83% (worst plausible  70%) -30%  23% -20%  36% dip  -12.7% dip-before-high  -7.3% dip 1-in-4  -29.4% 1-in-10  -51.2%
+         2022 on: n=  36 +20%  64% (worst plausible  48%) -30%   6% -20%  14% dip  -10.4% dip-before-high  -4.7% dip 1-in-4  -16.2% 1-in-10  -25.7%
+    A+   2.5/yr  n=  25 +20%  88% (worst plausible  70%) -30%  12% -20%  28% dip  -14.2% dip-before-high  -6.1% dip 1-in-4  -21.0% 1-in-10  -31.2%
+         to 2021: n=  13 +20%  92% (worst plausible  67%) -30%  15% -20%  38% dip  -18.2% dip-before-high  -6.1% dip 1-in-4  -27.1% 1-in-10  -42.3%
+         2022 on: n=  12 +20%  83% (worst plausible  55%) -30%   8% -20%  17% dip  -10.2% dip-before-high  -5.3% dip 1-in-4  -16.2% 1-in-10  -22.2%
     by year (+20% / -30%): 2017 A/A+ 92%/15% vs C 95%/18%; 2018 A/A+ 50%/50% vs C 32%/84%; 2019 A/A+ 57%/43% vs C 54%/8%; 2020 A/A+ 100%/0% vs C 78%/8%; 2021 A/A+ 85%/31% vs C 57%/43%; 2023 A/A+ 58%/0% vs C 46%/0%; 2024 A/A+ 77%/4% vs C 36%/30%; 2025 A/A+ 60%/20% vs C 41%/43%
     -> both periods ordered: [True, True], years ordered 6/8: GRADE WORKS
   STEP 5  ETH where the failures sit (share of each group in each grade)
@@ -52,12 +52,12 @@ STEP 3-4  GRADES WITHOUT FUND (full history)
     missed +20%   C  69%  B  20%  A  10%  A+   1%  (n 218)
     touched -30%  C  69%  B  20%  A   9%  A+   2%  (n 150)
   BTC (561 signals, 10 regime-on years; lenses GAP, UP8)
-    C   47.2/yr  n= 472 +20%  48% (worst plausible  44%) -30%  15% -20%  33% dip  -11.8%
-         to 2021: n= 284 +20%  59% (worst plausible  53%) -30%  23% -20%  40% dip  -13.9%
-         2022 on: n= 188 +20%  32% (worst plausible  26%) -30%   3% -20%  22% dip  -11.0%
-    B    8.9/yr  n=  89 +20%  66% (worst plausible  56%) -30%   7% -20%  22% dip   -8.3%
-         to 2021: n=  47 +20%  79% (worst plausible  65%) -30%  13% -20%  30% dip  -10.8%
-         2022 on: n=  42 +20%  52% (worst plausible  38%) -30%   0% -20%  14% dip   -6.4%
+    C   47.2/yr  n= 472 +20%  48% (worst plausible  44%) -30%  15% -20%  33% dip  -11.8% dip-before-high  -4.8% dip 1-in-4  -26.0% 1-in-10  -34.7%
+         to 2021: n= 284 +20%  59% (worst plausible  53%) -30%  23% -20%  40% dip  -13.9% dip-before-high  -4.8% dip 1-in-4  -29.5% 1-in-10  -46.2%
+         2022 on: n= 188 +20%  32% (worst plausible  26%) -30%   3% -20%  22% dip  -11.0% dip-before-high  -4.7% dip 1-in-4  -18.9% 1-in-10  -26.7%
+    B    8.9/yr  n=  89 +20%  66% (worst plausible  56%) -30%   7% -20%  22% dip   -8.3% dip-before-high  -4.1% dip 1-in-4  -17.8% 1-in-10  -27.3%
+         to 2021: n=  47 +20%  79% (worst plausible  65%) -30%  13% -20%  30% dip  -10.8% dip-before-high  -5.5% dip 1-in-4  -21.7% 1-in-10  -31.4%
+         2022 on: n=  42 +20%  52% (worst plausible  38%) -30%   0% -20%  14% dip   -6.4% dip-before-high  -3.6% dip 1-in-4  -15.9% 1-in-10  -21.0%
     A    0.0/yr  n=   0
          to 2021: n=   0
          2022 on: n=   0
@@ -73,18 +73,18 @@ STEP 3-4  GRADES WITHOUT FUND (full history)
 
 STEP 3-4  GRADES WITH FUND (2020 on)
   ETH (356 signals, 6 regime-on years; lenses GAP, HIGH, AGREE, BTC3, FUND)
-    C   24.3/yr  n= 146 +20%  45% (worst plausible  37%) -30%  29% -20%  40% dip  -15.9%
-         to 2021: n=  43 +20%  70% (worst plausible  55%) -30%  30% -20%  42% dip  -10.2%
-         2022 on: n= 103 +20%  35% (worst plausible  26%) -30%  29% -20%  39% dip  -16.3%
-    B   14.7/yr  n=  88 +20%  61% (worst plausible  51%) -30%  17% -20%  33% dip  -15.2%
-         to 2021: n=  34 +20%  74% (worst plausible  57%) -30%  18% -20%  35% dip  -16.2%
-         2022 on: n=  54 +20%  54% (worst plausible  41%) -30%  17% -20%  31% dip  -14.9%
-    A   10.2/yr  n=  61 +20%  66% (worst plausible  53%) -30%  13% -20%  21% dip  -13.7%
-         to 2021: n=  23 +20%  91% (worst plausible  73%) -30%  13% -20%  26% dip  -14.0%
-         2022 on: n=  38 +20%  50% (worst plausible  35%) -30%  13% -20%  18% dip  -13.6%
-    A+  10.2/yr  n=  61 +20%  77% (worst plausible  65%) -30%   7% -20%  18% dip  -10.6%
-         to 2021: n=  24 +20%  92% (worst plausible  74%) -30%   8% -20%  21% dip  -10.6%
-         2022 on: n=  37 +20%  68% (worst plausible  51%) -30%   5% -20%  16% dip  -10.5%
+    C   24.3/yr  n= 146 +20%  45% (worst plausible  37%) -30%  29% -20%  40% dip  -15.9% dip-before-high  -5.6% dip 1-in-4  -32.2% 1-in-10  -42.7%
+         to 2021: n=  43 +20%  70% (worst plausible  55%) -30%  30% -20%  42% dip  -10.2% dip-before-high  -6.0% dip 1-in-4  -34.2% 1-in-10  -46.1%
+         2022 on: n= 103 +20%  35% (worst plausible  26%) -30%  29% -20%  39% dip  -16.3% dip-before-high  -5.3% dip 1-in-4  -31.8% 1-in-10  -39.8%
+    B   14.7/yr  n=  88 +20%  61% (worst plausible  51%) -30%  17% -20%  33% dip  -15.2% dip-before-high  -7.5% dip 1-in-4  -25.7% 1-in-10  -38.6%
+         to 2021: n=  34 +20%  74% (worst plausible  57%) -30%  18% -20%  35% dip  -16.2% dip-before-high  -9.4% dip 1-in-4  -28.2% 1-in-10  -36.3%
+         2022 on: n=  54 +20%  54% (worst plausible  41%) -30%  17% -20%  31% dip  -14.9% dip-before-high  -5.1% dip 1-in-4  -23.8% 1-in-10  -38.6%
+    A   10.2/yr  n=  61 +20%  66% (worst plausible  53%) -30%  13% -20%  21% dip  -13.7% dip-before-high  -5.4% dip 1-in-4  -19.4% 1-in-10  -32.8%
+         to 2021: n=  23 +20%  91% (worst plausible  73%) -30%  13% -20%  26% dip  -14.0% dip-before-high  -5.8% dip 1-in-4  -22.2% 1-in-10  -30.8%
+         2022 on: n=  38 +20%  50% (worst plausible  35%) -30%  13% -20%  18% dip  -13.6% dip-before-high  -5.1% dip 1-in-4  -19.4% 1-in-10  -44.1%
+    A+  10.2/yr  n=  61 +20%  77% (worst plausible  65%) -30%   7% -20%  18% dip  -10.6% dip-before-high  -6.1% dip 1-in-4  -18.2% 1-in-10  -27.1%
+         to 2021: n=  24 +20%  92% (worst plausible  74%) -30%   8% -20%  21% dip  -10.6% dip-before-high  -6.9% dip 1-in-4  -19.0% 1-in-10  -29.0%
+         2022 on: n=  37 +20%  68% (worst plausible  51%) -30%   5% -20%  16% dip  -10.5% dip-before-high  -4.9% dip 1-in-4  -16.2% 1-in-10  -25.7%
     by year (+20% / -30%): 2020 A/A+ 100%/0% vs C 94%/0%; 2021 A/A+ 82%/23% vs C 52%/52%; 2023 A/A+ 48%/0% vs C 33%/0%; 2024 A/A+ 71%/6% vs C 38%/28%; 2025 A/A+ 50%/36% vs C 38%/50%
     -> both periods ordered: [True, True], years ordered 5/5: GRADE WORKS
   STEP 5  ETH where the failures sit (share of each group in each grade)
