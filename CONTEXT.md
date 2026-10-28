@@ -1008,6 +1008,24 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**The whole stack runs every time (procedure set 28 Oct 2026, after a missed confluence).**
+`stack_live.py` holds REGISTRY, the single indexed list of every documented read
+(grade lenses, flags, Tier 1, Promising, near misses, forward-watch candidates,
+positioning, in-trade reads, tags, and all 176 confluence cells in
+`analysis/grokpack.json`). Every Action run evaluates every registry item against
+every forming low on all 10 charts and every signal from the last 60 days, and
+writes `datasets/liveread.csv` (each read, ON/off, its record on that chart),
+`datasets/prints.csv` (every print and forming low) and `datasets/windows.csv`
+(every confluence window open now and when it closes). `check_coverage()` fails
+the run (red Action + `datasets/stack_status.txt` FAILED) if a PRETRADE heading in
+Tier 1 / Promising / In-trade is not mapped in DOC_MAP or a registry id is not
+evaluated. **Adding any finding to PRETRADE means adding its REGISTRY entry and
+DOC_MAP line in the same commit.** The dashboard refresh task copies the outputs
+every 4 hours and notifies on new, confirmed or vanished prints. Drawdown in
+every table is from entry (dip before the 60-day high, largest dip in 60 days);
+the worst-case median is no longer shown (Jared, 28 Oct). Known gap: the CT RSI
+day-ten three-state read has no written definition, so it is not computed.
+
 **Never quote the pooled grade alone (set 28 Oct 2026, after Jared had to correct it).**
 Any read on a live or forming signal runs the whole stack and reports the
 setup-specific record from `datasets/liveread.csv` (written by `grade_live.py`

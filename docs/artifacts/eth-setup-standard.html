@@ -121,12 +121,22 @@
     <div class="vd" id="vd"><span class="dot"></span><span class="t"></span><span class="s"></span></div>
   </div>
 </details>
-<details class="fold" open><summary><span>This setup — every read we have</span></summary>
-  <div class="panel tw"><table id="lrtab" data-source="liveread" data-row-key="chart,read"><thead><tr>
-    <th data-field="chart">Chart</th><th data-field="read">Read</th><th data-field="n">Setups</th><th data-field="reach20">+20%</th>
-    <th data-field="touched30">Touched &minus;30%</th><th data-field="medDip">Median dip</th><th data-field="worstTenthMedian">Worst-case median</th><th data-field="sample">Sample</th>
+<details class="fold" open><summary><span>Every print and every open window</span></summary>
+  <div class="panel tw"><table id="prtab" data-source="prints" data-row-key="chart,state,trough"><thead><tr>
+    <th data-field="chart">Chart</th><th data-field="state">State</th><th data-field="trough">Low</th><th data-field="confirms">Confirms</th>
+    <th data-field="entry">Entry</th><th data-field="tags">Tags</th><th data-field="note">Note</th>
   </tr></thead><tbody></tbody></table></div>
-  <p class="note" style="padding:0 2px;margin-top:9px">Recomputed every run for each forming low: the pooled grade, this chart with these exact lenses, each lens on and off this chart, the bucket, and the BTC 3D confirmer&rsquo;s own tags. Provisional until the low confirms. Historical rates, %. Entry quality only &mdash; computed signals, not fills.</p>
+  <div class="panel tw" style="margin-top:10px"><table id="wntab" data-source="windows" data-row-key="openedBy,appliesTo"><thead><tr>
+    <th data-field="openedBy">Opened by</th><th data-field="confirmed">Confirmed</th><th data-field="closes">Window closes</th><th data-field="appliesTo">Counts for</th>
+  </tr></thead><tbody></tbody></table></div>
+  <p class="note" style="padding:0 2px;margin-top:9px">All 10 charts, ETH and BTC 1D&ndash;8D. A window is the 10 days after a confirmed print in which it counts as confluence for another chart.</p>
+</details>
+<details class="fold" open><summary><span>This setup — every read we have</span></summary>
+  <div class="panel tw"><table id="lrtab" data-source="liveread" data-row-key="subject,read"><thead><tr>
+    <th data-field="subject">Signal</th><th data-field="read">Read</th><th data-field="status">Now</th><th data-field="n">Setups</th><th data-field="reach20">+20%</th>
+    <th data-field="touched30">Touched &minus;30%</th><th data-field="dipBeforeHigh">Dip from entry before the high</th><th data-field="maxDip60">Largest dip from entry, 60d</th><th data-field="sample">Sample</th>
+  </tr></thead><tbody></tbody></table></div>
+  <p class="note" style="padding:0 2px;margin-top:9px">Every documented read (stack_live.py registry) checked on every run against every forming low and every signal from the last 60 days, with the record on that chart. Drawdowns are from entry, medians. Forming lows are provisional until they confirm. Historical rates, %. Entry quality only &mdash; computed signals, not fills.</p>
 </details>
 <details class="fold"><summary><span>The ladder — where every chart sits</span></summary>
   <div class="panel">
@@ -139,10 +149,10 @@
     <th data-field="grade">Grade</th><th data-field="n">Setups</th><th data-field="perYear">Per yr</th><th data-field="reach20">+20%</th>
     <th data-field="safe20">+20% before &minus;20%</th><th data-field="medUpside">Best move</th><th data-field="green60">Green at 60d</th>
     <th data-field="medDipBeforeHigh">Dip first</th><th data-field="dipBeforeHigh1in10">Bad dip first</th>
-    <th data-field="dip1in10">Bad case, 60d</th><th data-field="worstTenthMedian">Worst-case median</th>
+    <th data-field="dip1in10">Bad case, 60d</th><th data-field="medDip">Drawdown from entry, median 60d</th>
     <th data-source="maxsafe" data-field="maxSafe">Max safe exposure</th>
   </tr></thead><tbody></tbody></table></div>
-  <p class="note" style="padding:0 2px;margin-top:9px">ETH signals since 2020, %. Best move = median highest high in 60 days. Dip first = the dip before that high (median, and 1 in 10). Bad case and worst-case median count any dip in the 60 days, including after the high.</p>
+  <p class="note" style="padding:0 2px;margin-top:9px">ETH signals since 2020, %. Best move = median highest high in 60 days. Dip first = the dip before that high (median, and 1 in 10). Bad case (1 in 10) and drawdown from entry count any dip from the entry price in the 60 days, including after the high.</p>
 </details>
 <details class="fold"><summary><span>The live record — every signal this year</span></summary>
   <div class="panel tw"><table id="fwdtab" data-source="forward" data-row-key="chart,entry"><thead><tr>
@@ -311,10 +321,12 @@ dash.onData(()=>{
     const ms_=ms.status==="ok"?(ms.data||[]):[];
     const rows=(g.data||[]).filter(r=>r.asset==="ETH"&&["A+","A","B","C"].includes(r.grade)&&String(r.n)!=="0")
       .map(r=>Object.assign({},r,{maxSafe:(ms_.find(m=>m.grade===r.grade)||{}).maxSafe}));
-    fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","worstTenthMedian","maxSafe"]);
+    fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","medDip","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
-  const lr=dash.data("liveread"); if(lr.status==="ok"){fillTable("lrtab",lr.data||[],["chart","read","n","reach20","touched30","medDip","worstTenthMedian","sample"]);}
+  const lr=dash.data("liveread"); if(lr.status==="ok"){fillTable("lrtab",lr.data||[],["subject","read","status","n","reach20","touched30","dipBeforeHigh","maxDip60","sample"]);}
+  const pr=dash.data("prints"); if(pr.status==="ok"){fillTable("prtab",pr.data||[],["chart","state","trough","confirms","entry","tags","note"]);}
+  const wn=dash.data("windows"); if(wn.status==="ok"){fillTable("wntab",wn.data||[],["openedBy","confirmed","closes","appliesTo"]);}
   if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}
   if(TIERS.length&&LIVE.length){drawAction(); drawLadder();}
   render();

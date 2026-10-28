@@ -341,6 +341,11 @@ Four of these came from a result that did not survive contact with them.
 
 ## Running it
 
+**Every documented read, live:** `python3 -I stack_live.py` (runs in the Action
+after grade_live.py). Writes `datasets/liveread.csv`, `prints.csv`, `windows.csv`.
+Any new section here under Tier 1, Promising or In-trade must get a REGISTRY entry
+and a DOC_MAP line in `stack_live.py`, or the pipeline run fails.
+
 **Grade of every signal, and of anything forming:** `python3 -I grade_live.py`
 (runs in the daily Action). It writes `datasets/grades.csv` (each grade's
 record) and adds `grade` / `lenses` to `datasets/forward.csv` and

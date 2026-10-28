@@ -39,6 +39,16 @@ jobs:
           pip install -q numpy
           python grade_live.py
 
+      # The whole stack (stack_live.py, 28 Oct 2026): every documented read
+      # evaluated against every forming low and every open signal, plus every
+      # print and every open confluence window. Its coverage check fails if a
+      # PRETRADE read is not in the registry. Does not block the candle commit,
+      # but the last step turns the run red so the failure is emailed.
+      - name: Live stack (every documented read)
+        id: stack
+        continue-on-error: true
+        run: python stack_live.py
+
       # Perp open interest, funding and long/short ratio from Coinalyze.
       # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
       # A failure here must not block the candle commit below.
@@ -69,3 +79,10 @@ jobs:
               sleep $((i * 15))
             done
           fi
+
+      - name: Fail the run if the live stack failed
+        if: steps.stack.outcome == 'failure'
+        run: |
+          cat datasets/stack_status.txt || true
+          echo "stack_live.py failed: a documented read is not being checked live"
+          exit 1
