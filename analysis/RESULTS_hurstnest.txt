@@ -1,0 +1,22 @@
+NARROWING THE 160D WINDOW -- declared 27 Oct 2026, run 2026-10-27 | descriptive, nothing adopted
+
+ETH: 18 160D lows: 2016-12-06, 2018-04-01, 2018-09-12, 2018-12-14, 2019-09-26, 2019-12-18, 2020-03-13, 2021-06-22, 2022-01-24, 2022-06-18, 2022-11-09, 2023-06-15, 2023-10-12, 2024-05-01, 2024-08-05, 2025-04-09, 2026-02-06, 2026-06-06
+  T1 gated  : signal confirmed within 21 days after the low on 10/18 lows (median 2 days after) | any random day: 71%
+     per low: 2016-12-06 +2d, 2018-04-01 +0d, 2018-09-12 none, 2018-12-14 none, 2019-09-26 +1d, 2019-12-18 none, 2020-03-13 +2d, 2021-06-22 none, 2022-01-24 +1d, 2022-06-18 none, 2022-11-09 none, 2023-06-15 +2d, 2023-10-12 +3d, 2024-05-01 +3d, 2024-08-05 +3d, 2025-04-09 +2d, 2026-02-06 none, 2026-06-06 none
+     signals within 21 days after a real 160D low: inside DUE window 10% (n 134) vs outside 10% (n 260)
+  T1 ungated: signal confirmed within 21 days after the low on 18/18 lows (median 2 days after) | any random day: 100%
+     per low: 2016-12-06 +2d, 2018-04-01 +0d, 2018-09-12 +3d, 2018-12-14 +3d, 2019-09-26 +1d, 2019-12-18 +2d, 2020-03-13 +2d, 2021-06-22 +3d, 2022-01-24 +1d, 2022-06-18 +3d, 2022-11-09 +3d, 2023-06-15 +2d, 2023-10-12 +3d, 2024-05-01 +3d, 2024-08-05 +3d, 2025-04-09 +2d, 2026-02-06 +2d, 2026-06-06 +3d
+     signals within 21 days after a real 160D low: inside DUE window 10% (n 139) vs outside 14% (n 431)
+  T2 20D projection the day before each 160D low: median miss 7 days (signed -4), inside its +/-0.2 window on 3/18 | all 20D lows: median miss 7 days (n 147)
+     per low (days, + = low came after the 20D projection): +5, -6, +13, -7, +14, -4, -12, -15, +0, +8, +4, -4, -8, -6, -9, +5, +25, -13
+
+BTC: 15 160D lows: 2018-02-06, 2018-06-24, 2018-12-15, 2019-12-18, 2020-03-13, 2021-06-22, 2022-01-24, 2022-06-18, 2022-11-21, 2023-06-15, 2023-09-11, 2024-08-05, 2025-04-07, 2026-02-06, 2026-07-01
+  T1 gated  : signal confirmed within 21 days after the low on 8/15 lows (median 2 days after) | any random day: 72%
+     per low: 2018-02-06 +2d, 2018-06-24 +1d, 2018-12-15 none, 2019-12-18 none, 2020-03-13 +2d, 2021-06-22 none, 2022-01-24 +1d, 2022-06-18 none, 2022-11-21 none, 2023-06-15 +2d, 2023-09-11 +3d, 2024-08-05 +3d, 2025-04-07 +4d, 2026-02-06 none, 2026-07-01 none
+     signals within 21 days after a real 160D low: inside DUE window 9% (n 117) vs outside 7% (n 204)
+  T1 ungated: signal confirmed within 21 days after the low on 15/15 lows (median 2 days after) | any random day: 100%
+     per low: 2018-02-06 +2d, 2018-06-24 +1d, 2018-12-15 +3d, 2019-12-18 +2d, 2020-03-13 +2d, 2021-06-22 +2d, 2022-01-24 +1d, 2022-06-18 +3d, 2022-11-21 +3d, 2023-06-15 +2d, 2023-09-11 +3d, 2024-08-05 +3d, 2025-04-07 +4d, 2026-02-06 +2d, 2026-07-01 +0d
+     signals within 21 days after a real 160D low: inside DUE window 13% (n 141) vs outside 12% (n 357)
+  T2 20D projection the day before each 160D low: median miss 7 days (signed -6), inside its +/-0.2 window on 2/15 | all 20D lows: median miss 7 days (n 158)
+     per low (days, + = low came after the 20D projection): -7, -4, -12, +0, -9, -6, -10, -1, -10, -5, -6, +17, +6, +32, -21
+

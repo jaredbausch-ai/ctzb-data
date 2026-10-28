@@ -748,6 +748,19 @@ agreeing still reads 71% / -30% 20% vs 57-58% elsewhere (n=126), unsplit by
 period -- watch only. On the same rows the bandpass construct reads DUE 59% /
 -30% 18% vs 48% / 23%: whatever it measures, it is not a cycle low.
 
+**Narrowing the 160D window -- measured 27 Oct 2026, `analysis/hurstnest.py`,
+declared.** (1) Every real 160D low (ETH 18/18, BTC 15/15, 1D chart) was
+followed by an UNGATED CTZB 1D/2D signal confirming 0-4 days later, median 2
+days -- the signals already time the big lows to within days. But signals fire
+so often that only ~10-14% of them follow a real 160D low within 21 days, and
+being inside a 160D DUE window does not change that (ETH 10% vs 10%/14%, BTC
+9% vs 7%, 13% vs 12%). The window cannot tell you which signal is the big one.
+Gated, only 10/18 and 8/15 lows had a signal: many big lows came with the
+regime off. (2) The nested 20D projection the day before each 160D low missed
+by a median 7 days (same as for any 20D low) but landed inside its own +/-0.2
+window on only 3/18 and 2/15, with misses up to 25-32 days. No route found to a
+reliable two-week 160D window. Descriptive; nothing adopted.
+
 **Hurst FORWARD CYCLE PROJECTION — tested 27 Oct 2026. The best new candidate
 since the CT/Signal distance, and it came from Jared correcting the test.** After
 the FLD came back as momentum in disguise, he pointed out that Hurst is used to
