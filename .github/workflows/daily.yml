@@ -13,6 +13,11 @@ on:
 permissions:
   contents: write
 
+# Shared with pcr.yml so the two jobs never push over each other.
+concurrency:
+  group: repo-writer
+  cancel-in-progress: false
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
@@ -53,5 +58,6 @@ jobs:
             echo "no change"
           else
             git commit -m "candles through $(date -u +%Y-%m-%d)"
+            git pull --rebase -q
             git push
           fi
