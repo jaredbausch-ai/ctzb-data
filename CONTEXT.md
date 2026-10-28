@@ -155,6 +155,17 @@ at entry. The reach-+20% gradient across agreement levels collapses from
 reconciles with the dashboard). The dashboard still uses the symmetric one and
 is inflated accordingly.
 
+**The working principle (Jared, 27 Oct 2026).** Everything here is building
+better odds, not certainty. No guarantees; the market is unknowable. We measure
+how the data has historically behaved and act on those odds. Lenses are for
+GRADING conviction and sizing, not for excluding trades: ordinary signals are
+still taken, smaller; setups where independent lenses agree are sized up. So a
+thin top tier is acceptable. What still matters: each lens must be tested and
+checked for overlap with the others (two lenses measuring the same thing would
+overstate a grade and oversize at ~3.3x), and every grade is reported with
+signals per year, touched -30%, median dip and +20% rate. Aim: at least about
+one trade a month when the market allows.
+
 **Do not use WGMI in any analysis (Jared, 26 Oct 2026).** Keep the work to the CT build.
 
 **The green star / WGMI tag cannot be rebuilt.** It was diamond + WGMI liquidity
