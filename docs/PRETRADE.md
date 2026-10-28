@@ -324,6 +324,13 @@ Four of these came from a result that did not survive contact with them.
 
 ## Running it
 
+**Grade of every signal, and of anything forming:** `python3 -I grade_live.py`
+(runs in the daily Action). It writes `datasets/grades.csv` (each grade's
+record) and adds `grade` / `lenses` to `datasets/forward.csv` and
+`formingGrade` / `formingLenses` to `datasets/live.csv`. The dashboard's
+"Conviction grade" section reads those three files. A forming grade is
+provisional until the low confirms.
+
 ```
 python3 -I -c "
 import sys; sys.path.insert(0,'/home/claude/ctzb-data')

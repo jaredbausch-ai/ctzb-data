@@ -758,6 +758,15 @@ ETH with FUND: A+ 77% / -30% 7% (n 61, ~10/yr), A 66% / 13%, B 61% / 17%, C 45%
 AGREE fail on BTC; FUND adds nothing inside GAP), so BTC tops out at B -- B 66%
 / 7% vs C 48% / 15%, provisional. See docs/PRETRADE.md "Conviction grade".
 
+**Grade on the dashboard (27 Oct 2026).** `grade_live.py` runs in the daily
+Action after refresh.py (numpy installed in that step; continue-on-error so it
+cannot block the candle commit). The dashboard (artifact 6tH6hXMh3EYLvUUEM9XgSJ)
+got a "Conviction grade" section that reads the grades, live and forward
+datasets, so it updates daily. NOTE: the rest of that page (the "ETH Setup
+Standard" sizing console, header "data through 19 Oct 2026") is hand-written
+with fixed numbers and does NOT read any dataset; only the new grade section is
+live.
+
 **HURST IS CLOSED (Jared, 27 Oct 2026).** He deleted the indicator after the
 results below. Do not re-open Hurst cycles, FLDs or cycle-low projections. The
 open problem it was meant to solve stays open: telling a big-low signal apart
