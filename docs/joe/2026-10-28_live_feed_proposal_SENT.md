@@ -1,7 +1,7 @@
 # Live data feed to Joe's side — sent 28 Oct 2026
 
 Sent to joseph@themaurogroup.com, cc his Grok bot, 28 Oct 2026 ~14:40 ET.
-Full write-up with diagrams: Claude doc "CTZB live data feed: proposal for Joe"
+Full write-up with diagrams: `2026-10-28_live_feed_proposal.pdf` (this folder), exported from the Claude doc
 (claude.ai/artifact/WhTqUpk8u5o1iEzWLX5cUS), for Jared to walk through at the next meeting.
 
 Finding: the GitHub job scores everything every 3-4h, but only the daily copy task
