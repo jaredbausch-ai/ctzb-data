@@ -30,6 +30,15 @@ jobs:
       - name: Rescore dashboard datasets
         run: python refresh.py --data data --out datasets
 
+      # Conviction grade (analysis/grade.py defines it; this applies it):
+      # writes datasets/grades.csv and adds grade columns to forward.csv and
+      # live.csv. Must never block the candle commit.
+      - name: Grade signals
+        continue-on-error: true
+        run: |
+          pip install -q numpy
+          python grade_live.py
+
       # Perp open interest, funding and long/short ratio from Coinalyze.
       # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
       # A failure here must not block the candle commit below.
