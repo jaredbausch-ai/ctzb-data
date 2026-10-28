@@ -1,0 +1,35 @@
+chart,read,n,reach20,touched30,medDip,worstTenthMedian,sample
+ETH 1D,"Grade A, pooled: all ETH charts, any mix",61,62,21,-15.0,-45.3,from 2020
+ETH 1D,"This chart, exactly BTC3 + FCOOL + FUND",0,,,,,from 2020
+ETH 1D,"This chart, at least BTC3 + FCOOL + FUND",17,82,6,-14.2,-37.0,from 2020
+ETH 1D,"This chart, every signal",288,61,27,-16.2,-51.5,full history
+ETH 1D,BTC3 on this chart,95,73,23,-14.3,-47.0,full history
+ETH 1D,BTC3 off this chart,193,55,30,-17.4,-52.3,full history
+ETH 1D,FCOOL on this chart,85,65,11,-12.5,-44.3,from 2020
+ETH 1D,FCOOL off this chart,93,49,27,-16.4,-47.0,from 2020
+ETH 1D,FUND on this chart,93,59,14,-15.8,-39.8,from 2020
+ETH 1D,FUND off this chart,85,54,25,-10.3,-46.6,from 2020
+ETH 1D,Bucket A on this chart (provisional),97,51,34,-19.2,-48.0,full history
+ETH 1D,"Confirmer: BTC 3D confirmed 2026-10-21, bucket C, hollow diamond, prime dot",,,,,,
+ETH 1D,This chart after any BTC 3D (0-10 days),95,73,23,-14.3,-47.0,full history
+ETH 1D,This chart after a BTC 3D diamond (0-10 days),15,67,7,-15.8,-32.3,full history
+ETH 1D,This chart after a BTC 3D prime dot (0-10 days),14,64,21,-9.8,-55.5,full history
+ETH 1D,This chart after a BTC 3D diamond + prime dot (0-10 days),1,0,0,-15.2,-15.2,full history
+ETH 1D,HTF divergence flag: no,,,,,,
+ETH 2D,"Grade A, pooled: all ETH charts, any mix",61,62,21,-15.0,-45.3,from 2020
+ETH 2D,"This chart, exactly BTC3 + FCOOL + FUND",1,0,100,-34.6,-34.6,from 2020
+ETH 2D,"This chart, at least BTC3 + FCOOL + FUND",11,73,18,-10.7,-46.5,from 2020
+ETH 2D,"This chart, every signal",137,62,28,-14.8,-50.5,full history
+ETH 2D,BTC3 on this chart,39,77,23,-9.8,-46.7,full history
+ETH 2D,BTC3 off this chart,98,56,30,-18.1,-51.8,full history
+ETH 2D,FCOOL on this chart,40,68,18,-13.3,-45.9,from 2020
+ETH 2D,FCOOL off this chart,49,49,27,-17.0,-45.7,from 2020
+ETH 2D,FUND on this chart,53,60,19,-14.8,-45.7,from 2020
+ETH 2D,FUND off this chart,36,53,28,-10.0,-42.9,from 2020
+ETH 2D,Bucket B on this chart (provisional),63,65,24,-13.3,-53.9,full history
+ETH 2D,"Confirmer: BTC 3D confirmed 2026-10-21, bucket C, hollow diamond, prime dot",,,,,,
+ETH 2D,This chart after any BTC 3D (0-10 days),39,77,23,-9.8,-46.7,full history
+ETH 2D,This chart after a BTC 3D diamond (0-10 days),8,75,25,-15.1,-46.4,full history
+ETH 2D,This chart after a BTC 3D prime dot (0-10 days),7,86,14,-6.7,-32.6,full history
+ETH 2D,This chart after a BTC 3D diamond + prime dot (0-10 days),1,0,0,-19.7,-19.7,full history
+ETH 2D,HTF divergence flag: no,,,,,,

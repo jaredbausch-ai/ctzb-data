@@ -22,6 +22,10 @@ Writes / changes, in datasets/:
                  windows only.
   forward.csv    adds `grade` and `lenses` to every row (matched by chart and
                  entry bar).
+  liveread.csv   every documented read for each forming low, recomputed every run:
+                 the pooled grade, this chart with exactly / at least these
+                 lenses, each lens on vs off this chart, the bucket, the BTC 3D
+                 confirmer's own tags and this chart after that kind of confirmer.
   live.csv       adds `formingGrade` and `formingLenses`: the grade a forming
                  low would carry if it confirmed now. PROVISIONAL: CT vs its
                  Signal line, price vs the last entry and funding all move
@@ -204,6 +208,7 @@ def main():
 
     # ---- live.csv: provisional grade of a forming low ----
     lp = os.path.join(OUT, 'live.csv')
+    forming_now = []
     if os.path.exists(lp):
         h, rs = rcsv(lp)
         h = [c for c in h if c not in ('formingGrade', 'formingLenses', 'formingHtfDiv', 'formingMarker', 'closeNow', 'closeDate')]
@@ -228,12 +233,59 @@ def main():
                      fund=None if fu is None else (not fb[(a, fu)]))
             r.update(flags_at(a, tf, d0))
             g, names = grade_of(r)
+            r['_grade'], r['_names'] = g, [k for k in names.split(' + ') if k]
             ft = x[h.index('formingTag')].lower()
             mk = ('yes' if ('diamond' in ft or 'prime' in ft) else 'no') if a == 'ETH' else ''
             new.append(x + [g + ' (provisional)', names, ('yes' if r['divh'] else 'no') if a == 'ETH' else '', mk])
+            forming_now.append((a, tf, d0, r, x[h.index('formingTag')]))
         dd1 = {a: E.load(f'data/{a}_1D.csv') for a in ('ETH', 'BTC')}
         new = [x + [round(dd1[x[0].split()[0]]['close'][-1], 2), str(dd1[x[0].split()[0]]['date'][-1])] for x in new]
         wcsv(lp, h + ['formingGrade', 'formingLenses', 'formingHtfDiv', 'formingMarker', 'closeNow', 'closeDate'], new)
+
+    # ---- liveread.csv: every documented read for each forming low (added 28 Oct 2026) ----
+    # The pooled grade averages every chart and every mix of lenses. Jared needs the
+    # record of THIS setup: same chart, same lenses, each lens on this chart, the
+    # bucket, and what the BTC 3D confirmer itself looked like. All historical rates,
+    # entry quality only.
+    lr = []
+    def rec(G):
+        n = len(G)
+        if not n: return [0, '', '', '', '']
+        dds = sorted(r['m']['dd'] for r in G)
+        return [n, round(100 * sum(r['win'] for r in G) / n), round(100 * sum(r['t30'] for r in G) / n),
+                round(st.median(dds), 1), round(st.median(dds[:max(1, round(0.10 * n))]), 1)]
+    for a, tf, d0, r, ftag in forming_now:
+        lens_now = set(r['_names'])
+        C = [s for s in rows if s['a'] == a and s['tf'] == tf]
+        Cf = [s for s in C if s['fund'] is not None and s.get('fcool_ok')] if a == 'ETH' else C
+        for s in Cf:
+            f = lens_flags(s); s['_set'] = {k for k in LENSES[a] if f[k]}
+        ch = f'{a} {tf}'
+        g = [x for x in out if x[0] == a and x[1] == r['_grade']]
+        if g: lr.append([ch, f'Grade {r["_grade"]}, pooled: all {a} charts, any mix', g[0][2], g[0][4], g[0][6], g[0][8], g[0][17], 'from 2020'])
+        lr.append([ch, f'This chart, exactly {" + ".join(sorted(lens_now)) or "no lenses"}'] + rec([s for s in Cf if s['_set'] == lens_now]) + ['from 2020'])
+        lr.append([ch, f'This chart, at least {" + ".join(sorted(lens_now)) or "no lenses"}'] + rec([s for s in Cf if lens_now <= s['_set']]) + ['from 2020'])
+        lr.append([ch, f'This chart, every signal'] + rec(C) + ['full history'])
+        for k in sorted(lens_now):
+            base = C if k not in ('FUND', 'FCOOL') else Cf
+            on = [s for s in base if lens_flags(s)[k]]; off = [s for s in base if not lens_flags(s)[k]]
+            lr.append([ch, f'{k} on this chart'] + rec(on) + ['full history' if base is C else 'from 2020'])
+            lr.append([ch, f'{k} off this chart'] + rec(off) + ['full history' if base is C else 'from 2020'])
+        bk = ftag.split()[0] if ftag else ''
+        if bk in ('A', 'B', 'C', 'D'):
+            lr.append([ch, f'Bucket {bk} on this chart (provisional)'] + rec([s for s in C if s['bk'] == bk]) + ['full history'])
+        if r.get('btc3'):
+            cf = [y for y in allsig[('BTC', '3D')] if 0 <= (d0 - y['d0']).days <= 10]
+            for y in cf:
+                tags = [f'bucket {y["bk"]}'] + (['filled diamond'] if y['strong'] else ['hollow diamond'] if y['dis'] else []) + (['prime dot'] if y['prime'] else [])
+                lr.append([ch, f'Confirmer: BTC 3D confirmed {y["d0"]}, {", ".join(tags)}', '', '', '', '', '', ''])
+            def with_conf(sel):
+                return [s for s in C if any(0 <= (s['d0'] - y['d0']).days <= 10 and sel(y) for y in allsig[('BTC', '3D')])]
+            for lab, sel in (('any BTC 3D', lambda y: True), ('a BTC 3D diamond', lambda y: y['dis']),
+                             ('a BTC 3D prime dot', lambda y: y['prime']), ('a BTC 3D diamond + prime dot', lambda y: y['dis'] and y['prime'])):
+                lr.append([ch, f'This chart after {lab} (0-10 days)'] + rec(with_conf(sel)) + ['full history'])
+        lr.append([ch, 'HTF divergence flag: ' + ('yes' if r.get('divh') else 'no'), '', '', '', '', '', ''])
+    wcsv(os.path.join(OUT, 'liveread.csv'), ['chart', 'read', 'n', 'reach20', 'touched30', 'medDip', 'worstTenthMedian', 'sample'], lr)
     print('grades.csv written; forward.csv and live.csv graded')
 
 
