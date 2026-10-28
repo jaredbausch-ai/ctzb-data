@@ -13,10 +13,6 @@ on:
 permissions:
   contents: write
 
-# Shared with pcr.yml so the two jobs never push over each other.
-concurrency:
-  group: repo-writer
-  cancel-in-progress: false
 
 jobs:
   fetch:
@@ -58,6 +54,9 @@ jobs:
             echo "no change"
           else
             git commit -m "candles through $(date -u +%Y-%m-%d)"
-            git pull --rebase -q
-            git push
+            # pcr.yml also pushes; retry with a rebase if it got there first
+            for i in 1 2 3 4 5; do
+              git pull --rebase -q && git push && break
+              sleep $((i * 15))
+            done
           fi

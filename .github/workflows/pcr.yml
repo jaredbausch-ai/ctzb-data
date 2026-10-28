@@ -2,8 +2,10 @@ name: Options put/call (Deribit)
 
 # Builds data/options/ from Deribit's free trade history. Hourly until the
 # backfill reaches 2016/2019, then each run is a quick forward fill plus the
-# daily open-interest snapshot. Shares the "repo-writer" concurrency group with
-# the candle job so the two never push over each other.
+# daily open-interest snapshot. Its own concurrency group: it must NOT share one
+# with the candle job, because GitHub cancels a pending run when a newer run
+# joins the same group, and the hourly runs here would cancel candle runs.
+# Both jobs rebase and retry their push instead.
 on:
   schedule:
     - cron: "40 * * * *"
@@ -16,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: repo-writer
+  group: pcr
   cancel-in-progress: false
 
 jobs:
@@ -43,6 +45,8 @@ jobs:
             echo "no change"
           else
             git commit -m "options put/call through $(date -u +%Y-%m-%d)"
-            git pull --rebase -q
-            git push
+            for i in 1 2 3 4 5; do
+              git pull --rebase -q && git push && break
+              sleep $((i * 15))
+            done
           fi
