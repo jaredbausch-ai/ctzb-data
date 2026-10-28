@@ -21,6 +21,14 @@ CANDIDATES, declared, nothing added after:
   P3  put/call rising: pcr7 above pcr7 seven days earlier
   P4  put spike: pcr1 > 1.25 x pcr7
   P5  premium put-heavy: same as P1 on the premium ratio (pcr_prem)
+ADDENDUM, declared 27 Oct 2026 21:30 ET, still before any put/call data was in
+the repo. From screenshots of Krown's panel (docs/reference/krown_pcr_reference.md):
+he plots the 100-day percentile on a weekly chart with bands at ~95 and ~5.
+  K1  Krown top band, weekly: pct100 >= 95 at the last completed weekly close
+      (Sunday UTC) on or before d0
+  K2  Krown top band, recent: pct100 >= 95 on any day in d0-13..d0
+  K3  Krown bottom band, recent: pct100 <= 5 on any day in d0-13..d0
+Same reporting and pass rules as P1-P5.
 
 REPORTED, per the 27 Oct standing rule, for every candidate: touched -30%
 (LIQ30), touched -20% (LIQ20), median worst dip in the window, and reach +20%
@@ -112,7 +120,10 @@ FEATS = [('P1 put-heavy (pct>=80)', lambda x, xp: x['pct'] >= 80),
          ('P2 call-heavy (pct<=20)', lambda x, xp: x['pct'] <= 20),
          ('P3 put/call rising 7d', lambda x, xp: x['rise']),
          ('P4 put spike (day > 1.25x 7d)', lambda x, xp: x['pcr1'] > 1.25 * x['pcr7']),
-         ('P5 premium put-heavy (pct>=80)', lambda x, xp: xp is not None and xp['pct'] >= 80)]
+         ('P5 premium put-heavy (pct>=80)', lambda x, xp: xp is not None and xp['pct'] >= 80),
+         ('K1 Krown top band, weekly close', lambda x, xp: x['k1']),
+         ('K2 Krown top band, last 14 days', lambda x, xp: x['k2']),
+         ('K3 Krown bottom band, last 14 days', lambda x, xp: x['k3'])]
 
 
 def attach(rows, shift=0):
@@ -122,6 +133,13 @@ def attach(rows, shift=0):
     for r in rows:
         x = R[r['a']].get(r['d0'])
         if x is None: continue
+        x = dict(x); d0 = r['d0']
+        sun = d0 - dt.timedelta(days=(d0.weekday() + 1) % 7)     # last Sunday on or before d0
+        xs = R[r['a']].get(sun)
+        x['k1'] = xs is not None and xs['pct'] >= 95
+        recent = [R[r['a']].get(d0 - dt.timedelta(days=k)) for k in range(14)]
+        x['k2'] = any(v is not None and v['pct'] >= 95 for v in recent)
+        x['k3'] = any(v is not None and v['pct'] <= 5 for v in recent)
         out.append(dict(r, x=x, xp=RP[r['a']].get(r['d0'])))
     return out
 
