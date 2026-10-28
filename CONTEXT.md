@@ -739,10 +739,11 @@ projection, last low + period, errors centre near zero (ETH 160D -0.20, others
 have LENGTHENED since 2022 (median gap between lows, 1D: ETH 160D 145 -> 174
 days, BTC 174 -> 206; 80D 89 -> 114 / 84 -> 96), not shortened. The
 hurstcal.py bias-correction variants were correcting that artefact, so none is
-adopted despite the rule's "ADOPT V6" on 80D. Signals: DUE vs not
-at signals is flat pooled (+20% 55% vs 53%, -30% 20% vs 20%) and flips sign
-between periods (72/57 then 33/49). NOT CARRIED. 80D is tighter (BTC 61% inside
-the window, ETH 40-48%, median miss 0.15-0.27, also early). ETH 160D DUE x 2+
+adopted despite the rule's "ADOPT V6" on 80D. At signals, 160D DUE vs not is flat pooled (+20% 55% vs 53%, -30% 20% vs 20%) and flips sign
+between periods (72/57 then 33/49). NOT CARRIED. (80D's "tighter" figures came from a
+version that resolved replaced lows with hindsight; on the causal stream 80D
+misses 0.27-0.34 period and is no better at signals: +20% 68% vs 68% to 2021,
+-30% worse when DUE.) ETH 160D DUE x 2+
 agreeing still reads 71% / -30% 20% vs 57-58% elsewhere (n=126), unsplit by
 period -- watch only. On the same rows the bandpass construct reads DUE 59% /
 -30% 18% vs 48% / 23%: whatever it measures, it is not a cycle low.
