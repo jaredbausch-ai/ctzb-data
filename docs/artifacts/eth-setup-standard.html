@@ -129,11 +129,13 @@
 </details>
 <details class="fold"><summary><span>What each grade has done</span></summary>
   <div class="panel tw"><table id="tiertab" data-source="grades" data-row-key="asset,grade"><thead><tr>
-    <th data-field="grade">Grade</th><th data-field="n">Setups</th><th data-field="reach20">+20%</th>
-    <th data-field="medDipBeforeHigh">Typical</th><th data-field="dip1in10">Bad case</th><th data-field="worstTenthMedian">Worst-case median</th>
+    <th data-field="grade">Grade</th><th data-field="n">Setups</th><th data-field="perYear">Per yr</th><th data-field="reach20">+20%</th>
+    <th data-field="safe20">+20% before &minus;20%</th><th data-field="medUpside">Best move</th><th data-field="green60">Green at 60d</th>
+    <th data-field="medDipBeforeHigh">Dip first</th><th data-field="dipBeforeHigh1in10">Bad dip first</th>
+    <th data-field="dip1in10">Bad case, 60d</th><th data-field="worstTenthMedian">Worst-case median</th>
     <th data-source="maxsafe" data-field="maxSafe">Max safe exposure</th>
   </tr></thead><tbody></tbody></table></div>
-  <p class="note" style="padding:0 2px;margin-top:9px">ETH signals since 2020. Typical = median dip before the high; bad case = 1 in 10; worst-case median = median of the worst 10%, within 60 days.</p>
+  <p class="note" style="padding:0 2px;margin-top:9px">ETH signals since 2020, %. Best move = median highest high in 60 days. Dip first = the dip before that high (median, and 1 in 10). Bad case and worst-case median count any dip in the 60 days, including after the high.</p>
 </details>
 <details class="fold"><summary><span>The live record — every signal this year</span></summary>
   <div class="panel tw"><table id="fwdtab" data-source="forward" data-row-key="chart,entry"><thead><tr>
@@ -253,8 +255,8 @@ function drawAction(){
   w.textContent=g+" forming";
   l.textContent=forming.map(r=>r.chart+" ("+gOf(r)+")").join(", ")+" — "+top.barsNeeded+" bar"+(top.barsNeeded==="1"?"":"s")+" from confirming. Grade is provisional until then.";
   if(t){
-    [[t.win+"%","Reach +20%",t.win>=70?"gd":"dm"],[t.med.toFixed(1)+"%","Typical dip first","dm"],
-     [t.bad.toFixed(1)+"%","Bad case, 1 in 10","wn"],[t.worst.toFixed(1)+"%","Worst-case median","bd"]].forEach(([v,k,c])=>{
+    [[t.win+"%","Reach +20%",t.win>=70?"gd":"dm"],["+"+t.up.toFixed(1)+"%","Typical best move","gd"],
+     [t.med.toFixed(1)+"%","Typical dip first","dm"],[t.badpk.toFixed(1)+"%","Bad dip first, 1 in 10","wn"]].forEach(([v,k,c])=>{
       const cell=el("div","c"); cell.appendChild(el("div","v "+c,v)); cell.appendChild(el("div","k lab",k)); st.appendChild(cell);});
   }
   const b=el("b",null,"Lenses: "); nx.appendChild(b); nx.appendChild(document.createTextNode(top.formingLenses||"none"));
@@ -298,11 +300,11 @@ dash.onData(()=>{
   const g=dash.data("grades"), lv=dash.data("live"), fw=dash.data("forward"), ms=dash.data("maxsafe");
   if(g.status==="ok"){
     TIERS=(g.data||[]).filter(r=>r.asset==="ETH"&&["A+","A","B","C"].includes(r.grade)&&String(r.n)!=="0")
-      .map(r=>({id:r.grade,label:r.grade,n:+r.n,win:+r.reach20,med:+r.medDipBeforeHigh,bad:+r.dip1in10,worst:+r.worstTenthMedian}));
+      .map(r=>({id:r.grade,label:r.grade,n:+r.n,win:+r.reach20,med:+r.medDipBeforeHigh,bad:+r.dip1in10,worst:+r.worstTenthMedian,up:+r.medUpside,safe:+r.safe20,badpk:+r.dipBeforeHigh1in10,days:+r.daysToHigh}));
     const ms_=ms.status==="ok"?(ms.data||[]):[];
     const rows=(g.data||[]).filter(r=>r.asset==="ETH"&&["A+","A","B","C"].includes(r.grade)&&String(r.n)!=="0")
       .map(r=>Object.assign({},r,{maxSafe:(ms_.find(m=>m.grade===r.grade)||{}).maxSafe}));
-    fillTable("tiertab",rows,["grade","n","reach20","medDipBeforeHigh","dip1in10","worstTenthMedian","maxSafe"]);
+    fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","worstTenthMedian","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
   if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}

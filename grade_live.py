@@ -130,6 +130,12 @@ def main():
         r['fund'] = None if v is None else (not v)
         r['grade'], r['lensnames'] = grade_of(r)
 
+    def extra(G):
+        n = len(G); pk = sorted(r['m']['ddpk'] for r in G)
+        return [round(100 * sum(r['m']['up'] >= 10 for r in G) / n), round(100 * sum(r['m']['up'] >= 30 for r in G) / n),
+                round(100 * sum(bool(r.get('safe')) for r in G) / n), round(100 * sum(r['m']['ret'] > 0 for r in G) / n),
+                round(pk[int(0.10 * (n - 1))], 1), round(st.median(r['m']['dpk'] for r in G))]
+
     # ---- grades.csv: the record of each grade ----
     out = []
     for a in ('ETH', 'BTC'):
@@ -145,7 +151,7 @@ def main():
             G = [r for r in G0 if r['grade'] == g]
             n = len(G)
             if not n:
-                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '', '']); continue
+                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '', '', '', '', '', '', '', '']); continue
             k = sum(r['win'] for r in G); dds = sorted(r['m']['dd'] for r in G); ups = sorted(r['m']['up'] for r in G)
             out.append([a, g, n, round(n / yrs, 1), round(100 * k / n), round(wilson_lo(k, n)),
                         round(100 * sum(r['t30'] for r in G) / n), round(100 * sum(r['t20'] for r in G) / n),
@@ -153,7 +159,7 @@ def main():
                         round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                         round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
                         f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1),
-                        round(st.median(dds[:max(1, round(0.10 * n))]), 1)])
+                        round(st.median(dds[:max(1, round(0.10 * n))]), 1)] + extra(G))
     G0 = [r for r in rows if r['a'] == 'ETH' and r['tf'] in GRADED_TF and r['fund'] is not None and r['fcool_ok']]
     yrs = max(1, len({r['yr'] for r in G0}))
     for r in rows: r['marker'] = bool(r['prime'] or r['dis'])
@@ -168,10 +174,11 @@ def main():
                     round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                     round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
                     f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1),
-                    round(st.median(dds[:max(1, round(0.10 * n))]), 1)])
+                    round(st.median(dds[:max(1, round(0.10 * n))]), 1)] + extra(G))
     wcsv(os.path.join(OUT, 'grades.csv'),
          ['asset', 'grade', 'n', 'perYear', 'reach20', 'worstPlausible', 'touched30', 'touched20', 'medDip',
-          'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip', 'worstTenthMedian'], out)
+          'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip', 'worstTenthMedian',
+          'reach10', 'reach30', 'safe20', 'green60', 'dipBeforeHigh1in10', 'daysToHigh'], out)
 
     # ---- forward.csv: grade each row ----
     dates = {}
