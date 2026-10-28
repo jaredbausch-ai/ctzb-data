@@ -1,184 +1,313 @@
 <style>
-.cz{max-width:1100px;margin-inline:auto;font-family:var(--font-anthropic-sans);font-variant-numeric:tabular-nums;color:var(--color-fg)}
-.cz h1{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);margin:0}
-.cz .take{color:var(--color-fg-muted);font-size:var(--cds-font-size-body);margin:var(--cds-gap-xs) 0 var(--cds-gap-md);max-width:70ch}
-.cz .kv{display:flex;flex-wrap:wrap;gap:var(--cds-gap-sm) var(--cds-gap-lg);font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
-.cz .kv b{color:var(--color-fg);font-weight:500}
-.cz h2{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:var(--cds-gap-xl) 0 var(--cds-gap-sm)}
-.cz .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);margin-bottom:var(--cds-gap-md)}
-.cz .card h3{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0 0 var(--cds-gap-xs)}
-.cz .note{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:0 0 var(--cds-gap-sm);max-width:80ch}
-.cz .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:var(--cds-gap-md)}
-.cz .tw{overflow-x:auto}
-.cz table{width:100%;border-collapse:collapse;font-size:var(--cds-font-size-caption)}
-.cz th{text-align:right;color:var(--color-fg-muted);font-weight:500;padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line);white-space:nowrap}
-.cz td{text-align:right;padding:var(--cds-pad-xs) var(--cds-pad-sm);border-bottom:1px solid var(--color-border-line);white-space:nowrap}
-.cz th:first-child,.cz td:first-child,.cz th.l,.cz td.l{text-align:left}
-.cz tr:last-child td{border-bottom:0}
-.cz .ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:var(--cds-gap-md);margin:var(--cds-gap-sm) 0}
-.cz label{display:block;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
-.cz input[type=number]{width:100%;font:inherit;font-size:var(--cds-font-size-body);padding:var(--cds-pad-xs) var(--cds-pad-sm);background:var(--color-bg);color:var(--color-fg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius)}
-.cz .seg{display:flex;flex-wrap:wrap;gap:var(--cds-gap-xs);margin-top:var(--cds-gap-xs)}
-.cz .seg button{font:inherit;font-size:var(--cds-font-size-caption);padding:var(--cds-pad-xs) var(--cds-pad-sm);background:var(--color-bg);color:var(--color-fg);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);cursor:pointer}
-.cz .seg button[aria-pressed=true]{border-color:var(--color-fg);font-weight:600}
-.cz .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));gap:var(--cds-gap-sm);margin-top:var(--cds-gap-sm)}
-.cz .tile{border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-sm)}
-.cz .tile .v{font-family:var(--font-anthropic-serif);font-size:var(--cds-font-size-title);line-height:1.2}
-.cz .tile .k{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
-.cz .verdict{margin-top:var(--cds-gap-sm);padding:var(--cds-pad-sm);border-radius:var(--cds-radius);border:1px solid var(--color-border-line);font-size:var(--cds-font-size-body)}
-.cz .ok{color:var(--color-ok)} .cz .warn{color:var(--color-warn)} .cz .bad{color:var(--color-bad)}
-.cz [data-dash-source-state=refreshing]{opacity:.5}
-.cz [data-dash-source-state=empty]{color:transparent}
-.cz ul{margin:0;padding-left:1.2em;font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
-.cz li{margin:0 0 var(--cds-gap-xs)}
+.jc{background:var(--void);color:var(--ink);border-radius:6px;overflow:hidden}
+.jc{
+  --void:#07090C; --panel:#0D1116; --panel2:#121821; --rule:#1E2730; --rule2:#161D25;
+  --ink:#E6EDF3; --dim:#A8B8C6; --faint:#8193A2;
+  --cy:#45D3E8; --cydim:#1B6B78;
+  --ok:#36D399; --warn:#F2B544; --bad:#FF5F56;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --sans:var(--font-anthropic-sans,system-ui),-apple-system,sans-serif;
+  color-scheme:dark;
+}.jc *, .jc *::before, .jc *::after{box-sizing:border-box}.jc{-webkit-text-size-adjust:100%}.jc{margin:0;background:var(--void);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.6;font-variant-numeric:tabular-nums}.jc .wrap{max-width:780px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:20px 52px}.jc .lab{font-family:var(--mono);font-size:12.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--faint);font-weight:500}.jc .hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
+  border-bottom:1px solid var(--rule);padding-bottom:12px;flex-wrap:wrap}.jc h1{font-family:var(--mono);font-size:19px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;margin:0}.jc .hdr .r{text-align:right;font-family:var(--mono);font-size:13px;color:var(--dim);line-height:1.7}.jc .hdr .r b{color:var(--cy);font-weight:500}.jc section{margin-top:22px}.jc h2{font-family:var(--mono);font-size:12.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--faint);font-weight:500;margin:0 0 9px;
+  display:flex;align-items:center;gap:10px}.jc h2::after{content:"";flex:1;height:1px;background:var(--rule)}.jc .panel{background:var(--panel);border:1px solid var(--rule);border-radius:4px}.jc .console{padding:16px}.jc .ctl{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--rule2)}.jc .ctl .f{min-width:0}.jc .ctl .cap{display:flex;align-items:baseline;gap:7px;margin-top:5px}.jc .ctl .cap span{font-family:var(--mono);font-size:24px;color:var(--cy);font-weight:500}.jc input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;
+  background:transparent;cursor:pointer;margin-top:3px;display:block}.jc input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--rule);border-radius:2px}.jc input[type=range]::-moz-range-track{height:2px;background:var(--rule);border-radius:2px}.jc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--cy);margin-top:-8px;border:0;box-shadow:0 0 0 3px rgba(69,211,232,.18)}.jc input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--cy);
+  border:0;box-shadow:0 0 0 3px rgba(69,211,232,.18)}.jc input[type=range]:focus-visible{outline:2px solid var(--cy);outline-offset:4px}.jc .cap input[type=number]{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--cy);
+  background:var(--panel2);border:1px solid var(--rule);border-radius:3px;
+  padding:1px 6px;width:5.1em;-moz-appearance:textfield}.jc .cap input[type=number]::-webkit-outer-spin-button, .jc .cap input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}.jc .cap input[type=number]:focus{outline:none;border-color:var(--cy)}.jc .cap input[type=number]:focus-visible{outline:2px solid var(--cy);outline-offset:1px}.jc .cap .sub{font-family:var(--mono);font-size:13px;color:var(--faint);letter-spacing:.06em}.jc .cap .x{font-family:var(--mono);font-size:24px;color:var(--cy);font-weight:500}.jc .tiers{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}.jc .tiers button{font-family:var(--mono);font-size:13px;letter-spacing:.03em;
+  background:var(--panel2);border:1px solid var(--rule);color:var(--dim);
+  padding:8px 12px;border-radius:3px;cursor:pointer;transition:all .12s}.jc .tiers button:hover{border-color:var(--cydim);color:var(--ink)}.jc .tiers button[aria-pressed="true"]{background:var(--cy);border-color:var(--cy);color:var(--void);font-weight:600}.jc .tiers button:focus-visible{outline:2px solid var(--cy);outline-offset:2px}.jc .read{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:1px;
+  background:var(--rule2);margin:16px -16px 0;border-top:1px solid var(--rule2)}.jc .read .c{background:var(--panel);padding:12px 14px;min-width:0}.jc .read .c .v{font-family:var(--mono);font-size:25px;font-weight:500;letter-spacing:-.01em;line-height:1.2}.jc .read .c .k{margin-top:4px}.jc .vd{display:flex;align-items:center;gap:11px;padding:13px 16px;border-top:1px solid var(--rule2);
+  margin:0 -16px -16px;background:var(--panel2);border-radius:0 0 3px 3px}.jc .vd .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}.jc .vd .t{font-family:var(--mono);font-size:14.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}.jc .vd .s{color:var(--dim);font-size:15.5px;min-width:0}.jc .bar{margin-top:18px}.jc .track{position:relative;height:46px;margin-top:20px}.jc .track .base{position:absolute;left:0;right:0;top:19px;height:3px;background:var(--rule);border-radius:2px}.jc .track .zone{position:absolute;top:19px;height:3px;border-radius:2px;background:var(--cydim)}.jc .track .m{position:absolute;top:8px;width:1px;height:25px;background:var(--faint)}.jc .track .m.liq{background:var(--bad);width:2px;height:33px;top:4px}.jc .track .m i{position:absolute;left:50%;transform:translateX(-50%);bottom:100%;margin-bottom:4px;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;white-space:nowrap;font-style:normal;color:var(--faint)}.jc .track .m.liq i{color:var(--bad)}.jc .track .m u{position:absolute;left:50%;transform:translateX(-50%);top:100%;margin-top:4px;
+  font-family:var(--mono);font-size:12.5px;text-decoration:none;white-space:nowrap;color:var(--dim)}.jc .track .m.liq u{color:var(--bad)}.jc .scale{display:flex;justify-content:space-between;margin-top:22px}.jc .act{margin-top:16px;background:var(--panel);border:1px solid var(--rule);border-radius:4px;
+  border-left:3px solid var(--rule)}.jc .act.go{border-left-color:var(--ok)}.jc .act.soon{border-left-color:var(--warn)}.jc .actmain{padding:18px 18px 15px}.jc .verdict-word{font-family:var(--mono);font-size:36px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;line-height:1.1;color:var(--dim)}.jc .act.go .verdict-word{color:var(--ok)}.jc .act.soon .verdict-word{color:var(--warn)}.jc .actline{color:var(--ink);font-size:18px;margin-top:9px;max-width:56ch;line-height:1.55}.jc .actstats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule2);
+  border-top:1px solid var(--rule2)}.jc .actstats .c{background:var(--panel);padding:13px 14px;min-width:0}.jc .actstats .c .v{font-family:var(--mono);font-size:24px;font-weight:600;line-height:1.2}.jc .actstats .c .k{margin-top:4px}.jc .actnext{padding:15px 18px;border-top:1px solid var(--rule2);background:var(--panel2);
+  color:var(--dim);font-size:16px;border-radius:0 0 3px 3px}.jc .actnext b{color:var(--ink);font-weight:600}
+@media(max-width:560px){.jc .actstats{grid-template-columns:repeat(2,1fr)}.jc .verdict-word{font-size:30px}}.jc .armhdr{padding:16px 16px 14px;border-bottom:1px solid var(--rule2)}.jc .armstate{font-family:var(--mono);font-size:25px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;line-height:1.2}.jc .armsub{color:var(--dim);font-size:15.5px;margin-top:6px;max-width:62ch}.jc .ladder{padding:14px 16px 4px;display:flex;flex-direction:column-reverse;gap:3px}.jc .rung{display:grid;grid-template-columns:74px 1fr 168px;gap:12px;align-items:center;
+  padding:9px 0;position:relative}.jc .rung .pc{font-family:var(--mono);font-size:18px;font-weight:600;text-align:right}.jc .rung .nm{min-width:0}.jc .rung .nm b{font-size:15.5px;font-weight:600;display:block}.jc .rung .nm i{font-style:normal;font-family:var(--mono);font-size:12px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--faint)}.jc .rung .seg{display:flex;gap:3px;align-items:center;justify-content:flex-end;flex-wrap:wrap}.jc .chip{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;padding:3px 7px;border-radius:3px;
+  background:var(--cy);color:var(--void);font-weight:600;white-space:nowrap}.jc .chip.stale{background:var(--rule);color:var(--dim)}.jc .empty{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;color:var(--faint)}.jc .rung.live{background:linear-gradient(90deg,rgba(69,211,232,.07),transparent 72%)}.jc .rung.above .pc{color:var(--ok)}.jc .rung .pc{color:var(--dim)}.jc .rung.top{border-top:1px dashed var(--cydim)}.jc .rung.top::before{content:"70% BAR";position:absolute;top:-8px;right:0;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--cy);
+  background:var(--panel);padding:0 5px}.jc .rung .bar{position:absolute;left:74px;right:0;bottom:2px;height:2px;background:var(--rule2)}.jc .rung .bar i{display:block;height:100%;background:var(--rule)}.jc .rung.above .bar i{background:var(--cydim)}.jc .rung.live .bar i{background:var(--cy)}.jc .fold{margin-top:10px;border-top:1px solid var(--rule)}.jc .fold:first-of-type{margin-top:4px;border-top:0}.jc .fold summary{list-style:none;cursor:pointer;padding:17px 2px 16px;
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:13.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--dim);font-weight:600;transition:color .12s}.jc .fold summary::-webkit-details-marker{display:none}.jc .fold summary:hover{color:var(--ink)}.jc .fold summary:focus-visible{outline:2px solid var(--cy);outline-offset:2px}.jc .fold summary::before{content:"+";font-size:17px;color:var(--cy);width:11px;
+  display:inline-block;text-align:center;line-height:1}.jc .fold[open] summary::before{content:"\2212"}.jc .fold summary span{flex:1;min-width:0}.jc .fold summary::after{content:"";height:1px;flex:0 0 42px;background:var(--rule)}.jc .fold > *:not(summary){margin-bottom:16px}.jc .tw{overflow-x:auto}.jc table{width:100%;border-collapse:collapse;font-size:15px;font-family:var(--mono)}.jc th{text-align:right;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);
+  font-weight:500;padding:11px 0 8px 14px;border-bottom:1px solid var(--rule);white-space:nowrap}.jc th:first-child{text-align:left;padding-left:14px}.jc td{text-align:right;padding:9px 0 9px 14px;border-bottom:1px solid var(--rule2);white-space:nowrap}.jc td:first-child{text-align:left;padding-left:14px;font-family:var(--sans)}.jc tr:last-child td{border-bottom:0}.jc tr.on td{background:var(--panel2)}.jc tr.on td:first-child{box-shadow:inset 2px 0 0 var(--cy)}.jc .cy{color:var(--cy)}.jc .gd{color:var(--ok)}.jc .wn{color:var(--warn)}.jc .bd{color:var(--bad)}.jc .dm{color:var(--dim)}.jc .chk{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:12px 14px;border-bottom:1px solid var(--rule2)}.jc .chk:last-child{border-bottom:0}.jc .chk .n{font-family:var(--mono);font-size:13.5px;color:var(--cy);letter-spacing:.08em;padding-top:1px}.jc .chk .t{font-weight:600;font-size:16px}.jc .chk .d{color:var(--dim);font-size:15px;margin-top:2px}.jc .dots{font-family:var(--mono);letter-spacing:2px}.jc .notes{display:grid;gap:10px;padding:14px}.jc .note{font-size:15px;color:var(--dim);line-height:1.6;max-width:68ch}.jc .note b{color:var(--ink);font-weight:600}.jc .foot{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--faint);
+  line-height:1.75;max-width:70ch}
+@media(max-width:560px){.jc .ctl{grid-template-columns:1fr;gap:13px}.jc .read{grid-template-columns:repeat(2,1fr)}.jc .track .m u{font-size:11.5px}.jc .track .m i{font-size:10.5px}}
+@media(prefers-reduced-motion:reduce){.jc *{transition:none!important}}
 </style>
-<div class="cz">
-  <h1 id="top">ETH Setup Standard</h1>
-  <p class="take" id="takeaway">—</p>
-  <div class="kv">
-    <span>Scored as of <b data-source="status" data-field="value" data-where="item=Scored%20as%20of">—</b></span>
-    <span>Regime <b data-source="status" data-field="value" data-where="item=Market%20regime">—</b></span>
-    <span>Next buy date <b data-source="status" data-field="value" data-where="item=Next%20buy%20date">—</b></span>
-    <span>ETH close <b data-source="live" data-field="closeNow" data-where="chart=ETH%201D">—</b> on <b data-source="live" data-field="closeDate" data-where="chart=ETH%201D">—</b></span>
-  </div>
+<div class="jc">
+<div class="wrap">
 
-  <h2 id="now">Forming now</h2>
-  <div class="card">
-    <p class="note">A low that has started to form, and the grade it would carry if it confirmed today. Provisional: CT against its Signal line, price against the last entry and funding all move until it confirms.</p>
-    <div class="tw"><table id="forming" data-source="live" data-row-key="chart"><thead><tr>
-      <th data-field="chart">Chart</th><th data-field="formingTag">Forming tag</th><th data-field="barsNeeded">Bars to confirm</th>
-      <th data-field="formingGrade">Grade</th><th class="l" data-field="formingLenses">Lenses present</th>
-      <th data-field="formingHtfDiv">Higher-chart divergence</th><th data-field="formingMarker">Diamond or prime dot</th>
-    </tr></thead><tbody></tbody></table></div>
+<div class="hdr">
+  <div><h1>ETH Setup Standard</h1>
+    <p class="lab" style="margin:5px 0 0">Position limits from the signal grade</p></div>
+  <div class="r">
+    DATA THROUGH <b data-source="status" data-field="value" data-where="item=Scored%20as%20of">—</b><br>
+    REGIME <b data-source="status" data-field="value" data-where="item=Market%20regime">—</b><br>
+    ETH <b data-source="live" data-field="closeNow" data-where="chart=ETH%201D">—</b>
   </div>
+</div>
 
-  <h2 id="size">Sizing against the grade</h2>
-  <div class="card">
-    <p class="note">Pick the signal's grade and your position. Liquidation assumes the whole account backs the position (idle USDC counts as collateral, as on Coinbase) and 5% maintenance margin. It is compared with how far that grade's signals have historically dipped within 60 days. Worst on record is not worst possible.</p>
-    <label>Grade (ETH)</label>
-    <div class="seg" id="gradepick"></div>
+<div class="act" id="act">
+  <div class="actmain">
+    <div class="verdict-word" id="actWord">—</div>
+    <div class="actline" id="actLine">—</div>
+  </div>
+  <div class="actstats" id="actStats"></div>
+  <div class="actnext" id="actNext"></div>
+</div>
+
+<details class="fold" open><summary><span>Exposure console — how much to buy</span></summary>
+  <div class="panel console">
     <div class="ctl">
-      <div><label for="cap">Account (USD)</label><input type="number" id="cap" value="1000000" min="0" step="10000"></div>
-      <div><label for="com">Committed to this trade (% of account)</label><input type="number" id="com" value="30" min="1" max="100" step="1"></div>
-      <div><label for="lev">Leverage on the committed part (x)</label><input type="number" id="lev" value="3.3" min="1" max="20" step="0.1"></div>
-      <div><label for="csz">Contract size (ETH)</label><input type="number" id="csz" value="0.1" min="0.001" step="0.01"></div>
+      <div class="f">
+        <div class="lab">Account capital</div>
+        <div class="cap"><span class="x">$</span><input type="number" id="capNum" min="0" step="1000" value="1000000" inputmode="decimal" aria-label="Account capital, type a value" style="width:7.5em"></div>
+        <input type="range" id="cap" min="50000" max="2000000" step="25000" value="1000000" aria-label="Total account capital">
+      </div>
+      <div class="f">
+        <div class="lab">Committed as margin</div>
+        <div class="cap"><span class="x">$</span><input type="number" id="comNum" min="0" step="1000" value="300000" inputmode="decimal" aria-label="Committed margin, type a value" style="width:7.5em"> <span class="sub" id="comPct">30%</span></div>
+        <input type="range" id="com" min="1" max="100" step="1" value="30" aria-label="Share of capital committed as margin">
+      </div>
+      <div class="f">
+        <div class="lab">Leverage on the committed margin</div>
+        <div class="cap">
+          <input type="number" id="expNum" min="1" max="10" step="0.1" value="3.3" inputmode="decimal" aria-label="Leverage, type a value">
+          <span class="x">x</span>
+        </div>
+        <input type="range" id="exp" min="100" max="1000" step="5" value="330" aria-label="Leverage slider">
+      </div>
+      <div class="f">
+        <div class="lab">Cash reserve — USDC left in the account</div>
+        <div class="cap"><span id="resOut" style="color:var(--ok)">$700,000</span></div>
+      </div>
     </div>
-    <div class="tiles">
-      <div class="tile"><div class="v" id="o-notional">—</div><div class="k">Position value</div></div>
-      <div class="tile"><div class="v" id="o-contracts">—</div><div class="k">Contracts at today's close</div></div>
-      <div class="tile"><div class="v" id="o-expo">—</div><div class="k">Account exposure</div></div>
-      <div class="tile"><div class="v" id="o-liq">—</div><div class="k">Liquidates at (from entry)</div></div>
-      <div class="tile"><div class="v" id="g-p10">—</div><div class="k">Grade's 1-in-10 dip</div></div>
-      <div class="tile"><div class="v" id="g-worst">—</div><div class="k">Grade's worst on record</div></div>
-      <div class="tile"><div class="v" id="o-maxsafe">—</div><div class="k">Exposure that survives the worst</div></div>
+    <div style="padding-top:14px"><div class="lab">Signal grade</div><div class="tiers" id="tiers"></div></div>
+    <div style="padding-top:14px"><div class="lab">Contract size — confirm against your venue</div><div class="tiers" id="csz"></div></div>
+    <div class="bar">
+      <div class="lab">Survival margin</div>
+      <div class="track" id="track"></div>
+      <div class="scale"><span class="lab">0%</span><span class="lab">−20%</span><span class="lab">−40%</span><span class="lab">−60%</span></div>
     </div>
-    <div class="verdict" id="verdict">—</div>
+    <div class="read">
+      <div class="c"><div class="v cy" id="contracts">—</div><div class="k lab">Contracts to buy</div></div>
+      <div class="c"><div class="v" id="ethqty">—</div><div class="k lab">= ETH held</div></div>
+      <div class="c"><div class="v dm" id="notional">—</div><div class="k lab">Position value</div></div>
+      <div class="c"><div class="v gd" id="lift">—</div><div class="k lab">Reserve pushes liq. out by</div></div>
+      <div class="c"><div class="v" id="liq">—</div><div class="k lab">Liquidates at</div></div>
+      <div class="c"><div class="v" id="typ">—</div><div class="k lab">Typical dip first</div></div>
+      <div class="c"><div class="v wn" id="badc">—</div><div class="k lab">Bad case · 1 in 10</div></div>
+      <div class="c"><div class="v bd" id="wrst">—</div><div class="k lab">Worst on record</div></div>
+    </div>
+    <div class="vd" id="order" style="background:var(--panel);border-top:1px solid var(--rule2);margin:0 -16px 0">
+      <span class="dot" style="background:var(--cy)"></span>
+      <span class="s" id="orderTxt" style="color:var(--ink)"></span>
+    </div>
+    <div class="vd" id="vd"><span class="dot"></span><span class="t"></span><span class="s"></span></div>
   </div>
-
-  <h2 id="grades">What each grade has done</h2>
-  <div class="card">
-    <p class="note">A grade counts how many independent, tested lenses a signal has: C for none or one, B two, A three, A+ four or more. It sizes signals; it does not skip them. <b>ETH lenses:</b> CT more than 5 above its Signal line; entry above the previous signal; 2+ other ETH charts confirmed in the 10 days before; a BTC 3D signal in the 10 days before (1D and 2D); funding at or above its 90-day median; funding not cooling (7-day average at or above 14 days earlier). <b>BTC lenses:</b> CT more than 5 above its Signal line; 8D CT rising; an ETH 2D signal in the 10 days before (1D and 2D). The last four rows are flags shown beside the grade, not counted in it. Percentages are of signals; dips and upside are % from entry within 60 days. ETH from 2020 (when funding data starts), BTC from 2016.</p>
-    <div class="tw"><table id="gradetab" data-source="grades" data-row-key="asset,grade"><thead><tr>
-      <th data-field="asset">Asset</th><th data-field="grade">Grade</th><th data-field="n">Signals</th><th data-field="perYear">Per year</th>
-      <th data-field="reach20">+20% in 60d</th><th data-field="worstPlausible">Worst plausible</th><th data-field="touched30">Touched &minus;30%</th>
-      <th data-field="medDipBeforeHigh">Dip before high</th><th data-field="dip1in10">1-in-10 dip</th><th data-field="worstDip">Worst dip</th>
-      <th data-field="medUpside">Median upside</th><th data-field="upsideTopQuarter">Top-quarter upside</th>
-    </tr></thead><tbody></tbody></table></div>
+</details>
+<details class="fold"><summary><span>The ladder — where every chart sits</span></summary>
+  <div class="panel">
+    <div class="armhdr"><div class="armstate" id="armState">—</div><div class="armsub" id="armSub">—</div></div>
+    <div class="ladder" id="ladder"></div>
   </div>
-
-  <h2 id="record">The live record, graded</h2>
-  <div class="card">
-    <p class="note">Every ETH signal since 1 January 2026, rebuilt from price each day, with the grade it carried at entry. Day 10 is the close 10 days after entry; best and worst are the extremes within 60 days, % from entry.</p>
-    <div class="tw"><table id="fwd" data-source="forward" data-row-key="chart,entry"><thead><tr>
-      <th data-field="chart">Chart</th><th data-field="entry">Entry</th><th data-field="grade">Grade</th><th class="l" data-field="lenses">Lenses</th>
-      <th data-field="htfDiv">HTF div.</th><th data-field="marker">Marker</th><th data-field="status">Status</th>
-      <th data-field="d10">Day 10</th><th data-field="best">Best</th><th data-field="worst">Worst</th>
-    </tr></thead><tbody></tbody></table></div>
+</details>
+<details class="fold"><summary><span>What each grade has done</span></summary>
+  <div class="panel tw"><table id="tiertab" data-source="grades" data-row-key="asset,grade"><thead><tr>
+    <th data-field="grade">Grade</th><th data-field="n">Setups</th><th data-field="reach20">+20%</th>
+    <th data-field="medDipBeforeHigh">Typical</th><th data-field="dip1in10">Bad case</th><th data-field="worstDip">Worst</th>
+    <th data-source="maxsafe" data-field="maxSafe">Max safe exposure</th>
+  </tr></thead><tbody></tbody></table></div>
+  <p class="note" style="padding:0 2px;margin-top:9px">ETH signals since 2020. Typical = median dip before the high; bad case = 1 in 10; worst = worst on record within 60 days.</p>
+</details>
+<details class="fold"><summary><span>The live record — every signal this year</span></summary>
+  <div class="panel tw"><table id="fwdtab" data-source="forward" data-row-key="chart,entry"><thead><tr>
+    <th data-field="chart">Chart</th><th data-field="entry">Entry</th><th data-field="grade">Grade</th><th data-field="status">Status</th>
+    <th data-field="d10">Day 10</th><th data-field="best">Best</th><th data-field="worst">Worst</th>
+  </tr></thead><tbody></tbody></table></div>
+</details>
+<details class="fold"><summary><span>The grade — what it counts</span></summary>
+  <div class="panel">
+    <div class="chk"><div class="n">01</div><div><div class="t">CT more than 5 above its Signal line</div></div></div>
+    <div class="chk"><div class="n">02</div><div><div class="t">Higher than the previous signal</div></div></div>
+    <div class="chk"><div class="n">03</div><div><div class="t">Two other ETH charts already printed</div><div class="d">In the 10 days before.</div></div></div>
+    <div class="chk"><div class="n">04</div><div><div class="t">A BTC 3D signal in the 10 days before</div><div class="d">1D and 2D charts.</div></div></div>
+    <div class="chk"><div class="n">05</div><div><div class="t">Funding at or above its 90-day median</div></div></div>
+    <div class="chk"><div class="n">06</div><div><div class="t">Funding not cooling</div><div class="d">7-day average at or above two weeks earlier.</div></div></div>
+    <div class="chk"><div class="n">A+</div><div><div class="d">4 or more = A+ · 3 = A · 2 = B · 0–1 = C. Shown beside it, not counted: higher-chart divergence, and a diamond or prime dot.</div></div></div>
   </div>
-
-  <h2 id="ladder">Where every chart sits</h2>
-  <div class="card">
-    <div class="tw"><table id="ladtab" data-source="live" data-row-key="chart"><thead><tr>
-      <th data-field="chart">Chart</th><th data-field="ctNow">CT RSI now</th><th data-field="lastTag">Last signal tag</th>
-      <th data-field="lastEntry">Last entry</th><th data-field="daysSince">Days since</th><th data-field="forming">Forming</th>
-    </tr></thead><tbody></tbody></table></div>
+</details>
+<details class="fold"><summary><span>What this is, and is not</span></summary>
+  <div class="panel notes">
+    <p class="note"><b>Computed signals, not trades.</b> No position is represented here.</p>
+    <p class="note"><b>No exit rule is in any number.</b> "+20%" means price touched it, not that it was sold.</p>
+    <p class="note"><b>Worst on record is not worst possible.</b> Leave margin; do not size to the line.</p>
+    <p class="note"><b>The regime filter has a known blind spot.</b> It stayed on through the November 2021 top.</p>
   </div>
+</details>
 
-  <h2 id="notes">What this is, and is not</h2>
-  <div class="card"><ul>
-    <li><b>Computed signals, not trades.</b> Nothing here is a position taken. It is what the indicator flagged, measured against what price then did.</li>
-    <li><b>No exit is in any number.</b> "+20% in 60d" means price touched that level, not that it was sold there. Upside is the best possible exit, not a return.</li>
-    <li><b>Odds, not certainty.</b> A grade is a historical rate for that kind of setup. "Worst plausible" is the low end of a 95% range for the +20% rate.</li>
-    <li><b>Worst on record is not worst possible.</b> Leave margin; do not size to the line.</li>
-    <li><b>The regime filter has a known blind spot.</b> It stayed on through the November 2021 top, when signals 60 to 150 days into the regime went 3 for 35.</li>
-    <li>Entry is the close of the confirmation bar, three bars after the RSI low. Regime filter applied to Bitcoin 2D. Coinbase prices. Not financial advice.</li>
-  </ul></div>
+<p class="foot">ENTRY AT THE CLOSE OF THE CONFIRMATION BAR · REGIME FILTER ON BITCOIN 2D · ETHEREUM, COINBASE · IDLE USDC TREATED AS COLLATERAL · MAINTENANCE MARGIN 5% · UPDATED DAILY FROM THE CTZB PIPELINE · PAST BEHAVIOUR, NOT A FORECAST, NOT FINANCIAL ADVICE.</p>
+
+</div>
 </div>
 <script>
 (function(){
-  var MM=0.05, grade='A+';
-  var $=function(id){return document.getElementById(id);};
-  var pct=function(v){return (v>0?'+':'')+v.toFixed(1)+'%';};
-  var money=function(v){return '$'+Math.round(v).toLocaleString('en-US');};
-  function rowsOf(id){var d=dash.data(id);return d.status==='ok'?(d.data||[]):null;}
-  function fill(tableId, src, cols, keep){
-    var tb=document.querySelector('#'+tableId+' tbody'); if(!tb) return;
-    while(tb.firstChild) tb.removeChild(tb.firstChild);
-    var rows=rowsOf(src);
-    var line=function(t){var tr=document.createElement('tr');var td=document.createElement('td');td.colSpan=cols.length;td.textContent=t;tr.appendChild(td);tb.appendChild(tr);};
-    if(rows===null){ line(dash.data(src).status==='error'?'Failed to load':'—'); return; }
-    rows=rows.filter(keep);
-    if(!rows.length){ line('None'); return; }
-    rows.forEach(function(r){
-      var tr=document.createElement('tr');
-      cols.forEach(function(c){var td=document.createElement('td');var v=r[c];td.textContent=(v===undefined||v===null||v==='')?'—':String(v);
-        if(c==='formingLenses'||c==='lenses') td.className='l'; tr.appendChild(td);});
-      tb.appendChild(tr);
-    });
+const MM=0.05, SPAN=60;
+const SIZES=[{v:0.01,l:"0.01 ETH"},{v:0.1,l:"0.1 ETH"},{v:1,l:"1 ETH"}];
+let tier="A+", cap=1000000, comShare=0.30, lev=3.3, csize=0.1;
+let TIERS=[], PRICE=null, LIVE=[], FWD=[];
+const $=id=>document.getElementById(id);
+const money=v=>"$"+Math.round(v).toLocaleString("en-US");
+const short=v=>v>=1000000?"$"+(v/1000000).toFixed(2)+"M":"$"+Math.round(v/1000)+"k";
+const T=()=>TIERS.find(t=>t.id===tier)||TIERS[0];
+const el=(tag,cls,txt)=>{const e=document.createElement(tag); if(cls) e.className=cls; if(txt!==undefined) e.textContent=txt; return e;};
+dash.calc("maxsafe",{inputs:["grades"],title:"Max safe exposure",
+  description:"Account exposure at which liquidation (5% maintenance margin, whole account as collateral) sits at the grade's worst dip on record.",
+  fn:(grades)=>grades.filter(r=>r.asset==="ETH"&&String(r.n)!=="0"&&r.worstDip!=="").map(r=>({asset:r.asset,grade:r.grade,maxSafe:(1/(Math.abs(+r.worstDip)/100+0.05)).toFixed(2)+"x"}))});
+
+function drawTiers(){
+  const h=$("tiers"); h.textContent="";
+  TIERS.forEach(t=>{const b=el("button",null,t.label); b.setAttribute("aria-pressed", String(t.id===tier));
+    b.onclick=()=>{tier=t.id; render();}; h.appendChild(b);});
+}
+function drawSizes(){
+  const h=$("csz"); h.textContent="";
+  SIZES.forEach(o=>{const b=el("button",null,o.l.toUpperCase()+" / CONTRACT"); b.setAttribute("aria-pressed", String(o.v===csize));
+    b.onclick=()=>{csize=o.v; render();}; h.appendChild(b);});
+}
+function fillTable(id, rows, cols){
+  const tb=document.querySelector("#"+id+" tbody"); tb.textContent="";
+  rows.forEach(r=>{const tr=el("tr"); cols.forEach(c=>tr.appendChild(el("td",null,(r[c]===undefined||r[c]==="")?"—":String(r[c])))); tb.appendChild(tr);});
+}
+function render(){
+  if(!TIERS.length || !PRICE) return;
+  const t=T();
+  const committed=cap*comShare, reserve=cap-committed, notional=committed*lev;
+  const liqPct=-((cap-MM*notional)/notional)*100;
+  const liqNoRes=-((committed-MM*notional)/notional)*100;
+  const lift=liqPct-liqNoRes;
+  if(document.activeElement!==$("capNum")) $("capNum").value=Math.round(cap);
+  if(document.activeElement!==$("comNum")) $("comNum").value=Math.round(committed);
+  $("cap").value=Math.min(2000000,Math.max(50000,cap)); $("com").value=Math.max(1,Math.min(100,Math.round(comShare*100)));
+  $("comPct").textContent=Math.round(comShare*100)+"% of capital"; $("resOut").textContent=money(reserve);
+  const ethQty=notional/PRICE, nContracts=Math.floor(ethQty/csize);
+  $("contracts").textContent=nContracts.toLocaleString("en-US");
+  $("ethqty").textContent=ethQty.toFixed(1)+" ETH";
+  $("notional").textContent=short(notional);
+  $("liq").textContent=liqPct<=-100?"n/a":liqPct.toFixed(0)+"%";
+  $("liq").className="v "+(liqPct<=-100||liqPct<t.worst?"gd":"bd");
+  $("lift").textContent=reserve<=0?"—":(liqPct<=-100?"to safety":"+"+Math.abs(lift).toFixed(0)+" pts");
+  $("typ").textContent="−"+money(Math.abs(t.med)/100*notional);
+  $("badc").textContent="−"+money(Math.abs(t.bad)/100*notional);
+  $("wrst").textContent="−"+money(Math.abs(t.worst)/100*notional);
+  const safeNotional=cap/((Math.abs(t.worst)/100)+MM), safeN=Math.floor(safeNotional/PRICE/csize);
+  const clears=liqPct<=-100||liqPct<t.worst;
+  $("orderTxt").textContent="With "+money(cap)+" — "+money(committed)+" committed and "+money(reserve)+" in USDC — "
+    +nContracts.toLocaleString("en-US")+" contracts, "+ethQty.toFixed(1)+" ETH at $"+PRICE.toLocaleString("en-US",{minimumFractionDigits:2})
+    +(clears?". Survives grade "+t.label+"'s worst on record.":". Past the safe limit — "+safeN.toLocaleString("en-US")+" contracts survives every "+t.label+" drawdown on record.");
+  const pos=v=>Math.max(0,Math.min(100,Math.abs(v)/SPAN*100));
+  const shown=liqPct<=-SPAN?null:liqPct;
+  const tr=$("track"); tr.textContent="";
+  tr.appendChild(el("div","base")); const z=el("div","zone"); z.style.width=(shown===null?100:pos(shown))+"%"; tr.appendChild(z);
+  [["typical",t.med],["bad case",t.bad],["worst",t.worst]].forEach(([lb,v])=>{const m=el("div","m"); m.style.left=pos(v)+"%";
+    m.appendChild(el("i",null,lb.toUpperCase())); m.appendChild(el("u",null,v.toFixed(1)+"%")); tr.appendChild(m);});
+  const lq=el("div",shown===null?"m":"m liq"); lq.style.left=(shown===null?99:pos(shown))+"%";
+  lq.appendChild(el("i",null,"LIQUIDATION")); lq.appendChild(el("u",null,shown===null?"off scale":shown.toFixed(0)+"%")); tr.appendChild(lq);
+  const d=$("vd"), dot=d.querySelector(".dot"), ti=d.querySelector(".t"), s2=d.querySelector(".s");
+  let c,txt,sub;
+  if(clears){c="var(--ok)";txt="Cleared";sub="Liquidation sits beyond every "+t.label+" drawdown on record.";}
+  else if(liqPct<t.bad){c="var(--warn)";txt="Marginal";sub="Survives the 1-in-10 case, not the worst on record. "+safeN.toLocaleString("en-US")+" contracts clears every past case.";}
+  else {c="var(--bad)";txt="Liquidation risk";sub="A 1-in-10 "+t.label+" drawdown ends the position. "+safeN.toLocaleString("en-US")+" contracts clears every past case.";}
+  dot.style.background=c; ti.style.color=c; ti.textContent=txt; s2.textContent=sub;
+  drawTiers(); drawSizes();
+}
+function drawAction(){
+  const act=$("act"), w=$("actWord"), l=$("actLine"), st=$("actStats"), nx=$("actNext");
+  const forming=LIVE.filter(r=>r.forming==="yes");
+  const rank={"A+":4,"A":3,"B":2,"C":1};
+  const gOf=r=>String(r.formingGrade||"").split(" ")[0];
+  forming.sort((a,b)=>(rank[gOf(b)]||0)-(rank[gOf(a)]||0));
+  st.textContent=""; nx.textContent="";
+  if(!forming.length){
+    act.className="act"; w.textContent="Nothing forming";
+    l.textContent="No ETH chart has a low forming. Check back in a few days.";
+    return;
   }
-  function gradeRow(){var g=rowsOf('grades');if(!g)return null;return g.find(function(r){return r.asset==='ETH'&&r.grade===grade;})||null;}
-  function drawPick(){
-    var h=$('gradepick'); while(h.firstChild) h.removeChild(h.firstChild);
-    ['A+','A','B','C'].forEach(function(g){var b=document.createElement('button');b.textContent=g;b.setAttribute('aria-pressed',String(g===grade));
-      b.addEventListener('click',function(){grade=g;drawPick();size();});h.appendChild(b);});
+  const top=forming[0], g=gOf(top), t=TIERS.find(x=>x.id===g)||null;
+  act.className="act"+(g==="A+"?" go":g==="A"?" soon":"");
+  w.textContent=g+" forming";
+  l.textContent=forming.map(r=>r.chart+" ("+gOf(r)+")").join(", ")+" — "+top.barsNeeded+" bar"+(top.barsNeeded==="1"?"":"s")+" from confirming. Grade is provisional until then.";
+  if(t){
+    [[t.win+"%","Reach +20%",t.win>=70?"gd":"dm"],[t.med.toFixed(1)+"%","Typical dip first","dm"],
+     [t.bad.toFixed(1)+"%","Bad case, 1 in 10","wn"],[t.worst.toFixed(1)+"%","Worst on record","bd"]].forEach(([v,k,c])=>{
+      const cell=el("div","c"); cell.appendChild(el("div","v "+c,v)); cell.appendChild(el("div","k lab",k)); st.appendChild(cell);});
   }
-  function size(){
-    var cap=+$('cap').value||0, com=(+$('com').value||0)/100, lev=+$('lev').value||1, csz=+$('csz').value||0.1;
-    var committed=cap*com, notional=committed*lev, expo=cap>0?notional/cap:0;
-    var liq=notional>0?-((cap-MM*notional)/notional)*100:null;
-    var lr=rowsOf('live'), eth=lr?lr.find(function(r){return r.chart==='ETH 1D';}):null, px=eth?+eth.closeNow:null;
-    $('o-notional').textContent=money(notional);
-    $('o-contracts').textContent=px?Math.floor(notional/px/csz).toLocaleString('en-US'):'—';
-    $('o-expo').textContent=expo.toFixed(2)+'x';
-    $('o-liq').textContent=liq===null?'—':(liq<=-100?'never':pct(liq));
-    var g=gradeRow(), p10=$('g-p10'), w=$('g-worst');
-    p10.setAttribute('data-source','grades');p10.setAttribute('data-field','dip1in10');
-    w.setAttribute('data-source','grades');w.setAttribute('data-field','worstDip');
-    var where='asset=ETH&grade='+encodeURIComponent(grade);
-    p10.setAttribute('data-where',where); w.setAttribute('data-where',where);
-    var v=$('verdict'); v.className='verdict';
-    if(!g){p10.textContent='—';w.textContent='—';$('o-maxsafe').textContent='—';v.textContent='—';return;}
-    var d10=+g.dip1in10, wd=+g.worstDip;
-    p10.textContent=String(g.dip1in10)+'%'; w.textContent=String(g.worstDip)+'%';
-    $('o-maxsafe').textContent=(1/(Math.abs(wd)/100+MM)).toFixed(2)+'x';
-    if(liq===null){v.textContent='—';return;}
-    if(liq<=wd){v.classList.add('ok');v.textContent='Liquidation ('+(liq<=-100?'never':pct(liq))+') sits beyond every dip a '+grade+' ETH signal has made on record ('+g.worstDip+'%).';}
-    else if(liq<=d10){v.classList.add('warn');v.textContent='Liquidation ('+pct(liq)+') survives the 1-in-10 dip ('+g.dip1in10+'%) but not the worst on record ('+g.worstDip+'%).';}
-    else {v.classList.add('bad');v.textContent='Liquidation ('+pct(liq)+') is inside the 1-in-10 dip ('+g.dip1in10+'%): about one '+grade+' signal in ten has dipped past it.';}
-  }
-  ['cap','com','lev','csz'].forEach(function(id){$(id).addEventListener('input',size);});
-  drawPick();
-  dash.onData(function(){
-    var lr=rowsOf('live'), forming=lr?lr.filter(function(r){return r.forming==='yes';}):null;
-    var t=$('takeaway');
-    if(!lr){t.textContent='—';}
-    else if(!forming.length){t.textContent='Nothing is forming on the tracked ETH charts. The grade table and the live record below update every day.';}
-    else {t.textContent=forming.map(function(r){return r.chart+' is forming, '+r.barsNeeded+' bar'+(r.barsNeeded==='1'?'':'s')+' from confirming, grade '+r.formingGrade;}).join('; ')+'.';}
-    fill('forming','live',['chart','formingTag','barsNeeded','formingGrade','formingLenses','formingHtfDiv','formingMarker'],function(r){return r.forming==='yes';});
-    fill('gradetab','grades',['asset','grade','n','perYear','reach20','worstPlausible','touched30','medDipBeforeHigh','dip1in10','worstDip','medUpside','upsideTopQuarter'],function(r){return String(r.n)!=='0';});
-    fill('fwd','forward',['chart','entry','grade','lenses','htfDiv','marker','status','d10','best','worst'],function(){return true;});
-    fill('ladtab','live',['chart','ctNow','lastTag','lastEntry','daysSince','forming'],function(){return true;});
-    size();
+  const b=el("b",null,"Lenses: "); nx.appendChild(b); nx.appendChild(document.createTextNode(top.formingLenses||"none"));
+}
+function drawLadder(){
+  const h=$("ladder"); h.textContent="";
+  const order=["C","B","A","A+"];
+  const today=new Date();
+  const recent=FWD.filter(r=>(today-new Date(r.entry))/864e5<=10);
+  const chips={}; order.forEach(g=>chips[g]=[]);
+  LIVE.filter(r=>r.forming==="yes").forEach(r=>{const g=String(r.formingGrade).split(" ")[0]; if(chips[g]) chips[g].push({t:r.chart.replace("ETH ","")+" · forming",s:false});});
+  recent.forEach(r=>{if(chips[r.grade]) chips[r.grade].push({t:r.chart.replace("ETH ","")+" · "+r.entry.slice(5),s:true});});
+  order.forEach((gid,i)=>{
+    const t=TIERS.find(x=>x.id===gid); if(!t) return;
+    const prev=i>0?TIERS.find(x=>x.id===order[i-1]):null;
+    const live=chips[gid].some(c=>!c.s);
+    const d=el("div","rung"+(t.win>=70?" above":"")+(live?" live":"")+(t.win>=70&&prev&&prev.win<70?" top":""));
+    d.appendChild(el("div","pc",t.win+"%"));
+    const nm=el("div","nm"); nm.appendChild(el("b",null,"Grade "+gid)); nm.appendChild(el("i",null,t.n+" past setups")); d.appendChild(nm);
+    const seg=el("div","seg");
+    if(chips[gid].length) chips[gid].forEach(c=>seg.appendChild(el("span","chip"+(c.s?" stale":""),c.t))); else seg.appendChild(el("span","empty","—"));
+    d.appendChild(seg);
+    const bar=el("div","bar"); const bi=el("i"); bi.style.width=((i+1)/order.length*100)+"%"; bar.appendChild(bi); d.appendChild(bar);
+    h.appendChild(d);
   });
+  const forming=LIVE.filter(r=>r.forming==="yes");
+  const st=$("armState"), sb=$("armSub");
+  if(forming.length){st.textContent="Forming"; st.style.color="var(--warn)"; sb.textContent="Bright chips are forming now; grey chips confirmed in the last 10 days.";}
+  else {st.textContent="Stand by"; st.style.color="var(--dim)"; sb.textContent="Nothing forming. Grey chips confirmed in the last 10 days.";}
+}
+function setLev(v, fromBox){ if(!isFinite(v)) return; lev=Math.min(10,Math.max(1,v)); $("exp").value=Math.round(lev*100); if(!fromBox) $("expNum").value=lev.toFixed(1); render(); }
+$("cap").addEventListener("input",e=>{cap=+e.target.value; render();});
+$("com").addEventListener("input",e=>{comShare=+e.target.value/100; render();});
+$("capNum").addEventListener("input",e=>{const v=parseFloat(e.target.value); if(isFinite(v)&&v>0){const c=cap*comShare; cap=v; comShare=Math.min(1,c/cap); render();}});
+$("comNum").addEventListener("input",e=>{const v=parseFloat(e.target.value); if(isFinite(v)&&v>0&&cap>0){comShare=Math.min(1,v/cap); render();}});
+$("capNum").addEventListener("blur",()=>render()); $("comNum").addEventListener("blur",()=>render());
+$("exp").addEventListener("input",e=>setLev(+e.target.value/100,false));
+$("expNum").addEventListener("input",e=>{const v=parseFloat(e.target.value); if(isFinite(v)&&v>=1&&v<=10) setLev(v,true);});
+$("expNum").addEventListener("blur",e=>{setLev(parseFloat(e.target.value)||lev,false);});
+dash.onData(()=>{
+  const g=dash.data("grades"), lv=dash.data("live"), fw=dash.data("forward"), ms=dash.data("maxsafe");
+  if(g.status==="ok"){
+    TIERS=(g.data||[]).filter(r=>r.asset==="ETH"&&["A+","A","B","C"].includes(r.grade)&&String(r.n)!=="0")
+      .map(r=>({id:r.grade,label:r.grade,n:+r.n,win:+r.reach20,med:+r.medDipBeforeHigh,bad:+r.dip1in10,worst:+r.worstDip}));
+    const ms_=ms.status==="ok"?(ms.data||[]):[];
+    const rows=(g.data||[]).filter(r=>r.asset==="ETH"&&["A+","A","B","C"].includes(r.grade)&&String(r.n)!=="0")
+      .map(r=>Object.assign({},r,{maxSafe:(ms_.find(m=>m.grade===r.grade)||{}).maxSafe}));
+    fillTable("tiertab",rows,["grade","n","reach20","medDipBeforeHigh","dip1in10","worstDip","maxSafe"]);
+  }
+  if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
+  if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}
+  if(TIERS.length&&LIVE.length){drawAction(); drawLadder();}
+  render();
+});
 })();
 </script>
