@@ -197,6 +197,15 @@ The stack that does cut risk is `funding not cooling AND gap>5`: n=102,
 liquidation 6% against a 20% baseline, median drawdown −8.8% against −14.0%,
 win 71% — keeping 9% of signals.
 
+## 8b. CORRECTION — 27 Oct, late
+
+Sections 5–7 project from troughs of the bandpass, and those are not price
+lows: at each one price sits a median 43–47% of the way up its cycle range.
+Rebuilt on real price swing lows in `analysis/hurstlow.py` and
+`pine/ctzb_hurst_lows.pine`: 160D projections land a median 0.33 period early
+and DUE does nothing at signals once it means a real low (flat pooled, flips by
+period). 80D is tighter. See CONTEXT.md, "CORRECTION, 27 Oct 2026 late".
+
 ## 9. Where to pick up
 
 1. **Explain the gradient or drop it.** A filter whose mechanism cannot be

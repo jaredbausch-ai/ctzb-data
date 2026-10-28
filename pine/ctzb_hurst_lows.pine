@@ -1,0 +1,135 @@
+//@version=6
+// CTZB Hurst Lows v1 - 27 Oct 2026
+// Forward-looking Hurst cycle lows, drawn from PRICE swing lows. Identical
+// construct to analysis/hurstlow.py, so what you see here is what was measured.
+//
+//   Swing low of degree D: the bar's low is the lowest of the bars from 0.5
+//   period before it to 0.25 period after it. Known 0.25 period later (that is
+//   when the label appears). A new low within 0.6 period of the last replaces
+//   it only if it is lower.
+//   Period: median of the last 3 gaps between swing lows, clamped to 0.8-1.6x
+//   the nominal length (fallback 1.25x: crypto cycles run ~1.15-1.34x Hurst's
+//   nominal lengths).
+//   Projected next low = last swing low + period. The shaded box is +/- 0.2
+//   period around it. Background tint = "DUE" (within 0.2 period), the state
+//   the test scored.
+//
+// WHAT THE TEST SAID (27 Oct 2026, analysis/RESULTS_hurstlow.txt). Read it
+// before trusting the boxes:
+//   160D: the actual low came a median 0.33 period (~55 days) EARLIER than
+//         projected; only 17-36% landed inside the +/-0.2 window. Signals
+//         inside the DUE window did no better overall, and the effect flipped
+//         sign between 2016-21 and 2022-26. Not carried.
+//   80D:  tighter. BTC 61% inside the window, ETH 40-48%, median miss
+//         0.15-0.27 period, also early-biased.
+//   The dotted line at each swing low marks where the previous projection
+//   had put it, so the miss is visible on the chart.
+// Context only. Not a filter. Computed, not fills.
+
+indicator("CTZB Hurst Lows v1", overlay = true, max_boxes_count = 50, max_labels_count = 300, max_lines_count = 300)
+
+show160 = input.bool(true,  "Show 160D degree", group = "Degrees")
+show80  = input.bool(true,  "Show 80D degree",  group = "Degrees")
+nom160  = input.float(136.4, "160D nominal length (days)", group = "Degrees")
+nom80   = input.float(68.2,  "80D nominal length (days)",  group = "Degrees")
+win     = input.float(0.2,   "Window, +/- fraction of period", minval = 0.05, maxval = 0.5, group = "Display")
+showPast = input.bool(true,  "Mark where the previous projection had each low", group = "Display")
+showBg  = input.bool(true,   "Tint bars while a low is DUE", group = "Display")
+
+tfDays = timeframe.in_seconds(timeframe.period) / 86400.0
+tfMs   = timeframe.in_seconds(timeframe.period) * 1000.0
+
+// a swing low confirmed on this bar: candidate is R bars back
+isLow(int L, int R) =>
+    bool ok = bar_index >= L + R
+    if ok
+        float v = low[R]
+        for k = 0 to R - 1
+            if low[k] < v
+                ok := false
+                break
+        if ok
+            for k = R + 1 to R + L
+                if low[k] <= v
+                    ok := false
+                    break
+    ok
+
+degree(float nomDays, bool on, color col, string nm) =>
+    float tgt = nomDays / tfDays
+    int L = math.max(2, int(math.round(0.5 * tgt)))
+    int R = math.max(2, int(math.round(0.25 * tgt)))
+    var array<int> lows = array.new<int>()
+    var array<float> lowP = array.new<float>()
+    var label lastLbl = na
+    var float lastProj = na
+    if on and isLow(L, R)
+        int j = bar_index - R
+        float v = low[R]
+        int n0 = array.size(lows)
+        bool replace = n0 > 0 and (j - array.get(lows, n0 - 1)) < 0.6 * tgt
+        if replace and v < array.get(lowP, n0 - 1)
+            array.set(lows, n0 - 1, j)
+            array.set(lowP, n0 - 1, v)
+            label.delete(lastLbl)
+            lastLbl := label.new(j, v, nm + " low", yloc = yloc.belowbar, style = label.style_label_up, color = col, textcolor = color.white, size = size.small)
+        else if not replace
+            array.push(lows, j)
+            array.push(lowP, v)
+            lastLbl := label.new(j, v, nm + " low", yloc = yloc.belowbar, style = label.style_label_up, color = col, textcolor = color.white, size = size.small)
+            if showPast and not na(lastProj)
+                int pt = int(time + (lastProj - bar_index) * tfMs)
+                line.new(pt, v, pt, v * 1.25, xloc = xloc.bar_time, color = col, style = line.style_dotted, width = 2)
+    int n = array.size(lows)
+    float per = 1.25 * tgt
+    if n >= 3
+        array<float> gaps = array.new<float>()
+        for k = math.max(1, n - 3) to n - 1
+            array.push(gaps, array.get(lows, k) - array.get(lows, k - 1))
+        per := array.median(gaps)
+    per := math.min(math.max(per, 0.8 * tgt), 1.6 * tgt)
+    float proj = na
+    if n > 0
+        proj := array.get(lows, n - 1) + per
+        while proj < bar_index - 0.5 * per
+            proj += per
+    lastProj := proj
+    float dist = n > 0 ? (proj - bar_index) / per : na
+    int projT = n > 0 ? int(time + (proj - bar_index) * tfMs) : na
+    [dist, projT, per * tfDays]
+
+[d160, t160, p160] = degree(nom160, show160, color.new(color.purple, 0), "160D")
+[d80,  t80,  p80]  = degree(nom80,  show80,  color.new(color.teal, 0),   "80D")
+
+bgcolor(showBg and show160 and not na(d160) and d160 < win ? color.new(color.purple, 88) : na, title = "160D DUE")
+bgcolor(showBg and show80 and not na(d80) and d80 < win ? color.new(color.teal, 90) : na, title = "80D DUE")
+
+// forward windows and a small table, on the last bar
+var box b160 = na
+var box b80 = na
+var table tb = table.new(position.top_right, 4, 3, border_width = 1)
+float top = ta.highest(high, 200) * 1.05
+float bot = ta.lowest(low, 200) * 0.95
+if barstate.islast
+    box.delete(b160)
+    box.delete(b80)
+    if show160 and not na(t160)
+        int w = int(win * p160 * 86400000)
+        b160 := box.new(t160 - w, top, t160 + w, bot, xloc = xloc.bar_time, border_color = color.new(color.purple, 40), bgcolor = color.new(color.purple, 85), text = "160D low window", text_color = color.purple, text_valign = text.align_bottom)
+    if show80 and not na(t80)
+        int w = int(win * p80 * 86400000)
+        b80 := box.new(t80 - w, top, t80 + w, bot, xloc = xloc.bar_time, border_color = color.new(color.teal, 40), bgcolor = color.new(color.teal, 85), text = "80D low window", text_color = color.teal, text_valign = text.align_top)
+    table.cell(tb, 0, 0, "Degree", text_color = color.white, bgcolor = color.gray)
+    table.cell(tb, 1, 0, "Next projected low", text_color = color.white, bgcolor = color.gray)
+    table.cell(tb, 2, 0, "+/- days", text_color = color.white, bgcolor = color.gray)
+    table.cell(tb, 3, 0, "Due now", text_color = color.white, bgcolor = color.gray)
+    if show160 and not na(t160)
+        table.cell(tb, 0, 1, "160D")
+        table.cell(tb, 1, 1, str.format_time(t160, "yyyy-MM-dd", "UTC"))
+        table.cell(tb, 2, 1, str.tostring(math.round(win * p160)))
+        table.cell(tb, 3, 1, d160 < win ? "yes" : "no")
+    if show80 and not na(t80)
+        table.cell(tb, 0, 2, "80D")
+        table.cell(tb, 1, 2, str.format_time(t80, "yyyy-MM-dd", "UTC"))
+        table.cell(tb, 2, 2, str.tostring(math.round(win * p80)))
+        table.cell(tb, 3, 2, d80 < win ? "yes" : "no")

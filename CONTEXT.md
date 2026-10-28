@@ -723,6 +723,23 @@ count. What keeps it interesting is the SHAPE matching the prediction --
 both-together beating either-alone, with drawdown moving the same way -- rather
 than any single cell.
 
+**CORRECTION, 27 Oct 2026 late: the projection below does not project PRICE
+lows.** `analysis/proj.py` anchors on troughs of its bandpass (long trailing
+average minus short trailing average of log price). Where price sits in its
+surrounding cycle range at those troughs: median 0.43 ETH 1D / 0.47 BTC 1D /
+0.44 ETH 2D, only 33-40% in the bottom third. Its +12 is real as measured but it
+times a phase point of the filter, not a bottom, which may be why the gradient
+is jagged. Rebuilt on actual price swing lows (`analysis/hurstlow.py`, declared,
+and `pine/ctzb_hurst_lows.pine`, the same construct): 160D price-low
+projections miss by a median 0.33 period, consistently EARLY (the real low comes
+~55 days before the projection), only 17-36% inside +/-0.2 period; DUE vs not
+at signals is flat pooled (+20% 55% vs 53%, -30% 20% vs 20%) and flips sign
+between periods (72/57 then 33/49). NOT CARRIED. 80D is tighter (BTC 61% inside
+the window, ETH 40-48%, median miss 0.15-0.27, also early). ETH 160D DUE x 2+
+agreeing still reads 71% / -30% 20% vs 57-58% elsewhere (n=126), unsplit by
+period -- watch only. On the same rows the bandpass construct reads DUE 59% /
+-30% 18% vs 48% / 23%: whatever it measures, it is not a cycle low.
+
 **Hurst FORWARD CYCLE PROJECTION — tested 27 Oct 2026. The best new candidate
 since the CT/Signal distance, and it came from Jared correcting the test.** After
 the FLD came back as momentum in disguise, he pointed out that Hurst is used to
