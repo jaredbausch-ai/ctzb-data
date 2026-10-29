@@ -135,7 +135,7 @@
 </details>
 <details class="fold" open><summary><span>This setup — every read we have</span></summary>
   <div class="panel tw"><table id="lrtab" data-source="liveread" data-row-key="subject,read"><thead><tr>
-    <th data-field="subject">Signal</th><th data-field="read">Read</th><th data-field="status">Now</th><th data-field="n">Setups</th><th data-field="reach10">+10%</th><th data-field="reach15">+15%</th><th data-field="reach20">+20%</th>
+    <th data-field="subject">Signal</th><th data-field="read">Read</th><th data-field="status">Now</th><th data-field="n">Setups</th><th data-field="reach10">+10%</th><th data-field="reach20">+20%</th><th data-field="reach30">+30%</th>
     <th data-field="touched30">Touched &minus;30%</th><th data-field="dipBeforeHigh">Dip from entry before the high</th><th data-field="maxDip60">Largest dip from entry, 60d</th><th data-field="bestMove">Best move</th><th data-field="sample">Sample</th>
   </tr></thead><tbody></tbody></table></div>
   <p class="note" style="padding:0 2px;margin-top:9px">Every documented read (stack_live.py registry) checked on every run against every forming low and every signal from the last 60 days, with the record on that chart. Drawdowns are from entry, medians. Forming lows are provisional until they confirm. Historical rates, %. Entry quality only &mdash; computed signals, not fills.</p>
@@ -282,7 +282,7 @@ function drawAction(){
   const rec=LR.find(x=>String(x.subject).startsWith(top.chart+" forming")&&x.read==="This chart with at least these lenses");
   const pc=v=>v===""||v===undefined?"—":v+"%", dd=v=>v===""||v===undefined?"—":(+v).toFixed(1)+"%";
   if(rec&&+rec.n>0){
-    [[String(rec.n),"Past setups like this","dm"],[pc(rec.reach10),"Reach +10% in 60d","gd"],[pc(rec.reach15),"Reach +15% in 60d","gd"],[pc(rec.reach20),"Reach +20% in 60d",+rec.reach20>=70?"gd":"dm"],
+    [[String(rec.n),"Past setups like this","dm"],[pc(rec.reach10),"Reach +10% in 60d","gd"],[pc(rec.reach20),"Reach +20% in 60d",+rec.reach20>=70?"gd":"dm"],[pc(rec.reach30),"Reach +30% in 60d","gd"],
      [pc(rec.touched30),"Touched −30%","wn"],[dd(rec.maxDip60),"Median drawdown from entry","wn"],[dd(rec.dipBeforeHigh),"Dip before the high","dm"],
      ["+"+(+rec.bestMove).toFixed(1)+"%","Typical best move","gd"]].forEach(([v,k,c])=>{
       const cell=el("div","c"); cell.appendChild(el("div","v "+c,v)); cell.appendChild(el("div","k lab",k)); st.appendChild(cell);});
@@ -338,7 +338,7 @@ dash.onData(()=>{
     fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","medDip","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
-  const lr=dash.data("liveread"); if(lr.status==="ok"){LR=lr.data||[]; fillTable("lrtab",LR,["subject","read","status","n","reach10","reach15","reach20","touched30","dipBeforeHigh","maxDip60","bestMove","sample"]);}
+  const lr=dash.data("liveread"); if(lr.status==="ok"){LR=lr.data||[]; fillTable("lrtab",LR,["subject","read","status","n","reach10","reach20","reach30","touched30","dipBeforeHigh","maxDip60","bestMove","sample"]);}
   const pr=dash.data("prints"); if(pr.status==="ok"){fillTable("prtab",pr.data||[],["chart","state","trough","confirms","entry","tags","note"]);}
   const wn=dash.data("windows"); if(wn.status==="ok"){fillTable("wntab",wn.data||[],["openedBy","confirmed","closes","appliesTo"]);}
   if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}

@@ -135,7 +135,7 @@ def rec(G):
     if not n: return [0, '', '', '', '', '', '', '']
     return [n, round(100 * sum(r['win'] for r in G) / n), round(100 * sum(r['t30'] for r in G) / n),
             round(st.median(r['m']['ddpk'] for r in G), 1), round(st.median(r['m']['dd'] for r in G), 1),
-            round(100 * sum(r['m']['up'] >= 10 for r in G) / n), round(100 * sum(r['m']['up'] >= 15 for r in G) / n),
+            round(100 * sum(r['m']['up'] >= 10 for r in G) / n), round(100 * sum(r['m']['up'] >= 30 for r in G) / n),
             round(st.median(r['m']['up'] for r in G), 1)]
 
 
@@ -446,7 +446,7 @@ def main():
                 if lower: wins.append([f'{a} {tf}', str(d), str(d + dt.timedelta(days=WIN)), f'DIVH flag (bullish Stoch divergence) for {lower}'])
 
     w = lambda p, h, rr: csv.writer(open(os.path.join(OUT, p), 'w', newline='')).writerows([h] + rr)
-    w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'reach10', 'reach15', 'bestMove', 'sample'], out)
+    w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'reach10', 'reach30', 'bestMove', 'sample'], out)
     w('prints.csv', ['chart', 'state', 'trough', 'confirms', 'entry', 'tags', 'note'], prints)
     w('windows.csv', ['openedBy', 'confirmed', 'closes', 'appliesTo'], sorted(wins, key=lambda x: x[2]))
     json.dump([dict(zip(('id', 'label', 'assets', 'charts', 'kind', 'documented'), x)) for x in REGISTRY],
