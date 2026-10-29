@@ -44,6 +44,7 @@ OUT = os.path.join(HERE, 'datasets')
 ASSETS = ('ETH', 'BTC'); TFS = ('1D', '2D', '3D', '5D', '8D')
 SPLIT = dt.date(2022, 1, 1)
 WIN = 10
+_HOOK = None
 
 # ------------------------------------------------------------------ registry
 # id, label, asset scope, chart scope, kind, where documented
@@ -324,6 +325,8 @@ def main():
                     tags = ' + '.join([s['bk']] + (['filled diamond'] if s['strong'] else ['hollow diamond'] if s['dis'] else []) + (['prime dot'] if s['prime'] else []))
                     subjects.append((f'open, day {(today - s["d0"]).days}', s, tags))
 
+    if _HOOK is not None:          # analysis/model.py reads the same features
+        return _HOOK(locals())
     # ------------------------------------------------ evaluate
     out = []; evaluated = set()
     cells = []
