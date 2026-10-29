@@ -1,0 +1,30 @@
+name: Basis test data (one-off)
+
+# One-off for analysis/basistest.py (29 Oct 2026): fetches Binance ETHUSDT spot and
+# perp hourly closes, which the container cannot reach. Runs only on the test branch.
+on:
+  push:
+    branches: [test/basis]
+    paths: [fetch_basis.py, .github/workflows/basis.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fetch basis
+        run: python fetch_basis.py
+      - name: Commit
+        run: |
+          git config user.name  "ctzb-pipeline"
+          git config user.email "actions@github.com"
+          git add data/ext/ETH_basis_daily.csv
+          git commit -m "basis data for basistest.py" || echo "no change"
+          git push
