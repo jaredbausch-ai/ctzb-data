@@ -43,7 +43,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
 | Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility) | `scaled20` |
 | Before 2022 / since 2022 (N trades) | The big-number measure split by entry date, with each half's count. The two counts must add up to the corner number | `surv10Old`, `nOld`, `surv10New`, `nNew` |
 | If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that still rose 10% without falling 25.3%, and the share that went on to fall 25.3%. Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
-| Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown only when one bar is left | `killClose` |
+| Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
 
 ## Wording rules

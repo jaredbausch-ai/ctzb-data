@@ -321,11 +321,15 @@ def main():
                 prints.append([f'{a} {tf}', 'forming', str(p['date']), str(d0f), round(C[i], 2), tags,
                                ('regime on' if gate(today) else 'regime off') + f'; {p["need"]} bar(s) to confirm'])
                 r['_trough'] = p['date']; r['_need'] = p['need']; r['_kill'] = None
-                if p['need'] == 1 and n == p['ti'] + 3:
+                # kill close: the confirmation-bar close at or below which CT would not stay above
+                # the trough CT. If the confirmation bar is the last (still open) bar, its close is
+                # replaced; if it is the next bar, it is appended.
+                base = list(C[:-1]) if n - 1 == p['ti'] + 3 else list(C) if n - 1 == p['ti'] + 2 else None
+                if base is not None:
                     lo, hi = C[-1] * 0.5, C[-1] * 1.5
                     for _ in range(60):
                         mid = (lo + hi) / 2
-                        if E.rsi(list(C) + [mid], 14)[-1] <= ct[p['ti']]: lo = mid
+                        if E.rsi(base + [mid], 14)[-1] <= ct[p['ti']]: lo = mid
                         else: hi = mid
                     r['_kill'] = round(lo, 2)
                 subjects.append(('forming (provisional)', r, tags))
