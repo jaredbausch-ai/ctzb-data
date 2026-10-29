@@ -1,13 +1,12 @@
 chart,entry,tier,tag,entryClose,elapsed,status,d10,d30,d60,best,worst,grade,lenses,htfDiv,marker
-ETH 1D,2026-09-05,yes,C + diamond + hollow,2480.61,54,open,-3.4,9.2,,13.2,-8.3,C,,no,yes
-ETH 1D,2026-09-13,no,C,2475.86,46,open,8.4,0.8,,13.4,-8.1,C,FCOOL,no,no
-ETH 1D,2026-09-18,yes,B + diamond + hollow + zone-exit B,2611.34,41,open,2.9,-7.8,,7.5,-12.8,A,HIGH + FUND + FCOOL,no,yes
-ETH 2D,2026-09-20,no,C + prime dot,2775.58,38,open,-2.5,-10.9,,0.5,-18.0,A,GAP + FUND + FCOOL,no,yes
-ETH 3D,2026-09-22,no,C + diamond + hollow,2687.28,36,open,-0.0,-12.4,,3.3,-15.3,A,AGREE + FUND + FCOOL,no,yes
-ETH 1D,2026-09-26,no,C,2695.53,33,open,0.1,-13.9,,3.0,-15.6,A,HIGH + AGREE + BTC3,no,no
-ETH 5D,2026-09-28,yes,C,2668.13,30,open,-8.4,-12.0,,2.7,-14.7,B,GAP + AGREE,no,no
-ETH 1D,2026-10-05,no,C + prime dot,2709.6,24,open,-10.0,,,0.6,-16.0,C,HIGH,no,yes
-ETH 1D,2026-10-11,no,A,2534.22,18,open,-2.5,,,1.7,-10.2,C,,no,no
-ETH 1D,2026-10-15,no,A,2439.45,14,open,-4.6,,,3.5,-6.7,B,FUND + FCOOL,no,no
-ETH 1D,2026-10-20,no,A,2446.62,9,open,,,,3.2,-7.0,A,HIGH + FUND + FCOOL,no,no
-ETH 1D,2026-10-29,no,A,2348.47,0,open,,,,,,,not matched,,
+ETH 1D,2026-09-05,yes,C + diamond + hollow,2480.61,54,open,-3.4,9.2,,13.2,-10.1,C,,no,yes
+ETH 1D,2026-09-13,no,C,2475.86,46,open,8.4,0.8,,13.4,-9.9,C,FCOOL,no,no
+ETH 1D,2026-09-18,yes,B + diamond + hollow + zone-exit B,2611.34,41,open,2.9,-7.8,,7.5,-14.6,A,HIGH + FUND + FCOOL,no,yes
+ETH 2D,2026-09-20,no,C + prime dot,2775.58,38,open,-2.5,-10.9,,0.5,-19.7,A,GAP + FUND + FCOOL,no,yes
+ETH 3D,2026-09-22,no,C + diamond + hollow,2687.28,36,open,-0.0,-12.4,,3.3,-17.0,A,AGREE + FUND + FCOOL,no,yes
+ETH 1D,2026-09-26,no,C,2695.53,33,open,0.1,-13.9,,3.0,-17.3,A,HIGH + AGREE + BTC3,no,no
+ETH 5D,2026-09-28,yes,C,2668.13,30,open,-8.4,-15.3,,2.7,-16.4,B,GAP + AGREE,no,no
+ETH 1D,2026-10-05,no,C + prime dot,2709.6,24,open,-10.0,,,0.6,-17.7,C,HIGH,no,yes
+ETH 1D,2026-10-11,no,A,2534.22,18,open,-2.5,,,1.7,-12.0,C,,no,no
+ETH 1D,2026-10-15,no,A,2439.45,14,open,-4.6,,,3.5,-8.6,B,FUND + FCOOL,no,no
+ETH 1D,2026-10-20,no,A,2446.62,9,open,,,,3.2,-8.9,A,HIGH + FUND + FCOOL,no,no
