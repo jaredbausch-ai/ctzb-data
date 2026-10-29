@@ -1,0 +1,121 @@
+
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const GC={'A+':css('--gAp'),'A':css('--gA'),'B':css('--gB'),'C':css('--gC')};
+const ORDER=['ETH 1D','ETH 2D','ETH 3D','ETH 5D','BTC 1D','BTC 2D','BTC 3D','BTC 5D'];
+const fmtP=v=>(+v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const mv=v=>v===''||v==null?'–':((+v>0?'+':+v<0?'−':'')+Math.abs(+v).toFixed(1)+'%');
+const pc=v=>v===''||v==null?'–':Math.round(+v)+'%';
+const day=s=>new Date(s+'T00:00:00Z').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('asof').textContent=day(DATA.built);
+
+// ---- charts: price on top, CT RSI underneath, time scales locked together ----
+const base={layout:{background:{type:'solid',color:css('--panel')},textColor:css('--dim'),fontFamily:css('--mono'),fontSize:11},
+  grid:{vertLines:{color:'rgba(140,156,165,.07)'},horzLines:{color:'rgba(140,156,165,.07)'}},
+  rightPriceScale:{borderColor:css('--rule'),minimumWidth:78},timeScale:{borderColor:css('--rule'),rightOffset:6},
+  crosshair:{mode:0},handleScale:{axisPressedMouseMove:true}};
+const pc1=LightweightCharts.createChart($('price'),{...base,autoSize:true});
+const pc2=LightweightCharts.createChart($('osc'),{...base,autoSize:true,timeScale:{...base.timeScale,visible:true}});
+const candles=pc1.addCandlestickSeries({upColor:'#4fa58e',downColor:'#c9695e',borderVisible:false,wickUpColor:'#4fa58e',wickDownColor:'#c9695e',priceFormat:{type:'price',precision:2,minMove:.01}});
+const ctS=pc2.addLineSeries({color:css('--ct'),lineWidth:2,priceLineVisible:false,lastValueVisible:true});
+const sgS=pc2.addLineSeries({color:css('--sig'),lineWidth:1,priceLineVisible:false,lastValueVisible:false});
+[[60,'#2f8f7f'],[50,'#5b6770'],[40,'#a5524a']].forEach(([v,c])=>ctS.createPriceLine({price:v,color:c,lineWidth:1,lineStyle:v===50?2:0,axisLabelVisible:false}));
+let lock=false;
+const sync=(a,b)=>a.timeScale().subscribeVisibleLogicalRangeChange(r=>{if(lock||!r)return;lock=true;b.timeScale().setVisibleLogicalRange(r);lock=false;});
+sync(pc1,pc2);sync(pc2,pc1);
+pc1.subscribeCrosshairMove(p=>{if(p.time)pc2.setCrosshairPosition(NaN,p.time,ctS);else pc2.clearCrosshairPosition();});
+
+let cur=null, marks=[], curName='ETH 1D';
+function load(name){
+  curName=name; cur=DATA.charts[name];
+  document.querySelectorAll('#picker button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===name));
+  candles.setData(cur.bars.map(b=>({time:b[0],open:b[1],high:b[2],low:b[3],close:b[4]})));
+  ctS.setData(cur.bars.filter(b=>b[5]!=null).map(b=>({time:b[0],value:b[5]})));
+  sgS.setData(cur.bars.filter(b=>b[6]!=null).map(b=>({time:b[0],value:b[6]})));
+  marks=cur.sig.map((s,i)=>({id:'s'+i,time:s.low,position:'belowBar',shape:'arrowUp',color:GC[s.grade],text:s.grade,size:1}));
+  const c=cur.card;
+  if(c) marks.push({id:'form',time:c.trough,position:'belowBar',shape:'circle',color:css('--form'),text:'? '+c.grade,size:1.4});
+  marks.sort((a,b)=>a.time<b.time?-1:1);
+  candles.setMarkers(marks);
+  $('ptag').textContent=name+' · Coinbase · '+cur.sig.length+' graded signals'+(c?' · low forming':'');
+  const n=cur.bars.length; pc1.timeScale().setVisibleLogicalRange({from:n-160,to:n+6});
+  c?showForming(name,c):showNone(name);
+}
+function pick(t){
+  if(!cur)return;
+  const t0=typeof t==='string'?t:null; if(!t0)return;
+  const m=marks.find(x=>x.time===t0); if(!m)return;
+  if(m.id==='form') showForming(curName,cur.card); else showPast(curName,cur.sig[+m.id.slice(1)]);
+}
+pc1.subscribeClick(p=>{
+  if(p.hoveredObjectId&&marks.find(m=>m.id===p.hoveredObjectId)){const m=marks.find(x=>x.id===p.hoveredObjectId);return pick(m.time);}
+  if(!p.time)return;
+  // a click on the bar, or one bar either side, opens its marker
+  const i=cur.bars.findIndex(b=>b[0]===p.time);
+  for(const k of [0,-1,1]){const b=cur.bars[i+k]; if(b&&marks.find(m=>m.time===b[0])) return pick(b[0]);}
+});
+
+// ---- the cards ----
+const card=$('card');
+function frame(inner){card.hidden=false;card.innerHTML=inner;card.querySelector('.close').onclick=()=>{card.hidden=true;};
+  const btn=card.querySelector('.copy'); if(btn){btn.onclick=()=>{const t=card.querySelector('.cp code').textContent;
+    (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1400);})
+    .catch(()=>{const r=document.createRange();r.selectNodeContents(card.querySelector('.cp code'));const s=getSelection();s.removeAllRanges();s.addRange(r);});};}}
+const closeBtn='<button class="close" aria-label="Close the card">×</button>';
+function copyBox(t){return `<div class="cp"><code>${esc(t)}</code><button class="copy" type="button">Copy</button></div>`;}
+const fine='These are past signals, not real trades, and past results don&rsquo;t promise future ones. Entry quality only.';
+
+function showForming(name,c){
+  const g=c.grade, a=c.asset;
+  const when=c.barsNeeded==='0'?'today&rsquo;s close':'the '+day(c.confirms)+' close';
+  const conf=c.killClose?`Confirms at ${when} if ${a} closes above <b>${fmtP(c.killClose)}</b>.`:`Confirms at ${when} (${c.barsNeeded} more bars to close).`;
+  let lad='';
+  for(const t of [5,10,15,20]){const n=c['l'+t+'n'],ok=c['l'+t+'ok'],lq=c['l'+t+'liq'];
+    lad+=`<tr><td>${t}%</td><td>${n}</td><td class="${+ok>=50?'gd':+ok>=30?'wn':'bd'}">${pc(ok)}</td><td class="bd">${pc(lq)}</td></tr>`;}
+  frame(`<div class="ch">${closeBtn}<div class="n"><b>${c.n}</b>past trades</div>
+    <div class="sample">The console&rsquo;s card · funding included</div>
+    <div class="word">${esc(name)} · <span class="chip" style="background:${GC[g]}">${esc(g)}</span> forming</div>
+    <div class="line">${conf} Provisional until it confirms.</div>
+    <div class="line">Confirmations: <b>${esc(c.lenses==='none'?'none yet':c.lenses)}</b></div></div>
+   <div class="head"><div class="big gd">${pc(c.surv10)}</div><div class="big-k">Rose 10% and never fell 25%, within 60 days of buying<span>A 25% fall is what wipes out a position at 3.3x.</span></div></div>
+   <div class="grid">
+    <div><div class="v">${pc(c.reach20)}</div><div class="k">Rose 20% or more</div></div>
+    <div><div class="v gd">${mv(c.bestMove)}</div><div class="k">Typical biggest rise</div></div>
+    <div><div class="v">${mv(c.dipBeforeHigh)}</div><div class="k">Typical dip before it rose</div></div>
+    <div><div class="v wn">${mv(c.maxDip60)}</div><div class="k">Typical deepest dip</div></div>
+    <div><div class="v bd">${pc(c.touched30)}</div><div class="k">Fell 30% or more</div></div>
+    <div><div class="v gd">${pc(c.scaled20)}</div><div class="k">Beat a normal move</div></div></div>
+   <div class="split"><div><div class="v">${pc(c.surv10Old)}</div><div class="k">Before 2022 (${c.nOld} trades)</div></div>
+    <div><div class="v">${pc(c.surv10New)}</div><div class="k">Since 2022 (${c.nNew} trades)</div></div></div>
+   <div class="lad"><h3>If it falls before it rises 10% · within 60 days</h3>
+    <table><thead><tr><th>Fall</th><th>Trades</th><th>Still rose 10%, never fell 25%</th><th>Went on to fall 25%</th></tr></thead><tbody>${lad}</tbody></table></div>
+   <div class="foot"><div><b>Where these numbers come from:</b> ${esc(c.basis)}. ${fine}</div>
+    ${copyBox(`CTZB ${name} · low ${c.trough} · confirms ${c.confirms} · ${g}`)}</div>`);
+}
+function showPast(name,s){
+  const q=s.day!==''?`<b>${s.day}%</b> from ${s.dayN} finished grade ${esc(s.grade)} trades`:'not enough finished trades yet to quote';
+  frame(`<div class="ch">${closeBtn}
+    <div class="sample">Past signal · what it quoted and what happened</div>
+    <div class="word">${esc(name)} · <span class="chip" style="background:${GC[s.grade]}">${esc(s.grade)}</span></div>
+    <div class="line">Low ${day(s.low)} · confirmed ${day(s.entry)} · bought at <b>${fmtP(s.px)}</b></div>
+    <div class="line">Tag: <b>${esc(s.tags)}</b></div>
+    <div class="line">Confirmations: <b>${esc(s.lenses)}</b></div>
+    <div class="line">On the day, the grade quoted ${q} (rose 10%, never fell 25%).</div></div>
+   <div class="head"><div class="big ${s.surv?'gd':'bd'}">${s.surv?'Yes':'No'}</div><div class="big-k">Rose 10% and never fell 25%, within 60 days<span>What this trade actually did.</span></div></div>
+   <div class="grid">
+    <div><div class="v gd">${mv(s.best)}</div><div class="k">Biggest rise</div></div>
+    <div><div class="v">${mv(s.dip)}</div><div class="k">Dip before it rose</div></div>
+    <div><div class="v ${s.dd<=-25?'bd':'wn'}">${mv(s.dd)}</div><div class="k">Deepest dip</div></div></div>
+   <div class="foot"><div>Rose 20% or more: <span class="${s.r20?'yes':'no'}">${s.r20?'yes':'no'}</span>. All within 60 days of buying, from the buy price. ${fine}</div>
+    ${copyBox(`CTZB ${name} · low ${s.low} · confirmed ${s.entry} · ${s.grade}`)}</div>`);
+}
+function showNone(name){frame(`<div class="ch">${closeBtn}<div class="word">${esc(name)}</div><div class="line">Nothing forming on this chart. Click any marker to see that signal&rsquo;s card.</div></div>`);}
+
+// ---- picker ----
+ORDER.forEach(n=>{const b=document.createElement('button');b.type='button';b.dataset.c=n;b.innerHTML=esc(n)+(DATA.charts[n].card?'<span class="dot" title="low forming"></span>':'');
+  b.onclick=()=>{curName=n;load(n);};$('picker').appendChild(b);});
+load(curName);
+</script>
