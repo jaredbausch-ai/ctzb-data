@@ -41,7 +41,6 @@ var array<int> prevFb = array.new_int(10, -1)
 var array<int> prevD0 = array.new_int(10, na)
 var array<string> prevLine = array.new_string(10, "")
 
-nForming = 0
 if barstate.islast
     table.clear(TB, 0, 0, 7, 13)
     color H = color.new(#1E293B, 0)
@@ -71,8 +70,6 @@ if barstate.islast
         put(5, r, f ? str.tostring(c.s.get(S_N), "#") : "-", tx, bg)
         put(6, r, f ? (na(c.kill) ? str.tostring(c.need) + " bars to close" : fPx(c.kill)) : "-", tx, bg)
         put(7, r, na(c.lastD0) ? "-" : str.tostring(math.floor((timenow - c.lastD0) / DAY_MS) - 1) + "d", DIM, bg)
-        if f
-            nForming += 1
         // alerts: a new forming low, or a confirmation (the last signal's date moved)
         if barstate.isrealtime
             if aForm and f and prevFb.get(i) == 0
@@ -90,4 +87,5 @@ if barstate.islast
     put(0, 13, "Card numbers as of " + BUILT + ". Past signals, not real trades. Entry quality only.", DIM, P)
     table.merge_cells(TB, 0, 13, 7, 13)
 
-plot(nForming, "Charts with a low forming", color=color.new(#42A5F5, 0), style=plot.style_columns)
+// No bars: the pane is just the readout. Pine needs one output call, so this draws nothing.
+plot(na, "", display=display.none)
