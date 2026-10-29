@@ -50,7 +50,13 @@ def main():
     SL.main()
     rows, feats, DAY, DPOS, FCUT = cap['rows'], cap['feats'], cap['DAY'], cap['DPOS'], cap['FCUT']
     SPLIT = SL.SPLIT
-    LENS = lens_lists()
+    LIVE = lens_lists()
+    # TradingView cannot read the 12-exchange funding (Jared, 29 Oct: no inputs, Joe must
+    # see grades). ETH is graded on its four PRICE confirmations, shown with an asterisk,
+    # measured on the full ETH history (2016 on) since it needs no funding. BTC's grade has
+    # no funding lens, so it is the console's grade exactly. analysis/fundloss.py.
+    LENS = {'ETH': [k for k in LIVE['ETH'] if k not in ('FUND', 'FCOOL')], 'BTC': LIVE['BTC']}
+    assert LENS['ETH'] == ['GAP', 'HIGH', 'AGREE', 'BTC3'], LENS['ETH']
 
     # ---- stats, the same formulas as stack_live.card() ----
     def ladder(G):
@@ -90,7 +96,7 @@ def main():
 
     T = {}          # key -> stats (or count only)
     for a in ('ETH', 'BTC'):
-        okrow = (lambda s: s.get('fund') is not None and s.get('fcool') is not None) if a == 'ETH' else (lambda s: True)
+        okrow = lambda s: True          # no funding lens in either asset's script grade
         Aall = [s for s in rows if s['a'] == a and s['tf'] in ('1D', '2D', '3D', '5D') and okrow(s)]
         for g in GRADES:
             T[f'{a}|G|{g}'] = stats([s for s in Aall if gof(bin(mask(a, s)).count('1')) == g])
@@ -107,7 +113,7 @@ def main():
     PLAINR = {v: k for k, v in {'GAP': 'CT well above its Signal line', 'HIGH': 'a higher low than the last signal', 'AGREE': 'other charts already confirmed',
               'BTC3': 'a BTC 3D signal in the 10 days before', 'BTCX': 'an ETH 2D signal in the 10 days before', 'FUND': 'funding at or above its 90-day median',
               'FCOOL': 'funding not cooling', 'UP8': 'the 8D chart rising', 'FASTCT': 'CT recovering fast from the low'}.items()}
-    bad = []; cards = list(csv.DictReader(open('datasets/cards.csv')))
+    bad = []; cards = [c for c in csv.DictReader(open('datasets/cards.csv')) if c['asset'] == 'BTC']
     for c in cards:
         a, tf, g = c['asset'], c['tf'], c['grade']
         have = set() if c['lenses'] == 'none' else {PLAINR[x] for x in c['lenses'].split('; ')}
@@ -118,9 +124,19 @@ def main():
             cv = c[k]
             if str(v) != cv and not (cv != '' and v != '' and float(cv) == float(v)):
                 bad.append(f"{c['chart']} {k}: card {cv} vs table {v}")
+    # ETH: the pooled price-only grades must equal analysis/RESULTS_fundloss.md (PRICE, 2016 on)
+    want = {}
+    sec = open('analysis/RESULTS_fundloss.md').read().split('PRICE-only grade, full history (2016 on)')[1].split('##')[0]
+    for line in sec.splitlines():
+        p = [x.strip() for x in line.strip('|').split('|')]
+        if len(p) == 4 and p[0] in GRADES: want[p[0]] = (int(p[1]), int(p[2].rstrip('%')))
+    for g in GRADES:
+        t = T[f'ETH|G|{g}']
+        if (t[0], t[1]) != want.get(g):
+            bad.append(f'ETH price-only grade {g}: table n={t[0]} {t[1]}% vs fundloss {want.get(g)}')
     if bad:
         raise SystemExit('TABLES DO NOT REPRODUCE THE CARDS:\n  ' + '\n  '.join(bad))
-    print(f'tables reproduce all {len(cards)} cards in datasets/cards.csv')
+    print(f'tables reproduce all {len(cards)} BTC cards in datasets/cards.csv, and the ETH price-only grades in RESULTS_fundloss.md')
 
     # ---- regime flips ----
     ok, days = R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41, ret_series=True)
@@ -140,8 +156,9 @@ def main():
          f'string BUILT = "{built:%d %b %Y}"',
          f'int BUILT_2D = {ts(last2d)}   // last closed BTC 2D bar in the build',
          f'bool BUILT_STATE = {"true" if ok[last2d] else "false"}',
-         'var array<int> RZ_T = array.from(' + ', '.join(str(ts(d)) for d, _ in flips) + ')',
-         'var array<bool> RZ_S = array.from(' + ', '.join('true' if s else 'false' for _, s in flips) + ')',
+         '// regime on a date: the state after the last flip on or before it (R.rsi_regime, 8, 13, 60, 41)',
+         'regAt(int t) =>',
+         '    bool s = false'] + [f'    s := t >= {ts(d)} ? {"true" if st_ else "false"} : s   // {d}' for d, st_ in flips] + ['    s',
          '// FASTCT cut points (CT at confirmation minus CT at the trough, top third, 2016-21)',
          'fcutFor(string ch) =>',
          '    float r = na']

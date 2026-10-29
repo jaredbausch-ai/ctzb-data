@@ -1,24 +1,30 @@
 // ===== ENGINE - shared, word for word, by CT Zone Bounce v16 and CTZB Scanner v10 =====
-// Mirrors the repo's stack_live.py, which writes the dashboard's trade cards. Every
-// rule below names the Python it copies. Definitions: docs/CARD_SPEC.md.
+// Mirrors the repo's stack_live.py, which writes the console's trade cards. Each rule
+// names the Python it copies. Card definitions: docs/CARD_SPEC.md.
+//
+// GRADES. BTC is the console's grade exactly: its four confirmations are all price.
+// ETH is graded WITHOUT its two funding confirmations, because TradingView cannot read
+// the funding the console uses (averaged across about 12 exchanges). It is shown with
+// an asterisk (B*) and its odds are the record of that price-only grade, measured on
+// ETH from 2016 (analysis/fundloss.py). The console's ETH grade is the official one.
+// Every card carries a copy line: paste it to Claude for the console's card.
 const int DAY_MS = 86400000
 
-// ETH funding cannot be read on TradingView the way the grade was measured (funding
-// averaged across about 12 exchanges since 2020), so the two ETH funding
-// confirmations are switches. Set them from the dashboard card's "Confirmations"
-// line. Until both are set, ETH charts show no grade and no odds.
-gFund = "ETH funding (set from the dashboard card)"
-iFund  = input.string("Not set", "Funding at or above its 90-day median", options=["Not set", "Yes", "No"], group=gFund)
-iFcool = input.string("Not set", "Funding not cooling", options=["Not set", "Yes", "No"], group=gFund)
-fundSet = iFund != "Not set" and iFcool != "Not set"
+bkCode(float v) =>
+    v < 40 ? 1 : v < 55 ? 2 : v < 65 ? 3 : 4
+
+bkName(int c) =>
+    c == 1 ? "A" : c == 2 ? "B" : c == 3 ? "C" : "D"
+
+tagText(int bk, int dia, bool prime) =>
+    bkName(bk) + (dia == 1 ? " + filled diamond" : dia == 2 ? " + hollow diamond" : "") + (prime ? " + prime dot" : "")
 
 // One chart, computed on its own bars (called through request.security).
-// Signals: engine.signals - CT RSI 14 pivot low, 3 bars each side, strictly lower;
-// entry is the close of the confirmation bar (trough + 3); kept only if the regime
-// was BULL on the trough's date. Only bars that have CLOSED count as confirmations,
-// so the confirmation is read one bar late (on the bar after it closes).
-// Forming low: refresh.provisional - the most recent low with 3 strictly higher
-// bars on its left and nothing lower since; need = bars still to close.
+// Signals (engine.signals): CT RSI 14 pivot low, 3 bars each side, strictly lower;
+// entry = close of the confirmation bar (trough + 3); kept only if the regime was BULL
+// on the trough's date. Only CLOSED bars count, so a confirmation is read on the bar
+// after it closes. Forming low (refresh.provisional): the latest low with 3 strictly
+// higher bars on its left and nothing lower since; need = bars still to close.
 f_chart() =>
     float ct = ta.rsi(close, 14)
     float em = ta.ema(ct, 14)
@@ -26,26 +32,23 @@ f_chart() =>
     float chg = ta.change(close)
     float ag = ta.rma(math.max(chg, 0), 14)
     float al = ta.rma(-math.min(chg, 0), 14)
-    // ---- confirmed signals (confirmation bar = the last closed bar) ----
+    // ---- confirmed signals: the confirmation bar is the last closed bar ----
     float v = ct[4]
     bool piv = not na(v) and not na(ct[7]) and not na(ct[1]) and not na(kL[4]) and ct[7] > v and ct[6] > v and ct[5] > v and ct[3] > v and ct[2] > v and ct[1] > v
     var float pCt = na
     var float pK = na
     var int lastD0 = na
     var float lastEntry = na
-    var int lastCode = na
     if piv
         float tk = kL[4]
-        bool dis = not na(pCt) and ((v - pCt > 0 and tk - pK < 0) or (v - pCt < 0 and tk - pK > 0))
         if regAt(time[4])
-            // d0 = the confirmation bar's last day = the next bar's open minus a day (grokpack.bucket_end)
+            // d0 = the confirmation bar's last day = next bar's open minus a day (grokpack.bucket_end)
             lastD0 := time - DAY_MS
             lastEntry := close[1]
-            lastCode := bkCode(v) * 100 + (dis ? (v < 50 ? 1 : 2) : 0) * 10 + (tk >= 20 and tk < 50 ? 1 : 0)
         // the diamond chain is NOT gated (engine.signals ungated=True)
         pCt := v
         pK := tk
-    // ---- forming low at the bar now open (refresh.provisional) ----
+    // ---- forming low at the bar now open ----
     int fb = 0
     for b = 1 to 3
         if fb == 0
@@ -62,7 +65,8 @@ f_chart() =>
     float fK = fb > 0 ? kL[fb] : na
     int fT = fb > 0 ? time[fb] : na
     bool fDis = fb > 0 and not na(fK) and not na(pCt) and ((fCt - pCt) * (fK - pK) < 0)
-    // ---- the regime's own state machine, used on BTC 2D only (regimes.rsi_regime 8, 13, 60, 41) ----
+    // ---- the regime's state machine, read from BTC 2D only (regimes.rsi_regime 8, 13, 60, 41) ----
+    // Up to the build date it is the repo's recorded state; after it, the rule runs here.
     var int rzS = 0
     var int nUp = 0
     var int nDn = 0
@@ -77,52 +81,41 @@ f_chart() =>
     else if rzS == 1 and nDn >= 13
         rzS := 0
         nUp := 0
-    [ct, em, ct[1], ct[2], close, close[1], ag, al, ag[1], al[1], time, lastD0, lastEntry, lastCode, fb, fCt, fK, fT, fDis, rzS]
+    [ct, em, ct[1], ct[2], close, close[1], ag, al, ag[1], al[1], time, lastD0, lastEntry, fb, fCt, fK, fT, fDis, rzS]
 
-bkCode(float v) =>
-    v < 40 ? 1 : v < 55 ? 2 : v < 65 ? 3 : 4
-
-bkName(int c) =>
-    c == 1 ? "A" : c == 2 ? "B" : c == 3 ? "C" : "D"
-
-tagText(int bk, int dia, bool prime) =>
-    bkName(bk) + (dia == 1 ? " + filled diamond" : dia == 2 ? " + hollow diamond" : "") + (prime ? " + prime dot" : "")
-
-// Kill close (stack_live, fixed 29 Oct): the confirmation-bar close at or below which CT
-// would not stay above the trough's CT, so the low would not confirm. Solved exactly
-// from Wilder's averages instead of stack_live's binary search (same answer to the cent).
-killFor(float pc, float pag, float pal, float T) =>
-    float rs = T / (100 - T)
+// Kill close (stack_live, fixed 29 Oct): the close on the confirmation bar at or below
+// which CT would not stay above the trough's CT, so the low would not confirm. Solved
+// exactly from Wilder's averages (stack_live does a binary search; same answer).
+killFor(float pc, float pag, float pal, float trg) =>
+    float rs = trg / (100 - trg)
     float x = rs * pal * 13 - pag * 13
     x >= 0 ? pc + x : pc + pal * 13 - pag * 13 / rs
 
 gradeOf(int c) =>
     c <= 1 ? "C" : c == 2 ? "B" : c == 3 ? "A" : "A+"
 
-// the like-for-like sample (docs/CARD_SPEC.md): exactly these confirmations on this
-// chart if 15+, else this chart at this grade if 15+, else this grade across the
-// asset's 1D-5D charts. Returns the numbers and the plain-words source line.
-cardSample(string ch, string a, string tf, int mask, string g) =>
+// The like-for-like sample (docs/CARD_SPEC.md): exactly these confirmations on this chart
+// if 15+, else this chart at this grade if 15+, else this grade across the asset's 1D-5D
+// charts. Returns the numbers and the plain-words source line.
+cardSample(string ch, string a, int mask, string g, string gl) =>
     string kx = ch + "|X|" + str.tostring(mask)
-    string kg = ch + "|G|" + g
-    string ka = a + "|G|" + g
     array<string> ex = STATS.contains(kx) ? str.split(STATS.get(kx), ",") : array.from("0")
-    array<string> sg = str.split(STATS.get(kg), ",")
-    array<string> agg = str.split(STATS.get(ka), ",")
+    array<string> sgx = str.split(STATS.get(ch + "|G|" + g), ",")
+    array<string> agg = str.split(STATS.get(a + "|G|" + g), ",")
     int nEx = int(str.tonumber(ex.get(0)))
-    int nSg = int(str.tonumber(sg.get(0)))
+    int nSg = int(str.tonumber(sgx.get(0)))
     int nAg = int(str.tonumber(agg.get(0)))
     array<string> S = agg
-    string basis = "the last " + str.tostring(nAg) + " grade " + g + " trades across all " + a + " charts (" + ch + " alone has only " + str.tostring(nSg) + ", too few to use)"
+    string basis = "the last " + str.tostring(nAg) + " grade " + gl + " trades across all " + a + " charts (" + ch + " alone has only " + str.tostring(nSg) + ", too few to use)"
     if nEx >= 15
         S := ex
         basis := "the last " + str.tostring(nEx) + " " + ch + " trades with exactly the same confirmations"
     else if nSg >= 15
-        S := sg
-        basis := "the last " + str.tostring(nSg) + " " + ch + " trades graded " + g + " (" + (nEx == 0 ? "none" : "only " + str.tostring(nEx)) + " had exactly the same confirmations, too few to use)"
+        S := sgx
+        basis := "the last " + str.tostring(nSg) + " " + ch + " trades graded " + gl + " (" + (nEx == 0 ? "none" : "only " + str.tostring(nEx)) + " had exactly the same confirmations, too few to use)"
     array<float> out = array.new_float()
-    for s in S
-        out.push(str.tonumber(s))
+    for x in S
+        out.push(str.tonumber(x))
     [out, basis]
 
 // field positions in a sample (build_v10.py SHDR)
@@ -145,16 +138,16 @@ const int S_L5 = 13
 sE = "COINBASE:ETHUSD"
 sB = "COINBASE:BTCUSD"
 la = barmerge.lookahead_off
-[e1ct, e1em, e1c1, e1c2, e1cl, e1cl1, e1ag, e1al, e1ag1, e1al1, e1t, e1d0, e1en, e1cd, e1fb, e1fc, e1fk, e1ft, e1fd, e1rz] = request.security(sE, "1D", f_chart(), lookahead=la)
-[e2ct, e2em, e2c1, e2c2, e2cl, e2cl1, e2ag, e2al, e2ag1, e2al1, e2t, e2d0, e2en, e2cd, e2fb, e2fc, e2fk, e2ft, e2fd, e2rz] = request.security(sE, "2D", f_chart(), lookahead=la)
-[e3ct, e3em, e3c1, e3c2, e3cl, e3cl1, e3ag, e3al, e3ag1, e3al1, e3t, e3d0, e3en, e3cd, e3fb, e3fc, e3fk, e3ft, e3fd, e3rz] = request.security(sE, "3D", f_chart(), lookahead=la)
-[e5ct, e5em, e5c1, e5c2, e5cl, e5cl1, e5ag, e5al, e5ag1, e5al1, e5t, e5d0, e5en, e5cd, e5fb, e5fc, e5fk, e5ft, e5fd, e5rz] = request.security(sE, "5D", f_chart(), lookahead=la)
-[e8ct, e8em, e8c1, e8c2, e8cl, e8cl1, e8ag, e8al, e8ag1, e8al1, e8t, e8d0, e8en, e8cd, e8fb, e8fc, e8fk, e8ft, e8fd, e8rz] = request.security(sE, "8D", f_chart(), lookahead=la)
-[b1ct, b1em, b1c1, b1c2, b1cl, b1cl1, b1ag, b1al, b1ag1, b1al1, b1t, b1d0, b1en, b1cd, b1fb, b1fc, b1fk, b1ft, b1fd, b1rz] = request.security(sB, "1D", f_chart(), lookahead=la)
-[b2ct, b2em, b2c1, b2c2, b2cl, b2cl1, b2ag, b2al, b2ag1, b2al1, b2t, b2d0, b2en, b2cd, b2fb, b2fc, b2fk, b2ft, b2fd, b2rz] = request.security(sB, "2D", f_chart(), lookahead=la)
-[b3ct, b3em, b3c1, b3c2, b3cl, b3cl1, b3ag, b3al, b3ag1, b3al1, b3t, b3d0, b3en, b3cd, b3fb, b3fc, b3fk, b3ft, b3fd, b3rz] = request.security(sB, "3D", f_chart(), lookahead=la)
-[b5ct, b5em, b5c1, b5c2, b5cl, b5cl1, b5ag, b5al, b5ag1, b5al1, b5t, b5d0, b5en, b5cd, b5fb, b5fc, b5fk, b5ft, b5fd, b5rz] = request.security(sB, "5D", f_chart(), lookahead=la)
-[b8ct, b8em, b8c1, b8c2, b8cl, b8cl1, b8ag, b8al, b8ag1, b8al1, b8t, b8d0, b8en, b8cd, b8fb, b8fc, b8fk, b8ft, b8fd, b8rz] = request.security(sB, "8D", f_chart(), lookahead=la)
+[e1ct, e1em, e1c1, e1c2, e1cl, e1cl1, e1ag, e1al, e1ag1, e1al1, e1t, e1d0, e1en, e1fb, e1fc, e1fk, e1ft, e1fd, e1rz] = request.security(sE, "1D", f_chart(), lookahead=la)
+[e2ct, e2em, e2c1, e2c2, e2cl, e2cl1, e2ag, e2al, e2ag1, e2al1, e2t, e2d0, e2en, e2fb, e2fc, e2fk, e2ft, e2fd, e2rz] = request.security(sE, "2D", f_chart(), lookahead=la)
+[e3ct, e3em, e3c1, e3c2, e3cl, e3cl1, e3ag, e3al, e3ag1, e3al1, e3t, e3d0, e3en, e3fb, e3fc, e3fk, e3ft, e3fd, e3rz] = request.security(sE, "3D", f_chart(), lookahead=la)
+[e5ct, e5em, e5c1, e5c2, e5cl, e5cl1, e5ag, e5al, e5ag1, e5al1, e5t, e5d0, e5en, e5fb, e5fc, e5fk, e5ft, e5fd, e5rz] = request.security(sE, "5D", f_chart(), lookahead=la)
+[e8ct, e8em, e8c1, e8c2, e8cl, e8cl1, e8ag, e8al, e8ag1, e8al1, e8t, e8d0, e8en, e8fb, e8fc, e8fk, e8ft, e8fd, e8rz] = request.security(sE, "8D", f_chart(), lookahead=la)
+[b1ct, b1em, b1c1, b1c2, b1cl, b1cl1, b1ag, b1al, b1ag1, b1al1, b1t, b1d0, b1en, b1fb, b1fc, b1fk, b1ft, b1fd, b1rz] = request.security(sB, "1D", f_chart(), lookahead=la)
+[b2ct, b2em, b2c1, b2c2, b2cl, b2cl1, b2ag, b2al, b2ag1, b2al1, b2t, b2d0, b2en, b2fb, b2fc, b2fk, b2ft, b2fd, b2rz] = request.security(sB, "2D", f_chart(), lookahead=la)
+[b3ct, b3em, b3c1, b3c2, b3cl, b3cl1, b3ag, b3al, b3ag1, b3al1, b3t, b3d0, b3en, b3fb, b3fc, b3fk, b3ft, b3fd, b3rz] = request.security(sB, "3D", f_chart(), lookahead=la)
+[b5ct, b5em, b5c1, b5c2, b5cl, b5cl1, b5ag, b5al, b5ag1, b5al1, b5t, b5d0, b5en, b5fb, b5fc, b5fk, b5ft, b5fd, b5rz] = request.security(sB, "5D", f_chart(), lookahead=la)
+[b8ct, b8em, b8c1, b8c2, b8cl, b8cl1, b8ag, b8al, b8ag1, b8al1, b8t, b8d0, b8en, b8fb, b8fc, b8fk, b8ft, b8fd, b8rz] = request.security(sB, "8D", f_chart(), lookahead=la)
 
 liveBull = b2rz == 1
 regimeMoved = liveBull != BUILT_STATE
@@ -168,21 +161,21 @@ type Card
     string a
     string tf
     int fb = 0
-    int need
+    int need = 0
     int trough
     int d0
     float kill
     float price
-    string tag
+    string tag = ""
     int lastD0
-    bool graded = false
     int mask = 0
     string grade = ""
     string lenses = ""
+    string codes = ""
     array<float> s
     string basis = ""
 
-// one card per chart, built exactly as stack_live builds a forming low's card
+// one card per chart, built as stack_live builds a forming low's card
 mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b, float cl, float cl1, float ag, float al, float ag1, float al1, int t, int d0last, float entLast, int fb, float fCt, float fK, int fT, bool fDis, int oth1, int oth2, int oth3, int oth4, int crossD0) =>
     Card c = Card.new(a + " " + tf, a, tf)
     c.lastD0 := d0last
@@ -191,66 +184,75 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
         c.fb := fb
         c.need := 3 - fb
         c.trough := fT
-        // stack_live: conf_open = last bar's date + step * need; d0 = conf_open + step - 1
+        // stack_live: confirmation bar opens at the last bar + step * need; d0 = its open + step - 1
         c.d0 := t + (c.need * tfd + tfd - 1) * DAY_MS
-        // base: the open bar is the confirmation bar (replace its close) or the next one (append)
+        // the open bar is the confirmation bar (replace its close) or the next one is (append)
         c.kill := fb == 3 ? killFor(cl1, ag1, al1, fCt) : fb == 2 ? killFor(cl, ag, al, fCt) : na
         c.tag := tagText(bkCode(fCt), fDis ? (fCt < 50 ? 1 : 2) : 0, not na(fK) and fK >= 20 and fK < 50)
         int agree = (nearD(c.d0, oth1) ? 1 : 0) + (nearD(c.d0, oth2) ? 1 : 0) + (nearD(c.d0, oth3) ? 1 : 0) + (nearD(c.d0, oth4) ? 1 : 0)
         bool gap = not na(ct) and not na(em) and ct - em > 5
-        bool high = not na(entLast) and cl > entLast
         string L = ""
+        string K = ""
         int m = 0
         int nl = 0
         if a == "ETH"
-            // ETH lens order: GAP, HIGH, AGREE, BTC3, FUND, FCOOL (grade.json, grade3.json)
+            // ETH price lenses, in grade.json order: GAP, HIGH, AGREE, BTC3
+            bool high = not na(entLast) and cl > entLast
             bool btc3 = (tf == "1D" or tf == "2D") and nearD(c.d0, crossD0)
-            bool fund = iFund == "Yes"
-            bool fcool = iFcool == "Yes"
-            m := (gap ? 1 : 0) + (high ? 2 : 0) + (agree >= 2 ? 4 : 0) + (btc3 ? 8 : 0) + (fund ? 16 : 0) + (fcool ? 32 : 0)
-            L := (gap ? "; CT well above its Signal line" : "") + (high ? "; a higher low than the last signal" : "") + (agree >= 2 ? "; other charts already confirmed" : "") + (btc3 ? "; a BTC 3D signal in the 10 days before" : "") + (fund ? "; funding at or above its 90-day median" : "") + (fcool ? "; funding not cooling" : "")
-            c.graded := fundSet
+            m := (gap ? 1 : 0) + (high ? 2 : 0) + (agree >= 2 ? 4 : 0) + (btc3 ? 8 : 0)
+            nl := (gap ? 1 : 0) + (high ? 1 : 0) + (agree >= 2 ? 1 : 0) + (btc3 ? 1 : 0)
+            L := (gap ? "; CT well above its Signal line" : "") + (high ? "; a higher low than the last signal" : "") + (agree >= 2 ? "; other charts already confirmed" : "") + (btc3 ? "; a BTC 3D signal in the 10 days before" : "")
+            K := (gap ? " GAP" : "") + (high ? " HIGH" : "") + (agree >= 2 ? " AGREE" : "") + (btc3 ? " BTC3" : "")
         else
-            // BTC lens order: GAP, UP8, BTCX, FASTCT (grade.json, grade2.json, grade6.json)
+            // BTC lenses: GAP, UP8, BTCX, FASTCT (grade.json, grade2.json, grade6.json)
             bool up8 = not na(ct8a) and not na(ct8b) and ct8a > ct8b
             bool btcx = (tf == "1D" or tf == "2D") and nearD(c.d0, crossD0)
             float fc = fcutFor(c.ch)
             bool fast = not na(fc) and not na(ct) and ct - fCt >= fc
             m := (gap ? 1 : 0) + (up8 ? 2 : 0) + (btcx ? 4 : 0) + (fast ? 8 : 0)
+            nl := (gap ? 1 : 0) + (up8 ? 1 : 0) + (btcx ? 1 : 0) + (fast ? 1 : 0)
             L := (gap ? "; CT well above its Signal line" : "") + (up8 ? "; the 8D chart rising" : "") + (btcx ? "; an ETH 2D signal in the 10 days before" : "") + (fast ? "; CT recovering fast from the low" : "")
-            c.graded := true
-        for i = 0 to 5
-            nl += (m >> i) & 1
+            K := (gap ? " GAP" : "") + (up8 ? " UP8" : "") + (btcx ? " BTCX" : "") + (fast ? " FASTCT" : "")
         c.mask := m
         c.lenses := L == "" ? "none" : str.substring(L, 2)
-        if c.graded
-            c.grade := gradeOf(nl)
-            [s, basis] = cardSample(c.ch, a, tf, m, c.grade)
-            c.s := s
-            c.basis := basis
+        c.codes := K == "" ? " none" : K
+        string g = gradeOf(nl)
+        c.grade := a == "ETH" ? g + "*" : g
+        [s, basis] = cardSample(c.ch, a, m, g, c.grade)
+        c.s := s
+        c.basis := basis
     c
 
-// ETH 8D's own CT (last closed and the one before) drives UP8 for BTC? No: UP8 is each
-// asset's own 8D chart (stack_live up8 uses B8[a]); for ETH it is not a grade lens.
-cE1 = mkCard("ETH", "1D", 1, e1ct, e1em, e8c1, e8c2, e1cl, e1cl1, e1ag, e1al, e1ag1, e1al1, e1t, e1d0, e1en, e1fb, e1fc, e1fk, e1ft, e1fd, e2d0, e3d0, e5d0, e8d0, b3d0)
-cE2 = mkCard("ETH", "2D", 2, e2ct, e2em, e8c1, e8c2, e2cl, e2cl1, e2ag, e2al, e2ag1, e2al1, e2t, e2d0, e2en, e2fb, e2fc, e2fk, e2ft, e2fd, e1d0, e3d0, e5d0, e8d0, b3d0)
-cE3 = mkCard("ETH", "3D", 3, e3ct, e3em, e8c1, e8c2, e3cl, e3cl1, e3ag, e3al, e3ag1, e3al1, e3t, e3d0, e3en, e3fb, e3fc, e3fk, e3ft, e3fd, e1d0, e2d0, e5d0, e8d0, b3d0)
-cE5 = mkCard("ETH", "5D", 5, e5ct, e5em, e8c1, e8c2, e5cl, e5cl1, e5ag, e5al, e5ag1, e5al1, e5t, e5d0, e5en, e5fb, e5fc, e5fk, e5ft, e5fd, e1d0, e2d0, e3d0, e8d0, b3d0)
-cE8 = mkCard("ETH", "8D", 8, e8ct, e8em, e8c1, e8c2, e8cl, e8cl1, e8ag, e8al, e8ag1, e8al1, e8t, e8d0, e8en, e8fb, e8fc, e8fk, e8ft, e8fd, e1d0, e2d0, e3d0, e5d0, b3d0)
-cB1 = mkCard("BTC", "1D", 1, b1ct, b1em, b8c1, b8c2, b1cl, b1cl1, b1ag, b1al, b1ag1, b1al1, b1t, b1d0, b1en, b1fb, b1fc, b1fk, b1ft, b1fd, b2d0, b3d0, b5d0, b8d0, e2d0)
-cB2 = mkCard("BTC", "2D", 2, b2ct, b2em, b8c1, b8c2, b2cl, b2cl1, b2ag, b2al, b2ag1, b2al1, b2t, b2d0, b2en, b2fb, b2fc, b2fk, b2ft, b2fd, b1d0, b3d0, b5d0, b8d0, e2d0)
-cB3 = mkCard("BTC", "3D", 3, b3ct, b3em, b8c1, b8c2, b3cl, b3cl1, b3ag, b3al, b3ag1, b3al1, b3t, b3d0, b3en, b3fb, b3fc, b3fk, b3ft, b3fd, b1d0, b2d0, b5d0, b8d0, e2d0)
-cB5 = mkCard("BTC", "5D", 5, b5ct, b5em, b8c1, b8c2, b5cl, b5cl1, b5ag, b5al, b5ag1, b5al1, b5t, b5d0, b5en, b5fb, b5fc, b5fk, b5ft, b5fd, b1d0, b2d0, b3d0, b8d0, e2d0)
-cB8 = mkCard("BTC", "8D", 8, b8ct, b8em, b8c1, b8c2, b8cl, b8cl1, b8ag, b8al, b8ag1, b8al1, b8t, b8d0, b8en, b8fb, b8fc, b8fk, b8ft, b8fd, b1d0, b2d0, b3d0, b5d0, e2d0)
-CARDS = array.from(cE1, cE2, cE3, cE5, cE8, cB1, cB2, cB3, cB5, cB8)
+// the 10 cards, rebuilt on the last bar only
+var array<Card> CARDS = array.new<Card>()
+if barstate.islast
+    CARDS.clear()
+    CARDS.push(mkCard("ETH", "1D", 1, e1ct, e1em, e8c1, e8c2, e1cl, e1cl1, e1ag, e1al, e1ag1, e1al1, e1t, e1d0, e1en, e1fb, e1fc, e1fk, e1ft, e1fd, e2d0, e3d0, e5d0, e8d0, b3d0))
+    CARDS.push(mkCard("ETH", "2D", 2, e2ct, e2em, e8c1, e8c2, e2cl, e2cl1, e2ag, e2al, e2ag1, e2al1, e2t, e2d0, e2en, e2fb, e2fc, e2fk, e2ft, e2fd, e1d0, e3d0, e5d0, e8d0, b3d0))
+    CARDS.push(mkCard("ETH", "3D", 3, e3ct, e3em, e8c1, e8c2, e3cl, e3cl1, e3ag, e3al, e3ag1, e3al1, e3t, e3d0, e3en, e3fb, e3fc, e3fk, e3ft, e3fd, e1d0, e2d0, e5d0, e8d0, b3d0))
+    CARDS.push(mkCard("ETH", "5D", 5, e5ct, e5em, e8c1, e8c2, e5cl, e5cl1, e5ag, e5al, e5ag1, e5al1, e5t, e5d0, e5en, e5fb, e5fc, e5fk, e5ft, e5fd, e1d0, e2d0, e3d0, e8d0, b3d0))
+    CARDS.push(mkCard("ETH", "8D", 8, e8ct, e8em, e8c1, e8c2, e8cl, e8cl1, e8ag, e8al, e8ag1, e8al1, e8t, e8d0, e8en, e8fb, e8fc, e8fk, e8ft, e8fd, e1d0, e2d0, e3d0, e5d0, b3d0))
+    CARDS.push(mkCard("BTC", "1D", 1, b1ct, b1em, b8c1, b8c2, b1cl, b1cl1, b1ag, b1al, b1ag1, b1al1, b1t, b1d0, b1en, b1fb, b1fc, b1fk, b1ft, b1fd, b2d0, b3d0, b5d0, b8d0, e2d0))
+    CARDS.push(mkCard("BTC", "2D", 2, b2ct, b2em, b8c1, b8c2, b2cl, b2cl1, b2ag, b2al, b2ag1, b2al1, b2t, b2d0, b2en, b2fb, b2fc, b2fk, b2ft, b2fd, b1d0, b3d0, b5d0, b8d0, e2d0))
+    CARDS.push(mkCard("BTC", "3D", 3, b3ct, b3em, b8c1, b8c2, b3cl, b3cl1, b3ag, b3al, b3ag1, b3al1, b3t, b3d0, b3en, b3fb, b3fc, b3fk, b3ft, b3fd, b1d0, b2d0, b5d0, b8d0, e2d0))
+    CARDS.push(mkCard("BTC", "5D", 5, b5ct, b5em, b8c1, b8c2, b5cl, b5cl1, b5ag, b5al, b5ag1, b5al1, b5t, b5d0, b5en, b5fb, b5fc, b5fk, b5ft, b5fd, b1d0, b2d0, b3d0, b8d0, e2d0))
+    CARDS.push(mkCard("BTC", "8D", 8, b8ct, b8em, b8c1, b8c2, b8cl, b8cl1, b8ag, b8al, b8ag1, b8al1, b8t, b8d0, b8en, b8fb, b8fc, b8fk, b8ft, b8fd, b1d0, b2d0, b3d0, b5d0, e2d0))
 
 // ---- formatting shared by both scripts ----
 fPct(float v) =>
     na(v) ? "-" : str.tostring(v, "#") + "%"
 fMove(float v) =>
-    na(v) ? "-" : (v > 0 ? "+" : v < 0 ? "−" : "") + str.tostring(math.abs(v), "#.0") + "%"
+    na(v) ? "-" : (v > 0 ? "+" : v < 0 ? "−" : "") + str.tostring(math.abs(v), "0.0") + "%"
 fPx(float v) =>
     na(v) ? "-" : str.tostring(v, "#,##0.00")
 fDate(int t) =>
     na(t) ? "-" : str.format_time(t, "EEE d MMM", "UTC")
+fDay(int t) =>
+    na(t) ? "-" : str.format_time(t, "d MMM", "UTC")
+// the line to paste to Claude for the console's card
+copyLine(Card c) =>
+    "CTZB " + c.ch + " · low " + fDay(c.trough) + " · confirms " + fDay(c.d0) + " · " + c.grade + " ·" + c.codes
+gradeColor(string g) =>
+    string b = str.replace_all(g, "*", "")
+    b == "A+" ? #15803D : b == "A" ? #2563A8 : b == "B" ? #64748B : #3F3F46
 // ===== END ENGINE =====
