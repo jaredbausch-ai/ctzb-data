@@ -1,0 +1,33 @@
+EVERY TRADE ITS OWN ODDS -- declared 28 Oct 2026, run 2026-10-28 | 1172 completed signals, ETH+BTC 1D-8D | entry quality only
+
+TARGET reach10: 852 out-of-sample signals, base rate 72%
+  G   pooled Brier 0.2064 AUC 0.593 | ETH Brier 0.1926 AUC 0.614 | BTC Brier 0.2201 AUC 0.561 | top fifth 83% vs bottom fifth 68%
+  M1  pooled Brier 0.2147 AUC 0.568 | ETH Brier 0.1967 AUC 0.588 | BTC Brier 0.2327 AUC 0.545 | beats G on Brier in 3/7 years | top fifth 74% vs bottom fifth 62%
+  M2  pooled Brier 0.2211 AUC 0.548 | ETH Brier 0.2034 AUC 0.574 | BTC Brier 0.2387 AUC 0.516 | beats G on Brier in 1/7 years | top fifth 78% vs bottom fifth 68%
+  M3  pooled Brier 0.2091 AUC 0.576 | ETH Brier 0.1963 AUC 0.560 | BTC Brier 0.2219 AUC 0.571 | beats G on Brier in 2/7 years | top fifth 82% vs bottom fifth 66%
+  -> keep the grade for reach10
+
+TARGET reach20: 852 out-of-sample signals, base rate 52%
+  G   pooled Brier 0.2542 AUC 0.656 | ETH Brier 0.2489 AUC 0.626 | BTC Brier 0.2594 AUC 0.655 | top fifth 71% vs bottom fifth 33%
+  M1  pooled Brier 0.2646 AUC 0.614 | ETH Brier 0.2485 AUC 0.624 | BTC Brier 0.2807 AUC 0.585 | beats G on Brier in 4/7 years | top fifth 64% vs bottom fifth 36%
+  M2  pooled Brier 0.2772 AUC 0.584 | ETH Brier 0.2622 AUC 0.599 | BTC Brier 0.2923 AUC 0.550 | beats G on Brier in 2/7 years | top fifth 66% vs bottom fifth 41%
+  M3  pooled Brier 0.2585 AUC 0.626 | ETH Brier 0.2538 AUC 0.596 | BTC Brier 0.2633 AUC 0.635 | beats G on Brier in 2/7 years | top fifth 68% vs bottom fifth 38%
+  -> keep the grade for reach20
+
+TARGET reach30: 852 out-of-sample signals, base rate 40%
+  G   pooled Brier 0.2535 AUC 0.588 | ETH Brier 0.2730 AUC 0.471 | BTC Brier 0.2341 AUC 0.637 | top fifth 53% vs bottom fifth 29%
+  M1  pooled Brier 0.2847 AUC 0.553 | ETH Brier 0.2888 AUC 0.538 | BTC Brier 0.2806 AUC 0.550 | beats G on Brier in 2/7 years | top fifth 45% vs bottom fifth 36%
+  M2  pooled Brier 0.2924 AUC 0.534 | ETH Brier 0.2970 AUC 0.533 | BTC Brier 0.2878 AUC 0.516 | beats G on Brier in 1/7 years | top fifth 50% vs bottom fifth 39%
+  M3  pooled Brier 0.2600 AUC 0.582 | ETH Brier 0.2791 AUC 0.517 | BTC Brier 0.2410 AUC 0.615 | beats G on Brier in 1/7 years | top fifth 49% vs bottom fifth 31%
+  -> keep the grade for reach30
+
+TARGET touch30: 852 out-of-sample signals, base rate 15%
+  G   pooled Brier 0.1400 AUC 0.570 | ETH Brier 0.1734 AUC 0.513 | BTC Brier 0.1065 AUC 0.372 | top fifth 18% vs bottom fifth 9%
+  M1  pooled Brier 0.1644 AUC 0.350 | ETH Brier 0.1976 AUC 0.396 | BTC Brier 0.1312 AUC 0.212 | beats G on Brier in 2/7 years | top fifth 9% vs bottom fifth 32%
+  M2  pooled Brier 0.1683 AUC 0.360 | ETH Brier 0.1992 AUC 0.416 | BTC Brier 0.1373 AUC 0.232 | beats G on Brier in 0/7 years | top fifth 8% vs bottom fifth 26%
+  M3  pooled Brier 0.1446 AUC 0.487 | ETH Brier 0.1833 AUC 0.501 | BTC Brier 0.1059 AUC 0.376 | beats G on Brier in 1/7 years | top fifth 19% vs bottom fifth 17%
+  -> keep the grade for touch30
+
+
+  Adopted: {'reach10': None, 'reach20': None, 'reach30': None, 'touch30': None}
+  ENTRY QUALITY ONLY. Computed signals, not fills.

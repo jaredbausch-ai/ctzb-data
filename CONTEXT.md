@@ -1018,6 +1018,15 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**Every trade its own odds -- tested 28 Oct 2026, the GRADE WINS.** `analysis/model.py`
+(declared, walk-forward 2019-2025, 852 out-of-sample signals): logistic models on
+every read (M1), every pair of reads (M2) and the grade's own lenses weighted instead
+of counted (M3, addendum) all lost to the equal-weight grade's odds on Brier and AUC,
+for +10/+20/+30% and touched -30%. reach20 top vs bottom fifth: grade 71/33, M1 64/36,
+M2 66/41, M3 68/38. Touched -30% is not predictable out of sample by any version
+(AUC ~0.5; BTC grade 0.37). Weighting overfits; counting holds. Grade stays; nothing
+adopted. Do not re-propose per-trade fitted odds without new data.
+
 **Console record = like for like only (28 Oct 2026).** The console once showed
 the "at least these lenses" record, which for the ETH 1D trade was 17 stronger A+
 setups (82%) when none matched exactly; Jared caught it. `stack_live.py` now writes a
