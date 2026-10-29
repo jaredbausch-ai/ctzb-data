@@ -128,6 +128,22 @@
   "documented": "PRETRADE Promising (near miss); grade4"
  },
  {
+  "id": "FASTCT",
+  "label": "Fast CT recovery, trough to confirmation (top third per chart)",
+  "assets": "ETH BTC",
+  "charts": "all",
+  "kind": "grade lens (BTC)",
+  "documented": "PRETRADE grade; grade6"
+ },
+ {
+  "id": "B3E3",
+  "label": "BTC 3D confirmed 0-10 days before (near miss: sample)",
+  "assets": "ETH",
+  "charts": "3D",
+  "kind": "near miss",
+  "documented": "PRETRADE grade; grade6"
+ },
+ {
   "id": "BUCKET",
   "label": "Bucket at the trough (A <40, B 40-55, C 55-65, D 65+)",
   "assets": "ETH BTC",

@@ -78,3 +78,5 @@ returned 90% against a 43% baseline and collapsed to a pooled 67%/50% with 3 of
 10 charts inverted. Declare the list, test every chart, report the failures
 beside the hits. `docs/PRETRADE.md` has the full set of guards.
 | `registry.json` | Written by `stack_live.py` (repo root): every documented read the live stack checks, with where it is documented |
+| `grade5.py` | Funding once vs twice in the ETH grade (declared 28 Oct): no version passes the ordering rule |
+| `grade6.py` | Grade audit 2 (declared 28 Oct): FASTCT added to BTC; B3E3 and K1 near misses on sample size |

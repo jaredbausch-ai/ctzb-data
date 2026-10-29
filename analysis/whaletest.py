@@ -91,18 +91,52 @@ def have_data():
 
 
 def main():
-    missing = have_data()
-    if missing:
-        print('DATA NOT YET PRESENT. The fetchers run in the GitHub Action; this script')
-        print('is committed ahead of them so the candidate list is provably pre-declared.\n')
-        for m in missing:
-            print(f'  missing  {m}')
-        print('\nThe Action runs at 01:20, 05:20, 09:20, 13:20, 17:20 and 21:20 UTC, or on')
-        print('workflow_dispatch. Re-run this once data/flows/ is populated.')
-        return
-    print('data present -- scoring (see module docstring for the declared list)')
-    # scoring implementation is exercised once the series exist; the declaration
-    # above is the part that must predate the data.
+    """Scoring added 28 Oct 2026 (the declaration above is unchanged). The premium
+    fetch has never worked: Binance answers GitHub's US runners with HTTP 451, so
+    W5-W8 have no data. The ETF source returns only ~14 days, far short of the
+    15-per-period minimum, so W9-W12 cannot be scored. W1-W4 (stablecoin supply,
+    2017 on) are scored against the declared bars; discovery = to 2021."""
+    import grokpack as GP
+    sc = read(SC, 'date', 'total_usd')
+    print('FLOWS TEST (whaletest.py, declared 25 Oct 2026), run', dt.date.today(), '| entry quality only, computed signals, not fills')
+    print('  W5-W8 Coinbase premium: NO DATA (Binance blocks the US GitHub runners, HTTP 451)')
+    etf = read(ETFF['BTC'], 'date', 'net_flow_usd_m')
+    print(f'  W9-W12 spot ETF flow: {len(etf)} days of history -- too short to score')
+    rows, _ = GP.build()
+    rows = [r for r in rows if r['tf'] in ('1D', '2D', '3D', '5D')]
+    def g(d, k):
+        a, b = sc.get(d), sc.get(d - dt.timedelta(days=k))
+        return None if not a or not b else 100 * (a / b - 1)
+    for r in rows:
+        d = r['d0']; r['g7'] = g(d, 7); r['g30'] = g(d, 30); p7 = g(d - dt.timedelta(days=7), 7)
+        r['acc'] = None if r['g7'] is None or p7 is None else r['g7'] > p7
+    disc = [r for r in rows if r['d0'] < dt.date(2022, 1, 1)]
+    cut7 = sorted(r['g7'] for r in disc if r['g7'] is not None); cut30 = sorted(r['g30'] for r in disc if r['g30'] is not None)
+    c7 = cut7[int(2 * len(cut7) / 3)]; c30 = cut30[int(2 * len(cut30) / 3)]
+    F = {'W1': lambda r: None if r['g7'] is None else r['g7'] > 0, 'W2': lambda r: None if r['g7'] is None else r['g7'] >= c7,
+         'W3': lambda r: None if r['g30'] is None else r['g30'] >= c30, 'W4': lambda r: r['acc']}
+    def st_(G):
+        n = len(G)
+        return None if not n else dict(n=n, win=100 * sum(r['win'] for r in G) / n, l30=100 * sum(r['t30'] for r in G) / n,
+                                       losers=sum(not r['win'] for r in G), winners=sum(r['win'] for r in G))
+    for a in ('ETH', 'BTC'):
+        print(f'\n{a}')
+        for k in SC_FEATS:
+            for pol in (True, False):
+                lab = f'{k} {NAMES[k]}' + ('' if pol else ' -- FALSE')
+                sel_ok = True; veto_ok = True; parts = []
+                for pl, per in (('to 2021', lambda r: r['d0'] < dt.date(2022, 1, 1)), ('2022 on', lambda r: r['d0'] >= dt.date(2022, 1, 1))):
+                    U = [r for r in rows if r['a'] == a and per(r) and F[k](r) is not None]
+                    W = [r for r in U if F[k](r) == pol]; O = [r for r in U if F[k](r) != pol]
+                    b, w, o = st_(U), st_(W), st_(O)
+                    if not b or not w or not o: sel_ok = veto_ok = False; parts.append(f'{pl} -'); continue
+                    parts.append(f'{pl} base {b["win"]:3.0f}% | true n={w["n"]} {w["win"]:3.0f}% -30% {w["l30"]:3.0f}% | rest {o["win"]:3.0f}% -30% {o["l30"]:3.0f}%')
+                    if not (w['n'] >= 15 and w['win'] >= 70): sel_ok = False
+                    if not (w['n'] >= 15 and o['win'] > b['win'] and o['l30'] < b['l30'] and w['losers'] > w['winners']): veto_ok = False
+                print(f'  {lab}')
+                for x in parts: print('     ', x)
+                print(f'      selector: {"PASS" if sel_ok else "fail"} | veto: {"PASS" if veto_ok else "fail"}')
+    print('\n  Context only unless something passes; survivors would then face the per-chart, regime-age and gap>5 guards.')
 
 
 if __name__ == '__main__':

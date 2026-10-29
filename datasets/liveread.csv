@@ -15,6 +15,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D forming (provisional), confirms 2026-10-29",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D forming (provisional), confirms 2026-10-29",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D forming (provisional), confirms 2026-10-29",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,196,55,32,-6.5,-17.5,full history (record with it off)
+"ETH 1D forming (provisional), confirms 2026-10-29","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D forming (provisional), confirms 2026-10-29",Diamond (filled / hollow) [tag],off,227,58,28,-6.5,-17.4,full history (record with it off)
 "ETH 1D forming (provisional), confirms 2026-10-29",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D forming (provisional), confirms 2026-10-29",Weekly momentum above its signal line [forward watch],off,165,54,36,-6.5,-18.5,full history (record with it off)
@@ -43,6 +44,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 53, entry 2026-09-05",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 53, entry 2026-09-05",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D open, day 53, entry 2026-09-05",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,92,74,17,-6.7,-14.8,full history (record with it on)
+"ETH 1D open, day 53, entry 2026-09-05","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D open, day 53, entry 2026-09-05",Diamond (filled / hollow) [tag],ON,61,72,26,-6.4,-13.7,full history (record with it on)
 "ETH 1D open, day 53, entry 2026-09-05",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D open, day 53, entry 2026-09-05",Weekly momentum above its signal line [forward watch],ON,123,70,16,-6.7,-14.7,full history (record with it on)
@@ -72,6 +74,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 45, entry 2026-09-13",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 45, entry 2026-09-13",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D open, day 45, entry 2026-09-13",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,92,74,17,-6.7,-14.8,full history (record with it on)
+"ETH 1D open, day 45, entry 2026-09-13","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D open, day 45, entry 2026-09-13",Diamond (filled / hollow) [tag],off,227,58,28,-6.5,-17.4,full history (record with it off)
 "ETH 1D open, day 45, entry 2026-09-13",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D open, day 45, entry 2026-09-13",Weekly momentum above its signal line [forward watch],ON,123,70,16,-6.7,-14.7,full history (record with it on)
@@ -101,6 +104,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 40, entry 2026-09-18",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 40, entry 2026-09-18",CT above Signal and a diamond [Tier 1 #3],ON,24,88,25,-7.9,-11.4,full history (record with it on)
 "ETH 1D open, day 40, entry 2026-09-18",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,92,74,17,-6.7,-14.8,full history (record with it on)
+"ETH 1D open, day 40, entry 2026-09-18","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",ON,107,60,31,-5.7,-16.2,full history (record with it on)
 "ETH 1D open, day 40, entry 2026-09-18",Diamond (filled / hollow) [tag],ON,61,72,26,-6.4,-13.7,full history (record with it on)
 "ETH 1D open, day 40, entry 2026-09-18",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D open, day 40, entry 2026-09-18",Weekly momentum above its signal line [forward watch],ON,123,70,16,-6.7,-14.7,full history (record with it on)
@@ -132,6 +136,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 32, entry 2026-09-26",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 32, entry 2026-09-26",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D open, day 32, entry 2026-09-26",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,92,74,17,-6.7,-14.8,full history (record with it on)
+"ETH 1D open, day 32, entry 2026-09-26","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D open, day 32, entry 2026-09-26",Diamond (filled / hollow) [tag],off,227,58,28,-6.5,-17.4,full history (record with it off)
 "ETH 1D open, day 32, entry 2026-09-26",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D open, day 32, entry 2026-09-26",Weekly momentum above its signal line [forward watch],ON,123,70,16,-6.7,-14.7,full history (record with it on)
@@ -164,6 +169,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 23, entry 2026-10-05",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 23, entry 2026-10-05",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D open, day 23, entry 2026-10-05",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,92,74,17,-6.7,-14.8,full history (record with it on)
+"ETH 1D open, day 23, entry 2026-10-05","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D open, day 23, entry 2026-10-05",Diamond (filled / hollow) [tag],off,227,58,28,-6.5,-17.4,full history (record with it off)
 "ETH 1D open, day 23, entry 2026-10-05",Prime dot [tag],ON,72,61,32,-6.6,-18.4,full history (record with it on)
 "ETH 1D open, day 23, entry 2026-10-05",Weekly momentum above its signal line [forward watch],ON,123,70,16,-6.7,-14.7,full history (record with it on)
@@ -194,6 +200,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 17, entry 2026-10-11",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 17, entry 2026-10-11",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D open, day 17, entry 2026-10-11",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,196,55,32,-6.5,-17.5,full history (record with it off)
+"ETH 1D open, day 17, entry 2026-10-11","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D open, day 17, entry 2026-10-11",Diamond (filled / hollow) [tag],off,227,58,28,-6.5,-17.4,full history (record with it off)
 "ETH 1D open, day 17, entry 2026-10-11",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D open, day 17, entry 2026-10-11",Weekly momentum above its signal line [forward watch],ON,123,70,16,-6.7,-14.7,full history (record with it on)
@@ -226,6 +233,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 13, entry 2026-10-15",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 13, entry 2026-10-15",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D open, day 13, entry 2026-10-15",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,196,55,32,-6.5,-17.5,full history (record with it off)
+"ETH 1D open, day 13, entry 2026-10-15","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D open, day 13, entry 2026-10-15",Diamond (filled / hollow) [tag],off,227,58,28,-6.5,-17.4,full history (record with it off)
 "ETH 1D open, day 13, entry 2026-10-15",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D open, day 13, entry 2026-10-15",Weekly momentum above its signal line [forward watch],ON,123,70,16,-6.7,-14.7,full history (record with it on)
@@ -257,6 +265,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 1D open, day 8, entry 2026-10-20",CT above Signal and a prime dot [Tier 1 #2],off,254,60,26,-6.5,-16.2,full history (record with it off)
 "ETH 1D open, day 8, entry 2026-10-20",CT above Signal and a diamond [Tier 1 #3],off,264,58,28,-6.4,-17.3,full history (record with it off)
 "ETH 1D open, day 8, entry 2026-10-20",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,196,55,32,-6.5,-17.5,full history (record with it off)
+"ETH 1D open, day 8, entry 2026-10-20","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,181,61,25,-7.2,-16.2,full history (record with it off)
 "ETH 1D open, day 8, entry 2026-10-20",Diamond (filled / hollow) [tag],off,227,58,28,-6.5,-17.4,full history (record with it off)
 "ETH 1D open, day 8, entry 2026-10-20",Prime dot [tag],off,216,61,26,-6.4,-15.8,full history (record with it off)
 "ETH 1D open, day 8, entry 2026-10-20",Weekly momentum above its signal line [forward watch],off,165,54,36,-6.5,-18.5,full history (record with it off)
@@ -286,6 +295,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 2D forming (provisional), confirms 2026-10-31",CT above Signal and a prime dot [Tier 1 #2],off,114,57,29,-5.5,-16.6,full history (record with it off)
 "ETH 2D forming (provisional), confirms 2026-10-31",CT above Signal and a diamond [Tier 1 #3],off,116,57,29,-5.5,-17.3,full history (record with it off)
 "ETH 2D forming (provisional), confirms 2026-10-31",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,100,55,30,-5.0,-15.6,full history (record with it off)
+"ETH 2D forming (provisional), confirms 2026-10-31","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,93,54,31,-4.6,-17.0,full history (record with it off)
 "ETH 2D forming (provisional), confirms 2026-10-31",Diamond (filled / hollow) [tag],off,103,59,29,-5.8,-17.3,full history (record with it off)
 "ETH 2D forming (provisional), confirms 2026-10-31",Prime dot [tag],off,106,57,29,-6.1,-17.2,full history (record with it off)
 "ETH 2D forming (provisional), confirms 2026-10-31",Weekly momentum above its signal line [forward watch],off,83,55,31,-5.2,-17.8,full history (record with it off)
@@ -313,6 +323,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 2D open, day 37, entry 2026-09-21",CT above Signal and a prime dot [Tier 1 #2],ON,23,87,22,-4.1,-9.8,full history (record with it on)
 "ETH 2D open, day 37, entry 2026-09-21",CT above Signal and a diamond [Tier 1 #3],off,116,57,29,-5.5,-17.3,full history (record with it off)
 "ETH 2D open, day 37, entry 2026-09-21",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,37,81,22,-5.8,-14.2,full history (record with it on)
+"ETH 2D open, day 37, entry 2026-09-21","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",ON,44,80,20,-6.6,-14.1,full history (record with it on)
 "ETH 2D open, day 37, entry 2026-09-21",Diamond (filled / hollow) [tag],off,103,59,29,-5.8,-17.3,full history (record with it off)
 "ETH 2D open, day 37, entry 2026-09-21",Prime dot [tag],ON,31,81,23,-4.6,-9.2,full history (record with it on)
 "ETH 2D open, day 37, entry 2026-09-21",Weekly momentum above its signal line [forward watch],ON,54,72,22,-4.9,-14.1,full history (record with it on)
@@ -347,6 +358,8 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 3D forming (provisional), confirms 2026-11-05",CT above Signal and a prime dot [Tier 1 #2],off,74,49,31,-6.2,-18.5,full history (record with it off)
 "ETH 3D forming (provisional), confirms 2026-11-05",CT above Signal and a diamond [Tier 1 #3],off,79,56,30,-5.3,-17.0,full history (record with it off)
 "ETH 3D forming (provisional), confirms 2026-11-05",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,55,55,33,-5.1,-17.0,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,54,54,33,-4.9,-17.6,full history (record with it off)
+"ETH 3D forming (provisional), confirms 2026-11-05",BTC 3D confirmed 0-10 days before (near miss: sample) [near miss],off,28,39,36,-7.2,-21.8,full history (record with it off)
 "ETH 3D forming (provisional), confirms 2026-11-05",Diamond (filled / hollow) [tag],off,67,55,28,-5.4,-17.0,full history (record with it off)
 "ETH 3D forming (provisional), confirms 2026-11-05",Prime dot [tag],off,63,46,33,-8.4,-19.6,full history (record with it off)
 "ETH 3D forming (provisional), confirms 2026-11-05",Weekly momentum above its signal line [forward watch],off,52,48,37,-4.1,-20.5,full history (record with it off)
@@ -370,6 +383,8 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 3D open, day 34, entry 2026-09-24",CT above Signal and a prime dot [Tier 1 #2],off,74,49,31,-6.2,-18.5,full history (record with it off)
 "ETH 3D open, day 34, entry 2026-09-24",CT above Signal and a diamond [Tier 1 #3],ON,8,50,12,-10.1,-11.2,full history (record with it on)
 "ETH 3D open, day 34, entry 2026-09-24",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,32,56,22,-6.7,-16.7,full history (record with it on)
+"ETH 3D open, day 34, entry 2026-09-24","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,54,54,33,-4.9,-17.6,full history (record with it off)
+"ETH 3D open, day 34, entry 2026-09-24",BTC 3D confirmed 0-10 days before (near miss: sample) [near miss],ON,59,63,25,-5.4,-15.0,full history (record with it on)
 "ETH 3D open, day 34, entry 2026-09-24",Diamond (filled / hollow) [tag],ON,20,55,30,-6.2,-16.1,full history (record with it on)
 "ETH 3D open, day 34, entry 2026-09-24",Prime dot [tag],off,63,46,33,-8.4,-19.6,full history (record with it off)
 "ETH 3D open, day 34, entry 2026-09-24",Weekly momentum above its signal line [forward watch],ON,35,66,17,-8.2,-15.0,full history (record with it on)
@@ -405,6 +420,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 5D forming (provisional), confirms 2026-11-11",CT above Signal and a prime dot [Tier 1 #2],off,43,70,16,-5.3,-12.7,full history (record with it off)
 "ETH 5D forming (provisional), confirms 2026-11-11",CT above Signal and a diamond [Tier 1 #3],off,41,68,17,-5.9,-12.7,full history (record with it off)
 "ETH 5D forming (provisional), confirms 2026-11-11",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,31,68,16,-5.0,-11.6,full history (record with it off)
+"ETH 5D forming (provisional), confirms 2026-11-11","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,24,75,17,-5.6,-10.8,full history (record with it off)
 "ETH 5D forming (provisional), confirms 2026-11-11",Diamond (filled / hollow) [tag],off,38,71,18,-5.6,-13.6,full history (record with it off)
 "ETH 5D forming (provisional), confirms 2026-11-11",Prime dot [tag],ON,8,88,12,-4.6,-5.0,full history (record with it on)
 "ETH 5D forming (provisional), confirms 2026-11-11",Weekly momentum above its signal line [forward watch],off,26,73,19,-5.8,-13.0,full history (record with it off)
@@ -428,6 +444,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 5D open, day 26, entry 2026-10-02",CT above Signal and a prime dot [Tier 1 #2],off,43,70,16,-5.3,-12.7,full history (record with it off)
 "ETH 5D open, day 26, entry 2026-10-02",CT above Signal and a diamond [Tier 1 #3],off,41,68,17,-5.9,-12.7,full history (record with it off)
 "ETH 5D open, day 26, entry 2026-10-02",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,31,68,16,-5.0,-11.6,full history (record with it off)
+"ETH 5D open, day 26, entry 2026-10-02","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,24,75,17,-5.6,-10.8,full history (record with it off)
 "ETH 5D open, day 26, entry 2026-10-02",Diamond (filled / hollow) [tag],off,38,71,18,-5.6,-13.6,full history (record with it off)
 "ETH 5D open, day 26, entry 2026-10-02",Prime dot [tag],off,39,67,18,-5.3,-14.8,full history (record with it off)
 "ETH 5D open, day 26, entry 2026-10-02",Weekly momentum above its signal line [forward watch],ON,21,67,14,-4.9,-12.0,full history (record with it on)
@@ -445,7 +462,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "ETH 5D open, day 26, entry 2026-10-02",Down 10%+ (day 10 so far) [in-trade],no,35,80,6,-4.0,-7.2,full history (record with the same answer)
 "BTC 1D forming (provisional), confirms 2026-10-29",Grade C: no lenses,grade,,,,,,
 "BTC 1D forming (provisional), confirms 2026-10-29",This chart with at least these lenses,record,279,52,13,-4.7,-10.8,full history
-"BTC 1D forming (provisional), confirms 2026-10-29",This chart with exactly these lenses,record,78,36,18,-4.6,-15.4,full history
+"BTC 1D forming (provisional), confirms 2026-10-29",This chart with exactly these lenses,record,54,35,19,-4.6,-14.8,full history
 "BTC 1D forming (provisional), confirms 2026-10-29","This chart, every signal",record,279,52,13,-4.7,-10.8,full history
 "BTC 1D forming (provisional), confirms 2026-10-29",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,full history (record with it off)
@@ -460,6 +477,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D forming (provisional), confirms 2026-10-29",CT above Signal and a diamond [Tier 1 #3],off,244,50,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,183,46,14,-4.7,-12.0,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",ETH 3D confirmed 0-10 days before (near miss) [near miss],off,192,49,15,-4.7,-11.7,full history (record with it off)
+"BTC 1D forming (provisional), confirms 2026-10-29","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,187,48,13,-4.8,-11.3,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",Diamond (filled / hollow) [tag],off,213,51,13,-4.6,-11.8,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",Prime dot [tag],off,214,49,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,220,47,16,-5.1,-11.4,from 2017-05-30 (record with it off)
@@ -469,7 +487,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D forming (provisional), confirms 2026-10-29",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 1.72 vs 1.34 2 wks ago; OI +4.5% in 14d,,,,,,
 "BTC 1D open, day 53, entry 2026-09-05",Grade C: UP8,grade,,,,,,
 "BTC 1D open, day 53, entry 2026-09-05",This chart with at least these lenses,record,143,60,12,-4.5,-8.8,full history
-"BTC 1D open, day 53, entry 2026-09-05",This chart with exactly these lenses,record,47,49,11,-4.8,-10.3,full history
+"BTC 1D open, day 53, entry 2026-09-05",This chart with exactly these lenses,record,41,46,10,-4.7,-12.2,full history
 "BTC 1D open, day 53, entry 2026-09-05","This chart, every signal",record,279,52,13,-4.7,-10.8,full history
 "BTC 1D open, day 53, entry 2026-09-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,full history (record with it off)
 "BTC 1D open, day 53, entry 2026-09-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,full history (record with it off)
@@ -484,6 +502,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 53, entry 2026-09-05",CT above Signal and a diamond [Tier 1 #3],off,244,50,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 53, entry 2026-09-05",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,96,62,10,-4.2,-8.9,full history (record with it on)
 "BTC 1D open, day 53, entry 2026-09-05",ETH 3D confirmed 0-10 days before (near miss) [near miss],off,192,49,15,-4.7,-11.7,full history (record with it off)
+"BTC 1D open, day 53, entry 2026-09-05","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,187,48,13,-4.8,-11.3,full history (record with it off)
 "BTC 1D open, day 53, entry 2026-09-05",Diamond (filled / hollow) [tag],off,213,51,13,-4.6,-11.8,full history (record with it off)
 "BTC 1D open, day 53, entry 2026-09-05",Prime dot [tag],off,214,49,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 53, entry 2026-09-05",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,220,47,16,-5.1,-11.4,from 2017-05-30 (record with it off)
@@ -498,7 +517,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 53, entry 2026-09-05",Down 10%+ (day 10 so far) [in-trade],no,207,60,6,-3.9,-7.5,full history (record with the same answer)
 "BTC 1D open, day 45, entry 2026-09-13",Grade C: no lenses,grade,,,,,,
 "BTC 1D open, day 45, entry 2026-09-13",This chart with at least these lenses,record,279,52,13,-4.7,-10.8,full history
-"BTC 1D open, day 45, entry 2026-09-13",This chart with exactly these lenses,record,78,36,18,-4.6,-15.4,full history
+"BTC 1D open, day 45, entry 2026-09-13",This chart with exactly these lenses,record,54,35,19,-4.6,-14.8,full history
 "BTC 1D open, day 45, entry 2026-09-13","This chart, every signal",record,279,52,13,-4.7,-10.8,full history
 "BTC 1D open, day 45, entry 2026-09-13",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,full history (record with it off)
@@ -513,6 +532,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 45, entry 2026-09-13",CT above Signal and a diamond [Tier 1 #3],off,244,50,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,183,46,14,-4.7,-12.0,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",ETH 3D confirmed 0-10 days before (near miss) [near miss],off,192,49,15,-4.7,-11.7,full history (record with it off)
+"BTC 1D open, day 45, entry 2026-09-13","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,187,48,13,-4.8,-11.3,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",Diamond (filled / hollow) [tag],off,213,51,13,-4.6,-11.8,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",Prime dot [tag],off,214,49,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,220,47,16,-5.1,-11.4,from 2017-05-30 (record with it off)
@@ -525,8 +545,8 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 45, entry 2026-09-13",CT above its Signal on day 10 [in-trade],YES,129,71,5,-3.9,-6.5,full history (record with the same answer)
 "BTC 1D open, day 45, entry 2026-09-13",Undercut the trough low (day 10 so far) [in-trade],YES,135,38,19,-7.5,-18.6,full history (record with the same answer)
 "BTC 1D open, day 45, entry 2026-09-13",Down 10%+ (day 10 so far) [in-trade],no,207,60,6,-3.9,-7.5,full history (record with the same answer)
-"BTC 1D open, day 40, entry 2026-09-18",Grade C: GAP,grade,,,,,,
-"BTC 1D open, day 40, entry 2026-09-18",This chart with at least these lenses,record,49,71,6,-4.0,-8.3,full history
+"BTC 1D open, day 40, entry 2026-09-18",Grade B: GAP + FASTCT,grade,,,,,,
+"BTC 1D open, day 40, entry 2026-09-18",This chart with at least these lenses,record,40,68,8,-3.4,-7.9,full history
 "BTC 1D open, day 40, entry 2026-09-18",This chart with exactly these lenses,record,4,50,0,-5.1,-7.8,full history
 "BTC 1D open, day 40, entry 2026-09-18","This chart, every signal",record,279,52,13,-4.7,-10.8,full history
 "BTC 1D open, day 40, entry 2026-09-18",CT above its Signal line by 5+ [grade lens + Tier 1 #1],ON,49,71,6,-4.0,-8.3,full history (record with it on)
@@ -542,6 +562,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 40, entry 2026-09-18",CT above Signal and a diamond [Tier 1 #3],ON,35,60,17,-3.9,-8.1,full history (record with it on)
 "BTC 1D open, day 40, entry 2026-09-18",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,96,62,10,-4.2,-8.9,full history (record with it on)
 "BTC 1D open, day 40, entry 2026-09-18",ETH 3D confirmed 0-10 days before (near miss) [near miss],off,192,49,15,-4.7,-11.7,full history (record with it off)
+"BTC 1D open, day 40, entry 2026-09-18","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",ON,92,59,13,-4.1,-9.5,full history (record with it on)
 "BTC 1D open, day 40, entry 2026-09-18",Diamond (filled / hollow) [tag],ON,66,53,12,-4.8,-8.7,full history (record with it on)
 "BTC 1D open, day 40, entry 2026-09-18",Prime dot [tag],off,214,49,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 40, entry 2026-09-18",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,220,47,16,-5.1,-11.4,from 2017-05-30 (record with it off)
@@ -556,7 +577,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 40, entry 2026-09-18",Down 10%+ (day 10 so far) [in-trade],no,207,60,6,-3.9,-7.5,full history (record with the same answer)
 "BTC 1D open, day 27, entry 2026-10-01",Grade C: BTCX,grade,,,,,,
 "BTC 1D open, day 27, entry 2026-10-01",This chart with at least these lenses,record,136,60,12,-4.8,-9.8,full history
-"BTC 1D open, day 27, entry 2026-10-01",This chart with exactly these lenses,record,50,50,10,-5.5,-10.0,full history
+"BTC 1D open, day 27, entry 2026-10-01",This chart with exactly these lenses,record,37,49,8,-4.9,-9.5,full history
 "BTC 1D open, day 27, entry 2026-10-01","This chart, every signal",record,279,52,13,-4.7,-10.8,full history
 "BTC 1D open, day 27, entry 2026-10-01",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,full history (record with it off)
 "BTC 1D open, day 27, entry 2026-10-01",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],ON,154,56,14,-4.3,-10.4,full history (record with it on)
@@ -571,6 +592,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 27, entry 2026-10-01",CT above Signal and a diamond [Tier 1 #3],off,244,50,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 27, entry 2026-10-01",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,96,62,10,-4.2,-8.9,full history (record with it on)
 "BTC 1D open, day 27, entry 2026-10-01",ETH 3D confirmed 0-10 days before (near miss) [near miss],ON,87,56,9,-3.9,-8.8,full history (record with it on)
+"BTC 1D open, day 27, entry 2026-10-01","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,187,48,13,-4.8,-11.3,full history (record with it off)
 "BTC 1D open, day 27, entry 2026-10-01",Diamond (filled / hollow) [tag],off,213,51,13,-4.6,-11.8,full history (record with it off)
 "BTC 1D open, day 27, entry 2026-10-01",Prime dot [tag],off,214,49,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 27, entry 2026-10-01",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,220,47,16,-5.1,-11.4,from 2017-05-30 (record with it off)
@@ -589,7 +611,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 27, entry 2026-10-01",Down 10%+ (day 10 so far) [in-trade],no,207,60,6,-3.9,-7.5,full history (record with the same answer)
 "BTC 1D open, day 17, entry 2026-10-11",Grade C: no lenses,grade,,,,,,
 "BTC 1D open, day 17, entry 2026-10-11",This chart with at least these lenses,record,279,52,13,-4.7,-10.8,full history
-"BTC 1D open, day 17, entry 2026-10-11",This chart with exactly these lenses,record,78,36,18,-4.6,-15.4,full history
+"BTC 1D open, day 17, entry 2026-10-11",This chart with exactly these lenses,record,54,35,19,-4.6,-14.8,full history
 "BTC 1D open, day 17, entry 2026-10-11","This chart, every signal",record,279,52,13,-4.7,-10.8,full history
 "BTC 1D open, day 17, entry 2026-10-11",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,full history (record with it off)
@@ -604,6 +626,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 17, entry 2026-10-11",CT above Signal and a diamond [Tier 1 #3],off,244,50,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,183,46,14,-4.7,-12.0,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",ETH 3D confirmed 0-10 days before (near miss) [near miss],off,192,49,15,-4.7,-11.7,full history (record with it off)
+"BTC 1D open, day 17, entry 2026-10-11","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,187,48,13,-4.8,-11.3,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",Diamond (filled / hollow) [tag],off,213,51,13,-4.6,-11.8,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",Prime dot [tag],off,214,49,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],ON,19,74,0,-3.9,-9.8,from 2017-05-30 (record with it on)
@@ -620,7 +643,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 17, entry 2026-10-11",Down 10%+ (day 10 so far) [in-trade],no,207,60,6,-3.9,-7.5,full history (record with the same answer)
 "BTC 1D open, day 8, entry 2026-10-20",Grade C: no lenses,grade,,,,,,
 "BTC 1D open, day 8, entry 2026-10-20",This chart with at least these lenses,record,279,52,13,-4.7,-10.8,full history
-"BTC 1D open, day 8, entry 2026-10-20",This chart with exactly these lenses,record,78,36,18,-4.6,-15.4,full history
+"BTC 1D open, day 8, entry 2026-10-20",This chart with exactly these lenses,record,54,35,19,-4.6,-14.8,full history
 "BTC 1D open, day 8, entry 2026-10-20","This chart, every signal",record,279,52,13,-4.7,-10.8,full history
 "BTC 1D open, day 8, entry 2026-10-20",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,full history (record with it off)
@@ -635,6 +658,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 8, entry 2026-10-20",CT above Signal and a diamond [Tier 1 #3],off,244,50,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,183,46,14,-4.7,-12.0,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",ETH 3D confirmed 0-10 days before (near miss) [near miss],off,192,49,15,-4.7,-11.7,full history (record with it off)
+"BTC 1D open, day 8, entry 2026-10-20","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,187,48,13,-4.8,-11.3,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",Diamond (filled / hollow) [tag],off,213,51,13,-4.6,-11.8,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",Prime dot [tag],off,214,49,12,-4.7,-11.4,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],ON,19,74,0,-3.9,-9.8,from 2017-05-30 (record with it on)
@@ -647,7 +671,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 1D open, day 8, entry 2026-10-20",Down 10%+ (day 8 so far) [in-trade],no,207,60,6,-3.9,-7.5,full history (record with the same answer)
 "BTC 2D forming (provisional), confirms 2026-10-31",Grade C: no lenses,grade,,,,,,
 "BTC 2D forming (provisional), confirms 2026-10-31",This chart with at least these lenses,record,141,52,15,-4.6,-12.3,full history
-"BTC 2D forming (provisional), confirms 2026-10-31",This chart with exactly these lenses,record,18,39,17,-4.6,-11.6,full history
+"BTC 2D forming (provisional), confirms 2026-10-31",This chart with exactly these lenses,record,15,33,20,-4.6,-15.8,full history
 "BTC 2D forming (provisional), confirms 2026-10-31","This chart, every signal",record,141,52,15,-4.6,-12.3,full history
 "BTC 2D forming (provisional), confirms 2026-10-31",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,112,48,16,-5.2,-12.7,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,59,42,14,-7.7,-15.8,full history (record with it off)
@@ -661,15 +685,16 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 2D forming (provisional), confirms 2026-10-31",CT above Signal and a prime dot [Tier 1 #2],off,125,49,15,-4.9,-12.9,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",CT above Signal and a diamond [Tier 1 #3],off,122,51,16,-4.8,-11.2,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,88,44,16,-5.5,-14.2,full history (record with it off)
+"BTC 2D forming (provisional), confirms 2026-10-31","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,83,49,14,-4.6,-14.1,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",Diamond (filled / hollow) [tag],off,105,50,14,-5.1,-9.6,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",Prime dot [tag],off,112,48,13,-4.9,-12.7,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,111,48,17,-5.1,-14.1,from 2017-06-05 (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",Bucket B on this chart [tag],ON,52,48,19,-3.7,-8.8,full history
 "BTC 2D forming (provisional), confirms 2026-10-31",Regime gate [Tier 1 #6],ON,,,,,,on for 56 days
 "BTC 2D forming (provisional), confirms 2026-10-31",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 1.72 vs 1.34 2 wks ago; OI +4.5% in 14d,,,,,,
-"BTC 2D open, day 37, entry 2026-09-21",Grade A: GAP + UP8 + BTCX,grade,,,,,,
-"BTC 2D open, day 37, entry 2026-09-21",This chart with at least these lenses,record,17,82,0,-3.6,-5.3,full history
-"BTC 2D open, day 37, entry 2026-09-21",This chart with exactly these lenses,record,17,82,0,-3.6,-5.3,full history
+"BTC 2D open, day 37, entry 2026-09-21",Grade A+: GAP + UP8 + BTCX + FASTCT,grade,,,,,,
+"BTC 2D open, day 37, entry 2026-09-21",This chart with at least these lenses,record,12,92,0,-2.1,-3.8,full history
+"BTC 2D open, day 37, entry 2026-09-21",This chart with exactly these lenses,record,12,92,0,-2.1,-3.8,full history
 "BTC 2D open, day 37, entry 2026-09-21","This chart, every signal",record,141,52,15,-4.6,-12.3,full history
 "BTC 2D open, day 37, entry 2026-09-21",CT above its Signal line by 5+ [grade lens + Tier 1 #1],ON,29,66,10,-3.2,-7.4,full history (record with it on)
 "BTC 2D open, day 37, entry 2026-09-21",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,59,42,14,-7.7,-15.8,full history (record with it off)
@@ -683,6 +708,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 2D open, day 37, entry 2026-09-21",CT above Signal and a prime dot [Tier 1 #2],ON,16,75,12,-1.9,-4.2,full history (record with it on)
 "BTC 2D open, day 37, entry 2026-09-21",CT above Signal and a diamond [Tier 1 #3],off,122,51,16,-4.8,-11.2,full history (record with it off)
 "BTC 2D open, day 37, entry 2026-09-21",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,53,64,13,-3.6,-8.5,full history (record with it on)
+"BTC 2D open, day 37, entry 2026-09-21","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",ON,58,55,16,-4.6,-10.1,full history (record with it on)
 "BTC 2D open, day 37, entry 2026-09-21",Diamond (filled / hollow) [tag],off,105,50,14,-5.1,-9.6,full history (record with it off)
 "BTC 2D open, day 37, entry 2026-09-21",Prime dot [tag],ON,29,66,21,-3.6,-10.5,full history (record with it on)
 "BTC 2D open, day 37, entry 2026-09-21",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,111,48,17,-5.1,-14.1,from 2017-06-05 (record with it off)
@@ -701,7 +727,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 2D open, day 37, entry 2026-09-21",Down 10%+ (day 10 so far) [in-trade],no,102,65,8,-3.7,-6.5,full history (record with the same answer)
 "BTC 2D open, day 23, entry 2026-10-05",Grade C: no lenses,grade,,,,,,
 "BTC 2D open, day 23, entry 2026-10-05",This chart with at least these lenses,record,141,52,15,-4.6,-12.3,full history
-"BTC 2D open, day 23, entry 2026-10-05",This chart with exactly these lenses,record,18,39,17,-4.6,-11.6,full history
+"BTC 2D open, day 23, entry 2026-10-05",This chart with exactly these lenses,record,15,33,20,-4.6,-15.8,full history
 "BTC 2D open, day 23, entry 2026-10-05","This chart, every signal",record,141,52,15,-4.6,-12.3,full history
 "BTC 2D open, day 23, entry 2026-10-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,112,48,16,-5.2,-12.7,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,59,42,14,-7.7,-15.8,full history (record with it off)
@@ -715,6 +741,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 2D open, day 23, entry 2026-10-05",CT above Signal and a prime dot [Tier 1 #2],off,125,49,15,-4.9,-12.9,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",CT above Signal and a diamond [Tier 1 #3],off,122,51,16,-4.8,-11.2,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,53,64,13,-3.6,-8.5,full history (record with it on)
+"BTC 2D open, day 23, entry 2026-10-05","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,83,49,14,-4.6,-14.1,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",Diamond (filled / hollow) [tag],off,105,50,14,-5.1,-9.6,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",Prime dot [tag],off,112,48,13,-4.9,-12.7,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,111,48,17,-5.1,-14.1,from 2017-06-05 (record with it off)
@@ -728,7 +755,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 2D open, day 23, entry 2026-10-05",Down 10%+ (day 10 so far) [in-trade],no,102,65,8,-3.7,-6.5,full history (record with the same answer)
 "BTC 3D forming (provisional), confirms 2026-11-02",Grade C: no lenses,grade,,,,,,
 "BTC 3D forming (provisional), confirms 2026-11-02",This chart with at least these lenses,record,92,51,14,-4.8,-9.9,full history
-"BTC 3D forming (provisional), confirms 2026-11-02",This chart with exactly these lenses,record,33,48,12,-7.4,-11.3,full history
+"BTC 3D forming (provisional), confirms 2026-11-02",This chart with exactly these lenses,record,26,38,8,-5.9,-10.7,full history
 "BTC 3D forming (provisional), confirms 2026-11-02","This chart, every signal",record,92,51,14,-4.8,-9.9,full history
 "BTC 3D forming (provisional), confirms 2026-11-02",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,74,51,15,-4.6,-9.9,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,40,45,12,-5.4,-13.1,full history (record with it off)
@@ -741,15 +768,16 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 3D forming (provisional), confirms 2026-11-02",CT above Signal and a prime dot [Tier 1 #2],off,87,51,14,-4.9,-9.9,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",CT above Signal and a diamond [Tier 1 #3],off,86,49,15,-4.8,-9.9,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,58,47,17,-5.6,-11.7,full history (record with it off)
+"BTC 3D forming (provisional), confirms 2026-11-02","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,60,45,15,-4.4,-10.0,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",Diamond (filled / hollow) [tag],off,76,51,17,-4.4,-9.2,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",Prime dot [tag],off,78,53,13,-4.6,-9.9,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],no data,74,50,18,-6.6,-11.4,from 2017-06-05 (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",Bucket B on this chart [tag],ON,37,46,11,-3.3,-7.8,full history
 "BTC 3D forming (provisional), confirms 2026-11-02",Regime gate [Tier 1 #6],ON,,,,,,on for 56 days
 "BTC 3D forming (provisional), confirms 2026-11-02",Positioning read (2026-10-27) [caution read],funding at/above its 90d median; not cooling; L/S 1.72 vs 1.34 2 wks ago; OI +4.5% in 14d,,,,,,
-"BTC 3D open, day 34, entry 2026-09-24",Grade C: UP8,grade,,,,,,
-"BTC 3D open, day 34, entry 2026-09-24",This chart with at least these lenses,record,54,54,15,-5.5,-9.0,full history
-"BTC 3D open, day 34, entry 2026-09-24",This chart with exactly these lenses,record,41,54,17,-4.4,-9.2,full history
+"BTC 3D open, day 34, entry 2026-09-24",Grade B: UP8 + FASTCT,grade,,,,,,
+"BTC 3D open, day 34, entry 2026-09-24",This chart with at least these lenses,record,22,59,5,-5.5,-8.1,full history
+"BTC 3D open, day 34, entry 2026-09-24",This chart with exactly these lenses,record,11,73,9,-4.4,-5.5,full history
 "BTC 3D open, day 34, entry 2026-09-24","This chart, every signal",record,92,51,14,-4.8,-9.9,full history
 "BTC 3D open, day 34, entry 2026-09-24",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,74,51,15,-4.6,-9.9,full history (record with it off)
 "BTC 3D open, day 34, entry 2026-09-24",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,40,45,12,-5.4,-13.1,full history (record with it off)
@@ -762,6 +790,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 3D open, day 34, entry 2026-09-24",CT above Signal and a prime dot [Tier 1 #2],off,87,51,14,-4.9,-9.9,full history (record with it off)
 "BTC 3D open, day 34, entry 2026-09-24",CT above Signal and a diamond [Tier 1 #3],off,86,49,15,-4.8,-9.9,full history (record with it off)
 "BTC 3D open, day 34, entry 2026-09-24",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,58,47,17,-5.6,-11.7,full history (record with it off)
+"BTC 3D open, day 34, entry 2026-09-24","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",ON,32,62,12,-5.2,-8.3,full history (record with it on)
 "BTC 3D open, day 34, entry 2026-09-24",Diamond (filled / hollow) [tag],off,76,51,17,-4.4,-9.2,full history (record with it off)
 "BTC 3D open, day 34, entry 2026-09-24",Prime dot [tag],off,78,53,13,-4.6,-9.9,full history (record with it off)
 "BTC 3D open, day 34, entry 2026-09-24",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,74,50,18,-6.6,-11.4,from 2017-06-05 (record with it off)
@@ -776,7 +805,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 3D open, day 34, entry 2026-09-24",Down 10%+ (day 10 so far) [in-trade],no,69,57,6,-4.2,-7.8,full history (record with the same answer)
 "BTC 3D open, day 7, entry 2026-10-21",Grade C: no lenses,grade,,,,,,
 "BTC 3D open, day 7, entry 2026-10-21",This chart with at least these lenses,record,92,51,14,-4.8,-9.9,full history
-"BTC 3D open, day 7, entry 2026-10-21",This chart with exactly these lenses,record,33,48,12,-7.4,-11.3,full history
+"BTC 3D open, day 7, entry 2026-10-21",This chart with exactly these lenses,record,26,38,8,-5.9,-10.7,full history
 "BTC 3D open, day 7, entry 2026-10-21","This chart, every signal",record,92,51,14,-4.8,-9.9,full history
 "BTC 3D open, day 7, entry 2026-10-21",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,74,51,15,-4.6,-9.9,full history (record with it off)
 "BTC 3D open, day 7, entry 2026-10-21",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,40,45,12,-5.4,-13.1,full history (record with it off)
@@ -789,6 +818,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 3D open, day 7, entry 2026-10-21",CT above Signal and a prime dot [Tier 1 #2],ON,5,60,20,-3.3,-8.1,full history (record with it on)
 "BTC 3D open, day 7, entry 2026-10-21",CT above Signal and a diamond [Tier 1 #3],ON,6,83,0,-5.6,-12.0,full history (record with it on)
 "BTC 3D open, day 7, entry 2026-10-21",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,58,47,17,-5.6,-11.7,full history (record with it off)
+"BTC 3D open, day 7, entry 2026-10-21","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,60,45,15,-4.4,-10.0,full history (record with it off)
 "BTC 3D open, day 7, entry 2026-10-21",Diamond (filled / hollow) [tag],ON,16,50,0,-7.2,-14.6,full history (record with it on)
 "BTC 3D open, day 7, entry 2026-10-21",Prime dot [tag],ON,14,43,21,-7.1,-9.4,full history (record with it on)
 "BTC 3D open, day 7, entry 2026-10-21",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],ON,5,40,0,-4.8,-8.7,from 2017-06-05 (record with it on)
@@ -813,6 +843,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 5D forming (provisional), confirms 2026-11-11",CT above Signal and a prime dot [Tier 1 #2],ON,1,100,0,-7.5,-7.5,full history (record with it on)
 "BTC 5D forming (provisional), confirms 2026-11-11",CT above Signal and a diamond [Tier 1 #3],ON,3,33,33,-3.0,-26.9,full history (record with it on)
 "BTC 5D forming (provisional), confirms 2026-11-11",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,29,45,21,-5.5,-19.7,full history (record with it off)
+"BTC 5D forming (provisional), confirms 2026-11-11","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,31,42,19,-6.7,-16.2,full history (record with it off)
 "BTC 5D forming (provisional), confirms 2026-11-11",Diamond (filled / hollow) [tag],ON,14,57,29,-3.4,-19.6,full history (record with it on)
 "BTC 5D forming (provisional), confirms 2026-11-11",Prime dot [tag],ON,10,60,10,-1.1,-4.3,full history (record with it on)
 "BTC 5D forming (provisional), confirms 2026-11-11",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],no data,40,42,20,-4.6,-16.7,from 2017-07-29 (record with it off)
@@ -834,6 +865,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 5D open, day 26, entry 2026-10-02",CT above Signal and a prime dot [Tier 1 #2],off,48,46,17,-3.9,-14.3,full history (record with it off)
 "BTC 5D open, day 26, entry 2026-10-02",CT above Signal and a diamond [Tier 1 #3],off,46,48,15,-4.5,-11.7,full history (record with it off)
 "BTC 5D open, day 26, entry 2026-10-02",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],ON,20,50,10,-3.1,-8.2,full history (record with it on)
+"BTC 5D open, day 26, entry 2026-10-02","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,31,42,19,-6.7,-16.2,full history (record with it off)
 "BTC 5D open, day 26, entry 2026-10-02",Diamond (filled / hollow) [tag],off,35,43,11,-5.0,-12.0,full history (record with it off)
 "BTC 5D open, day 26, entry 2026-10-02",Prime dot [tag],off,39,44,18,-5.5,-17.1,full history (record with it off)
 "BTC 5D open, day 26, entry 2026-10-02",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],off,40,42,20,-4.6,-16.7,from 2017-07-29 (record with it off)
@@ -860,6 +892,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,sample
 "BTC 8D forming (provisional), confirms 2026-11-16",CT above Signal and a prime dot [Tier 1 #2],off,26,46,12,-4.1,-13.0,full history (record with it off)
 "BTC 8D forming (provisional), confirms 2026-11-16",CT above Signal and a diamond [Tier 1 #3],off,25,48,12,-4.8,-10.6,full history (record with it off)
 "BTC 8D forming (provisional), confirms 2026-11-16",Shallow pullback: entry near its 30-day high (top third per chart) [Promising],off,20,45,10,-4.1,-12.9,full history (record with it off)
+"BTC 8D forming (provisional), confirms 2026-11-16","Fast CT recovery, trough to confirmation (top third per chart) [grade lens (BTC)]",off,20,45,10,-3.7,-13.0,full history (record with it off)
 "BTC 8D forming (provisional), confirms 2026-11-16",Diamond (filled / hollow) [tag],off,22,45,14,-5.7,-13.0,full history (record with it off)
 "BTC 8D forming (provisional), confirms 2026-11-16",Prime dot [tag],off,21,38,14,-4.8,-17.5,full history (record with it off)
 "BTC 8D forming (provisional), confirms 2026-11-16",BTC put/call top band (pct >= 95) at the last weekly close [watch lens (agreed 28 Oct)],no data,24,42,12,-5.7,-18.4,from 2017-08-12 (record with it off)

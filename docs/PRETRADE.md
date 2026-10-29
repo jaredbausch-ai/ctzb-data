@@ -272,20 +272,26 @@ both is worth reading as one funding star plus the rest.
 | B | 13.5 | 53% (81) | 42% | 21% | -15.3% | -4.6% | -28.2% | -39.9% | -52.3% | +22.5% | +48.2% |
 | C | 18.3 | 44% (110) | 35% | 30% | -16.4% | -6.1% | -33.4% | -41.6% | -52.2% | +15.1% | +53.1% |
 
-**BTC lenses (3):** CT > Signal by 5+; 8D CT rising; an ETH 2D signal
-confirmed 0-10 days before a BTC 1D/2D entry. BTC tops out at A.
+**BTC lenses (4):** CT > Signal by 5+; 8D CT rising; an ETH 2D signal
+confirmed 0-10 days before a BTC 1D/2D entry; fast CT recovery (CT at the
+confirmation minus CT at the trough in the chart's top third, cut from 2016-21;
+added by `analysis/grade6.py` 28 Oct: lift +8.1 / +17.0 by period, placebo +10.6
+vs p95 +6.0). BTC can now reach A+.
 
-| BTC grade (2016 on) | per year | +20% in 60d | worst plausible | touched -30% | median dip (60d) | median dip before the high | 1 in 4 dipped past | 1 in 10 dipped past | worst on record | median max upside | top-quarter upside |
+| BTC grade (2016 on) | per year | +20% in 60d | worst plausible | touched -30% | median drawdown from entry (60d) | median dip before the high | 1 in 4 dipped past | 1 in 10 dipped past | worst on record | median max upside | top-quarter upside |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| A | 4.4 | 77% (44) | 63% | 7% | -7.9% | -3.9% | -15.9% | -27.3% | -39.9% | +42.0% | +58.0% |
-| B | 14.3 | 56% (143) | 48% | 15% | -9.6% | -4.3% | -20.6% | -37.3% | -70.1% | +25.7% | +49.9% |
-| C | 37.4 | 46% (374) | 41% | 14% | -11.9% | -4.8% | -26.5% | -32.8% | -62.3% | +17.5% | +47.0% |
+| A+ | 3.3 | 79% (33) | 62% | 9% | -6.5% | -3.6% | -15.9% | -28.1% | -39.9% | +42.9% | +64.0% |
+| A | 8.1 | 57% (81) | 46% | 10% | -9.6% | -4.1% | -19.4% | -28.7% | -50.2% | +25.7% | +51.2% |
+| B | 13.6 | 57% (136) | 48% | 17% | -10.0% | -5.1% | -24.4% | -35.4% | -70.1% | +28.6% | +56.5% |
+| C | 31.1 | 44% (311) | 39% | 14% | -12.0% | -4.7% | -26.7% | -32.4% | -62.3% | +16.9% | +39.4% |
 
 **Flags beside the grade, not counted (ETH):** they passed the lens rules and
 placebo but, counted as stars, broke the grade's ordering.
 - Bullish Stoch divergence on a HIGHER chart, confirmed in the 10 days before
   entry: 74% (38), touched -30% 11%, against 56% and 21% without.
 - A diamond or a prime dot: 66% (136), touched -30% 21%, against 53% and 19% without.
+
+**Audit 2 (`analysis/grade6.py`, 28 Oct), every read that tested well but was never tried as a lens:** added FASTCT to BTC (above). Not added: BTC 3D before an ETH 3D entry (lift +23 / +39, -30% cut +11 / +2, but only 9 ETH 3D signals since 2022 lacked it, under the n >= 15 rule: near miss on sample size, kept in the live stack as B3E3); BTC put/call top band at the weekly close (cut +20 / +3, lift +7 / +31, but only 12 cases to 2021: near miss on sample size, K1 stays in the live stack); money flow above its own signal line (ETH passed step 1 strongly, +10 / +10 pooled, but adds nothing once CT > Signal by 5+ is known; BTC failed the placebo at exactly p95); volatility not expanding (failed step 1 both assets); fast CT recovery on ETH (adds nothing inside CT > Signal by 5+); ETH 3D before BTC 3D (failed step 1). 8D charts stay ungraded: too few 8D signals per grade (ETH 15, BTC 28 in total). Flows test (`analysis/whaletest.py`, declared 25 Oct, first run 28 Oct): stablecoin supply W1-W4 failed every selector and veto bar on both assets; the Coinbase premium has no data (Binance blocks the US GitHub runners, HTTP 451) and spot ETF flows have only 14 days.
 
 **Tried and not used (audit, 28 Oct):** CT above Signal + prime and + diamond
 (-30% worse in one period); divergence on the signal's own chart (-30% worse

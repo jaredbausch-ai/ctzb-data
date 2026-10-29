@@ -61,6 +61,11 @@ for _a, _ks in ADD.items():
 AUD = json.load(open(os.path.join(HERE, 'analysis', 'grade3.json')))
 for _a, _ks in AUD['counted'].items():
     LENSES[_a] = LENSES[_a] + _ks
+# Audit 2 (analysis/grade6.py, 28 Oct 2026): FASTCT (CT recovered fast from the
+# trough to the confirmation, top third per chart) passed every step on BTC.
+G6 = json.load(open(os.path.join(HERE, 'analysis', 'grade6.json')))
+for _a, _ks in G6['added'].items():
+    LENSES[_a] = LENSES[_a] + _ks
 FLAGS = {'DIVH': 'HTF divergence', 'MARKER': 'diamond or prime dot'}
 GRADED_TF = ('1D', '2D', '3D', '5D')
 
@@ -75,6 +80,7 @@ def lens_flags(r):
         'FUND': r['fund'] is True,
         'BTCX': bool(r.get('btcx')),
         'FCOOL': bool(r.get('fcool')),
+        'FASTCT': bool(r.get('fastct')),
     }
 
 
@@ -124,6 +130,17 @@ def main():
                     divh=any(near(DV[(a, t)]) for t in ORDER[ORDER.index(tf) + 1:]),
                     fcool_ok=ok, fcool=ok and sum(w7) / len(w7) >= sum(w7b) / len(w7b))
     every = [r for lst in allsig.values() for r in lst]
+    # FASTCT: CT at confirmation minus CT at the trough, top third per chart, cut from 2016-21 (grade6.py)
+    CTS = {(a, tf): E.rsi(E.load(f'data/{a}_{tf}.csv')['close'], 14) for a in ('ETH', 'BTC') for tf in ORDER}
+    for r in every:
+        c = CTS[(r['a'], r['tf'])]; ei = r['ei']
+        r['f17'] = c[ei] - c[ei - 3] if c[ei] is not None and c[ei - 3] is not None else None
+    FCUT = {}
+    for k in CTS:
+        v = sorted(r['f17'] for r in rows if (r['a'], r['tf']) == k and r.get('f17') is not None and r['d0'] < dt.date(2022, 1, 1))
+        FCUT[k] = v[int(2 * len(v) / 3)] if len(v) >= 9 else None
+    for r in every:
+        cut = FCUT[(r['a'], r['tf'])]; r['fastct'] = cut is not None and r['f17'] is not None and r['f17'] >= cut
     for r in rows:
         r.update(flags_at(r['a'], r['tf'], r['d0']))
     for r in every:
@@ -237,6 +254,10 @@ def main():
                      btc3=a == 'ETH' and tf in ('1D', '2D') and any(0 <= (d0 - d).days <= 10 for d in b3),
                      fund=None if fu is None else (not fb[(a, fu)]))
             r.update(flags_at(a, tf, d0))
+            import refresh as RF
+            kL_ = E.sma(E.stoch_of(ct, 14), 3); pv = RF.provisional(ct, kL_, RF.zser(ct), b['date'], len(b['close']))
+            cut = FCUT[(a, tf)]
+            r['fastct'] = bool(pv and cut is not None and ct[i] is not None and ct[i] - ct[pv['ti']] >= cut)
             g, names = grade_of(r)
             r['_grade'], r['_names'] = g, [k for k in names.split(' + ') if k]
             ft = x[h.index('formingTag')].lower()

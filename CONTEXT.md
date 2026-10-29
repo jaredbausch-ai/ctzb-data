@@ -240,6 +240,16 @@ misrepresentation.
 
 ## What has been tested and failed
 
+**Grade audit 2 + flows test — 28 Oct 2026.** `analysis/grade6.py` (declared,
+grade2 rules) on every read that tested well but was never tried as a lens, from a
+repo-wide inventory: FASTCT (fast CT recovery, trough to confirmation, top third
+per chart) ADDED to the BTC grade; B3E3 (BTC 3D before ETH 3D) and BTC put/call K1
+are near misses on sample size only; MFIS, VOLC, E3B3 and FASTCT-on-ETH not used;
+8D stays ungraded. `analysis/grade5.py`: funding once vs twice in the ETH grade, no
+version passes the ordering rule; Jared deciding. `analysis/whaletest.py`: stablecoin
+W1-W4 fail; premium data never arrived (Binance HTTP 451 on GitHub's US runners);
+ETF flow history 14 days. Console sizing switched to the median drawdown from entry.
+
 **Options put/call (Krown-style) — run 28 Oct 2026, FAILED as a filter, kept as
 context.** Data: Deribit history API, `fetch_pcr.py` -> `data/options/`, BTC
 from Nov 2016 (thin until 2018), ETH from Mar 2019, refreshed by `pcr.yml`.

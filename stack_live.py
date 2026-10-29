@@ -68,6 +68,8 @@ REGISTRY = [
     # Promising not already above
     ('SHALLOW', 'Shallow pullback: entry near its 30-day high (top third per chart)', 'ETH BTC', 'all', 'Promising', 'PRETRADE Promising'),
     ('E3B1', 'ETH 3D confirmed 0-10 days before (near miss)', 'BTC', '1D', 'near miss', 'PRETRADE Promising (near miss); grade4'),
+    ('FASTCT', 'Fast CT recovery, trough to confirmation (top third per chart)', 'ETH BTC', 'all', 'grade lens (BTC)', 'PRETRADE grade; grade6'),
+    ('B3E3', 'BTC 3D confirmed 0-10 days before (near miss: sample)', 'ETH', '3D', 'near miss', 'PRETRADE grade; grade6'),
     # tags
     ('BUCKET', 'Bucket at the trough (A <40, B 40-55, C 55-65, D 65+)', 'ETH BTC', 'all', 'tag', 'indicator'),
     ('DIAMOND', 'Diamond (filled / hollow)', 'ETH BTC', 'all', 'tag', 'indicator'),
@@ -150,6 +152,7 @@ def main():
     PCR = PT.reads(PT.load_pcr('BTC'))
     DV = {(a, tf): [d for d, _ in divergences(f'data/{a}_{tf}.csv', osc='k')] for a in ASSETS for tf in TFS}
     DAY = {a: E.load(f'data/{a}_1D.csv') for a in ASSETS}
+    CTS = {(a, tf): E.rsi(E.load(f'data/{a}_{tf}.csv')['close'], 14) for a in ASSETS for tf in TFS}
     DPOS = {a: {d: i for i, d in enumerate(DAY[a]['date'])} for a in ASSETS}
     WK = {}
     for a in ASSETS:
@@ -234,11 +237,20 @@ def main():
         r['obv'] = obv_at(a, d0)
         r['lsfall'] = lsfall_at(a, d0)
         r['f5'] = shallow_val(a, d0, r['entry'])
+        r['b3e3'] = a == 'ETH' and tf == '3D' and bool(near(d0, D0S[('BTC', '3D')]))
+        cc = CTS[(a, tf)]; ei = r['ei']
+        r['f17'] = cc[ei] - cc[ei - 3] if cc[ei] is not None and cc[ei - 3] is not None else None
     # shallow pullback cut points: top third per chart from 2016-21 (sweep.py's discovery cut)
     CUT = {}
     for k in allsig:
         v = sorted(r['f5'] for r in allsig[k] if r['f5'] is not None and r['d0'] < SPLIT)
         CUT[k] = v[int(2 * len(v) / 3)] if len(v) >= 9 else None
+    FCUT = {}
+    for k in allsig:
+        v = sorted(r['f17'] for r in rows if (r['a'], r['tf']) == k and r.get('f17') is not None and r['d0'] < SPLIT)
+        FCUT[k] = v[int(2 * len(v) / 3)] if len(v) >= 9 else None
+    for r in every:
+        fc = FCUT.get((r['a'], r['tf'])); r['fastct'] = None if fc is None or r['f17'] is None else r['f17'] >= fc
     for r in every:
         c = CUT.get((r['a'], r['tf'])); r['shallow'] = None if c is None or r['f5'] is None else r['f5'] >= c
 
@@ -249,7 +261,7 @@ def main():
             'BTC3': bool(r['btc3']), 'FUND': r['fund'], 'FCOOL': r['fcool'], 'UP8': bool(r['up8']),
             'BTCX': bool(r['btcx']), 'DIVH': bool(r['divh']), 'MARKER': bool(r['prime'] or r['dis']),
             'T1PRIME': g is not None and g > 0 and bool(r['prime']), 'T1DIAM': g is not None and g > 0 and bool(r['dis']),
-            'SHALLOW': r['shallow'], 'E3B1': bool(r['e3b1']), 'PRIME': bool(r['prime']), 'DIAMOND': bool(r['dis']),
+            'SHALLOW': r['shallow'], 'E3B1': bool(r['e3b1']), 'FASTCT': r['fastct'], 'B3E3': bool(r.get('b3e3')), 'PRIME': bool(r['prime']), 'DIAMOND': bool(r['dis']),
             'K1': r['k1'], 'W5B': r['w5b'], 'STD1': bool(r['higher']) and bool(r['up8']),
             'STD2': (g is not None and g > 5) and bool(r['obv']), 'STD3': bool(r['prime']) and r['agree'] >= 2,
             'LSFALL': (bool(r['prime']) and r['lsfall']) if r['lsfall'] is not None else None,
@@ -299,6 +311,8 @@ def main():
                          k1=k1_at(d0f) if a == 'BTC' else None, w5b=w5b_at(a, today), obv=obv_at(a, today),
                          lsfall=lsfall_at(a, today), f5=shallow_val(a, today, C[i]))
                 c = CUT.get((a, tf)); r['shallow'] = None if c is None or r['f5'] is None else r['f5'] >= c
+                fc = FCUT.get((a, tf)); r['b3e3'] = a == 'ETH' and tf == '3D' and bool(near(d0f, D0S[('BTC', '3D')]))
+                r['fastct'] = None if fc is None or ct[i] is None else (ct[i] - ct[p['ti']]) >= fc
                 tags = ' + '.join([p['bucket']] + (['filled diamond'] if strong else ['hollow diamond'] if dis else []) + (['prime dot'] if r['prime'] else []))
                 prints.append([f'{a} {tf}', 'forming', str(p['date']), str(d0f), round(C[i], 2), tags,
                                ('regime on' if gate(today) else 'regime off') + f'; {p["need"]} bar(s) to confirm'])
@@ -319,6 +333,8 @@ def main():
     for k, v in json.load(open(os.path.join(HERE, 'analysis', 'grade2.json'))).items():
         LENS[k] = LENS[k] + [x for x in v if x != 'DIVH']
     for k, v in json.load(open(os.path.join(HERE, 'analysis', 'grade3.json')))['counted'].items():
+        LENS[k] = LENS[k] + v
+    for k, v in json.load(open(os.path.join(HERE, 'analysis', 'grade6.json')))['added'].items():
         LENS[k] = LENS[k] + v
     for state, r, tags in subjects:
         a, tf, d0 = r['a'], r['tf'], r['d0']
