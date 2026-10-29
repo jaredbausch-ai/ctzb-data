@@ -24,6 +24,12 @@ PASS RULE (per target, set now)
   has a lower Brier score AND a higher AUC than G on BOTH assets separately, AND a
   lower Brier score than G in at least 4 of the 7 test years. If both models pass,
   M2 is used only if its pooled Brier is lower than M1's.
+ADDENDUM (declared 28 Oct 2026 21:20 ET, after the first run, before running it):
+  the grade's lens list was chosen on the full history, so G carries a selection
+  advantage M1/M2 do not. M3 = logistic regression on ONLY the live grade's lenses
+  for that asset (same inputs as the grade, but each weighted instead of counted
+  equally), plus asset and timeframe, L2 penalty 1.0. Same pass rule against G.
+  This isolates the question "does weighting beat counting".
 WRITES  analysis/RESULTS_model.txt; analysis/model.json (weights of the passing model
         per target, refit on all completed signals, for the live stack);
         datasets/ledger_odds.csv (each past signal's walk-forward odds: what the model
@@ -46,7 +52,8 @@ NA = ['FUND', 'FCOOL', 'K1', 'W5B', 'LSF', 'OBV', 'SHALLOW', 'FASTCT']
 TARGETS = {'reach10': lambda r: r['m']['up'] >= 10, 'reach20': lambda r: r['m']['up'] >= 20,
            'reach30': lambda r: r['m']['up'] >= 30, 'touch30': lambda r: r['m']['dd'] <= -30}
 YEARS = list(range(2019, 2026))
-LAM = {'M1': 1.0, 'M2': 5.0}
+LAM = {'M1': 1.0, 'M2': 5.0, 'M3': 1.0}
+GL = {}
 
 
 def capture(loc):
@@ -70,6 +77,12 @@ def vec(r, F, kind):
     x['ETH'] = 1.0 if r['a'] == 'ETH' else 0.0
     for tf in ('2D', '3D', '5D', '8D'):
         x['TF_' + tf] = 1.0 if r['tf'] == tf else 0.0
+    if kind == 'M3':
+        y = {'ETH': x['ETH'], **{k: x[k] for k in x if k.startswith('TF_')}}
+        for a, ks in GL.items():
+            for k in ks:
+                y[a + '_' + k] = (1.0 if r['a'] == a and v.get(k) else 0.0)
+        return y
     if kind == 'M2':
         for i, p in enumerate(READS):
             for q in READS[i + 1:]:
@@ -117,25 +130,27 @@ def main():
     for k, v in json.load(open('analysis/grade2.json')).items(): LENS[k] = LENS[k] + [x for x in v if x != 'DIVH']
     for k, v in json.load(open('analysis/grade3.json'))['counted'].items(): LENS[k] = LENS[k] + v
     for k, v in json.load(open('analysis/grade6.json'))['added'].items(): LENS[k] = LENS[k] + v
+    GL.update(LENS)
     gof = lambda c: 'C' if c <= 1 else 'B' if c == 2 else 'A' if c == 3 else 'A+'
     S = [r for r in rows if 'm' in r]
     for r in S:
         F = feats(r); r['_F'] = F
         r['_g'] = gof(sum(1 for k in LENS[r['a']] if F.get(k)))
-    keys = {k: sorted(vec(S[0], S[0]['_F'], k).keys()) for k in ('M1', 'M2')}
-    Xm = {k: np.array([[vec(r, r['_F'], k)[c] for c in keys[k]] for r in S]) for k in ('M1', 'M2')}
+    MS = ('M1', 'M2', 'M3')
+    keys = {k: sorted(vec(S[0], S[0]['_F'], k).keys()) for k in MS}
+    Xm = {k: np.array([[vec(r, r['_F'], k)[c] for c in keys[k]] for r in S]) for k in MS}
     d0 = np.array([r['d0'].toordinal() for r in S]); yr = np.array([r['d0'].year for r in S])
     asset = np.array([r['a'] for r in S])
     P('EVERY TRADE ITS OWN ODDS -- declared 28 Oct 2026, run', dt.date.today(), f'| {len(S)} completed signals, ETH+BTC 1D-8D | entry quality only\n')
     adopt = {}; oos = {}
     for t, fn in TARGETS.items():
         y = np.array([1.0 if fn(r) else 0.0 for r in S])
-        pred = {m: np.full(len(S), np.nan) for m in ('G', 'M1', 'M2')}
+        pred = {m: np.full(len(S), np.nan) for m in ('G',) + MS}
         for Y in YEARS:
             cut = dt.date(Y, 1, 1).toordinal() - 61
             tr = d0 < cut; te = yr == Y
             if te.sum() == 0 or tr.sum() < 50: continue
-            for m in ('M1', 'M2'):
+            for m in MS:
                 w = fit(Xm[m][tr], y[tr], LAM[m]); pred[m][te] = predict(w, Xm[m][te])
             rate = {}
             for i in np.where(tr)[0]: rate.setdefault((S[i]['a'], S[i]['_g']), []).append(y[i])
@@ -146,7 +161,7 @@ def main():
         oos[t] = {m: pred[m] for m in pred}
         P(f'TARGET {t}: {int(mask.sum())} out-of-sample signals, base rate {y[mask].mean():.0%}')
         res = {}
-        for m in ('G', 'M1', 'M2'):
+        for m in ('G',) + MS:
             line = []; ok_assets = True
             for a in ('ETH', 'BTC'):
                 mm = mask & (asset == a)
@@ -165,10 +180,8 @@ def main():
               + (f' | beats G on Brier in {yrs_better}/{len(YEARS)} years' if m != 'G' else '')
               + f' | top fifth {top:.0%} vs bottom fifth {bot:.0%}')
             res[(m, 'yrs')] = yrs_better
-        passed = [m for m in ('M1', 'M2') if all(res[(m, a)][0] < res[('G', a)][0] and res[(m, a)][1] > res[('G', a)][1] for a in ('ETH', 'BTC')) and res[(m, 'yrs')] >= 4]
-        pick = None
-        if 'M1' in passed and 'M2' in passed: pick = 'M2' if res[('M2', 'all')][0] < res[('M1', 'all')][0] else 'M1'
-        elif passed: pick = passed[0]
+        passed = [m for m in MS if all(res[(m, a)][0] < res[('G', a)][0] and res[(m, a)][1] > res[('G', a)][1] for a in ('ETH', 'BTC')) and res[(m, 'yrs')] >= 4]
+        pick = min(passed, key=lambda m: res[(m, 'all')][0]) if passed else None
         adopt[t] = pick
         P(f'  -> {"ADOPT " + pick if pick else "keep the grade"} for {t}\n')
     # calibration of the adopted reach20 model, by predicted band
@@ -186,10 +199,10 @@ def main():
         model['targets'][t] = {'kind': m, 'keys': keys[m], 'w': [float(x) for x in w]}
     json.dump(model, open('analysis/model.json', 'w'))
     with open('datasets/ledger_odds.csv', 'w', newline='') as f:
-        wr = csv.writer(f); wr.writerow(['chart', 'entry', 'grade'] + [f'{t}_{m}' for t in TARGETS for m in ('G', 'M1', 'M2')])
+        wr = csv.writer(f); wr.writerow(['chart', 'entry', 'grade'] + [f'{t}_{m}' for t in TARGETS for m in ('G',) + MS])
         for i, r in enumerate(S):
             if np.isnan(oos['reach20']['G'][i]): continue
-            wr.writerow([r['ch'], str(r['d0']), r['_g']] + [round(100 * oos[t][m][i]) for t in TARGETS for m in ('G', 'M1', 'M2')])
+            wr.writerow([r['ch'], str(r['d0']), r['_g']] + [round(100 * oos[t][m][i]) for t in TARGETS for m in ('G',) + MS])
     P('\n  Adopted:', {t: m for t, m in adopt.items()})
     P('  ENTRY QUALITY ONLY. Computed signals, not fills.')
     open('analysis/RESULTS_model.txt', 'w').write('\n'.join(L) + '\n')
