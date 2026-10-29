@@ -11,6 +11,10 @@ re-choose lenses. The lens list is read from analysis/grade.json.
   median). BTC lenses: GAP, UP8 (8D CT rising). 8D signals are not graded.
 
 Writes / changes, in datasets/:
+  dipdist.csv    every graded signal's largest dip from entry within 60 days, so
+                 the console can show the share of past setups that reached a
+                 given liquidation point (sizing basis set by Jared 28 Oct: the
+                 median drawdown from entry).
   grades.csv     the record of each grade (worstTenthMedian = the median dip
                  among the worst 10% of that grade's signals, the "worst-case
                  median" the dashboard sizes against, at Jared's request 28 Oct):
@@ -140,6 +144,7 @@ def main():
 
     # ---- grades.csv: the record of each grade ----
     out = []
+    dist = []      # dipdist.csv: every graded signal's largest 60-day dip from entry, for the console's liquidation odds
     for a in ('ETH', 'BTC'):
         G0 = [r for r in rows if r['a'] == a and r['tf'] in GRADED_TF]
         if 'FUND' in LENSES[a]:
@@ -148,6 +153,7 @@ def main():
             G0 = [r for r in G0 if r['fcool_ok']]
         for r in G0:
             r['grade'], _ = grade_of(r)
+            dist.append([a, r['grade'], round(r['m']['dd'], 2)])
         yrs = max(1, len({r['yr'] for r in G0}))
         for g in ('A+', 'A', 'B', 'C'):
             G = [r for r in G0 if r['grade'] == g]
@@ -181,6 +187,7 @@ def main():
          ['asset', 'grade', 'n', 'perYear', 'reach20', 'worstPlausible', 'touched30', 'touched20', 'medDip',
           'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip', 'worstTenthMedian',
           'reach10', 'reach30', 'safe20', 'green60', 'dipBeforeHigh1in10', 'daysToHigh'], out)
+    wcsv(os.path.join(OUT, 'dipdist.csv'), ['asset', 'grade', 'maxDip60'], dist)
 
     # ---- forward.csv: grade each row ----
     dates = {}

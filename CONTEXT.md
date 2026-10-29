@@ -1023,7 +1023,11 @@ evaluated. **Adding any finding to PRETRADE means adding its REGISTRY entry and
 DOC_MAP line in the same commit.** The dashboard refresh task copies the outputs
 every 4 hours and notifies on new, confirmed or vanished prints. Drawdown in
 every table is from entry (dip before the 60-day high, largest dip in 60 days);
-the worst-case median is no longer shown (Jared, 28 Oct). Known gap: the CT RSI
+the worst-case median is no longer shown (Jared, 28 Oct). The position console now SIZES against the grade's
+median drawdown from entry (median largest dip within 60 days, grades.csv
+`medDip`), Jared's decision 28 Oct, and states the share of past setups of that
+grade whose dip reached the user's liquidation point (`datasets/dipdist.csv`).
+At 3.3x with no reserve that share is A+ 14%, A 25%, B 27%, C 36%. Known gap: the CT RSI
 day-ten three-state read has no written definition, so it is not computed.
 
 **Never quote the pooled grade alone (set 28 Oct 2026, after Jared had to correct it).**
