@@ -374,6 +374,7 @@ type Card
     string grade = ""
     string lenses = ""
     string codes = ""
+    string confs = ""
     array<float> s
     string basis = ""
 
@@ -395,6 +396,7 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
         bool gap = not na(ct) and not na(em) and ct - em > 5
         string L = ""
         string K = ""
+        string Q = ""
         int m = 0
         int nl = 0
         if a == "ETH"
@@ -405,6 +407,7 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
             nl := (gap ? 1 : 0) + (isHigh ? 1 : 0) + (agree >= 2 ? 1 : 0) + (btc3 ? 1 : 0)
             L := (gap ? "; CT well above its Signal line" : "") + (isHigh ? "; a higher low than the last signal" : "") + (agree >= 2 ? "; other charts already confirmed" : "") + (btc3 ? "; a BTC 3D signal in the 10 days before" : "")
             K := (gap ? " GAP" : "") + (isHigh ? " HIGH" : "") + (agree >= 2 ? " AGREE" : "") + (btc3 ? " BTC3" : "")
+            Q := (btc3 ? ", BTC 3D before" : "") + (agree >= 2 ? ", other ETH charts" : "") + (gap ? ", CT above Signal" : "") + (isHigh ? ", higher low" : "")
         else
             // BTC lenses: GAP, UP8, BTCX, FASTCT (grade.json, grade2.json, grade6.json)
             bool up8 = not na(ct8a) and not na(ct8b) and ct8a > ct8b
@@ -415,9 +418,11 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
             nl := (gap ? 1 : 0) + (up8 ? 1 : 0) + (btcx ? 1 : 0) + (fast ? 1 : 0)
             L := (gap ? "; CT well above its Signal line" : "") + (up8 ? "; the 8D chart rising" : "") + (btcx ? "; an ETH 2D signal in the 10 days before" : "") + (fast ? "; CT recovering fast from the low" : "")
             K := (gap ? " GAP" : "") + (up8 ? " UP8" : "") + (btcx ? " BTCX" : "") + (fast ? " FASTCT" : "")
+            Q := (btcx ? ", ETH 2D before" : "") + (up8 ? ", 8D rising" : "") + (gap ? ", CT above Signal" : "") + (fast ? ", fast CT" : "")
         c.mask := m
         c.lenses := L == "" ? "none" : str.substring(L, 2)
         c.codes := K == "" ? " none" : K
+        c.confs := Q == "" ? "none" : str.substring(Q, 2)
         string g = gradeOf(nl)
         c.grade := a == "ETH" ? g + "*" : g
         [s, basis] = cardSample(c.ch, a, m, g, c.grade)
@@ -465,11 +470,11 @@ sSize = input.string("Small", "Text size", options=["Tiny", "Small", "Normal", "
 aForm = input.bool(true, "Alert when a low starts forming", group=gS)
 aConf = input.bool(true, "Alert when a low confirms", group=gS)
 
-var table TB = table.new(sPos == "Bottom right" ? position.bottom_right : sPos == "Top left" ? position.top_left : sPos == "Bottom left" ? position.bottom_left : position.top_right, 8, 14, border_width=1, frame_width=1, frame_color=color.new(color.gray, 55), bgcolor=color.new(#0D1114, 0))
+var table TB = table.new(sPos == "Bottom right" ? position.bottom_right : sPos == "Top left" ? position.top_left : sPos == "Bottom left" ? position.bottom_left : position.top_right, 9, 14, border_width=1, frame_width=1, frame_color=color.new(color.gray, 55), bgcolor=color.new(#0D1114, 0))
 tsz() =>
     sSize == "Tiny" ? size.tiny : sSize == "Normal" ? size.normal : sSize == "Large" ? size.large : size.small
 put(int c, int r, string s, color tx, color bg) =>
-    table.cell(TB, c, r, s, text_color=tx, bgcolor=bg, text_size=tsz(), text_halign=c == 0 ? text.align_left : text.align_center)
+    table.cell(TB, c, r, s, text_color=tx, bgcolor=bg, text_size=tsz(), text_halign=c == 0 or c == 8 ? text.align_left : text.align_center)
 
 // what each chart looked like on the previous update, for the alerts
 var array<int> prevFb = array.new_int(10, -1)
@@ -477,7 +482,7 @@ var array<int> prevD0 = array.new_int(10, na)
 var array<string> prevLine = array.new_string(10, "")
 
 if barstate.islast
-    table.clear(TB, 0, 0, 7, 13)
+    table.clear(TB, 0, 0, 8, 13)
     color H = color.new(#1E293B, 0)
     color P = color.new(#151B1F, 0)
     color DIM = color.new(#93A1AA, 0)
@@ -487,6 +492,7 @@ if barstate.islast
     put(1, 0, "LOW", color.white, H)
     put(2, 0, "TAG", color.white, H)
     put(3, 0, "GRADE", color.white, H)
+    put(8, 0, "CONFIRMATIONS ON", color.white, H)
     put(4, 0, "ODDS", color.white, H)
     put(5, 0, "PAST", color.white, H)
     put(6, 0, "HOLD ABOVE", color.white, H)
@@ -504,6 +510,7 @@ if barstate.islast
         put(4, r, f ? fPct(c.s.get(S_SURV10)) : "-", f ? OK : DIM, bg)
         put(5, r, f ? str.tostring(c.s.get(S_N), "#") : "-", tx, bg)
         put(6, r, f ? (na(c.kill) ? str.tostring(c.need) + " bars to close" : fPx(c.kill)) : "-", tx, bg)
+        put(8, r, f ? c.confs + (c.a == "ETH" ? " + funding: console*" : "") : "-", tx, bg)
         put(7, r, na(c.lastD0) ? "-" : str.tostring(math.floor((timenow - c.lastD0) / DAY_MS) - 1) + "d", DIM, bg)
         // alerts: a new forming low, or a confirmation (the last signal's date moved)
         if barstate.isrealtime
@@ -516,11 +523,11 @@ if barstate.islast
         if f
             prevLine.set(i, copyLine(c))
     put(0, 11, "Regime " + (liveBull ? "BULL" : "BEAR") + (regimeMoved ? " · CHANGED since build: rebuild" : ""), liveBull ? OK : color.new(#E2766A, 0), H)
-    table.merge_cells(TB, 0, 11, 7, 11)
+    table.merge_cells(TB, 0, 11, 8, 11)
     put(0, 12, "ODDS: rose 10% and never fell 25% within 60 days, like-for-like past trades. *ETH graded without funding (TradingView can't read it); the console's ETH grade is official.", WN, P)
-    table.merge_cells(TB, 0, 12, 7, 12)
+    table.merge_cells(TB, 0, 12, 8, 12)
     put(0, 13, "Card numbers as of " + BUILT + ". Past signals, not real trades. Entry quality only.", DIM, P)
-    table.merge_cells(TB, 0, 13, 7, 13)
+    table.merge_cells(TB, 0, 13, 8, 13)
 
 // No bars: the pane is just the readout. Pine needs one output call, so this draws nothing.
 plot(na, "", display=display.none)

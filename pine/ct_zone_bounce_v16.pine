@@ -376,6 +376,7 @@ type Card
     string grade = ""
     string lenses = ""
     string codes = ""
+    string confs = ""
     array<float> s
     string basis = ""
 
@@ -397,6 +398,7 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
         bool gap = not na(ct) and not na(em) and ct - em > 5
         string L = ""
         string K = ""
+        string Q = ""
         int m = 0
         int nl = 0
         if a == "ETH"
@@ -407,6 +409,7 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
             nl := (gap ? 1 : 0) + (isHigh ? 1 : 0) + (agree >= 2 ? 1 : 0) + (btc3 ? 1 : 0)
             L := (gap ? "; CT well above its Signal line" : "") + (isHigh ? "; a higher low than the last signal" : "") + (agree >= 2 ? "; other charts already confirmed" : "") + (btc3 ? "; a BTC 3D signal in the 10 days before" : "")
             K := (gap ? " GAP" : "") + (isHigh ? " HIGH" : "") + (agree >= 2 ? " AGREE" : "") + (btc3 ? " BTC3" : "")
+            Q := (btc3 ? ", BTC 3D before" : "") + (agree >= 2 ? ", other ETH charts" : "") + (gap ? ", CT above Signal" : "") + (isHigh ? ", higher low" : "")
         else
             // BTC lenses: GAP, UP8, BTCX, FASTCT (grade.json, grade2.json, grade6.json)
             bool up8 = not na(ct8a) and not na(ct8b) and ct8a > ct8b
@@ -417,9 +420,11 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
             nl := (gap ? 1 : 0) + (up8 ? 1 : 0) + (btcx ? 1 : 0) + (fast ? 1 : 0)
             L := (gap ? "; CT well above its Signal line" : "") + (up8 ? "; the 8D chart rising" : "") + (btcx ? "; an ETH 2D signal in the 10 days before" : "") + (fast ? "; CT recovering fast from the low" : "")
             K := (gap ? " GAP" : "") + (up8 ? " UP8" : "") + (btcx ? " BTCX" : "") + (fast ? " FASTCT" : "")
+            Q := (btcx ? ", ETH 2D before" : "") + (up8 ? ", 8D rising" : "") + (gap ? ", CT above Signal" : "") + (fast ? ", fast CT" : "")
         c.mask := m
         c.lenses := L == "" ? "none" : str.substring(L, 2)
         c.codes := K == "" ? " none" : K
+        c.confs := Q == "" ? "none" : str.substring(Q, 2)
         string g = gradeOf(nl)
         c.grade := a == "ETH" ? g + "*" : g
         [s, basis] = cardSample(c.ch, a, m, g, c.grade)
