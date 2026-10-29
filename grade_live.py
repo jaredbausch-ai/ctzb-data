@@ -44,6 +44,7 @@ import csv, json, math, os, sys, datetime as dt, statistics as st
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, 'analysis'))
 import engine as E
+import measures as MS
 import grokpack as GP
 import pcrtest as PT
 from sweep import closed_index
@@ -161,7 +162,9 @@ def main():
         n = len(G); pk = sorted(r['m']['ddpk'] for r in G)
         return [round(100 * sum(r['m']['up'] >= 10 for r in G) / n), round(100 * sum(r['m']['up'] >= 30 for r in G) / n),
                 round(100 * sum(bool(r.get('safe')) for r in G) / n), round(100 * sum(r['m']['ret'] > 0 for r in G) / n),
-                round(pk[int(0.10 * (n - 1))], 1), round(st.median(r['m']['dpk'] for r in G))]
+                round(pk[int(0.10 * (n - 1))], 1), round(st.median(r['m']['dpk'] for r in G)),
+                round(100 * sum(MS.surv10(r['m']) for r in G) / n),
+                (lambda v: round(100 * sum(v) / len(v)) if v else '')([x for x in (MS.scaled20(r['a'], r['d0'], r['m']) for r in G) if x is not None])]
 
     # ---- grades.csv: the record of each grade ----
     out = []
@@ -180,7 +183,7 @@ def main():
             G = [r for r in G0 if r['grade'] == g]
             n = len(G)
             if not n:
-                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '', '', '', '', '', '', '', '']); continue
+                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '', '', '', '', '', '', '', '', '', '']); continue
             k = sum(r['win'] for r in G); dds = sorted(r['m']['dd'] for r in G); ups = sorted(r['m']['up'] for r in G)
             out.append([a, g, n, round(n / yrs, 1), round(100 * k / n), round(wilson_lo(k, n)),
                         round(100 * sum(r['t30'] for r in G) / n), round(100 * sum(r['t20'] for r in G) / n),
@@ -207,7 +210,7 @@ def main():
     wcsv(os.path.join(OUT, 'grades.csv'),
          ['asset', 'grade', 'n', 'perYear', 'reach20', 'worstPlausible', 'touched30', 'touched20', 'medDip',
           'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip', 'worstTenthMedian',
-          'reach10', 'reach30', 'safe20', 'green60', 'dipBeforeHigh1in10', 'daysToHigh'], out)
+          'reach10', 'reach30', 'safe20', 'green60', 'dipBeforeHigh1in10', 'daysToHigh', 'surv10', 'scaled20'], out)
     wcsv(os.path.join(OUT, 'dipdist.csv'), ['asset', 'grade', 'maxDip60'], dist)
 
     # ---- ledger.csv: every graded signal, one row each (added 28 Oct 2026) ----
@@ -225,27 +228,29 @@ def main():
                         o[4] if o else '', o[6] if o else '', o[8] if o else '',
                         'yes' if r['win'] else 'no', 'yes' if r['t30'] else 'no', round(m['up'], 1), round(m['dd'], 1),
                         round(m['ddpk'], 1), round(m['ret'], 1), m.get('dpk', ''), r['yr'],
-                        'yes' if m['up'] >= 10 else 'no', 'yes' if m['up'] >= 15 else 'no'])
+                        'yes' if m['up'] >= 10 else 'no', 'yes' if m['up'] >= 15 else 'no',
+                        'yes' if MS.surv10(m) else 'no', (lambda v: '' if v is None else 'yes' if v else 'no')(MS.scaled20(a, r['d0'], m))])
     # Odds on the day: the grade's rates from signals of the same asset and grade
     # whose 60 days had finished before this entry (no hindsight), shrunk toward
     # that history's base rate with weight 5. Blank until 10 such signals exist.
-    hist = sorted([(r['a'], r['d0'], grade_of(r)[0], r['m']) for a in ('ETH', 'BTC')
+    hist = sorted([(r['a'], r['d0'], grade_of(r)[0], dict(r['m'], sc=MS.scaled20(r['a'], r['d0'], r['m']))) for a in ('ETH', 'BTC')
                    for r in rows if r['a'] == a and r['tf'] in GRADED_TF and 'm' in r
                    and (a != 'ETH' or (r['fund'] is not None and r['fcool_ok']))], key=lambda x: x[1])
     def day_odds(a, g, d0):
         prior = [h for h in hist if h[0] == a and (h[1] + dt.timedelta(days=61)) <= d0]
         G = [h for h in prior if h[2] == g]
-        if len(G) < 10 or not prior: return ['', '', '', '', len(G)]
+        if len(G) < 10 or not prior: return ['', '', '', '', len(G), '', '']
         def rate(fn):
             base = sum(fn(h[3]) for h in prior) / len(prior)
             return round(100 * (sum(fn(h[3]) for h in G) + 5 * base) / (len(G) + 5))
-        return [rate(lambda m: m['up'] >= 10), rate(lambda m: m['up'] >= 20), rate(lambda m: m['up'] >= 30), rate(lambda m: m['dd'] <= -30), len(G)]
+        return [rate(lambda m: m['up'] >= 10), rate(lambda m: m['up'] >= 20), rate(lambda m: m['up'] >= 30), rate(lambda m: m['dd'] <= -30), len(G),
+                rate(lambda m: MS.surv10(m)), rate(lambda m: bool(m['sc']))]
     for x in led:
         x += day_odds(x[0], x[6], dt.date.fromisoformat(x[3]))
     wcsv(os.path.join(OUT, 'ledger.csv'),
          ['asset', 'chart', 'low', 'entry', 'entryPrice', 'tags', 'grade', 'lenses', 'gradeReach20', 'gradeTouched30',
           'gradeMedDrawdown', 'reached20', 'touched30', 'bestMove', 'maxDrawdown', 'dipBeforeHigh', 'return60d', 'daysToHigh', 'year', 'reached10', 'reached15',
-          'dayReach10', 'dayReach20', 'dayReach30', 'dayTouched30', 'dayN'], led)
+          'surv10', 'scaled20', 'dayReach10', 'dayReach20', 'dayReach30', 'dayTouched30', 'dayN', 'daySurv10', 'dayScaled20'], led)
 
     # ---- forward.csv: grade each row ----
     dates = {}
