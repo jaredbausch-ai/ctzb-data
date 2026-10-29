@@ -2,39 +2,34 @@ chart,state,trough,confirms,entry,tags,note
 ETH 1D,confirmed,2026-10-08,2026-10-11,2534.22,A,regime on
 ETH 1D,confirmed,2026-10-12,2026-10-15,2439.45,A,regime on
 ETH 1D,confirmed,2026-10-17,2026-10-20,2446.62,A,regime on
-ETH 1D,forming,2026-10-26,2026-10-29,2357.91,A,regime on; 1 bar(s) to confirm
+ETH 1D,forming,2026-10-26,2026-10-29,2324.48,A,regime on; 0 bar(s) to confirm
 ETH 2D,confirmed,2025-11-03,2025-11-10,3566.49,A + prime dot,regime on
 ETH 2D,confirmed,2025-11-21,2025-11-28,3031.86,A,regime on
 ETH 2D,confirmed,2026-09-14,2026-09-21,2775.58,C + prime dot,regime on
-ETH 2D,forming,2026-10-24,2026-10-31,2357.91,B,regime on; 1 bar(s) to confirm
+ETH 2D,forming,2026-10-24,2026-10-31,2324.48,B,regime on; 1 bar(s) to confirm
 ETH 3D,confirmed,2025-09-25,2025-10-06,4686.32,B,regime on
 ETH 3D,confirmed,2025-11-21,2025-12-02,2996.7,A,regime on
 ETH 3D,confirmed,2026-09-13,2026-09-24,2687.28,C + hollow diamond,regime on
-ETH 3D,forming,2026-10-25,2026-11-05,2357.91,B,regime on; 2 bar(s) to confirm
 ETH 5D,confirmed,2025-07-30,2025-08-18,4315.37,D,regime on
 ETH 5D,confirmed,2025-11-17,2025-12-06,3039.13,A,regime off
 ETH 5D,confirmed,2026-09-13,2026-10-02,2668.13,C,regime on
-ETH 5D,forming,2026-10-23,2026-11-11,2357.91,B + prime dot,regime on; 2 bar(s) to confirm
 ETH 8D,confirmed,2024-09-05,2024-10-06,2439.84,A,regime on
 ETH 8D,confirmed,2025-03-30,2025-04-30,1793.79,A + filled diamond,regime on
 ETH 8D,confirmed,2025-06-18,2025-07-19,3594.3,B,regime on
 BTC 1D,confirmed,2026-09-28,2026-10-01,84848.73,C,regime on
 BTC 1D,confirmed,2026-10-08,2026-10-11,83678.29,B,regime on
 BTC 1D,confirmed,2026-10-17,2026-10-20,82938.26,B,regime on
-BTC 1D,forming,2026-10-26,2026-10-29,81118.6,B,regime on; 1 bar(s) to confirm
+BTC 1D,forming,2026-10-26,2026-10-29,80259.3,B,regime on; 0 bar(s) to confirm
 BTC 2D,confirmed,2025-11-21,2025-11-28,90902.7,A,regime on
 BTC 2D,confirmed,2026-09-14,2026-09-21,86594.94,C + prime dot,regime on
 BTC 2D,confirmed,2026-09-28,2026-10-05,85748.96,D,regime on
-BTC 2D,forming,2026-10-24,2026-10-31,81118.6,B,regime on; 1 bar(s) to confirm
+BTC 2D,forming,2026-10-24,2026-10-31,80259.3,B,regime on; 1 bar(s) to confirm
 BTC 3D,confirmed,2025-12-03,2025-12-14,88171.61,A + prime dot,regime off
 BTC 3D,confirmed,2026-09-13,2026-09-24,84385.46,C,regime on
 BTC 3D,confirmed,2026-10-10,2026-10-21,84024.67,C + hollow diamond + prime dot,regime on
-BTC 3D,forming,2026-10-22,2026-11-02,81118.6,B,regime on; 1 bar(s) to confirm
 BTC 5D,confirmed,2025-10-13,2025-11-01,110052.25,B + filled diamond + prime dot,regime on
 BTC 5D,confirmed,2025-11-17,2025-12-06,89267.97,A,regime off
 BTC 5D,confirmed,2026-09-13,2026-10-02,84504.88,C,regime on
-BTC 5D,forming,2026-10-23,2026-11-11,81118.6,C + hollow diamond + prime dot,regime on; 2 bar(s) to confirm
 BTC 8D,confirmed,2025-03-30,2025-04-30,94182.54,B,regime on
 BTC 8D,confirmed,2025-06-10,2025-07-11,117582.16,C,regime on
 BTC 8D,confirmed,2025-08-29,2025-09-29,114365.07,C,regime on
-BTC 8D,forming,2026-10-16,2026-11-16,81118.6,C,regime on; 2 bar(s) to confirm
