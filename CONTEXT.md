@@ -1034,6 +1034,17 @@ setups (82%) when none matched exactly; Jared caught it. `stack_live.py` now wri
 this chart at the same grade, else the same grade across the asset's charts, and
 says which. Never present a superset of stronger setups as the trade's odds.
 
+**Trade card, published 28 Oct 2026 (Jared approved: "airtight").** Every number and
+word on a card is defined in `docs/CARD_SPEC.md`, the only definition; change it in
+the same commit as any card change. The big number is "rose 10% and never fell 25%,
+within 60 days of buying" (`measures.surv10`, exact prices; -25.3% is where 3.3x with
+5% maintenance liquidates), with rose 20%, typical rise, typical dips, fell 30%,
+beat a normal move (`scaled20`), the before-2022 / since-2022 split, the dip table
+and the kill close. `stack_live.py` writes `datasets/cards.csv` and refuses to if
+any internal check fails; `verify_cards.py` (Action step after it) re-derives every
+card from `datasets/ledger.csv` and fails the run on any mismatch. Client screens
+(Joe's side) must read `cards.csv` and follow CARD_SPEC, nothing else.
+
 **The whole stack runs every time (procedure set 28 Oct 2026, after a missed confluence).**
 `stack_live.py` holds REGISTRY, the single indexed list of every documented read
 (grade lenses, flags, Tier 1, Promising, near misses, forward-watch candidates,

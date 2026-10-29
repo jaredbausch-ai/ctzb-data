@@ -35,6 +35,8 @@ Non-negotiables, all of which CONTEXT.md explains:
   report the setup-specific record in datasets/liveread.csv (same chart, same
   lenses, each lens on this chart, bucket, BTC 3D confirmer tags) and name every
   documented confluence that is on. CONTEXT.md, Standing instructions.
+- Trade-card numbers come only from datasets/cards.csv and mean only what
+  docs/CARD_SPEC.md says. Plain words on any card; no internal names.
 - Dashboard signals are computed signals, never fills. He has taken none of
   them. Presenting them to a creditor as trades would be misrepresentation.
 - docs/PRETRADE.md has a do-not-re-test list. Honour it.

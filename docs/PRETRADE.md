@@ -349,7 +349,9 @@ Four of these came from a result that did not survive contact with them.
 ## Running it
 
 **Every documented read, live:** `python3 -I stack_live.py` (runs in the Action
-after grade_live.py). Writes `datasets/liveread.csv`, `prints.csv`, `windows.csv`.
+after grade_live.py). Writes `datasets/liveread.csv`, `prints.csv`, `windows.csv`
+and the checked trade cards `cards.csv` (defined in `docs/CARD_SPEC.md`), then
+`python3 -I verify_cards.py` cross-checks every card against the ledger.
 Any new section here under Tier 1, Promising or In-trade must get a REGISTRY entry
 and a DOC_MAP line in `stack_live.py`, or the pipeline run fails.
 

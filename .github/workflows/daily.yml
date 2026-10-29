@@ -53,6 +53,13 @@ jobs:
         continue-on-error: true
         run: python stack_live.py
 
+      # Independent cross-check of every trade card against the trade ledger
+      # (verify_cards.py, 28 Oct 2026). A mismatch turns the run red.
+      - name: Cross-check the trade cards
+        id: cards
+        continue-on-error: true
+        run: python verify_cards.py
+
       # Perp open interest, funding and long/short ratio from Coinalyze.
       # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
       # A failure here must not block the candle commit below.
@@ -84,8 +91,8 @@ jobs:
             done
           fi
 
-      - name: Fail the run if the live stack failed
-        if: steps.stack.outcome == 'failure'
+      - name: Fail the run if the live stack or the card check failed
+        if: steps.stack.outcome == 'failure' || steps.cards.outcome == 'failure'
         run: |
           cat datasets/stack_status.txt || true
           echo "stack_live.py failed: a documented read is not being checked live"

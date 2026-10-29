@@ -50,6 +50,32 @@
 @media(prefers-reduced-motion:reduce){.jc *{transition:none!important}}
 .jc .pick{font:inherit;font-size:12px;margin:0 6px 6px 0;padding:3px 9px;border-radius:999px;border:1px solid var(--rule2,#444);background:transparent;color:inherit;cursor:pointer}
 .jc .pick.on{border-color:currentColor;font-weight:600}
+
+.jc .tc{background:var(--panel);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-top:16px}
+.jc .tcpick{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 0}
+.jc .tcpick button{font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--dim);cursor:pointer}
+.jc .tcpick button.on{color:var(--ink);border-color:var(--cy)}
+.jc .tctop{position:relative;padding:14px 16px 12px}
+.jc .tcn{position:absolute;top:12px;right:16px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--dim);text-align:right;line-height:1.4}
+.jc .tcn b{display:block;font-size:15px;color:var(--ink);font-weight:500}
+.jc .tcword{font-family:var(--mono);font-size:28px;font-weight:600;letter-spacing:.04em;padding-right:90px}
+.jc .tcline{color:var(--dim);margin-top:6px;line-height:1.5;max-width:70ch}
+.jc .tchead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;padding:14px 16px;border-top:1px solid var(--rule2);background:var(--panel2)}
+.jc .tcbig{font-family:var(--mono);font-size:54px;font-weight:600;color:var(--ok);line-height:1}
+.jc .tcbigk{max-width:36ch;line-height:1.45}.jc .tcbigk b{display:block;font-size:16px}.jc .tcbigk span{color:var(--dim);font-size:13px}
+.jc .tcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule2);border-top:1px solid var(--rule2)}
+.jc .tcgrid div,.jc .tcsplit div{background:var(--panel);padding:12px 14px;min-width:0}
+.jc .tcsplit{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule2);border-top:1px solid var(--rule2)}
+.jc .tcv{font-family:var(--mono);font-size:22px;font-weight:600}
+.jc .tck{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-top:4px;line-height:1.35}
+.jc .tclad{border-top:1px solid var(--rule2);padding:12px 14px}
+.jc .tclad h3{margin:0 0 8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);font-weight:500}
+.jc .tclad table{width:100%;border-collapse:collapse}.jc .tclad th,.jc .tclad td{padding:6px 4px;text-align:right;border-bottom:1px solid var(--rule2);font-size:13px}
+.jc .tclad th{color:var(--dim);font-weight:400;font-size:11px}.jc .tclad th:first-child,.jc .tclad td:first-child{text-align:left}.jc .tclad td{font-family:var(--mono)}
+.jc .tclad p{margin:8px 0 0;color:var(--dim);font-size:12px;line-height:1.5}
+.jc .tcfoot{padding:12px 16px;border-top:1px solid var(--rule2);background:var(--panel2);color:var(--dim);font-size:13px;line-height:1.55}.jc .tcfoot b{color:var(--ink);font-weight:500}
+.jc .gd{color:var(--ok)}.jc .wn{color:var(--warn)}.jc .bd{color:var(--bad)}
+@media(max-width:560px){.jc .tcgrid{grid-template-columns:repeat(2,1fr)}.jc .tcbig{font-size:42px}.jc .tcword{font-size:22px}}
 </style>
 <div class="jc">
 <div class="wrap">
@@ -64,13 +90,16 @@
   </div>
 </div>
 
-<div class="act" id="act">
-  <div class="actmain">
-    <div class="verdict-word" id="actWord">—</div>
-    <div class="actline" id="actLine">—</div>
-  </div>
-  <div class="actstats" id="actStats"></div>
-  <div class="actnext" id="actNext"></div>
+<div class="tc" id="tcard">
+  <div class="tcpick" id="tcPick"></div>
+  <div class="tctop"><div class="tcn" id="tcN"></div><div class="tcword" id="tcWord">—</div><div class="tcline" id="tcLine">—</div></div>
+  <div class="tchead"><div class="tcbig" id="tcBig">—</div><div class="tcbigk"><b>Rose 10% and never fell 25%, within 60 days of buying</b><span>A 25% fall is what wipes out a position at 3.3x leverage.</span></div></div>
+  <div class="tcgrid" id="tcGrid"></div>
+  <div class="tcsplit" id="tcSplit"></div>
+  <div class="tclad"><h3>If it falls before it rises 10% &middot; all within 60 days of buying</h3>
+    <table><thead><tr><th>Fall below the buy price</th><th>Trades that got there</th><th>Still rose 10%, never fell 25%</th><th>Went on to fall 25%</th></tr></thead><tbody id="tcLad"></tbody></table>
+    <p>What a fall of each size has meant for trades like this before. It is information for your own decision, not a stop.</p></div>
+  <div class="tcfoot" id="tcFoot"></div>
 </div>
 
 <details class="fold" open><summary><span>Exposure console — how much to buy</span></summary>
@@ -258,38 +287,34 @@ function render(){
   dot.style.background=c; ti.style.color=c; ti.textContent=txt; s2.textContent=sub;
   drawTiers(); drawSizes();
 }
-let SEL=null, LR=[];
+let SEL=null, LR=[], CARDS=[];
 function drawAction(){
-  const act=$("act"), w=$("actWord"), l=$("actLine"), st=$("actStats"), nx=$("actNext");
-  const forming=LIVE.filter(r=>r.forming==="yes");
+  const pick=$("tcPick"); pick.textContent="";
   const rank={"A+":4,"A":3,"B":2,"C":1};
-  const gOf=r=>String(r.formingGrade||"").split(" ")[0];
-  forming.sort((a,b)=>(rank[gOf(b)]||0)-(rank[gOf(a)]||0));
-  st.textContent=""; nx.textContent=""; l.textContent="";
-  if(!forming.length){
-    act.className="act"; w.textContent="Nothing forming";
-    l.textContent="No ETH chart has a low forming. Check back in a few days.";
-    return;
-  }
-  if(!SEL||!forming.find(r=>r.chart===SEL)) SEL=forming[0].chart;
-  const top=forming.find(r=>r.chart===SEL), g=gOf(top), t=TIERS.find(x=>x.id===g)||null;
-  act.className="act"+(g==="A+"?" go":g==="A"?" soon":"");
-  w.textContent=top.chart+" · "+g+" forming";
-  forming.forEach(r=>{const bt=el("button","pick"+(r.chart===SEL?" on":""),r.chart+" ("+gOf(r)+")"); bt.type="button";
-    bt.setAttribute("aria-pressed",r.chart===SEL?"true":"false");
-    bt.addEventListener("click",()=>{SEL=r.chart; drawAction();}); l.appendChild(bt);});
-  l.appendChild(document.createTextNode(" "+top.barsNeeded+" bar"+(top.barsNeeded==="1"?"":"s")+" from confirming. Provisional until then."));
-  const rec=LR.find(x=>String(x.subject).startsWith(top.chart+" forming")&&x.read==="CONSOLE RECORD");
-  const pc=v=>v===""||v===undefined?"—":v+"%", dd=v=>v===""||v===undefined?"—":(+v).toFixed(1)+"%";
-  if(rec&&+rec.n>0){
-    [[String(rec.n),"Past setups like this","dm"],[pc(rec.reach10),"Reach +10% in 60d","gd"],[pc(rec.reach20),"Reach +20% in 60d",+rec.reach20>=70?"gd":"dm"],[pc(rec.reach30),"Reach +30% in 60d","gd"],
-     [pc(rec.touched30),"Touched −30%","wn"],[dd(rec.maxDip60),"Median drawdown from entry","wn"],[dd(rec.dipBeforeHigh),"Dip before the high","dm"],
-     ["+"+(+rec.bestMove).toFixed(1)+"%","Typical best move","gd"]].forEach(([v,k,c])=>{
-      const cell=el("div","c"); cell.appendChild(el("div","v "+c,v)); cell.appendChild(el("div","k lab",k)); st.appendChild(cell);});
-  }
-  const b=el("b",null,"This trade: "); nx.appendChild(b);
-  nx.appendChild(document.createTextNode((rec&&+rec.n>0?"record of "+rec.status+". Lenses on: "+(top.formingLenses||"none"):"no comparable past setups")
-    +(t?". Grade "+g+" across all ETH charts: "+t.win+"% to +20%.":".")));
+  const C=[...CARDS].sort((x,y)=>(rank[y.grade]||0)-(rank[x.grade]||0)||(x.asset===y.asset?0:x.asset==="ETH"?-1:1));
+  if(!C.length){$("tcWord").textContent="Nothing forming";$("tcLine").textContent="No chart has a low forming right now.";["tcN","tcBig","tcGrid","tcSplit","tcLad","tcFoot"].forEach(i=>$(i).textContent="");return;}
+  if(!SEL||!C.find(c=>c.chart===SEL)) SEL=C[0].chart;
+  const c=C.find(x=>x.chart===SEL);
+  C.forEach(x=>{const bt=el("button",x.chart===SEL?"on":"",x.chart+" \u00b7 "+x.grade);bt.type="button";bt.setAttribute("aria-pressed",x.chart===SEL?"true":"false");bt.addEventListener("click",()=>{SEL=x.chart;drawAction();});pick.appendChild(bt);});
+  const P=v=>v===""||v===undefined?"\u2014":v+"%", D=v=>v===""||v===undefined?"\u2014":((+v)>0?"+":"")+(+v).toFixed(1)+"%";
+  const nN=$("tcN"); nN.textContent=""; nN.appendChild(el("b",null,String(c.n))); nN.appendChild(document.createTextNode("past trades"));
+  $("tcWord").textContent=c.chart+" \u00b7 "+c.grade+" forming";
+  const cd=new Date(c.confirms+"T00:00:00Z"), dn=cd.toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric",timeZone:"UTC"});
+  $("tcLine").textContent="Confirms at the "+dn+" close"+(c.killClose!==""?", if "+c.asset+" closes above "+(+c.killClose).toLocaleString("en-US",{minimumFractionDigits:2})+".":" ("+c.barsNeeded+" more bars to close).")+" Confirmations: "+(c.lenses==="none"?"none yet":c.lenses)+". Provisional until it confirms.";
+  $("tcBig").textContent=P(c.surv10);
+  const g=$("tcGrid"); g.textContent="";
+  [[P(c.reach20),"Rose 20% or more",""],[D(c.bestMove),"Typical biggest rise","gd"],[D(c.dipBeforeHigh),"Typical dip before it rose",""],
+   [D(c.maxDip60),"Typical deepest dip","wn"],[P(c.touched30),"Fell 30% or more at some point","bd"],[P(c.scaled20),"Beat a normal move for the market at the time","gd"]].forEach(([v,k,cl])=>{
+    const d=el("div"); d.appendChild(el("div","tcv "+cl,v)); d.appendChild(el("div","tck",k)); g.appendChild(d);});
+  const sp=$("tcSplit"); sp.textContent="";
+  [[c.surv10Old,c.nOld,"before 2022"],[c.surv10New,c.nNew,"since 2022"]].forEach(([v,nn,lab])=>{const d=el("div");
+    d.appendChild(el("div","tcv "+(+v>=60?"gd":"wn"),+nn?P(v):"\u2014")); d.appendChild(el("div","tck","Rose 10% and never fell 25% within 60 days, "+lab+" ("+nn+" trades)")); sp.appendChild(d);});
+  const tb=$("tcLad"); tb.textContent="";
+  [5,10,15,20].forEach(t=>{const n=+c["l"+t+"n"], ok=c["l"+t+"ok"], lq=c["l"+t+"liq"]; const tr=el("tr");
+    tr.appendChild(el("td",null,t+"%")); tr.appendChild(el("td",null,String(n)));
+    tr.appendChild(el("td",ok===""?"":(+ok>=50?"gd":+ok>=30?"wn":"bd"),n?P(ok):"\u2014")); tr.appendChild(el("td",lq===""?"":(+lq>=50?"bd":"wn"),n?P(lq):"\u2014")); tb.appendChild(tr);});
+  const f=$("tcFoot"); f.textContent=""; f.appendChild(el("b",null,"Where these numbers come from: "));
+  f.appendChild(document.createTextNode(c.basis.charAt(0).toUpperCase()+c.basis.slice(1)+". All figures are within 60 days of buying, measured from the buy price. These are past signals, not real trades, and past results don\u2019t promise future ones."));
 }
 function drawLadder(){
   const h=$("ladder"); h.textContent="";
@@ -338,11 +363,13 @@ dash.onData(()=>{
     fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","medDip","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
+  const cdd=dash.data("cards"); if(cdd.status==="ok"){CARDS=cdd.data||[];}
   const lr=dash.data("liveread"); if(lr.status==="ok"){LR=lr.data||[]; fillTable("lrtab",LR,["subject","read","status","n","reach10","reach20","reach30","touched30","dipBeforeHigh","maxDip60","bestMove","sample"]);}
   const pr=dash.data("prints"); if(pr.status==="ok"){fillTable("prtab",pr.data||[],["chart","state","trough","confirms","entry","tags","note"]);}
   const wn=dash.data("windows"); if(wn.status==="ok"){fillTable("wntab",wn.data||[],["openedBy","confirmed","closes","appliesTo"]);}
   if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}
-  if(TIERS.length&&LIVE.length){drawAction(); drawLadder();}
+  if(TIERS.length&&LIVE.length){drawLadder();}
+  drawAction();
   render();
 });
 })();

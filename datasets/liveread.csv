@@ -5,7 +5,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D forming (provisional), confirms 2026-10-29","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D forming (provisional), confirms 2026-10-29",This chart at grade A (any mix of 3 lenses),record,25,60,20,-7.9,-15.3,68,44,26.1,from 2020
 "ETH 1D forming (provisional), confirms 2026-10-29","Grade A, all ETH charts",record,61,62,21,-7.9,-15.0,74,49,28.5,from 2020
-"ETH 1D forming (provisional), confirms 2026-10-29",CONSOLE RECORD,25 past ETH 1D grade A setups (no 15 with exactly these lenses: 0),25,60,20,-7.9,-15.3,68,44,26.1,like for like
+"ETH 1D forming (provisional), confirms 2026-10-29",CONSOLE RECORD,"the last 25 ETH 1D trades graded A (none had exactly the same confirmations, too few to use)",25,60,20,-7.9,-15.3,68,44,26.1,like for like
 "ETH 1D forming (provisional), confirms 2026-10-29",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D forming (provisional), confirms 2026-10-29",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,143,52,31,-6.7,-17.3,72,45,23.7,full history (record with it off)
 "ETH 1D forming (provisional), confirms 2026-10-29",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -37,7 +37,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 53, entry 2026-09-05","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 53, entry 2026-09-05",This chart at grade C (any mix of 0 lenses),record,65,43,31,-6.5,-15.8,63,38,15.0,from 2020
 "ETH 1D open, day 53, entry 2026-09-05","Grade C, all ETH charts",record,110,44,30,-6.1,-16.4,66,38,15.1,from 2020
-"ETH 1D open, day 53, entry 2026-09-05",CONSOLE RECORD,26 past ETH 1D setups with exactly these lenses,26,46,35,-4.4,-8.6,65,38,15.0,like for like
+"ETH 1D open, day 53, entry 2026-09-05",CONSOLE RECORD,the last 26 ETH 1D trades with exactly the same confirmations,26,46,35,-4.4,-8.6,65,38,15.0,like for like
 "ETH 1D open, day 53, entry 2026-09-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 53, entry 2026-09-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,143,52,31,-6.7,-17.3,72,45,23.7,full history (record with it off)
 "ETH 1D open, day 53, entry 2026-09-05",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -70,7 +70,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 45, entry 2026-09-13","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 45, entry 2026-09-13",This chart at grade C (any mix of 1 lenses),record,65,43,31,-6.5,-15.8,63,38,15.0,from 2020
 "ETH 1D open, day 45, entry 2026-09-13","Grade C, all ETH charts",record,110,44,30,-6.1,-16.4,66,38,15.1,from 2020
-"ETH 1D open, day 45, entry 2026-09-13",CONSOLE RECORD,65 past ETH 1D grade C setups (no 15 with exactly these lenses: 5),65,43,31,-6.5,-15.8,63,38,15.0,like for like
+"ETH 1D open, day 45, entry 2026-09-13",CONSOLE RECORD,"the last 65 ETH 1D trades graded C (only 5 had exactly the same confirmations, too few to use)",65,43,31,-6.5,-15.8,63,38,15.0,like for like
 "ETH 1D open, day 45, entry 2026-09-13",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 45, entry 2026-09-13",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,143,52,31,-6.7,-17.3,72,45,23.7,full history (record with it off)
 "ETH 1D open, day 45, entry 2026-09-13",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -103,7 +103,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 40, entry 2026-09-18","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 40, entry 2026-09-18",This chart at grade A (any mix of 3 lenses),record,25,60,20,-7.9,-15.3,68,44,26.1,from 2020
 "ETH 1D open, day 40, entry 2026-09-18","Grade A, all ETH charts",record,61,62,21,-7.9,-15.0,74,49,28.5,from 2020
-"ETH 1D open, day 40, entry 2026-09-18",CONSOLE RECORD,25 past ETH 1D grade A setups (no 15 with exactly these lenses: 13),25,60,20,-7.9,-15.3,68,44,26.1,like for like
+"ETH 1D open, day 40, entry 2026-09-18",CONSOLE RECORD,"the last 25 ETH 1D trades graded A (only 13 had exactly the same confirmations, too few to use)",25,60,20,-7.9,-15.3,68,44,26.1,like for like
 "ETH 1D open, day 40, entry 2026-09-18",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 40, entry 2026-09-18",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],ON,145,70,24,-6.1,-15.3,80,54,34.9,full history (record with it on)
 "ETH 1D open, day 40, entry 2026-09-18",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -138,7 +138,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 32, entry 2026-09-26","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 32, entry 2026-09-26",This chart at grade A (any mix of 3 lenses),record,25,60,20,-7.9,-15.3,68,44,26.1,from 2020
 "ETH 1D open, day 32, entry 2026-09-26","Grade A, all ETH charts",record,61,62,21,-7.9,-15.0,74,49,28.5,from 2020
-"ETH 1D open, day 32, entry 2026-09-26",CONSOLE RECORD,25 past ETH 1D grade A setups (no 15 with exactly these lenses: 2),25,60,20,-7.9,-15.3,68,44,26.1,like for like
+"ETH 1D open, day 32, entry 2026-09-26",CONSOLE RECORD,"the last 25 ETH 1D trades graded A (only 2 had exactly the same confirmations, too few to use)",25,60,20,-7.9,-15.3,68,44,26.1,like for like
 "ETH 1D open, day 32, entry 2026-09-26",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 32, entry 2026-09-26",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],ON,145,70,24,-6.1,-15.3,80,54,34.9,full history (record with it on)
 "ETH 1D open, day 32, entry 2026-09-26",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,81,67,15,-6.4,-14.2,78,49,28.8,full history (record with it on)
@@ -174,7 +174,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 23, entry 2026-10-05","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 23, entry 2026-10-05",This chart at grade C (any mix of 1 lenses),record,65,43,31,-6.5,-15.8,63,38,15.0,from 2020
 "ETH 1D open, day 23, entry 2026-10-05","Grade C, all ETH charts",record,110,44,30,-6.1,-16.4,66,38,15.1,from 2020
-"ETH 1D open, day 23, entry 2026-10-05",CONSOLE RECORD,65 past ETH 1D grade C setups (no 15 with exactly these lenses: 3),65,43,31,-6.5,-15.8,63,38,15.0,like for like
+"ETH 1D open, day 23, entry 2026-10-05",CONSOLE RECORD,"the last 65 ETH 1D trades graded C (only 3 had exactly the same confirmations, too few to use)",65,43,31,-6.5,-15.8,63,38,15.0,like for like
 "ETH 1D open, day 23, entry 2026-10-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 23, entry 2026-10-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],ON,145,70,24,-6.1,-15.3,80,54,34.9,full history (record with it on)
 "ETH 1D open, day 23, entry 2026-10-05",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -208,7 +208,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 17, entry 2026-10-11","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 17, entry 2026-10-11",This chart at grade C (any mix of 0 lenses),record,65,43,31,-6.5,-15.8,63,38,15.0,from 2020
 "ETH 1D open, day 17, entry 2026-10-11","Grade C, all ETH charts",record,110,44,30,-6.1,-16.4,66,38,15.1,from 2020
-"ETH 1D open, day 17, entry 2026-10-11",CONSOLE RECORD,26 past ETH 1D setups with exactly these lenses,26,46,35,-4.4,-8.6,65,38,15.0,like for like
+"ETH 1D open, day 17, entry 2026-10-11",CONSOLE RECORD,the last 26 ETH 1D trades with exactly the same confirmations,26,46,35,-4.4,-8.6,65,38,15.0,like for like
 "ETH 1D open, day 17, entry 2026-10-11",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 17, entry 2026-10-11",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,143,52,31,-6.7,-17.3,72,45,23.7,full history (record with it off)
 "ETH 1D open, day 17, entry 2026-10-11",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -244,7 +244,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 13, entry 2026-10-15","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 13, entry 2026-10-15",This chart at grade B (any mix of 2 lenses),record,37,51,14,-6.0,-15.1,73,46,27.4,from 2020
 "ETH 1D open, day 13, entry 2026-10-15","Grade B, all ETH charts",record,81,53,21,-4.6,-15.3,69,41,22.5,from 2020
-"ETH 1D open, day 13, entry 2026-10-15",CONSOLE RECORD,37 past ETH 1D grade B setups (no 15 with exactly these lenses: 10),37,51,14,-6.0,-15.1,73,46,27.4,like for like
+"ETH 1D open, day 13, entry 2026-10-15",CONSOLE RECORD,"the last 37 ETH 1D trades graded B (only 10 had exactly the same confirmations, too few to use)",37,51,14,-6.0,-15.1,73,46,27.4,like for like
 "ETH 1D open, day 13, entry 2026-10-15",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 13, entry 2026-10-15",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,143,52,31,-6.7,-17.3,72,45,23.7,full history (record with it off)
 "ETH 1D open, day 13, entry 2026-10-15",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -279,7 +279,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 1D open, day 8, entry 2026-10-20","This chart, every signal",record,288,61,27,-6.5,-16.2,76,50,29.1,full history
 "ETH 1D open, day 8, entry 2026-10-20",This chart at grade A (any mix of 3 lenses),record,25,60,20,-7.9,-15.3,68,44,26.1,from 2020
 "ETH 1D open, day 8, entry 2026-10-20","Grade A, all ETH charts",record,61,62,21,-7.9,-15.0,74,49,28.5,from 2020
-"ETH 1D open, day 8, entry 2026-10-20",CONSOLE RECORD,25 past ETH 1D grade A setups (no 15 with exactly these lenses: 13),25,60,20,-7.9,-15.3,68,44,26.1,like for like
+"ETH 1D open, day 8, entry 2026-10-20",CONSOLE RECORD,"the last 25 ETH 1D trades graded A (only 13 had exactly the same confirmations, too few to use)",25,60,20,-7.9,-15.3,68,44,26.1,like for like
 "ETH 1D open, day 8, entry 2026-10-20",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,237,57,28,-6.8,-17.3,74,49,26.5,full history (record with it off)
 "ETH 1D open, day 8, entry 2026-10-20",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],ON,145,70,24,-6.1,-15.3,80,54,34.9,full history (record with it on)
 "ETH 1D open, day 8, entry 2026-10-20",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,207,58,32,-6.5,-17.8,75,50,29.3,full history (record with it off)
@@ -312,7 +312,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 2D forming (provisional), confirms 2026-10-31","This chart, every signal",record,137,62,28,-5.2,-14.8,74,50,31.7,full history
 "ETH 2D forming (provisional), confirms 2026-10-31",This chart at grade A (any mix of 3 lenses),record,16,69,31,-14.1,-17.9,81,56,33.4,from 2020
 "ETH 2D forming (provisional), confirms 2026-10-31","Grade A, all ETH charts",record,61,62,21,-7.9,-15.0,74,49,28.5,from 2020
-"ETH 2D forming (provisional), confirms 2026-10-31",CONSOLE RECORD,16 past ETH 2D grade A setups (no 15 with exactly these lenses: 1),16,69,31,-14.1,-17.9,81,56,33.4,like for like
+"ETH 2D forming (provisional), confirms 2026-10-31",CONSOLE RECORD,"the last 16 ETH 2D trades graded A (only 1 had exactly the same confirmations, too few to use)",16,69,31,-14.1,-17.9,81,56,33.4,like for like
 "ETH 2D forming (provisional), confirms 2026-10-31",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,107,55,31,-4.9,-17.3,69,44,27.5,full history (record with it off)
 "ETH 2D forming (provisional), confirms 2026-10-31",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,61,51,33,-5.3,-17.0,69,41,21.2,full history (record with it off)
 "ETH 2D forming (provisional), confirms 2026-10-31",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,92,58,33,-5.2,-17.3,72,47,27.8,full history (record with it off)
@@ -343,7 +343,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 2D open, day 37, entry 2026-09-21","This chart, every signal",record,137,62,28,-5.2,-14.8,74,50,31.7,full history
 "ETH 2D open, day 37, entry 2026-09-21",This chart at grade A (any mix of 3 lenses),record,16,69,31,-14.1,-17.9,81,56,33.4,from 2020
 "ETH 2D open, day 37, entry 2026-09-21","Grade A, all ETH charts",record,61,62,21,-7.9,-15.0,74,49,28.5,from 2020
-"ETH 2D open, day 37, entry 2026-09-21",CONSOLE RECORD,16 past ETH 2D grade A setups (no 15 with exactly these lenses: 0),16,69,31,-14.1,-17.9,81,56,33.4,like for like
+"ETH 2D open, day 37, entry 2026-09-21",CONSOLE RECORD,"the last 16 ETH 2D trades graded A (none had exactly the same confirmations, too few to use)",16,69,31,-14.1,-17.9,81,56,33.4,like for like
 "ETH 2D open, day 37, entry 2026-09-21",CT above its Signal line by 5+ [grade lens + Tier 1 #1],ON,30,87,17,-6.1,-12.0,90,73,60.6,full history (record with it on)
 "ETH 2D open, day 37, entry 2026-09-21",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,61,51,33,-5.3,-17.0,69,41,21.2,full history (record with it off)
 "ETH 2D open, day 37, entry 2026-09-21",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,92,58,33,-5.2,-17.3,72,47,27.8,full history (record with it off)
@@ -382,7 +382,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 3D forming (provisional), confirms 2026-11-05","This chart, every signal",record,87,55,29,-5.4,-17.0,75,44,25.8,full history
 "ETH 3D forming (provisional), confirms 2026-11-05",This chart at grade B (any mix of 2 lenses),record,15,53,40,-4.5,-19.9,67,33,20.8,from 2020
 "ETH 3D forming (provisional), confirms 2026-11-05","Grade B, all ETH charts",record,81,53,21,-4.6,-15.3,69,41,22.5,from 2020
-"ETH 3D forming (provisional), confirms 2026-11-05",CONSOLE RECORD,15 past ETH 3D grade B setups (no 15 with exactly these lenses: 0),15,53,40,-4.5,-19.9,67,33,20.8,like for like
+"ETH 3D forming (provisional), confirms 2026-11-05",CONSOLE RECORD,"the last 15 ETH 3D trades graded B (none had exactly the same confirmations, too few to use)",15,53,40,-4.5,-19.9,67,33,20.8,like for like
 "ETH 3D forming (provisional), confirms 2026-11-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,65,54,34,-5.3,-18.7,68,42,24.4,full history (record with it off)
 "ETH 3D forming (provisional), confirms 2026-11-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,42,50,36,-4.1,-18.6,69,40,19.6,full history (record with it off)
 "ETH 3D forming (provisional), confirms 2026-11-05",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,8,25,38,-11.6,-22.5,75,25,14.9,full history (record with it off)
@@ -410,7 +410,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 3D open, day 34, entry 2026-09-24","This chart, every signal",record,87,55,29,-5.4,-17.0,75,44,25.8,full history
 "ETH 3D open, day 34, entry 2026-09-24",This chart at grade A (any mix of 3 lenses),record,10,50,20,-11.0,-15.0,70,40,23.8,from 2020
 "ETH 3D open, day 34, entry 2026-09-24","Grade A, all ETH charts",record,61,62,21,-7.9,-15.0,74,49,28.5,from 2020
-"ETH 3D open, day 34, entry 2026-09-24",CONSOLE RECORD,"61 past grade A setups across ETH charts (thin on ETH 3D: exactly 1, grade 10)",61,62,21,-7.9,-15.0,74,49,28.5,like for like
+"ETH 3D open, day 34, entry 2026-09-24",CONSOLE RECORD,"the last 61 grade A trades across all ETH charts (ETH 3D alone has only 10, too few to use)",61,62,21,-7.9,-15.0,74,49,28.5,like for like
 "ETH 3D open, day 34, entry 2026-09-24",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,65,54,34,-5.3,-18.7,68,42,24.4,full history (record with it off)
 "ETH 3D open, day 34, entry 2026-09-24",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,42,50,36,-4.1,-18.6,69,40,19.6,full history (record with it off)
 "ETH 3D open, day 34, entry 2026-09-24",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,79,58,28,-5.3,-16.4,75,46,26.8,full history (record with it on)
@@ -450,7 +450,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 5D forming (provisional), confirms 2026-11-11","This chart, every signal",record,47,70,17,-5.3,-12.0,87,57,33.7,full history
 "ETH 5D forming (provisional), confirms 2026-11-11",This chart at grade B (any mix of 2 lenses),record,5,80,0,-2.8,-4.9,80,60,39.5,from 2020
 "ETH 5D forming (provisional), confirms 2026-11-11","Grade B, all ETH charts",record,81,53,21,-4.6,-15.3,69,41,22.5,from 2020
-"ETH 5D forming (provisional), confirms 2026-11-11",CONSOLE RECORD,"81 past grade B setups across ETH charts (thin on ETH 5D: exactly 0, grade 5)",81,53,21,-4.6,-15.3,69,41,22.5,like for like
+"ETH 5D forming (provisional), confirms 2026-11-11",CONSOLE RECORD,"the last 81 grade B trades across all ETH charts (ETH 5D alone has only 5, too few to use)",81,53,21,-4.6,-15.3,69,41,22.5,like for like
 "ETH 5D forming (provisional), confirms 2026-11-11",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,34,71,15,-5.1,-11.8,88,59,34.0,full history (record with it off)
 "ETH 5D forming (provisional), confirms 2026-11-11",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,21,67,24,-5.0,-16.0,86,57,33.3,full history (record with it off)
 "ETH 5D forming (provisional), confirms 2026-11-11",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,6,83,0,-9.7,-12.1,100,67,46.3,full history (record with it off)
@@ -477,7 +477,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "ETH 5D open, day 26, entry 2026-10-02","This chart, every signal",record,47,70,17,-5.3,-12.0,87,57,33.7,full history
 "ETH 5D open, day 26, entry 2026-10-02",This chart at grade B (any mix of 2 lenses),record,5,80,0,-2.8,-4.9,80,60,39.5,from 2020
 "ETH 5D open, day 26, entry 2026-10-02","Grade B, all ETH charts",record,81,53,21,-4.6,-15.3,69,41,22.5,from 2020
-"ETH 5D open, day 26, entry 2026-10-02",CONSOLE RECORD,"81 past grade B setups across ETH charts (thin on ETH 5D: exactly 0, grade 5)",81,53,21,-4.6,-15.3,69,41,22.5,like for like
+"ETH 5D open, day 26, entry 2026-10-02",CONSOLE RECORD,"the last 81 grade B trades across all ETH charts (ETH 5D alone has only 5, too few to use)",81,53,21,-4.6,-15.3,69,41,22.5,like for like
 "ETH 5D open, day 26, entry 2026-10-02",CT above its Signal line by 5+ [grade lens + Tier 1 #1],ON,13,69,23,-5.9,-12.7,85,54,33.7,full history (record with it on)
 "ETH 5D open, day 26, entry 2026-10-02",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,21,67,24,-5.0,-16.0,86,57,33.3,full history (record with it off)
 "ETH 5D open, day 26, entry 2026-10-02",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,41,68,20,-5.3,-12.0,85,56,33.7,full history (record with it on)
@@ -511,7 +511,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 1D forming (provisional), confirms 2026-10-29","This chart, every signal",record,279,52,13,-4.7,-10.8,74,43,22.7,full history
 "BTC 1D forming (provisional), confirms 2026-10-29",This chart at grade C (any mix of 0 lenses),record,156,42,13,-4.7,-12.0,69,35,16.3,full history
 "BTC 1D forming (provisional), confirms 2026-10-29","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 1D forming (provisional), confirms 2026-10-29",CONSOLE RECORD,54 past BTC 1D setups with exactly these lenses,54,35,19,-4.6,-14.8,63,31,14.2,like for like
+"BTC 1D forming (provisional), confirms 2026-10-29",CONSOLE RECORD,the last 54 BTC 1D trades with exactly the same confirmations,54,35,19,-4.6,-14.8,63,31,14.2,like for like
 "BTC 1D forming (provisional), confirms 2026-10-29",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,72,40,18.5,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,73,38,17.0,full history (record with it off)
 "BTC 1D forming (provisional), confirms 2026-10-29",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,190,51,13,-5.2,-11.2,75,45,22.8,full history (record with it off)
@@ -539,7 +539,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 1D open, day 53, entry 2026-09-05","This chart, every signal",record,279,52,13,-4.7,-10.8,74,43,22.7,full history
 "BTC 1D open, day 53, entry 2026-09-05",This chart at grade C (any mix of 1 lenses),record,156,42,13,-4.7,-12.0,69,35,16.3,full history
 "BTC 1D open, day 53, entry 2026-09-05","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 1D open, day 53, entry 2026-09-05",CONSOLE RECORD,41 past BTC 1D setups with exactly these lenses,41,46,10,-4.7,-12.2,63,41,16.8,like for like
+"BTC 1D open, day 53, entry 2026-09-05",CONSOLE RECORD,the last 41 BTC 1D trades with exactly the same confirmations,41,46,10,-4.7,-12.2,63,41,16.8,like for like
 "BTC 1D open, day 53, entry 2026-09-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,72,40,18.5,full history (record with it off)
 "BTC 1D open, day 53, entry 2026-09-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,73,38,17.0,full history (record with it off)
 "BTC 1D open, day 53, entry 2026-09-05",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,190,51,13,-5.2,-11.2,75,45,22.8,full history (record with it off)
@@ -572,7 +572,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 1D open, day 45, entry 2026-09-13","This chart, every signal",record,279,52,13,-4.7,-10.8,74,43,22.7,full history
 "BTC 1D open, day 45, entry 2026-09-13",This chart at grade C (any mix of 0 lenses),record,156,42,13,-4.7,-12.0,69,35,16.3,full history
 "BTC 1D open, day 45, entry 2026-09-13","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 1D open, day 45, entry 2026-09-13",CONSOLE RECORD,54 past BTC 1D setups with exactly these lenses,54,35,19,-4.6,-14.8,63,31,14.2,like for like
+"BTC 1D open, day 45, entry 2026-09-13",CONSOLE RECORD,the last 54 BTC 1D trades with exactly the same confirmations,54,35,19,-4.6,-14.8,63,31,14.2,like for like
 "BTC 1D open, day 45, entry 2026-09-13",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,72,40,18.5,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,73,38,17.0,full history (record with it off)
 "BTC 1D open, day 45, entry 2026-09-13",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,190,51,13,-5.2,-11.2,75,45,22.8,full history (record with it off)
@@ -605,7 +605,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 1D open, day 40, entry 2026-09-18","This chart, every signal",record,279,52,13,-4.7,-10.8,74,43,22.7,full history
 "BTC 1D open, day 40, entry 2026-09-18",This chart at grade B (any mix of 2 lenses),record,72,58,14,-5.8,-9.7,79,51,30.3,full history
 "BTC 1D open, day 40, entry 2026-09-18","Grade B, all BTC charts",record,136,57,17,-5.1,-10.0,75,49,28.6,full history
-"BTC 1D open, day 40, entry 2026-09-18",CONSOLE RECORD,72 past BTC 1D grade B setups (no 15 with exactly these lenses: 4),72,58,14,-5.8,-9.7,79,51,30.3,like for like
+"BTC 1D open, day 40, entry 2026-09-18",CONSOLE RECORD,"the last 72 BTC 1D trades graded B (only 4 had exactly the same confirmations, too few to use)",72,58,14,-5.8,-9.7,79,51,30.3,like for like
 "BTC 1D open, day 40, entry 2026-09-18",CT above its Signal line by 5+ [grade lens + Tier 1 #1],ON,49,71,6,-4.0,-8.3,82,57,33.7,full history (record with it on)
 "BTC 1D open, day 40, entry 2026-09-18",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],ON,154,56,14,-4.3,-10.4,75,48,28.2,full history (record with it on)
 "BTC 1D open, day 40, entry 2026-09-18",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,190,51,13,-5.2,-11.2,75,45,22.8,full history (record with it off)
@@ -638,7 +638,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 1D open, day 27, entry 2026-10-01","This chart, every signal",record,279,52,13,-4.7,-10.8,74,43,22.7,full history
 "BTC 1D open, day 27, entry 2026-10-01",This chart at grade C (any mix of 1 lenses),record,156,42,13,-4.7,-12.0,69,35,16.3,full history
 "BTC 1D open, day 27, entry 2026-10-01","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 1D open, day 27, entry 2026-10-01",CONSOLE RECORD,37 past BTC 1D setups with exactly these lenses,37,49,8,-4.9,-9.5,84,38,19.1,like for like
+"BTC 1D open, day 27, entry 2026-10-01",CONSOLE RECORD,the last 37 BTC 1D trades with exactly the same confirmations,37,49,8,-4.9,-9.5,84,38,19.1,like for like
 "BTC 1D open, day 27, entry 2026-10-01",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,72,40,18.5,full history (record with it off)
 "BTC 1D open, day 27, entry 2026-10-01",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],ON,154,56,14,-4.3,-10.4,75,48,28.2,full history (record with it on)
 "BTC 1D open, day 27, entry 2026-10-01",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,89,53,13,-3.4,-10.1,72,40,22.7,full history (record with it on)
@@ -675,7 +675,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 1D open, day 17, entry 2026-10-11","This chart, every signal",record,279,52,13,-4.7,-10.8,74,43,22.7,full history
 "BTC 1D open, day 17, entry 2026-10-11",This chart at grade C (any mix of 0 lenses),record,156,42,13,-4.7,-12.0,69,35,16.3,full history
 "BTC 1D open, day 17, entry 2026-10-11","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 1D open, day 17, entry 2026-10-11",CONSOLE RECORD,54 past BTC 1D setups with exactly these lenses,54,35,19,-4.6,-14.8,63,31,14.2,like for like
+"BTC 1D open, day 17, entry 2026-10-11",CONSOLE RECORD,the last 54 BTC 1D trades with exactly the same confirmations,54,35,19,-4.6,-14.8,63,31,14.2,like for like
 "BTC 1D open, day 17, entry 2026-10-11",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,72,40,18.5,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,73,38,17.0,full history (record with it off)
 "BTC 1D open, day 17, entry 2026-10-11",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,89,53,13,-3.4,-10.1,72,40,22.7,full history (record with it on)
@@ -710,7 +710,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 1D open, day 8, entry 2026-10-20","This chart, every signal",record,279,52,13,-4.7,-10.8,74,43,22.7,full history
 "BTC 1D open, day 8, entry 2026-10-20",This chart at grade C (any mix of 0 lenses),record,156,42,13,-4.7,-12.0,69,35,16.3,full history
 "BTC 1D open, day 8, entry 2026-10-20","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 1D open, day 8, entry 2026-10-20",CONSOLE RECORD,54 past BTC 1D setups with exactly these lenses,54,35,19,-4.6,-14.8,63,31,14.2,like for like
+"BTC 1D open, day 8, entry 2026-10-20",CONSOLE RECORD,the last 54 BTC 1D trades with exactly the same confirmations,54,35,19,-4.6,-14.8,63,31,14.2,like for like
 "BTC 1D open, day 8, entry 2026-10-20",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,230,47,14,-4.7,-11.9,72,40,18.5,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,125,46,11,-5.1,-11.9,73,38,17.0,full history (record with it off)
 "BTC 1D open, day 8, entry 2026-10-20",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,190,51,13,-5.2,-11.2,75,45,22.8,full history (record with it off)
@@ -741,7 +741,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 2D forming (provisional), confirms 2026-10-31","This chart, every signal",record,141,52,15,-4.6,-12.3,70,39,20.9,full history
 "BTC 2D forming (provisional), confirms 2026-10-31",This chart at grade C (any mix of 0 lenses),record,60,48,13,-4.6,-13.5,70,33,19.4,full history
 "BTC 2D forming (provisional), confirms 2026-10-31","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 2D forming (provisional), confirms 2026-10-31",CONSOLE RECORD,15 past BTC 2D setups with exactly these lenses,15,33,20,-4.6,-15.8,67,13,14.1,like for like
+"BTC 2D forming (provisional), confirms 2026-10-31",CONSOLE RECORD,the last 15 BTC 2D trades with exactly the same confirmations,15,33,20,-4.6,-15.8,67,13,14.1,like for like
 "BTC 2D forming (provisional), confirms 2026-10-31",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,112,48,16,-5.2,-12.7,70,34,19.4,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,59,42,14,-7.7,-15.8,63,24,15.8,full history (record with it off)
 "BTC 2D forming (provisional), confirms 2026-10-31",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,86,51,14,-5.1,-13.8,70,38,20.6,full history (record with it off)
@@ -767,7 +767,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 2D open, day 37, entry 2026-09-21","This chart, every signal",record,141,52,15,-4.6,-12.3,70,39,20.9,full history
 "BTC 2D open, day 37, entry 2026-09-21",This chart at grade A+ (any mix of 4 lenses),record,12,92,0,-2.1,-3.8,92,92,42.3,full history
 "BTC 2D open, day 37, entry 2026-09-21","Grade A+, all BTC charts",record,33,79,9,-3.6,-6.5,85,76,42.9,full history
-"BTC 2D open, day 37, entry 2026-09-21",CONSOLE RECORD,"33 past grade A+ setups across BTC charts (thin on BTC 2D: exactly 12, grade 12)",33,79,9,-3.6,-6.5,85,76,42.9,like for like
+"BTC 2D open, day 37, entry 2026-09-21",CONSOLE RECORD,"the last 33 grade A+ trades across all BTC charts (BTC 2D alone has only 12, too few to use)",33,79,9,-3.6,-6.5,85,76,42.9,like for like
 "BTC 2D open, day 37, entry 2026-09-21",CT above its Signal line by 5+ [grade lens + Tier 1 #1],ON,29,66,10,-3.2,-7.4,69,59,34.0,full history (record with it on)
 "BTC 2D open, day 37, entry 2026-09-21",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,59,42,14,-7.7,-15.8,63,24,15.8,full history (record with it off)
 "BTC 2D open, day 37, entry 2026-09-21",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,86,51,14,-5.1,-13.8,70,38,20.6,full history (record with it off)
@@ -803,7 +803,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 2D open, day 23, entry 2026-10-05","This chart, every signal",record,141,52,15,-4.6,-12.3,70,39,20.9,full history
 "BTC 2D open, day 23, entry 2026-10-05",This chart at grade C (any mix of 0 lenses),record,60,48,13,-4.6,-13.5,70,33,19.4,full history
 "BTC 2D open, day 23, entry 2026-10-05","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 2D open, day 23, entry 2026-10-05",CONSOLE RECORD,15 past BTC 2D setups with exactly these lenses,15,33,20,-4.6,-15.8,67,13,14.1,like for like
+"BTC 2D open, day 23, entry 2026-10-05",CONSOLE RECORD,the last 15 BTC 2D trades with exactly the same confirmations,15,33,20,-4.6,-15.8,67,13,14.1,like for like
 "BTC 2D open, day 23, entry 2026-10-05",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,112,48,16,-5.2,-12.7,70,34,19.4,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,59,42,14,-7.7,-15.8,63,24,15.8,full history (record with it off)
 "BTC 2D open, day 23, entry 2026-10-05",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,55,53,16,-3.9,-9.1,69,40,22.8,full history (record with it on)
@@ -834,7 +834,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 3D forming (provisional), confirms 2026-11-02","This chart, every signal",record,92,51,14,-4.8,-9.9,76,38,23.0,full history
 "BTC 3D forming (provisional), confirms 2026-11-02",This chart at grade C (any mix of 0 lenses),record,65,48,15,-4.5,-10.1,74,32,17.7,full history
 "BTC 3D forming (provisional), confirms 2026-11-02","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 3D forming (provisional), confirms 2026-11-02",CONSOLE RECORD,26 past BTC 3D setups with exactly these lenses,26,38,8,-5.9,-10.7,65,23,14.7,like for like
+"BTC 3D forming (provisional), confirms 2026-11-02",CONSOLE RECORD,the last 26 BTC 3D trades with exactly the same confirmations,26,38,8,-5.9,-10.7,65,23,14.7,like for like
 "BTC 3D forming (provisional), confirms 2026-11-02",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,74,51,15,-4.6,-9.9,76,36,23.0,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,40,45,12,-5.4,-13.1,75,30,18.0,full history (record with it off)
 "BTC 3D forming (provisional), confirms 2026-11-02",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,7,86,29,-7.4,-7.4,86,86,54.4,full history (record with it off)
@@ -859,7 +859,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 3D open, day 34, entry 2026-09-24","This chart, every signal",record,92,51,14,-4.8,-9.9,76,38,23.0,full history
 "BTC 3D open, day 34, entry 2026-09-24",This chart at grade B (any mix of 2 lenses),record,16,69,19,-4.4,-8.6,75,62,46.6,full history
 "BTC 3D open, day 34, entry 2026-09-24","Grade B, all BTC charts",record,136,57,17,-5.1,-10.0,75,49,28.6,full history
-"BTC 3D open, day 34, entry 2026-09-24",CONSOLE RECORD,16 past BTC 3D grade B setups (no 15 with exactly these lenses: 11),16,69,19,-4.4,-8.6,75,62,46.6,like for like
+"BTC 3D open, day 34, entry 2026-09-24",CONSOLE RECORD,"the last 16 BTC 3D trades graded B (only 11 had exactly the same confirmations, too few to use)",16,69,19,-4.4,-8.6,75,62,46.6,like for like
 "BTC 3D open, day 34, entry 2026-09-24",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,74,51,15,-4.6,-9.9,76,36,23.0,full history (record with it off)
 "BTC 3D open, day 34, entry 2026-09-24",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,40,45,12,-5.4,-13.1,75,30,18.0,full history (record with it off)
 "BTC 3D open, day 34, entry 2026-09-24",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,85,48,13,-4.8,-9.9,75,34,19.1,full history (record with it on)
@@ -890,7 +890,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 3D open, day 7, entry 2026-10-21","This chart, every signal",record,92,51,14,-4.8,-9.9,76,38,23.0,full history
 "BTC 3D open, day 7, entry 2026-10-21",This chart at grade C (any mix of 0 lenses),record,65,48,15,-4.5,-10.1,74,32,17.7,full history
 "BTC 3D open, day 7, entry 2026-10-21","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 3D open, day 7, entry 2026-10-21",CONSOLE RECORD,26 past BTC 3D setups with exactly these lenses,26,38,8,-5.9,-10.7,65,23,14.7,like for like
+"BTC 3D open, day 7, entry 2026-10-21",CONSOLE RECORD,the last 26 BTC 3D trades with exactly the same confirmations,26,38,8,-5.9,-10.7,65,23,14.7,like for like
 "BTC 3D open, day 7, entry 2026-10-21",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,74,51,15,-4.6,-9.9,76,36,23.0,full history (record with it off)
 "BTC 3D open, day 7, entry 2026-10-21",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,40,45,12,-5.4,-13.1,75,30,18.0,full history (record with it off)
 "BTC 3D open, day 7, entry 2026-10-21",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,7,86,29,-7.4,-7.4,86,86,54.4,full history (record with it off)
@@ -918,7 +918,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 5D forming (provisional), confirms 2026-11-11","This chart, every signal",record,49,47,16,-3.9,-13.0,67,33,18.3,full history
 "BTC 5D forming (provisional), confirms 2026-11-11",This chart at grade C (any mix of 0 lenses),record,30,43,17,-7.1,-15.9,63,27,15.2,full history
 "BTC 5D forming (provisional), confirms 2026-11-11","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 5D forming (provisional), confirms 2026-11-11",CONSOLE RECORD,30 past BTC 5D grade C setups (no 15 with exactly these lenses: 5),30,43,17,-7.1,-15.9,63,27,15.2,like for like
+"BTC 5D forming (provisional), confirms 2026-11-11",CONSOLE RECORD,"the last 30 BTC 5D trades graded C (only 5 had exactly the same confirmations, too few to use)",30,43,17,-7.1,-15.9,63,27,15.2,like for like
 "BTC 5D forming (provisional), confirms 2026-11-11",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,38,45,18,-5.2,-15.9,63,32,15.2,full history (record with it off)
 "BTC 5D forming (provisional), confirms 2026-11-11",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,20,40,15,-8.9,-20.6,60,30,13.9,full history (record with it off)
 "BTC 5D forming (provisional), confirms 2026-11-11",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,9,22,11,-9.8,-24.4,56,11,10.9,full history (record with it off)
@@ -943,7 +943,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 5D open, day 26, entry 2026-10-02","This chart, every signal",record,49,47,16,-3.9,-13.0,67,33,18.3,full history
 "BTC 5D open, day 26, entry 2026-10-02",This chart at grade C (any mix of 1 lenses),record,30,43,17,-7.1,-15.9,63,27,15.2,full history
 "BTC 5D open, day 26, entry 2026-10-02","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 5D open, day 26, entry 2026-10-02",CONSOLE RECORD,30 past BTC 5D grade C setups (no 15 with exactly these lenses: 0),30,43,17,-7.1,-15.9,63,27,15.2,like for like
+"BTC 5D open, day 26, entry 2026-10-02",CONSOLE RECORD,"the last 30 BTC 5D trades graded C (none had exactly the same confirmations, too few to use)",30,43,17,-7.1,-15.9,63,27,15.2,like for like
 "BTC 5D open, day 26, entry 2026-10-02",CT above its Signal line by 5+ [grade lens + Tier 1 #1],ON,11,55,9,-3.4,-8.6,82,36,23.2,full history (record with it on)
 "BTC 5D open, day 26, entry 2026-10-02",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,20,40,15,-8.9,-20.6,60,30,13.9,full history (record with it off)
 "BTC 5D open, day 26, entry 2026-10-02",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],ON,40,52,18,-3.8,-10.7,70,38,23.5,full history (record with it on)
@@ -973,7 +973,7 @@ subject,read,status,n,reach20,touched30,dipBeforeHigh,maxDip60,reach10,reach30,b
 "BTC 8D forming (provisional), confirms 2026-11-16","This chart, every signal",record,28,50,11,-4.6,-13.0,71,29,19.6,full history
 "BTC 8D forming (provisional), confirms 2026-11-16",This chart at grade C (any mix of 0 lenses),record,19,47,11,-3.6,-15.3,63,26,19.0,full history
 "BTC 8D forming (provisional), confirms 2026-11-16","Grade C, all BTC charts",record,311,44,14,-4.7,-12.0,70,33,16.9,full history
-"BTC 8D forming (provisional), confirms 2026-11-16",CONSOLE RECORD,19 past BTC 8D grade C setups (no 15 with exactly these lenses: 8),19,47,11,-3.6,-15.3,63,26,19.0,like for like
+"BTC 8D forming (provisional), confirms 2026-11-16",CONSOLE RECORD,"the last 19 BTC 8D trades graded C (only 8 had exactly the same confirmations, too few to use)",19,47,11,-3.6,-15.3,63,26,19.0,like for like
 "BTC 8D forming (provisional), confirms 2026-11-16",CT above its Signal line by 5+ [grade lens + Tier 1 #1],off,24,54,8,-3.7,-10.6,71,33,22.2,full history (record with it off)
 "BTC 8D forming (provisional), confirms 2026-11-16",Entry above the previous signal (higher low) [grade lens (ETH) + Tier 1 #4],off,11,27,9,-4.5,-19.2,64,9,13.6,full history (record with it off)
 "BTC 8D forming (provisional), confirms 2026-11-16",2+ other same-asset charts confirmed 0-10 days before [grade lens (ETH) + Tier 1 #5],off,9,33,0,-10.1,-17.5,78,11,18.9,full history (record with it off)

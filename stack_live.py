@@ -39,6 +39,7 @@ from htfdiv import divergences
 from confirmlag import weekly
 from derivtest import series
 from grade3 import funding_series
+import measures as MS
 
 OUT = os.path.join(HERE, 'datasets')
 ASSETS = ('ETH', 'BTC'); TFS = ('1D', '2D', '3D', '5D', '8D')
@@ -319,6 +320,14 @@ def main():
                 tags = ' + '.join([p['bucket']] + (['filled diamond'] if strong else ['hollow diamond'] if dis else []) + (['prime dot'] if r['prime'] else []))
                 prints.append([f'{a} {tf}', 'forming', str(p['date']), str(d0f), round(C[i], 2), tags,
                                ('regime on' if gate(today) else 'regime off') + f'; {p["need"]} bar(s) to confirm'])
+                r['_trough'] = p['date']; r['_need'] = p['need']; r['_kill'] = None
+                if p['need'] == 1 and n == p['ti'] + 3:
+                    lo, hi = C[-1] * 0.5, C[-1] * 1.5
+                    for _ in range(60):
+                        mid = (lo + hi) / 2
+                        if E.rsi(list(C) + [mid], 14)[-1] <= ct[p['ti']]: lo = mid
+                        else: hi = mid
+                    r['_kill'] = round(lo, 2)
                 subjects.append(('forming (provisional)', r, tags))
             for s in sig:
                 if 0 <= (today - s['d0']).days <= 60:
@@ -328,7 +337,46 @@ def main():
     if _HOOK is not None:          # analysis/model.py reads the same features
         return _HOOK(locals())
     # ------------------------------------------------ evaluate
-    out = []; evaluated = set()
+    out = []; evaluated = set(); cards = []
+
+    PLAIN = {'GAP': 'CT well above its Signal line', 'HIGH': 'a higher low than the last signal', 'AGREE': 'other charts already confirmed',
+             'BTC3': 'a BTC 3D signal in the 10 days before', 'BTCX': 'an ETH 2D signal in the 10 days before', 'FUND': 'funding at or above its 90-day median',
+             'FCOOL': 'funding not cooling', 'UP8': 'the 8D chart rising', 'FASTCT': 'CT recovering fast from the low'}
+
+    def ladder(G):
+        res = []
+        for th in (5, 10, 15, 20):
+            hit = ok = liq = 0
+            for s0 in G:
+                a0 = s0['a']; i0 = DPOS[a0].get(s0['d0']); e0 = s0['entry']
+                if i0 is None: continue
+                Hs = DAY[a0]['high'][i0 + 1:i0 + 61]; Ls = DAY[a0]['low'][i0 + 1:i0 + 61]
+                for j, (h, l) in enumerate(zip(Hs, Ls)):
+                    if h >= e0 * 1.10: break
+                    if l <= e0 * (1 - th / 100):
+                        hit += 1
+                        for hh, ll in zip(Hs[j:], Ls[j:]):
+                            if ll <= e0 * (1 + MS.LIQ / 100): liq += 1; break
+                            if hh >= e0 * 1.10: ok += 1; break
+                        break
+            res += [hit, round(100 * ok / hit) if hit else '', round(100 * liq / hit) if hit else '']
+        return res
+
+    def card(r, g, have, basis, G):
+        n = len(G); pct = lambda k: round(100 * k / n) if n else ''
+        sc = [x for x in (MS.scaled20(s0['a'], s0['d0'], s0['m']) for s0 in G) if x is not None]
+        old = [s0 for s0 in G if s0['d0'] < SPLIT]; new = [s0 for s0 in G if s0['d0'] >= SPLIT]
+        sv = lambda X: round(100 * sum(MS.surv10(s0['m']) for s0 in X) / len(X)) if X else ''
+        return [f"{r['a']} {r['tf']}", r['a'], r['tf'], str(r['_trough']), str(r['d0']), r['_need'], r['_kill'] if r['_kill'] else '',
+                round(r['entry'], 2), g, '; '.join(PLAIN.get(k, k) for k in have) or 'none', basis, n,
+                pct(sum(MS.surv10(s0['m']) for s0 in G)), round(100 * sum(sc) / len(sc)) if sc else '',
+                pct(sum(s0['m']['up'] >= 20 for s0 in G)), pct(sum(s0['m']['up'] >= 10 for s0 in G)),
+                round(st.median(s0['m']['up'] for s0 in G), 1) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 1) if n else '',
+                round(st.median(s0['m']['dd'] for s0 in G), 1) if n else '', pct(sum(s0['m']['dd'] <= -30 for s0 in G)),
+                len(old), sv(old), len(new), sv(new)] + ladder(G)
+    CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'grade', 'lenses', 'basis', 'n',
+                'surv10', 'scaled20', 'reach20', 'reach10', 'bestMove', 'dipBeforeHigh', 'maxDip60', 'touched30',
+                'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')]
     cells = []
     J = json.load(open(os.path.join(HERE, 'analysis', 'grokpack.json')))
     for lay in ('layer4', 'layer4_small', 'layer4b'):
@@ -367,10 +415,12 @@ def main():
         ag = [s for s in Aall if gof(len(sets(s))) == g]
         out.append([subj, f'This chart at grade {g} (any mix of {len(have)} lenses)', 'record'] + rec(sg) + ['from 2020' if a == 'ETH' else 'full history'])
         out.append([subj, f'Grade {g}, all {a} charts', 'record'] + rec(ag) + ['from 2020' if a == 'ETH' else 'full history'])
-        if len(ex) >= 15: basis, G_ = f'{len(ex)} past {a} {tf} setups with exactly these lenses', ex
-        elif len(sg) >= 15: basis, G_ = f'{len(sg)} past {a} {tf} grade {g} setups (no 15 with exactly these lenses: {len(ex)})', sg
-        else: basis, G_ = f'{len(ag)} past grade {g} setups across {a} charts (thin on {a} {tf}: exactly {len(ex)}, grade {len(sg)})', ag
+        if len(ex) >= 15: basis, G_ = f'the last {len(ex)} {a} {tf} trades with exactly the same confirmations', ex
+        elif len(sg) >= 15: basis, G_ = f'the last {len(sg)} {a} {tf} trades graded {g} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
+        else: basis, G_ = f'the last {len(ag)} grade {g} trades across all {a} charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
         out.append([subj, 'CONSOLE RECORD', basis] + rec(G_) + ['like for like'])
+        if state.startswith('forming'):
+            cards.append(card(r, g, have, basis, G_))
         # every registry item
         for rid, label, A_, C_, kind, src in REGISTRY:
             if rid in ('CELLS', 'POS', 'REGIME', 'REGAGE', 'BUCKET', 'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50'):
@@ -466,6 +516,20 @@ def main():
 
     w = lambda p, h, rr: csv.writer(open(os.path.join(OUT, p), 'w', newline='')).writerows([h] + rr)
     w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'reach10', 'reach30', 'bestMove', 'sample'], out)
+    bad = []
+    for c in cards:
+        d = dict(zip(CARD_HDR, c)); nn = d['n']
+        if d['nOld'] + d['nNew'] != nn: bad.append(f"{d['chart']}: periods {d['nOld']}+{d['nNew']} != n {nn}")
+        if f' {nn} ' not in f" {d['basis']} ": bad.append(f"{d['chart']}: basis text does not state n={nn}")
+        for k in ('surv10', 'scaled20', 'reach20', 'reach10', 'touched30', 'surv10Old', 'surv10New'):
+            if d[k] != '' and not 0 <= d[k] <= 100: bad.append(f"{d['chart']}: {k}={d[k]} outside 0-100")
+        if d['surv10'] != '' and d['reach10'] != '' and d['surv10'] > d['reach10']: bad.append(f"{d['chart']}: surv10 above reach10")
+        ln = [d[f'l{t}n'] for t in (5, 10, 15, 20)]
+        if ln != sorted(ln, reverse=True) or ln[0] > nn: bad.append(f"{d['chart']}: dip ladder counts {ln} inconsistent with n {nn}")
+    if bad:
+        open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{dt.datetime.utcnow():%Y-%m-%d %H:%M} UTC FAILED card checks: ' + '; '.join(bad) + '\n')
+        raise SystemExit('CARD CHECK FAILURE: ' + '; '.join(bad))
+    w('cards.csv', CARD_HDR, cards)
     w('prints.csv', ['chart', 'state', 'trough', 'confirms', 'entry', 'tags', 'note'], prints)
     w('windows.csv', ['openedBy', 'confirmed', 'closes', 'appliesTo'], sorted(wins, key=lambda x: x[2]))
     json.dump([dict(zip(('id', 'label', 'assets', 'charts', 'kind', 'documented'), x)) for x in REGISTRY],
