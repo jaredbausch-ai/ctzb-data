@@ -48,6 +48,8 @@
   line-height:1.75;max-width:70ch}
 @media(max-width:560px){.jc .ctl{grid-template-columns:1fr;gap:13px}.jc .read{grid-template-columns:repeat(2,1fr)}.jc .track .m u{font-size:11.5px}.jc .track .m i{font-size:10.5px}}
 @media(prefers-reduced-motion:reduce){.jc *{transition:none!important}}
+.jc .pick{font:inherit;font-size:12px;margin:0 6px 6px 0;padding:3px 9px;border-radius:999px;border:1px solid var(--rule2,#444);background:transparent;color:inherit;cursor:pointer}
+.jc .pick.on{border-color:currentColor;font-weight:600}
 </style>
 <div class="jc">
 <div class="wrap">
@@ -133,8 +135,8 @@
 </details>
 <details class="fold" open><summary><span>This setup — every read we have</span></summary>
   <div class="panel tw"><table id="lrtab" data-source="liveread" data-row-key="subject,read"><thead><tr>
-    <th data-field="subject">Signal</th><th data-field="read">Read</th><th data-field="status">Now</th><th data-field="n">Setups</th><th data-field="reach20">+20%</th>
-    <th data-field="touched30">Touched &minus;30%</th><th data-field="dipBeforeHigh">Dip from entry before the high</th><th data-field="maxDip60">Largest dip from entry, 60d</th><th data-field="sample">Sample</th>
+    <th data-field="subject">Signal</th><th data-field="read">Read</th><th data-field="status">Now</th><th data-field="n">Setups</th><th data-field="reach10">+10%</th><th data-field="reach15">+15%</th><th data-field="reach20">+20%</th>
+    <th data-field="touched30">Touched &minus;30%</th><th data-field="dipBeforeHigh">Dip from entry before the high</th><th data-field="maxDip60">Largest dip from entry, 60d</th><th data-field="bestMove">Best move</th><th data-field="sample">Sample</th>
   </tr></thead><tbody></tbody></table></div>
   <p class="note" style="padding:0 2px;margin-top:9px">Every documented read (stack_live.py registry) checked on every run against every forming low and every signal from the last 60 days, with the record on that chart. Drawdowns are from entry, medians. Forming lows are provisional until they confirm. Historical rates, %. Entry quality only &mdash; computed signals, not fills.</p>
 </details>
@@ -256,28 +258,38 @@ function render(){
   dot.style.background=c; ti.style.color=c; ti.textContent=txt; s2.textContent=sub;
   drawTiers(); drawSizes();
 }
+let SEL=null, LR=[];
 function drawAction(){
   const act=$("act"), w=$("actWord"), l=$("actLine"), st=$("actStats"), nx=$("actNext");
   const forming=LIVE.filter(r=>r.forming==="yes");
   const rank={"A+":4,"A":3,"B":2,"C":1};
   const gOf=r=>String(r.formingGrade||"").split(" ")[0];
   forming.sort((a,b)=>(rank[gOf(b)]||0)-(rank[gOf(a)]||0));
-  st.textContent=""; nx.textContent="";
+  st.textContent=""; nx.textContent=""; l.textContent="";
   if(!forming.length){
     act.className="act"; w.textContent="Nothing forming";
     l.textContent="No ETH chart has a low forming. Check back in a few days.";
     return;
   }
-  const top=forming[0], g=gOf(top), t=TIERS.find(x=>x.id===g)||null;
+  if(!SEL||!forming.find(r=>r.chart===SEL)) SEL=forming[0].chart;
+  const top=forming.find(r=>r.chart===SEL), g=gOf(top), t=TIERS.find(x=>x.id===g)||null;
   act.className="act"+(g==="A+"?" go":g==="A"?" soon":"");
-  w.textContent=g+" forming";
-  l.textContent=forming.map(r=>r.chart+" ("+gOf(r)+")").join(", ")+" — "+top.barsNeeded+" bar"+(top.barsNeeded==="1"?"":"s")+" from confirming. Grade is provisional until then.";
-  if(t){
-    [[t.win+"%","Reach +20%",t.win>=70?"gd":"dm"],["+"+t.up.toFixed(1)+"%","Typical best move","gd"],
-     [t.med.toFixed(1)+"%","Typical dip first","dm"],[t.badpk.toFixed(1)+"%","Bad dip first, 1 in 10","wn"]].forEach(([v,k,c])=>{
+  w.textContent=top.chart+" · "+g+" forming";
+  forming.forEach(r=>{const bt=el("button","pick"+(r.chart===SEL?" on":""),r.chart+" ("+gOf(r)+")"); bt.type="button";
+    bt.setAttribute("aria-pressed",r.chart===SEL?"true":"false");
+    bt.addEventListener("click",()=>{SEL=r.chart; drawAction();}); l.appendChild(bt);});
+  l.appendChild(document.createTextNode(" "+top.barsNeeded+" bar"+(top.barsNeeded==="1"?"":"s")+" from confirming. Provisional until then."));
+  const rec=LR.find(x=>String(x.subject).startsWith(top.chart+" forming")&&x.read==="This chart with at least these lenses");
+  const pc=v=>v===""||v===undefined?"—":v+"%", dd=v=>v===""||v===undefined?"—":(+v).toFixed(1)+"%";
+  if(rec&&+rec.n>0){
+    [[String(rec.n),"Past setups like this","dm"],[pc(rec.reach10),"Reach +10% in 60d","gd"],[pc(rec.reach15),"Reach +15% in 60d","gd"],[pc(rec.reach20),"Reach +20% in 60d",+rec.reach20>=70?"gd":"dm"],
+     [pc(rec.touched30),"Touched −30%","wn"],[dd(rec.maxDip60),"Median drawdown from entry","wn"],[dd(rec.dipBeforeHigh),"Dip before the high","dm"],
+     ["+"+(+rec.bestMove).toFixed(1)+"%","Typical best move","gd"]].forEach(([v,k,c])=>{
       const cell=el("div","c"); cell.appendChild(el("div","v "+c,v)); cell.appendChild(el("div","k lab",k)); st.appendChild(cell);});
   }
-  const b=el("b",null,"Lenses: "); nx.appendChild(b); nx.appendChild(document.createTextNode(top.formingLenses||"none"));
+  const b=el("b",null,"This trade: "); nx.appendChild(b);
+  nx.appendChild(document.createTextNode((rec&&+rec.n>0?"record of "+rec.n+" past "+top.chart+" setups with "+(top.formingLenses||"no lenses")+(+rec.n<10?" (small sample)":""):"no past "+top.chart+" setups with "+(top.formingLenses||"these lenses"))
+    +(t?". Grade "+g+" across all ETH charts: "+t.win+"% to +20%.":".")));
 }
 function drawLadder(){
   const h=$("ladder"); h.textContent="";
@@ -326,7 +338,7 @@ dash.onData(()=>{
     fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","medDip","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
-  const lr=dash.data("liveread"); if(lr.status==="ok"){fillTable("lrtab",lr.data||[],["subject","read","status","n","reach20","touched30","dipBeforeHigh","maxDip60","sample"]);}
+  const lr=dash.data("liveread"); if(lr.status==="ok"){LR=lr.data||[]; fillTable("lrtab",LR,["subject","read","status","n","reach10","reach15","reach20","touched30","dipBeforeHigh","maxDip60","bestMove","sample"]);}
   const pr=dash.data("prints"); if(pr.status==="ok"){fillTable("prtab",pr.data||[],["chart","state","trough","confirms","entry","tags","note"]);}
   const wn=dash.data("windows"); if(wn.status==="ok"){fillTable("wntab",wn.data||[],["openedBy","confirmed","closes","appliesTo"]);}
   if(fw.status==="ok"){FWD=fw.data||[]; fillTable("fwdtab",FWD,["chart","entry","grade","status","d10","best","worst"]);}

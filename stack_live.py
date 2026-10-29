@@ -132,9 +132,11 @@ def check_coverage(evaluated):
 # ------------------------------------------------------------------ helpers
 def rec(G):
     n = len(G)
-    if not n: return [0, '', '', '', '']
+    if not n: return [0, '', '', '', '', '', '', '']
     return [n, round(100 * sum(r['win'] for r in G) / n), round(100 * sum(r['t30'] for r in G) / n),
-            round(st.median(r['m']['ddpk'] for r in G), 1), round(st.median(r['m']['dd'] for r in G), 1)]
+            round(st.median(r['m']['ddpk'] for r in G), 1), round(st.median(r['m']['dd'] for r in G), 1),
+            round(100 * sum(r['m']['up'] >= 10 for r in G) / n), round(100 * sum(r['m']['up'] >= 15 for r in G) / n),
+            round(st.median(r['m']['up'] for r in G), 1)]
 
 
 def near(d0, lst, w=WIN):
@@ -346,7 +348,7 @@ def main():
         g = 'C' if len(have) <= 1 else 'B' if len(have) == 2 else 'A' if len(have) == 3 else 'A+'
         Cf = [s for s in Cr if s.get('fund') is not None and s.get('fcool') is not None] if a == 'ETH' else Cr
         sets = lambda s: {k for k in LENS[a] if feats(s).get(k)}
-        out.append([subj, f'Grade {g}: {" + ".join(have) or "no lenses"}', 'grade'] + ['', '', '', '', ''] + [''])
+        out.append([subj, f'Grade {g}: {" + ".join(have) or "no lenses"}', 'grade'] + ['', '', '', '', '', '', '', ''] + [''])
         out.append([subj, 'This chart with at least these lenses', 'record'] + rec([s for s in Cf if set(have) <= sets(s)]) + ['from 2020' if a == 'ETH' else 'full history'])
         out.append([subj, 'This chart with exactly these lenses', 'record'] + rec([s for s in Cf if set(have) == sets(s)]) + ['from 2020' if a == 'ETH' else 'full history'])
         out.append([subj, 'This chart, every signal', 'record'] + rec(Cr) + ['full history'])
@@ -367,7 +369,7 @@ def main():
         evaluated.update({'BUCKET', 'REGIME', 'REGAGE'})
         out.append([subj, f'Bucket {r["bk"]} on this chart [tag]', 'ON'] + rec([s for s in Cr if s['bk'] == r['bk']]) + ['full history'])
         ra = regime_age(d0 if d0 <= today else today)
-        out.append([subj, 'Regime gate [Tier 1 #6]', 'ON' if ra is not None else 'OFF', '', '', '', '', '', f'on for {ra} days' if ra is not None else ''])
+        out.append([subj, 'Regime gate [Tier 1 #6]', 'ON' if ra is not None else 'OFF', '', '', '', '', '', '', '', '', f'on for {ra} days' if ra is not None else ''])
         # confluence cells
         evaluated.add('CELLS')
         for lay, c in cells:
@@ -388,7 +390,7 @@ def main():
                    f'{"not cooling" if F["FCOOL"] else "cooling"}; '
                    + (f'L/S {l:.2f} vs {l14:.2f} 2 wks ago; ' if l and l14 else '')
                    + (f'OI {100 * (o / o14 - 1):+.1f}% in 14d' if o and o14 else ''))
-            out.append([subj, f'Positioning read ({fd}) [caution read]', txt, '', '', '', '', '', ''])
+            out.append([subj, f'Positioning read ({fd}) [caution read]', txt, '', '', '', '', '', '', '', '', ''])
         # in-trade reads for open signals
         evaluated.update({'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50'})
         if not state.startswith('forming'):
@@ -417,9 +419,9 @@ def main():
                     if cc[j] is None: continue
                     if cc[j] >= 50: ev = 'broke 50 first'; break
                     if cc[j - 1] is not None and 40 <= cc[j - 1] < 50 and cc[j] < cc[j - 1]: ev = 'rejected from 40-50 first'; break
-                out.append([subj, 'A signal: CT broke 50 first or rejected first [in-trade, partial]', ev, '', '', '', '', '',
+                out.append([subj, 'A signal: CT broke 50 first or rejected first [in-trade, partial]', ev, '', '', '', '', '', '', '', '',
                             'record: broke first 67% ETH / 59% BTC; rejected first 43% / 38% (PRETRADE)'])
-    out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', ''])
+    out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', '', '', '', ''])
     heads = check_coverage(evaluated)
 
     # ------------------------------------------------ windows open now
@@ -444,7 +446,7 @@ def main():
                 if lower: wins.append([f'{a} {tf}', str(d), str(d + dt.timedelta(days=WIN)), f'DIVH flag (bullish Stoch divergence) for {lower}'])
 
     w = lambda p, h, rr: csv.writer(open(os.path.join(OUT, p), 'w', newline='')).writerows([h] + rr)
-    w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'sample'], out)
+    w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'reach10', 'reach15', 'bestMove', 'sample'], out)
     w('prints.csv', ['chart', 'state', 'trough', 'confirms', 'entry', 'tags', 'note'], prints)
     w('windows.csv', ['openedBy', 'confirmed', 'closes', 'appliesTo'], sorted(wins, key=lambda x: x[2]))
     json.dump([dict(zip(('id', 'label', 'assets', 'charts', 'kind', 'documented'), x)) for x in REGISTRY],
