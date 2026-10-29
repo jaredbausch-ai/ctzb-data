@@ -56,12 +56,14 @@ td.mono{font-family:var(--mono)}
     <div class="f"><label for="fChart">Chart</label><select id="fChart"><option value="">All</option><option>1D</option><option>2D</option><option>3D</option><option>5D</option></select></div>
     <div class="f"><label for="fGrade">Grade</label><select id="fGrade"><option value="">All</option><option>A+</option><option>A</option><option>B</option><option>C</option></select></div>
     <div class="f"><label for="fYear">Year</label><select id="fYear"><option value="">All</option></select></div>
-    <div class="f"><label for="fOut">Outcome</label><select id="fOut"><option value="">All</option><option value="w">Reached +20%</option><option value="l">Missed +20%</option><option value="t">Touched &minus;30%</option></select></div>
+    <div class="f"><label for="fOut">Outcome</label><select id="fOut"><option value="">All</option><option value="w">Reached +20%</option><option value="w15">Reached +15%</option><option value="w10">Reached +10%</option><option value="l">Missed +20%</option><option value="t">Touched &minus;30%</option></select></div>
     <div class="f"><label for="fLens">Lens contains</label><input id="fLens" placeholder="e.g. BTC3" size="12"></div>
     <button id="reset" type="button">Reset</button>
   </div>
   <div class="strip" aria-live="polite">
     <div><b id="sN">—</b><span>Signals shown</span></div>
+    <div><b id="s10">—</b><span>Reached +10% in 60d</span></div>
+    <div><b id="s15">—</b><span>Reached +15% in 60d</span></div>
     <div><b id="sW">—</b><span>Reached +20% in 60d</span></div>
     <div><b id="sT">—</b><span>Touched &minus;30%</span></div>
     <div><b id="sD">—</b><span>Median drawdown from entry</span></div>
@@ -78,9 +80,10 @@ const D =
 const COLS=[
  ['entry','Entry',3],['chart','Chart',1],['tags','Tags',5],['grade','Grade',6],['lenses','Lenses',7],
  ['entryPrice','Entry price',4,'n'],['gradeReach20','Grade +20%',8,'n'],['gradeTouched30','Grade −30%',9,'n'],['gradeMedDrawdown','Grade median DD',10,'n'],
- ['reached20','Reached +20%',11],['touched30','Touched −30%',12],['bestMove','Best move',13,'n'],['maxDrawdown','Drawdown from entry',14,'n'],
+ ['r10','Reached +10%',-1],['r15','Reached +15%',-2],['reached20','Reached +20%',11],['touched30','Touched −30%',12],['bestMove','Best move',13,'n'],['maxDrawdown','Drawdown from entry',14,'n'],
  ['dipBeforeHigh','Dip before high',15,'n'],['return60d','60d return',16,'n'],['daysToHigh','Days to high',17,'n'],['low','Low',2]];
 const $=id=>document.getElementById(id);
+D.forEach(r=>{r[-1]=(+r[13]>=10)?'yes':'no';r[-2]=(+r[13]>=15)?'yes':'no';});
 const years=[...new Set(D.map(r=>r[18]))].sort();
 years.forEach(y=>{const o=document.createElement('option');o.textContent=y;$('fYear').appendChild(o);});
 let sortI=3, sortDir=-1, limit=300;
@@ -93,12 +96,14 @@ const pct=v=>v===null?'—':(v>0?'+':'')+v.toFixed(1)+'%';
 function filt(){
  const a=$('fAsset').value,c=$('fChart').value,g=$('fGrade').value,y=$('fYear').value,o=$('fOut').value,l=$('fLens').value.trim().toUpperCase();
  return D.filter(r=>(!a||r[0]===a)&&(!c||r[1].endsWith(c))&&(!g||r[6]===g)&&(!y||r[18]===y)
-  &&(!o||(o==='w'&&r[11]==='yes')||(o==='l'&&r[11]==='no')||(o==='t'&&r[12]==='yes'))&&(!l||r[7].toUpperCase().includes(l)));
+  &&(!o||(o==='w'&&r[11]==='yes')||(o==='w15'&&+r[13]>=15)||(o==='w10'&&+r[13]>=10)||(o==='l'&&r[11]==='no')||(o==='t'&&r[12]==='yes'))&&(!l||r[7].toUpperCase().includes(l)));
 }
 function render(){
  const R=filt(); const n=R.length;
  $('sN').textContent=n.toLocaleString('en-US');
  $('sW').textContent=n?Math.round(100*R.filter(r=>r[11]==='yes').length/n)+'%':'—';
+ $('s10').textContent=n?Math.round(100*R.filter(r=>+r[13]>=10).length/n)+'%':'—';
+ $('s15').textContent=n?Math.round(100*R.filter(r=>+r[13]>=15).length/n)+'%':'—';
  $('sT').textContent=n?Math.round(100*R.filter(r=>r[12]==='yes').length/n)+'%':'—';
  $('sD').textContent=pct(med(R.map(r=>+r[14])));$('sP').textContent=pct(med(R.map(r=>+r[15])));$('sU').textContent=pct(med(R.map(r=>+r[13])));
  const num=COLS.find(c=>c[2]===sortI)[3]==='n';
@@ -108,7 +113,7 @@ function render(){
  R.slice(0,limit).forEach(r=>{const tr=document.createElement('tr');
   COLS.forEach(([k,lab,i,cls])=>{const td=document.createElement('td');let v=r[i];
    if(k==='grade'){const s=document.createElement('span');s.className='g g'+(v==='A+'?'Ap':v);s.textContent=v;td.appendChild(s);}
-   else if(k==='reached20'){td.textContent=v;td.className=v==='yes'?'yes':'no';}
+   else if(k==='r10'||k==='r15'||k==='reached20'){td.textContent=v;td.className=v==='yes'?'yes':'no';}
    else if(k==='touched30'){td.textContent=v;td.className=v==='yes'?'hit':'no';}
    else if(['bestMove','maxDrawdown','dipBeforeHigh','return60d','gradeMedDrawdown'].includes(k)){const x=+v;td.textContent=(x>0?'+':'')+x.toFixed(1)+'%';td.className='n '+(x<0?'neg':x>0?'pos':'');}
    else if(k==='gradeReach20'||k==='gradeTouched30'){td.textContent=v+'%';td.className='n';}

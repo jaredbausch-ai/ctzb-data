@@ -224,10 +224,11 @@ def main():
             led.append([a, f'{a} {r["tf"]}', str(r['tdate']), str(r['d0']), round(r['entry'], 2), tags, g, names or '-',
                         o[4] if o else '', o[6] if o else '', o[8] if o else '',
                         'yes' if r['win'] else 'no', 'yes' if r['t30'] else 'no', round(m['up'], 1), round(m['dd'], 1),
-                        round(m['ddpk'], 1), round(m['ret'], 1), m.get('dpk', ''), r['yr']])
+                        round(m['ddpk'], 1), round(m['ret'], 1), m.get('dpk', ''), r['yr'],
+                        'yes' if m['up'] >= 10 else 'no', 'yes' if m['up'] >= 15 else 'no'])
     wcsv(os.path.join(OUT, 'ledger.csv'),
          ['asset', 'chart', 'low', 'entry', 'entryPrice', 'tags', 'grade', 'lenses', 'gradeReach20', 'gradeTouched30',
-          'gradeMedDrawdown', 'reached20', 'touched30', 'bestMove', 'maxDrawdown', 'dipBeforeHigh', 'return60d', 'daysToHigh', 'year'], led)
+          'gradeMedDrawdown', 'reached20', 'touched30', 'bestMove', 'maxDrawdown', 'dipBeforeHigh', 'return60d', 'daysToHigh', 'year', 'reached10', 'reached15'], led)
 
     # ---- forward.csv: grade each row ----
     dates = {}
