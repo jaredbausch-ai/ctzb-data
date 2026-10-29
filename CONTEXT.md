@@ -1018,6 +1018,13 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**Console record = like for like only (28 Oct 2026).** The console once showed
+the "at least these lenses" record, which for the ETH 1D trade was 17 stronger A+
+setups (82%) when none matched exactly; Jared caught it. `stack_live.py` now writes a
+`CONSOLE RECORD` row per forming low: exactly these lenses if 15+ past setups, else
+this chart at the same grade, else the same grade across the asset's charts, and
+says which. Never present a superset of stronger setups as the trade's odds.
+
 **The whole stack runs every time (procedure set 28 Oct 2026, after a missed confluence).**
 `stack_live.py` holds REGISTRY, the single indexed list of every documented read
 (grade lenses, flags, Tier 1, Promising, near misses, forward-watch candidates,
