@@ -7,7 +7,8 @@ import engine as E
 H = os.path.dirname(os.path.abspath(__file__))
 PLAIN = {'GAP': 'CT well above its Signal line', 'HIGH': 'a higher low than the last signal', 'AGREE': 'other charts already confirmed', 'BTC3': 'a BTC 3D signal in the 10 days before', 'BTCX': 'an ETH 2D signal in the 10 days before', 'FUND': 'funding at or above its 90-day median', 'FCOOL': 'funding not cooling', 'UP8': 'the 8D chart rising', 'FASTCT': 'CT recovering fast from the low'}
 led = list(csv.DictReader(open('datasets/ledger.csv'))); cards = {c['chart']: c for c in csv.DictReader(open('datasets/cards.csv'))}
-out = {'charts': {}, 'built': str(dt.date.today())}
+stamp = open('datasets/stack_status.txt').readline()[:20].strip()   # when the pipeline last scored the data
+out = {'charts': {}, 'built': stamp}
 for a in ('ETH', 'BTC'):
     for tf in ('1D', '2D', '3D', '5D'):
         b = E.load(f'data/{a}_{tf}.csv'); ct = E.rsi(b['close'], 14); em = E.ema(ct, 14); D = [str(d) for d in b['date']]

@@ -10,7 +10,7 @@ const mv=v=>v===''||v==null?'–':((+v>0?'+':+v<0?'−':'')+Math.abs(+v).toFixed
 const pc=v=>v===''||v==null?'–':Math.round(+v)+'%';
 const day=s=>new Date(s+'T00:00:00Z').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric',timeZone:'UTC'});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-$('asof').textContent=day(DATA.built);
+$('asof').textContent=DATA.built;
 
 // ---- charts: price on top, CT RSI underneath, time scales locked together ----
 const base={layout:{background:{type:'solid',color:css('--panel')},textColor:css('--dim'),fontFamily:css('--mono'),fontSize:11},
