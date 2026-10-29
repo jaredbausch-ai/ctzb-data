@@ -15,6 +15,10 @@ Writes / changes, in datasets/:
                  the console can show the share of past setups that reached a
                  given liquidation point (sizing basis set by Jared 28 Oct: the
                  median drawdown from entry).
+  ledger.csv     every graded signal, one row: chart, dates, entry, tags, grade,
+                 lenses, the grade's odds (whole-sample, so hindsight for past
+                 rows) and what happened (reached +20%, touched -30%, best move,
+                 largest dip from entry, dip before the high, 60-day return).
   grades.csv     the record of each grade (worstTenthMedian = the median dip
                  among the worst 10% of that grade's signals, the "worst-case
                  median" the dashboard sizes against, at Jared's request 28 Oct):
@@ -205,6 +209,25 @@ def main():
           'medDipBeforeHigh', 'dip1in4', 'dip1in10', 'medUpside', 'upsideTopQuarter', 'upsideLargest', 'sample', 'worstDip', 'worstTenthMedian',
           'reach10', 'reach30', 'safe20', 'green60', 'dipBeforeHigh1in10', 'daysToHigh'], out)
     wcsv(os.path.join(OUT, 'dipdist.csv'), ['asset', 'grade', 'maxDip60'], dist)
+
+    # ---- ledger.csv: every graded signal, one row each (added 28 Oct 2026) ----
+    # The odds columns are the grade's record over the WHOLE sample, including the
+    # signal itself: for past rows they are hindsight, not what was knowable then.
+    odds = {(x[0], x[1]): x for x in out if x[1] in ('A+', 'A', 'B', 'C')}
+    led = []
+    for a in ('ETH', 'BTC'):
+        G0 = [r for r in rows if r['a'] == a and r['tf'] in GRADED_TF and (a != 'ETH' or (r['fund'] is not None and r['fcool_ok']))]
+        for r in sorted(G0, key=lambda r: (r['d0'], r['tf'])):
+            g, names = grade_of(r); o = odds.get((a, g))
+            tags = ' + '.join([r['bk']] + (['filled diamond'] if r['strong'] else ['hollow diamond'] if r['dis'] else []) + (['prime dot'] if r['prime'] else []))
+            m = r['m']
+            led.append([a, f'{a} {r["tf"]}', str(r['tdate']), str(r['d0']), round(r['entry'], 2), tags, g, names or '-',
+                        o[4] if o else '', o[6] if o else '', o[8] if o else '',
+                        'yes' if r['win'] else 'no', 'yes' if r['t30'] else 'no', round(m['up'], 1), round(m['dd'], 1),
+                        round(m['ddpk'], 1), round(m['ret'], 1), m.get('dpk', ''), r['yr']])
+    wcsv(os.path.join(OUT, 'ledger.csv'),
+         ['asset', 'chart', 'low', 'entry', 'entryPrice', 'tags', 'grade', 'lenses', 'gradeReach20', 'gradeTouched30',
+          'gradeMedDrawdown', 'reached20', 'touched30', 'bestMove', 'maxDrawdown', 'dipBeforeHigh', 'return60d', 'daysToHigh', 'year'], led)
 
     # ---- forward.csv: grade each row ----
     dates = {}
