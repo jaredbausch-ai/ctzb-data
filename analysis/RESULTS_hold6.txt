@@ -1,0 +1,37 @@
+1120 regime-gated signals with a complete six-day window and 60d outcomes
+FROM ENTRY: win/LIQ30/LIQ20/med dd over 60d.   FROM DAY 6: win6/LIQ30|6/med dd6/med ret6 over the following 54d.
+
+  ALL  n=1120
+                               n    win   LIQ30   LIQ20   med dd   | win6  LIQ30|6   med dd6  med ret6
+    BASELINE                1120    56%     20%     36%   -14.0%      54%      20%    -13.4%      8.5%
+    entry low held 6d        453    72%     13%     24%    -7.3%      62%      19%    -12.0%     13.1%
+    entry low held 6d  (NOT)   667    45%     25%     43%   -17.6%      49%      20%    -14.6%      5.4%
+    closes >= entry 6d       296    74%     12%     20%    -5.1%      60%      19%    -12.5%     11.7%
+    closes >= entry 6d  (NOT)   824    50%     23%     41%   -15.9%      52%      20%    -13.9%      7.5%
+    trough low held 6d       795    64%     15%     28%    -9.7%      57%      18%    -12.2%     10.1%
+    trough low held 6d  (NOT)   325    37%     34%     55%   -22.3%      48%      25%    -16.4%      4.6%
+
+  ETH  n=559
+                               n    win   LIQ30   LIQ20   med dd   | win6  LIQ30|6   med dd6  med ret6
+    BASELINE                 559    61%     27%     40%   -16.0%      59%      26%    -16.3%      9.2%
+    entry low held 6d        219    75%     20%     30%    -9.7%      66%      26%    -15.6%     14.0%
+    entry low held 6d  (NOT)   340    52%     31%     46%   -18.6%      54%      26%    -16.7%      6.6%
+    closes >= entry 6d       140    77%     18%     26%    -6.8%      66%      26%    -16.2%     12.9%
+    closes >= entry 6d  (NOT)   419    56%     30%     44%   -17.7%      57%      26%    -16.3%      8.2%
+    trough low held 6d       401    69%     19%     31%   -12.6%      62%      23%    -15.0%     11.4%
+    trough low held 6d  (NOT)   158    40%     46%     61%   -27.0%      51%      33%    -20.8%      3.5%
+
+  BTC  n=561
+                               n    win   LIQ30   LIQ20   med dd   | win6  LIQ30|6   med dd6  med ret6
+    BASELINE                 561    51%     14%     31%   -10.8%      50%      14%    -10.8%      7.2%
+    entry low held 6d        234    70%      7%     18%    -5.4%      59%      12%     -9.7%     12.8%
+    entry low held 6d  (NOT)   327    38%     19%     41%   -16.0%      44%      15%    -12.1%      5.3%
+    closes >= entry 6d       156    72%      6%     15%    -3.8%      56%      13%    -10.3%      8.4%
+    closes >= entry 6d  (NOT)   405    43%     17%     38%   -14.8%      48%      14%    -10.9%      6.4%
+    trough low held 6d       394    58%     10%     24%    -8.1%      52%      12%     -9.9%      9.2%
+    trough low held 6d  (NOT)   167    34%     23%     49%   -19.3%      45%      17%    -13.5%      4.8%
+
+  HOW OFTEN DOES EACH FIRE?
+    entry low held 6d       453 of 1120  (40%)
+    closes >= entry 6d      296 of 1120  (26%)
+    trough low held 6d      795 of 1120  (71%)

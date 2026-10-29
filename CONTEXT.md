@@ -578,6 +578,48 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Six-day hold after entry — tested 29 Oct 2026. Mostly TAUTOLOGICAL, with one
+precise survivor.** `analysis/hold6.py`. Jared's question. Three readings, all
+declared: entry-bar low not undercut in days 1-6; all six closes at or above
+entry; trough low not undercut. 1,120 gated signals.
+
+From entry the numbers look spectacular -- entry low held gives 72% win / 13%
+LIQ30 / -7.3% median drawdown against 45% / 25% / -17.6%. **Most of that is
+arithmetic, not prediction.** If the low held for six days the trade did not drop
+in those six days, and those days sit INSIDE the 60-day drawdown window being
+measured. So the script also measures forward from the day-6 close over the
+following 54 days, which is the only actionable version -- by day six the
+position is already on.
+
+**The tautology, quantified:**
+
+| reading | LIQ30 from entry | LIQ30 from day 6 |
+|---|---|---|
+| entry low held 6d | 13% vs 25% | **19% vs 20%** |
+| closes >= entry 6d | 12% vs 23% | **19% vs 20%** |
+| trough low held 6d | 15% vs 34% | 18% vs 25% |
+
+The first two gaps collapse from ~12 points to **1 point**. A six-day hold tells
+you about the drawdown you have ALREADY avoided, essentially nothing about the
+drawdown still to come.
+
+**What does survive forward.** The hold predicts UPSIDE, not safety:
+win6 57% vs 48%, median 54-day return **10.1% vs 4.6%**, median forward drawdown
+-12.2% vs -16.4%. Stated precisely: **if the low holds six days you are more
+likely to make money from here, but you are not meaningfully safer from here.**
+
+**The one forward risk signal** is the trough low being BROKEN inside six days:
+forward LIQ30 25% vs 18% (ETH 33% vs 23%, BTC 17% vs 12%), forward return 4.6%
+vs 10.1%. By year the gap runs +15, +8, **-16**, **-11**, +18, +8, 0, +8, +4 --
+six positive, two inverted, and 2018 inverts hard. Modest and not stable.
+
+Fire rates: entry low held 40%, closes >= entry 26%, trough low held 71%.
+
+METHOD NOTE worth keeping: any post-entry feature measured against an outcome
+window that CONTAINS the feature's own observation period is partly tautological.
+Always re-measure forward from the observation point. Here it was worth 11 of
+the 12 points on two of the three readings.
+
 **RANKING BY FAILURE INSTEAD OF WIN RATE — 27 Oct 2026. A redirect, and it
 reorders everything.** `analysis/failtest.py`. Jared's criticism, which was
 correct: every filter in this repo had been ranked on "reached +20% in 60 days".
