@@ -226,9 +226,26 @@ def main():
                         'yes' if r['win'] else 'no', 'yes' if r['t30'] else 'no', round(m['up'], 1), round(m['dd'], 1),
                         round(m['ddpk'], 1), round(m['ret'], 1), m.get('dpk', ''), r['yr'],
                         'yes' if m['up'] >= 10 else 'no', 'yes' if m['up'] >= 15 else 'no'])
+    # Odds on the day: the grade's rates from signals of the same asset and grade
+    # whose 60 days had finished before this entry (no hindsight), shrunk toward
+    # that history's base rate with weight 5. Blank until 10 such signals exist.
+    hist = sorted([(r['a'], r['d0'], grade_of(r)[0], r['m']) for a in ('ETH', 'BTC')
+                   for r in rows if r['a'] == a and r['tf'] in GRADED_TF and 'm' in r
+                   and (a != 'ETH' or (r['fund'] is not None and r['fcool_ok']))], key=lambda x: x[1])
+    def day_odds(a, g, d0):
+        prior = [h for h in hist if h[0] == a and (h[1] + dt.timedelta(days=61)) <= d0]
+        G = [h for h in prior if h[2] == g]
+        if len(G) < 10 or not prior: return ['', '', '', '', len(G)]
+        def rate(fn):
+            base = sum(fn(h[3]) for h in prior) / len(prior)
+            return round(100 * (sum(fn(h[3]) for h in G) + 5 * base) / (len(G) + 5))
+        return [rate(lambda m: m['up'] >= 10), rate(lambda m: m['up'] >= 20), rate(lambda m: m['up'] >= 30), rate(lambda m: m['dd'] <= -30), len(G)]
+    for x in led:
+        x += day_odds(x[0], x[6], dt.date.fromisoformat(x[3]))
     wcsv(os.path.join(OUT, 'ledger.csv'),
          ['asset', 'chart', 'low', 'entry', 'entryPrice', 'tags', 'grade', 'lenses', 'gradeReach20', 'gradeTouched30',
-          'gradeMedDrawdown', 'reached20', 'touched30', 'bestMove', 'maxDrawdown', 'dipBeforeHigh', 'return60d', 'daysToHigh', 'year', 'reached10', 'reached15'], led)
+          'gradeMedDrawdown', 'reached20', 'touched30', 'bestMove', 'maxDrawdown', 'dipBeforeHigh', 'return60d', 'daysToHigh', 'year', 'reached10', 'reached15',
+          'dayReach10', 'dayReach20', 'dayReach30', 'dayTouched30', 'dayN'], led)
 
     # ---- forward.csv: grade each row ----
     dates = {}
