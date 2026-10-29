@@ -16,8 +16,10 @@ from the tables it embeds, and refuses to build on any difference.
 `pine_mirror.py` replays the engine's rules in Python on the repo's candles and must
 match every live card (forming, dates, bars needed, kill close, confirmations).
 
-Both scripts show the console's trade card (docs/CARD_SPEC.md). BTC grades are the
-console's exactly. ETH is graded without funding (TradingView cannot read the
+Both scripts show the console's trade-card layout (docs/CARD_SPEC.md), but the numbers
+are the GRADE POOLED across all of the asset's 1D-5D charts from 2016, with a 95% range
+(Jared, 29 Oct: steadier than the console's like-for-like ~25-trade samples). BTC grades
+are the console's exactly. ETH is graded without funding (TradingView cannot read the
 12-exchange funding), shown with an asterisk, with that price-only grade's own record
 from 2016 (Jared, 29 Oct: Joe must see grades without setting anything; the console's
 ETH grade stays official). Each card has a copy line to paste to Claude for the

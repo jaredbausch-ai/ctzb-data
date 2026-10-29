@@ -134,9 +134,16 @@ def main():
         t = T[f'ETH|G|{g}']
         if (t[0], t[1]) != want.get(g):
             bad.append(f'ETH price-only grade {g}: table n={t[0]} {t[1]}% vs fundloss {want.get(g)}')
+    # BTC pooled grades (what the scripts now show) against datasets/ledger.csv, built separately
+    led = list(csv.DictReader(open('datasets/ledger.csv')))
+    for g in GRADES:
+        X = [r for r in led if r['asset'] == 'BTC' and r['grade'] == g]
+        want = (len(X), round(100 * sum(r['surv10'] == 'yes' for r in X) / len(X)) if X else '')
+        if (T[f'BTC|G|{g}'][0], T[f'BTC|G|{g}'][1]) != want:
+            bad.append(f'BTC pooled grade {g}: table {T[f"BTC|G|{g}"][:2]} vs ledger {want}')
     if bad:
         raise SystemExit('TABLES DO NOT REPRODUCE THE CARDS:\n  ' + '\n  '.join(bad))
-    print(f'tables reproduce all {len(cards)} BTC cards in datasets/cards.csv, and the ETH price-only grades in RESULTS_fundloss.md')
+    print(f'tables reproduce all {len(cards)} BTC cards in datasets/cards.csv, the BTC pooled grades in ledger.csv, and the ETH price-only grades in RESULTS_fundloss.md')
 
     # ---- regime flips ----
     ok, days = R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41, ret_series=True)

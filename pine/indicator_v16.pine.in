@@ -6,7 +6,9 @@
 //
 //  * The card replaces the old odds table. Its numbers are the console's, defined in
 //    docs/CARD_SPEC.md: the headline is "rose 10% and never fell 25%, within 60 days
-//    of buying", from like-for-like past trades, with the sample size in the corner.
+//    of buying", from the grade pooled across all of the asset's 1D-5D charts (2016 on),
+//    with its 95% range and the sample size in the corner. (The console keeps its
+//    like-for-like cards; these are the wider, steadier read - Jared, 29 Oct.)
 //    The old table's WIN (closed above the entry on day 60) is gone.
 //  * BTC grades are the console's grades exactly. ETH grades carry an asterisk (B*):
 //    graded without funding, which TradingView cannot read. The console's ETH grade
@@ -149,7 +151,7 @@ if barstate.islast
             r += 1
             row(r, "Confirmations: " + me.lenses + (eth ? " · funding: see the console*" : ""), DIM, P)
             r += 1
-            put(0, r, fPct(s.get(S_SURV10)), OK, P2, text.align_center)
+            put(0, r, fOdds(s), OK, P2, text.align_center)
             put(1, r, "Rose 10% and never fell 25%, within 60 days of buying", color.white, P2, text.align_left)
             table.merge_cells(TB, 1, r, 3, r)
             r += 1

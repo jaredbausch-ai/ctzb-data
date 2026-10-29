@@ -8,7 +8,8 @@
 //  GRADE   the console's grade for a forming low. BTC is exact. ETH carries an
 //          asterisk (B*): graded without funding, which TradingView cannot read.
 //  ODDS    the card headline: rose 10% and never fell 25%, within 60 days of buying,
-//          from like-for-like past trades (docs/CARD_SPEC.md). PAST is how many.
+//          from the grade pooled across the asset's 1D-5D charts, 2016 on, with its
+//          95% range. PAST is how many trades. (The console keeps like-for-like.)
 //  HOLD    the close the confirmation bar must hold for the low to confirm.
 //  LAST    days since the last confirmed signal on that chart.
 // Replaced from v9: the hard-coded ODDS table (measured on the hand-drawn bull windows,
@@ -67,7 +68,7 @@ if barstate.islast
         put(1, r, f ? "forming · confirms " + fDay(c.d0) : "-", tx, bg)
         put(2, r, f ? c.tag : "-", tx, bg)
         put(3, r, f ? c.grade : "-", color.white, bg)
-        put(4, r, f ? fPct(c.s.get(S_SURV10)) : "-", f ? OK : DIM, bg)
+        put(4, r, f ? fOdds(c.s) : "-", f ? OK : DIM, bg)
         put(5, r, f ? str.tostring(c.s.get(S_N), "#") : "-", tx, bg)
         put(6, r, f ? (na(c.kill) ? str.tostring(c.need) + " bars to close" : fPx(c.kill)) : "-", tx, bg)
         put(8, r, f ? c.confs + (c.a == "ETH" ? " + funding: console*" : "") : "-", tx, bg)
@@ -75,7 +76,7 @@ if barstate.islast
         // alerts: a new forming low, or a confirmation (the last signal's date moved)
         if barstate.isrealtime
             if aForm and f and prevFb.get(i) == 0
-                alert("CTZB: " + c.ch + " low forming, confirms " + fDate(c.d0) + " · " + c.grade + " · " + fPct(c.s.get(S_SURV10)) + " of " + str.tostring(c.s.get(S_N), "#") + " rose 10% and never fell 25% within 60 days. " + copyLine(c), alert.freq_once_per_bar)
+                alert("CTZB: " + c.ch + " low forming, confirms " + fDate(c.d0) + " · " + c.grade + " · " + fOdds(c.s) + " of " + str.tostring(c.s.get(S_N), "#") + " rose 10% and never fell 25% within 60 days. " + copyLine(c), alert.freq_once_per_bar)
             if aConf and not na(c.lastD0) and not na(prevD0.get(i)) and c.lastD0 > prevD0.get(i)
                 alert("CTZB: " + c.ch + " CONFIRMED. " + prevLine.get(i), alert.freq_once_per_bar)
         prevFb.set(i, c.fb)
@@ -84,7 +85,7 @@ if barstate.islast
             prevLine.set(i, copyLine(c))
     put(0, 11, "Regime " + (liveBull ? "BULL" : "BEAR") + (regimeMoved ? " · CHANGED since build: rebuild" : ""), liveBull ? OK : color.new(#E2766A, 0), H)
     table.merge_cells(TB, 0, 11, 8, 11)
-    put(0, 12, "ODDS: rose 10% and never fell 25% within 60 days, like-for-like past trades. *ETH graded without funding (TradingView can't read it); the console's ETH grade is official.", WN, P)
+    put(0, 12, "ODDS: rose 10% and never fell 25% within 60 days, with its 95% range; the grade pooled across all of the asset's 1D-5D charts, 2016 on. *ETH graded without funding (TradingView can't read it); the console's ETH grade is official.", WN, P)
     table.merge_cells(TB, 0, 12, 8, 12)
     put(0, 13, "Card numbers as of " + BUILT + ". Past signals, not real trades. Entry quality only.", DIM, P)
     table.merge_cells(TB, 0, 13, 8, 13)
