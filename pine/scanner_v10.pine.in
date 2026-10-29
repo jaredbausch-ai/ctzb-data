@@ -43,6 +43,7 @@ var array<string> prevLine = array.new_string(10, "")
 
 nForming = 0
 if barstate.islast
+    table.clear(TB, 0, 0, 7, 13)
     color H = color.new(#1E293B, 0)
     color P = color.new(#151B1F, 0)
     color DIM = color.new(#93A1AA, 0)

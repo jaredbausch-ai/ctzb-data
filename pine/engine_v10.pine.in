@@ -197,12 +197,12 @@ mkCard(string a, string tf, int tfd, float ct, float em, float ct8a, float ct8b,
         int nl = 0
         if a == "ETH"
             // ETH price lenses, in grade.json order: GAP, HIGH, AGREE, BTC3
-            bool high = not na(entLast) and cl > entLast
+            bool isHigh = not na(entLast) and cl > entLast
             bool btc3 = (tf == "1D" or tf == "2D") and nearD(c.d0, crossD0)
-            m := (gap ? 1 : 0) + (high ? 2 : 0) + (agree >= 2 ? 4 : 0) + (btc3 ? 8 : 0)
-            nl := (gap ? 1 : 0) + (high ? 1 : 0) + (agree >= 2 ? 1 : 0) + (btc3 ? 1 : 0)
-            L := (gap ? "; CT well above its Signal line" : "") + (high ? "; a higher low than the last signal" : "") + (agree >= 2 ? "; other charts already confirmed" : "") + (btc3 ? "; a BTC 3D signal in the 10 days before" : "")
-            K := (gap ? " GAP" : "") + (high ? " HIGH" : "") + (agree >= 2 ? " AGREE" : "") + (btc3 ? " BTC3" : "")
+            m := (gap ? 1 : 0) + (isHigh ? 2 : 0) + (agree >= 2 ? 4 : 0) + (btc3 ? 8 : 0)
+            nl := (gap ? 1 : 0) + (isHigh ? 1 : 0) + (agree >= 2 ? 1 : 0) + (btc3 ? 1 : 0)
+            L := (gap ? "; CT well above its Signal line" : "") + (isHigh ? "; a higher low than the last signal" : "") + (agree >= 2 ? "; other charts already confirmed" : "") + (btc3 ? "; a BTC 3D signal in the 10 days before" : "")
+            K := (gap ? " GAP" : "") + (isHigh ? " HIGH" : "") + (agree >= 2 ? " AGREE" : "") + (btc3 ? " BTC3" : "")
         else
             // BTC lenses: GAP, UP8, BTCX, FASTCT (grade.json, grade2.json, grade6.json)
             bool up8 = not na(ct8a) and not na(ct8b) and ct8a > ct8b
