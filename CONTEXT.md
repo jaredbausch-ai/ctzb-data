@@ -1076,6 +1076,13 @@ setups (82%) when none matched exactly; Jared caught it. `stack_live.py` now wri
 this chart at the same grade, else the same grade across the asset's charts, and
 says which. Never present a superset of stronger setups as the trade's odds.
 
+**TradingView cannot rebuild ETH funding (tested 29 Oct 2026, `analysis/basistest.py`).**
+Declared: Binance ETHUSDT perp-vs-spot basis (daily mean of hourly, and daily close)
+in place of funding, same FUND/FCOOL recipes. Grade letter matched the official on
+74% / 71% of 356 ETH signals (bar 95%, no year under 90%; worst years 62% / 52%).
+FAIL. The v16/v10 scripts keep the asterisk ETH grade. Do not re-test basis as a
+funding stand-in without a new idea.
+
 **Trade card, published 28 Oct 2026 (Jared approved: "airtight").** Every number and
 word on a card is defined in `docs/CARD_SPEC.md`, the only definition; change it in
 the same commit as any card change. The big number is "rose 10% and never fell 25%,
