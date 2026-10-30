@@ -1033,12 +1033,14 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
   system stacks because the Dashboard type strips external font links, and every
   selector scoped under `.jc` so the page cannot restyle the frame around it.
   Edit `joe-console.html` (the standalone), then regenerate the store copy.
-- Confirm the Coinbase perp contract size. The console defaults to 0.1 ETH per
-  contract with a selector, because the search only turned up the Coinbase
-  *Derivatives* nano spec via Interactive Brokers, not the perps Jared trades.
-  Lock it and drop the selector once known.
+- Coinbase perp contract size: **0.1 ETH, confirmed 29 Oct 2026** (Coinbase
+  Derivatives "nano Ether Perpetual-Style Futures at 0.10 ETH", The Block, Jul
+  2025; Jared's fill: about 1,800 contracts for about $101K margin at 4x). Max
+  leverage on ETH perps in Jared's account is **4x** (Coinbase advertised up to 10x
+  at launch; the per-product limit is lower). The console's contract selector can
+  be locked to 0.1 ETH.
 - The console assumes **cross margin** — idle USDC counted as collateral, which
-  is how Coinbase treats it. If Joe might run isolated margin instead, that
+  is how Coinbase treats it (Jared confirmed 29 Oct 2026). If Joe might run isolated margin instead, that
   needs to be a toggle, because under isolated the reserve does nothing.
 - Scanner v9 is written (`docs/reference/ctzb_scanner_v9.pine`, diffed against
   the v8 Jared supplied, also kept). It adds the STEP column and an optional
