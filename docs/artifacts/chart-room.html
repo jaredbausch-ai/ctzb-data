@@ -139,10 +139,10 @@ function load(name){
   curName=name; cur=DATA.charts[name];
   document.querySelectorAll('#picker button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===name));
   candles.setData(cur.bars.map(b=>({time:b[0],open:b[1],high:b[2],low:b[3],close:b[4]})));
-  ctS.setData(cur.bars.filter(b=>b[5]!=null).map(b=>({time:b[0],value:b[5]})));
-  sgS.setData(cur.bars.filter(b=>b[6]!=null).map(b=>({time:b[0],value:b[6]})));
-  kS.setData(cur.bars.filter(b=>b[8]!=null).map(b=>({time:b[0],value:b[8]})));
-  dS.setData(cur.bars.filter(b=>b[9]!=null).map(b=>({time:b[0],value:b[9]})));
+  ctS.setData(cur.bars.map(b=>b[5]!=null?{time:b[0],value:b[5]}:{time:b[0]}));   // whitespace keeps both panes on the same bar index
+  sgS.setData(cur.bars.map(b=>b[6]!=null?{time:b[0],value:b[6]}:{time:b[0]}));   // whitespace keeps both panes on the same bar index
+  kS.setData(cur.bars.map(b=>b[8]!=null?{time:b[0],value:b[8]}:{time:b[0]}));   // whitespace keeps both panes on the same bar index
+  dS.setData(cur.bars.map(b=>b[9]!=null?{time:b[0],value:b[9]}:{time:b[0]}));   // whitespace keeps both panes on the same bar index
   marks=cur.sig.map((s,i)=>({id:'s'+i,time:s.low,position:'belowBar',shape:'arrowUp',color:s.grade?GC[s.grade]:css('--ung'),text:(s.grade||s.tags.split(' ')[0].toLowerCase())+(s.state==='open'?' · open':''),size:1}));
   const c=cur.card;
   if(c) marks.push({id:'form',time:c.trough,position:'belowBar',shape:'circle',color:css('--form'),text:'? '+c.grade,size:1.4});
