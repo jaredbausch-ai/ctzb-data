@@ -22,6 +22,8 @@ const pc2=LightweightCharts.createChart($('osc'),{...base,autoSize:true,timeScal
 const candles=pc1.addCandlestickSeries({upColor:'#4fa58e',downColor:'#c9695e',borderVisible:false,wickUpColor:'#4fa58e',wickDownColor:'#c9695e',priceFormat:{type:'price',precision:2,minMove:.01}});
 const ctS=pc2.addLineSeries({color:css('--ct'),lineWidth:2,priceLineVisible:false,lastValueVisible:true});
 const sgS=pc2.addLineSeries({color:css('--sig'),lineWidth:1,priceLineVisible:false,lastValueVisible:false});
+const kS=pc2.addLineSeries({color:'rgba(80,140,230,.75)',lineWidth:1,priceLineVisible:false,lastValueVisible:false});
+const dS=pc2.addLineSeries({color:'rgba(226,118,106,.55)',lineWidth:1,priceLineVisible:false,lastValueVisible:false});
 [[60,'#2f8f7f'],[50,'#5b6770'],[40,'#a5524a']].forEach(([v,c])=>ctS.createPriceLine({price:v,color:c,lineWidth:1,lineStyle:v===50?2:0,axisLabelVisible:false}));
 let lock=false;
 const sync=(a,b)=>a.timeScale().subscribeVisibleLogicalRangeChange(r=>{if(lock||!r)return;lock=true;b.timeScale().setVisibleLogicalRange(r);lock=false;});
@@ -35,12 +37,15 @@ function load(name){
   candles.setData(cur.bars.map(b=>({time:b[0],open:b[1],high:b[2],low:b[3],close:b[4]})));
   ctS.setData(cur.bars.filter(b=>b[5]!=null).map(b=>({time:b[0],value:b[5]})));
   sgS.setData(cur.bars.filter(b=>b[6]!=null).map(b=>({time:b[0],value:b[6]})));
-  marks=cur.sig.map((s,i)=>({id:'s'+i,time:s.low,position:'belowBar',shape:'arrowUp',color:GC[s.grade],text:s.grade,size:1}));
+  kS.setData(cur.bars.filter(b=>b[8]!=null).map(b=>({time:b[0],value:b[8]})));
+  dS.setData(cur.bars.filter(b=>b[9]!=null).map(b=>({time:b[0],value:b[9]})));
+  marks=cur.sig.map((s,i)=>({id:'s'+i,time:s.low,position:'belowBar',shape:'arrowUp',color:s.grade?GC[s.grade]:css('--ung'),text:(s.grade||s.tags.split(' ')[0].toLowerCase())+(s.state==='open'?' · open':''),size:1}));
   const c=cur.card;
   if(c) marks.push({id:'form',time:c.trough,position:'belowBar',shape:'circle',color:css('--form'),text:'? '+c.grade,size:1.4});
   marks.sort((a,b)=>a.time<b.time?-1:1);
   candles.setMarkers(marks);
-  $('ptag').textContent=name+' · Coinbase · '+cur.sig.length+' graded signals'+(c?' · low forming':'');
+  const ng=cur.sig.filter(s=>s.grade).length, op=cur.sig.filter(s=>s.state==='open').length;
+  $('ptag').textContent=name+' · Coinbase · '+cur.sig.length+' signals ('+ng+' graded'+(op?', '+op+' open':'')+')'+(c?' · low forming':'');
   if(killLine){candles.removePriceLine(killLine);killLine=null;}
   if(c&&c.killClose) killLine=candles.createPriceLine({price:+c.killClose,color:css('--form'),lineWidth:1,lineStyle:2,axisLabelVisible:true,title:'must close above'});
   const n=cur.bars.length; pc1.timeScale().setVisibleLogicalRange({from:n-160,to:n+6});
@@ -59,6 +64,33 @@ function bucketStart(tfDays,now){            // TradingView buckets days within 
   const y=now.getUTCFullYear(), y0=Date.UTC(y,0,1), doy=Math.floor((Date.UTC(y,now.getUTCMonth(),now.getUTCDate())-y0)/864e5);
   return isoDay(new Date(y0+Math.floor(doy/tfDays)*tfDays*864e5));
 }
+function rsiFull(C){                            // engine.rsi with Wilder's averages kept, for the kill close
+  const n=C.length, ct=Array(n).fill(null), AG=Array(n).fill(null), AL=Array(n).fill(null); if(n<15)return {ct,AG,AL};
+  let g=0,l=0; for(let i=1;i<=14;i++){const ch=C[i]-C[i-1];g+=Math.max(ch,0);l+=Math.max(-ch,0);}
+  let ag=g/14,al=l/14; AG[14]=ag;AL[14]=al; ct[14]=al===0?100:100-100/(1+ag/al);
+  for(let i=15;i<n;i++){const ch=C[i]-C[i-1];ag=(ag*13+Math.max(ch,0))/14;al=(al*13+Math.max(-ch,0))/14;AG[i]=ag;AL[i]=al;ct[i]=al===0?100:100-100/(1+ag/al);}
+  return {ct,AG,AL};
+}
+const killFor=(pc,ag,al,T)=>{const rs=T/(100-T), x=rs*al*13-ag*13; return x>=0?pc+x:pc+al*13-ag*13/rs;};
+// A low forming at the live price (refresh.provisional): 3 strictly higher CT bars on its left,
+// nothing lower since. Tags as stack_live; the grade and odds arrive with the next pipeline run.
+let liveForm=null;
+function findForming(T,C,K,ct,AG,AL){
+  const n=ct.length, i=n-1;
+  for(const bb of [1,2,3]){
+    const ti=i-bb, v=ct[ti]; if(v==null||ct[ti-3]==null)continue;
+    if(!(ct[ti-1]>v&&ct[ti-2]>v&&ct[ti-3]>v))continue;
+    let ok=true; for(let j=ti+1;j<n;j++) if(ct[j]<v) ok=false; if(!ok)continue;
+    let pv=null,pk=null;                         // the last confirmed pivot before it (ungated chain)
+    for(let p=ti-1;p>=3;p--){const w=ct[p]; if(w==null)break;
+      if(p+3<n&&ct[p-1]>w&&ct[p-2]>w&&ct[p-3]>w&&ct[p+1]>w&&ct[p+2]>w&&ct[p+3]>w&&K[p]!=null&&p+3<ti+1){pv=w;pk=K[p];break;}}
+    const k=K[ti], dis=k!=null&&pv!=null&&(v-pv)*(k-pk)<0, strong=dis&&v<50, prime=k!=null&&k>=20&&k<50;
+    const bk=v<40?'A':v<55?'B':v<65?'C':'D', need=3-bb;
+    const kill=bb===3?killFor(C[i-1],AG[i-1],AL[i-1],v):bb===2?killFor(C[i],AG[i],AL[i],v):null;
+    return {time:T[ti],ct:v,need,kill,tags:[bk].concat(strong?['filled diamond']:dis?['hollow diamond']:[],prime?['prime dot']:[]).join(' + ')};
+  }
+  return null;
+}
 function rsiLast(C){                            // engine.rsi (Wilder), last value only
   if(C.length<15)return null; let g=0,l=0;
   for(let i=1;i<=14;i++){const ch=C[i]-C[i-1];g+=Math.max(ch,0);l+=Math.max(-ch,0);}
@@ -73,9 +105,21 @@ function applyLive(){
   const same=t===last[0];
   const bar=same?{time:t,open:last[1],high:Math.max(last[2],p),low:Math.min(last[3],p),close:p}:{time:t,open:last[4],high:Math.max(last[4],p),low:Math.min(last[4],p),close:p};
   candles.update(bar);
+  {const T=B.map(b=>b[0]), Cc=B.map(b=>b[4]), K=B.map(b=>b[8]);
+   if(same)Cc[Cc.length-1]=p; else {T.push(t);Cc.push(p);K.push(null);}
+   const W=rsiFull(Cc); liveForm=cur.card?null:findForming(T,Cc,K,W.ct,W.AG,W.AL);
+   const base=marks.filter(m=>m.id!=='live'); if(liveForm) base.push({id:'live',time:liveForm.time,position:'belowBar',shape:'circle',color:css('--form'),text:'? '+liveForm.tags,size:1.4});
+   base.sort((x,y)=>x.time<y.time?-1:1); marks=base; candles.setMarkers(marks);}
   const C=B.map(b=>b[4]); if(same)C[C.length-1]=p; else C.push(p);
   const ct=rsiLast(C), emPrev=same?(B[B.length-2]||[])[6]:last[6];
-  if(ct!=null){ctS.update({time:t,value:ct}); if(emPrev!=null) sgS.update({time:t,value:(ct-emPrev)*(2/15)+emPrev});}
+  if(ct!=null){ctS.update({time:t,value:ct}); if(emPrev!=null) sgS.update({time:t,value:(ct-emPrev)*(2/15)+emPrev});
+    // stoch of CT (14), %K = 3-bar average, %D = 3-bar average of %K (engine.stoch_of / sma)
+    const CT=B.map(b=>b[5]); if(same)CT[CT.length-1]=ct; else CT.push(ct);
+    const w=CT.slice(-14); if(w.length===14&&w.every(v=>v!=null)){
+      const hi=Math.max(...w),lo=Math.min(...w), st=hi===lo?0:100*(ct-lo)/(hi-lo);
+      const ST=B.map(b=>b[7]); if(same)ST[ST.length-1]=st; else ST.push(st);
+      const s3=ST.slice(-3); if(s3.every(v=>v!=null)){const k=(s3[0]+s3[1]+s3[2])/3; kS.update({time:t,value:k});
+        const K=B.map(b=>b[8]); if(same)K[K.length-1]=k; else K.push(k); const k3=K.slice(-3); if(k3.every(v=>v!=null)) dS.update({time:t,value:(k3[0]+k3[1]+k3[2])/3});}}}
 }
 function liveText(){
   const el=$('live'); const at=LIVE.at?new Date(LIVE.at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'';
@@ -115,7 +159,7 @@ function pick(t){
   if(!cur)return;
   const t0=typeof t==='string'?t:null; if(!t0)return;
   const m=marks.find(x=>x.time===t0); if(!m)return;
-  if(m.id==='form') showForming(curName,cur.card); else showPast(curName,cur.sig[+m.id.slice(1)]);
+  if(m.id==='form') showForming(curName,cur.card); else if(m.id==='live') showLiveForm(curName,liveForm); else showPast(curName,cur.sig[+m.id.slice(1)]);
 }
 pc1.subscribeClick(p=>{
   if(p.hoveredObjectId&&marks.find(m=>m.id===p.hoveredObjectId)){const m=marks.find(x=>x.id===p.hoveredObjectId);return pick(m.time);}
@@ -163,21 +207,38 @@ function showForming(name,c){
     ${copyBox(`CTZB ${name} · low ${c.trough} · confirms ${c.confirms} · ${g}`)}</div>`);
 }
 function showPast(name,s){
-  const q=s.day!==''?`<b>${s.day}%</b> from ${s.dayN} finished grade ${esc(s.grade)} trades`:'not enough finished trades yet to quote';
-  frame(`<div class="ch">${closeBtn}
-    <div class="sample">Past signal · what it quoted and what happened</div>
-    <div class="word">${esc(name)} · <span class="chip" style="background:${GC[s.grade]}">${esc(s.grade)}</span></div>
-    <div class="line">Low ${day(s.low)} · confirmed ${day(s.entry)} · bought at <b>${fmtP(s.px)}</b></div>
-    <div class="line">Tag: <b>${esc(s.tags)}</b></div>
-    <div class="line">Confirmations: <b>${esc(s.lenses)}</b></div>
-    <div class="line">On the day, the grade quoted ${q} (rose 10%, never fell 25%).</div></div>
-   <div class="head"><div class="big ${s.surv?'gd':'bd'}">${s.surv?'Yes':'No'}</div><div class="big-k">Rose 10% and never fell 25%, within 60 days<span>What this trade actually did.</span></div></div>
+  const g=s.grade, chip=g?`<span class="chip" style="background:${GC[g]}">${esc(g)}</span>`:'<span class="chip" style="background:var(--ung)">not graded</span>';
+  const why=g?'':`<div class="line">${name.startsWith('ETH')&&s.entry<'2020-02'?'ETH grades start in 2020, when the funding data begins.':'This signal has no grade on record.'}</div>`;
+  const q=s.day!==''&&s.day!=null?`<div class="line">On the day, the grade quoted <b>${s.day}%</b> from ${s.dayN} finished grade ${esc(g)} trades (rose 10%, never fell 25%).</div>`:'';
+  let body;
+  if(s.state==='open'){
+    const a=name.slice(0,3), lastC=cur.bars[cur.bars.length-1][4], p=LIVE[a]!=null?LIVE[a]:lastC, m=100*(p/s.px-1);
+    body=`<div class="head"><div class="big ${m>=0?'gd':'bd'}">${mv(m)}</div><div class="big-k">Since buying, day ${s.age} of 60<span>${LIVE[a]!=null?'At the live CoinGecko price.':'At the pipeline&rsquo;s last Coinbase close.'} The result is scored when the 60 days end.</span></div></div>`;
+  } else {
+    body=`<div class="head"><div class="big ${s.surv?'gd':'bd'}">${s.surv?'Yes':'No'}</div><div class="big-k">Rose 10% and never fell 25%, within 60 days<span>What this trade actually did.</span></div></div>
    <div class="grid">
     <div><div class="v gd">${mv(s.best)}</div><div class="k">Biggest rise</div></div>
     <div><div class="v">${mv(s.dip)}</div><div class="k">Dip before it rose</div></div>
-    <div><div class="v ${s.dd<=-25?'bd':'wn'}">${mv(s.dd)}</div><div class="k">Deepest dip</div></div></div>
-   <div class="foot"><div>Rose 20% or more: <span class="${s.r20?'yes':'no'}">${s.r20?'yes':'no'}</span>. All within 60 days of buying, from the buy price. ${fine}</div>
-    ${copyBox(`CTZB ${name} · low ${s.low} · confirmed ${s.entry} · ${s.grade}`)}</div>`);
+    <div><div class="v ${s.dd<=-25?'bd':'wn'}">${mv(s.dd)}</div><div class="k">Deepest dip</div></div></div>`;
+  }
+  frame(`<div class="ch">${closeBtn}
+    <div class="sample">${s.state==='open'?'Open signal · inside its 60 days':'Past signal · what it quoted and what happened'}</div>
+    <div class="word">${esc(name)} · ${chip}</div>${why}
+    <div class="line">Low ${day(s.low)} · confirmed ${day(s.entry)} · bought at <b>${fmtP(s.px)}</b></div>
+    <div class="line">Tag: <b>${esc(s.tags)}</b></div>
+    ${g?`<div class="line">Confirmations: <b>${esc(s.lenses)}</b></div>`:''}${q}</div>
+   ${body}
+   <div class="foot"><div>${s.state==='open'?'':`Rose 20% or more: <span class="${s.r20?'yes':'no'}">${s.r20?'yes':'no'}</span>. All within 60 days of buying, from the buy price. `}${fine}</div>
+    ${copyBox(`CTZB ${name} · low ${s.low} · confirmed ${s.entry}${g?' · '+g:''}`)}</div>`);
+}
+function showLiveForm(name,f){
+  if(!f)return; const a=name.slice(0,3);
+  frame(`<div class="ch">${closeBtn}<div class="sample">Forming at the live price · not yet in the pipeline</div>
+    <div class="word">${esc(name)} · <span class="chip" style="background:var(--form);color:#111">? forming</span></div>
+    <div class="line">Low ${day(f.time)} · tag <b>${esc(f.tags)}</b> · CT ${f.ct.toFixed(1)}</div>
+    <div class="line">${f.need===0?'Confirms at this bar&rsquo;s close':f.need+' more bar(s) to close'}${f.kill!=null?` if ${a} closes above <b>${fmtP(f.kill)}</b>`:''}. Provisional: it can vanish.</div></div>
+   <div class="foot"><div>Built from CoinGecko&rsquo;s live price, which can sit a few dollars off Coinbase. The grade, the odds and the console&rsquo;s card arrive with the next pipeline run (every 4 hours, and 7 minutes after each daily close). ${fine}</div>
+    ${copyBox(`CTZB ${name} · low ${f.time} · forming · ${f.tags}`)}</div>`);
 }
 function showNone(name){frame(`<div class="ch">${closeBtn}<div class="word">${esc(name)}</div><div class="line">Nothing forming on this chart. Click any marker to see that signal&rsquo;s card.</div></div>`);}
 

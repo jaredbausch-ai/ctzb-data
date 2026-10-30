@@ -6,7 +6,7 @@
 :root{
   --void:#0b0f12; --panel:#131a1e; --panel2:#182025; --rule:#26313a; --ink:#e6ecef; --dim:#8e9ca5;
   --ok:#53c18b; --warn:#d9a64a; --bad:#e2766a; --ct:#9d7cf0; --sig:#e39a4a;
-  --gAp:#22a06b; --gA:#3b82c4; --gB:#7b8794; --gC:#4b5560; --form:#f2c14e;
+  --ung:#3a444c; --gAp:#22a06b; --gA:#3b82c4; --gB:#7b8794; --gC:#4b5560; --form:#f2c14e;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   color-scheme:dark;
@@ -87,7 +87,7 @@ body{background:var(--void);color:var(--ink);font-family:var(--sans);margin:0;ov
     <div class="legend" aria-hidden="true">
       <span><i style="background:var(--gAp)"></i>A+</span><span><i style="background:var(--gA)"></i>A</span>
       <span><i style="background:var(--gB)"></i>B</span><span><i style="background:var(--gC)"></i>C</span>
-      <span><i style="background:var(--form)"></i>forming</span>
+      <span><i style="background:var(--ung)"></i>not graded</span><span><i style="background:var(--form)"></i>forming</span>
     </div>
   </div>
   <div class="stage">
@@ -95,7 +95,7 @@ body{background:var(--void);color:var(--ink);font-family:var(--sans);margin:0;ov
       <div class="tag" id="ptag"></div>
       <div class="hint">Click a marker for its card</div>
       <div id="price"></div>
-      <div id="osc"><div class="tag">CT RSI 14 · Signal 14 · zones 40 / 50 / 60</div></div>
+      <div id="osc"><div class="tag">CT RSI 14 · Signal 14 · Stoch %K / %D · zones 40 / 50 / 60</div></div>
     </div>
     <aside class="card" id="card" aria-live="polite"></aside>
   </div>
