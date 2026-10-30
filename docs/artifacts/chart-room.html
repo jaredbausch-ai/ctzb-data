@@ -22,6 +22,10 @@ body{background:var(--void);color:var(--ink);font-family:var(--sans);margin:0;ov
 .picker button[aria-pressed="true"]{color:var(--ink);border-color:var(--ink)}
 .picker button .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--form);margin-left:5px;vertical-align:1px}
 .picker button:focus-visible,.close:focus-visible,.copy:focus-visible{outline:2px solid var(--form);outline-offset:1px}
+.live{font:500 11px var(--mono);color:var(--dim);border:1px solid var(--rule);border-radius:4px;padding:4px 8px;background:var(--panel)}
+.live b{color:var(--ink);font-weight:600}
+.live.on{border-color:color-mix(in srgb,var(--ok) 55%,var(--rule))}
+.live.off{color:var(--warn)}
 .legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--dim);margin-left:auto}
 .legend span{display:inline-flex;align-items:center;gap:5px}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:2px}
@@ -77,7 +81,8 @@ body{background:var(--void);color:var(--ink);font-family:var(--sans);margin:0;ov
 </style>
 <div class="app">
   <div class="bar">
-    <div class="brand">CTZB CHART ROOM<small>dry run · data to <span id="asof"></span></small></div>
+    <div class="brand">CTZB CHART ROOM<small>signals and cards as of <span id="asof"></span></small></div>
+    <div class="live" id="live" role="status">Live price: connecting…</div>
     <div class="picker" id="picker" role="group" aria-label="Chart"></div>
     <div class="legend" aria-hidden="true">
       <span><i style="background:var(--gAp)"></i>A+</span><span><i style="background:var(--gA)"></i>A</span>
@@ -140,9 +145,76 @@ function load(name){
   marks.sort((a,b)=>a.time<b.time?-1:1);
   candles.setMarkers(marks);
   $('ptag').textContent=name+' · Coinbase · '+cur.sig.length+' graded signals'+(c?' · low forming':'');
+  if(killLine){candles.removePriceLine(killLine);killLine=null;}
+  if(c&&c.killClose) killLine=candles.createPriceLine({price:+c.killClose,color:css('--form'),lineWidth:1,lineStyle:2,axisLabelVisible:true,title:'must close above'});
   const n=cur.bars.length; pc1.timeScale().setVisibleLogicalRange({from:n-160,to:n+6});
+  applyLive(); if(LIVE.at) liveText();
   c?showForming(name,c):showNone(name);
 }
+let killLine=null;
+
+// ---- live price (CoinGecko connector, about once a minute) ----
+// The page cannot reach Coinbase; CoinGecko's price is an average across exchanges and
+// can sit a few dollars off Coinbase. Signals, grades and cards still come from the
+// pipeline's Coinbase closes (the timestamp in the header).
+const LIVE={ETH:null,BTC:null,at:null};
+const isoDay=d=>d.toISOString().slice(0,10);
+function bucketStart(tfDays,now){            // TradingView buckets days within each calendar year
+  const y=now.getUTCFullYear(), y0=Date.UTC(y,0,1), doy=Math.floor((Date.UTC(y,now.getUTCMonth(),now.getUTCDate())-y0)/864e5);
+  return isoDay(new Date(y0+Math.floor(doy/tfDays)*tfDays*864e5));
+}
+function rsiLast(C){                            // engine.rsi (Wilder), last value only
+  if(C.length<15)return null; let g=0,l=0;
+  for(let i=1;i<=14;i++){const ch=C[i]-C[i-1];g+=Math.max(ch,0);l+=Math.max(-ch,0);}
+  let ag=g/14,al=l/14;
+  for(let i=15;i<C.length;i++){const ch=C[i]-C[i-1];ag=(ag*13+Math.max(ch,0))/14;al=(al*13+Math.max(-ch,0))/14;}
+  return al===0?100:100-100/(1+ag/al);
+}
+function applyLive(){
+  if(!cur)return; const a=curName.slice(0,3), p=LIVE[a]; if(p==null)return;
+  const tf=+curName.slice(4,-1), B=cur.bars, last=B[B.length-1], t=bucketStart(tf,new Date());
+  if(t<last[0])return;
+  const same=t===last[0];
+  const bar=same?{time:t,open:last[1],high:Math.max(last[2],p),low:Math.min(last[3],p),close:p}:{time:t,open:last[4],high:Math.max(last[4],p),low:Math.min(last[4],p),close:p};
+  candles.update(bar);
+  const C=B.map(b=>b[4]); if(same)C[C.length-1]=p; else C.push(p);
+  const ct=rsiLast(C), emPrev=same?(B[B.length-2]||[])[6]:last[6];
+  if(ct!=null){ctS.update({time:t,value:ct}); if(emPrev!=null) sgS.update({time:t,value:(ct-emPrev)*(2/15)+emPrev});}
+}
+function liveText(){
+  const el=$('live'); const at=LIVE.at?new Date(LIVE.at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'}):'';
+  el.className='live on';
+  el.innerHTML=`Live (CoinGecko): ETH <b>${LIVE.ETH!=null?fmtP(LIVE.ETH):'–'}</b> · BTC <b>${LIVE.BTC!=null?fmtP(LIVE.BTC):'–'}</b>${at?' · '+at:''}`;
+  if(cur&&cur.card&&cur.card.killClose&&LIVE[cur.card.asset]!=null){
+    const k=+cur.card.killClose, p=LIVE[cur.card.asset];
+    el.innerHTML+=` · ${esc(curName)} ${p>k?'above':'below'} its ${fmtP(k)} line`;
+  }
+}
+function liveOff(msg){const el=$('live');el.className='live off';el.textContent=msg;}
+(async()=>{
+  let mcp=null;
+  try{mcp=window.claude&&window.claude.use?await window.claude.use('mcp'):null;}catch(e){mcp=null;}
+  if(!mcp){liveOff('Live price off in this view · chart shows the pipeline data');return;}
+  mcp.watchTool('CoinGecko','get-coin-markets',{ids:['ethereum','bitcoin']},ev=>{
+    if(ev.type==='data'){
+      const pl=ev.result.payload, coins=(pl&&pl.coins)||[];
+      for(const c of coins){if(c.id==='ethereum')LIVE.ETH=+c.currentPrice; if(c.id==='bitcoin')LIVE.BTC=+c.currentPrice;}
+      LIVE.at=ev.result.cache?ev.result.cache.storedAt:Date.now();
+      liveText(); applyLive();
+    }else{
+      const e=ev.error||{}, code=e.code;
+      if(['needs_reauth'].includes(code)) liveOff('Live price: reconnect CoinGecko in claude.ai Settings → Connectors');
+      else if(['server_not_connected','selection_required'].includes(code)) liveOff('Live price: add CoinGecko in claude.ai Settings → Connectors');
+      else if(['approval_required','not_in_manifest','blocked_by_policy'].includes(code)){
+        $('live').className='live off'; $('live').innerHTML='Live price needs your OK <button class="copy" id="allow" type="button">Allow CoinGecko</button>';
+        $('allow').onclick=()=>mcp.callTool('CoinGecko','get-coin-markets',{ids:['ethereum','bitcoin']}).then(r=>{const coins=(r.payload&&r.payload.coins)||[];
+          for(const c of coins){if(c.id==='ethereum')LIVE.ETH=+c.currentPrice;if(c.id==='bitcoin')LIVE.BTC=+c.currentPrice;} LIVE.at=Date.now(); liveText(); applyLive();}).catch(()=>liveOff('Live price not allowed · chart shows the pipeline data'));
+      }
+      else if(LIVE.at) $('live').className='live off';   // transient: keep the last price, mark it stale
+      else liveOff('Live price unavailable right now · chart shows the pipeline data');
+    }
+  },{refetchInterval:60000,cache:{staleTime:30000,gcTime:300000}});
+})();
 function pick(t){
   if(!cur)return;
   const t0=typeof t==='string'?t:null; if(!t0)return;
