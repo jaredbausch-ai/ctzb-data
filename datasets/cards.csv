@@ -1,3 +1,1 @@
 chart,asset,tf,trough,confirms,barsNeeded,killClose,priceNow,grade,lenses,basis,n,surv10,scaled20,reach20,reach10,bestMove,dipBeforeHigh,maxDip60,touched30,nOld,surv10Old,nNew,surv10New,l5n,l5ok,l5liq,l10n,l10ok,l10liq,l15n,l15ok,l15liq,l20n,l20ok,l20liq
-BTC 1D,BTC,1D,2026-10-29,2026-11-01,2,,78451.94,C,none,the last 54 BTC 1D trades with exactly the same confirmations,54,54,49,35,63,14.2,-4.6,-14.8,19,29,52,25,56,36,42,36,29,31,45,20,15,65,17,0,76
-BTC 2D,BTC,2D,2026-10-28,2026-11-04,2,,78451.94,C,none,the last 15 BTC 2D trades with exactly the same confirmations,15,53,55,33,67,14.1,-4.6,-15.8,20,11,36,4,100,10,40,60,8,25,75,7,14,86,6,0,100
