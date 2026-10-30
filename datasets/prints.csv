@@ -17,9 +17,11 @@ ETH 8D,confirmed,2025-06-18,2025-07-19,3594.3,B,regime on
 BTC 1D,confirmed,2026-09-28,2026-10-01,84848.73,C,regime on
 BTC 1D,confirmed,2026-10-08,2026-10-11,83678.29,B,regime on
 BTC 1D,confirmed,2026-10-17,2026-10-20,82938.26,B,regime on
+BTC 1D,forming,2026-10-29,2026-11-01,78451.94,A + filled diamond + prime dot,regime on; 2 bar(s) to confirm
 BTC 2D,confirmed,2025-11-21,2025-11-28,90902.7,A,regime on
 BTC 2D,confirmed,2026-09-14,2026-09-21,86594.94,C + prime dot,regime on
 BTC 2D,confirmed,2026-09-28,2026-10-05,85748.96,D,regime on
+BTC 2D,forming,2026-10-28,2026-11-04,78451.94,B,regime on; 2 bar(s) to confirm
 BTC 3D,confirmed,2025-12-03,2025-12-14,88171.61,A + prime dot,regime off
 BTC 3D,confirmed,2026-09-13,2026-09-24,84385.46,C,regime on
 BTC 3D,confirmed,2026-10-10,2026-10-21,84024.67,C + hollow diamond + prime dot,regime on
