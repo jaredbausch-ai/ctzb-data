@@ -1095,6 +1095,10 @@ and the kill close. `stack_live.py` writes `datasets/cards.csv` and refuses to i
 any internal check fails; `verify_cards.py` (Action step after it) re-derives every
 card from `datasets/ledger.csv` and fails the run on any mismatch. Client screens
 (Joe's side) must read `cards.csv` and follow CARD_SPEC, nothing else.
+**Live feed (built 31 Oct 2026):** `feed_live.py` writes `feed/ctzb_feed.json` every
+Action run, repackaging this run's datasets (cards withheld if checks failed). It is
+the one feed of the plan agreed with Joe; spec in `docs/FEED_SPEC.md`. Still not built:
+Cloudflare backend (waits on the ETHKROS account), the Grok ping, repo private.
 
 **The whole stack runs every time (procedure set 28 Oct 2026, after a missed confluence).**
 `stack_live.py` holds REGISTRY, the single indexed list of every documented read

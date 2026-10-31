@@ -60,6 +60,14 @@ jobs:
         continue-on-error: true
         run: python verify_cards.py
 
+      # The live feed (feed_live.py, 31 Oct 2026): one versioned JSON that
+      # repackages this run's datasets for Joe's side (backend, portal, Grok).
+      # Cards are withheld if the stack or card check failed. Must not block
+      # the candle commit.
+      - name: Write the live feed
+        continue-on-error: true
+        run: python feed_live.py
+
       # Perp open interest, funding and long/short ratio from Coinalyze.
       # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
       # A failure here must not block the candle commit below.
@@ -79,7 +87,7 @@ jobs:
         run: |
           git config user.name  "ctzb-pipeline"
           git config user.email "actions@github.com"
-          git add data/ datasets/
+          git add data/ datasets/ feed/
           if git diff --staged --quiet; then
             echo "no change"
           else
