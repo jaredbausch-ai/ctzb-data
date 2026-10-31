@@ -1,0 +1,292 @@
+==========================================================================================
+R4_BROKE@90
+==========================================================================================
+  signals with: 295  SURV 69%  LIQ 12%   without: 877  SURV 60%  LIQ 23%
+  EPISODES (14-day clusters, any chart, both assets): with 18, SURV 72%, LIQ 17%   without 13, SURV 62%, LIQ 31%
+    ETH episodes: with 20 SURV 70%  without 20 SURV 40%
+    BTC episodes: with 15 SURV 80%  without 24 SURV 58%
+  episode list (start date, signals, charts, share SURV10):
+    2016-06-21   1     0%  ETH 1D
+    2016-07-10   1     0%  ETH 1D
+    2016-08-05   2   100%  ETH 1D, ETH 2D
+    2016-09-01  10   100%  BTC 1D, BTC 2D, BTC 3D, BTC 8D, ETH 1D
+    2016-11-15  18    83%  ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2018-03-13  21    43%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2018-05-14  20    55%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D
+    2019-08-17  24    79%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2019-11-09   2     0%  BTC 8D, ETH 8D
+    2020-03-15  15   100%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2020-04-18  18    78%  BTC 1D, BTC 2D, BTC 3D, ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2021-05-22   8    62%  BTC 1D, BTC 2D, BTC 3D, BTC 5D
+    2022-01-10  16    50%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2023-06-17   2    50%  ETH 1D, ETH 2D
+    2023-08-23  27    96%  BTC 1D, BTC 2D, BTC 3D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2024-06-27  51    69%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2025-02-10  38    76%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2025-10-20  21    19%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    asset      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC           127    70    4    462    63   16    +8
+    ETH           168    68   18    415    58   29   +10
+    chart      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC 1D         53    74    4    226    63   15   +10
+    BTC 2D         29    72    0    112    60   19   +13
+    BTC 3D         23    70    4     69    65   17    +4
+    BTC 5D         13    54    8     36    61   19    -7
+    BTC 8D          9    67   11     19    63   11    +4
+    ETH 1D         81    68   19    207    55   31   +13
+    ETH 2D         35    69   17    102    57   31   +12
+    ETH 3D         27    70   22     60    58   32   +12
+    ETH 5D         17    65   12     30    70   20    -5
+    ETH 8D          8    62   25     16    81    6   -19
+    year       n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    2016           26    81   19     65    54   25   +27
+    2017            6   100    0    140    76   21   +24
+    2018           41    49   34     42     5   95   +44
+    2019           26    73    8     70    57   16   +16
+    2020           33    88    0    105    85    8    +3
+    2021            8    62    0    127    46   44   +16
+    2022           16    50   19      2     0  100   +50
+    2023           29    93    0    119    68    0   +25
+    2024           51    69    4    122    67   11    +1
+    2025           59    56   17     85    42   25   +14
+  leave-one-year-out lift: 2016:+7  2017:+11  2018:+9  2019:+8  2020:+9  2021:+6  2022:+9  2023:+7  2024:+10  2025:+10
+  overlap: with higher low (Tier 1 #4) 32% vs 62%; under 200d average 76% vs 5%
+  stratified by under-200d: +1; by higher low: +11
+  inside the grade (graded ledger, 917 matched):
+    grade      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    A              26    85    8    116    65   16   +20
+    A+             33    88    6    104    76    8   +12
+    B              49    61   12    168    65   20    -4
+    C             109    65    7    312    56   22    +9
+
+==========================================================================================
+R4_BROKE@180
+==========================================================================================
+  signals with: 211  SURV 81%  LIQ 12%   without: 961  SURV 58%  LIQ 22%
+  EPISODES (14-day clusters, any chart, both assets): with 17, SURV 82%, LIQ 12%   without 10, SURV 60%, LIQ 30%
+    ETH episodes: with 14 SURV 79%  without 26 SURV 46%
+    BTC episodes: with 9 SURV 89%  without 19 SURV 63%
+  episode list (start date, signals, charts, share SURV10):
+    2016-06-21   1     0%  ETH 1D
+    2016-07-10   1     0%  ETH 1D
+    2016-08-05   2   100%  ETH 1D, ETH 2D
+    2016-11-01  20    75%  ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2017-02-12   2   100%  ETH 1D, ETH 2D
+    2018-05-31  18    61%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2019-04-14  20   100%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2020-02-22  16    81%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2020-04-18   4   100%  BTC 1D, BTC 2D, BTC 3D
+    2021-09-13  10    80%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D
+    2022-01-25   6    83%  BTC 1D, BTC 2D, BTC 5D, BTC 8D, ETH 3D, ETH 8D
+    2023-02-02  11   100%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2023-03-13   4   100%  ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2023-09-14  13   100%  ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2024-08-08  47    79%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2025-03-04  30    83%  ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2025-11-25   6    17%  BTC 1D, BTC 2D, BTC 3D, BTC 5D
+    asset      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC            71    85    8    518    61   14   +23
+    ETH           140    79   14    443    55   30   +24
+    chart      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC 1D         30    87   10    249    63   13   +24
+    BTC 2D         16    88    6    125    59   16   +28
+    BTC 3D         12    83    8     80    64   15   +20
+    BTC 5D          8    75    0     41    56   20   +19
+    BTC 8D          5    80   20     23    61    9   +19
+    ETH 1D         63    73   17    225    55   30   +18
+    ETH 2D         31    81   13    106    54   32   +27
+    ETH 3D         24    83   12     63    54   35   +29
+    ETH 5D         15    87    7     32    59   22   +27
+    ETH 8D          7   100    0     17    65   18   +35
+    year       n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    2016           18    61   39     73    62   19    -1
+    2017            8   100    0    138    75   22   +25
+    2018           18    61   39     65    17   72   +44
+    2019           20   100    0     76    51   17   +49
+    2020           20    85   15    118    86    4    -1
+    2021           10    80   20    125    45   43   +35
+    2022            6    83    0     12    25   42   +58
+    2023           28   100    0    120    67    0   +33
+    2024           47    79    2    126    63   12   +15
+    2025           36    72   14    108    40   24   +32
+  leave-one-year-out lift: 2016:+25  2017:+25  2018:+21  2019:+20  2020:+26  2021:+21  2022:+22  2023:+21  2024:+24  2025:+22
+  overlap: with higher low (Tier 1 #4) 37% vs 58%; under 200d average 66% vs 13%
+  stratified by under-200d: +22; by higher low: +25
+  inside the grade (graded ledger, 917 matched):
+    grade      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    A              25    96    4    117    62   17   +34
+    A+             36    89    6    101    75    8   +14
+    B              31    77    6    186    62   20   +16
+    C              63    79    8    358    54   20   +25
+
+==========================================================================================
+R4_BROKE@365
+==========================================================================================
+  signals with: 167  SURV 77%  LIQ 11%   without: 1005  SURV 60%  LIQ 21%
+  EPISODES (14-day clusters, any chart, both assets): with 11, SURV 82%, LIQ 18%   without 8, SURV 62%, LIQ 25%
+    ETH episodes: with 12 SURV 67%  without 22 SURV 50%
+    BTC episodes: with 4 SURV 100%  without 20 SURV 65%
+  episode list (start date, signals, charts, share SURV10):
+    2016-06-21   1     0%  ETH 1D
+    2016-07-10   1     0%  ETH 1D
+    2016-08-05   2   100%  ETH 1D, ETH 2D
+    2016-11-01  20    75%  ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2019-04-14  43    60%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2020-03-15   8   100%  ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2020-05-14   5   100%  ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2020-06-24  16   100%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2023-02-02  52    79%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2025-03-08  16    75%  ETH 1D, ETH 2D, ETH 3D, ETH 5D, ETH 8D
+    2025-06-25   3   100%  ETH 1D, ETH 5D, ETH 8D
+    asset      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC            52    87    0    537    62   15   +25
+    ETH           115    72   16    468    58   29   +14
+    chart      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC 1D         23    91    0    256    63   14   +28
+    BTC 2D         12    83    0    129    60   16   +23
+    BTC 3D         10    80    0     82    65   16   +15
+    BTC 5D          5    80    0     44    57   18   +23
+    BTC 8D          2   100    0     26    62   12   +38
+    ETH 1D         57    67   16    231    57   30   +10
+    ETH 2D         22    73   18    115    57   30   +15
+    ETH 3D         17    71   18     70    60   31   +11
+    ETH 5D         12    92    8     35    60   20   +32
+    ETH 8D          7    86   14     17    71   12   +15
+    year       n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    2016           18    61   39     73    62   19    -1
+    2017            6   100    0    140    76   21   +24
+    2019           43    60   19     53    62    9    -2
+    2020           29   100    0    109    82    7   +18
+    2023           52    79    0     96    70    0    +9
+    2025           19    79   16    125    43   22   +36
+  leave-one-year-out lift: 2016:+18  2017:+18  2019:+22  2020:+14  2023:+16  2025:+14
+  overlap: with higher low (Tier 1 #4) 45% vs 56%; under 200d average 23% vs 23%
+  stratified by under-200d: +16; by higher low: +17
+  inside the grade (graded ledger, 917 matched):
+    grade      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    A              24    75    4    118    67   17    +8
+    A+             15    93    0    122    77    8   +16
+    B              23    87    4    194    61   20   +26
+    C              42    88    2    379    55   20   +33
+
+==========================================================================================
+R3_DEEP@90
+==========================================================================================
+  signals with: 88  SURV 42%  LIQ 34%   without: 1084  SURV 64%  LIQ 19%
+  EPISODES (14-day clusters, any chart, both assets): with 24, SURV 42%, LIQ 42%   without 8, SURV 75%, LIQ 12%
+    ETH episodes: with 17 SURV 35%  without 23 SURV 57%
+    BTC episodes: with 12 SURV 50%  without 25 SURV 64%
+  episode list (start date, signals, charts, share SURV10):
+    2016-07-01   1     0%  ETH 1D
+    2016-07-16  13    62%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D, ETH 2D, ETH 3D
+    2016-10-02   1   100%  BTC 5D
+    2016-11-05   1     0%  ETH 1D
+    2017-01-17   4   100%  BTC 2D, BTC 3D, BTC 5D, BTC 8D
+    2017-11-10   1   100%  ETH 1D
+    2018-02-08   7    29%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D
+    2018-03-22   1     0%  ETH 2D
+    2018-05-14   1     0%  BTC 1D
+    2018-06-16   7     0%  ETH 1D, ETH 2D, ETH 3D, ETH 5D
+    2019-07-19   3    33%  ETH 1D, ETH 2D, ETH 3D
+    2019-08-13   1     0%  ETH 1D
+    2020-04-23   1   100%  ETH 1D
+    2020-11-05   1   100%  ETH 1D
+    2021-05-22   2     0%  ETH 1D
+    2021-12-07   5     0%  BTC 1D, BTC 2D, BTC 3D
+    2023-06-17  10    10%  BTC 1D, BTC 2D, BTC 3D, ETH 1D, ETH 2D, ETH 3D, ETH 8D
+    2023-08-21  13    85%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D, ETH 1D
+    2024-05-17   1   100%  ETH 1D
+    2024-07-13   1     0%  ETH 2D
+    2024-10-13   2   100%  BTC 1D, BTC 2D
+    2024-10-31   3   100%  BTC 2D, ETH 1D, ETH 2D
+    2025-02-21   1     0%  BTC 1D
+    2025-09-28   7     0%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D
+    asset      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC            45    53   29    544    65   12   -12
+    ETH            43    30   40    540    63   25   -33
+    chart      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC 1D         18    50   22    261    66   12   -16
+    BTC 2D         11    55   27    130    63   14    -9
+    BTC 3D          7    43   43     85    68   12   -25
+    BTC 5D          6    67   33     43    58   14    +9
+    BTC 8D          3    67   33     25    64    8    +3
+    ETH 1D         25    28   44    263    62   26   -34
+    ETH 2D         11    45   36    126    61   27   -16
+    ETH 3D          5    20   20     82    65   29   -45
+    ETH 5D          1     0  100     46    70   15   -70
+    ETH 8D          1     0    0     23    78   13   -78
+    year       n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    2016           16    56   31     75    63   21    -6
+    2017            5   100    0    141    76   21   +24
+    2018           16    12   88     67    30   60   -17
+    2019            4    25    0     92    63   14   -38
+    2020            2   100    0    136    85    6   +15
+    2021            6     0   67    129    50   40   -50
+    2022            1     0  100     17    47   24   -47
+    2023           23    52    0    125    77    0   -25
+    2024            7    86   14    166    67    9   +19
+    2025            8     0   62    136    51   19   -51
+  leave-one-year-out lift: 2016:-25  2017:-24  2018:-18  2019:-21  2020:-20  2021:-21  2022:-22  2023:-24  2024:-25  2025:-20
+  overlap: with higher low (Tier 1 #4) 53% vs 55%; under 200d average 30% vs 22%
+  stratified by under-200d: -23; by higher low: -22
+  inside the grade (graded ledger, 917 matched):
+    grade      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    A               7    57   29    135    69   14   -12
+    A+              9    67    0    128    80    8   -13
+    B              11    27   36    206    66   17   -39
+    C              33    42   30    388    60   17   -17
+
+==========================================================================================
+R3_DEEP@365
+==========================================================================================
+  signals with: 74  SURV 74%  LIQ 18%   without: 1098  SURV 62%  LIQ 20%
+  EPISODES (14-day clusters, any chart, both assets): with 15, SURV 53%, LIQ 33%   without 8, SURV 75%, LIQ 25%
+    ETH episodes: with 11 SURV 55%  without 22 SURV 59%
+    BTC episodes: with 8 SURV 75%  without 23 SURV 57%
+  episode list (start date, signals, charts, share SURV10):
+    2016-07-01   1     0%  ETH 1D
+    2016-07-16  11    73%  ETH 1D, ETH 2D, ETH 3D
+    2016-10-14   3     0%  ETH 1D, ETH 2D, ETH 3D
+    2016-11-05   2     0%  ETH 1D, ETH 2D
+    2017-02-01   7   100%  ETH 1D, ETH 2D
+    2018-07-04   2     0%  ETH 2D, ETH 5D
+    2020-03-15   7   100%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D
+    2020-04-18  16   100%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, ETH 1D, ETH 2D, ETH 3D
+    2020-07-14   1   100%  BTC 1D
+    2020-08-05   2     0%  BTC 1D, BTC 2D
+    2022-01-25   5    80%  BTC 1D, BTC 2D, BTC 3D, BTC 5D, BTC 8D
+    2023-05-17   1   100%  BTC 2D
+    2025-02-18   2     0%  ETH 1D, ETH 3D
+    2025-05-20  10   100%  ETH 1D, ETH 2D, ETH 3D
+    2025-11-25   4    25%  BTC 1D, BTC 2D, BTC 5D
+    asset      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC            29    79    0    560    63   14   +16
+    ETH            45    71   29    538    60   26   +11
+    chart      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    BTC 1D         12    83    0    267    64   13   +19
+    BTC 2D          7    71    0    134    62   16    +9
+    BTC 3D          4   100    0     88    65   15   +35
+    BTC 5D          4    50    0     45    60   18   -10
+    BTC 8D          2   100    0     26    62   12   +38
+    ETH 1D         24    71   29    264    58   27   +13
+    ETH 2D         14    79   21    123    58   28   +21
+    ETH 3D          6    67   33     81    62   28    +5
+    ETH 5D          1     0  100     46    70   15   -70
+    year       n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    2016           17    47   53     74    65   16   -18
+    2017            7   100    0    139    76   22   +24
+    2018            2     0  100     81    27   64   -27
+    2020           26    92    0    112    84    7    +8
+    2022            5    80    0     13    31   38   +49
+    2023            1   100    0    147    73    0   +27
+    2025           16    69   12    128    45   23   +23
+  leave-one-year-out lift: 2016:+21  2017:+12  2018:+12  2020:+5  2022:+12  2023:+14  2025:+12
+  overlap: with higher low (Tier 1 #4) 50% vs 55%; under 200d average 45% vs 21%
+  stratified by under-200d: +10; by higher low: +13
+  inside the grade (graded ledger, 917 matched):
+    grade      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+    A               6   100    0    136    67   15   +33
+    A+              7    86    0    130    78    8    +7
+    B              14    79    7    203    63   19   +16
+    C              19    79    5    402    57   19   +22
+

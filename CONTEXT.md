@@ -634,6 +634,41 @@ the board when CT < 40** -- median -2.4%, 40% up, 59% fall more than 10% --
 against ETH 1D at +1.1%/54% and BTC 3D at +3.0%/67%. Worth knowing before
 reading anything into an ETH 2D setup.
 
+**Fib re-test, by Jared's request -- 31 Oct 2026. Fib levels are still not special;
+one survivor that is not really a fib read.** `analysis/fibtest.py` (declared, bce1b16),
+checks `fibtest_check.py`, characterisation `fibtest_explain.py`. 7 lenses x 5 lookbacks
+(30/60/90/180/365 days) on 1,172 regime-gated signals, card measure, rules A1-A7 plus
+A8 (must pass in 2+ windows). Tagged-a-level, the 0.5-0.786 pocket and room-to-high all
+fail everywhere. 0.786-1 passes at 90d and 365d with opposite signs: not a finding.
+
+**Survivor: R4_BROKE -- the signal low is UNDER the low the prior swing started from**
+(passes at 90, 180 and 365 days; 180 is the clean one):
+
+| R4_BROKE@180 | n | SURV10 | LIQ30 |
+|---|---|---|---|
+| with | 211 | 81% | 12% |
+| without | 961 | 58% | 22% |
+
+Every one of the 10 charts positive (+18 to +35), ETH +24 and BTC +23, 8 of 10 years
+(2016 -1, 2020 -1), leave-one-year-out +20 to +26, inside every grade (A +34, A+ +14,
+B +16, C +25), holds after splitting by price under its 200-day average (+22) and by
+Tier 1 #4 higher low (+25; it overlaps higher low NEGATIVELY, 37% vs 58%). The 90-day
+version does NOT hold the 200-day split (+1) -- at 90 days it is just "under the 200d".
+
+**THE SAMPLE IS 17 EPISODES, NOT 211.** One market low prints on every chart and both
+assets. Clustered at 14 days: 17 episodes, 14 of them majority SURV10 (82%). Worst:
+2025-11-25 BTC (1 of 6), 2016 summer ETH singles.
+
+**What it actually is:** in 117 of the 211 the 180-day high sits in the first 20 days
+of the window, so the swing is degenerate and the read means "price is below where it
+was about six months ago, with the regime gate on" -- a deep discount inside a bull
+regime. Plain readings agree: signal low under the low of the bar 180 days earlier
++17 (n=273), signal low = lowest low of 180 days +15 (n=44, LIQ30 5%). Real swings
+(high later in the window) +12 (n=94). Post-hoc characterisation, not declared.
+
+Status: candidate, not adopted, no REGISTRY entry. Live 31 Oct: OFF on all 5 cards at
+180 days (lows at 0.38-0.49 of the swing). Entry quality only.
+
 **Pinned Stoch %K / %D, every chart -- tested 31 Oct 2026 (evening). Nothing new to
 add; one CAUTION candidate.** `analysis/stochdwell.py` (declared and committed before
 the run, df3b8bf), checks in `analysis/stochdwell_check.py`. Jared's question: blue

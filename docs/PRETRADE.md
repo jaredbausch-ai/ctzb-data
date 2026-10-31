@@ -212,6 +212,7 @@ These are not filters. They are what the system charges regardless.
 | Inverted diamond as an exit | Median +2.2% vs +10.0% for holding | 19 Oct 2026 |
 | Four other mechanical exits + the 50-line cross | All lose to holding. **Five rules, five failures** | — |
 | Fibs, moving averages, Elliott counts, opens/closes | All empty | — |
+| Fib re-test by request (`analysis/fibtest.py`, declared 31 Oct): depth of the signal low in its prior 30/60/90/180/365-day swing (0.5-0.786 pocket, under 0.382, 0.786-1, tagged within 2% of 0.382/0.5/0.618/0.786) and room to the swing high (20%+, under 10%) | **The levels are still not special:** tagged-a-level fails in all 5 windows (-6 to +6), the 0.5-0.786 pocket fails in all 5, room overhead fails in all 5. 0.786-1 'passes' at 90d (-22) and 365d (+13) with OPPOSITE signs, so it is not a finding. The one survivor is not a fib read: the signal low UNDER the low the prior 180-day swing started from (see CONTEXT 31 Oct) | 31 Oct 2026 |
 | Compression agreement across BTC/ETH | Retracted — one measurement counted twice | 21 Oct 2026 |
 | Green star / WGMI | Cannot be rebuilt; M2 data is revised after publication | — |
 | Analog rating on CT/gap/K across 1D–5D, 14/30/60/90 days (`analysis/twoweek.py`) | Walk-forward: P(up) beats the base rate in no more than four testable years at any horizon (best 4 of 7); "+10% first" loses at every horizon on both assets; terciles invert at 60/90 (ETH) and 30 (BTC); answers flip with the feature subset. Blind replication agreed. Use the regime-on base rate | 22 Oct 2026 |

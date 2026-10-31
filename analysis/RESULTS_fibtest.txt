@@ -1,0 +1,107 @@
+Fibonacci retracements and extensions as lenses on CTZB signals. Declared 31 Oct 2026.
+
+RE-TEST BY REQUEST. PRETRADE's failed list says "Fibs ... All empty" and CONTEXT says
+"Fib levels are not special", but that test predates the repo: no script, no record of
+the method. Jared asked 31 Oct for a declared re-test, as general knowledge or as a
+card line, in fine-tuning mode: does any fib reading raise the odds without cutting a
+disproportionate share of good trades?
+
+UNIVERSE: regime-gated signals (R.rsi_regime BTC 2D 8/13/60/41) on the 10 system
+charts (ETH/BTC 1D 2D 3D 5D 8D), entry = close of the confirmation bar ei = ti + 3.
+OUTCOME: the card measure -- SURV10 (rose 10%, never fell 25.3%, within 60 days) and
+LIQ30 (fell 30%+ within 60 days). stochdwell.Chart.outcome, unchanged.
+
+SWING (knowable at entry; every bar used is BEFORE the trough bar ti):
+  For each lookback W in {30, 60, 90, 180, 365} calendar days:
+    H  = highest high of the chart's bars dated in [date(ti) - W, ti), at bar h
+    L0 = lowest low from the window start to bar h (the low the rise to H started from)
+    Skipped if H <= L0.
+  Retracement depth of the signal low:  r = (H - low[ti]) / (H - L0)
+    (0 = the trough is at the high, 1 = it is back at L0, > 1 = below L0)
+  Fib retracement level f sits at price H - f * (H - L0).
+  Room overhead: (H / entry - 1), the distance from entry back to the 1.0 (the high).
+
+LENSES (7 per window, 35 cells):
+  R1 POCKET   0.5 <= r <= 0.786        (trough in the 0.5-0.786 zone)
+  R2 SHALLOW  r < 0.382
+  R3 DEEP     0.786 < r <= 1
+  R4 BROKE    r > 1                    (trough under the swing's starting low)
+  R5 TAGGED   trough low within 2% of the 0.382, 0.5, 0.618 or 0.786 level
+  X1 ROOM20   swing high at least 20% above entry
+  X2 ROOM10-  swing high less than 10% above entry
+
+PASS RULES (stochdwell part A, unchanged), each cell:
+  A1 n with >= 40 and n without >= 40
+  A2 SURV10 with minus without >= +8 pooled (<= -8 = a caution lens)
+  A3 LIQ30 with no higher than without (caution: no lower)
+  A4 same sign before 2022 and 2022 on
+  A5 same sign on >= 2/3 of charts with n >= 8 both sides
+  A6 same sign in >= 60% of years with n >= 5 both sides
+  A7 holds at >= 5 (caution <= -5) stratified by bucket and by prime dot
+  PLUS, because 35 cells will throw up chance passes:
+  A8 the same lens passes A1-A7 in at least 2 of the 5 windows
+  For R5 only (are the LEVELS special, or just the depth?): its lift stratified by depth
+  band (r < 0.382, 0.382-0.618, 0.618-1, > 1) is printed; a level effect needs that to
+  hold too.
+Collinearity: phi against bucket A, prime, diamond and the Promising "shallow
+pullback" read (entry close in the top third of its 30-day range) printed beside each.
+Anything that passes is checked by chart, year and asset before it goes near a card.
+Entry quality only: no exit in the data, not a strategy return or a track record.
+
+
+Signals: 1172  SURV10 63%  LIQ30 20%
+
+  lens@window       n with  SURV  LIQ  n w/o  SURV  LIQ  lift  <2022  2022+  charts  years bk-adj pr-adj dp-adj  phiA phiPr phiDi phiSh  verdict
+  R1_POCKET@30         197    59   23    975    63   19    -4     -5     -2   67%/6  78%/9     -5     -4     -8 -0.23  0.01  0.01  0.03  fail A2,A7
+  R1_POCKET@60         190    66   19    982    62   20    +5     +6     +2   75%/8  56%/9     +5     +5    +10 -0.09 -0.01 -0.01 -0.12  fail A2,A6,A7
+  R1_POCKET@90         229    61   24    943    63   19    -2     -2     -2  60%/10  56%/9     -2     -2    +15  0.02  0.02  0.04 -0.22  fail A2,A5,A6,A7
+  R1_POCKET@180        222    56   23    950    64   19    -8     -7     -9   67%/9 60%/10     -8     -8     -6  0.18  0.01  0.03 -0.17  fail A2
+  R1_POCKET@365        226    53   28    946    65   18   -12    -21     +4   89%/9 40%/10    -11    -11    -14  0.39 -0.04  0.00 -0.29  fail A4,A6
+
+  R2_SHALLOW@30        219    65   16    953    62   21    +3     +1     +7   80%/5  50%/8     +2     +3      - -0.29 -0.02 -0.04  0.51  fail A2,A6,A7
+  R2_SHALLOW@60        344    67   17    828    61   21    +6     +1    +14   75%/8  44%/9     +6     +6      - -0.39 -0.04 -0.06  0.51  fail A2,A6
+  R2_SHALLOW@90        407    68   15    765    59   22    +9     +8    +10   88%/8  56%/9    +11     +9      - -0.43  0.01 -0.06  0.51  fail A6
+  R2_SHALLOW@180       471    57   20    701    66   20    -9     -5    -13  100%/8  89%/9    -15     -9      - -0.41 -0.03 -0.05  0.38  PASS A1-A7
+  R2_SHALLOW@365       529    61   20    643    64   20    -3     +1    -10   67%/9  56%/9     -7     -3      - -0.41  0.01 -0.01  0.36  fail A2,A3,A4,A6,A7
+
+  R3_DEEP@30           103    63   19   1069    62   20    +1     -2     +3   67%/6  50%/8     +0     +1     +5 -0.13 -0.00 -0.03 -0.10  fail A2,A4,A6,A7
+  R3_DEEP@60           102    55   31   1070    63   19    -8    -15     +4   40%/5  50%/8     -8     -8    -15  0.04  0.00 -0.02 -0.17  fail A4,A5,A6
+  R3_DEEP@90            88    42   34   1084    64   19   -22    -26    -18  100%/4  71%/7    -24    -23    -16  0.15  0.06 -0.00 -0.09  PASS A1-A7
+  R3_DEEP@180           96    57   30   1076    63   19    -6    -10     +4   60%/5  43%/7     -6     -6     +3  0.20  0.01  0.00 -0.13  fail A2,A4,A5,A6
+  R3_DEEP@365           74    74   18   1098    62   20   +13    +13    +11  100%/3  80%/5    +13    +13    +21  0.03 -0.01  0.05 -0.05  PASS A1-A7
+
+  R4_BROKE@30          521    61   21    651    64   20    -3     +1    -10   89%/9  56%/9     -2     -3      -  0.62  0.01  0.06 -0.52  fail A2,A4,A6,A7
+  R4_BROKE@60          384    61   18    788    63   21    -2     +4     -8  60%/10  44%/9     +1     -2      -  0.58  0.05  0.08 -0.31  fail A2,A3,A4,A5,A6,A7
+  R4_BROKE@90          295    69   12    877    60   23    +8    +11     +6  70%/10 100%/9    +14     +9      -  0.49 -0.03  0.04 -0.24  PASS A1-A7
+  R4_BROKE@180         211    81   12    961    58   22   +23    +20    +26  100%/8 80%/10    +26    +23      -  0.26 -0.02 -0.00 -0.12  PASS A1-A7
+  R4_BROKE@365         167    77   11   1005    60   21   +16    +14    +19  100%/7  67%/6    +17    +16      -  0.04  0.03 -0.04 -0.00  PASS A1-A7
+
+  R5_TAGGED@30         378    66   15    794    61   22    +5     +8     +2   75%/8  56%/9     +5     +5     +6 -0.39 -0.02 -0.04  0.30  fail A2,A6,A7
+  R5_TAGGED@60         350    67   15    822    61   22    +6     +8     +3   88%/8  44%/9     +6     +6    +11 -0.27 -0.02 -0.01  0.04  fail A2,A6
+  R5_TAGGED@90         270    58   18    902    64   21    -6     +1    -14   88%/8  78%/9     -7     -6     -0 -0.12 -0.03 -0.02 -0.06  fail A2,A3,A4
+  R5_TAGGED@180        227    64   17    945    62   21    +2     +8     -4   62%/8  33%/9     +3     +2     +7  0.00  0.05  0.04 -0.08  fail A2,A4,A5,A6,A7
+  R5_TAGGED@365        175    59   22    997    63   20    -4     -4     -5   75%/8  67%/9     -4     -4     -1  0.05  0.01 -0.02 -0.11  fail A2,A7
+
+  X1_ROOM20@30         321    54   29    851    66   16   -11     -8    -21   88%/8  38%/8    -14    -11    -12  0.52 -0.04  0.02 -0.51  fail A6
+  X1_ROOM20@60         433    60   26    739    64   17    -5     -5     -4   67%/9  33%/9     -4     -5     -5  0.57 -0.01  0.06 -0.54  fail A2,A6,A7
+  X1_ROOM20@90         478    61   26    694    64   16    -2     -6     +2  70%/10  22%/9     -1     -2     -0  0.54  0.01  0.06 -0.54  fail A2,A4,A6,A7
+  X1_ROOM20@180        551    65   23    621    60   18    +5     +3     +9  70%/10 100%/9    +11     +5     -2  0.47  0.02  0.07 -0.51  fail A2,A3
+  X1_ROOM20@365        647    66   21    525    59   18    +7     +2    +14  80%/10  78%/9    +12     +7     +9  0.40  0.01  0.03 -0.46  fail A2,A3
+
+  X2_ROOM10@30         569    66   14    603    59   26    +8    +12     +1 100%/10  33%/9     +9     +7     +8 -0.49  0.01 -0.01  0.73  fail A2,A6
+  X2_ROOM10@60         478    65   15    694    61   23    +4     +6     +1  80%/10  33%/9     +3     +4     +2 -0.47 -0.01 -0.03  0.69  fail A2,A6,A7
+  X2_ROOM10@90         442    64   16    730    62   22    +2     +5     -2  70%/10  33%/9     -0     +2     -5 -0.44 -0.01 -0.04  0.66  fail A2,A4,A6,A7
+  X2_ROOM10@180        374    59   18    798    64   21    -5     -4     -8  80%/10  78%/9    -13     -5     +0 -0.39 -0.02 -0.04  0.62  fail A2,A3
+  X2_ROOM10@365        320    58   18    852    64   21    -6     -0    -13   89%/9  78%/9    -12     -6     -5 -0.36  0.01 -0.02  0.56  fail A2,A3
+
+Depth of the signal low in its prior swing (share of signals), and SURV10 / LIQ30 by band:
+   30d  <0.382: 219 65%/16%   0.382-0.618: 227 66%/22%   0.618-1: 205 60%/20%   >1: 521 61%/21%
+   60d  <0.382: 344 67%/17%   0.382-0.618: 224 58%/25%   0.618-1: 220 63%/22%   >1: 384 61%/18%
+   90d  <0.382: 407 68%/15%   0.382-0.618: 261 56%/27%   0.618-1: 209 51%/31%   >1: 295 69%/12%
+  180d  <0.382: 471 57%/20%   0.382-0.618: 298 62%/20%   0.618-1: 192 56%/28%   >1: 211 81%/12%
+  365d  <0.382: 529 61%/20%   0.382-0.618: 275 59%/24%   0.618-1: 201 61%/22%   >1: 167 77%/11%
+
+SUMMARY (A8: a lens must pass A1-A7 in at least 2 of the 5 windows)
+  Passing A1-A8: R3_DEEP (90d, 365d), R4_BROKE (90d, 180d, 365d)
+  Passing A1-A7 in one window only (chance-level, not a finding): R2_SHALLOW (180d only)
+  Entry quality only. No exit in the data; not a strategy return or a track record.

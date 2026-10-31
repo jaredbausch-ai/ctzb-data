@@ -1,0 +1,6 @@
+  reading                                             n  SURV  LIQ n w/o  SURV  LIQ  diff
+  R4_BROKE@180 (the lens)                           211    81   12   961    58   22   +23
+    of which: 180d high in the first 20 days        117    87   10  1055    60   21   +27
+    of which: 180d high later (a real swing)         94    73   14  1078    62   21   +12
+  signal low = lowest low of the past 180 days       44    77    5  1128    62   21   +15
+  signal low under the low of the bar 180d earlier  273    76   16   899    59   21   +17
