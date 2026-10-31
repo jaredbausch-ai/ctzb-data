@@ -312,7 +312,7 @@ def signal_rows(charts):
             f['D_CEIL3_PRE'] = maxrun(dc, ti - 30, ti - 1) >= 3
             f['K_FLOOR3_CTUP'] = maxrun_ct(kf, ch.ct, ti - 10, ti, lambda v: v >= 40) >= 3
             f['K_FLOOR3_CTDN'] = f['K_FLOOR3'] and s['ct'] < 40
-            rows.append(dict(chart=ch.name, asset=ch.sym, date=ch.b['date'][ei], bk=s['bk'],
+            rows.append(dict(chart=ch.name, asset=ch.sym, date=ch.b['date'][ei], end=bucket_end(ch.b['date'], ei), bk=s['bk'],
                              prime=s['prime'], dia=s['dis'], **o, **f))
     return rows
 

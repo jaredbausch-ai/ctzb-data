@@ -1,0 +1,79 @@
+Bucket A signals (CT < 40 at the trough): n=318
+
+=== K_FLOOR3 inside bucket A (with = line pinned >= 3 bars in the 10 to the trough) ===
+  pooled     n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  all            98    55   27    220    62   20    -7
+  asset      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  BTC            39    59   15    104    70   10   -11
+  ETH            59    53   34    116    55   29    -3
+  period     n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  2022+          48    52   21    116    62   16   -10
+  old            50    58   32    104    62   25    -5
+  chart      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  BTC 1D         17    65   18     62    69   11    -5
+  BTC 2D         13    69    0     25    68   12    +1
+  BTC 3D          8    38   38     10    80    0   -42
+  BTC 5D          1     0    0      5    60    0   -60
+  ETH 1D         27    44   37     70    51   33    -7
+  ETH 2D         10    50   50     26    54   27    -4
+  ETH 3D          9    56   33     15    73   20   -18
+  ETH 5D         10    70   10      4    50   25   +20
+  ETH 8D          3    67   33      1   100    0   -33
+  year       n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  2016            8    38   50     19    63   32   -26
+  2017            8    88   12      4   100    0   -12
+  2018           13    54   38     31    42   42   +12
+  2019            4    75   25     19    79    0    -4
+  2020            5    80   20     16   100    0   -20
+  2021           12    42   33     15    33   47    +8
+  2022            3     0    0     14    50   36   -50
+  2023           14    86    0     24    83    0    +2
+  2024           13    46   23     35    74    3   -28
+  2025           18    39   39     43    44   28    -5
+  de-duplicated across assets: n with 98 -> 80, SURV 54%, LIQ 29%
+
+=== D_FLOOR3 inside bucket A (with = line pinned >= 3 bars in the 10 to the trough) ===
+  pooled     n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  all            70    57   19    248    61   23    -4
+  asset      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  BTC            32    56   12    111    70   11   -14
+  ETH            38    58   24    137    53   33    +5
+  period     n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  2022+          33    55    9    131    60   19    -6
+  old            37    59   27    117    62   27    -2
+  chart      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  BTC 1D         15    60   13     64    70   12   -10
+  BTC 2D         10    70    0     28    68   11    +2
+  BTC 3D          6    33   33     12    75    8   -42
+  BTC 5D          1     0    0      5    60    0   -60
+  ETH 1D         11    45   27     86    50   35    -5
+  ETH 2D          9    44   44     27    56   30   -11
+  ETH 3D          7    71   14     17    65   29    +7
+  ETH 5D          8    75    0      6    50   33   +25
+  ETH 8D          3    67   33      1   100    0   -33
+  year       n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  2016            6    67   17     21    52   43   +14
+  2017            5   100    0      7    86   14   +14
+  2018           11    55   36     33    42   42   +12
+  2019            5    60   20     18    83    0   -23
+  2020            1     0  100     20   100    0  -100
+  2021            9    44   33     18    33   44   +11
+  2022            3     0    0     14    50   36   -50
+  2023           10    80    0     28    86    0    -6
+  2024            9    56   11     39    69    8   -14
+  2025           11    45   18     50    42   34    +3
+  de-duplicated across assets: n with 70 -> 62, SURV 56%, LIQ 18%
+
+=== inside the grade (graded ledger, bucket A only, matched 247 of 247 ledger bucket-A rows) ===
+  K_FLOOR3
+  grade      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  A               6    83    0     18    83   17    +0
+  A+              1   100    0     18    78    6   +22
+  B              19    47   21     33    67   15   -19
+  C              45    49   29    107    60   17   -11
+  D_FLOOR3
+  grade      n with  SURV  LIQ  n w/o  SURV  LIQ  diff
+  A               4    75    0     20    85   15   -10
+  A+              3    67    0     16    81    6   -15
+  B              10    50   10     42    62   19   -12
+  C              32    50   22    120    58   20    -8

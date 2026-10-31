@@ -1,0 +1,152 @@
+Stoch RSI lines PINNED (staying at the same value) -- how long, and where. Declared 31 Oct 2026.
+
+Jared's question, 31 Oct evening: backtest the blue line (Stoch %K) and the red
+line (Stoch %D) on every ETH and BTC chart, every timeframe, for a run of bars
+where the line stays at the same value, and where that happens (bearish control
+zone vs bullish control zone). Looking for a new lens.
+
+Builds on analysis/flatk.py (31 Oct, same day): K below 5 for 3 bars with CT < 40,
+1D-3D only, 10 bars forward. That test found ETH 1D only, and every 2D/3D cell
+was 3-8 events. This one widens the question; it does not re-run flatk's cells
+as new findings.
+
+DEFINITIONS (fixed before running)
+  CT  = RSI(close, 14)                                   (engine.rsi)
+  K   = sma(stoch(CT, CT, CT, 14), 3)  the BLUE line     (v15 line 176)
+  D   = sma(K, 3)                      the RED line      (v15 line 177)
+  A stochastic of RSI only "stays the same value" when it is pinned at its floor
+  or ceiling, so "same value" = PINNED:
+    FLOOR   line <= 5   -- the line sits in the bearish control band (0-40)
+    CEILING line >= 95  -- the line sits in the bullish control band (60-100)
+  run[i] = consecutive bars ending at bar i with the line pinned.
+  CT zone at a bar: BEAR CT < 40, NEUTRAL 40-60, BULL CT >= 60 (v15 zBear / rzBull).
+  Regime gate: R.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41), at the bar's date.
+
+OUTCOME (the card measure, CARD_SPEC): from the close of the event bar,
+  SURV10  rose 10% AND never fell 25.3% within 60 days
+  LIQ30   fell 30% or more within 60 days
+  1D-8D charts measure on the 1D series from the bar's last day (tagstats.measure);
+  4H/12H measure on their own bars over 60 days (360 / 120 bars).
+  Secondary, descriptive only: 10-bar return on the chart's own bars.
+
+PART B -- EVENT STUDY (all 14 charts: 4H 12H 1D 2D 3D 5D 8D x ETH BTC)
+  24 configs = line {K, D} x pin {FLOOR, CEILING} x N {3, 5, 8} x type:
+    ONSET-N    the bar where the run reaches exactly N
+    RELEASE-N  the first bar off the pin after a run of N or more
+  Regime ON at the event bar. De-duplicated per chart: an event within 20 days
+  of the previous kept event of the same config is dropped.
+  Baselines per chart: every regime-ON bar (one per calendar day on 4H/12H), and
+  the same split by CT zone. LIFT = event SURV10 minus the baseline SURV10 of
+  the same chart AND the same CT zone (so a pin is not credited for the zone it
+  sits in). Averaged over events.
+  A config PASSES only if ALL of:
+    B1 n >= 40 de-duplicated events, pooled
+    B2 |LIFT| >= 8 points
+    B3 same sign before 2022 and 2022 on (each n >= 10)
+    B4 same sign on ETH and on BTC (each n >= 10)
+    B5 same sign on at least 2/3 of charts with n >= 8
+    B6 same sign in at least 60% of years with n >= 5
+  A negative LIFT that passes is a caution read, not a buy read.
+
+PART A -- LENS ON CTZB SIGNALS (the 10 system charts, 1D-8D, regime-gated
+  signals from engine.signals, entry = confirmation close ei = ti + 3).
+  Every feature uses bars <= ti, so it is known at entry.
+    L1 K_FLOOR3     K floor run >= 3 bars inside [ti-10, ti]
+    L2 D_FLOOR3     D floor run >= 3 inside [ti-10, ti]
+    L3 K_FLOOR6     K floor run >= 6 inside [ti-10, ti]
+    L4 D_FLOOR6     D floor run >= 6 inside [ti-10, ti]
+    L5 K_CEIL3_PRE  K ceiling run >= 3 inside [ti-30, ti-1]
+    L6 D_CEIL3_PRE  D ceiling run >= 3 inside [ti-30, ti-1]
+    L7 K_FLOOR3_CTUP  L1 with CT >= 40 on every bar of that run (pinned K, CT not in bear control)
+    L8 K_FLOOR3_CTDN  L1 with CT < 40 at the trough (overlaps bucket A; collinearity reported)
+  A lens PASSES only if ALL of:
+    A1 n with >= 40 and n without >= 40
+    A2 SURV10 with minus without >= +8 points pooled (or <= -8 for a caution lens)
+    A3 LIQ30 with no higher than without (caution lens: no lower)
+    A4 same sign in both periods (before 2022 / 2022 on)
+    A5 same sign on at least 2/3 of charts with n >= 8 on both sides
+    A6 same sign in at least 60% of years with n >= 5 on both sides
+    A7 the lift holds at >= +5 (caution: <= -5) stratified by bucket and by prime
+       (weighted within-stratum difference), so it is not bucket A or the prime dot
+       in disguise. Phi against bucket A, prime and diamond printed beside it.
+  Anything that passes is then checked inside the grade on the ledger before it
+  is called anything but a candidate. Entry quality only: no exit in the data.
+
+
+====================================================================================================
+PART B  EVENT STUDY  pinned K / D, every chart, regime ON, 60-day card measure
+====================================================================================================
+
+Regime-ON baseline SURV10 by CT zone (one bar per day):
+  chart        ALL   BEAR   NEUT   BULL
+  ETH 4H        58     51     58     62
+  ETH 12H       58     47     58     65
+  ETH 1D        58     46     58     64
+  ETH 2D        59     54     56     66
+  ETH 3D        58     56     54     65
+  ETH 5D        58     69     55     60
+  ETH 8D        59     64     62     56
+  BTC 4H        63     62     62     66
+  BTC 12H       65     67     61     70
+  BTC 1D        65     66     61     70
+  BTC 2D        64     72     60     67
+  BTC 3D        64     74     61     66
+  BTC 5D        65     76     65     64
+  BTC 8D        64     50     69     61
+
+  config                        n  SURV10  LIFTz LIFTall  LIQ30  <2022  2022+   ETH   BTC  charts  years  zones B/N/U  verdict
+  K FLOOR ONSET-3             419      58     -1      -3     24     -4     +4    -1    -0  58%/12 40%/10  187/213/19  fail B2,B3,B5,B6
+  K FLOOR ONSET-5             190      53     -5      -8     25    -12     +3    -5    -5   83%/6  56%/9  121/66/3  fail B2,B3,B6
+  K FLOOR ONSET-8              34      44    -14     -16     29    -25     -5   -14   -14  100%/2 100%/3  27/6/1  fail B1
+  K FLOOR RELEASE-3           411      58     -1      -3     25     -3     +2    -2    +1  45%/11 40%/10  132/250/29  fail B2,B3,B4,B5,B6
+  K FLOOR RELEASE-5           187      55     -4      -6     27     -7     +1    -2    -5   83%/6  67%/9  91/89/7  fail B2,B3
+  K FLOOR RELEASE-8            33      45    -11     -15     27    -18     -6    -5   -20  100%/2  67%/3  23/9/1  fail B1
+  K CEILING ONSET-3           462      63     +0      +2     21     -1     +2    -0    +1  46%/13  44%/9  6/157/299  fail B2,B3,B4,B5,B6
+  K CEILING ONSET-5           281      66     +2      +5     22     -4    +11    -3    +7   56%/9  44%/9  0/69/212  fail B2,B3,B4,B5,B6
+  K CEILING ONSET-8            84      68     +3      +7     18     +2     +5    -1    +6   50%/4  50%/8  0/14/70  fail B2,B4,B5,B6
+  K CEILING RELEASE-3         475      63     +0      +2     22     -1     +2    -3    +3  50%/14  44%/9  12/185/278  fail B2,B3,B4,B5,B6
+  K CEILING RELEASE-5         289      67     +3      +6     23     -1    +11    -1    +7   56%/9  56%/9  2/95/192  fail B2,B3,B4,B5,B6
+  K CEILING RELEASE-8          84      64     -0      +3     23     +0     -0    -3    +2   75%/4  75%/8  1/16/67  fail B2,B3,B4
+  D FLOOR ONSET-3             349      59     +0      -2     24     -3     +4    -2    +3  45%/11 50%/10  180/157/12  fail B2,B3,B4,B5,B6
+  D FLOOR ONSET-5             150      54     -4      -7     28    -12     +5    -1    -8   60%/5  56%/9  99/49/2  fail B2,B3,B5,B6
+  D FLOOR ONSET-8              27      52     -5      -8     26     -8     -3    -3     -  100%/1  50%/2  22/5/0  fail B1,B2,B4,B6
+  D FLOOR RELEASE-3           340      60     +1      -1     25     +0     +3    +1    +2  73%/11  67%/9  133/186/21  fail B2
+  D FLOOR RELEASE-5           148      55     -4      -6     27    -10     +4    -2    -5   60%/5  78%/9  75/68/5  fail B2,B3,B5
+  D FLOOR RELEASE-8            26      46    -10     -14     27    -16     -5    -6     -  100%/1  50%/2  16/9/1  fail B1,B4,B6
+  D CEILING ONSET-3           413      65     +1      +4     21     +1     +3    -2    +4  58%/12  44%/9  3/133/277  fail B2,B4,B5,B6
+  D CEILING ONSET-5           224      68     +4      +7     21     -1    +10    -2    +9   57%/7  67%/9  2/50/172  fail B2,B3,B4,B5
+  D CEILING ONSET-8            74      58     -7      -3     23     -7     -6    -5    -8   67%/3  71%/7  0/8/66  fail B2
+  D CEILING RELEASE-3         423      65     +1      +3     22     +0     +3    -1    +4  58%/12  56%/9  8/153/262  fail B2,B4,B5,B6
+  D CEILING RELEASE-5         226      69     +6      +8     22     +3     +9    +0   +11   86%/7  56%/9  3/70/153  fail B2,B6
+  D CEILING RELEASE-8          74      62     -2      +1     23     -0     -5    -2    -2   67%/3  71%/7  0/13/61  fail B2
+
+====================================================================================================
+PART A  LENS ON CTZB SIGNALS  10 system charts, regime-gated, entry = confirmation close
+====================================================================================================
+
+All signals: n=1172  SURV10 63%  LIQ30 20%
+
+  lens            n with  SURV  LIQ  n w/o  SURV  LIQ  lift  <2022  2022+  charts  years bk-adj pr-adj  phiA phiPr phiDi  verdict
+  K_FLOOR3           194    57   25    978    64   19    -7     -3    -12   62%/8  56%/9     -7     -6  0.23 -0.10 -0.02  fail A2,A5,A6
+  D_FLOOR3           143    53   24   1029    64   19   -11     -8    -14   71%/7  50%/8    -10    -10  0.18 -0.06 -0.04  fail A6
+  K_FLOOR6            32    59   22   1140    63   20    -3    -16    +11  100%/1  60%/5     -2     -3  0.15 -0.05 -0.03  fail A1,A2,A4,A7
+  D_FLOOR6            17    53   18   1155    63   20   -10     -8      -       -  50%/2     -8    -11  0.10 -0.05 -0.02  fail A1,A3,A4,A5,A6
+  K_CEIL3_PRE        577    63   19    595    62   21    +1     -0     +2   44%/9 30%/10     -1     +1 -0.33 -0.03  0.00  fail A2,A4,A5,A6,A7
+  D_CEIL3_PRE        498    61   19    674    64   21    -3     -7     +2   56%/9  56%/9     -5     -3 -0.30 -0.01  0.02  fail A2,A3,A4,A5,A6,A7
+  K_FLOOR3_CTUP      112    59   21   1060    63   20    -4     +1    -10   67%/6  62%/8     -4     -3 -0.02 -0.08  0.02  fail A2,A4,A7
+  K_FLOOR3_CTDN       98    55   27   1074    63   19    -8     -5    -12   71%/7  62%/8     -7     -7  0.50 -0.08 -0.02  PASS
+
+Per chart, n with / SURV10 with vs without:
+  K_FLOOR3       ETH 1D 50:46/61  ETH 2D 20:60/60  ETH 3D 15:47/65  ETH 5D 13:69/68  ETH 8D 5:80/74  BTC 1D 34:65/65  BTC 2D 26:69/61  BTC 3D 15:60/68  BTC 5D 11:36/66  BTC 8D 5:40/70
+  D_FLOOR3       ETH 1D 30:40/61  ETH 2D 16:50/61  ETH 3D 10:50/64  ETH 5D 10:70/68  ETH 8D 5:80/74  BTC 1D 33:55/67  BTC 2D 17:65/62  BTC 3D 12:58/68  BTC 5D 6:50/60  BTC 8D 4:25/71
+  K_FLOOR6       ETH 1D 5:60/59  ETH 2D 3:100/59  ETH 3D 2:100/61  ETH 5D 4:50/70  ETH 8D 1:100/74  BTC 1D 11:36/66  BTC 2D 2:50/63  BTC 3D 3:67/66  BTC 8D 1:100/63
+  D_FLOOR6       ETH 1D 2:0/59  ETH 2D 3:100/59  ETH 3D 1:100/62  ETH 5D 5:40/71  BTC 1D 1:0/65  BTC 2D 2:50/63  BTC 3D 3:67/66
+  K_CEIL3_PRE    ETH 1D 111:57/60  ETH 2D 68:66/54  ETH 3D 40:65/60  ETH 5D 22:82/56  ETH 8D 19:74/80  BTC 1D 134:60/70  BTC 2D 72:67/58  BTC 3D 53:64/69  BTC 5D 39:59/60  BTC 8D 19:58/78
+  D_CEIL3_PRE    ETH 1D 94:52/62  ETH 2D 61:67/54  ETH 3D 32:72/56  ETH 5D 19:84/57  ETH 8D 17:71/86  BTC 1D 121:58/71  BTC 2D 62:63/62  BTC 3D 44:64/69  BTC 5D 30:47/79  BTC 8D 18:56/80
+  K_FLOOR3_CTUP  ETH 1D 25:52/59  ETH 2D 11:64/60  ETH 3D 8:38/65  ETH 5D 7:71/68  ETH 8D 3:100/71  BTC 1D 19:63/65  BTC 2D 17:71/61  BTC 3D 7:71/66  BTC 5D 10:40/64  BTC 8D 5:40/70
+  K_FLOOR3_CTDN  ETH 1D 27:44/60  ETH 2D 10:50/61  ETH 3D 9:56/63  ETH 5D 10:70/68  ETH 8D 3:67/76  BTC 1D 17:65/65  BTC 2D 13:69/62  BTC 3D 8:38/69  BTC 5D 1:0/60
+
+SUMMARY
+  Part B configs passing every declared rule: none
+  Part A lenses passing every declared rule: K_FLOOR3_CTDN
+  Entry quality only. No exit in the data; not a strategy return or a track record.

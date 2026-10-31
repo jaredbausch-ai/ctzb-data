@@ -634,6 +634,30 @@ the board when CT < 40** -- median -2.4%, 40% up, 59% fall more than 10% --
 against ETH 1D at +1.1%/54% and BTC 3D at +3.0%/67%. Worth knowing before
 reading anything into an ETH 2D setup.
 
+**Pinned Stoch %K / %D, every chart -- tested 31 Oct 2026 (evening). Nothing new to
+add; one CAUTION candidate.** `analysis/stochdwell.py` (declared and committed before
+the run, df3b8bf), checks in `analysis/stochdwell_check.py`. Jared's question: blue
+(K) and red (D) lines staying at the same value for a number of bars, by bearish /
+bullish control zone, all timeframes. A stochastic of RSI only holds a value when it
+is pinned, so "same value" = floor (<= 5) or ceiling (>= 95). 14 charts, 4H to 8D.
+Outcome = the card measure, SURV10 / LIQ30 within 60 days.
+
+Event study (regime on, de-duplicated 20 days, LIFT vs the same chart's same-CT-zone
+baseline): **0 of 24 configs passed.** Pins carry no edge beyond the CT zone they sit
+in. Largest: K floor reaching 8 bars -14 (n=34, below the n rule), D ceiling release
+after 5+ bars +6 (n=226, 56% of years).
+
+Lenses on 1,172 signals (10 system charts): 7 of 8 failed. **K_FLOOR3_CTDN passed
+every declared rule as a CAUTION read:** K pinned at the floor 3+ bars in the 10 bars
+to the trough, with CT < 40 at the trough (so always bucket A). SURV10 55% vs 63%,
+LIQ30 27% vs 19%, n=98. Inside bucket A it is -7 (55% vs 62%, LIQ30 27% vs 20%),
+both periods (-5 / -10), 7 of 10 years, inside grade B -19 and C -11 (graded
+ledger), cross-asset de-dup leaves it at 54% / 29%. **Why it stays a candidate:**
+the effect is mostly BTC (-11) -- ETH is -3; charts are mixed (BTC 2D +1, ETH 5D +20
+on n=10); size is modest. Not in Promising (no REGISTRY entry); forward watch only.
+Note flatk.py's ETH 1D read (10-bar bounce after a pinned K in bear control) is a
+different horizon and universe -- not a contradiction, and not a buy read either.
+
 **Six-day hold after entry — tested 29 Oct 2026. Mostly TAUTOLOGICAL, with one
 precise survivor.** `analysis/hold6.py`. Jared's question. Three readings, all
 declared: entry-bar low not undercut in days 1-6; all six closes at or above
