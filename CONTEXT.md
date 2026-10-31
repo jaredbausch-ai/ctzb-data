@@ -599,6 +599,31 @@ nothing** -- marginally worse than its baseline. Another ETH-only effect,
 consistent with the confluence record. Tightening to K<2 is worse (+3.2% on
 n=9), so the looser threshold is the better one.
 
+**ETH 2D specifically, all seven episodes listed** (asked for 31 Oct, since that
+is the live chart). K<5 for 3 bars AND CT<40, regime ON, 10 bars forward:
+
+| date | ETH | +10b ret | max up | max dn |
+|---|---|---|---|---|
+| 2016-10-31 | 11 | -12.0% | +3.7% | -13.2% |
+| 2017-07-14 | 168 | +31.6% | +48.7% | -22.3% |
+| 2018-03-14 | 611 | -38.1% | +2.5% | **-41.1%** |
+| 2018-04-05 | 370 | +78.5% | +92.0% | -0.3% |
+| 2020-03-15 | 111 | +28.2% | +38.3% | -1.5% |
+| 2025-02-10 | 2,602 | -17.5% | +9.7% | -20.3% |
+| 2025-11-21 | 2,768 | +11.4% | +25.6% | -1.9% |
+
+Median +11.4% against the -2.4% ETH 2D baseline, median max-up +25.6% against
++10.0%. **Do not quote the median.** The seven outcomes are -38, -18, -12, +11,
++28, +32, +79 -- four large wins, three large losses, NOTHING in the middle. The
+setup predicts a LARGE MOVE, not an up move; direction is 4:3.
+
+At ~3.3x this is the number that matters: four of seven drew down worse than
+-10% within ten bars (-13%, -20%, -22%, -41%). Liquidation sits near -30%, so
+one of the seven would have blown the position out before the move resolved.
+
+The CT<40 requirement carries the result: without it, 17 episodes, median
+**-0.2%**, 8 up of 17 -- nothing.
+
 **EVERY 2D AND 3D CELL IS 3-8 EVENTS AFTER DE-DUPLICATION -- too thin to report.**
 That matters: on 31 Oct the only chart meeting both conditions was **ETH 2D**
 (CT 37.4, K at 1.9/1.9/2.0), which is precisely the cell with no sample. ETH 3D
