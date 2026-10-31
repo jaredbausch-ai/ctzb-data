@@ -1,0 +1,45 @@
+BLUE LINE (Stoch %K) FLAT for 3 bars while CT RSI < 40
+
+============================================================================================
+K below 2 for 3 bars (pinned at the floor)
+============================================================================================
+  chart        n  dedup  med ret 10b    up  med max up  med max dn  fell>10%  rose>10%
+  ETH 1D      12      9        +3.2%   67%      +15.1%       -4.7%       44%       67%
+  ETH 2D       6      3     too thin
+  ETH 3D      10      3     too thin
+  BTC 1D      17      9        +0.2%   56%       +6.6%       -4.9%       33%       22%
+  BTC 2D       1      1     too thin
+  BTC 3D       9      3     too thin
+
+============================================================================================
+K below 5 for 3 bars
+============================================================================================
+  chart        n  dedup  med ret 10b    up  med max up  med max dn  fell>10%  rose>10%
+  ETH 1D      30     20        +6.9%   80%      +15.5%       -4.7%       35%       70%
+  ETH 2D      22      8     too thin
+  ETH 3D      19      6     too thin
+  BTC 1D      39     17        +0.2%   59%       +7.1%       -8.2%       29%       29%
+  BTC 2D      10      5     too thin
+  BTC 3D      16      6     too thin
+
+============================================================================================
+K moving <1.0/bar for 3 bars, any level
+============================================================================================
+  chart        n  dedup  med ret 10b    up  med max up  med max dn  fell>10%  rose>10%
+  ETH 1D       8      5     too thin
+  ETH 2D       1      1     too thin
+  ETH 3D       4      3     too thin
+  BTC 1D       7      5     too thin
+  BTC 2D       1      1     too thin
+  BTC 3D       5      2     too thin
+
+============================================================================================
+BASELINE: all bars with CT < 40, regime ON (what flat K is measured against)
+============================================================================================
+  chart         n  med ret 10b    up  med max up  med max dn  fell>10%  rose>10%
+  ETH 1D      413        +1.1%   54%       +8.2%       -7.4%       42%       39%
+  ETH 2D      192        -2.4%   40%      +10.0%      -12.5%       59%       50%
+  ETH 3D      121        +0.5%   50%      +12.9%      -12.7%       58%       59%
+  BTC 1D      349        +1.0%   55%       +7.7%       -6.3%       33%       33%
+  BTC 2D      145        +2.2%   60%       +9.4%       -7.8%       43%       47%
+  BTC 3D       70        +3.0%   67%      +13.0%       -8.7%       47%       60%

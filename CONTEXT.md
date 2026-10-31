@@ -578,6 +578,37 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Flat Stoch %K (the BLUE line) in the bearish control zone — tested 31 Oct
+2026. ETH 1D only, and the chart that fires has no sample.** `analysis/flatk.py`.
+Blue is `kL` at ct_zone_bounce_v15.pine line 225 = `sma(stoch(ct,ct,ct,14), 3)`.
+Bearish control zone = CT RSI < 40 (zBear). Three readings of "flat" declared:
+K<2 for 3 bars, K<5 for 3 bars, K moving <1.0/bar for 3 bars.
+
+K below 5 for 3 bars with CT < 40, regime ON, 10 bars forward, de-duplicated at
+20 days:
+
+| chart | n | med ret | up | med max up | med max dn | rose >10% |
+|---|---|---|---|---|---|---|
+| **ETH 1D** | 20 | **+6.9%** | **80%** | +15.5% | -4.7% | 70% |
+| ETH 1D baseline | 413 | +1.1% | 54% | +8.2% | -7.4% | 39% |
+| BTC 1D | 17 | +0.2% | 59% | +7.1% | -8.2% | 29% |
+| BTC 1D baseline | 349 | +1.0% | 55% | +7.7% | -6.3% | 33% |
+
+ETH 1D separates cleanly and the drawdown SHRINKS (-4.7% vs -7.4%). **BTC shows
+nothing** -- marginally worse than its baseline. Another ETH-only effect,
+consistent with the confluence record. Tightening to K<2 is worse (+3.2% on
+n=9), so the looser threshold is the better one.
+
+**EVERY 2D AND 3D CELL IS 3-8 EVENTS AFTER DE-DUPLICATION -- too thin to report.**
+That matters: on 31 Oct the only chart meeting both conditions was **ETH 2D**
+(CT 37.4, K at 1.9/1.9/2.0), which is precisely the cell with no sample. ETH 3D
+and BTC 2D had the pinned K but CT at 42.1 and 42.4, outside the zone.
+
+Also recorded from the baseline sweep: **ETH 2D has the worst 10-bar baseline on
+the board when CT < 40** -- median -2.4%, 40% up, 59% fall more than 10% --
+against ETH 1D at +1.1%/54% and BTC 3D at +3.0%/67%. Worth knowing before
+reading anything into an ETH 2D setup.
+
 **Six-day hold after entry — tested 29 Oct 2026. Mostly TAUTOLOGICAL, with one
 precise survivor.** `analysis/hold6.py`. Jared's question. Three readings, all
 declared: entry-bar low not undercut in days 1-6; all six closes at or above
