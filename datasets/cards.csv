@@ -1,1 +1,5 @@
 chart,asset,tf,trough,confirms,barsNeeded,killClose,priceNow,grade,lenses,basis,n,surv10,scaled20,reach20,reach10,bestMove,dipBeforeHigh,maxDip60,touched30,nOld,surv10Old,nNew,surv10New,l5n,l5ok,l5liq,l10n,l10ok,l10liq,l15n,l15ok,l15liq,l20n,l20ok,l20liq
+ETH 1D,ETH,1D,2026-10-30,2026-11-02,2,,2245.8,C,none,the last 26 ETH 1D trades with exactly the same confirmations,26,54,58,46,65,15.0,-4.4,-8.6,35,7,57,19,53,14,36,50,10,10,70,10,10,70,8,12,88
+ETH 3D,ETH,3D,2026-10-28,2026-11-08,2,,2245.8,C,none,"the last 110 grade C trades across all ETH charts (ETH 3D alone has only 13, too few to use)",110,53,57,44,66,15.1,-6.1,-16.4,30,30,60,80,50,76,47,37,54,30,52,45,18,62,35,11,80
+BTC 1D,BTC,1D,2026-10-30,2026-11-02,2,,77322.21,C,none,the last 54 BTC 1D trades with exactly the same confirmations,54,54,49,35,63,14.2,-4.6,-14.8,19,29,52,25,56,36,42,36,29,31,45,20,15,65,17,0,76
+BTC 3D,BTC,3D,2026-10-28,2026-11-08,2,,77322.21,C,none,the last 26 BTC 3D trades with exactly the same confirmations,26,62,55,38,65,14.7,-5.9,-10.7,8,14,64,12,58,14,29,43,11,27,55,9,22,67,8,25,75
