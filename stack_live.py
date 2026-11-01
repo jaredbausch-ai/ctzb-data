@@ -347,6 +347,7 @@ def main():
     # ------------------------------------------------ evaluate
     out = []; evaluated = set(); cards = []
     LEDGER = list(csv.DictReader(open(os.path.join(OUT, 'ledger.csv'))))
+    LGRADE = {(x['chart'], x['entry']): x['grade'] for x in LEDGER}
 
     PLAIN = {'GAP': 'CT well above its Signal line', 'HIGH': 'a higher low than the last signal', 'AGREE': 'other charts already confirmed',
              'BTC3': 'a BTC 3D signal in the 10 days before', 'BTCX': 'an ETH 2D signal in the 10 days before', 'FUND': 'funding at or above its 90-day median',
@@ -504,29 +505,42 @@ def main():
             fj = next((j for j in range(ti - K, K - 1, -1)
                        if all(hh[j] > hh[x] for x in range(j - K, j)) and all(hh[j] > hh[x] for x in range(j + 1, j + K + 1))), None)
             lowp = bb['low'][ti]; now = DAY[a]['close'][-1]
-            # odds BY DISTANCE (31 Oct, Jared): share of graded signals, same asset and grade, whose best
-            # rise within 60 days of entry reached at least this far above their entry (ledger bestMove).
-            # Replaces the fib-level table, which ignored how far the level sat above the entry.
-            bm = [float(x['bestMove']) for x in LEDGER if x['asset'] == a and x['grade'] == g and x['bestMove'] != '']
-            if fj is not None and hh[fj] > lowp:
+            # ODDS FROM HERE (31 Oct, Jared: odds from entry read as "this trade has a 72% chance"
+            # even when the trade is already under its low). Sample = past graded trades of the same
+            # asset (same grade if 30+, else all grades) that were in the SAME STATE on the same day
+            # after entry: close above entry / between low and entry / under the signal low. Odds =
+            # share whose high reached the level between that day and day 60.
+            age_d = (today - d0).days
+            st_now = 'above entry' if now >= r['entry'] else 'under entry' if now >= r['tlow'] else 'under the signal low'
+            def _state(c_, e_, l_): return 'above entry' if c_ >= e_ else 'under entry' if c_ >= l_ else 'under the signal low'
+            pool = []
+            for s0 in every:
+                if s0['a'] != a: continue
+                g0 = LGRADE.get((f"{s0['a']} {s0['tf']}", s0['d0'].isoformat()))
+                i0 = DPOS[a].get(s0['d0'])
+                if g0 is None or i0 is None or i0 + 60 >= len(DAY[a]['date']) or age_d >= 60: continue
+                if _state(DAY[a]['close'][i0 + age_d], s0['entry'], s0['tlow']) != st_now: continue
+                pool.append((g0, DAY[a]['close'][i0 + age_d], max(DAY[a]['high'][i0 + age_d + 1:i0 + 61])))
+            same = [x for x in pool if x[0] == g]
+            use, who = (same, f'{a} grade {g}') if len(same) >= 30 else (pool, f'{a}, all grades')
+            if fj is not None and hh[fj] > lowp and age_d < 60:
                 H = hh[fj]
                 parts = []
                 for f in RETRACE_LV:
                     lv = lowp + f * (H - lowp)
                     if lv > now:
-                        dist = 100 * (lv / r['entry'] - 1)
                         name = 'fractal high' if f == 1.0 else str(f)
-                        if lv <= r['entry']:
-                            parts.append(f'{name} ${lv:,.0f} (under entry, no odds)')
-                        elif bm:
-                            parts.append(f'{name} ${lv:,.0f} (+{dist:.1f}%): {round(100 * sum(x >= dist for x in bm) / len(bm))}%')
+                        if use:
+                            # the level's rise from TODAY's price, applied to each past trade's close on the same day
+                            parts.append(f'{name} ${lv:,.0f} (+{100 * (lv / now - 1):.1f}% from now): '
+                                         f'{round(100 * sum(b >= lv / now * c_ for _, c_, b in use) / len(use))}%')
                         else:
-                            parts.append(f'{name} ${lv:,.0f} (+{dist:.1f}%): no record')
-                head = (f'entry ${r["entry"]:,.0f} | now ${now:,.0f} ({100 * (now / r["entry"] - 1):+.1f}%) | low ${lowp:,.0f} | '
-                        f'odds = share of {len(bm)} past {a} grade {g} trades that rose that far above entry within 60 days | ')
+                            parts.append(f'{name} ${lv:,.0f}: no record')
+                head = (f'day {age_d}, {st_now} | entry ${r["entry"]:,.0f} | now ${now:,.0f} ({100 * (now / r["entry"] - 1):+.1f}%) | low ${lowp:,.0f} | '
+                        f'odds FROM HERE = of {len(use)} past {who} trades that were also {st_now} on day {age_d}, share that rose that far from that day\'s close by day 60 | ')
                 out.append([subj, f'Drop retrace odds, fractal high {bb["date"][fj]} ${H:,.0f} to low ${lowp:,.0f} [in-trade, information]',
                             head + ((' · '.join(parts)) if parts else 'price above every level of the drop'),
-                            '', '', '', '', '', '', '', '', 'odds by distance from entry, within 60 days (ledger bestMove); exits stay discretionary'])
+                            '', '', '', '', '', '', '', '', 'odds from today\'s state, not from entry; exits stay discretionary'])
     out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', '', '', '', ''])
     heads = check_coverage(evaluated)
 
