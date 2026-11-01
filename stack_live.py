@@ -372,6 +372,14 @@ def main():
             res += [hit, round(100 * ok / hit) if hit else '', round(100 * liq / hit) if hit else '']
         return res
 
+    def timing(G):
+        # card timing (1 Nov 2026, Jared: "how long do I stay in the tree?"): medians, in days from entry,
+        # all within the 60 days. Days to +10% / +20% count only the trades that got there.
+        med = lambda xs: round(st.median(xs)) if xs else ''
+        t10 = [x for x in (MS.days_to(s0['a'], s0['d0'], s0['entry'], 10) for s0 in G) if x is not None]
+        t20 = [x for x in (MS.days_to(s0['a'], s0['d0'], s0['entry'], 20) for s0 in G) if x is not None]
+        return [med(t10), med(t20), med([s0['m']['dpk'] for s0 in G]), med([s0['m']['ddday'] for s0 in G])]
+
     def card(r, g, have, basis, G):
         n = len(G); pct = lambda k: round(100 * k / n) if n else ''
         sc = [x for x in (MS.scaled20(s0['a'], s0['d0'], s0['m']) for s0 in G) if x is not None]
@@ -383,10 +391,10 @@ def main():
                 pct(sum(s0['m']['up'] >= 20 for s0 in G)), pct(sum(s0['m']['up'] >= 10 for s0 in G)),
                 round(st.median(s0['m']['up'] for s0 in G), 1) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 1) if n else '',
                 round(st.median(s0['m']['dd'] for s0 in G), 1) if n else '', pct(sum(s0['m']['dd'] <= -30 for s0 in G)),
-                len(old), sv(old), len(new), sv(new)] + ladder(G)
+                len(old), sv(old), len(new), sv(new)] + ladder(G) + timing(G)
     CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'grade', 'lenses', 'basis', 'n',
                 'surv10', 'scaled20', 'reach20', 'reach10', 'bestMove', 'dipBeforeHigh', 'maxDip60', 'touched30',
-                'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')]
+                'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow']
     cells = []
     J = json.load(open(os.path.join(HERE, 'analysis', 'grokpack.json')))
     for lay in ('layer4', 'layer4_small', 'layer4b'):

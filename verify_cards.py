@@ -20,6 +20,23 @@ PLAIN = {'CT well above its Signal line': 'GAP', 'a higher low than the last sig
          'CT recovering fast from the low': 'FASTCT'}
 
 
+_DAY = {}
+
+
+def day_path(a, d0, entry, H=60):
+    """Independent of stack_live: read the 1D csv directly and return (days to +10%, days to +20%,
+    day of the 60-day high, day of the 60-day low) for one entry."""
+    if a not in _DAY:
+        rows = list(csv.DictReader(open(os.path.join(HERE, 'data', f'{a}_1D.csv'))))
+        _DAY[a] = [(dt.datetime.utcfromtimestamp(int(r['time'])).date(), float(r['high']), float(r['low'])) for r in rows]
+    D = _DAY[a]; end = d0 + dt.timedelta(days=H)
+    w = [x for x in D if d0 < x[0] <= end]
+    if not w: return None
+    first = lambda p: next(((x[0] - d0).days for x in w if x[1] >= entry * (1 + p / 100)), None)
+    hi = max(w, key=lambda x: x[1]); lo = min(w, key=lambda x: x[2])
+    return first(10), first(20), (hi[0] - d0).days, (lo[0] - d0).days
+
+
 def main():
     cards = list(csv.DictReader(open(os.path.join(OUT, 'cards.csv'))))
     led = list(csv.DictReader(open(os.path.join(OUT, 'ledger.csv'))))
@@ -43,6 +60,14 @@ def main():
                 'touched30': pct(lambda r: r['touched30'] == 'yes'),
                 'bestMove': round(st.median(float(r['bestMove']) for r in G), 1) if n else '',
                 'maxDip60': round(st.median(float(r['maxDrawdown']) for r in G), 1) if n else ''}
+        paths = [p for p in (day_path(r['asset'], dt.date.fromisoformat(r['entry']), float(r['entryPrice'])) for r in G) if p]
+        mm = lambda xs: round(st.median(xs)) if xs else ''
+        timing = {'daysTo10': mm([p[0] for p in paths if p[0] is not None]), 'daysTo20': mm([p[1] for p in paths if p[1] is not None]),
+                  'daysToHigh': mm([p[2] for p in paths]), 'daysToLow': mm([p[3] for p in paths])}
+        for k, v in timing.items():
+            cv = c.get(k, '')
+            if (cv == '') != (v == '') or (cv != '' and abs(float(cv) - v) > 1):
+                bad.append(f"{c['chart']} {k}: card {cv} vs 1D data {v}")
         for k, v in mine.items():
             cv = c[k]
             cv = int(cv) if k in ('n', 'surv10', 'reach20', 'touched30') and cv != '' else (float(cv) if cv != '' else '')

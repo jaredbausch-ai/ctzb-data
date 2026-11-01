@@ -23,7 +23,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 LABEL = ("Computed signal, not a fill. No trade was taken. Entry quality only: "
          "the data has no exits, so this is not a strategy return or a track record.")
 
@@ -77,6 +77,10 @@ def card(r):
         "fell30_within60d_pct": num(r["touched30"]),
         "before_2022": {"past_trades": num(r["nOld"]), "rose10_never_fell25_within60d_pct": num(r["surv10Old"])},
         "since_2022": {"past_trades": num(r["nNew"]), "rose10_never_fell25_within60d_pct": num(r["surv10New"])},
+        "typical_day_first_rose10": num(r.get("daysTo10", "")),
+        "typical_day_first_rose20": num(r.get("daysTo20", "")),
+        "typical_day_of_60d_high": num(r.get("daysToHigh", "")),
+        "typical_day_of_deepest_dip": num(r.get("daysToLow", "")),
         "if_it_falls_first": [
             {"fell_pct": k, "past_trades": num(r[f"l{k}n"]),
              "still_rose10_pct": num(r[f"l{k}ok"]), "went_on_to_fall25_pct": num(r[f"l{k}liq"])}

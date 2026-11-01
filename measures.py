@@ -41,3 +41,21 @@ def surv10(m):
 def scaled20(a, d0, m):
     r = vol_ratio(a, d0)
     return None if r is None else m['up'] >= 20 * r
+
+
+_D = {}
+
+
+def days_to(a, d0, entry, pct, H=60):
+    """Calendar days from entry (d0) to the first 1D high at least pct% above entry,
+    within H days; None if it never got there (card timing, 1 Nov 2026)."""
+    import datetime as _dt
+    if a not in _D:
+        d = E.load(os.path.join(HERE, 'data', f'{a}_1D.csv')); _D[a] = (d, {x: i for i, x in enumerate(d['date'])})
+    d, pos = _D[a]; i = pos.get(d0)
+    if i is None: return None
+    end = d0 + _dt.timedelta(days=H)
+    for k in range(i + 1, len(d['date'])):
+        if d['date'][k] > end: break
+        if d['high'][k] >= entry * (1 + pct / 100): return (d['date'][k] - d0).days
+    return None

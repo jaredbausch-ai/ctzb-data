@@ -45,6 +45,8 @@ All are measured from the buy price (the close of the confirmation bar) and with
 | If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that still rose 10% without falling 25.3%, and the share that went on to fall 25.3%. Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
 | Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
+| Typical day it first hit +10% / +20% (trades that got there) | Median calendar days from the buy to the first daily high at least 10% / 20% above the buy price, among the trades in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
+| Typical day of the 60-day high / of the deepest dip | Median day, counted from the buy, on which each trade made its highest high / its lowest low within the 60 days | `daysToHigh`, `daysToLow` |
 
 ## Wording rules
 

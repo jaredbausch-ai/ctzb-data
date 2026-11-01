@@ -22,11 +22,11 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 - `grade_odds` is pooled context only. Never show it as the number for a
   live setup (CONTEXT, "Never quote the pooled grade alone").
 
-## Top level (schema 1)
+## Top level (schema 2; schema 2 added the four card timing fields, 1 Nov 2026)
 
 | Field | Source | Meaning |
 |---|---|---|
-| `schema_version` | | 1 |
+| `schema_version` | | 2 |
 | `generated_at` | | UTC time the file was written |
 | `scored_as_of` | status.csv | Date of the data scored |
 | `label` | | The computed-signal label |
@@ -58,6 +58,8 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `fell30_within60d_pct` | touched30 | |
 | `before_2022`, `since_2022` | nOld/surv10Old, nNew/surv10New | |
 | `if_it_falls_first[]` | l{5,10,15,20}{n,ok,liq} | Information for a discretionary exit, never a stop rule |
+| `typical_day_first_rose10`, `typical_day_first_rose20` (schema 2) | daysTo10, daysTo20 | Median days from entry to the first +10% / +20%, trades that got there |
+| `typical_day_of_60d_high`, `typical_day_of_deepest_dip` (schema 2) | daysToHigh, daysToLow | Median day of the 60-day high / of the deepest dip |
 
 ## Not built yet
 
