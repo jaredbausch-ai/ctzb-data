@@ -669,6 +669,16 @@ regime. Plain readings agree: signal low under the low of the bar 180 days earli
 Status: candidate, not adopted, no REGISTRY entry. Live 31 Oct: OFF on all 5 cards at
 180 days (lows at 0.38-0.49 of the swing). Entry quality only.
 
+**Swing-break at fractal scales -- 31 Oct 2026.** `analysis/fibfractal.py` (declared,
+699ba94). Jared asked whether smaller swings give more signals. Scaled to each chart's
+own bars, the swing-break read passes at 90 and 120 bars (A1-A9, A8 neighbouring
+scales): BARS-90 n=219, SURV10 74% vs 60%, LIQ30 11% vs 22%, +12 inside the 200-day
+split, **31 episodes** (77% majority SURV10); BARS-120 n=178, +13, 36 episodes. Smaller
+swings fail and turn slightly NEGATIVE: 20 bars -4, 40 bars +3, pivots k=3/5 -6/-5,
+k=8 0, k=13 +10 but not inside the 200-day split. So the read only works when the swing
+is big; breaking a small swing low is not a buy read. Trade-off: 180-day calendar
+version +23 on 17 episodes; 90-bar version +15 on 31.
+
 **Pinned Stoch %K / %D, every chart -- tested 31 Oct 2026 (evening). Nothing new to
 add; one CAUTION candidate.** `analysis/stochdwell.py` (declared and committed before
 the run, df3b8bf), checks in `analysis/stochdwell_check.py`. Jared's question: blue

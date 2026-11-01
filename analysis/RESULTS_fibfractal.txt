@@ -1,0 +1,41 @@
+The fibtest survivor at smaller, fractal scales. Declared 31 Oct 2026.
+
+fibtest.py found R4_BROKE@180 (signal low under the low the prior 180-day swing started
+from): 81% vs 58% SURV10, but only 17 independent episodes. Jared asked 31 Oct whether
+shrinking the swing, in a fractal way, gives more signals. Shrinking the CALENDAR window
+already failed in fibtest (30d -3, 60d -2, 90d +8 but only the 200-day average). This
+tests two fractal versions instead, where the swing scales with the chart.
+
+SCALES (every bar used is before the trough bar ti; knowable at entry):
+  BARS-N   the last N bars of the chart itself, N in {20, 40, 60, 90, 120}.
+           H = highest high in [ti-N, ti), L0 = lowest low from the window start to H.
+           (So 20 bars = 20 days on 1D, 100 days on 5D, 160 days on 8D.)
+  PIV-k    the chart's own swing pivots, k in {3, 5, 8, 13}: H = the last pivot high
+           (k bars each side, confirmed by ti) before the trough; L0 = the last pivot
+           low (k each side) before that pivot high. A zigzag at four sizes.
+  BROKE = low[ti] < L0.
+
+PASS RULES: fibtest/stochdwell A1-A7 unchanged, plus
+  A8 same direction and A1-A7 passed at two neighbouring scales of the same kind
+  A9 lift >= +5 inside price-under / over its 200-day average (fibtest showed the 90-day
+     calendar version was only that)
+  Independent EPISODES (14-day clusters across all charts and both assets) printed for
+  every cell, because more signals only helps if it is more independent events.
+
+
+  scale     n with  SURV  LIQ  n w/o  SURV  LIQ  lift  <2022  2022+  charts  years bk-adj pr-adj 200-adj  episodes ep SURV  verdict
+  BARS-20      476    60   22    696    64   19    -4     -4     -3   50%/8  44%/9     -2     -4     -10        45     69%  fail A2,A5,A6,A7
+  BARS-40      342    65   18    823    62   21    +3     +6     +1   71%/7 90%/10    +10     +3      -2        38     76%  fail A2,A7,A9
+  BARS-60      280    69   16    866    61   21    +8     +8    +10   75%/8100%/10    +12     +8      +4        36     72%  fail A9
+  BARS-90      219    74   11    904    60   22   +15    +13    +16   88%/8 90%/10    +17    +15     +12        31     77%  pass A1-A7,A9
+  BARS-120     178    73   15    921    60   21   +13     +8    +18   86%/7  88%/8    +14    +13      +9        36     69%  pass A1-A7,A9
+  PIV-3        403    59   23    769    65   19    -6     -4     -9  100%/8  56%/9     -6     -6     -11        50     70%  fail A2,A6
+  PIV-5        336    59   22    829    64   19    -5     -3     -8   50%/8  33%/9     -5     -5     -11        42     71%  fail A2,A5,A6,A7
+  PIV-8        259    63   19    882    62   20    +0     +3     -2   75%/8 70%/10     +6     +0      -6        34     76%  fail A2,A4,A7,A9
+  PIV-13       168    71    8    941    61   22   +10    +18     +7   83%/6  88%/8    +16    +10      +5        29     79%  fail A9
+
+A8 (passes at two neighbouring scales of the same kind, same direction):
+  BARS: BARS-90 + BARS-120
+  PIV: none
+
+Entry quality only. No exit in the data; not a strategy return or a track record.
