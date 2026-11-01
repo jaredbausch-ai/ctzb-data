@@ -75,6 +75,7 @@
 .jc .tclad p{margin:8px 0 0;color:var(--dim);font-size:12px;line-height:1.5}
 .jc .tcfoot{padding:12px 16px;border-top:1px solid var(--rule2);background:var(--panel2);color:var(--dim);font-size:13px;line-height:1.55}.jc .tcfoot b{color:var(--ink);font-weight:500}
 .jc .gd{color:var(--ok)}.jc .wn{color:var(--warn)}.jc .bd{color:var(--bad)}
+.jc .ban{margin-top:12px;padding:10px 14px;border:1px solid var(--warn);border-radius:4px;color:var(--warn);font-family:var(--mono);font-size:13px;letter-spacing:.04em}.jc .about{padding:14px 16px;color:var(--dim);font-size:13.5px;line-height:1.6}.jc .about ul{margin:0;padding-left:18px}.jc .about li{margin:4px 0}.jc .about b{color:var(--ink);font-weight:500}
 @media(max-width:560px){.jc .tcgrid{grid-template-columns:repeat(2,1fr)}.jc .tcbig{font-size:42px}.jc .tcword{font-size:22px}}
 </style>
 <div class="jc">
@@ -86,9 +87,11 @@
   <div class="r">
     DATA THROUGH <b data-source="status" data-field="value" data-where="item=Scored%20as%20of">—</b><br>
     REGIME <b data-source="status" data-field="value" data-where="item=Market%20regime">—</b><br>
-    ETH <b data-source="live" data-field="closeNow" data-where="chart=ETH%201D">—</b>
+    ETH <b data-source="live" data-field="closeNow" data-where="chart=ETH%201D">—</b><br>
+    UPDATED <b id="updTxt">—</b>
   </div>
 </div>
+<div id="delayBan" class="ban" hidden></div>
 
 <div class="tc" id="tcard">
   <div class="tcpick" id="tcPick"></div>
@@ -211,7 +214,17 @@
   </div>
 </details>
 
-<p class="foot">ENTRY AT THE CLOSE OF THE CONFIRMATION BAR · REGIME FILTER ON BITCOIN 2D · ETHEREUM, COINBASE · IDLE USDC TREATED AS COLLATERAL · MAINTENANCE MARGIN 5% · UPDATED DAILY FROM THE CTZB PIPELINE · PAST BEHAVIOUR, NOT A FORECAST, NOT FINANCIAL ADVICE.</p>
+<section><h2>About this data</h2>
+<div class="panel about"><ul>
+<li><b>Refreshed every 4 hours.</b> The first run each day is a few minutes after the daily close (00:00 UTC). The time of the last update is in the top right.</li>
+<li><b>A signal confirms only at the close of its confirmation bar,</b> never part-way through a bar. Lows still forming are marked provisional and can change or disappear until they confirm.</li>
+<li><b>Every number is checked before it is shown.</b> Each card is rebuilt from the trade ledger and must match, or the old card stays up.</li>
+<li><b>If the data is more than 6 hours old</b> a "data delayed" notice appears above, and the pipeline is re-run and investigated automatically.</li>
+<li><b>Computed signals, not trades.</b> The odds are how past signals behaved after entry (entry quality only). There is no exit in the data, so nothing here is a strategy return or a track record. Past behaviour, not a forecast, not financial advice.</li>
+<li>Prices: Coinbase. Funding and positioning: Coinalyze. Options: Deribit.</li>
+</ul></div></section>
+
+<p class="foot">ENTRY AT THE CLOSE OF THE CONFIRMATION BAR · REGIME FILTER ON BITCOIN 2D · ETHEREUM, COINBASE · IDLE USDC TREATED AS COLLATERAL · MAINTENANCE MARGIN 5% · REFRESHED EVERY 4 HOURS FROM THE CTZB PIPELINE · PAST BEHAVIOUR, NOT A FORECAST, NOT FINANCIAL ADVICE.</p>
 
 </div>
 </div>
@@ -351,7 +364,21 @@ $("capNum").addEventListener("blur",()=>render()); $("comNum").addEventListener(
 $("exp").addEventListener("input",e=>setLev(+e.target.value/100,false));
 $("expNum").addEventListener("input",e=>{const v=parseFloat(e.target.value); if(isFinite(v)&&v>=1&&v<=10) setLev(v,true);});
 $("expNum").addEventListener("blur",e=>{setLev(parseFloat(e.target.value)||lev,false);});
+function freshness(){
+  const st=dash.data("status"); if(st.status!=="ok") return;
+  const row=(st.data||[]).find(r=>r.item==="Updated (UTC)"); const u=$("updTxt"), ban=$("delayBan");
+  if(!row){ if(u) u.textContent="—"; return; }
+  const t=Date.parse(String(row.value).replace(" UTC","Z").replace(" ","T"));
+  if(isNaN(t)) { u.textContent=row.value; return; }
+  const hrs=(Date.now()-t)/3600000;
+  const local=new Date(t).toLocaleString("en-US",{month:"short",day:"numeric",hour:"numeric",minute:"2-digit",timeZoneName:"short"});
+  u.textContent=local+" ("+(hrs<1?"under 1h":Math.floor(hrs)+"h")+" ago)";
+  if(hrs>6){ ban.textContent="DATA DELAYED: last updated "+Math.floor(hrs)+" hours ago. The pipeline re-runs automatically; treat every figure below as stale until this notice clears."; ban.hidden=false; }
+  else ban.hidden=true;
+}
+setInterval(freshness, 300000);
 dash.onData(()=>{
+  freshness();
   const g=dash.data("grades"), lv=dash.data("live"), fw=dash.data("forward"), ms=dash.data("maxsafe"), dd=dash.data("dipdist");
   if(dd.status==="ok"){DIPS={}; (dd.data||[]).filter(r=>r.asset==="ETH").forEach(r=>{(DIPS[r.grade]=DIPS[r.grade]||[]).push(+r.maxDip60);});}
   if(g.status==="ok"){

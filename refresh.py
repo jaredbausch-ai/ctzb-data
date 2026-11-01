@@ -672,7 +672,8 @@ def ds_status(reg, today, buy, per_year, outdir):
     rows = [["Market regime", "Bullish" if reg(today) else "Bearish"],
             ["Next buy date", up[0]["buyDate"] if up else "none ahead"],
             ["Trades a year", f"{per_year:.0f} on average" if per_year else "—"],
-            ["Scored as of", str(today)]]
+            ["Scored as of", str(today)],
+            ["Updated (UTC)", dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")]]
     write_csv(os.path.join(outdir, "status.csv"), ["item", "value"], rows)
     return rows
 
