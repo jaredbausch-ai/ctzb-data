@@ -176,6 +176,27 @@ day 10 (-2); it reverses in 2019 and 2025; and only ETH/BTC 1D and 2D have
 enough A signals to check by chart. Rejected-first is the common path, 224 of
 293. Report it on A signals as context, not as a filter.
 
+### Drop retrace odds — last fractal high to the signal low (31 Oct 2026, information)
+
+*`analysis/fibjared.py`, `analysis/fibjared_clean.py`.* Jared's fib: from the last
+Williams fractal high before the signal low (5 bars each side), down to the low. The
+levels above the low are where the bounce may stall. Of signals still BELOW each level
+at entry, the share whose price reached it within 60 days of entry:
+
+| Grade | 0.5 | 0.618 | 0.786 | Back to the fractal high |
+|---|---|---|---|---|
+| A+ | 96% (23) | 91% (33) | 91% (43) | 87% (53) |
+| A | 98% (40) | 82% (51) | 75% (61) | 71% (72) |
+| B | 75% (105) | 70% (122) | 67% (138) | 57% (147) |
+| C | 71% (290) | 64% (315) | 58% (342) | 48% (353) |
+| All | 74% (618) | 68% (692) | 62% (768) | 52% (814) |
+
+Information for the discretionary exit, never a rule and never part of the grade or
+the card. Much of the ordering is the grade itself (A+ drops are smaller: median 13.7%
+vs 23.2% for C), and placebo levels at 0.45/0.55/0.70/0.85 behave the same as the fib
+numbers -- the levels are a ruler, not magic. The live stack lists, for every open
+signal, the levels still above price with these odds.
+
 ---
 
 ## Positioning read — report with every signal's statistics

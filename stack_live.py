@@ -94,6 +94,7 @@ REGISTRY = [
     ('UNDER10', 'Price undercut the trough low by day 10', 'ETH BTC', 'all', 'in-trade', 'PRETRADE In-trade reads'),
     ('DOWN10', 'Down 10% or more by day 10', 'ETH BTC', 'all', 'in-trade', 'PRETRADE In-trade reads'),
     ('A50', 'A signals: CT broke 50 first, or rejected from 40-50 first', 'ETH BTC', 'all', 'in-trade (partial)', 'PRETRADE A signals'),
+    ('RETRACE', 'Drop retrace odds: levels of the drop from the last fractal high (k=5) to the signal low, with odds by grade', 'ETH BTC', 'all', 'in-trade (information)', 'PRETRADE In-trade reads; analysis/fibjared_clean.py'),
 ]
 REG_IDS = [r[0] for r in REGISTRY]
 # PRETRADE headings that must map to registry ids (checked every run)
@@ -109,7 +110,15 @@ DOC_MAP = {
     'Higher-timeframe CT rising — the asset\'s 8D CT RSI up on its last completed bar': ['UP8'],
     'Shallow pullback — entry close near its 30-day high (top third per chart)': ['SHALLOW'],
     'A signals only: does CT close at 50 before it turns down? (26 Oct 2026, partial)': ['A50'],
+    'Drop retrace odds — last fractal high to the signal low (31 Oct 2026, information)': ['RETRACE'],
 }
+# Drop retrace odds (analysis/fibjared_clean.py, 31 Oct 2026, fractal k=5): of signals still
+# below the level at entry, share whose price reached it within 60 days of entry, by grade.
+RETRACE_LV = (0.5, 0.618, 0.786, 1.0)
+RETRACE_ODDS = {'A+': (96, 91, 91, 87), 'A': (98, 82, 75, 71), 'B': (75, 70, 67, 57),
+                'C': (71, 64, 58, 48), 'all': (74, 68, 62, 52)}
+RETRACE_N = {'A+': (23, 33, 43, 53), 'A': (40, 51, 61, 72), 'B': (105, 122, 138, 147),
+             'C': (290, 315, 342, 353), 'all': (618, 692, 768, 814)}
 WATCH_NOTE = ('CT RSI day-ten three-state read (CONTEXT open items): the definition of '
               '"both agree" is not written in the repo, so it cannot be computed yet.')
 
@@ -427,7 +436,7 @@ def main():
             cards.append(card(r, g, have, basis, G_))
         # every registry item
         for rid, label, A_, C_, kind, src in REGISTRY:
-            if rid in ('CELLS', 'POS', 'REGIME', 'REGAGE', 'BUCKET', 'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50'):
+            if rid in ('CELLS', 'POS', 'REGIME', 'REGAGE', 'BUCKET', 'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50', 'RETRACE'):
                 continue
             evaluated.add(rid)
             if not applies(rid, a, tf):
@@ -465,7 +474,7 @@ def main():
                    + (f'OI {100 * (o / o14 - 1):+.1f}% in 14d' if o and o14 else ''))
             out.append([subj, f'Positioning read ({fd}) [caution read]', txt, '', '', '', '', '', '', '', '', ''])
         # in-trade reads for open signals
-        evaluated.update({'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50'})
+        evaluated.update({'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50', 'RETRACE'})
         if not state.startswith('forming'):
             age = (today - d0).days
             px = DAY[a]; pos = DPOS[a]
@@ -494,6 +503,22 @@ def main():
                     if cc[j - 1] is not None and 40 <= cc[j - 1] < 50 and cc[j] < cc[j - 1]: ev = 'rejected from 40-50 first'; break
                 out.append([subj, 'A signal: CT broke 50 first or rejected first [in-trade, partial]', ev, '', '', '', '', '', '', '', '',
                             'record: broke first 67% ETH / 59% BTC; rejected first 43% / 38% (PRETRADE)'])
+            # drop retrace odds: Jared's fib, last fractal high (k=5) down to the signal low
+            bb = E.load(f'data/{a}_{tf}.csv'); hh = bb['high']; ti = r['ei'] - 3; K = 5
+            fj = next((j for j in range(ti - K, K - 1, -1)
+                       if all(hh[j] > hh[x] for x in range(j - K, j)) and all(hh[j] > hh[x] for x in range(j + 1, j + K + 1))), None)
+            lowp = bb['low'][ti]; now = DAY[a]['close'][-1]
+            if fj is not None and hh[fj] > lowp:
+                H = hh[fj]; og = RETRACE_ODDS.get(g, RETRACE_ODDS['all']); ng = RETRACE_N.get(g, RETRACE_N['all'])
+                gl = g if g in RETRACE_ODDS else 'all'
+                parts = []
+                for f, o_, n_ in zip(RETRACE_LV, og, ng):
+                    lv = lowp + f * (H - lowp)
+                    if lv > now:
+                        parts.append(f'{"fractal high" if f == 1.0 else f}: ${lv:,.0f} ({o_}% of {n_} grade {gl})')
+                out.append([subj, f'Drop retrace odds, fractal high {bb["date"][fj]} ${H:,.0f} to low ${lowp:,.0f} [in-trade, information]',
+                            ('levels above price: ' + '; '.join(parts)) if parts else 'price above every level of the drop',
+                            '', '', '', '', '', '', '', '', 'from entry, within 60 days (fibjared_clean.py); exits stay discretionary'])
     out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', '', '', '', ''])
     heads = check_coverage(evaluated)
 
