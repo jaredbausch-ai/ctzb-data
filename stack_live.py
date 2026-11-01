@@ -515,9 +515,11 @@ def main():
                 for f, o_, n_ in zip(RETRACE_LV, og, ng):
                     lv = lowp + f * (H - lowp)
                     if lv > now:
-                        parts.append(f'{"fractal high" if f == 1.0 else f}: ${lv:,.0f} ({o_}% of {n_} grade {gl})')
+                        parts.append(f'{"fractal high" if f == 1.0 else f}: ${lv:,.0f}, {100 * (lv / r["entry"] - 1):+.1f}% from entry'
+                                     f' ({o_}% of {n_} grade {gl})')
+                head = f'entry ${r["entry"]:,.2f}, now ${now:,.2f} ({100 * (now / r["entry"] - 1):+.1f}%); '
                 out.append([subj, f'Drop retrace odds, fractal high {bb["date"][fj]} ${H:,.0f} to low ${lowp:,.0f} [in-trade, information]',
-                            ('levels above price: ' + '; '.join(parts)) if parts else 'price above every level of the drop',
+                            head + (('levels above price: ' + '; '.join(parts)) if parts else 'price above every level of the drop'),
                             '', '', '', '', '', '', '', '', 'from entry, within 60 days (fibjared_clean.py); exits stay discretionary'])
     out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', '', '', '', ''])
     heads = check_coverage(evaluated)
