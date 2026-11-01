@@ -578,7 +578,40 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
-**Short-Term Holder Supply in Profit — a volume-weighted PROXY, tested 1 Nov
+**Short-Term Holder Supply in Profit — tested and SCRAPPED 1 Nov 2026. Do not
+re-add it to the entry stack.** Jared's call after the stacking test, and it was
+the right one. Kept as a regime read only; `analysis/sthprofit.py` stays because
+the proxy and its validation are reusable.
+
+WHY IT WAS DROPPED, so this is not re-litigated:
+
+| stack | n | win | LIQ30 | keeps |
+|---|---|---|---|---|
+| gap>5 | 203 | 68% | 15% | 20% |
+| gap>5 + STH z>+1 | 107 | 69% | 10% | 11% |
+| **funding not cooling + gap>5** | 102 | **71%** | **6%** | 10% |
+| funding not cooling + gap>5 + z>+1 | 57 | 67% | 7% | 6% |
+
+1. **It cannot grade.** On top of gap>5 the win rate goes 68% -> 69%, and the 96
+   gap>5 signals it REMOVES win 67% -- statistically identical. It is not
+   separating good setups from bad.
+2. **It only cuts risk, and the funding filter cuts more.** Adding it to
+   funding-not-cooling + gap>5 makes that stack WORSE on both axes (71%/6% ->
+   67%/7%) on half the sample.
+3. **It overlaps what gap>5 already catches** -- z>+1 fires on 107 of 203 gap>5
+   signals where chance says 60.
+
+WHAT TO KEEP FROM IT:
+- The z-score as a **cycle/regime read**, not a filter. 0% at the 2026 and 2022
+  lows, 98.5% and 99.0% at the 2021 and 2025 tops is a good map of where the
+  cycle sits.
+- **"Crossed up through 50" at 43% win / 33% LIQ30** (ETH 42%/46%) is a warning
+  worth more than the positive result was. Recovering from underwater is not the
+  same as being above water.
+
+The original finding, for the record:
+
+**(ORIGINAL ENTRY) Short-Term Holder Supply in Profit — a volume-weighted PROXY, tested 1 Nov
 2026. The high zone is a genuine discriminator inside momentum.**
 `analysis/sthprofit.py`. Jared sent the Checkonchain chart. The real metric is
 UTXO-level (coins moved within 155 days, cost basis vs spot) and is NOT
