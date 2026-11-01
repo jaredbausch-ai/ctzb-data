@@ -1395,6 +1395,8 @@ trade. The same file is the source for anything client-facing. Before answering,
 check every documented confluence in PRETRADE.md (Tier 1, Promising, flags) and
 name each one that is on, with its record.
 
+**Dashboard freshness (1 Nov 2026, Jared):** status.csv carries "Updated (UTC)" (refresh.py). The ETH Setup Standard page shows UPDATED <local time> (Nh ago) top right, a DATA DELAYED banner when it is 6h+ old, an "About this data" panel (4-hourly refresh, confirm at bar close, provisional forming lows, card cross-check, delayed notice, computed signals not trades, sources), and the footer now says refreshed every 4 hours. Source docs/artifacts/eth-setup-standard.html = files/index.html in the artifact DB (v35).
+
 **Pipeline stall, 31 Oct 23:16 - 1 Nov 18:35 UTC, and the watchdog (1 Nov 2026).** The candle
 job ran green for 19 hours without pushing: stack_live rewrites `analysis/registry.json`, the
 committed copy was stale after the 31 Oct registry edits, so `git pull --rebase` refused every
