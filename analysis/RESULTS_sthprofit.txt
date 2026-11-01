@@ -1,0 +1,103 @@
+STH SUPPLY IN PROFIT (volume-weighted proxy, 155-day window)
+
+BTC: 3802 days, 2016-06-04 -> 2026-10-31
+   NOW 65.5%   full-history mean 58.4%  sd 33.8
+   trailing-2y mean 53.3%  +1sd 87.6%  -1sd 18.9%   -> z = +0.36
+   last 10 days: 83, 81, 79, 78, 78, 79, 82, 66, 63, 65
+
+ETH: 3662 days, 2016-10-22 -> 2026-10-31
+   NOW 56.1%   full-history mean 54.6%  sd 34.0
+   trailing-2y mean 46.6%  +1sd 79.5%  -1sd 13.6%   -> z = +0.29
+   last 10 days: 61, 60, 60, 59, 57, 59, 59, 53, 52, 56
+
+SHAPE CHECK -- does the proxy behave like the published metric?
+   2026 cycle low   2026-06-30  price    58,524   STH profit   0.0%
+   2025 high area   2025-10-06  price   124,720   STH profit  99.0%
+   2022 bear low    2022-11-21  price    15,760   STH profit   0.0%
+   2021 Nov top     2021-11-09  price    66,945   STH profit  98.5%
+   2020 Mar crash   2020-03-13  price     5,638   STH profit   6.2%
+
+
+============================================================================================
+BACKTEST: STH-profit proxy at the signal entry bar, 1004 gated signals
+============================================================================================
+
+  ALL  n=1004  baseline win 55%  LIQ30 21%  med dd -14.3%
+    condition                          n    win   edge   LIQ30   cut   med dd
+    S1  below 25%                    155    55%     +1     14%    -7   -10.5%
+    S2  below -1sd (z<-1)            187    43%    -12     24%    +3   -19.0%
+    S3  below 50%                    256    50%     -5     18%    -3   -15.9%
+    S4  above +1sd (z>+1)            297    65%    +11     10%   -11   -11.9%
+    S5  crossed up thru 50            54    43%    -12     33%   +13   -17.8%
+    S6  rising over 10d              520    61%     +6     18%    -2   -13.0%
+        25-75% (middle)              317    50%     -4     23%    +3   -16.0%
+
+  ETH  n=493  baseline win 58%  LIQ30 27%  med dd -16.2%
+    condition                          n    win   edge   LIQ30   cut   med dd
+    S1  below 25%                     95    51%     -8     21%    -6   -14.9%
+    S2  below -1sd (z<-1)             92    46%    -13     28%    +2   -18.6%
+    S3  below 50%                    140    49%     -9     25%    -2   -17.9%
+    S4  above +1sd (z>+1)            159    69%    +11     15%   -11   -14.3%
+    S5  crossed up thru 50            24    42%    -17     46%   +19   -21.0%
+    S6  rising over 10d              239    68%    +10     22%    -4   -14.8%
+        25-75% (middle)              149    61%     +3     32%    +5   -16.5%
+
+  BTC  n=511  baseline win 51%  LIQ30 15%  med dd -11.9%
+    condition                          n    win   edge   LIQ30   cut   med dd
+    S1  below 25%                     60    63%    +12      2%   -13    -9.8%
+    S2  below -1sd (z<-1)             95    40%    -11     19%    +4   -19.0%
+    S3  below 50%                    116    50%     -1      9%    -6   -14.3%
+    S4  above +1sd (z>+1)            138    61%    +10      4%   -11    -9.7%
+    S5  crossed up thru 50            30    43%     -8     23%    +8    -8.3%
+    S6  rising over 10d              281    54%     +4     15%    +0   -10.8%
+        25-75% (middle)              168    40%    -10     16%    +1   -14.9%
+
+  GRADIENT: outcomes by STH-profit quintile (ALL)
+    quintile              range               n    win   LIQ30   med dd
+    Q1                    0-33%             200    53%     16%   -14.2%
+    Q2                    33-68%            200    46%     26%   -17.8%
+    Q3                    68-88%            200    58%     21%   -11.2%
+    Q4                    88-97%            200    52%     19%   -13.9%
+    Q5                    97-100%           204    63%     21%   -14.9%
+
+============================================================================================
+BACKTEST: STH-profit proxy at the signal entry bar, 1004 gated signals
+============================================================================================
+
+  ALL  n=1004  baseline win 55%  LIQ30 21%  med dd -14.3%
+    condition                          n    win   edge   LIQ30   cut   med dd
+    S1  below 25%                    155    55%     +1     14%    -7   -10.5%
+    S2  below -1sd (z<-1)            187    43%    -12     24%    +3   -19.0%
+    S3  below 50%                    256    50%     -5     18%    -3   -15.9%
+    S4  above +1sd (z>+1)            297    65%    +11     10%   -11   -11.9%
+    S5  crossed up thru 50            54    43%    -12     33%   +13   -17.8%
+    S6  rising over 10d              520    61%     +6     18%    -2   -13.0%
+        25-75% (middle)              317    50%     -4     23%    +3   -16.0%
+
+  ETH  n=493  baseline win 58%  LIQ30 27%  med dd -16.2%
+    condition                          n    win   edge   LIQ30   cut   med dd
+    S1  below 25%                     95    51%     -8     21%    -6   -14.9%
+    S2  below -1sd (z<-1)             92    46%    -13     28%    +2   -18.6%
+    S3  below 50%                    140    49%     -9     25%    -2   -17.9%
+    S4  above +1sd (z>+1)            159    69%    +11     15%   -11   -14.3%
+    S5  crossed up thru 50            24    42%    -17     46%   +19   -21.0%
+    S6  rising over 10d              239    68%    +10     22%    -4   -14.8%
+        25-75% (middle)              149    61%     +3     32%    +5   -16.5%
+
+  BTC  n=511  baseline win 51%  LIQ30 15%  med dd -11.9%
+    condition                          n    win   edge   LIQ30   cut   med dd
+    S1  below 25%                     60    63%    +12      2%   -13    -9.8%
+    S2  below -1sd (z<-1)             95    40%    -11     19%    +4   -19.0%
+    S3  below 50%                    116    50%     -1      9%    -6   -14.3%
+    S4  above +1sd (z>+1)            138    61%    +10      4%   -11    -9.7%
+    S5  crossed up thru 50            30    43%     -8     23%    +8    -8.3%
+    S6  rising over 10d              281    54%     +4     15%    +0   -10.8%
+        25-75% (middle)              168    40%    -10     16%    +1   -14.9%
+
+  GRADIENT: outcomes by STH-profit quintile (ALL)
+    quintile              range               n    win   LIQ30   med dd
+    Q1                    0-33%             200    53%     16%   -14.2%
+    Q2                    33-68%            200    46%     26%   -17.8%
+    Q3                    68-88%            200    58%     21%   -11.2%
+    Q4                    88-97%            200    52%     19%   -13.9%
+    Q5                    97-100%           204    63%     21%   -14.9%

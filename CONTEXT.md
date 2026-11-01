@@ -578,6 +578,52 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Short-Term Holder Supply in Profit — a volume-weighted PROXY, tested 1 Nov
+2026. The high zone is a genuine discriminator inside momentum.**
+`analysis/sthprofit.py`. Jared sent the Checkonchain chart. The real metric is
+UTXO-level (coins moved within 155 days, cost basis vs spot) and is NOT
+computable here -- same wall as the whale metrics.
+
+THE PROXY: `sum(volume on days in [t-155,t] where close < close(t)) / sum(volume)`.
+Same question -- what share of recent buyers are above water -- from price and
+volume instead of the chain. Volume exists in `data/*.csv` for the full history.
+
+**SHAPE VALIDATES, LEVEL DOES NOT.** BTC proxy at major turns: 2026 cycle low
+**0.0%**, 2022 bear low **0.0%**, Mar 2020 crash 6.2%, Nov 2021 top **98.5%**,
+2025 high **99.0%**. That is the published metric's behaviour. But the proxy
+reads BTC at 65.5% where Checkonchain shows ~40% -- exchange volume clusters near
+recent prices, so it runs hot. **Use the z-score, never the absolute level.**
+
+Backtest, 1,004 gated signals, baseline 55% win / 21% LIQ30 / -14.3% med dd:
+
+| condition | n | win | edge | LIQ30 | cut |
+|---|---|---|---|---|---|
+| above +1sd | 297 | 65% | **+11** | 10% | **-11** |
+| rising over 10d | 520 | 61% | +6 | 18% | -2 |
+| middle 25-75% | 317 | 50% | -4 | 23% | +3 |
+| below -1sd | 187 | 43% | **-12** | 24% | +3 |
+| crossed UP through 50 | 54 | 43% | **-12** | 33% | **+13** |
+
+Both extremes hold on BOTH assets (+1sd: ETH +11, BTC +10; -1sd: ETH -13,
+BTC -11).
+
+**MOMENTUM BENCHMARK -- passes, with a nuance.** S4 and "price > 60 days ago"
+agree 63% of the time and S4-without-momentum is only **n=4**, so S4 is nearly a
+SUBSET of momentum. But plain momentum is worth nothing (+2 win, +2 LIQ30), and
+inside it S4 separates 65%/10% from **momentum-true-but-S4-false at 51%/32%**.
+It is a discriminator WITHIN momentum, not an independent axis. Describe it that
+way.
+
+TWO WARNINGS:
+1. The zone the Checkonchain chart labels **"not buying" is the BEST zone** for
+   these signals. The label describes holder behaviour, not an entry condition.
+2. **"Crossed up through 50" is a trap** -- 43% win, 33% LIQ30 (ETH 42%/46%).
+   Recovering from underwater is not the same as being above water.
+
+Gradient is non-monotonic by quintile (53, 46, 58, 52, 63), the same jaggedness
+as the 160D projection. On 1 Nov 2026 both assets sat in the MIDDLE band
+(BTC z +0.36, ETH z +0.29) -- the worst-performing one.
+
 **Flat Stoch %K (the BLUE line) in the bearish control zone — tested 31 Oct
 2026. ETH 1D only, and the chart that fires has no sample.** `analysis/flatk.py`.
 Blue is `kL` at ct_zone_bounce_v15.pine line 225 = `sma(stoch(ct,ct,ct,14), 3)`.
