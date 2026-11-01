@@ -515,8 +515,10 @@ def main():
                 for f, o_, n_ in zip(RETRACE_LV, og, ng):
                     lv = lowp + f * (H - lowp)
                     if lv > now:
-                        parts.append(f'{"fractal high" if f == 1.0 else f}: ${lv:,.0f}, {100 * (lv / r["entry"] - 1):+.1f}% from entry'
-                                     f' ({o_}% of {n_} grade {gl})')
+                        # odds apply only to levels that were still ABOVE the entry when the trade confirmed;
+                        # a level under the entry was already passed at entry, so it has no odds
+                        odds = f'{o_}% of {n_} grade {gl}' if lv > r['entry'] else 'under the entry: passed at entry, no odds'
+                        parts.append(f'{"fractal high" if f == 1.0 else f}: ${lv:,.0f}, {100 * (lv / r["entry"] - 1):+.1f}% from entry ({odds})')
                 head = f'entry ${r["entry"]:,.2f}, now ${now:,.2f} ({100 * (now / r["entry"] - 1):+.1f}%); '
                 out.append([subj, f'Drop retrace odds, fractal high {bb["date"][fj]} ${H:,.0f} to low ${lowp:,.0f} [in-trade, information]',
                             head + (('levels above price: ' + '; '.join(parts)) if parts else 'price above every level of the drop'),
