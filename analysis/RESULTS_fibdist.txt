@@ -1,0 +1,49 @@
+Distance from a fib level as a graded quantity. Declared 31 Oct 2026.
+
+Jared, 31 Oct, after fibreclaim: "what about distance from a fib level?" fibreclaim and
+fibtest only asked yes/no questions (within 2%, reclaimed or not). This asks whether
+the DISTANCE itself grades the trade, in quintiles.
+
+UNIVERSE / OUTCOME / SWINGS / LEVELS as fibreclaim.py (1,172 signals, card measure,
+30/60/90-day and 90-bar swings, fib levels 0.236-0.786 vs placebo 0.30-0.85).
+
+MEASURES (percent of price, from the entry close or the trough low):
+  D1 UP     distance from the entry close UP to the nearest level above it (room to resistance)
+  D2 DOWN   distance from the entry close DOWN to the nearest level below it (cushion to support)
+  D3 LOW    distance from the trough low to the nearest level, either side
+  (no level on that side -> the signal is left out of that measure)
+
+Signals are split into quintiles of each measure (per measure and swing, pooled).
+PASS, each measure-swing cell:
+  Q1 top-vs-bottom quintile SURV10 gap >= 8 points
+  Q2 the five quintiles move in order: |Spearman(quintile, SURV10)| >= 0.9
+  Q3 same direction before 2022 and 2022 on (top vs bottom quintile)
+  Q4 LIQ30 gap no worse in the better quintile
+  Q5 beats the PLACEBO version of the same cell by >= 5 points on the top-bottom gap
+  Q6 passes Q1-Q5 at two of the four swings, same direction
+
+
+D1_UP   SURV10 by quintile, nearest-to-farthest (LIQ30 in brackets)
+  30d      n=735   63(14)  62(18)  57(27)  61(26)  55(27)   gap -8  rho -0.9  <2022 -12 2022+ -9  placebo gap -8   cuts 1.2/2.7/6.8/18.3%   fail Q2,Q5
+  60d      n=726   59(12)  59(21)  51(32)  63(24)  64(18)   gap +5  rho +0.7  <2022 -3 2022+ +8  placebo gap +13   cuts 1.5/3.4/8.9/23.4%   fail Q1,Q2,Q3,Q4,Q5
+  90d      n=698   53(22)  58(19)  60(25)  57(30)  69(14)   gap +16  rho +0.7  <2022 +10 2022+ +20  placebo gap +18   cuts 2.0/4.3/7.9/21.4%   fail Q2,Q5
+  BARS-90  n=666   59(17)  62(17)  62(23)  63(28)  71(15)   gap +12  rho +1.0  <2022 +4 2022+ +18  placebo gap +15   cuts 2.1/4.7/8.6/19.9%   fail Q5
+
+D2_DOWN   SURV10 by quintile, nearest-to-farthest (LIQ30 in brackets)
+  30d      n=753   67(12)  61(18)  65(19)  68(17)  62(26)   gap -6  rho +0.0  <2022 -17 2022+ +14  placebo gap -2   cuts 1.0/2.5/4.8/9.0%   fail Q1,Q2,Q3,Q5
+  60d      n=820   49(24)  59(18)  75(15)  65(21)  60(26)   gap +12  rho +0.6  <2022 -0 2022+ +31  placebo gap +9   cuts 1.8/3.7/6.0/10.5%   fail Q2,Q3,Q4,Q5
+  90d      n=869   53(23)  57(17)  67(21)  63(25)  63(24)   gap +10  rho +0.7  <2022 +1 2022+ +24  placebo gap +6   cuts 1.8/4.2/6.7/11.4%   fail Q2,Q4,Q5
+  BARS-90  n=883   59(18)  68(15)  57(28)  60(20)  55(27)   gap -3  rho -0.5  <2022 -8 2022+ +4  placebo gap -3   cuts 2.3/5.0/7.8/12.8%   fail Q1,Q2,Q3,Q5
+
+D3_LOW   SURV10 by quintile, nearest-to-farthest (LIQ30 in brackets)
+  30d      n=1172  68(15)  65(14)  60(22)  66(19)  52(29)   gap -16  rho -0.7  <2022 -10 2022+ -30  placebo gap -18   cuts 0.8/2.0/6.3/17.6%   fail Q2,Q5
+  60d      n=1172  68(12)  68(15)  56(29)  62(22)  59(22)   gap -9  rho -0.6  <2022 -12 2022+ -4  placebo gap +4   cuts 0.9/2.1/4.9/17.7%   fail Q2
+  90d      n=1172  64(17)  63(14)  63(24)  57(29)  66(17)   gap +2  rho +0.0  <2022 -2 2022+ +5  placebo gap +10   cuts 1.1/2.5/4.4/15.8%   fail Q1,Q2,Q3,Q5
+  BARS-90  n=1123  62(18)  60(17)  61(22)  60(24)  70(16)   gap +8  rho +0.3  <2022 +1 2022+ +16  placebo gap +12   cuts 1.2/2.7/4.7/12.1%   fail Q1,Q2,Q5
+
+Q6 (two of four swings, same direction):
+  D1_UP    none
+  D2_DOWN  none
+  D3_LOW   none
+
+Entry quality only. No exit in the data; not a strategy return or a track record.
