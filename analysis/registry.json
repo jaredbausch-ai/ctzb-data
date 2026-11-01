@@ -73,7 +73,7 @@
  },
  {
   "id": "MARKER",
-  "label": "A diamond or a prime dot",
+  "label": "A diamond or a prime dot (pooled flag; quote the exact-tag rows)",
   "assets": "ETH BTC",
   "charts": "all",
   "kind": "flag",
@@ -153,7 +153,7 @@
  },
  {
   "id": "DIAMOND",
-  "label": "Diamond (filled / hollow)",
+  "label": "Diamond, filled and hollow POOLED (quote the exact-tag rows, not this)",
   "assets": "ETH BTC",
   "charts": "all",
   "kind": "tag",
@@ -278,5 +278,13 @@
   "charts": "all",
   "kind": "in-trade (partial)",
   "documented": "PRETRADE A signals"
+ },
+ {
+  "id": "RETRACE",
+  "label": "Drop retrace odds: levels of the drop from the last fractal high (k=5) to the signal low, with odds by grade",
+  "assets": "ETH BTC",
+  "charts": "all",
+  "kind": "in-trade (information)",
+  "documented": "PRETRADE In-trade reads; analysis/fibjared_clean.py"
  }
 ]

@@ -87,16 +87,20 @@ jobs:
         run: |
           git config user.name  "ctzb-pipeline"
           git config user.email "actions@github.com"
-          git add data/ datasets/ feed/
+          git add data/ datasets/ feed/ analysis/registry.json
           if git diff --staged --quiet; then
             echo "no change"
           else
             git commit -m "candles through $(date -u +%Y-%m-%d)"
-            # pcr.yml also pushes; retry with a rebase if it got there first
+            # pcr.yml also pushes; retry with a rebase if it got there first.
+            # --autostash: a stray modified file must never block the push (31 Oct-1 Nov:
+            # an uncommitted registry.json blocked every push while the step reported success).
+            pushed=no
             for i in 1 2 3 4 5; do
-              git pull --rebase -q && git push && break
+              if git pull --rebase --autostash -q && git push; then pushed=yes; break; fi
               sleep $((i * 15))
             done
+            if [ "$pushed" != yes ]; then echo "PUSH FAILED after 5 tries"; exit 1; fi
           fi
 
       - name: Fail the run if the live stack or the card check failed
