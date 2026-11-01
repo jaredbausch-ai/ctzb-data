@@ -191,11 +191,18 @@ at entry, the share whose price reached it within 60 days of entry:
 | C | 71% (290) | 64% (315) | 58% (342) | 48% (353) |
 | All | 74% (618) | 68% (692) | 62% (768) | 52% (814) |
 
+**Do not quote the table above as the odds for a live trade (corrected 31 Oct, Jared).**
+It ignores how far the level sits above the entry: a 0.5 one percent above entry and
+one five percent above got the same number, so it read too rosy on A setups (ETH A,
+0.5 at +4.9%: table 98%, real 87%) and far too gloomy on C setups with small drops
+(BTC C, 0.5 at +1.2%: table 71%, real 96%). The live read uses ODDS BY DISTANCE: the
+share of graded signals of the same asset and grade whose best rise within 60 days of
+entry reached at least that far above their entry (ledger `bestMove`). A level under
+the entry gets no odds (it was passed at entry).
+
 Information for the discretionary exit, never a rule and never part of the grade or
-the card. Much of the ordering is the grade itself (A+ drops are smaller: median 13.7%
-vs 23.2% for C), and placebo levels at 0.45/0.55/0.70/0.85 behave the same as the fib
-numbers -- the levels are a ruler, not magic. The live stack lists, for every open
-signal, the levels still above price with these odds.
+the card. Placebo levels at 0.45/0.55/0.70/0.85 behave the same as the fib numbers --
+the levels are a ruler for where to look, the distance is what carries the odds.
 
 ---
 

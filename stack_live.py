@@ -112,13 +112,8 @@ DOC_MAP = {
     'A signals only: does CT close at 50 before it turns down? (26 Oct 2026, partial)': ['A50'],
     'Drop retrace odds — last fractal high to the signal low (31 Oct 2026, information)': ['RETRACE'],
 }
-# Drop retrace odds (analysis/fibjared_clean.py, 31 Oct 2026, fractal k=5): of signals still
-# below the level at entry, share whose price reached it within 60 days of entry, by grade.
+# Drop retrace odds: levels of the drop (fibjared.py); odds come from the ledger by distance
 RETRACE_LV = (0.5, 0.618, 0.786, 1.0)
-RETRACE_ODDS = {'A+': (96, 91, 91, 87), 'A': (98, 82, 75, 71), 'B': (75, 70, 67, 57),
-                'C': (71, 64, 58, 48), 'all': (74, 68, 62, 52)}
-RETRACE_N = {'A+': (23, 33, 43, 53), 'A': (40, 51, 61, 72), 'B': (105, 122, 138, 147),
-             'C': (290, 315, 342, 353), 'all': (618, 692, 768, 814)}
 WATCH_NOTE = ('CT RSI day-ten three-state read (CONTEXT open items): the definition of '
               '"both agree" is not written in the repo, so it cannot be computed yet.')
 
@@ -351,6 +346,7 @@ def main():
         return _HOOK(locals())
     # ------------------------------------------------ evaluate
     out = []; evaluated = set(); cards = []
+    LEDGER = list(csv.DictReader(open(os.path.join(OUT, 'ledger.csv'))))
 
     PLAIN = {'GAP': 'CT well above its Signal line', 'HIGH': 'a higher low than the last signal', 'AGREE': 'other charts already confirmed',
              'BTC3': 'a BTC 3D signal in the 10 days before', 'BTCX': 'an ETH 2D signal in the 10 days before', 'FUND': 'funding at or above its 90-day median',
@@ -508,21 +504,28 @@ def main():
             fj = next((j for j in range(ti - K, K - 1, -1)
                        if all(hh[j] > hh[x] for x in range(j - K, j)) and all(hh[j] > hh[x] for x in range(j + 1, j + K + 1))), None)
             lowp = bb['low'][ti]; now = DAY[a]['close'][-1]
+            # odds BY DISTANCE (31 Oct, Jared): share of graded signals, same asset and grade, whose best
+            # rise within 60 days of entry reached at least this far above their entry (ledger bestMove).
+            # Replaces the fib-level table, which ignored how far the level sat above the entry.
+            bm = [float(x['bestMove']) for x in LEDGER if x['asset'] == a and x['grade'] == g and x['bestMove'] != '']
             if fj is not None and hh[fj] > lowp:
-                H = hh[fj]; og = RETRACE_ODDS.get(g, RETRACE_ODDS['all']); ng = RETRACE_N.get(g, RETRACE_N['all'])
-                gl = g if g in RETRACE_ODDS else 'all'
+                H = hh[fj]
                 parts = []
-                for f, o_, n_ in zip(RETRACE_LV, og, ng):
+                for f in RETRACE_LV:
                     lv = lowp + f * (H - lowp)
                     if lv > now:
-                        # odds apply only to levels that were still ABOVE the entry when the trade confirmed;
-                        # a level under the entry was already passed at entry, so it has no odds
-                        odds = f'{o_}% of {n_} grade {gl}' if lv > r['entry'] else 'under the entry: passed at entry, no odds'
+                        dist = 100 * (lv / r['entry'] - 1)
+                        if lv <= r['entry']:
+                            odds = 'under the entry: passed at entry, no odds'
+                        elif bm:
+                            odds = f'{round(100 * sum(x >= dist for x in bm) / len(bm))}% of {len(bm)} {a} grade {g} rose this far'
+                        else:
+                            odds = f'no graded {a} {g} record'
                         parts.append(f'{"fractal high" if f == 1.0 else f}: ${lv:,.0f}, {100 * (lv / r["entry"] - 1):+.1f}% from entry ({odds})')
                 head = f'entry ${r["entry"]:,.2f}, now ${now:,.2f} ({100 * (now / r["entry"] - 1):+.1f}%); '
                 out.append([subj, f'Drop retrace odds, fractal high {bb["date"][fj]} ${H:,.0f} to low ${lowp:,.0f} [in-trade, information]',
                             head + (('levels above price: ' + '; '.join(parts)) if parts else 'price above every level of the drop'),
-                            '', '', '', '', '', '', '', '', 'from entry, within 60 days (fibjared_clean.py); exits stay discretionary'])
+                            '', '', '', '', '', '', '', '', 'odds by distance from entry, within 60 days (ledger bestMove); exits stay discretionary'])
     out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', '', '', '', ''])
     heads = check_coverage(evaluated)
 
