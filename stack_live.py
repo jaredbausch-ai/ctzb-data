@@ -515,16 +515,17 @@ def main():
                     lv = lowp + f * (H - lowp)
                     if lv > now:
                         dist = 100 * (lv / r['entry'] - 1)
+                        name = 'fractal high' if f == 1.0 else str(f)
                         if lv <= r['entry']:
-                            odds = 'under the entry: passed at entry, no odds'
+                            parts.append(f'{name} ${lv:,.0f} (under entry, no odds)')
                         elif bm:
-                            odds = f'{round(100 * sum(x >= dist for x in bm) / len(bm))}% of {len(bm)} {a} grade {g} rose this far'
+                            parts.append(f'{name} ${lv:,.0f} (+{dist:.1f}%): {round(100 * sum(x >= dist for x in bm) / len(bm))}%')
                         else:
-                            odds = f'no graded {a} {g} record'
-                        parts.append(f'{"fractal high" if f == 1.0 else f}: ${lv:,.0f}, {100 * (lv / r["entry"] - 1):+.1f}% from entry ({odds})')
-                head = f'entry ${r["entry"]:,.2f}, now ${now:,.2f} ({100 * (now / r["entry"] - 1):+.1f}%); '
+                            parts.append(f'{name} ${lv:,.0f} (+{dist:.1f}%): no record')
+                head = (f'entry ${r["entry"]:,.0f} | now ${now:,.0f} ({100 * (now / r["entry"] - 1):+.1f}%) | low ${lowp:,.0f} | '
+                        f'odds = share of {len(bm)} past {a} grade {g} trades that rose that far above entry within 60 days | ')
                 out.append([subj, f'Drop retrace odds, fractal high {bb["date"][fj]} ${H:,.0f} to low ${lowp:,.0f} [in-trade, information]',
-                            head + (('levels above price: ' + '; '.join(parts)) if parts else 'price above every level of the drop'),
+                            head + ((' · '.join(parts)) if parts else 'price above every level of the drop'),
                             '', '', '', '', '', '', '', '', 'odds by distance from entry, within 60 days (ledger bestMove); exits stay discretionary'])
     out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', '', '', '', ''])
     heads = check_coverage(evaluated)
