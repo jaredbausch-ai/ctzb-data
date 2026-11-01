@@ -61,7 +61,7 @@ REGISTRY = [
     ('BTCX', 'ETH 2D confirmed 0-10 days before', 'BTC', '1D 2D', 'grade lens + Promising', 'PRETRADE Promising; grade'),
     # flags beside the grade
     ('DIVH', 'Bullish Stoch divergence on a higher chart, last 10 days', 'ETH BTC', 'all', 'flag', 'PRETRADE grade flags'),
-    ('MARKER', 'A diamond or a prime dot', 'ETH BTC', 'all', 'flag', 'PRETRADE grade flags'),
+    ('MARKER', 'A diamond or a prime dot (pooled flag; quote the exact-tag rows)', 'ETH BTC', 'all', 'flag', 'PRETRADE grade flags'),
     # Tier 1 not already above
     ('T1PRIME', 'CT above Signal and a prime dot', 'ETH BTC', 'all', 'Tier 1 #2', 'PRETRADE Tier 1 #2'),
     ('T1DIAM', 'CT above Signal and a diamond', 'ETH BTC', 'all', 'Tier 1 #3', 'PRETRADE Tier 1 #3'),
@@ -74,7 +74,7 @@ REGISTRY = [
     ('B3E3', 'BTC 3D confirmed 0-10 days before (near miss: sample)', 'ETH', '3D', 'near miss', 'PRETRADE grade; grade6'),
     # tags
     ('BUCKET', 'Bucket at the trough (A <40, B 40-55, C 55-65, D 65+)', 'ETH BTC', 'all', 'tag', 'indicator'),
-    ('DIAMOND', 'Diamond (filled / hollow)', 'ETH BTC', 'all', 'tag', 'indicator'),
+    ('DIAMOND', 'Diamond, filled and hollow POOLED (quote the exact-tag rows, not this)', 'ETH BTC', 'all', 'tag', 'indicator'),
     ('PRIME', 'Prime dot', 'ETH BTC', 'all', 'tag', 'indicator'),
     # forward-watch candidates (CONTEXT / PRETRADE failed-list near misses)
     ('K1', 'BTC put/call top band (pct >= 95) at the last weekly close', 'BTC', 'all', 'watch lens (agreed 28 Oct)', 'PRETRADE failed list near miss; CONTEXT'),
@@ -447,6 +447,14 @@ def main():
         # bucket, regime
         evaluated.update({'BUCKET', 'REGIME', 'REGAGE'})
         out.append([subj, f'Bucket {r["bk"]} on this chart [tag]', 'ON'] + rec([s for s in Cr if s['bk'] == r['bk']]) + ['full history'])
+        # EXACT tags (31 Oct, after a pooled diamond figure was quoted for a filled-diamond A): the record for the
+        # tag this signal actually carries, never only its parent category
+        dk = 'filled diamond' if r['strong'] else 'hollow diamond' if r['dis'] else 'no diamond'
+        same_d = lambda s: bool(s['dis']) == bool(r['dis']) and bool(s['strong']) == bool(r['strong'])
+        out.append([subj, f'Exact diamond type on this chart: {dk} [tag, exact]', 'ON'] + rec([s for s in Cr if same_d(s)]) + ['full history'])
+        ex_t = [s for s in Cr if s['bk'] == r['bk'] and same_d(s) and bool(s['prime']) == bool(r['prime'])]
+        out.append([subj, f'Exact tags on this chart: {r["bk"]} + {dk} + {"prime dot" if r["prime"] else "no prime dot"} [tag, exact]', 'ON']
+                   + rec(ex_t) + ['full history' + (' (under 15 trades: too few to quote alone)' if len(ex_t) < 15 else '')])
         ra = regime_age(d0 if d0 <= today else today)
         out.append([subj, 'Regime gate [Tier 1 #6]', 'ON' if ra is not None else 'OFF', '', '', '', '', '', '', '', '', f'on for {ra} days' if ra is not None else ''])
         # confluence cells

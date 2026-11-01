@@ -1270,6 +1270,21 @@ trade. The same file is the source for anything client-facing. Before answering,
 check every documented confluence in PRETRADE.md (Tier 1, Promising, flags) and
 name each one that is on, with its record.
 
+**Quote the EXACT tag, never its parent category (set 31 Oct 2026, after a mistake).**
+For a live or forming signal, the record quoted for a tag is the record of the tag it
+actually carries: bucket + filled/hollow/no diamond + prime dot, from the liveread rows
+marked [tag, exact]. On 31 Oct the ETH 1D A + filled diamond was quoted at "72% reach
++20%" -- that was every ETH 1D diamond pooled, carried by hollow diamonds (86%); the
+exact A + filled figure was 61% on 18 trades, the chart's ordinary rate. Before quoting
+any figure for a live signal, check: is this the exact subset the signal belongs to, and
+what is n? Under 15 trades, say so and give the parent figure beside it, labelled.
+
+**Odds beside a live trade are FROM TODAY, never from entry (set 31 Oct 2026).** A
+from-entry figure next to an open trade reads as that trade's chance, and most readers
+look at the picture, not the caveat. Use the from-here read (same state, same day after
+entry). Any visual must be readable without its caption: if the picture alone can be
+misread, it is wrong.
+
 **When he asks for statistics on a signal, always include the positioning read
 (set 23 Oct 2026):** run `python3 -I analysis/posread.py --asset <ETH|BTC>
 --date <entry date>` and report funding vs its 90-day median (below = caution
