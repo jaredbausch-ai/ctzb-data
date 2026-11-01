@@ -578,6 +578,52 @@ THREE THINGS THAT KEEP THIS BELOW "ADOPTED":
 3. Entry quality only, as ever. No exit in the data, so none of this is a
    strategy return.
 
+**Seller Exhaustion Constant — PROXY FAILED VALIDATION, not backtested. 1 Nov
+2026.** `analysis/sec.py`. Jared sent the Checkonchain chart. Definition
+confirmed from Glassnode's indicator page (ARK Invest / David Puell, 2021):
+**SEC = percent supply in profit x volatility**, volatility = 30-day rolling sd
+of price / price.
+
+**The proxy does not reproduce the published metric and WAS NOT BACKTESTED.**
+The supply-in-profit half uses the same volume-weighted proxy as the STH work,
+and mid-cycle it is structurally biased high: it read BTC at **91%** on 1 Nov
+when the real figure is nearer 40%. Volume weighting is dominated by years of
+cheap old coins and double-counts actively traded ones. The giveaway was that
+two equivalent events landed at opposite extremes -- Nov 2021 top at the 72nd
+percentile, the 2025 high at the 14th. Tried both `sd(price)/price` and
+`sd(log returns)`; neither fixed it. **Do not backtest this proxy. Fixing it
+needs real on-chain supply-in-profit, which is paid data.**
+
+**THE VOLATILITY HALF IS EXACT AND WORTH KEEPING.** 30-day realised vol at the
+entry bar, trailing-2y percentile, 1,016 gated signals, baseline 55% win /
+20% LIQ30 / -14.2% med dd:
+
+| vol percentile | n | win | edge | LIQ30 | cut | med dd |
+|---|---|---|---|---|---|---|
+| bottom 20% (quiet tape) | 210 | 47% | -8 | **7%** | **-13** | -10.1% |
+| 20-40 | 163 | 56% | +1 | 23% | +3 | -13.2% |
+| 40-60 | 230 | 54% | -1 | 23% | +3 | -16.1% |
+| 60-80 | 218 | 56% | +1 | 27% | +6 | -15.7% |
+| top 20% (violent tape) | 195 | 63% | +7 | 22% | +2 | -15.3% |
+
+Consistent on both assets. A quiet tape gives fewer wins and far fewer blowups;
+**7% LIQ30 against a 20% baseline is the largest risk cut measured in this
+repo.** A violent tape gives more wins at unchanged risk.
+
+The obvious objection is that volatility just scales both tails, which would
+make this arithmetic rather than information. **The stack says otherwise:**
+gap>5 alone is n=205, 68% win, 15% LIQ30, -10.6% med dd; gap>5 AND vol in the
+bottom 20% is n=56, **68% win, 11% LIQ30, -5.4% med dd** -- same win rate, half
+the drawdown. Pure tail-scaling would have taken the win rate down with it.
+
+NOT YET CHECKED: per-year stability, a placebo, and whether it survives against
+the funding filter. Adjacent to the vol-scaled forecast thread crossed off on
+22 Oct, but a different use -- vol as a risk filter on entries, not as a
+forecast band.
+
+On 1 Nov 2026 BTC's 30-day vol sat at the **14th** percentile and ETH's at the
+**5th** -- both deep in the quiet-tape zone.
+
 **Short-Term Holder Supply in Profit — tested and SCRAPPED 1 Nov 2026. Do not
 re-add it to the entry stack.** Jared's call after the stacking test, and it was
 the right one. Kept as a regime read only; `analysis/sthprofit.py` stays because
