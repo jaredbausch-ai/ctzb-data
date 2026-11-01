@@ -669,6 +669,8 @@ regime. Plain readings agree: signal low under the low of the bar 180 days earli
 Status: candidate, not adopted, no REGISTRY entry. Live 31 Oct: OFF on all 5 cards at
 180 days (lows at 0.38-0.49 of the swing). Entry quality only.
 
+**Fib reclaim at the confirmation close -- 31 Oct 2026. Empty.** `analysis/fibreclaim.py` (declared, af843e4). Jared asked whether a confirmation close above a fib level (old resistance) could count toward the grade. 16 cells (4 readings x 4 swings), each against placebo levels that are not fib numbers: 0 passed, and the placebo levels behave the same as the fib levels wherever anything moved. The levels are not what matters. Closed.
+
 **Swing-break at fractal scales -- 31 Oct 2026.** `analysis/fibfractal.py` (declared,
 699ba94). Jared asked whether smaller swings give more signals. Scaled to each chart's
 own bars, the swing-break read passes at 90 and 120 bars (A1-A9, A8 neighbouring

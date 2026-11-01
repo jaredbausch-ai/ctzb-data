@@ -1,0 +1,59 @@
+Does the confirmation close RECLAIMING a fib level add to the grade? Declared 31 Oct 2026.
+
+Jared's question, 31 Oct: if the bar that confirms the signal closes above a fib level
+that was acting as resistance, can that count toward the grade? fibtest.py tested where
+the LOW sits (not special); this tests what the ENTRY CLOSE did relative to the levels.
+
+UNIVERSE / OUTCOME as fibtest.py: 1,172 regime-gated signals on the 10 system charts,
+entry = confirmation close ei = ti + 3, SURV10 / LIQ30 within 60 days.
+
+SWING (before the trough bar ti only): fibtest.swing() for W in {30, 60, 90} days, and the
+last 90 bars of the chart (BARS-90, fibfractal's passing scale). Range = H - L0.
+FIB LEVELS (retracements of that swing, price = H - f * range): f in {0.236, 0.382, 0.5,
+0.618, 0.786}. PLACEBO LEVELS, same count, not fib numbers: f in {0.30, 0.45, 0.55, 0.70, 0.85}.
+
+LENSES (each run on fib levels AND placebo levels):
+  C1 RECLAIM    the trough bar CLOSED below a level and the entry close is above it
+                (at least one level reclaimed during the confirmation)
+  C2 RECLAIM_DEEP  same, but the level reclaimed is 0.618 or deeper (placebo: 0.70+)
+  C3 JUST_ABOVE the entry close sits 0-2% ABOVE a level (support just under the entry)
+  C4 JUST_BELOW the entry close sits 0-2% BELOW a level (resistance just over the entry)
+  4 lenses x 4 swings = 16 fib cells, 16 placebo cells.
+
+PASS RULES, fib cells (A1-A7 as stochdwell/fibtest), plus
+  A8  passes A1-A7 at two of the four swings, same direction
+  A9  lift >= 5 (same direction) stratified by bounce size (entry close / trough low,
+      terciles) -- reclaiming a level is partly just "bounced further", and "rebound
+      already paid" died in the 23 Oct sweep
+  A10 beats its PLACEBO cell (same lens, same swing) by >= 5 points in its direction.
+      If made-up levels do as well, the levels are not what is working.
+
+
+  lens@swing               n with  SURV  LIQ  n w/o  SURV  LIQ  lift  <2022  2022+  charts  years bk-adj pr-adj bounce-adj placebo  verdict
+  C1_RECLAIM@30d              570    66   18    602    59   22    +6     +7     +6   62%/8  44%/9     +6     +6         +8      +5  fail A2,A5,A6,A10
+  C1_RECLAIM@60d              497    61   22    675    64   19    -3     +1     -9  50%/10  78%/9     -4     -3         -1      -1  fail A2,A4,A5,A7,A9,A10
+  C1_RECLAIM@90d              469    59   23    703    65   18    -6     +1    -16  70%/10  67%/9     -7     -6         -5      -3  fail A2,A4,A9,A10
+  C1_RECLAIM@BARS-90          403    62   22    720    63   18    -1     +3     -6   33%/9 70%/10     -1     -1         +1      -1  fail A2,A4,A5,A7,A9,A10
+
+  C2_RECLAIM_DEEP@30d         242    65   15    930    62   21    +3     +4     +1  50%/10  44%/9     +3     +3         +4      +1  fail A2,A5,A6,A7,A9,A10
+  C2_RECLAIM_DEEP@60d         154    55   25   1018    64   19    -8     -3    -15   89%/9  78%/9     -8     -8         -7      -9  fail A10
+  C2_RECLAIM_DEEP@90d         112    54   27   1060    63   19   -10     -3    -18   71%/7  62%/8     -9    -10         -9     -21  fail A10
+  C2_RECLAIM_DEEP@BARS-90      73    71   14   1050    62   20    +9     +2    +16   33%/3  83%/6    +11     +9        +11      -3  fail A5
+
+  C3_JUST_ABOVE@30d           250    65   14    922    62   22    +3     +9     -4   62%/8  44%/9     +3     +3         +2      +1  fail A2,A4,A5,A6,A7,A9,A10
+  C3_JUST_ABOVE@60d           171    49   24   1001    65   19   -16     -6    -26  100%/7  89%/9    -18    -16        -18     -10  PASS A1-A7,A9,A10
+  C3_JUST_ABOVE@90d           183    54   22    989    64   20   -11     -2    -19   86%/7  78%/9    -11    -11        -13     -10  fail A10
+  C3_JUST_ABOVE@BARS-90       150    59   17    973    63   20    -4     -1     -8   50%/6  75%/8     -4     -4         -6      -6  fail A2,A3,A5,A7,A10
+
+  C4_JUST_BELOW@30d           231    63   15    941    62   21    +0     +1     -1   43%/7  33%/9     +0     -0         -1      -5  fail A2,A4,A5,A6,A7,A9
+  C4_JUST_BELOW@60d           175    59   14    997    63   21    -4    +13    -20   57%/7  44%/9     -4     -3         -5     -14  fail A2,A3,A4,A5,A6,A7,A9,A10
+  C4_JUST_BELOW@90d           137    53   23   1035    64   20   -11     -3    -19   67%/6  75%/8    -11    -11        -13     -10  fail A10
+  C4_JUST_BELOW@BARS-90       131    59   16    992    63   20    -4     +5    -11   50%/6  67%/9     -3     -4         -5      -5  fail A2,A3,A4,A5,A7,A10
+
+A8 (two of the four swings, same direction):
+  C1_RECLAIM        none
+  C2_RECLAIM_DEEP   none
+  C3_JUST_ABOVE     one swing only: 60d
+  C4_JUST_BELOW     none
+
+Entry quality only. No exit in the data; not a strategy return or a track record.
