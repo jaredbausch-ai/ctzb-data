@@ -1395,6 +1395,18 @@ trade. The same file is the source for anything client-facing. Before answering,
 check every documented confluence in PRETRADE.md (Tier 1, Promising, flags) and
 name each one that is on, with its record.
 
+**Pipeline stall, 31 Oct 23:16 - 1 Nov 18:35 UTC, and the watchdog (1 Nov 2026).** The candle
+job ran green for 19 hours without pushing: stack_live rewrites `analysis/registry.json`, the
+committed copy was stale after the 31 Oct registry edits, so `git pull --rebase` refused every
+time and the commit step still exited 0. Fixed: registry.json committed and staged by the
+workflow, `--autostash`, and the step now FAILS if the push never lands. Added
+`.github/workflows/watchdog.yml` (hourly): if the last "candles through" commit is 6h+ old it
+pulls the last runs and their error lines, re-runs the candle job, opens or updates a
+`pipeline-alert` issue (GitHub emails the owner) and goes red; it closes the issue when fresh.
+**Rule: any change to stack_live.py's REGISTRY must commit the regenerated analysis/registry.json
+in the same commit.** For clients: the backend should refuse to serve a feed whose
+`generated_at` is older than ~6h and show "data delayed" instead.
+
 **Quote the EXACT tag, never its parent category (set 31 Oct 2026, after a mistake).**
 For a live or forming signal, the record quoted for a tag is the record of the tag it
 actually carries: bucket + filled/hollow/no diamond + prime dot, from the liveread rows

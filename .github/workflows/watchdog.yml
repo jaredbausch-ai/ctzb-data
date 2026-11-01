@@ -1,0 +1,86 @@
+name: Pipeline watchdog
+
+# Added 1 Nov 2026 after the candle job ran "successfully" for 19 hours without
+# pushing anything (an uncommitted analysis/registry.json blocked every push). With
+# clients reading the feed, a silent stall is not acceptable.
+#
+# Every hour: if the last "candles through" commit is older than STALE_HOURS, this
+#   1. investigates: pulls the last candle runs and the error lines from the most recent one,
+#   2. re-runs the candle job (workflow_dispatch),
+#   3. opens a GitHub issue labelled pipeline-alert with what it found (or comments on the
+#      open one), and turns this run red, so GitHub emails the owner.
+# When the pipeline is fresh again it closes any open pipeline-alert issue.
+
+on:
+  schedule:
+    - cron: "37 * * * *"
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+  issues: write
+
+env:
+  STALE_HOURS: "6"
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 200
+
+      - name: Check freshness, investigate and re-push if stale
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -u
+          REPO="$GITHUB_REPOSITORY"
+          last=$(git log -1 --format=%ct --grep='candles through' || echo 0)
+          now=$(date +%s)
+          age_h=$(( (now - ${last:-0}) / 3600 ))
+          echo "last candle commit: $(date -u -d @${last:-0} '+%Y-%m-%d %H:%M UTC'), ${age_h}h ago"
+          open_issue=$(gh issue list -R "$REPO" --label pipeline-alert --state open --json number --jq '.[0].number' 2>/dev/null || true)
+
+          if [ "$age_h" -lt "$STALE_HOURS" ]; then
+            echo "fresh"
+            if [ -n "$open_issue" ]; then
+              gh issue close "$open_issue" -R "$REPO" --comment "Recovered: candles committed $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')."
+            fi
+            exit 0
+          fi
+
+          # ---- investigate
+          {
+            echo "**Candles not committed for ${age_h}h** (threshold ${STALE_HOURS}h). Last: $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')."
+            echo
+            echo "Last candle-job runs:"
+            echo '```'
+            gh api "repos/$REPO/actions/workflows/daily.yml/runs?per_page=5" \
+              --jq '.workflow_runs[] | "\(.created_at)  \(.event)  \(.status)/\(.conclusion)  run \(.id)"'
+            echo '```'
+            rid=$(gh api "repos/$REPO/actions/workflows/daily.yml/runs?per_page=1&status=completed" --jq '.workflow_runs[0].id')
+            echo "Error lines from run $rid:"
+            echo '```'
+            gh run view "$rid" -R "$REPO" --log 2>/dev/null \
+              | grep -iE 'error|fail|rejected|traceback|exception|cannot|denied|PUSH FAILED' \
+              | grep -viE 'deprecat|continue-on-error' | tail -40 || echo "(no log lines matched)"
+            echo '```'
+            echo "Git status note: a modified tracked file outside data/, datasets/, feed/ and analysis/registry.json blocks the push."
+          } > report.md
+          cat report.md
+
+          # ---- re-push: re-run the candle job
+          gh api -X POST "repos/$REPO/actions/workflows/daily.yml/dispatches" -f ref=main \
+            && echo "Re-ran the candle job at $(date -u '+%H:%M UTC')." >> report.md
+
+          # ---- alert
+          gh label create pipeline-alert -R "$REPO" --color B60205 --description "Data pipeline stale" 2>/dev/null || true
+          if [ -n "$open_issue" ]; then
+            gh issue comment "$open_issue" -R "$REPO" --body-file report.md
+          else
+            gh issue create -R "$REPO" --label pipeline-alert --title "Pipeline stale: candles not committed for ${age_h}h" --body-file report.md
+          fi
+          exit 1
