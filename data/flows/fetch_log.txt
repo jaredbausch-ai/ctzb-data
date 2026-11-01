@@ -1,15 +1,15 @@
-2026-11-01 18:50:29 BTC: fetching BTCUSDT from 2017-08-17
-2026-11-01 18:50:29   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:31   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:33   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:37   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:37   no Binance data for BTCUSDT; skipping
-2026-11-01 18:50:37 ETH: fetching ETHUSDT from 2017-08-17
-2026-11-01 18:50:37   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:38   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:40   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:44   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
-2026-11-01 18:50:44   no Binance data for ETHUSDT; skipping
-2026-11-01 18:50:44 stablecoins: 3260 days, 2017-11-29 -> 2026-11-01, latest $298.4B
-2026-11-01 18:50:45 BTC ETF: 14 days, 2026-10-13 -> 2026-10-30
-2026-11-01 18:50:48 ETH ETF: 14 days, 2026-10-13 -> 2026-10-30
+2026-11-01 18:56:32 BTC: fetching BTCUSDT from 2017-08-17
+2026-11-01 18:56:32   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:33   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:35   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:39   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:39   no Binance data for BTCUSDT; skipping
+2026-11-01 18:56:39 ETH: fetching ETHUSDT from 2017-08-17
+2026-11-01 18:56:39   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:40   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:42   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:46   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1502928000000&l
+2026-11-01 18:56:46   no Binance data for ETHUSDT; skipping
+2026-11-01 18:56:47 stablecoins: 3260 days, 2017-11-29 -> 2026-11-01, latest $298.4B
+2026-11-01 18:56:48 BTC ETF: 14 days, 2026-10-13 -> 2026-10-30
+2026-11-01 18:56:50 ETH ETF: 14 days, 2026-10-13 -> 2026-10-30
