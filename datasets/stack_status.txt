@@ -1,2 +1,2 @@
-2026-11-02 05:40 UTC OK 32 subjects, 1103 reads, 0 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-02
-2026-11-02 05:40 UTC OK card cross-check, 8 cards match the ledger
+2026-11-02 18:09 UTC OK 28 subjects, 992 reads, 0 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-02
+2026-11-02 18:09 UTC OK card cross-check, 5 cards match the ledger
