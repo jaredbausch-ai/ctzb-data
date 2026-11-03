@@ -1409,6 +1409,8 @@ pulls the last runs and their error lines, re-runs the candle job, opens or upda
 in the same commit.** For clients: the backend should refuse to serve a feed whose
 `generated_at` is older than ~6h and show "data delayed" instead.
 
+**Confluences: list ONLY the ones active now (set 3 Nov 2026, Jared).** When he asks for stats or confluences on a signal, the confluence section lists only the cells that are ON right now (liveread rows "Confluence cell ... ON"), ALL of them, including weak ones, each with trades / +20% / -30%. No tag rows, baselines or context rows mixed into it -- those confused what is live. Tags and baselines, when asked for, go in their own clearly labelled table.
+
 **Quote the EXACT tag, never its parent category (set 31 Oct 2026, after a mistake).**
 For a live or forming signal, the record quoted for a tag is the record of the tag it
 actually carries: bucket + filled/hollow/no diamond + prime dot, from the liveread rows
