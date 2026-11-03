@@ -1,1 +1,23 @@
 openedBy,confirmed,closes,appliesTo
+ETH 1D,2026-11-02,2026-11-12,"agreement count for ETH 2D, ETH 3D, ETH 5D, ETH 8D"
+ETH 1D,2026-11-02,2026-11-12,confluence cell: ETH 2D B (layer4)
+ETH 1D,2026-11-02,2026-11-12,confluence cell: ETH 5D all (layer4)
+ETH 1D,2026-11-02,2026-11-12,confluence cell: ETH 2D all (layer4)
+ETH 1D,2026-11-02,2026-11-12,confluence cell: ETH 3D all (layer4)
+ETH 1D,2026-11-02,2026-11-12,confluence cell: BTC 1D filled diamond (layer4)
+ETH 1D,2026-11-02,2026-11-12,confluence cell: BTC 1D A (layer4)
+ETH 1D,2026-11-02,2026-11-12,confluence cell: BTC 1D C (layer4_small)
+BTC 1D,2026-11-02,2026-11-12,"agreement count for BTC 2D, BTC 3D, BTC 5D, BTC 8D"
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 2D B (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 2D all (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 5D all (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 1D all (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 1D A (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: BTC 2D all (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: BTC 2D diamond (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 1D A (layer4)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 1D D (layer4_small)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 1D B+diamond (layer4_small)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: BTC 2D prime (layer4_small)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: BTC 2D D (layer4_small)
+BTC 1D,2026-11-02,2026-11-12,confluence cell: ETH 3D B (layer4_small)
