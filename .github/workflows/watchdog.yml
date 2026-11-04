@@ -4,7 +4,7 @@ name: Pipeline watchdog
 # pushing anything (an uncommitted analysis/registry.json blocked every push). With
 # clients reading the feed, a silent stall is not acceptable.
 #
-# Every hour: if the last "candles through" commit is older than STALE_HOURS, this
+# Four times an hour: if the last "candles through" commit is older than STALE_MIN, this
 #   1. investigates: pulls the last candle runs and the error lines from the most recent one,
 #   2. re-runs the candle job (workflow_dispatch),
 #   3. opens a GitHub issue labelled pipeline-alert with what it found (or comments on the
@@ -13,7 +13,9 @@ name: Pipeline watchdog
 
 on:
   schedule:
-    - cron: "37 * * * *"
+    # 4 Nov 2026: the watchdog sat on the same best-effort GitHub clock as the job it
+    # watches and fired only 3 times on 4 Nov out of 24. Four off-peak ticks an hour now.
+    - cron: "4,19,34,49 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -22,7 +24,9 @@ permissions:
   issues: write
 
 env:
-  STALE_HOURS: "6"
+  # 4 Nov 2026: was 6 hours, longer than the 4-hour cadence. Now one missed candle
+  # plus 45 minutes: stale when the last candle commit is older than 4h45m.
+  STALE_MIN: "285"
 
 jobs:
   watch:
@@ -40,11 +44,11 @@ jobs:
           REPO="$GITHUB_REPOSITORY"
           last=$(git log -1 --format=%ct --grep='candles through' || echo 0)
           now=$(date +%s)
-          age_h=$(( (now - ${last:-0}) / 3600 ))
-          echo "last candle commit: $(date -u -d @${last:-0} '+%Y-%m-%d %H:%M UTC'), ${age_h}h ago"
+          age_m=$(( (now - ${last:-0}) / 60 )); age_h=$(( age_m / 60 ))
+          echo "last candle commit: $(date -u -d @${last:-0} '+%Y-%m-%d %H:%M UTC'), ${age_m} minutes ago"
           open_issue=$(gh issue list -R "$REPO" --label pipeline-alert --state open --json number --jq '.[0].number' 2>/dev/null || true)
 
-          if [ "$age_h" -lt "$STALE_HOURS" ]; then
+          if [ "$age_m" -lt "$STALE_MIN" ]; then
             echo "fresh"
             if [ -n "$open_issue" ]; then
               gh issue close "$open_issue" -R "$REPO" --comment "Recovered: candles committed $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')."
@@ -54,7 +58,7 @@ jobs:
 
           # ---- investigate
           {
-            echo "**Candles not committed for ${age_h}h** (threshold ${STALE_HOURS}h). Last: $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')."
+            echo "**Candles not committed for ${age_h}h** (threshold ${STALE_MIN} minutes). Last: $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')."
             echo
             echo "Last candle-job runs:"
             echo '```'

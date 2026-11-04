@@ -2,24 +2,48 @@ name: Fetch candles
 
 on:
   schedule:
-    # GitHub's scheduled runs are best-effort and can be hours late: the
-    # 17 Oct run landed at 05:41 UTC against a 01:20 schedule, after the
-    # dashboard task had already looked. Running every four hours means a
-    # delayed run costs little, since the commit step is a no-op when
-    # nothing changed.
-    # Every candle on every chart closes at 00:00 UTC (8 PM ET in summer, 7 PM
-    # in winter). The first run of the day fires 7 minutes after that close so
-    # a confirmation is scored as soon as the bar is final (changed 28 Oct
-    # 2026); the other five keep the four-hour cadence.
-    - cron: "7 0,4,8,12,16,20 * * *"
+    # 4 Nov 2026: GitHub's scheduler is best-effort and was honouring roughly one
+    # in three of our ticks (4 Nov: 2 of the 5 due by 18:40 UTC fired, one 3h51m
+    # late). One tick per candle is not enough for a paid product. The job now
+    # ticks every 30 minutes at off-peak minutes (GitHub drops the most ticks at
+    # the top of the hour) plus once 7 minutes after the daily close, and the
+    # gate job below exits in seconds when this 4-hour candle is already in. So
+    # any single honoured tick inside a 4-hour window is enough.
+    - cron: "7 0 * * *"
+    - cron: "13,43 * * * *"
   workflow_dispatch:
+
+concurrency:
+  group: candles
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.g.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 100
+      - id: g
+        run: |
+          now=$(date -u +%s); boundary=$(( now / 14400 * 14400 ))
+          last=$(git log -1 --format=%ct --grep='candles through' || true)
+          echo "last candle commit $(date -u -d @${last:-0} '+%Y-%m-%d %H:%M') UTC; current candle opened $(date -u -d @$boundary '+%H:%M') UTC"
+          if [ "${{ github.event_name }}" = "schedule" ] && [ "${last:-0}" -ge "$((boundary + 300))" ]; then
+            echo "run=no" >> "$GITHUB_OUTPUT"; echo "already have this candle, skipping"
+          else
+            echo "run=yes" >> "$GITHUB_OUTPUT"
+          fi
+
   fetch:
+    needs: gate
+    if: needs.gate.outputs.run == 'yes'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
