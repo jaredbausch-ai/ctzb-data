@@ -9,7 +9,9 @@ name: Options put/call (Deribit)
 # Both jobs rebase and retry their push instead.
 on:
   schedule:
-    - cron: "40 */3 * * *"
+    # 4 Nov 2026: hourly at an off-peak minute; GitHub drops ticks, and the concurrency group
+    # keeps at most one run going and one waiting, so extra ticks cost nothing.
+    - cron: "25 * * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -17,6 +19,8 @@ on:
 
 permissions:
   contents: write
+  actions: write
+  issues: write
 
 concurrency:
   group: pcr
@@ -34,6 +38,8 @@ jobs:
           python-version: "3.12"
 
       - name: Fetch put/call (forward fill, OI snapshot, then backfill for up to 5 hours)
+        id: fetch
+        continue-on-error: true
         run: python fetch_pcr.py --budget 18000
 
       - name: Commit if anything changed
@@ -46,8 +52,42 @@ jobs:
             echo "no change"
           else
             git commit -m "options put/call through $(date -u +%Y-%m-%d)"
+            # 4 Nov 2026: same fix as the candle job (1 Nov). Without --autostash and an
+            # exit on failure, a blocked push was silent and the run still went green.
+            pushed=no
             for i in 1 2 3 4 5; do
-              git pull --rebase -q && git push && break
+              if git pull --rebase --autostash -q && git push; then pushed=yes; break; fi
               sleep $((i * 15))
             done
+            if [ "$pushed" != yes ]; then echo "PUSH FAILED after 5 tries"; exit 1; fi
           fi
+
+      - name: Fail the run if the fetch failed (whatever it got is already committed)
+        if: steps.fetch.outcome == 'failure'
+        run: exit 1
+
+  retry:
+    needs: pcr
+    if: always() && needs.pcr.result == 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Re-run with cooldown
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/retry_after_failure.sh pcr.yml "Put/call pipeline"
+
+  recovered:
+    needs: pcr
+    if: needs.pcr.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close any open put/call alert
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for n in $(gh issue list -R "$GITHUB_REPOSITORY" --label pipeline-alert --state open --json number,title \
+                     --jq '.[] | select(.title | startswith("Put/call pipeline")) | .number' 2>/dev/null); do
+            gh issue close "$n" -R "$GITHUB_REPOSITORY" --comment "Recovered: put/call run $GITHUB_RUN_ID succeeded $(date -u '+%Y-%m-%d %H:%M UTC')." || true
+          done

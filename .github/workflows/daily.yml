@@ -2,24 +2,32 @@ name: Fetch candles
 
 on:
   schedule:
-    # 4 Nov 2026: GitHub's scheduler is best-effort and was honouring roughly one
-    # in three of our ticks (4 Nov: 2 of the 5 due by 18:40 UTC fired, one 3h51m
-    # late). One tick per candle is not enough for a paid product. The job now
-    # ticks every 30 minutes at off-peak minutes (GitHub drops the most ticks at
-    # the top of the hour) plus once 7 minutes after the daily close, and the
-    # gate job below exits in seconds when this 4-hour candle is already in. So
-    # any single honoured tick inside a 4-hour window is enough.
+    # 4 Nov 2026: GitHub's scheduler is best-effort. Run history 22 Oct-4 Nov: 35 of 53
+    # gaps between candle commits were longer than 4h45m (typically 7-10 hours), because
+    # GitHub honoured roughly one tick in three. One tick per candle was never enough.
+    # The job now ticks every 30 minutes at off-peak minutes (GitHub drops the most ticks
+    # at the top of the hour) plus 7 minutes after the 00:00 UTC daily close, and the gate
+    # job exits in seconds when this 4-hour candle is already in and the last run did not
+    # fail. Any one honoured tick in a 4-hour window is enough.
     - cron: "7 0 * * *"
     - cron: "13,43 * * * *"
   workflow_dispatch:
+    inputs:
+      test_failure:
+        description: "Test only: fail on purpose to exercise the automatic re-run"
+        type: boolean
+        default: false
 
+# One candle run at a time. A run waiting in its cooldown holds the group, so ticks
+# queue behind it instead of hammering a source that is down.
 concurrency:
   group: candles
   cancel-in-progress: false
 
 permissions:
   contents: write
-
+  actions: write
+  issues: write
 
 jobs:
   gate:
@@ -31,22 +39,37 @@ jobs:
         with:
           fetch-depth: 100
       - id: g
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           now=$(date -u +%s); boundary=$(( now / 14400 * 14400 ))
           last=$(git log -1 --format=%ct --grep='candles through' || true)
-          echo "last candle commit $(date -u -d @${last:-0} '+%Y-%m-%d %H:%M') UTC; current candle opened $(date -u -d @$boundary '+%H:%M') UTC"
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "${last:-0}" -ge "$((boundary + 300))" ]; then
-            echo "run=no" >> "$GITHUB_OUTPUT"; echo "already have this candle, skipping"
+          prev=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/daily.yml/runs?per_page=10&status=completed" \
+                 --jq '[.workflow_runs[] | select(.conclusion != "cancelled")][0].conclusion' 2>/dev/null || echo unknown)
+          echo "last candle commit $(date -u -d @${last:-0} '+%Y-%m-%d %H:%M') UTC; current 4h candle opened $(date -u -d @$boundary '+%H:%M') UTC; last completed run: $prev"
+          if [ "$GITHUB_EVENT_NAME" != "schedule" ]; then
+            echo "run=yes" >> "$GITHUB_OUTPUT"; echo "manual or automatic re-run: running"
+          elif [ "${last:-0}" -lt "$((boundary + 300))" ]; then
+            echo "run=yes" >> "$GITHUB_OUTPUT"; echo "this candle is not in yet: running"
+          elif [ "$prev" = "failure" ]; then
+            echo "run=yes" >> "$GITHUB_OUTPUT"; echo "the last run failed: running"
           else
-            echo "run=yes" >> "$GITHUB_OUTPUT"
+            echo "run=no" >> "$GITHUB_OUTPUT"; echo "already have this candle and the last run passed: skipping"
           fi
 
   fetch:
     needs: gate
     if: needs.gate.outputs.run == 'yes'
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+
+      - name: Test failure (only when asked for)
+        if: inputs.test_failure == true
+        run: |
+          echo "Failing on purpose to test the automatic re-run."
+          exit 1
 
       - uses: actions/setup-python@v5
         with:
@@ -55,13 +78,20 @@ jobs:
       - name: Fetch and resample
         run: python fetch.py
 
+      # A fetch that "succeeds" with candles that stopped advancing is a failure: it is
+      # retried, never committed as fresh (4 Nov 2026).
+      - name: Candles must be current
+        run: python .github/scripts/check_fresh.py data
+
       - name: Rescore dashboard datasets
         run: python refresh.py --data data --out datasets
 
       # Conviction grade (analysis/grade.py defines it; this applies it):
       # writes datasets/grades.csv and adds grade columns to forward.csv and
-      # live.csv. Must never block the candle commit.
+      # live.csv. Must never block the candle commit; a failure turns the run red
+      # at the end, which triggers the automatic re-run.
       - name: Grade signals
+        id: grade
         continue-on-error: true
         run: |
           pip install -q numpy
@@ -70,38 +100,45 @@ jobs:
       # The whole stack (stack_live.py, 28 Oct 2026): every documented read
       # evaluated against every forming low and every open signal, plus every
       # print and every open confluence window. Its coverage check fails if a
-      # PRETRADE read is not in the registry. Does not block the candle commit,
-      # but the last step turns the run red so the failure is emailed.
+      # PRETRADE read is not in the registry.
       - name: Live stack (every documented read)
         id: stack
         continue-on-error: true
         run: python stack_live.py
 
       # Independent cross-check of every trade card against the trade ledger
-      # (verify_cards.py, 28 Oct 2026). A mismatch turns the run red.
+      # (verify_cards.py, 28 Oct 2026).
       - name: Cross-check the trade cards
         id: cards
         continue-on-error: true
         run: python verify_cards.py
 
       # The live feed (feed_live.py, 31 Oct 2026): one versioned JSON that
-      # repackages this run's datasets for Joe's side (backend, portal, Grok).
-      # Cards are withheld if the stack or card check failed. Must not block
-      # the candle commit.
+      # repackages this run's datasets for Joe's side. Cards are withheld if the
+      # stack or card check failed.
       - name: Write the live feed
+        id: feed
         continue-on-error: true
         run: python feed_live.py
 
-      # Perp open interest, funding and long/short ratio from Coinalyze.
-      # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
-      # A failure here must not block the candle commit below.
+      # Third-party sources. 4 Nov 2026: flows and on-chain used to run without
+      # continue-on-error BEFORE the commit, so an outage at one of those sources
+      # blocked the candle commit itself. None of them may block the candles now;
+      # any failure turns the run red at the end and is re-run automatically.
       - name: Fetch Coinbase Premium (no key needed)
+        id: flows
+        continue-on-error: true
         run: python fetch_flows.py
 
       - name: Fetch stablecoin supply and ETF flows (no key needed)
+        id: onchain
+        continue-on-error: true
         run: python fetch_onchain.py
 
+      # Perp open interest, funding and long/short ratio from Coinalyze.
+      # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
       - name: Fetch derivatives positioning
+        id: derivs
         continue-on-error: true
         env:
           COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
@@ -127,9 +164,42 @@ jobs:
             if [ "$pushed" != yes ]; then echo "PUSH FAILED after 5 tries"; exit 1; fi
           fi
 
-      - name: Fail the run if the live stack or the card check failed
-        if: steps.stack.outcome == 'failure' || steps.cards.outcome == 'failure'
+      - name: Fail the run if any step failed (candles are already committed)
+        if: >-
+          steps.grade.outcome == 'failure' || steps.stack.outcome == 'failure' ||
+          steps.cards.outcome == 'failure' || steps.feed.outcome == 'failure' ||
+          steps.flows.outcome == 'failure' || steps.onchain.outcome == 'failure' ||
+          steps.derivs.outcome == 'failure'
         run: |
+          echo "grade=${{ steps.grade.outcome }} stack=${{ steps.stack.outcome }} cards=${{ steps.cards.outcome }} feed=${{ steps.feed.outcome }} flows=${{ steps.flows.outcome }} onchain=${{ steps.onchain.outcome }} derivs=${{ steps.derivs.outcome }}"
           cat datasets/stack_status.txt || true
-          echo "stack_live.py failed: a documented read is not being checked live"
           exit 1
+
+  # Any failure above (fetch, stale candles, push, or any step): re-run automatically.
+  # 1 minute after the 1st and 2nd failure in a row, 15 minutes after the 3rd-5th, then
+  # every 30 minutes until it succeeds; alert issue from the 3rd. (.github/scripts/)
+  retry:
+    needs: [gate, fetch]
+    if: always() && (needs.fetch.result == 'failure' || needs.gate.result == 'failure')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Re-run with cooldown
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/retry_after_failure.sh daily.yml "Candle pipeline"
+
+  recovered:
+    needs: [gate, fetch]
+    if: needs.fetch.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close any open pipeline alert
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for n in $(gh issue list -R "$GITHUB_REPOSITORY" --label pipeline-alert --state open --json number,title \
+                     --jq '.[] | select(.title | startswith("Candle pipeline") or startswith("Pipeline stale")) | .number' 2>/dev/null); do
+            gh issue close "$n" -R "$GITHUB_REPOSITORY" --comment "Recovered: candle run $GITHUB_RUN_ID succeeded $(date -u '+%Y-%m-%d %H:%M UTC')." || true
+          done
