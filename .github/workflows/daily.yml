@@ -51,7 +51,7 @@ jobs:
             echo "run=yes" >> "$GITHUB_OUTPUT"; echo "manual or automatic re-run: running"
           elif [ "${last:-0}" -lt "$((boundary + 300))" ]; then
             echo "run=yes" >> "$GITHUB_OUTPUT"; echo "this candle is not in yet: running"
-          elif [ "$prev" = "failure" ]; then
+          elif [ "$prev" = "failure" ] || [ "$prev" = "timed_out" ]; then
             echo "run=yes" >> "$GITHUB_OUTPUT"; echo "the last run failed: running"
           else
             echo "run=no" >> "$GITHUB_OUTPUT"; echo "already have this candle and the last run passed: skipping"
@@ -61,7 +61,7 @@ jobs:
     needs: gate
     if: needs.gate.outputs.run == 'yes'
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
 
@@ -75,16 +75,22 @@ jobs:
         with:
           python-version: "3.12"
 
+      # `timeout` turns a hang into an ordinary step failure, which the retry job re-runs;
+      # a job-level timeout would end as cancelled and skip the retry (review, 4 Nov 2026).
       - name: Fetch and resample
-        run: python fetch.py
+        run: timeout 20m python fetch.py
 
       # A fetch that "succeeds" with candles that stopped advancing is a failure: it is
       # retried, never committed as fresh (4 Nov 2026).
       - name: Candles must be current
         run: python .github/scripts/check_fresh.py data
 
+      # Must not block the candle commit (review, 4 Nov 2026): a code error here used to
+      # leave fresh candles uncommitted. A failure turns the run red after the commit.
       - name: Rescore dashboard datasets
-        run: python refresh.py --data data --out datasets
+        id: refresh
+        continue-on-error: true
+        run: timeout 10m python refresh.py --data data --out datasets
 
       # Conviction grade (analysis/grade.py defines it; this applies it):
       # writes datasets/grades.csv and adds grade columns to forward.csv and
@@ -95,7 +101,7 @@ jobs:
         continue-on-error: true
         run: |
           pip install -q numpy
-          python grade_live.py
+          timeout 10m python grade_live.py
 
       # The whole stack (stack_live.py, 28 Oct 2026): every documented read
       # evaluated against every forming low and every open signal, plus every
@@ -104,14 +110,14 @@ jobs:
       - name: Live stack (every documented read)
         id: stack
         continue-on-error: true
-        run: python stack_live.py
+        run: timeout 15m python stack_live.py
 
       # Independent cross-check of every trade card against the trade ledger
       # (verify_cards.py, 28 Oct 2026).
       - name: Cross-check the trade cards
         id: cards
         continue-on-error: true
-        run: python verify_cards.py
+        run: timeout 10m python verify_cards.py
 
       # The live feed (feed_live.py, 31 Oct 2026): one versioned JSON that
       # repackages this run's datasets for Joe's side. Cards are withheld if the
@@ -119,7 +125,7 @@ jobs:
       - name: Write the live feed
         id: feed
         continue-on-error: true
-        run: python feed_live.py
+        run: timeout 5m python feed_live.py
 
       # Third-party sources. 4 Nov 2026: flows and on-chain used to run without
       # continue-on-error BEFORE the commit, so an outage at one of those sources
@@ -128,12 +134,12 @@ jobs:
       - name: Fetch Coinbase Premium (no key needed)
         id: flows
         continue-on-error: true
-        run: python fetch_flows.py
+        run: timeout 10m python fetch_flows.py
 
       - name: Fetch stablecoin supply and ETF flows (no key needed)
         id: onchain
         continue-on-error: true
-        run: python fetch_onchain.py
+        run: timeout 10m python fetch_onchain.py
 
       # Perp open interest, funding and long/short ratio from Coinalyze.
       # Needs the repository secret COINALYZE_API_KEY; skips cleanly without it.
@@ -142,7 +148,7 @@ jobs:
         continue-on-error: true
         env:
           COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
-        run: python fetch_derivs.py
+        run: timeout 15m python fetch_derivs.py
 
       - name: Commit if anything changed
         run: |
@@ -166,12 +172,13 @@ jobs:
 
       - name: Fail the run if any step failed (candles are already committed)
         if: >-
+          steps.refresh.outcome == 'failure' ||
           steps.grade.outcome == 'failure' || steps.stack.outcome == 'failure' ||
           steps.cards.outcome == 'failure' || steps.feed.outcome == 'failure' ||
           steps.flows.outcome == 'failure' || steps.onchain.outcome == 'failure' ||
           steps.derivs.outcome == 'failure'
         run: |
-          echo "grade=${{ steps.grade.outcome }} stack=${{ steps.stack.outcome }} cards=${{ steps.cards.outcome }} feed=${{ steps.feed.outcome }} flows=${{ steps.flows.outcome }} onchain=${{ steps.onchain.outcome }} derivs=${{ steps.derivs.outcome }}"
+          echo "refresh=${{ steps.refresh.outcome }} grade=${{ steps.grade.outcome }} stack=${{ steps.stack.outcome }} cards=${{ steps.cards.outcome }} feed=${{ steps.feed.outcome }} flows=${{ steps.flows.outcome }} onchain=${{ steps.onchain.outcome }} derivs=${{ steps.derivs.outcome }}"
           cat datasets/stack_status.txt || true
           exit 1
 
@@ -200,6 +207,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for n in $(gh issue list -R "$GITHUB_REPOSITORY" --label pipeline-alert --state open --json number,title \
-                     --jq '.[] | select(.title | startswith("Candle pipeline") or startswith("Pipeline stale")) | .number' 2>/dev/null); do
+                     --jq '.[] | select(.title | startswith("Candle pipeline") or startswith("Pipeline stale: Candles")) | .number' 2>/dev/null); do
             gh issue close "$n" -R "$GITHUB_REPOSITORY" --comment "Recovered: candle run $GITHUB_RUN_ID succeeded $(date -u '+%Y-%m-%d %H:%M UTC')." || true
           done

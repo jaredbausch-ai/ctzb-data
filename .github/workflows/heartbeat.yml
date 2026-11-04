@@ -1,0 +1,47 @@
+name: Candle heartbeat
+
+# 4 Nov 2026. Every other trigger in this repo is GitHub's best-effort cron, which was
+# honouring about one tick in three. This is a timer that does not use cron at all:
+# each run sleeps until 8 minutes after the next 4-hour candle close, starts the candle
+# job, then starts the next heartbeat (workflow_dispatch, which GITHUB_TOKEN is allowed
+# to trigger). It runs back to back for as long as the chain is unbroken. The watchdog
+# (cron, four ticks an hour) restarts the chain if no heartbeat is queued or running,
+# and the candle job's own 30-minute ticks remain as a second path.
+#
+# Start it once by hand (Actions > Candle heartbeat > Run workflow) or let the watchdog.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: heartbeat
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+
+jobs:
+  beat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 290
+    steps:
+      - name: Wait for the next candle close, start the candle job, start the next heartbeat
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -u
+          REPO="$GITHUB_REPOSITORY"
+          dispatch() {
+            for i in 1 2 3 4 5 6; do
+              gh api -X POST "repos/$REPO/actions/workflows/$1/dispatches" -f ref=main && return 0
+              sleep $((i * 20))
+            done
+            echo "COULD NOT DISPATCH $1"; return 1
+          }
+          now=$(date -u +%s); next=$(( (now / 14400 + 1) * 14400 + 480 ))
+          echo "now $(date -u '+%H:%M'); next candle job at $(date -u -d @$next '+%Y-%m-%d %H:%M') UTC"
+          sleep $(( next - now ))
+          ok=0
+          dispatch daily.yml && echo "candle job started $(date -u '+%H:%M UTC')" || ok=1
+          dispatch heartbeat.yml && echo "next heartbeat queued" || ok=1
+          exit $ok

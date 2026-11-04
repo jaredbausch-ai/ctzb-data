@@ -40,7 +40,7 @@ jobs:
       - name: Fetch put/call (forward fill, OI snapshot, then backfill for up to 5 hours)
         id: fetch
         continue-on-error: true
-        run: python fetch_pcr.py --budget 18000
+        run: timeout 310m python fetch_pcr.py --budget 18000
 
       - name: Commit if anything changed
         if: always()

@@ -3,18 +3,19 @@ name: Pipeline watchdog
 # Added 1 Nov 2026 after the candle job ran "successfully" for 19 hours without
 # pushing anything (an uncommitted analysis/registry.json blocked every push).
 #
-# 4 Nov 2026: second line of defence only. The first line is inside each pipeline:
-# any failed run re-runs itself (1 minute, then 15, then every 30 minutes; see
-# .github/scripts/retry_after_failure.sh). This catches what that cannot: no run at all
-# (GitHub dropping scheduled ticks). It sits on the same best-effort GitHub clock, so it
-# ticks four times an hour at off-peak minutes; it had ticked hourly and fired 3 of 24
-# times on 4 Nov, with a 6-hour threshold longer than the 4-hour cadence.
+# 4 Nov 2026: third line of defence. First: each pipeline re-runs itself on any failure
+# (1 minute, then 15, then every 30 minutes; .github/scripts/retry_after_failure.sh).
+# Second: the heartbeat (heartbeat.yml), a cron-free timer that starts the candle job
+# 8 minutes after every 4-hour close. This catches what neither can (a broken heartbeat
+# chain, dropped ticks) and alerts. It sits on GitHub's best-effort cron, so it ticks
+# four times an hour at off-peak minutes.
 #
-# Each tick, per pipeline: if the last data commit is older than its threshold, it
-#   1. investigates (last runs, error lines from the latest),
-#   2. re-runs the pipeline unless a run is already queued or running,
-#   3. opens a pipeline-alert issue (or comments on the open one) and turns red, so
-#      GitHub emails the owner. Closes its issue when the pipeline is fresh again.
+# Candles are judged against the candle close, not the age of the last commit (review,
+# 4 Nov 2026: a commit late in one window let the next window go 8h35m unwatched):
+#   stale  = 45+ minutes after a 4-hour close and no candle commit since that close
+#            -> re-run the candle job (unless one is queued or running)
+#   alert  = still stale 90+ minutes after the close -> issue + red run, GitHub emails
+# Put/call: re-run after 9 hours without a commit, alert after 10 hours.
 
 on:
   schedule:
@@ -34,56 +35,89 @@ jobs:
         with:
           fetch-depth: 300
 
-      - name: Check freshness, investigate and re-run if stale
+      - name: Keep the heartbeat alive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          live=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/heartbeat.yml/runs?per_page=10" \
+                 --jq '[.workflow_runs[] | select(.status=="queued" or .status=="in_progress" or .status=="waiting" or .status=="pending")] | length' || echo unknown)
+          echo "heartbeat runs queued or running: $live"
+          if [ "$live" = "0" ]; then
+            gh api -X POST "repos/$GITHUB_REPOSITORY/actions/workflows/heartbeat.yml/dispatches" -f ref=main \
+              && echo "heartbeat chain was broken: restarted $(date -u '+%H:%M UTC')" || echo "could not restart the heartbeat"
+          fi
+
+      - name: Check freshness, re-run if stale, alert if it stays stale
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -u
           REPO="$GITHUB_REPOSITORY"; now=$(date +%s); red=0
+          b4=$(( now / 14400 * 14400 )); since_close=$(( (now - b4) / 60 ))
           gh label create pipeline-alert -R "$REPO" --color B60205 --description "Data pipeline failing or stale" 2>/dev/null || true
-          # name | workflow | commit message marker | stale after (minutes)
-          #   candles: one missed 4-hour candle plus 45 minutes
-          #   put/call: ticks every 3 hours and a run can take up to 5h20m
-          for spec in "Candles|daily.yml|candles through|285" "Put/call|pcr.yml|options put/call through|540"; do
-            IFS='|' read -r NAME WF MARK LIMIT <<< "$spec"
+
+          check() {  # NAME WF MARK STALE ALERT DETAIL
+            NAME="$1"; WF="$2"; MARK="$3"; STALE="$4"; ALERT="$5"; DETAIL="$6"
             last=$(git log -1 --format=%ct --grep="$MARK" || true); last=${last:-0}
-            age=$(( (now - last) / 60 ))
             title="Pipeline stale: $NAME"
             open=$(gh issue list -R "$REPO" --label pipeline-alert --state open --json number,title \
                    --jq "[.[] | select(.title | startswith(\"$title\"))][0].number // empty" 2>/dev/null || true)
-            echo "$NAME: last commit $(date -u -d @$last '+%Y-%m-%d %H:%M UTC'), $age minutes ago (limit $LIMIT)"
-            if [ "$age" -lt "$LIMIT" ]; then
-              [ -n "$open" ] && gh issue close "$open" -R "$REPO" --comment "Recovered: committed $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')." || true
-              continue
+            echo "$NAME: last commit $(date -u -d @$last '+%Y-%m-%d %H:%M UTC'); $DETAIL"
+            if [ "$STALE" != yes ]; then
+              if [ -n "$open" ]; then gh issue close "$open" -R "$REPO" --comment "Recovered: committed $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')." || true; fi
+              return 0
             fi
-            red=1
             busy=$(gh api "repos/$REPO/actions/workflows/$WF/runs?per_page=10" \
-                   --jq '[.workflow_runs[] | select(.status=="queued" or .status=="in_progress" or .status=="waiting" or .status=="pending")] | length')
-            {
-              echo "**$NAME not committed for $age minutes** (limit $LIMIT). Last: $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')."
-              echo; echo "Last runs:"; echo '```'
-              gh api "repos/$REPO/actions/workflows/$WF/runs?per_page=6" \
-                --jq '.workflow_runs[] | "\(.created_at)  \(.event)  \(.status)/\(.conclusion)  run \(.id)"'
-              echo '```'
-              rid=$(gh api "repos/$REPO/actions/workflows/$WF/runs?per_page=1&status=completed" --jq '.workflow_runs[0].id')
-              echo "Error lines from run $rid:"; echo '```'
-              gh run view "$rid" -R "$REPO" --log 2>/dev/null \
-                | grep -iE 'error|fail|rejected|traceback|exception|cannot|denied|STALE|PUSH FAILED' \
-                | grep -viE 'deprecat|continue-on-error|::group' | tail -30 || echo "(no log lines matched)"
-              echo '```'
-            } > report.md
+                   --jq '[.workflow_runs[] | select(.status=="queued" or .status=="in_progress" or .status=="waiting" or .status=="pending")] | length' || echo 0)
             if [ "${busy:-0}" -gt 0 ]; then
-              echo "A $NAME run is already queued or running (or cooling down after failures): not adding another." >> report.md
+              note="A $NAME run is already queued or running (or cooling down after failures): not adding another."
             else
               gh api -X POST "repos/$REPO/actions/workflows/$WF/dispatches" -f ref=main \
-                && echo "Re-ran $WF at $(date -u '+%H:%M UTC')." >> report.md
+                && note="Re-ran $WF at $(date -u '+%H:%M UTC')." || note="Could not dispatch $WF."
             fi
+            echo "$note"
+            [ "$ALERT" != yes ] && return 0
+            red=1
+            {
+              echo "**$NAME stale.** $DETAIL. Last commit: $(date -u -d @$last '+%Y-%m-%d %H:%M UTC')."
+              echo; echo "Last runs:"; echo '```'
+              gh api "repos/$REPO/actions/workflows/$WF/runs?per_page=6" \
+                --jq '.workflow_runs[] | "\(.created_at)  \(.event)  \(.status)/\(.conclusion)  run \(.id)"' || true
+              echo '```'
+              rid=$(gh api "repos/$REPO/actions/workflows/$WF/runs?per_page=1&status=completed" --jq '.workflow_runs[0].id' || true)
+              if [ -n "$rid" ]; then
+                echo "Error lines from run $rid:"; echo '```'
+                gh run view "$rid" -R "$REPO" --log 2>/dev/null \
+                  | grep -iE 'error|fail|rejected|traceback|exception|cannot|denied|STALE|PUSH FAILED' \
+                  | grep -viE 'deprecat|continue-on-error|::group' | tail -30 || echo "(no log lines matched)"
+                echo '```'
+              fi
+              echo "$note"
+            } > report.md
             cat report.md
             if [ -n "$open" ]; then
               # once an hour, not every tick
-              [ "$(date -u +%M)" -lt 15 ] && gh issue comment "$open" -R "$REPO" --body-file report.md || true
+              if [ "$(date -u +%M)" -lt 15 ]; then gh issue comment "$open" -R "$REPO" --body-file report.md || true; fi
             else
-              gh issue create -R "$REPO" --label pipeline-alert --title "$title (${age} minutes)" --body-file report.md || true
+              gh issue create -R "$REPO" --label pipeline-alert --title "$title" --body-file report.md || true
             fi
-          done
+          }
+
+          # candles: judged against the last 4-hour close
+          clast=$(git log -1 --format=%ct --grep='candles through' || true); clast=${clast:-0}
+          # early in a window, the previous window's candle must be in; later, this window's
+          if [ "$since_close" -lt 45 ]; then
+            if [ "$clast" -ge $(( b4 - 14400 + 300 )) ]; then cs=no; ca=no; else cs=yes; ca=yes; fi
+          else
+            if [ "$clast" -ge $(( b4 + 300 )) ]; then cs=no; ca=no; else cs=yes; ca=no; [ "$since_close" -ge 90 ] && ca=yes; fi
+          fi
+          check "Candles" daily.yml "candles through" "$cs" "$ca" \
+            "the $(date -u -d @$b4 '+%H:%M') UTC candle closed $since_close minutes ago"
+
+          # put/call: age of the last commit
+          plast=$(git log -1 --format=%ct --grep='options put/call through' || true); page=$(( (now - ${plast:-0}) / 60 ))
+          ps=no; [ "$page" -ge 540 ] && ps=yes
+          pa=no; [ "$page" -ge 600 ] && pa=yes
+          check "Put/call" pcr.yml "options put/call through" "$ps" "$pa" "no commit for $page minutes"
+
           exit $red

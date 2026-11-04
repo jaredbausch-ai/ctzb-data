@@ -42,3 +42,16 @@ streaks 1, 2, 3, 6 and 9.
   cron calling the dispatch API) on the ETHKROS Cloudflare account.
 - The dashboard upload is a Claude scheduled task: it depends on Claude usage. The
   Cloudflare backend reading feed/ctzb_feed.json directly removes that.
+
+## Independent review (separate agent, read the workflows cold) and what was changed
+
+| # | Finding | Status | Fix |
+|---|---|---|---|
+| R1 | Watchdog measured time since the last commit, not since the candle close: a late commit in one window left the next window unwatched for up to 8h35m | Confirmed | Watchdog judges against the 4-hour close: re-run 45 minutes after a close with no commit since it, alert at 90 minutes; early in a window it checks the previous window was delivered |
+| R2 | refresh.py could still block the candle commit | Confirmed | continue-on-error; its failure turns the run red after the commit and triggers the re-run |
+| R3 | check_fresh accepted the previous 4-hour bar, so a feed frozen before a close could pass | Plausible | Requires the current 4-hour bar. Checked against history: 20 of 20 fetches since 30 Oct returned it |
+| R4 | A job hitting its time limit ends cancelled, which skipped the re-run | Plausible | Every script wrapped in `timeout`, so a hang is an ordinary failure; timed_out counted as a failure in the streak and the gate |
+| R5 | A successful candle run closed the put/call stale alert | Confirmed | Each pipeline closes only its own alerts |
+| R6 | Watchdog alerted on the first stale tick | Plausible | Re-run first, alert only if still stale later |
+| R7 | One failed API call aborted the watchdog step | Confirmed | Each call guarded |
+| R8 | Every non-retry run still started from GitHub's unreliable cron | Design limit | heartbeat.yml: a cron-free timer that sleeps to 8 minutes after each 4-hour close, starts the candle job, then starts the next heartbeat; the watchdog restarts the chain if it ever breaks |

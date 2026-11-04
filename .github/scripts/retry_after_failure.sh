@@ -22,7 +22,7 @@ prior=$(gh api "repos/$REPO/actions/workflows/$WF/runs?per_page=50&status=comple
   2>/dev/null || echo '[]')
 streak=$(( 1 + $(python3 -c "import json,sys; c=json.loads(sys.argv[1]); n=0
 for x in c:
-    if x=='failure': n+=1
+    if x in ('failure', 'timed_out'): n+=1
     else: break
 print(n)" "$prior") ))
 
