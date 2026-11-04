@@ -1524,3 +1524,7 @@ Run history 1-4 Nov: the candle job (six ticks a day) fired 2-3 times a day, oft
 ## 4 Nov 2026 — card wording: every tile says what it is measured from
 
 Jared read "Typical dip before the 60-day high" as a pullback from a profit. It is the median lowest low between the buy and the day of the 60-day high, as a percentage of the BUY PRICE (analysis/tagstats.measure: ddpk = min(low up to the high day) / entry - 1). Relabelled "Typical lowest point vs the buy price, before it made its 60-day high"; the rise, deepest-dip, fell-30% and day tiles now also name the buy price. Field names unchanged (feed rule: never rename). Rule: a card tile names its reference point.
+
+## 4 Nov 2026 — full pipeline audit (docs/PIPELINE_AUDIT_2026-11-04.md)
+
+Supersedes the earlier 4 Nov scheduler note. Three layers now: (1) every pipeline re-runs itself on any failure, 1 minute after the 1st and 2nd failure in a row, 15 minutes after the 3rd-5th, then every 30 minutes until it succeeds, with an alert issue from the 3rd; (2) heartbeat.yml, a cron-free timer that starts the candle job 8 minutes after every 4-hour close and re-queues itself (first automatic run 20:08 UTC 4 Nov, committed 20:11); (3) the watchdog, judged against the candle close, re-runs at 45 minutes and alerts at 90, and restarts the heartbeat if its chain breaks. GitHub's cron fired no scheduled run for any workflow between 15:43 and 20:14 UTC on 4 Nov, which is why layer 2 exists. Reviewed cold by a separate agent; its seven findings are fixed and listed in the audit doc.
