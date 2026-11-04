@@ -1512,3 +1512,7 @@ extra sections, no follow-up requests unless asked. When he asks for an
 opinion, give the opinion — do not turn it into a brainstorm. He does **not**
 want the CoinStats API key rotated; that was settled and must not be raised
 again.
+
+## 4 Nov 2026 — active confluences on the card
+
+Jared asked why the live ETH 2D card showed no confluences when two were active (after the BTC 1D and the ETH 1D diamonds of 2 Nov). The card had been defined on 28 Oct around its one like-for-like number; confluence cells only reached the live-stack table. Gap closed: stack_live now writes every confluence cell active for a forming setup into cards.csv `confluences` (JSON, deduplicated across layers, weak ones included), the dashboard card shows an "Active confluences now" table (past trades, rose 20%, fell 30%, window closes; under 15 trades flagged), and the feed carries `active_confluences` (schema 3). Each confluence is its own sample and is never folded into the card's number. Rule stands: the confluence section lists only what is active now, all of it, nothing else. Entry quality only; not a track record.

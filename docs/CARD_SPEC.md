@@ -47,6 +47,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
 | Typical day it first hit +10% / +20% (trades that got there) | Median calendar days from the buy to the first daily high at least 10% / 20% above the buy price, among the trades in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
 | Typical day of the 60-day high / of the deepest dip | Median day, counted from the buy, on which each trade made its highest high / its lowest low within the 60 days | `daysToHigh`, `daysToLow` |
+| Active confluences now (4 Nov 2026) | Every confluence cell active for this setup today, weak ones included, each with its own past trades, rose 20%, fell 30% and the date its window closes. Its own sample, never blended into the big number; rows overlap. Nothing else is listed in this section. Under 15 trades is flagged too few to lean on | `confluences` (JSON list) |
 
 ## Wording rules
 

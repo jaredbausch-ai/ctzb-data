@@ -99,6 +99,9 @@
   <div class="tchead"><div class="tcbig" id="tcBig">—</div><div class="tcbigk"><b>Rose 10% and never fell 25%, within 60 days of buying</b><span>A 25% fall is what wipes out a position at 3.3x leverage.</span></div></div>
   <div class="tcgrid" id="tcGrid"></div>
   <div class="tcsplit" id="tcSplit"></div>
+  <div class="tclad" id="tcConfBox"><h3>Active confluences now &middot; all within 60 days of buying</h3>
+    <table><thead><tr><th>Active now</th><th>Past trades</th><th>Rose 20% or more</th><th>Fell 30% or more</th><th>Window closes</th></tr></thead><tbody id="tcConf"></tbody></table>
+    <p>Only confluences that are live today, weak ones included. Each row is its own group of past trades, separate from the number above, and the rows overlap, so they are not added together.</p></div>
   <div class="tclad"><h3>If it falls before it rises 10% &middot; all within 60 days of buying</h3>
     <table><thead><tr><th>Fall below the buy price</th><th>Trades that got there</th><th>Still rose 10%, never fell 25%</th><th>Went on to fall 25%</th></tr></thead><tbody id="tcLad"></tbody></table>
     <p>What a fall of each size has meant for trades like this before. It is information for your own decision, not a stop.</p></div>
@@ -305,7 +308,7 @@ function drawAction(){
   const pick=$("tcPick"); pick.textContent="";
   const rank={"A+":4,"A":3,"B":2,"C":1};
   const C=[...CARDS].sort((x,y)=>(rank[y.grade]||0)-(rank[x.grade]||0)||(x.asset===y.asset?0:x.asset==="ETH"?-1:1));
-  if(!C.length){$("tcWord").textContent="Nothing forming";$("tcLine").textContent="No chart has a low forming right now.";["tcN","tcBig","tcGrid","tcSplit","tcLad","tcFoot"].forEach(i=>$(i).textContent="");return;}
+  if(!C.length){$("tcWord").textContent="Nothing forming";$("tcLine").textContent="No chart has a low forming right now.";["tcN","tcBig","tcGrid","tcSplit","tcConf","tcLad","tcFoot"].forEach(i=>$(i).textContent="");return;}
   if(!SEL||!C.find(c=>c.chart===SEL)) SEL=C[0].chart;
   const c=C.find(x=>x.chart===SEL);
   C.forEach(x=>{const bt=el("button",x.chart===SEL?"on":"",x.chart+" \u00b7 "+x.grade);bt.type="button";bt.setAttribute("aria-pressed",x.chart===SEL?"true":"false");bt.addEventListener("click",()=>{SEL=x.chart;drawAction();});pick.appendChild(bt);});
@@ -325,6 +328,18 @@ function drawAction(){
   const sp=$("tcSplit"); sp.textContent="";
   [[c.surv10Old,c.nOld,"before 2022"],[c.surv10New,c.nNew,"since 2022"]].forEach(([v,nn,lab])=>{const d=el("div");
     d.appendChild(el("div","tcv "+(+v>=60?"gd":"wn"),+nn?P(v):"\u2014")); d.appendChild(el("div","tck","Rose 10% and never fell 25% within 60 days, "+lab+" ("+nn+" trades)")); sp.appendChild(d);});
+  const cf=$("tcConf"); cf.textContent=""; let CF=[];
+  try{CF=JSON.parse(c.confluences||"[]");}catch(e){CF=[];}
+  const MD=x=>new Date(x+"T00:00:00Z").toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"UTC"});
+  if(!CF.length){const tr=el("tr"),td=el("td",null,"None active right now.");td.colSpan=5;tr.appendChild(td);cf.appendChild(tr);}
+  CF.forEach(x=>{const tr=el("tr");
+    const who=x.tag==="all"?"every "+c.chart+" signal":c.chart+" "+x.tag+" signals";
+    const small=+x.n<15?" (under 15 trades: too few to lean on)":"";
+    tr.appendChild(el("td",null,"After the "+x.after+" "+x.afterTag+" signal confirmed "+MD(x.confirmed)+" \u00b7 record for "+who+small));
+    tr.appendChild(el("td",null,String(x.n)));
+    tr.appendChild(el("td",x.reach20===""?"":(+x.reach20>=60?"gd":"wn"),P(x.reach20)));
+    tr.appendChild(el("td",x.touched30===""?"":(+x.touched30>=25?"bd":"wn"),P(x.touched30)));
+    tr.appendChild(el("td",null,MD(x.closes))); cf.appendChild(tr);});
   const tb=$("tcLad"); tb.textContent="";
   [5,10,15,20].forEach(t=>{const n=+c["l"+t+"n"], ok=c["l"+t+"ok"], lq=c["l"+t+"liq"]; const tr=el("tr");
     tr.appendChild(el("td",null,t+"%")); tr.appendChild(el("td",null,String(n)));

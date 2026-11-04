@@ -394,7 +394,7 @@ def main():
                 len(old), sv(old), len(new), sv(new)] + ladder(G) + timing(G)
     CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'grade', 'lenses', 'basis', 'n',
                 'surv10', 'scaled20', 'reach20', 'reach10', 'bestMove', 'dipBeforeHigh', 'maxDip60', 'touched30',
-                'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow']
+                'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow', 'confluences']
     cells = []
     J = json.load(open(os.path.join(HERE, 'analysis', 'grokpack.json')))
     for lay in ('layer4', 'layer4_small', 'layer4b'):
@@ -466,7 +466,7 @@ def main():
         ra = regime_age(d0 if d0 <= today else today)
         out.append([subj, 'Regime gate [Tier 1 #6]', 'ON' if ra is not None else 'OFF', '', '', '', '', '', '', '', '', f'on for {ra} days' if ra is not None else ''])
         # confluence cells
-        evaluated.add('CELLS')
+        evaluated.add('CELLS'); act = []
         for lay, c in cells:
             if c['trade'] != f'{a} {tf}' or not TAG.get(c['tag'], lambda s: False)(r):
                 continue
@@ -475,6 +475,16 @@ def main():
             if not conf: continue
             hist = [s for s in Cr if TAG[c['tag']](s) and any(0 <= (s['d0'] - x['d0']).days <= WIN and CTAG[c['ctag']](x) for x in allsig[(ca, ctf)])]
             out.append([subj, f'Confluence cell: {c["trade"]} {c["tag"]} after {c["confirm"]} {c["ctag"]} ({conf[-1]["d0"]}) [{lay}]', 'ON'] + rec(hist) + ['full history'])
+            # 4 Nov 2026 (Jared: why are active confluences not on the card?): every confluence ACTIVE NOW
+            # rides on the card, weak ones included, each with its own sample. Never blended into the card's number.
+            ck = (c['tag'], c['confirm'], c['ctag'])
+            if state.startswith('forming') and ck not in {(x['tag'], x['after'], x['afterTag']) for x in act}:
+                rr = rec(hist)
+                act.append({'after': c['confirm'], 'afterTag': c['ctag'], 'confirmed': str(conf[-1]['d0']),
+                            'closes': str(conf[-1]['d0'] + dt.timedelta(days=WIN)), 'tag': c['tag'],
+                            'n': rr[0], 'reach20': rr[1], 'touched30': rr[2], 'reach10': rr[5]})
+        if state.startswith('forming'):
+            cards[-1].append(json.dumps(sorted(act, key=lambda x: -x['n']), separators=(',', ':')))
         # positioning read
         evaluated.add('POS')
         pd_ = min(d0, today - dt.timedelta(days=1))

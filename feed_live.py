@@ -23,7 +23,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 LABEL = ("Computed signal, not a fill. No trade was taken. Entry quality only: "
          "the data has no exits, so this is not a strategy return or a track record.")
 
@@ -81,6 +81,13 @@ def card(r):
         "typical_day_first_rose20": num(r.get("daysTo20", "")),
         "typical_day_of_60d_high": num(r.get("daysToHigh", "")),
         "typical_day_of_deepest_dip": num(r.get("daysToLow", "")),
+        "active_confluences": [
+            {"after": f"{x['after']} {x['afterTag']}", "after_confirmed": x["confirmed"], "window_closes": x["closes"],
+             "applies_to": x["tag"], "past_trades": x["n"], "rose20_within60d_pct": num(x["reach20"]),
+             "rose10_within60d_pct": num(x["reach10"]), "fell30_within60d_pct": num(x["touched30"]),
+             "note": "Its own sample, separate from the card number; rows overlap and are not added."}
+            for x in json.loads(r.get("confluences") or "[]")
+        ],
         "if_it_falls_first": [
             {"fell_pct": k, "past_trades": num(r[f"l{k}n"]),
              "still_rose10_pct": num(r[f"l{k}ok"]), "went_on_to_fall25_pct": num(r[f"l{k}liq"])}
