@@ -53,7 +53,7 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `beat_normal_move_pct` | scaled20 | |
 | `rose20_within60d_pct`, `rose10_within60d_pct` | reach20, reach10 | |
 | `typical_biggest_rise_pct` | bestMove | |
-| `typical_dip_before_rise_pct` | dipBeforeHigh | |
+| `typical_dip_before_rise_pct` | dipBeforeHigh | Lowest point vs the BUY PRICE before the 60-day high (median). Not a pullback from profit |
 | `typical_deepest_dip_pct` | maxDip60 | |
 | `fell30_within60d_pct` | touched30 | |
 | `before_2022`, `since_2022` | nOld/surv10Old, nNew/surv10New | |

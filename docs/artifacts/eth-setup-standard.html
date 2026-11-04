@@ -320,10 +320,10 @@ function drawAction(){
   $("tcBig").textContent=P(c.surv10);
   const g=$("tcGrid"); g.textContent="";
   const DY=x=>(x===undefined||x===""||x===null)?"\u2014":"day "+x;
-  [[P(c.reach20),"Rose 20% or more, within 60 days",""],[D(c.bestMove),"Typical biggest rise, within 60 days","gd"],[D(c.dipBeforeHigh),"Typical dip before the 60-day high",""],
-   [D(c.maxDip60),"Typical deepest dip, within 60 days","wn"],[P(c.touched30),"Fell 30% or more, within 60 days","bd"],[P(c.scaled20),"Beat a normal move for the market, within 60 days","gd"],
-   [DY(c.daysTo10),"Typical day it first hit +10% (trades that got there)","gd"],[DY(c.daysTo20),"Typical day it first hit +20% (trades that got there)","gd"],[DY(c.daysToHigh),"Typical day of the 60-day high",""],
-   [DY(c.daysToLow),"Typical day of the deepest dip","wn"]].forEach(([v,k,cl])=>{
+  [[P(c.reach20),"Rose 20% or more above the buy price, within 60 days",""],[D(c.bestMove),"Typical biggest rise above the buy price, within 60 days","gd"],[D(c.dipBeforeHigh),"Typical lowest point vs the buy price, before it made its 60-day high",""],
+   [D(c.maxDip60),"Typical deepest dip below the buy price, within 60 days","wn"],[P(c.touched30),"Fell 30% or more below the buy price, within 60 days","bd"],[P(c.scaled20),"Beat a normal move for the market, within 60 days","gd"],
+   [DY(c.daysTo10),"Typical day it first hit +10% over the buy price (trades that got there)","gd"],[DY(c.daysTo20),"Typical day it first hit +20% over the buy price (trades that got there)","gd"],[DY(c.daysToHigh),"Typical day of the 60-day high, counted from the buy",""],
+   [DY(c.daysToLow),"Typical day of the deepest dip, counted from the buy","wn"]].forEach(([v,k,cl])=>{
     const d=el("div"); d.appendChild(el("div","tcv "+cl,v)); d.appendChild(el("div","tck",k)); g.appendChild(d);});
   const sp=$("tcSplit"); sp.textContent="";
   [[c.surv10Old,c.nOld,"before 2022"],[c.surv10New,c.nNew,"since 2022"]].forEach(([v,nn,lab])=>{const d=el("div");

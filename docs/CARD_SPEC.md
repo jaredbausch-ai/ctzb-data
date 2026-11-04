@@ -37,8 +37,8 @@ All are measured from the buy price (the close of the confirmation bar) and with
 | Big number: Rose 10% and never fell 25%, within 60 days of buying | Share of the sample whose highest price in the 60 days was at least 10% above the buy price AND whose lowest price in the 60 days never reached 25.3% below it (where 3.3x with 5% maintenance margin liquidates). Exact prices, not rounded figures | `surv10` |
 | Rose 20% or more | Share whose highest price in 60 days was at least 20% above the buy price | `reach20` |
 | Typical biggest rise | Median of each trade's highest price in 60 days vs the buy price | `bestMove` |
-| Typical dip before it rose | Median of each trade's lowest price before its 60-day high | `dipBeforeHigh` |
-| Typical deepest dip | Median of each trade's lowest price in 60 days | `maxDip60` |
+| Typical lowest point vs the buy price, before it made its 60-day high (wording fixed 4 Nov 2026; was "Typical dip before the 60-day high", which read as a pullback from profit) | Median, across the past trades, of each trade's lowest low from the day after the buy up to the day of its 60-day high, as a percentage of the BUY PRICE. Negative = it was under the buy price at some point before topping. It is not a pullback from a profit | `dipBeforeHigh` |
+| Typical deepest dip below the buy price | Median of each trade's lowest price in 60 days, as a percentage of the buy price | `maxDip60` |
 | Fell 30% or more at some point | Share whose lowest price in 60 days was 30% or more below the buy price | `touched30` |
 | Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility) | `scaled20` |
 | Before 2022 / since 2022 (N trades) | The big-number measure split by entry date, with each half's count. The two counts must add up to the corner number | `surv10Old`, `nOld`, `surv10New`, `nNew` |
