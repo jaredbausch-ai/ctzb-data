@@ -25,3 +25,29 @@ print('asset grade period n surv10% scaled20% reached20%')
 for k in sorted(d):
     n, s, sc, r20 = d[k]
     print(*k, n, round(100 * s / n), round(100 * sc / n), round(100 * r20 / n))
+
+# --- Alerts per year for the recommended set (ETH A+, BTC A+, BTC A), 5 Nov 2026 ---
+# Raw = every chart's signal. Merged = one trade per asset, a new one only when
+# 10+ days have passed since the last kept entry on that asset (the same market
+# low often fires on several charts in one week). 2020-2025 is the window where
+# both assets are graded; 2022 had no regime-on signals.
+import datetime as dt
+from collections import Counter
+keep = {('ETH', 'A+'), ('BTC', 'A+'), ('BTC', 'A')}
+rows = sorted((r for r in csv.DictReader(open('datasets/ledger.csv'))
+               if (r['asset'], r['grade']) in keep and r['surv10'] in ('yes', 'no')),
+              key=lambda r: r['entry'])
+last, merged = {}, []
+for r in rows:
+    d = dt.date.fromisoformat(r['entry'])
+    if r['asset'] not in last or (d - last[r['asset']]).days >= 10:
+        merged.append(r)
+        last[r['asset']] = d
+raw_c = Counter(int(r['entry'][:4]) for r in rows)
+mer_c = Counter(int(r['entry'][:4]) for r in merged)
+print('\nyear raw merged10d')
+for y in range(2016, 2026):
+    print(y, raw_c.get(y, 0), mer_c.get(y, 0))
+yrs = range(2020, 2026)
+print('avg 2020-2025 raw', round(sum(raw_c.get(y, 0) for y in yrs) / 6, 1),
+      'merged', round(sum(mer_c.get(y, 0) for y in yrs) / 6, 1))
