@@ -1,13 +1,13 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-05T08:08:45Z",
+ "generated_at": "2026-11-05T12:09:01Z",
  "scored_as_of": "2026-11-05",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-05 08:08 UTC OK 30 subjects, 1054 reads, 35 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-05",
-   "2026-11-05 08:08 UTC OK card cross-check, 5 cards match the ledger"
+   "2026-11-05 12:09 UTC OK 30 subjects, 1054 reads, 35 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-05",
+   "2026-11-05 12:09 UTC OK card cross-check, 5 cards match the ledger"
   ]
  },
  "cards_withheld": false,
@@ -23,32 +23,32 @@
    "low_date": "2026-10-28",
    "confirms_on": "2026-11-08",
    "bars_to_confirm": 1,
-   "must_close_above": 2186.89,
-   "price_now": 2420.64,
-   "grade": "C",
-   "confirmations": "other charts already confirmed",
-   "sample": "the last 111 grade C trades across all ETH charts (ETH 3D alone has only 13, too few to use)",
-   "past_trades": 111,
+   "must_close_above": 2189.26,
+   "price_now": 2412.9,
+   "grade": "B",
+   "confirmations": "other charts already confirmed; funding at or above its 90-day median",
+   "sample": "the last 15 ETH 3D trades graded B (only 3 had exactly the same confirmations, too few to use)",
+   "past_trades": 15,
    "rose10_never_fell25_within60d_pct": 53,
-   "beat_normal_move_pct": 58,
-   "rose20_within60d_pct": 43,
+   "beat_normal_move_pct": 67,
+   "rose20_within60d_pct": 53,
    "rose10_within60d_pct": 67,
-   "typical_biggest_rise_pct": 15.0,
-   "typical_dip_before_rise_pct": -6.0,
-   "typical_deepest_dip_pct": -16.4,
-   "fell30_within60d_pct": 30,
+   "typical_biggest_rise_pct": 20.8,
+   "typical_dip_before_rise_pct": -4.5,
+   "typical_deepest_dip_pct": -19.9,
+   "fell30_within60d_pct": 40,
    "before_2022": {
-    "past_trades": 30,
-    "rose10_never_fell25_within60d_pct": 60
+    "past_trades": 9,
+    "rose10_never_fell25_within60d_pct": 67
    },
    "since_2022": {
-    "past_trades": 81,
-    "rose10_never_fell25_within60d_pct": 51
+    "past_trades": 6,
+    "rose10_never_fell25_within60d_pct": 33
    },
-   "typical_day_first_rose10": 10,
-   "typical_day_first_rose20": 18,
-   "typical_day_of_60d_high": 32,
-   "typical_day_of_deepest_dip": 22,
+   "typical_day_first_rose10": 12,
+   "typical_day_first_rose20": 23,
+   "typical_day_of_60d_high": 41,
+   "typical_day_of_deepest_dip": 18,
    "active_confluences": [
     {
      "after": "ETH 2D any",
@@ -87,27 +87,27 @@
    "if_it_falls_first": [
     {
      "fell_pct": 5,
-     "past_trades": 76,
-     "still_rose10_pct": 47,
-     "went_on_to_fall25_pct": 37
+     "past_trades": 10,
+     "still_rose10_pct": 30,
+     "went_on_to_fall25_pct": 60
     },
     {
      "fell_pct": 10,
-     "past_trades": 54,
-     "still_rose10_pct": 30,
-     "went_on_to_fall25_pct": 52
+     "past_trades": 9,
+     "still_rose10_pct": 22,
+     "went_on_to_fall25_pct": 67
     },
     {
      "fell_pct": 15,
-     "past_trades": 45,
-     "still_rose10_pct": 18,
-     "went_on_to_fall25_pct": 62
+     "past_trades": 9,
+     "still_rose10_pct": 22,
+     "went_on_to_fall25_pct": 67
     },
     {
      "fell_pct": 20,
-     "past_trades": 35,
-     "still_rose10_pct": 11,
-     "went_on_to_fall25_pct": 80
+     "past_trades": 6,
+     "still_rose10_pct": 0,
+     "went_on_to_fall25_pct": 100
     }
    ]
   },
@@ -120,9 +120,9 @@
    "confirms_on": "2026-11-16",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2420.64,
+   "price_now": 2412.9,
    "grade": "C",
-   "confirmations": "none",
+   "confirmations": "funding at or above its 90-day median",
    "sample": "the last 111 grade C trades across all ETH charts (ETH 5D alone has only 5, too few to use)",
    "past_trades": 111,
    "rose10_never_fell25_within60d_pct": 53,
@@ -182,9 +182,9 @@
    "confirms_on": "2026-11-24",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2420.64,
+   "price_now": 2412.9,
    "grade": "C",
-   "confirmations": "none",
+   "confirmations": "funding at or above its 90-day median",
    "sample": "the last 111 grade C trades across all ETH charts (ETH 8D alone has only 3, too few to use)",
    "past_trades": 111,
    "rose10_never_fell25_within60d_pct": 53,
@@ -243,8 +243,8 @@
    "low_date": "2026-11-01",
    "confirms_on": "2026-11-08",
    "bars_to_confirm": 1,
-   "must_close_above": 75700.25,
-   "price_now": 80476.8,
+   "must_close_above": 75691.93,
+   "price_now": 80073.26,
    "grade": "B",
    "confirmations": "an ETH 2D signal in the 10 days before; CT recovering fast from the low",
    "sample": "the last 15 BTC 2D trades with exactly the same confirmations",
@@ -318,7 +318,7 @@
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 80476.8,
+   "price_now": 80073.26,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 26 BTC 3D trades with exactly the same confirmations",
@@ -380,7 +380,7 @@
    "confirms_on": "2026-11-16",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 80476.8,
+   "price_now": 80073.26,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 30 BTC 5D trades graded C (only 5 had exactly the same confirmations, too few to use)",
@@ -442,7 +442,7 @@
    "confirms_on": "2026-11-24",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 80476.8,
+   "price_now": 80073.26,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 19 BTC 8D trades graded C (only 8 had exactly the same confirmations, too few to use)",
@@ -603,7 +603,7 @@
    "provisional": true,
    "low_date": "2026-10-28",
    "confirms_on": "2026-11-08",
-   "entry_close": 2420.64,
+   "entry_close": 2412.9,
    "tags": "B",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -647,7 +647,7 @@
    "provisional": true,
    "low_date": "2026-10-28",
    "confirms_on": "2026-11-16",
-   "entry_close": 2420.64,
+   "entry_close": 2412.9,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -691,7 +691,7 @@
    "provisional": true,
    "low_date": "2026-10-24",
    "confirms_on": "2026-11-24",
-   "entry_close": 2420.64,
+   "entry_close": 2412.9,
    "tags": "B + prime dot",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -768,7 +768,7 @@
    "provisional": true,
    "low_date": "2026-11-01",
    "confirms_on": "2026-11-08",
-   "entry_close": 80476.8,
+   "entry_close": 80073.26,
    "tags": "B",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -812,7 +812,7 @@
    "provisional": true,
    "low_date": "2026-10-31",
    "confirms_on": "2026-11-11",
-   "entry_close": 80476.8,
+   "entry_close": 80073.26,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -856,7 +856,7 @@
    "provisional": true,
    "low_date": "2026-10-28",
    "confirms_on": "2026-11-16",
-   "entry_close": 80476.8,
+   "entry_close": 80073.26,
    "tags": "B + prime dot",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -900,7 +900,7 @@
    "provisional": true,
    "low_date": "2026-10-24",
    "confirms_on": "2026-11-24",
-   "entry_close": 80476.8,
+   "entry_close": 80073.26,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   }
