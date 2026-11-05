@@ -1,13 +1,13 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-05T16:08:59Z",
+ "generated_at": "2026-11-05T20:08:53Z",
  "scored_as_of": "2026-11-05",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-05 16:08 UTC OK 25 subjects, 915 reads, 35 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-05",
-   "2026-11-05 16:08 UTC OK card cross-check, 2 cards match the ledger"
+   "2026-11-05 20:08 UTC OK 25 subjects, 915 reads, 35 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-05",
+   "2026-11-05 20:08 UTC OK card cross-check, 2 cards match the ledger"
   ]
  },
  "cards_withheld": false,
@@ -23,8 +23,8 @@
    "low_date": "2026-10-28",
    "confirms_on": "2026-11-08",
    "bars_to_confirm": 1,
-   "must_close_above": 2238.75,
-   "price_now": 2242.75,
+   "must_close_above": 2239.06,
+   "price_now": 2247.11,
    "grade": "B",
    "confirmations": "other charts already confirmed; funding at or above its 90-day median",
    "sample": "the last 15 ETH 3D trades graded B (only 3 had exactly the same confirmations, too few to use)",
@@ -119,8 +119,8 @@
    "low_date": "2026-11-01",
    "confirms_on": "2026-11-08",
    "bars_to_confirm": 1,
-   "must_close_above": 75371.05,
-   "price_now": 75580.99,
+   "must_close_above": 75404.97,
+   "price_now": 76055.92,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 38 BTC 2D trades with exactly the same confirmations",
@@ -293,7 +293,7 @@
    "provisional": true,
    "low_date": "2026-10-28",
    "confirms_on": "2026-11-08",
-   "entry_close": 2242.75,
+   "entry_close": 2247.11,
    "tags": "B",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -436,7 +436,7 @@
    "provisional": true,
    "low_date": "2026-11-01",
    "confirms_on": "2026-11-08",
-   "entry_close": 75580.99,
+   "entry_close": 76055.92,
    "tags": "B",
    "note": "regime on; 1 bar(s) to confirm"
   },
