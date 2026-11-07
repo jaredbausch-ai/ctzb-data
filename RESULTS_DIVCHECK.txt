@@ -1,0 +1,33 @@
+
+===== ETH_1D  bars=3824  last=2026-11-07  close=2241.15  rsi=40.14
+ recent confirmed pivot lows (L3/R3):
+   2026-10-02  low  2650.00  close  2668.13  rsi  58.80
+   2026-10-08  low  2404.60  close  2472.89  rsi  37.49
+   2026-10-15  low  2313.07  close  2439.45  rsi  39.84
+   2026-10-24  low  2275.94  close  2355.36  rsi  36.24
+   2026-10-30  low  2170.03  close  2241.07  rsi  30.17
+ lowest low since that pivot: 2026-11-05 low 2202.27 rsi 39.49
+   price higher low (+32.24)   rsi HIGHER low (+9.32)   -> no div
+ close needed for RSI to hold above prior pivot RSI 30.17: 2049.15
+
+===== ETH_2D  bars=1917  last=2026-11-07  close=2241.15  rsi=41.11
+ recent confirmed pivot lows (L3/R3):
+   2026-08-11  low  1851.45  close  1877.59  rsi  51.80
+   2026-09-02  low  2355.20  close  2507.47  rsi  75.99
+   2026-09-14  low  2356.82  close  2396.14  rsi  61.22
+   2026-10-14  low  2313.07  close  2439.45  rsi  47.09
+   2026-10-30  low  2170.03  close  2252.66  rsi  37.67
+ lowest low since that pivot: 2026-11-05 low 2202.27 rsi 40.72
+   price higher low (+32.24)   rsi HIGHER low (+3.05)   -> no div
+ close needed for RSI to hold above prior pivot RSI 37.67: 2165.04
+
+===== ETH_3D  bars=1278  last=2026-11-06  close=2241.15  rsi=41.85
+ recent confirmed pivot lows (L3/R3):
+   2026-06-24  low  1510.00  close  1576.27  rsi  29.91
+   2026-07-30  low  1820.14  close  1843.18  rsi  47.26
+   2026-09-01  low  2355.20  close  2507.47  rsi  74.20
+   2026-09-13  low  2356.82  close  2396.14  rsi  62.34
+   2026-10-28  low  2170.03  close  2241.07  rsi  41.55
+ lowest low since that pivot: 2026-11-03 low 2202.27 rsi 41.36
+   price higher low (+32.24)   rsi lower low (-0.19)   -> no div
+ close needed for RSI to hold above prior pivot RSI 41.55: 2237.14
