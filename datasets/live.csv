@@ -1,6 +1,6 @@
 chart,dataTo,lastPrint,lastEntry,lastTag,daysSince,ctNow,forming,formingTag,barsNeeded,formingGrade,formingLenses,formingHtfDiv,formingMarker,closeNow,closeDate
-ETH 1D,2026-11-07,2026-10-30,2026-11-02,A + diamond + filled,5,40.4,no,,,,,,,2244.23,2026-11-07
-ETH 2D,2026-11-07,2026-10-28,2026-11-03,A,4,41.3,no,,,,,,,2244.23,2026-11-07
-ETH 3D,2026-11-06,2026-09-13,2026-09-22,C + diamond + hollow,45,42.1,yes,B,2,B (provisional),AGREE + FUND,no,no,2244.23,2026-11-07
-ETH 5D,2026-11-07,2026-09-13,2026-09-28,C,40,47.2,yes,B,2,A (provisional),AGREE + FUND + FCOOL,no,no,2244.23,2026-11-07
-ETH 8D,2026-11-01,2025-06-18,2025-07-12,B,477,47.6,no,,,,,,,2244.23,2026-11-07
+ETH 1D,2026-11-07,2026-10-30,2026-11-02,A + diamond + filled,5,40.1,no,,,,,,,2241.15,2026-11-07
+ETH 2D,2026-11-07,2026-10-28,2026-11-03,A,4,41.1,no,,,,,,,2241.15,2026-11-07
+ETH 3D,2026-11-06,2026-09-13,2026-09-22,C + diamond + hollow,45,41.9,yes,B,2,B (provisional),AGREE + FUND,no,no,2241.15,2026-11-07
+ETH 5D,2026-11-07,2026-09-13,2026-09-28,C,40,47.1,yes,B,2,A (provisional),AGREE + FUND + FCOOL,no,no,2241.15,2026-11-07
+ETH 8D,2026-11-01,2025-06-18,2025-07-12,B,477,47.5,no,,,,,,,2241.15,2026-11-07
