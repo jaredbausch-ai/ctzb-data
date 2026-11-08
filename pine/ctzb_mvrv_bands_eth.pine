@@ -83,7 +83,7 @@ plot25 = plot(showBands ? p25 : na, "25th pct", color.new(cCheap, 40), 1)
 plot(showBands ? p50 : na, "Median",   color.new(cMid, 0),   2)
 plot(showBands ? p75 : na, "75th pct", color.new(cRich, 40), 1)
 plot(showBands ? p90 : na, "90th pct", color.new(cRich, 0),  1)
-plot(showBands ? realised : na, "Realised price", color.new(cMid, 50), 1, plot.style_dashed)
+plot(showBands ? realised : na, "Realised price", color.new(cMid, 45), 2)
 fill(plot05, plot25, shadeLow ? color.new(cCheap, 90) : na, "Cheap zone")
 
 // ============ alerts ============
