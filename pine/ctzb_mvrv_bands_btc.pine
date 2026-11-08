@@ -1,0 +1,134 @@
+//@version=6
+// CTZB MVRV Bands - BTC
+//
+// realised price = realised cap / circulating supply
+// MVRV           = close / realised price
+// A band at multiplier m is drawn at realised price * m: the price at which
+// MVRV would equal m.
+//
+// Levels are full-history MVRV percentiles for BTC, from Coin Metrics
+// daily data. n = 5,957, 2010-07-18 to 2026-11-07.
+// Computed by analysis/mvrv_bands.py in jaredbausch-ai/ctzb-data.
+//
+// These are percentiles of a daily series, not levels derived from candle
+// streaks. An earlier version used 5D red-streak exits; that was dropped
+// because the streak set changes with where the 5-day grid starts.
+
+indicator("CTZB MVRV Bands BTC", "MVRV BTC", overlay = true)
+
+// ============ data ============
+string rcSym = input.symbol("", "Realised cap symbol", group = "Data",
+     tooltip = "Symbol-search for BTC realised market cap. Leave blank to use the manual realised price below.")
+string spSym = input.symbol("", "Circulating supply symbol", group = "Data",
+     tooltip = "Optional. Leave blank to derive supply from market cap divided by price.")
+string mcSym = input.symbol("", "Market cap symbol", group = "Data",
+     tooltip = "Only used to derive supply when the supply symbol is blank.")
+float manRP  = input.float(53951.14, "Manual realised price", minval = 0.0, step = 0.01, group = "Data",
+     tooltip = "Static fallback. BTC realised price was 53951.14 on 2026-11-07. It does not update.")
+
+getSeries(string sym) =>
+    float out = na
+    if not na(sym) and sym != ""
+        out := request.security(sym, "D", close, ignore_invalid_symbol = true)
+    out
+
+float rcVal = getSeries(rcSym)
+float spVal = getSeries(spSym)
+float mcVal = getSeries(mcSym)
+
+float supply = na
+if not na(spVal)
+    supply := spVal
+else if not na(mcVal) and close > 0
+    supply := mcVal / close
+
+float realised = na
+if not na(rcVal) and not na(supply) and supply > 0
+    realised := rcVal / supply
+else if manRP > 0
+    realised := manRP
+
+float mvrv = na
+if not na(realised) and realised > 0
+    mvrv := close / realised
+
+// ============ levels ============
+string basis = input.string("Full history", "Percentile basis", options = ["Full history", "2019+"], group = "Levels")
+
+float m05 = basis == "Full history" ? 0.826 : 0.9
+float m10 = basis == "Full history" ? 0.92 : 1.036
+float m25 = basis == "Full history" ? 1.285 : 1.328
+float m50 = basis == "Full history" ? 1.711 : 1.7
+float m75 = basis == "Full history" ? 2.229 : 2.122
+float m90 = basis == "Full history" ? 2.982 : 2.467
+
+float p05 = realised * m05
+float p10 = realised * m10
+float p25 = realised * m25
+float p50 = realised * m50
+float p75 = realised * m75
+float p90 = realised * m90
+
+// ============ plot ============
+bool showBands = input.bool(true, "Show bands", group = "Display")
+bool shadeLow  = input.bool(true, "Shade below the 25th percentile", group = "Display")
+
+color cCheap = #2f7a62
+color cMid   = #8a8f98
+color cRich  = #c2410c
+
+plot05 = plot(showBands ? p05 : na, "5th pct",  color.new(cCheap, 0),  1)
+plot10 = plot(showBands ? p10 : na, "10th pct", color.new(cCheap, 20), 1)
+plot25 = plot(showBands ? p25 : na, "25th pct", color.new(cCheap, 40), 1)
+plot(showBands ? p50 : na, "Median",   color.new(cMid, 0),   2)
+plot(showBands ? p75 : na, "75th pct", color.new(cRich, 40), 1)
+plot(showBands ? p90 : na, "90th pct", color.new(cRich, 0),  1)
+plot(showBands ? realised : na, "Realised price", color.new(cMid, 50), 1, plot.style_dashed)
+fill(plot05, plot25, shadeLow ? color.new(cCheap, 90) : na, "Cheap zone")
+
+// ============ alerts ============
+alertcondition(ta.crossunder(mvrv, m25), "BTC MVRV below 25th pct", "BTC MVRV entered its cheap quartile")
+alertcondition(ta.crossunder(mvrv, m10), "BTC MVRV below 10th pct", "BTC MVRV in its cheapest decile")
+alertcondition(ta.crossover(mvrv,  m75), "BTC MVRV above 75th pct", "BTC MVRV entered its expensive quartile")
+
+// ============ readout ============
+bool   showTable = input.bool(true, "Show readout", group = "Readout")
+string tPos      = input.string("Top right", "Position", options = ["Top right", "Top left", "Bottom right", "Bottom left"], group = "Readout")
+
+fmtLevel(float p) =>
+    string s = "n/a"
+    if not na(p) and close > 0
+        s := str.tostring(p, format.mintick) + "   " + str.tostring((p / close - 1) * 100, "#.#") + "%"
+    s
+
+var table tbl = table.new(position.top_right, 2, 8, border_width = 1)
+
+if showTable and barstate.islast
+    tbl := table.new(tPos == "Top left" ? position.top_left : tPos == "Bottom right" ? position.bottom_right : tPos == "Bottom left" ? position.bottom_left : position.top_right, 2, 8, border_width = 1)
+    string src = "NO DATA"
+    if not na(rcVal)
+        src := "live feed"
+    else if manRP > 0
+        src := "manual (static)"
+    color mvCol = chart.fg_color
+    if not na(mvrv) and mvrv < m25
+        mvCol := cCheap
+    else if not na(mvrv) and mvrv > m75
+        mvCol := cRich
+
+    table.cell(tbl, 0, 0, "BTC MVRV",   text_color = chart.fg_color, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, 0, na(mvrv) ? "n/a" : str.tostring(mvrv, "#.###"), text_color = mvCol, text_size = size.small, text_halign = text.align_right)
+    table.cell(tbl, 0, 1, "Realised price", text_color = chart.fg_color, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, 1, na(realised) ? "n/a" : str.tostring(realised, format.mintick), text_color = chart.fg_color, text_size = size.small, text_halign = text.align_right)
+    table.cell(tbl, 0, 2, "90th pct", text_color = chart.fg_color, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, 2, fmtLevel(p90), text_color = cRich, text_size = size.small, text_halign = text.align_right)
+    table.cell(tbl, 0, 3, "75th pct", text_color = chart.fg_color, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, 3, fmtLevel(p75), text_color = color.new(cRich, 35), text_size = size.small, text_halign = text.align_right)
+    table.cell(tbl, 0, 4, "Median",   text_color = chart.fg_color, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, 4, fmtLevel(p50), text_color = cMid, text_size = size.small, text_halign = text.align_right)
+    table.cell(tbl, 0, 5, "25th pct", text_color = chart.fg_color, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, 5, fmtLevel(p25), text_color = color.new(cCheap, 35), text_size = size.small, text_halign = text.align_right)
+    table.cell(tbl, 0, 6, "10th pct", text_color = chart.fg_color, text_size = size.small, text_halign = text.align_left)
+    table.cell(tbl, 1, 6, fmtLevel(p10), text_color = color.new(cCheap, 15), text_size = size.small, text_halign = text.align_right)
+    table.cell(tbl, 0, 7, "Source",   text_color = color.gray, text_size = size.tiny, text_halign = text.align_left)
+    table.cell(tbl, 1, 7, src, text_color = src == "NO DATA" ? color.red : color.gray, text_size = size.tiny, text_halign = text.align_right)
