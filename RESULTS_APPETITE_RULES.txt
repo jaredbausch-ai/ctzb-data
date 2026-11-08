@@ -1,0 +1,72 @@
+
+########## BTC ##########
+rule                                    n     +30d    up     +60d    up     best    worst   +15%   +20%  dd<-15
+BASELINE                             2136    +2.8%   57%    +7.2%   59%   +19.0%   -11.5%    58%    49%     42%
+L1  below -1.0, first up-tick          23    +3.3%   57%    +3.8%   61%   +19.7%    -9.2%    62%    50%     33%
+L2  below -1.5, first up-tick           9    +7.9%   67%    +6.4%   67%   +21.8%   -10.1%    89%    67%     22%
+L3  below -2.0, first up-tick           1   too few
+L4  below -1.0, up-tick, 3+ down       19    -1.3%   47%    +3.8%   63%   +17.0%    -9.2%    55%    45%     35%
+W1  up-tick after 5 bars <-1.0         19    +4.3%   68%    +9.8%   58%   +19.5%   -11.0%    68%    47%     32%
+W2  up-tick after 10 bars <-1.0         8   +13.5%   62%   +16.7%   50%   +34.2%    -9.5%    62%    62%     25%
+S1  cross above 10-bar mean <-0.5      25    +0.0%   52%    -2.3%   48%   +11.4%   -13.1%    44%    44%     44%
+R1  back above -1.0 after <-1.5         8    +3.7%   50%    +6.4%   75%   +15.2%    -8.6%    50%    38%     25%
+P1  pivot L5/R5 at confirmation       103    +1.4%   54%    +7.6%   57%   +23.3%   -11.3%    56%    52%     43%
+P2  pivot L8/R8 at confirmation        81    +2.4%   55%    +2.0%   53%   +17.6%   -14.5%    57%    49%     49%
+P3  pivot L5/R5 conf, trough<-1        21    +1.1%   57%    +6.5%   62%   +16.1%   -11.5%    52%    43%     38%
+P4  pivot L8/R8 conf, trough<-1        21    +0.0%   52%    +6.2%   57%   +15.5%   -13.5%    52%    38%     43%
+T1  crosses above 0                    48    +1.5%   53%    +1.1%   52%   +15.7%   -10.3%    51%    45%     43%
+T2  crosses above +0.5                 38    +1.1%   53%    +0.1%   50%   +12.5%   -14.1%    50%    39%     47%
+T3  above 0 and rising                109    +3.8%   58%    +6.7%   57%   +16.4%   -10.7%    55%    44%     41%
+
+########## ETH ##########
+rule                                    n     +30d    up     +60d    up     best    worst   +15%   +20%  dd<-15
+BASELINE                             1917    +1.3%   53%    +5.0%   55%   +26.7%   -18.0%    64%    57%     57%
+L1  below -1.0, first up-tick          17   +10.2%   59%   +18.9%   65%   +35.4%   -12.6%    71%    59%     47%
+L2  below -1.5, first up-tick           6   +37.8%   83%   +43.3%  100%   +68.7%   -11.7%    83%    83%     17%
+L3  below -2.0, first up-tick           0   too few
+L4  below -1.0, up-tick, 3+ down       15    +0.3%   53%   +18.9%   60%   +26.0%   -12.6%    67%    53%     47%
+W1  up-tick after 5 bars <-1.0         15    +7.5%   60%   +18.9%   73%   +36.7%   -12.6%    73%    73%     47%
+W2  up-tick after 10 bars <-1.0         7   +36.6%   86%   +30.5%   71%   +46.3%   -12.9%   100%   100%     29%
+S1  cross above 10-bar mean <-0.5      20    +5.4%   60%    -9.4%   40%   +32.9%   -21.7%    65%    60%     55%
+R1  back above -1.0 after <-1.5         4   too few
+P1  pivot L5/R5 at confirmation        90    +2.9%   54%    +6.3%   54%   +31.4%   -19.7%    64%    58%     60%
+P2  pivot L8/R8 at confirmation        71    -0.3%   49%    -1.9%   49%   +29.0%   -19.1%    63%    56%     61%
+P3  pivot L5/R5 conf, trough<-1        15    +5.3%   60%    -0.3%   47%   +33.1%   -12.7%    60%    60%     47%
+P4  pivot L8/R8 conf, trough<-1        15    -4.4%   47%    +2.6%   53%   +28.5%   -22.4%    60%    53%     53%
+T1  crosses above 0                    42    +0.3%   50%    +8.2%   62%   +23.2%   -16.6%    74%    55%     57%
+T2  crosses above +0.5                 28    -1.0%   46%    -1.4%   46%   +22.3%   -17.4%    68%    57%     71%
+T3  above 0 and rising                 96    +2.0%   54%    +5.2%   54%   +23.6%   -17.8%    66%    53%     58%
+
+
+########## rules that beat baseline on BOTH assets ##########
+rule                                  BTC +60d  ETH +60d  BTC +15%  ETH +15%
+W1  up-tick after 5 bars <-1.0           +9.8%    +18.9%       68%       73%
+W2  up-tick after 10 bars <-1.0         +16.7%    +30.5%       62%      100%
+
+
+########## where we are now ##########
+  last bar 2026-11-07  appetite -1.721  prev -1.422  -> still falling
+  consecutive bars at or below -1.0: 5  (10 days)
+  W1 needs 5+ bars below -1.0 then an up-tick: dwell OK, up-tick NO
+  W2 needs 10+ bars below -1.0 then an up-tick: dwell NOT YET, up-tick NO
+
+  every W1 event in full:
+    2015-07-12  appetite -1.26  $      293  BTC +60d -17.8%
+    2015-09-02  appetite -2.05  $      227  BTC +60d +60.7%
+    2015-09-24  appetite -1.04  $      236  BTC +60d +36.1%
+    2016-01-19  appetite -1.49  $      419  BTC +60d -1.7%
+    2018-04-09  appetite -1.26  $    6,825  BTC +60d +9.8%
+    2018-11-25  appetite -1.25  $    3,731  BTC +60d -4.4%
+    2018-12-27  appetite -1.95  $    3,888  BTC +60d -1.8%
+    2019-08-27  appetite -1.11  $    9,714  BTC +60d -1.7%
+    2020-03-09  appetite -1.76  $    7,895  BTC +60d +20.8%
+    2020-04-02  appetite -1.62  $    6,742  BTC +60d +41.2%
+    2021-12-09  appetite -0.81  $   47,171  BTC +60d -7.0%
+    2022-05-31  appetite -1.18  $   29,789  BTC +60d -21.8%
+    2022-06-22  appetite -1.48  $   21,104  BTC +60d +1.4%
+    2022-07-14  appetite -1.48  $   20,828  BTC +60d -3.1%
+    2022-12-15  appetite -1.42  $   16,633  BTC +60d +31.0%
+    2024-08-14  appetite -0.86  $   57,544  BTC +60d +14.8%
+    2025-03-12  appetite -1.30  $   81,073  BTC +60d +26.8%
+    2025-04-11  appetite -1.63  $   85,271  BTC +60d +27.4%
+    2026-03-10  appetite -1.21  $   70,208  BTC +60d +17.1%
