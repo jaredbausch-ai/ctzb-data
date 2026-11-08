@@ -261,6 +261,26 @@ These are not filters. They are what the system charges regardless.
 
 ---
 
+### Early Appetite composite — dropped 8 Nov 2026
+Credit (HYG/LQD momentum) + VIX term structure + stablecoin supply growth,
+z-scored and blended. Tested 15 entry rules on BTC and ETH, each written as a
+trade rather than a condition: `analysis/appetite_rules.py`,
+`RESULTS_APPETITE_RULES.txt`.
+
+Only one survived on both assets — first up-tick after the line has sat below
+-1.0 for 10+ bars (BTC +16.7% / ETH +30.5% at 60d, n=8 and 7). Too thin to
+carry, and Jared dropped it.
+
+Dead and not to be re-tested: level in the bottom decile, pivot-trough entries
+at the confirmation bar (ETH -1.9%), threshold crosses below -1.0 (-1.6%
+median, 45% up), slope crossing zero (no separation across 2,126 bars), every
+trend rule above zero, the 10-bar-mean cross.
+
+As a CTZB lens it made things worse: appetite <= -1.0 at entry raised LIQ30
+from 16.1% to 25.0%. The only part that separated was direction as a caution —
+appetite falling at entry ran LIQ30 24.5% vs 10.3% rising, with identical win
+rates. Not adopted.
+
 ## Theory-craft — explicitly not supported by data
 
 Kept because it is worth watching, flagged because it has no statistics behind
