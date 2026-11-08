@@ -38,6 +38,59 @@ lens.
   with MVRV 0.78; now reads 58.3% with MVRV 1.41. They disagree about whether
   today resembles that bottom.
 
+### What we would have to buy to run this against the E-cross strategy
+
+Nothing below is a test design. It is what the data would cost to have the
+inputs consistently, for whenever we sit down and define the test.
+
+**The blocker.** Every free source lags. Coin Metrics community data ran to
+2026-05-23 when fetched on 8 Nov — five and a half months behind. Their
+community API (`community-api.coinmetrics.io`) is current and free but is not
+on this session's egress allowlist, so it cannot be reached from the container
+either. For a backtest the lag does not matter. For scoring a live signal it
+is fatal, and that is the use we would want.
+
+**Metrics the question needs**
+
+| Metric | Why | Free source | Lag |
+|---|---|---|---|
+| Percent supply in profit | the original claim | none | — |
+| MVRV, BTC + ETH | closest free relative | Coin Metrics `CapMVRVCur` | 5.5 mo |
+| Realized price / realized cap | the denominator; lets MVRV be recomputed from spot | Coin Metrics | 5.5 mo |
+| Exchange netflow, exchange supply | who is selling, and the controlled-selling question | Coin Metrics `FlowInExNtv` / `FlowOutExNtv` / `SplyExNtv` | 5.5 mo |
+| Spot CVD by venue | the only thing that directly measures spot buying vs selling | none | — |
+
+**Paywalls, verify before buying — checked 8 Nov 2026, prices move**
+
+- *Glassnode.* Studio Advanced is $99/mo, or $49/mo billed annually, but it
+  carries API Light only: 14 days of history, daily resolution, 50 calls a day.
+  That is unusable for a backtest. Full API access starts at Studio
+  Professional, **$999/mo**. Glassnode's pricing page does not name
+  supply-in-profit or MVRV by tier; confirm with them before paying.
+- *CryptoQuant.* On-chain data requires Professional or above. Professional is
+  roughly $109/mo ($99 annual) but caps historical lookback at **1 year**.
+  Full history needs **Premium, about $799/mo**. The source listing these
+  prices contradicts itself on monthly vs annual, so confirm on their own page.
+  Metric paths: `market-indicator/mvrv`, `exchange-flows/netflow`, and
+  `network-indicator/pnl-supply` for the supply-in-profit analogue.
+- *Coin Metrics.* Community tier free and no key, via the GitHub CSV dump;
+  current data needs their paid API, price not published.
+- *Kaiko / Amberdata.* The route to trade-level spot CVD. Enterprise pricing,
+  contact sales. Almost certainly not worth it for this.
+
+**The cheap option worth weighing first.** Coin Metrics community data is free,
+has full history for both assets, and already covers MVRV, realized cap and
+exchange flows. It is enough to run the historical work against the signal set.
+It is only the live-scoring use that needs a paid feed, and that decision can
+wait until the backtest says whether there is anything there.
+
+**Already established, so the test does not have to rediscover it**
+- Past long ETH 5D red streaks all ended with MVRV between 0.86 and 0.94, six
+  of seven. Working from the May realized price, the current streak implies
+  roughly 1.26 down to 1.03 — an ordinary MVRV move inside an unusually gentle
+  price move. See `RESULTS_MVRV.txt`.
+- Exchange supply change across those streaks had no consistent sign.
+
 ---
 
 ## 2. Outstanding from earlier sessions
