@@ -1,39 +1,48 @@
 //@version=6
 // CTZB MVRV Bands
-// Detects BTC or ETH from the chart and uses that asset's own full-history
-// MVRV percentiles (Coin Metrics daily):
+//
+// Reads MVRV live from Coin Metrics via TradingView: ETH_MVRV / BTC_MVRV.
+// realised price = close / MVRV.  A band at multiplier m sits at realised * m,
+// the price at which MVRV would equal m.
+//
+// Band levels are that asset's own full-history MVRV percentiles, from the
+// same Coin Metrics series (analysis/mvrv_bands.py in ctzb-data):
 //   BTC  n = 5,957   2010-07-18 .. 2026-11-07
 //   ETH  n = 4,110   2015-08-08 .. 2026-11-07
-// A band at multiplier m is drawn at realised price * m, the price at which
-// MVRV would equal m.  Computed by analysis/mvrv_bands.py in ctzb-data.
+// Verified 8 Nov 2026: TradingView ETH_MVRV 1.01137912 vs repo 1.0114,
+//                      TradingView BTC_MVRV 1.40357389 vs repo 1.404.
 
 indicator("CTZB MVRV Bands", "MVRV", overlay = true, max_labels_count = 20)
 
-// ---------------- asset detection ----------------
-string ovr = input.string("Auto", "Asset", options = ["Auto", "BTC", "ETH"], group = "Data")
+// ---------------- asset ----------------
+string ovr  = input.string("Auto", "Asset", options = ["Auto", "BTC", "ETH"], group = "Data")
 string base = str.upper(syminfo.basecurrency)
 string asset = ovr
 if ovr == "Auto"
     asset := base == "BTC" or base == "XBT" ? "BTC" : base == "ETH" ? "ETH" : "NONE"
-
 bool ok = asset == "BTC" or asset == "ETH"
 
-// ---------------- realised price ----------------
-bool  useLive = input.bool(false, "Use live on-chain feed", group = "Data",
-     tooltip = "Off = fixed realised price from 2026-11-07. Turn on only once both symbols resolve.")
-float rpBTC   = input.float(53951.14, "BTC realised price", minval = 0.0, step = 0.01, group = "Data")
-float rpETH   = input.float(2208.78,  "ETH realised price", minval = 0.0, step = 0.01, group = "Data")
-string rcSym  = input.symbol("", "Realised cap symbol", group = "Data")
-string spSym  = input.symbol("", "Circulating supply symbol", group = "Data")
+// ---------------- MVRV ----------------
+string mvSym = input.symbol("", "MVRV symbol override", group = "Data",
+     tooltip = "Blank = ETH_MVRV or BTC_MVRV automatically. Both are Coin Metrics. Note IntoTheBlock publishes symbols with the same names; if the MVRV label looks wrong, set this explicitly.")
+float  manRP = input.float(0.0, "Fallback realised price", minval = 0.0, group = "Data",
+     tooltip = "Only used if the MVRV symbol does not resolve. ETH 2208.78 / BTC 53951.14 on 2026-11-07.")
 
-float realised = asset == "BTC" ? rpBTC : asset == "ETH" ? rpETH : na
-if useLive and rcSym != "" and spSym != ""
-    float rc = request.security(rcSym, "D", close, ignore_invalid_symbol = true)
-    float sp = request.security(spSym, "D", close, ignore_invalid_symbol = true)
-    if not na(rc) and not na(sp) and sp > 0
-        realised := rc / sp
+string sym = mvSym != "" ? mvSym : asset == "BTC" ? "BTC_MVRV" : "ETH_MVRV"
+string tf  = timeframe.isdwm ? timeframe.period : "D"
 
-float mvrv = ok and not na(realised) and realised > 0 ? close / realised : na
+float mvRaw = ok ? request.security(sym, tf, close, ignore_invalid_symbol = true) : na
+
+float realised = na
+float mvrv     = na
+if not na(mvRaw) and mvRaw > 0
+    realised := close / mvRaw
+    mvrv     := mvRaw
+else if manRP > 0
+    realised := manRP
+    mvrv     := close / manRP
+
+bool live = not na(mvRaw)
 
 // ---------------- levels ----------------
 string basis = input.string("Full history", "Percentile basis", options = ["Full history", "2019+"], group = "Levels")
@@ -46,9 +55,8 @@ float m50 = asset == "BTC" ? (fh ? 1.711 : 1.700) : (fh ? 1.207 : 1.130)
 float m75 = asset == "BTC" ? (fh ? 2.229 : 2.122) : (fh ? 1.549 : 1.350)
 float m90 = asset == "BTC" ? (fh ? 2.982 : 2.467) : (fh ? 2.026 : 1.657)
 
-// ---------------- which bands to draw ----------------
-// Outer bands are off by default: drawing all six forces the price scale to
-// span roughly 0.6x to 3x realised price and flattens the candles.
+// Outer bands default off: all six span roughly 0.6x to 3x realised price and
+// flatten the candles.
 bool s05 = input.bool(false, "5th percentile",  group = "Bands to draw")
 bool s10 = input.bool(true,  "10th percentile", group = "Bands to draw")
 bool s25 = input.bool(true,  "25th percentile", group = "Bands to draw")
@@ -95,33 +103,39 @@ mkLabel(float price, string txt, color col) =>
 
 var label L05 = na, var label L10 = na, var label L25 = na
 var label L50 = na, var label L75 = na, var label L90 = na
-var label LMV = na, var label LWARN = na
+var label LMV = na, var label LW  = na
 
 if barstate.islast
     label.delete(L05), label.delete(L10), label.delete(L25)
     label.delete(L50), label.delete(L75), label.delete(L90)
-    label.delete(LMV), label.delete(LWARN)
+    label.delete(LMV), label.delete(LW)
     if not ok
-        LWARN := label.new(bar_index, close, "MVRV Bands: this chart is " + base +
-             ".\nSet Asset to BTC or ETH in settings, or use a BTC/ETH chart.",
+        LW := label.new(bar_index, close, "MVRV Bands: chart is " + base +
+             ".\nPick BTC or ETH under Asset, or use a BTC/ETH chart.",
              xloc.bar_index, yloc.price, color.new(color.red, 80),
              label.style_label_center, chart.fg_color, size.normal)
-    else if showLbl
-        if s90
-            L90 := mkLabel(p90, "90th   " + str.tostring(p90, format.mintick), cHot)
-        if s75
-            L75 := mkLabel(p75, "75th   " + str.tostring(p75, format.mintick), cWarm)
-        if s50
-            L50 := mkLabel(p50, "median   " + str.tostring(p50, format.mintick), cMid)
-        if s25
-            L25 := mkLabel(p25, "25th   " + str.tostring(p25, format.mintick), cLow)
-        if s10
-            L10 := mkLabel(p10, "10th   " + str.tostring(p10, format.mintick), cLow)
-        if s05
-            L05 := mkLabel(p05, "5th   " + str.tostring(p05, format.mintick), cDeep)
-        color mc = mvrv < m25 ? cLow : mvrv > m75 ? cHot : chart.fg_color
-        LMV := label.new(bar_index + 10, close, asset + " MVRV  " + str.tostring(mvrv, "#.###"),
-             xloc.bar_index, yloc.price, color.new(mc, 80), label.style_label_left, mc, size.normal)
+    else if na(realised)
+        LW := label.new(bar_index, close, "MVRV Bands: " + sym + " did not resolve.\nSet a fallback realised price in settings.",
+             xloc.bar_index, yloc.price, color.new(color.red, 80),
+             label.style_label_center, chart.fg_color, size.normal)
+    else
+        if showLbl
+            if s90
+                L90 := mkLabel(p90, "90th   " + str.tostring(p90, format.mintick), cHot)
+            if s75
+                L75 := mkLabel(p75, "75th   " + str.tostring(p75, format.mintick), cWarm)
+            if s50
+                L50 := mkLabel(p50, "median   " + str.tostring(p50, format.mintick), cMid)
+            if s25
+                L25 := mkLabel(p25, "25th   " + str.tostring(p25, format.mintick), cLow)
+            if s10
+                L10 := mkLabel(p10, "10th   " + str.tostring(p10, format.mintick), cLow)
+            if s05
+                L05 := mkLabel(p05, "5th   " + str.tostring(p05, format.mintick), cDeep)
+            color mc = mvrv < m25 ? cLow : mvrv > m75 ? cHot : chart.fg_color
+            LMV := label.new(bar_index + 10, close,
+                 asset + " MVRV  " + str.tostring(mvrv, "#.###") + (live ? "" : "  (fallback)"),
+                 xloc.bar_index, yloc.price, color.new(mc, 80), label.style_label_left, mc, size.normal)
 
 // ---------------- alerts ----------------
 alertcondition(ta.crossunder(mvrv, m25), "MVRV below 25th pct", "MVRV entered its cheap quartile")
