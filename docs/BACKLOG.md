@@ -102,3 +102,20 @@ wait until the backtest says whether there is anything there.
 - Two broken fetchers: Binance 451 (Coinbase Premium), Farside ETF flows.
 - Scanner v9 unverified in TradingView.
 - `cycday` mislabel on the 2026-07-13 ETH weekly signal.
+
+---
+
+## Data status update — 8 Nov 2026
+
+`community-api.coinmetrics.io` is now reachable. `fetch_coinmetrics.py` pulls
+full history, current to yesterday, free and keyless, into
+`data/onchain/{BTC,ETH}_cm_daily.csv`. The GitHub CSV dump and its 5.5-month
+lag are no longer the constraint, and nothing needs buying for the historical
+work.
+
+Available on the community tier: `PriceUSD`, `CapMrktCurUSD`, `CapMVRVCur`,
+`AdrActCnt`, `SplyCur`, `SplyExNtv`, `FlowInExNtv`, `FlowOutExNtv`.
+`CapRealUSD` returns 403, but realised cap = `CapMrktCurUSD / CapMVRVCur`.
+
+Percent supply in profit is still Glassnode/CryptoQuant only; see the paywall
+table above if it is ever wanted specifically.
