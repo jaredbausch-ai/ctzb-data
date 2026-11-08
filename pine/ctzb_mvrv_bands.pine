@@ -1,0 +1,129 @@
+//@version=6
+// CTZB MVRV Bands
+// Detects BTC or ETH from the chart and uses that asset's own full-history
+// MVRV percentiles (Coin Metrics daily):
+//   BTC  n = 5,957   2010-07-18 .. 2026-11-07
+//   ETH  n = 4,110   2015-08-08 .. 2026-11-07
+// A band at multiplier m is drawn at realised price * m, the price at which
+// MVRV would equal m.  Computed by analysis/mvrv_bands.py in ctzb-data.
+
+indicator("CTZB MVRV Bands", "MVRV", overlay = true, max_labels_count = 20)
+
+// ---------------- asset detection ----------------
+string ovr = input.string("Auto", "Asset", options = ["Auto", "BTC", "ETH"], group = "Data")
+string base = str.upper(syminfo.basecurrency)
+string asset = ovr
+if ovr == "Auto"
+    asset := base == "BTC" or base == "XBT" ? "BTC" : base == "ETH" ? "ETH" : "NONE"
+
+bool ok = asset == "BTC" or asset == "ETH"
+
+// ---------------- realised price ----------------
+bool  useLive = input.bool(false, "Use live on-chain feed", group = "Data",
+     tooltip = "Off = fixed realised price from 2026-11-07. Turn on only once both symbols resolve.")
+float rpBTC   = input.float(53951.14, "BTC realised price", minval = 0.0, step = 0.01, group = "Data")
+float rpETH   = input.float(2208.78,  "ETH realised price", minval = 0.0, step = 0.01, group = "Data")
+string rcSym  = input.symbol("", "Realised cap symbol", group = "Data")
+string spSym  = input.symbol("", "Circulating supply symbol", group = "Data")
+
+float realised = asset == "BTC" ? rpBTC : asset == "ETH" ? rpETH : na
+if useLive and rcSym != "" and spSym != ""
+    float rc = request.security(rcSym, "D", close, ignore_invalid_symbol = true)
+    float sp = request.security(spSym, "D", close, ignore_invalid_symbol = true)
+    if not na(rc) and not na(sp) and sp > 0
+        realised := rc / sp
+
+float mvrv = ok and not na(realised) and realised > 0 ? close / realised : na
+
+// ---------------- levels ----------------
+string basis = input.string("Full history", "Percentile basis", options = ["Full history", "2019+"], group = "Levels")
+bool fh = basis == "Full history"
+
+float m05 = asset == "BTC" ? (fh ? 0.826 : 0.900) : (fh ? 0.624 : 0.640)
+float m10 = asset == "BTC" ? (fh ? 0.920 : 1.036) : (fh ? 0.740 : 0.739)
+float m25 = asset == "BTC" ? (fh ? 1.285 : 1.328) : (fh ? 0.967 : 0.931)
+float m50 = asset == "BTC" ? (fh ? 1.711 : 1.700) : (fh ? 1.207 : 1.130)
+float m75 = asset == "BTC" ? (fh ? 2.229 : 2.122) : (fh ? 1.549 : 1.350)
+float m90 = asset == "BTC" ? (fh ? 2.982 : 2.467) : (fh ? 2.026 : 1.657)
+
+// ---------------- which bands to draw ----------------
+// Outer bands are off by default: drawing all six forces the price scale to
+// span roughly 0.6x to 3x realised price and flattens the candles.
+bool s05 = input.bool(false, "5th percentile",  group = "Bands to draw")
+bool s10 = input.bool(true,  "10th percentile", group = "Bands to draw")
+bool s25 = input.bool(true,  "25th percentile", group = "Bands to draw")
+bool s50 = input.bool(true,  "Median",          group = "Bands to draw")
+bool s75 = input.bool(false, "75th percentile", group = "Bands to draw")
+bool s90 = input.bool(false, "90th percentile", group = "Bands to draw")
+
+float p05 = ok and s05 ? realised * m05 : na
+float p10 = ok and s10 ? realised * m10 : na
+float p25 = ok and s25 ? realised * m25 : na
+float p50 = ok and s50 ? realised * m50 : na
+float p75 = ok and s75 ? realised * m75 : na
+float p90 = ok and s90 ? realised * m90 : na
+
+// ---------------- display ----------------
+bool showZones = input.bool(true, "Shade between bands", group = "Display")
+int  opa       = input.int(90, "Shading strength", minval = 70, maxval = 97, group = "Display")
+int  lw        = input.int(2, "Line width", minval = 1, maxval = 4, group = "Display")
+bool showLbl   = input.bool(true, "Labels on the chart", group = "Display")
+
+color cDeep = #1b6b52
+color cLow  = #2f9e78
+color cMid  = #8a8f98
+color cWarm = #e07a3f
+color cHot  = #c2410c
+
+a05 = plot(p05, "5th pct",  color.new(cDeep, 10), lw)
+a10 = plot(p10, "10th pct", color.new(cLow,  10), lw)
+a25 = plot(p25, "25th pct", color.new(cLow,  30), lw)
+a50 = plot(p50, "Median",   color.new(cMid,   0), lw + 1)
+a75 = plot(p75, "75th pct", color.new(cWarm, 30), lw)
+a90 = plot(p90, "90th pct", color.new(cHot,  10), lw)
+
+fill(a05, a10, showZones ? color.new(cDeep, opa - 5) : na, "Below 10th")
+fill(a10, a25, showZones ? color.new(cLow,  opa)     : na, "10th to 25th")
+fill(a25, a50, showZones ? color.new(cMid,  opa + 3) : na, "25th to median")
+fill(a50, a75, showZones ? color.new(cWarm, opa + 3) : na, "Median to 75th")
+fill(a75, a90, showZones ? color.new(cHot,  opa)     : na, "75th to 90th")
+
+// ---------------- labels ----------------
+mkLabel(float price, string txt, color col) =>
+    label.new(bar_index + 10, price, txt, xloc.bar_index, yloc.price,
+         color.new(col, 88), label.style_label_left, col, size.small)
+
+var label L05 = na, var label L10 = na, var label L25 = na
+var label L50 = na, var label L75 = na, var label L90 = na
+var label LMV = na, var label LWARN = na
+
+if barstate.islast
+    label.delete(L05), label.delete(L10), label.delete(L25)
+    label.delete(L50), label.delete(L75), label.delete(L90)
+    label.delete(LMV), label.delete(LWARN)
+    if not ok
+        LWARN := label.new(bar_index, close, "MVRV Bands: this chart is " + base +
+             ".\nSet Asset to BTC or ETH in settings, or use a BTC/ETH chart.",
+             xloc.bar_index, yloc.price, color.new(color.red, 80),
+             label.style_label_center, chart.fg_color, size.normal)
+    else if showLbl
+        if s90
+            L90 := mkLabel(p90, "90th   " + str.tostring(p90, format.mintick), cHot)
+        if s75
+            L75 := mkLabel(p75, "75th   " + str.tostring(p75, format.mintick), cWarm)
+        if s50
+            L50 := mkLabel(p50, "median   " + str.tostring(p50, format.mintick), cMid)
+        if s25
+            L25 := mkLabel(p25, "25th   " + str.tostring(p25, format.mintick), cLow)
+        if s10
+            L10 := mkLabel(p10, "10th   " + str.tostring(p10, format.mintick), cLow)
+        if s05
+            L05 := mkLabel(p05, "5th   " + str.tostring(p05, format.mintick), cDeep)
+        color mc = mvrv < m25 ? cLow : mvrv > m75 ? cHot : chart.fg_color
+        LMV := label.new(bar_index + 10, close, asset + " MVRV  " + str.tostring(mvrv, "#.###"),
+             xloc.bar_index, yloc.price, color.new(mc, 80), label.style_label_left, mc, size.normal)
+
+// ---------------- alerts ----------------
+alertcondition(ta.crossunder(mvrv, m25), "MVRV below 25th pct", "MVRV entered its cheap quartile")
+alertcondition(ta.crossunder(mvrv, m10), "MVRV below 10th pct", "MVRV in its cheapest decile")
+alertcondition(ta.crossover(mvrv,  m75), "MVRV above 75th pct", "MVRV entered its expensive quartile")
