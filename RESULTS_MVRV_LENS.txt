@@ -1,0 +1,80 @@
+ledger rows 919   with on-chain coverage 919   2016-06-12 -> 2026-09-05
+2019+ bottom-quintile ceilings:  BTC 1.263  ETH 0.875
+
+BASELINE  n=919  win 53.8%  LIQ30 16.1%  LIQ20 31.3%  EARLY 14.4%  DD -12.0%
+
+==== CANDIDATES ====
+  1 MVRV in bottom quintile (2019+)      n=33   win 100.0% (+46.2)  LIQ30   0.0% (-16.1)  LIQ20   3.0%  EARLY  15.2%  DD   -6.0%
+  1b MVRV NOT bottom quintile            n=886  win  52.0% ( -1.7)  LIQ30  16.7% ( +0.6)  LIQ20  32.4%  EARLY  14.3%  DD  -12.6%
+  2 MVRV below fixed 25th pct            n=55   win  98.2% (+44.4)  LIQ30   1.8% (-14.3)  LIQ20   9.1%  EARLY  18.2%  DD   -5.3%
+  2b MVRV above fixed 25th pct           n=864  win  50.9% ( -2.8)  LIQ30  17.0% ( +0.9)  LIQ20  32.8%  EARLY  14.1%  DD  -13.0%
+  3 MVRV falling over 30d                n=450  win  45.3% ( -8.4)  LIQ30  20.9% ( +4.8)  LIQ20  36.7%  EARLY  16.0%  DD  -14.4%
+  3b MVRV rising over 30d                n=469  win  61.8% ( +8.1)  LIQ30  11.5% ( -4.6)  LIQ20  26.2%  EARLY  12.8%  DD  -10.5%
+  4 MVRV z < -0.5 vs 365d                n=166  win  44.6% ( -9.2)  LIQ30  22.9% ( +6.8)  LIQ20  46.4%  EARLY  19.9%  DD  -18.5%
+  4b MVRV z > +0.5 vs 365d               n=537  win  56.4% ( +2.7)  LIQ30  11.7% ( -4.4)  LIQ20  26.3%  EARLY  13.0%  DD  -11.0%
+  5 net exchange flow negative 14d       n=518  win  54.2% ( +0.5)  LIQ30  13.5% ( -2.6)  LIQ20  27.4%  EARLY  13.5%  DD  -10.3%
+  5b net exchange flow positive 14d      n=401  win  53.1% ( -0.6)  LIQ30  19.5% ( +3.3)  LIQ20  36.4%  EARLY  15.5%  DD  -14.1%
+  6 exchange supply at 365d low          n=192  win  44.8% ( -9.0)  LIQ30  12.5% ( -3.6)  LIQ20  26.6%  EARLY  10.4%  DD  -11.0%
+  7 active addresses above 90d mean      n=518  win  58.5% ( +4.7)  LIQ30  16.2% ( +0.1)  LIQ20  28.2%  EARLY  13.1%  DD  -10.9%
+
+
+==== KILL CHECKS: MVRV below the fixed 25th pct (candidate 2, n=55) ====
+
+A) CLUSTERING -- when do these actually happen?
+   by year: 2018:5  2019:7  2020:20  2023:11  2025:12
+   47 distinct entry dates collapse into 7 episodes (30-day gap rule):
+      2018-06-16 .. 2018-07-05   5 signals   win 100%
+      2019-04-14 .. 2019-05-02   7 signals   win 100%
+      2020-03-15 .. 2020-05-27   20 signals   win 100%
+      2023-02-02 .. 2023-03-15   7 signals   win 100%
+      2023-06-11 .. 2023-06-13   2 signals   win 100%
+      2023-09-04 .. 2023-09-09   2 signals   win 100%
+      2025-03-09 .. 2025-05-03   12 signals   win  92%
+
+B) BY CHART
+  BTC 1D                                 n=17   win 100.0% (+46.2)  LIQ30   0.0% (-16.1)  LIQ20   0.0%  EARLY  11.8%  DD   -6.0%
+  BTC 2D                                 n=7     too few
+  BTC 3D                                 n=4     too few
+  BTC 5D                                 n=2     too few
+  ETH 1D                                 n=13   win 100.0% (+46.2)  LIQ30   0.0% (-16.1)  LIQ20  15.4%  EARLY  23.1%  DD   -5.0%
+  ETH 2D                                 n=5     too few
+  ETH 3D                                 n=4     too few
+  ETH 5D                                 n=3     too few
+
+C) BY ASSET
+  BTC                                    n=30   win 100.0% (+46.2)  LIQ30   0.0% (-16.1)  LIQ20   3.3%  EARLY  16.7%  DD   -6.0%
+  ETH                                    n=25   win  96.0% (+42.2)  LIQ30   4.0% (-12.1)  LIQ20  16.0%  EARLY  20.0%  DD   -5.0%
+
+D) COLLINEARITY -- what else is true of these signals?
+   GAP    present in   9/55 of hits (16.4%)  vs 20.1% of all signals
+   HIGH   present in  11/55 of hits (20.0%)  vs 20.3% of all signals
+   AGREE  present in  12/55 of hits (21.8%)  vs 18.1% of all signals
+   BTC3   present in   8/55 of hits (14.5%)  vs  9.1% of all signals
+   FUND   present in  10/55 of hits (18.2%)  vs 21.2% of all signals
+   FCOOL  present in  13/55 of hits (23.6%)  vs 19.3% of all signals
+   DIVH   present in   0/55 of hits ( 0.0%)  vs  0.0% of all signals
+   UP8    present in  17/55 of hits (30.9%)  vs 33.4% of all signals
+   grade mix: A:7  A+:8  B:14  C:26
+
+E) PLACEBO -- shuffle the MVRV series dates, 200 draws
+   real edge +44.4 pts
+   shuffled: median -0.1  p95 +5.2  max +8.7
+   beaten by 0/200 shuffles  -> empirical p = 0.000
+
+F) WHAT HAPPENED NEXT regardless of signal -- is this just 'buy the cycle low'?
+   BTC: ANY day with MVRV <= 1.285: 1491 days, 51.5% saw +20% within 60d
+   ETH: ANY day with MVRV <= 0.967: 1029 days, 64.4% saw +20% within 60d
+
+G) HOLDOUT -- episodes split in time, same fixed rule
+   discovery 2016-2021    n=32  win 100.0%  LIQ30  0.0%  DD   -6.0%   |  baseline same period n=455  win  66.4%  LIQ30 21.1%
+   holdout 2022-2026      n=23  win  95.7%  LIQ30  4.3%  DD   -4.6%   |  baseline same period n=464  win  41.4%  LIQ30 11.2%
+
+H) EPISODE-LEVEL test -- each episode counts once, not each signal
+   7 episodes, win rate per episode: [100, 100, 100, 100, 100, 100, 92]
+   episodes where the majority won: 7/7
+   if each episode were a coin flip at the 54% baseline,
+   P(all 7 majority-win) = 0.0130
+
+I) WHERE IS IT NOW
+   BTC  MVRV 1.404  threshold 1.285  -> not armed   triggers at $69,327  (-8.4% from $75,724)
+   ETH  MVRV 1.011  threshold 0.967  -> not armed   triggers at $2,136  (-4.4% from $2,234)
