@@ -67,6 +67,7 @@ onboarding suggests a 1x start and 2x ceiling (labelled a suggestion); no
 alert goes out until Jared approves it. The last two are Jared's to accept or
 not. His question on the "BTC 3D + 2 or more ETH charts" rows is answered in
 `analysis/RESULTS_threeway.txt`. Open list: project doc `claude/joe-to-do.md`.
+Research backlog with declared-but-unrun tests: `docs/BACKLOG.md`.
 
 ### Joe — open as of 24 Oct 2026
 
