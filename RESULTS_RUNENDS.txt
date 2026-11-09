@@ -1,0 +1,41 @@
+closed runs: 73   long runs (>=7): 14
+all winners: 494   long-run breakers: 14
+
+--- 1 REGIME: was the gate off inside the run and on at the breaker? ---
+  the ledger is already gate-on only, so every signal in it has the gate ON.
+  gate-on at the breaker: 13/14
+  -> the gate cannot explain these endings: it never turned off inside them.
+
+--- 2 GRADE: breaker vs ordinary winner ---
+  long-run breakers (14): A+ 0%  A 7%  B 21%  C 71%
+  all winners      (494): A+ 21%  A 17%  B 24%  C 38%
+  inside long runs (276): A+ 8%  A 11%  B 26%  C 56%
+
+--- 3 CHART: which timeframe breaks them? ---
+  chart      breakers   share  share of all winners
+  BTC 1D           11     79%                   29%
+  BTC 2D            1      7%                   15%
+  BTC 3D            0      0%                   10%
+  BTC 5D            0      0%                    5%
+  ETH 1D            1      7%                   20%
+  ETH 2D            0      0%                   10%
+  ETH 3D            1      7%                    6%
+  ETH 5D            0      0%                    5%
+
+--- 6 CLOCK: how long do long runs last in DAYS? ---
+  2016-06-12 -> 2016-08-30    23 signals     79 days   breaker BTC 1D C
+  2017-12-16 -> 2018-02-08     9 signals     54 days   breaker BTC 1D C
+  2018-02-19 -> 2018-04-02     7 signals     42 days   breaker BTC 1D C
+  2018-04-15 -> 2018-06-16    10 signals     62 days   breaker BTC 1D C
+  2019-08-02 -> 2019-09-29    12 signals     58 days   breaker BTC 1D C
+  2020-08-09 -> 2020-09-06    11 signals     28 days   breaker BTC 1D C
+  2021-05-26 -> 2021-06-08     8 signals     13 days   breaker ETH 3D B
+  2021-10-25 -> 2022-01-25    39 signals     92 days   breaker BTC 1D C
+  2023-03-30 -> 2023-06-08    32 signals     70 days   breaker BTC 1D A
+  2023-06-17 -> 2023-08-24    24 signals     68 days   breaker BTC 2D C
+  2024-03-03 -> 2024-04-16    17 signals     44 days   breaker ETH 1D B
+  2024-05-23 -> 2024-07-08    17 signals     46 days   breaker BTC 1D B
+  2024-07-14 -> 2024-09-04    24 signals     52 days   breaker BTC 1D C
+  2024-11-28 -> 2025-03-13    43 signals    105 days   breaker BTC 1D C
+
+  days: median 56   mean 58   range 13-105
