@@ -1,0 +1,103 @@
+
+===== LOSER = did not reach +20% in 60 days (repo standard) =====
+signals: 919   closed runs of losers: 73   losers in all: 372
+  run length: median 2   mean 5.1   max 43   p75 3   p90 17
+
+   length  runs   share  at least this long
+        1    35     48%                100%
+        2    14     19%                 52%
+        3     7     10%                 33%
+        4     3      4%                 23%
+        7     1      1%                 19%
+        8     1      1%                 18%
+        9     1      1%                 16%
+       10     1      1%                 15%
+       11     1      1%                 14%
+       12     1      1%                 12%
+       17     2      3%                 11%
+       23     1      1%                  8%
+       24     2      3%                  7%
+       32     1      1%                  4%
+       39     1      1%                  3%
+       43     1      1%                  1%
+
+  HAZARD -- having reached length N, how often did it go on to N+1?
+  (not the tautology: both outcomes are possible at every N)
+     N  runs that reached N   went on    rate
+     1                   73        38     52%
+     2                   38        24     63%
+     3                   24        17     71%
+     4                   17        14     82%
+     5                   14        14    100%
+     6                   14        14    100%
+     7                   14        13     93%
+     8                   13        12     92%
+     9                   12        11     92%
+    10                   11        10     91%
+    11                   10         9     90%
+    12                    9         8     89%
+    13                    8         8    100%
+    14                    8         8    100%
+    15                    8         8    100%
+    16                    8         8    100%
+    17                    8         6     75%
+    18                    6         6    100%
+    19                    6         6    100%
+    20                    6         6    100%
+    21                    6         6    100%
+    22                    6         6    100%
+    23                    6         5     83%
+    24                    5         3     60%
+
+  UNFINISHED run at the end of the settled data: 53 signals, from 2025-08-10 to 2026-09-05
+    0 of 73 historical runs (0%) reached this length or more
+
+===== LOSER = negative at day 60 =====
+signals: 919   closed runs of losers: 72   losers in all: 335
+  run length: median 1   mean 4.7   max 41   p75 4   p90 14
+
+   length  runs   share  at least this long
+        1    45     62%                100%
+        2     6      8%                 38%
+        3     3      4%                 29%
+        4     3      4%                 25%
+        5     1      1%                 21%
+        6     1      1%                 19%
+        7     1      1%                 18%
+        8     1      1%                 17%
+        9     2      3%                 15%
+       14     2      3%                 12%
+       17     1      1%                 10%
+       19     1      1%                  8%
+       21     2      3%                  7%
+       32     1      1%                  4%
+       34     1      1%                  3%
+       41     1      1%                  1%
+
+  HAZARD -- having reached length N, how often did it go on to N+1?
+  (not the tautology: both outcomes are possible at every N)
+     N  runs that reached N   went on    rate
+     1                   72        27     38%
+     2                   27        21     78%
+     3                   21        18     86%
+     4                   18        15     83%
+     5                   15        14     93%
+     6                   14        13     93%
+     7                   13        12     92%
+     8                   12        11     92%
+     9                   11         9     82%
+    10                    9         9    100%
+    11                    9         9    100%
+    12                    9         9    100%
+    13                    9         9    100%
+    14                    9         7     78%
+    15                    7         7    100%
+    16                    7         7    100%
+    17                    7         6     86%
+    18                    6         6    100%
+    19                    6         5     83%
+    20                    5         5    100%
+    21                    5         3     60%
+
+  UNFINISHED run at the end of the settled data: 1 signals, from 2026-09-05 to 2026-09-05
+    72 of 72 historical runs (100%) reached this length or more
