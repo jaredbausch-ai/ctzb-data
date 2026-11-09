@@ -119,6 +119,18 @@ jobs:
         continue-on-error: true
         run: timeout 10m python verify_cards.py
 
+      # Regression guard (tests/regression.py, 9 Nov 2026, item 17c): every run
+      # re-derives the whole ledger, so a lens, grade or engine bug shows up as a
+      # PAST signal changing value. A CSV diff cannot see it, because the same run
+      # also appends new signals and moves the cohort aggregates. This compares each
+      # signal against tests/baseline/ledger.json and fails on any change to a row
+      # that should be frozen. An intended change is re-baselined with --approve and
+      # committed, so it lands in the diff where someone can review it.
+      - name: Grade and lens regression guard
+        id: regress
+        continue-on-error: true
+        run: timeout 5m python tests/regression.py
+
       # The live feed (feed_live.py, 31 Oct 2026): one versioned JSON that
       # repackages this run's datasets for Joe's side. Cards are withheld if the
       # stack or card check failed.
@@ -174,11 +186,12 @@ jobs:
         if: >-
           steps.refresh.outcome == 'failure' ||
           steps.grade.outcome == 'failure' || steps.stack.outcome == 'failure' ||
-          steps.cards.outcome == 'failure' || steps.feed.outcome == 'failure' ||
+          steps.cards.outcome == 'failure' || steps.regress.outcome == 'failure' ||
+          steps.feed.outcome == 'failure' ||
           steps.flows.outcome == 'failure' || steps.onchain.outcome == 'failure' ||
           steps.derivs.outcome == 'failure'
         run: |
-          echo "refresh=${{ steps.refresh.outcome }} grade=${{ steps.grade.outcome }} stack=${{ steps.stack.outcome }} cards=${{ steps.cards.outcome }} feed=${{ steps.feed.outcome }} flows=${{ steps.flows.outcome }} onchain=${{ steps.onchain.outcome }} derivs=${{ steps.derivs.outcome }}"
+          echo "refresh=${{ steps.refresh.outcome }} grade=${{ steps.grade.outcome }} stack=${{ steps.stack.outcome }} cards=${{ steps.cards.outcome }} regress=${{ steps.regress.outcome }} feed=${{ steps.feed.outcome }} flows=${{ steps.flows.outcome }} onchain=${{ steps.onchain.outcome }} derivs=${{ steps.derivs.outcome }}"
           cat datasets/stack_status.txt || true
           exit 1
 
