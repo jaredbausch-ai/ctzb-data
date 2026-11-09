@@ -118,9 +118,15 @@ against the candle close.
   fail the run on a mismatch.
 - **(b) No typed-in numbers.** Every figure anyone sees comes from code, never
   entered by hand.
-- **(c) Grade and lens regression test.** Each run re-derives every past grade
-  and card and fails if any of them changed without approval. No test suite
-  exists in the repo today.
+- ~~**(c) Grade and lens regression test.**~~ **BUILT 9 Nov 2026.**
+  `tests/regression.py`, wired into `daily.yml` after the card cross-check.
+  Compares every signal in `datasets/ledger.csv` against
+  `tests/baseline/ledger.json`, keyed by (asset, chart, entry). Grade, lenses,
+  tags and entry price are frozen from confirmation; the 60-day outcome is only
+  checked once the window has closed; cohort aggregates are skipped. An intended
+  change is re-baselined with `--approve` and committed, so it shows up in the
+  diff. Verified by fault injection (flipped outcome, changed grade, deleted
+  signal all fail; 919 signals pass clean).
 - **(d) Alert safety.** Duplicate-alert guard, and withhold the alert if any
   check in the run failed.
 - **(e) Backups.** An off-GitHub copy of the data and the feed.
