@@ -1,13 +1,13 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-09T16:08:50Z",
+ "generated_at": "2026-11-09T20:08:51Z",
  "scored_as_of": "2026-11-09",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-09 16:08 UTC OK 31 subjects, 1095 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-09",
-   "2026-11-09 16:08 UTC OK card cross-check, 6 cards match the ledger"
+   "2026-11-09 20:08 UTC OK 31 subjects, 1095 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-09",
+   "2026-11-09 20:08 UTC OK card cross-check, 6 cards match the ledger"
   ]
  },
  "cards_withheld": false,
@@ -24,31 +24,31 @@
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2135.76,
+   "price_now": 2125.46,
    "grade": "C",
-   "confirmations": "none",
-   "sample": "the last 27 ETH 1D trades with exactly the same confirmations",
-   "past_trades": 27,
-   "rose10_never_fell25_within60d_pct": 56,
-   "beat_normal_move_pct": 59,
-   "rose20_within60d_pct": 44,
-   "rose10_within60d_pct": 67,
-   "typical_biggest_rise_pct": 14.9,
-   "typical_dip_before_rise_pct": -4.6,
-   "typical_deepest_dip_pct": -9.3,
-   "fell30_within60d_pct": 33,
+   "confirmations": "funding not cooling",
+   "sample": "the last 66 ETH 1D trades graded C (only 5 had exactly the same confirmations, too few to use)",
+   "past_trades": 66,
+   "rose10_never_fell25_within60d_pct": 53,
+   "beat_normal_move_pct": 56,
+   "rose20_within60d_pct": 42,
+   "rose10_within60d_pct": 64,
+   "typical_biggest_rise_pct": 15.0,
+   "typical_dip_before_rise_pct": -6.4,
+   "typical_deepest_dip_pct": -15.8,
+   "fell30_within60d_pct": 30,
    "before_2022": {
-    "past_trades": 7,
-    "rose10_never_fell25_within60d_pct": 57
+    "past_trades": 20,
+    "rose10_never_fell25_within60d_pct": 60
    },
    "since_2022": {
-    "past_trades": 20,
-    "rose10_never_fell25_within60d_pct": 55
+    "past_trades": 46,
+    "rose10_never_fell25_within60d_pct": 50
    },
    "typical_day_first_rose10": 8,
    "typical_day_first_rose20": 16,
-   "typical_day_of_60d_high": 16,
-   "typical_day_of_deepest_dip": 23,
+   "typical_day_of_60d_high": 20,
+   "typical_day_of_deepest_dip": 28,
    "active_confluences": [
     {
      "after": "BTC 1D any",
@@ -87,27 +87,27 @@
    "if_it_falls_first": [
     {
      "fell_pct": 5,
-     "past_trades": 14,
-     "still_rose10_pct": 36,
-     "went_on_to_fall25_pct": 50
+     "past_trades": 44,
+     "still_rose10_pct": 45,
+     "went_on_to_fall25_pct": 39
     },
     {
      "fell_pct": 10,
-     "past_trades": 10,
-     "still_rose10_pct": 10,
-     "went_on_to_fall25_pct": 70
+     "past_trades": 30,
+     "still_rose10_pct": 23,
+     "went_on_to_fall25_pct": 57
     },
     {
      "fell_pct": 15,
-     "past_trades": 10,
-     "still_rose10_pct": 10,
-     "went_on_to_fall25_pct": 70
+     "past_trades": 25,
+     "still_rose10_pct": 12,
+     "went_on_to_fall25_pct": 68
     },
     {
      "fell_pct": 20,
-     "past_trades": 8,
-     "still_rose10_pct": 12,
-     "went_on_to_fall25_pct": 88
+     "past_trades": 20,
+     "still_rose10_pct": 5,
+     "went_on_to_fall25_pct": 85
     }
    ]
   },
@@ -120,56 +120,56 @@
    "confirms_on": "2026-11-14",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2135.76,
+   "price_now": 2125.46,
    "grade": "C",
-   "confirmations": "none",
-   "sample": "the last 15 ETH 2D trades with exactly the same confirmations",
-   "past_trades": 15,
-   "rose10_never_fell25_within60d_pct": 47,
-   "beat_normal_move_pct": 47,
-   "rose20_within60d_pct": 33,
+   "confirmations": "funding not cooling",
+   "sample": "the last 27 ETH 2D trades graded C (only 3 had exactly the same confirmations, too few to use)",
+   "past_trades": 27,
+   "rose10_never_fell25_within60d_pct": 52,
+   "beat_normal_move_pct": 52,
+   "rose20_within60d_pct": 41,
    "rose10_within60d_pct": 67,
-   "typical_biggest_rise_pct": 12.0,
-   "typical_dip_before_rise_pct": -4.6,
-   "typical_deepest_dip_pct": -11.0,
-   "fell30_within60d_pct": 33,
+   "typical_biggest_rise_pct": 14.7,
+   "typical_dip_before_rise_pct": -5.9,
+   "typical_deepest_dip_pct": -17.0,
+   "fell30_within60d_pct": 30,
    "before_2022": {
-    "past_trades": 4,
-    "rose10_never_fell25_within60d_pct": 50
+    "past_trades": 8,
+    "rose10_never_fell25_within60d_pct": 62
    },
    "since_2022": {
-    "past_trades": 11,
-    "rose10_never_fell25_within60d_pct": 45
+    "past_trades": 19,
+    "rose10_never_fell25_within60d_pct": 47
    },
-   "typical_day_first_rose10": 10,
-   "typical_day_first_rose20": 13,
-   "typical_day_of_60d_high": 12,
+   "typical_day_first_rose10": 12,
+   "typical_day_first_rose20": 24,
+   "typical_day_of_60d_high": 44,
    "typical_day_of_deepest_dip": 22,
    "active_confluences": [],
    "if_it_falls_first": [
     {
      "fell_pct": 5,
-     "past_trades": 9,
-     "still_rose10_pct": 44,
-     "went_on_to_fall25_pct": 33
+     "past_trades": 20,
+     "still_rose10_pct": 50,
+     "went_on_to_fall25_pct": 35
     },
     {
      "fell_pct": 10,
-     "past_trades": 6,
-     "still_rose10_pct": 33,
+     "past_trades": 14,
+     "still_rose10_pct": 36,
      "went_on_to_fall25_pct": 50
     },
     {
      "fell_pct": 15,
-     "past_trades": 4,
-     "still_rose10_pct": 0,
-     "went_on_to_fall25_pct": 75
+     "past_trades": 12,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 58
     },
     {
      "fell_pct": 20,
-     "past_trades": 4,
-     "still_rose10_pct": 0,
-     "went_on_to_fall25_pct": 75
+     "past_trades": 9,
+     "still_rose10_pct": 11,
+     "went_on_to_fall25_pct": 78
     }
    ]
   },
@@ -182,9 +182,9 @@
    "confirms_on": "2026-11-17",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2135.76,
+   "price_now": 2125.46,
    "grade": "C",
-   "confirmations": "none",
+   "confirmations": "funding not cooling",
    "sample": "the last 111 grade C trades across all ETH charts (ETH 3D alone has only 13, too few to use)",
    "past_trades": 111,
    "rose10_never_fell25_within60d_pct": 53,
@@ -244,9 +244,9 @@
    "confirms_on": "2026-12-02",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2135.76,
+   "price_now": 2125.46,
    "grade": "C",
-   "confirmations": "none",
+   "confirmations": "funding not cooling",
    "sample": "the last 111 grade C trades across all ETH charts (ETH 8D alone has only 3, too few to use)",
    "past_trades": 111,
    "rose10_never_fell25_within60d_pct": 53,
@@ -306,7 +306,7 @@
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 75063.55,
+   "price_now": 74820.49,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 37 BTC 1D trades with exactly the same confirmations",
@@ -402,7 +402,7 @@
    "confirms_on": "2026-11-14",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 75063.55,
+   "price_now": 74820.49,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 38 BTC 2D trades with exactly the same confirmations",
@@ -476,7 +476,7 @@
    "confirms_on": "2026-11-17",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 75063.55,
+   "price_now": 74820.49,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 26 BTC 3D trades with exactly the same confirmations",
@@ -538,7 +538,7 @@
    "confirms_on": "2026-12-02",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 75063.55,
+   "price_now": 74820.49,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 19 BTC 8D trades graded C (only 8 had exactly the same confirmations, too few to use)",
@@ -633,7 +633,7 @@
    "provisional": true,
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
-   "entry_close": 2135.76,
+   "entry_close": 2125.46,
    "tags": "A + prime dot",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -677,7 +677,7 @@
    "provisional": true,
    "low_date": "2026-11-07",
    "confirms_on": "2026-11-14",
-   "entry_close": 2135.76,
+   "entry_close": 2125.46,
    "tags": "A + filled diamond + prime dot",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -721,7 +721,7 @@
    "provisional": true,
    "low_date": "2026-11-06",
    "confirms_on": "2026-11-17",
-   "entry_close": 2135.76,
+   "entry_close": 2125.46,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -798,7 +798,7 @@
    "provisional": true,
    "low_date": "2026-11-01",
    "confirms_on": "2026-12-02",
-   "entry_close": 2135.76,
+   "entry_close": 2125.46,
    "tags": "B + prime dot",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -842,7 +842,7 @@
    "provisional": true,
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
-   "entry_close": 75063.55,
+   "entry_close": 74820.49,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -886,7 +886,7 @@
    "provisional": true,
    "low_date": "2026-11-07",
    "confirms_on": "2026-11-14",
-   "entry_close": 75063.55,
+   "entry_close": 74820.49,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -930,7 +930,7 @@
    "provisional": true,
    "low_date": "2026-11-06",
    "confirms_on": "2026-11-17",
-   "entry_close": 75063.55,
+   "entry_close": 74820.49,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -1007,7 +1007,7 @@
    "provisional": true,
    "low_date": "2026-11-01",
    "confirms_on": "2026-12-02",
-   "entry_close": 75063.55,
+   "entry_close": 74820.49,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   }
