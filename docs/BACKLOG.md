@@ -93,7 +93,43 @@ wait until the backtest says whether there is anything there.
 
 ---
 
-## 2. Outstanding from earlier sessions
+## 2. Pipeline hardening — before the feed goes live
+
+Added 9 Nov 2026. These are build tasks, not tests; they carry no parameters to
+define. Context in the project notes, not here.
+
+**Already done 4 Nov** (see `docs/PIPELINE_AUDIT_2026-11-04.md`): automatic
+re-run with cooldown, stale-candle check, cron-free heartbeat, watchdog judged
+against the candle close.
+
+### Blocking the repo going private
+- **Read-only pipeline.** One job, two outputs, both on the Cloudflare backend.
+  (a) A read-only source for real fills, relayed near-real-time as a separate
+  stream, labelled as real trades, never merged into the computed-signal odds,
+  and carrying no dollar amounts. Needs its own exchange key: the 24 Oct one is
+  IP-allowlisted elsewhere. (b) A read-only surface that keeps
+  `feed/ctzb_feed.json` reaching the member site once this repo is private.
+  The 4-hourly Action is too slow for (a) and its scheduler is unreliable.
+  Going private also moves the heartbeat off Actions (private repos bill
+  Actions minutes).
+
+### The seven hardening items
+- **(a) Bad exchange data.** Cross-check every candle against a second source;
+  fail the run on a mismatch.
+- **(b) No typed-in numbers.** Every figure anyone sees comes from code, never
+  entered by hand.
+- **(c) Grade and lens regression test.** Each run re-derives every past grade
+  and card and fails if any of them changed without approval. No test suite
+  exists in the repo today.
+- **(d) Alert safety.** Duplicate-alert guard, and withhold the alert if any
+  check in the run failed.
+- **(e) Backups.** An off-GitHub copy of the data and the feed.
+- **(f) Dashboard upload off Claude usage** — moves to Cloudflare.
+- **(g) Dry run.** Several clean weeks before anyone outside sees it.
+
+---
+
+## 3. Outstanding from earlier sessions
 - Explain or drop the 160D gradient anomaly in the 0.20–0.30 cell.
 - Walk-forward the 160D projection the way the CT/Signal distance was done.
 - Re-score projection and confluence interaction against LIQ30, not win rate.
