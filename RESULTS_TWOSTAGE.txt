@@ -1,0 +1,38 @@
+
+===== ETH =====
+1D bucket-A signals, gate on: 101
+  with a 2D pivot candidate pending at entry: 83
+  no candidate pending (not part of this test): 18
+  -> CONFIRM 66   VANISH 17   (80% confirm)
+
+  VANISH leg -- complete trades, entry to the breaking 2D close:
+    n=17  profitable 0/17 (0%)
+    return   mean -7.07%   median -5.87%   worst -12.68%   best -1.29%
+    drawdown mean -11.42%   median -10.79%   worst -34.85%
+    days held: median 1
+
+  CONFIRM leg -- entry quality only, no exit (n=66):
+    30d  n=66  up 35/66 (53%)   return mean +7.45% median +2.60%   best upside mean +23.90% median +15.52%   worst DD mean -14.85% median -12.08%
+    60d  n=66  up 39/66 (59%)   return mean +11.77% median +5.07%   best upside mean +35.53% median +26.68%   worst DD mean -19.82% median -14.90%
+
+  Subset where the 2D candidate is A AND prime (today's setup): n=10
+    CONFIRM 7/10
+
+===== BTC =====
+1D bucket-A signals, gate on: 80
+  with a 2D pivot candidate pending at entry: 68
+  no candidate pending (not part of this test): 12
+  -> CONFIRM 54   VANISH 14   (79% confirm)
+
+  VANISH leg -- complete trades, entry to the breaking 2D close:
+    n=14  profitable 0/14 (0%)
+    return   mean -6.82%   median -6.19%   worst -15.64%   best -1.29%
+    drawdown mean -9.31%   median -7.88%   worst -21.45%
+    days held: median 2
+
+  CONFIRM leg -- entry quality only, no exit (n=54):
+    30d  n=54  up 33/54 (61%)   return mean +5.37% median +5.07%   best upside mean +17.66% median +11.26%   worst DD mean -12.05% median -7.81%
+    60d  n=54  up 34/54 (63%)   return mean +10.27% median +6.39%   best upside mean +28.10% median +15.70%   worst DD mean -14.70% median -8.53%
+
+  Subset where the 2D candidate is A AND prime (today's setup): n=11
+    CONFIRM 9/11
