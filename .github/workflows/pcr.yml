@@ -8,10 +8,8 @@ name: Options put/call (Deribit)
 # joins the same group, and the hourly runs here would cancel candle runs.
 # Both jobs rebase and retry their push instead.
 on:
-  schedule:
-    # 4 Nov 2026: hourly at an off-peak minute; GitHub drops ticks, and the concurrency group
-    # keeps at most one run going and one waiting, so extra ticks cost nothing.
-    - cron: "25 * * * *"
+  # 10 Nov 2026: GitHub's own cron removed. The Cloudflare scheduler Worker
+  # (cloudflare/ctzb-scheduler-worker.js) dispatches this every 3 hours at :25.
   workflow_dispatch:
   push:
     branches: [main]
