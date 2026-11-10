@@ -17,9 +17,16 @@ name: Pipeline watchdog
 #   alert  = still stale 90+ minutes after the close -> issue + red run, GitHub emails
 # Put/call: re-run after 9 hours without a commit, alert after 10 hours.
 
+# 10 Nov 2026: the heartbeat is retired (the Cloudflare scheduler replaced it), so this no
+# longer keeps it alive. The scheduler dispatches this check 95 minutes after each 4-hour
+# close, which is when a candle still missing means the 13- and 43-minute ticks and the
+# automatic re-runs have all failed: re-run and alert. GitHub's cron below is kept, much
+# sparser, ONLY as a dead-man switch for the scheduler itself -- if Cloudflare stops, no
+# scheduled check would fire, so this one catches it. It costs little: GitHub honours a
+# fraction of these ticks, and each run takes seconds.
 on:
   schedule:
-    - cron: "4,19,34,49 * * * *"
+    - cron: "50 */3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -34,18 +41,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 300
-
-      - name: Keep the heartbeat alive
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          live=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/heartbeat.yml/runs?per_page=10" \
-                 --jq '[.workflow_runs[] | select(.status=="queued" or .status=="in_progress" or .status=="waiting" or .status=="pending")] | length' || echo unknown)
-          echo "heartbeat runs queued or running: $live"
-          if [ "$live" = "0" ]; then
-            gh api -X POST "repos/$GITHUB_REPOSITORY/actions/workflows/heartbeat.yml/dispatches" -f ref=main \
-              && echo "heartbeat chain was broken: restarted $(date -u '+%H:%M UTC')" || echo "could not restart the heartbeat"
-          fi
 
       - name: Check freshness, re-run if stale, alert if it stays stale
         env:

@@ -1,18 +1,18 @@
 name: Fetch candles
 
 on:
-  schedule:
-    # 4 Nov 2026: GitHub's scheduler is best-effort. Run history 22 Oct-4 Nov: 35 of 53
-    # gaps between candle commits were longer than 4h45m (typically 7-10 hours), because
-    # GitHub honoured roughly one tick in three. One tick per candle was never enough.
-    # The job now ticks every 30 minutes at off-peak minutes (GitHub drops the most ticks
-    # at the top of the hour) plus 7 minutes after the 00:00 UTC daily close, and the gate
-    # job exits in seconds when this 4-hour candle is already in and the last run did not
-    # fail. Any one honoured tick in a 4-hour window is enough.
-    - cron: "7 0 * * *"
-    - cron: "13,43 * * * *"
+  # 10 Nov 2026: GitHub's own cron is gone. It honoured about one tick in three over
+  # 22 Oct-4 Nov and about one in eleven on 10 Nov. The clock is now the Cloudflare
+  # Worker ctzb-scheduler, which dispatches this workflow with scheduled=true at 13 and
+  # 43 minutes after each 4-hour close (00, 04, 08, 12, 16, 20 UTC). On its first 15.5
+  # hours it fired 32 of 32 ticks. The 43-minute tick is the backup: the gate skips it
+  # when the 13-minute run already landed the candle.
   workflow_dispatch:
     inputs:
+      scheduled:
+        description: "Set by the Cloudflare scheduler. Applies the candle-already-in gate. Leave unticked for a manual run."
+        type: boolean
+        default: false
       test_failure:
         description: "Test only: fail on purpose to exercise the automatic re-run"
         type: boolean
@@ -41,13 +41,18 @@ jobs:
       - id: g
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCHEDULED: ${{ inputs.scheduled }}
         run: |
           now=$(date -u +%s); boundary=$(( now / 14400 * 14400 ))
           last=$(git log -1 --format=%ct --grep='candles through' || true)
           prev=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/daily.yml/runs?per_page=10&status=completed" \
                  --jq '[.workflow_runs[] | select(.conclusion != "cancelled")][0].conclusion' 2>/dev/null || echo unknown)
           echo "last candle commit $(date -u -d @${last:-0} '+%Y-%m-%d %H:%M') UTC; current 4h candle opened $(date -u -d @$boundary '+%H:%M') UTC; last completed run: $prev"
-          if [ "$GITHUB_EVENT_NAME" != "schedule" ]; then
+          # A scheduler tick (scheduled=true) is gated like a cron tick. Anything else that
+          # dispatches this workflow -- a manual run, the automatic re-run after a failure,
+          # the watchdog -- always runs. (10 Nov 2026: until this, every scheduler tick was
+          # treated as a manual run and did the full fetch, 48 times a day.)
+          if [ "$GITHUB_EVENT_NAME" != "schedule" ] && [ "$SCHEDULED" != "true" ]; then
             echo "run=yes" >> "$GITHUB_OUTPUT"; echo "manual or automatic re-run: running"
           elif [ "${last:-0}" -lt "$((boundary + 300))" ]; then
             echo "run=yes" >> "$GITHUB_OUTPUT"; echo "this candle is not in yet: running"
