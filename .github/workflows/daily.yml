@@ -90,6 +90,15 @@ jobs:
       - name: Candles must be current
         run: python .github/scripts/check_fresh.py data
 
+      # Item 17(a), 10 Nov 2026: are the candles RIGHT, not just current? Every chart is
+      # built from Coinbase 1D, so one bad daily candle corrupts every signal on it.
+      # Structural faults (a missing day, low above high, a zero price or volume) fail
+      # here, before the commit, so a bad fetch is retried and never committed. The
+      # Kraken cross-check runs in REPORT mode until its threshold is set from its own
+      # measured gap; in report mode, or when Kraken is unreachable, it never fails.
+      - name: Candles must be sane, and agree with a second exchange
+        run: timeout 5m python .github/scripts/check_candles.py data --out datasets/candle_check.json
+
       # Must not block the candle commit (review, 4 Nov 2026): a code error here used to
       # leave fresh candles uncommitted. A failure turns the run red after the commit.
       - name: Rescore dashboard datasets
