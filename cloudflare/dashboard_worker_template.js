@@ -10,8 +10,15 @@
  * Worker, from the ctzb-feed mirror over a Service Binding -- Worker to Worker, no
  * public hop -- so the mirror can later be locked down without breaking this page.
  *
+ * Also sends Jared's phone alerts through a private Telegram bot (replacing the same
+ * scheduled task's notifications): on its cron it reads the feed's `alerts` list (feed
+ * schema 4, item 17d) and sends each alert_id once, ever, recording it in KV.
+ *
  * Bindings:
  *   MIRROR              Service Binding -> the ctzb-feed Worker
+ *   NOTIFY              KV namespace (alerts already sent; notifier status)
+ *   TELEGRAM_BOT_TOKEN  secret: the bot's token from @BotFather
+ *   TELEGRAM_CHAT_ID    plain var: Jared's numeric Telegram id (the bot's only recipient)
  *   GATE_MODE           plain var: "access" (Cloudflare Access) or "password"
  *   ACCESS_TEAM_DOMAIN  plain var, access mode: e.g. "ethkros.cloudflareaccess.com"
  *   ACCESS_AUD          plain var, access mode: the Access application's AUD tag
@@ -131,12 +138,110 @@ async function gate(req, env, fetchImpl = fetch) {
   return deny(503, "Dashboard gate not configured");   // fail closed
 }
 
+/* ---------- Telegram alerts ---------- */
+const NUM = (v, d = 1) => (v === null || v === undefined || v === "" || isNaN(+v)) ? null : (+v).toFixed(d);
+const PCT = (v) => NUM(v, 0) === null ? "n/a" : NUM(v, 0) + "%";
+
+function alertText(a, feed) {
+  const card = (feed.cards || []).find((c) => c.signal_id === a.signal_id);
+  const print = (feed.prints || []).find((p) => p.signal_id === a.signal_id);
+  const open = (feed.open_signals || []).find((o) => o.signal_id === a.signal_id);
+  const lines = [];
+  if (a.event === "forming") {
+    lines.push(`FORMING  ${a.chart}`);
+    if (card) {
+      lines.push(`Low ${card.low_date}, confirms ${card.confirms_on}` +
+        (card.must_close_above != null ? `, must close above ${NUM(card.must_close_above, 2)}` : ""));
+      lines.push(`Grade ${card.grade || "?"}${card.confirmations ? " (" + card.confirmations + ")" : ""}`);
+      lines.push(`Rose 10% and never fell 25% in 60d: ${PCT(card.rose10_never_fell25_within60d_pct)} of ${card.past_trades ?? "?"} past trades`);
+      lines.push(`Rose 20%: ${PCT(card.rose20_within60d_pct)}   Typical deepest dip: ${NUM(card.typical_deepest_dip_pct) ?? "n/a"}%`);
+    }
+    lines.push("Not confirmed yet. It can vanish.");
+  } else if (a.event === "confirmed") {
+    lines.push(`CONFIRMED  ${a.chart}`);
+    const when = (print && print.confirms_on) || (open && open.entry_date);
+    const px = (print && print.entry_close) ?? (open && open.entry_close);
+    if (when) lines.push(`Entry close ${px != null ? NUM(px, 2) : "?"} on ${when}`);
+    const tags = (print && print.tags) || (open && open.tags);
+    if (tags) lines.push(`Tags: ${tags}`);
+    if (open && open.grade) lines.push(`Grade ${open.grade}${open.confirmations ? " (" + open.confirmations + ")" : ""}`);
+  } else if (a.event === "vanished") {
+    lines.push(`VANISHED  ${a.chart}`);
+    lines.push(`The forming low (${a.signal_id}) did not confirm: it was taken out, or no longer qualifies.`);
+  } else {
+    lines.push(`${String(a.event).toUpperCase()}  ${a.chart}`);
+  }
+  lines.push("", "Computed signal, not a trade. Entry quality only.");
+  return lines.join("\n");
+}
+
+/** The ONLY place the bot token is used. Returns the HTTP status; never the body. */
+async function telegramSend(env, text, fetchImpl) {
+  const r = await fetchImpl(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
+  });
+  return r.status;
+}
+
+/** One pass: send every alert in the current feed that has not been sent before. */
+async function notify(env, fetchImpl = fetch) {
+  if (!env.NOTIFY || !env.MIRROR || !env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return { skipped: "not configured" };
+  let feed;
+  try {
+    const r = await env.MIRROR.fetch(new Request("https://mirror/feed/ctzb_feed.json"));
+    if (!r.ok) return { skipped: "feed " + r.status };
+    feed = await r.json();
+  } catch (_) { return { skipped: "feed unreadable" }; }
+  if (feed.alerts_withheld) return { skipped: "withheld" };
+  let sent = 0, failed = 0, lastStatus = null;
+  for (const a of feed.alerts || []) {
+    if (!a || !a.alert_id) continue;
+    if (await env.NOTIFY.get("sent:" + a.alert_id)) continue;
+    let status = 0;
+    try { status = await telegramSend(env, alertText(a, feed), fetchImpl); } catch (_) { status = 0; }
+    lastStatus = status;
+    if (status === 200) {
+      // Remember for a year. The feed shows an alert for ~4 hours, so this is ample.
+      await env.NOTIFY.put("sent:" + a.alert_id, String(Date.now()), { expirationTtl: 365 * 86400 });
+      sent++;
+    } else failed++;   // not recorded: the next tick retries it
+  }
+  if (sent || failed) {
+    const prev = (await env.NOTIFY.get("status", { type: "json" })) || {};
+    await env.NOTIFY.put("status", JSON.stringify({
+      last_sent_at: sent ? new Date().toISOString() : prev.last_sent_at || null,
+      last_status: lastStatus,
+      consecutive_failures: failed && !sent ? (prev.consecutive_failures || 0) + 1 : 0,
+      total_sent: (prev.total_sent || 0) + sent,
+    }));
+  }
+  return { sent, failed };
+}
+
 async function handle(req, env, fetchImpl = fetch) {
   const refusal = await gate(req, env, fetchImpl);
   if (refusal) return refusal;
+  const { pathname } = new URL(req.url);
+
+  // The one write: a test message, so a wrong chat id or an unstarted bot shows up today
+  // instead of as a silent failure on the next real alert. Gated like everything else,
+  // POST only, at most once per 10 minutes.
+  if (pathname === "/alerts/test") {
+    if (req.method !== "POST") return deny(405, "POST only");
+    if (!env.NOTIFY || !env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return deny(503, "Alerts not configured");
+    const last = +(await env.NOTIFY.get("test:last") || 0);
+    if (Date.now() - last < 10 * 60 * 1000) return deny(429, "Test already sent in the last 10 minutes");
+    await env.NOTIFY.put("test:last", String(Date.now()));
+    let status = 0;
+    try { status = await telegramSend(env, "CTZB alerts are connected. Real alerts arrive here when a low forms, confirms or vanishes.", fetchImpl); } catch (_) {}
+    return new Response(JSON.stringify({ sent: status === 200, telegram_status: status }), {
+      status: status === 200 ? 200 : 502,
+      headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...SEC_HEADERS },
+    });
+  }
   if (req.method !== "GET" && req.method !== "HEAD") return deny(405, "Read-only");
 
-  const { pathname } = new URL(req.url);
   if (pathname === "/" || pathname === "/index.html") {
     return new Response(req.method === "HEAD" ? null : PAGE, {
       headers: { "content-type": "text/html; charset=utf-8", "cache-control": "private, no-store",
@@ -156,7 +261,9 @@ async function handle(req, env, fetchImpl = fetch) {
   if (pathname === "/health") {
     let mirror = "unreachable";
     try { const r = await env.MIRROR.fetch(new Request("https://mirror/health")); mirror = r.ok ? "ok" : String(r.status); } catch (_) {}
-    return new Response(JSON.stringify({ ok: mirror === "ok", gate: env.GATE_MODE, mirror }, null, 2), {
+    const ns = env.NOTIFY ? await env.NOTIFY.get("status", { type: "json" }) : null;
+    const alerts = { configured: !!(env.NOTIFY && env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID), ...(ns || {}) };
+    return new Response(JSON.stringify({ ok: mirror === "ok", gate: env.GATE_MODE, mirror, alerts }, null, 2), {
       headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...SEC_HEADERS },
     });
   }
@@ -165,4 +272,5 @@ async function handle(req, env, fetchImpl = fetch) {
 
 export default {
   fetch(req, env) { return handle(req, env); },
+  scheduled(event, env, ctx) { ctx.waitUntil(notify(env)); },
 };

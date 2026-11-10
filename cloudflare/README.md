@@ -35,4 +35,10 @@ Unset or unknown, it serves nothing.
 combines `docs/artifacts/eth-setup-standard.html` (the page, unchanged) with
 `dashboard_shim.js` (a stand-in for the Dashboard artifact type's `dash` runtime) and
 `dashboard_worker_template.js`. Edit those three, never the output.
-Tests: `node tests/test_dashboard_gate.mjs`.
+It also sends Jared's phone alerts through a private Telegram bot: cron `5,20,35,50 * * * *`
+(offset from the mirror's 15-minute sync) reads the feed's `alerts` (schema 4) and sends
+each `alert_id` once, recorded in KV `NOTIFY`. A failed send is not recorded and retries
+on the next tick. `POST /alerts/test` (gated, once per 10 minutes) checks the path.
+Bindings: `NOTIFY` (KV), secret `TELEGRAM_BOT_TOKEN`, var `TELEGRAM_CHAT_ID`.
+
+Tests: `node tests/test_dashboard_gate.mjs` (26), `node tests/test_dashboard_alerts.mjs` (18).
