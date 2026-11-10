@@ -1,16 +1,28 @@
 {
- "schema_version": 3,
- "generated_at": "2026-11-10T16:14:35Z",
+ "schema_version": 4,
+ "generated_at": "2026-11-10T20:14:13Z",
  "scored_as_of": "2026-11-10",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-10 16:14 UTC OK 23 subjects, 856 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
-   "2026-11-10 16:14 UTC OK card cross-check, 0 cards match the ledger"
-  ]
+   "2026-11-10 20:14 UTC OK 23 subjects, 856 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
+   "2026-11-10 20:14 UTC OK card cross-check, 0 cards match the ledger"
+  ],
+  "all_passed": true,
+  "steps": {
+   "refresh": "success",
+   "grade": "success",
+   "stack": "success",
+   "cards": "success",
+   "regress": "success"
+  },
+  "failed_steps": []
  },
  "cards_withheld": false,
+ "alerts_withheld": false,
+ "alerts_seeded": true,
+ "alerts": [],
  "market_regime": "Bullish",
  "next_buy_date": "none ahead",
  "trades_a_year": "15 on average",
@@ -18,6 +30,7 @@
  "prints": [
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-10-15",
    "chart": "ETH 1D",
    "state": "confirmed",
    "provisional": false,
@@ -29,6 +42,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-10-20",
    "chart": "ETH 1D",
    "state": "confirmed",
    "provisional": false,
@@ -40,6 +54,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-11-02",
    "chart": "ETH 1D",
    "state": "confirmed",
    "provisional": false,
@@ -51,6 +66,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-2D-2025-11-28",
    "chart": "ETH 2D",
    "state": "confirmed",
    "provisional": false,
@@ -62,6 +78,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-2D-2026-09-21",
    "chart": "ETH 2D",
    "state": "confirmed",
    "provisional": false,
@@ -73,6 +90,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-2D-2026-11-04",
    "chart": "ETH 2D",
    "state": "confirmed",
    "provisional": false,
@@ -84,6 +102,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-3D-2025-10-06",
    "chart": "ETH 3D",
    "state": "confirmed",
    "provisional": false,
@@ -95,6 +114,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-3D-2025-12-02",
    "chart": "ETH 3D",
    "state": "confirmed",
    "provisional": false,
@@ -106,6 +126,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-3D-2026-09-24",
    "chart": "ETH 3D",
    "state": "confirmed",
    "provisional": false,
@@ -117,6 +138,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-5D-2025-08-18",
    "chart": "ETH 5D",
    "state": "confirmed",
    "provisional": false,
@@ -128,6 +150,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-5D-2025-12-06",
    "chart": "ETH 5D",
    "state": "confirmed",
    "provisional": false,
@@ -139,6 +162,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-5D-2026-10-02",
    "chart": "ETH 5D",
    "state": "confirmed",
    "provisional": false,
@@ -150,6 +174,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-8D-2024-10-06",
    "chart": "ETH 8D",
    "state": "confirmed",
    "provisional": false,
@@ -161,6 +186,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-8D-2025-04-30",
    "chart": "ETH 8D",
    "state": "confirmed",
    "provisional": false,
@@ -172,6 +198,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-8D-2025-07-19",
    "chart": "ETH 8D",
    "state": "confirmed",
    "provisional": false,
@@ -183,6 +210,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-1D-2026-10-11",
    "chart": "BTC 1D",
    "state": "confirmed",
    "provisional": false,
@@ -194,6 +222,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-1D-2026-10-20",
    "chart": "BTC 1D",
    "state": "confirmed",
    "provisional": false,
@@ -205,6 +234,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-1D-2026-11-02",
    "chart": "BTC 1D",
    "state": "confirmed",
    "provisional": false,
@@ -216,6 +246,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-2D-2025-11-28",
    "chart": "BTC 2D",
    "state": "confirmed",
    "provisional": false,
@@ -227,6 +258,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-2D-2026-09-21",
    "chart": "BTC 2D",
    "state": "confirmed",
    "provisional": false,
@@ -238,6 +270,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-2D-2026-10-05",
    "chart": "BTC 2D",
    "state": "confirmed",
    "provisional": false,
@@ -249,6 +282,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-3D-2025-12-14",
    "chart": "BTC 3D",
    "state": "confirmed",
    "provisional": false,
@@ -260,6 +294,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-3D-2026-09-24",
    "chart": "BTC 3D",
    "state": "confirmed",
    "provisional": false,
@@ -271,6 +306,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-3D-2026-10-21",
    "chart": "BTC 3D",
    "state": "confirmed",
    "provisional": false,
@@ -282,6 +318,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-5D-2025-11-01",
    "chart": "BTC 5D",
    "state": "confirmed",
    "provisional": false,
@@ -293,6 +330,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-5D-2025-12-06",
    "chart": "BTC 5D",
    "state": "confirmed",
    "provisional": false,
@@ -304,6 +342,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-5D-2026-10-02",
    "chart": "BTC 5D",
    "state": "confirmed",
    "provisional": false,
@@ -315,6 +354,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-8D-2025-04-30",
    "chart": "BTC 8D",
    "state": "confirmed",
    "provisional": false,
@@ -326,6 +366,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-8D-2025-07-11",
    "chart": "BTC 8D",
    "state": "confirmed",
    "provisional": false,
@@ -337,6 +378,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-8D-2025-09-29",
    "chart": "BTC 8D",
    "state": "confirmed",
    "provisional": false,
@@ -350,6 +392,7 @@
  "open_signals": [
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-09-13",
    "chart": "ETH 1D",
    "entry_date": "2026-09-13",
    "entry_close": 2475.86,
@@ -365,6 +408,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-09-18",
    "chart": "ETH 1D",
    "entry_date": "2026-09-18",
    "entry_close": 2611.34,
@@ -380,6 +424,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-2D-2026-09-20",
    "chart": "ETH 2D",
    "entry_date": "2026-09-20",
    "entry_close": 2775.58,
@@ -395,6 +440,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-3D-2026-09-22",
    "chart": "ETH 3D",
    "entry_date": "2026-09-22",
    "entry_close": 2687.28,
@@ -410,6 +456,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-09-26",
    "chart": "ETH 1D",
    "entry_date": "2026-09-26",
    "entry_close": 2695.53,
@@ -425,6 +472,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-5D-2026-09-28",
    "chart": "ETH 5D",
    "entry_date": "2026-09-28",
    "entry_close": 2668.13,
@@ -440,6 +488,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-10-05",
    "chart": "ETH 1D",
    "entry_date": "2026-10-05",
    "entry_close": 2709.6,
@@ -455,6 +504,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-10-11",
    "chart": "ETH 1D",
    "entry_date": "2026-10-11",
    "entry_close": 2534.22,
@@ -463,13 +513,14 @@
    "confirmations": "",
    "days_elapsed": 30,
    "day10_pct": -2.5,
-   "day30_pct": -20.0,
+   "day30_pct": -19.3,
    "day60_pct": null,
    "best_so_far_pct": 1.7,
    "worst_so_far_pct": -21.0
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-10-15",
    "chart": "ETH 1D",
    "entry_date": "2026-10-15",
    "entry_close": 2439.45,
@@ -485,6 +536,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-10-20",
    "chart": "ETH 1D",
    "entry_date": "2026-10-20",
    "entry_close": 2446.62,
@@ -500,6 +552,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-11-02",
    "chart": "ETH 1D",
    "entry_date": "2026-11-02",
    "entry_close": 2249.66,
@@ -515,6 +568,7 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-2D-2026-11-03",
    "chart": "ETH 2D",
    "entry_date": "2026-11-03",
    "entry_close": 2422.27,

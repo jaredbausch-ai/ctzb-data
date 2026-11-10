@@ -1,0 +1,143 @@
+{
+ "checked_at": "2026-11-10T20:13:54+00:00",
+ "cross_mode": "report",
+ "max_close_gap_pct": null,
+ "structural_ok": true,
+ "structural_problems": [],
+ "cross": {
+  "ETH": {
+   "status": "ok",
+   "all": {
+    "days_compared": 720,
+    "from": "2024-11-20",
+    "to": "2026-11-09",
+    "median_pct": 0.0133,
+    "p90_pct": 0.047,
+    "p99_pct": 0.0894,
+    "max_pct": 0.1637,
+    "worst_days": [
+     {
+      "date": "2025-06-16",
+      "gap_pct": 0.1637
+     },
+     {
+      "date": "2025-02-04",
+      "gap_pct": 0.1152
+     },
+     {
+      "date": "2025-02-21",
+      "gap_pct": 0.1015
+     },
+     {
+      "date": "2025-04-02",
+      "gap_pct": 0.0965
+     },
+     {
+      "date": "2025-07-30",
+      "gap_pct": 0.0943
+     }
+    ]
+   },
+   "recent_window_days": 30,
+   "recent": {
+    "days_compared": 30,
+    "from": "2026-10-11",
+    "to": "2026-11-09",
+    "median_pct": 0.0084,
+    "p90_pct": 0.0298,
+    "p99_pct": 0.0598,
+    "max_pct": 0.0598,
+    "worst_days": [
+     {
+      "date": "2026-11-08",
+      "gap_pct": 0.0598
+     },
+     {
+      "date": "2026-11-04",
+      "gap_pct": 0.0367
+     },
+     {
+      "date": "2026-10-29",
+      "gap_pct": 0.0298
+     },
+     {
+      "date": "2026-11-09",
+      "gap_pct": 0.0234
+     },
+     {
+      "date": "2026-11-05",
+      "gap_pct": 0.0179
+     }
+    ]
+   },
+   "over_threshold": []
+  },
+  "BTC": {
+   "status": "ok",
+   "all": {
+    "days_compared": 720,
+    "from": "2024-11-20",
+    "to": "2026-11-09",
+    "median_pct": 0.0134,
+    "p90_pct": 0.0408,
+    "p99_pct": 0.0771,
+    "max_pct": 0.1067,
+    "worst_days": [
+     {
+      "date": "2026-02-05",
+      "gap_pct": 0.1067
+     },
+     {
+      "date": "2025-01-02",
+      "gap_pct": 0.1012
+     },
+     {
+      "date": "2025-10-13",
+      "gap_pct": 0.0942
+     },
+     {
+      "date": "2024-12-15",
+      "gap_pct": 0.0887
+     },
+     {
+      "date": "2025-06-26",
+      "gap_pct": 0.0791
+     }
+    ]
+   },
+   "recent_window_days": 30,
+   "recent": {
+    "days_compared": 30,
+    "from": "2026-10-11",
+    "to": "2026-11-09",
+    "median_pct": 0.007,
+    "p90_pct": 0.0253,
+    "p99_pct": 0.0465,
+    "max_pct": 0.0465,
+    "worst_days": [
+     {
+      "date": "2026-10-28",
+      "gap_pct": 0.0465
+     },
+     {
+      "date": "2026-10-30",
+      "gap_pct": 0.0309
+     },
+     {
+      "date": "2026-10-29",
+      "gap_pct": 0.0253
+     },
+     {
+      "date": "2026-11-08",
+      "gap_pct": 0.0216
+     },
+     {
+      "date": "2026-10-31",
+      "gap_pct": 0.0168
+     }
+    ]
+   },
+   "over_threshold": []
+  }
+ }
+}
