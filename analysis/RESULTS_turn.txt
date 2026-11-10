@@ -1,0 +1,43 @@
+IS THE SELLING OVER? -- declared 10 Nov 2026 (analysis/turn.py docstring). Ungated CTZB signals 1D-5D.
+  ETH 2016-21: 430 signals, TURN 38% | regime-gated only: 325, TURN 42%
+  ETH 2022 on: 350 signals, TURN 21% | regime-gated only: 229, TURN 22%
+    alive on day  0: 780, TURN 30%
+    alive on day  5: 559, TURN 40%
+    alive on day 10: 447, TURN 45%
+  BTC 2016-21: 455 signals, TURN 38% | regime-gated only: 328, TURN 41%
+  BTC 2022 on: 357 signals, TURN 18% | regime-gated only: 226, TURN 23%
+    alive on day  0: 812, TURN 29%
+    alive on day  5: 584, TURN 40%
+    alive on day 10: 466, TURN 45%
+
+396 configurations built, 364 with n >= 15 per side in both periods; passed steps 1-2: 21 (18 dated reads, 3 signal-own reads)
+PLACEBO (dated reads, 20 date shifts 180-1,460 days): passes [3, 10, 12, 12, 14, 14, 14, 19, 19, 20, 21, 23, 24, 25, 27, 34, 36, 60, 64, 66]; 95th pct 66; real 18 -> does NOT beat the placebo
+
+Every config passing steps 1-2 (TURN % on / off, by period):
+  day read     tail asset dir  | 2016-21 n on/off  on%  off% | 2022 on n on/off  on%  off% | shuffle real/p95 | overlap
+  d0  GAP      top BTC SEL  |  152/303    49   32 |  112/245    29   13 | +16.8/ +8.4 | -   <- SURVIVES   [flagged: 41% turns, catches 45% of turns]
+  d0  MVRV30   bot BTC WARN |  128/255    26   39 |   92/265     8   22 | +11.8/+11.8 | -   [flagged: 18% turns, catches 20% of turns]
+  d0  U2GAP    bot BTC SEL  |  128/255    43   30 |  105/252    28   14 | +14.0/ +7.7 | -   [flagged: 36% turns, catches 43% of turns]
+  d5  CT8CHG   bot BTC WARN |   94/186    37   49 |   75/168    15   32 | +13.5/+10.8 | -   [flagged: 27% turns, catches 24% of turns]
+  d5  GAP      top BTC SEL  |  114/227    57   45 |   84/159    35   22 | +12.0/ +8.9 | -   <- SURVIVES   [flagged: 47% turns, catches 41% of turns]
+  d5  LS7      top BTC WARN |   34/66     26   61 |   79/164    16   31 | +20.1/+12.2 | -   [flagged: 19% turns, catches 19% of turns]
+  d5  U2GAP    bot BTC SEL  |   94/186    53   41 |   93/150    40   18 | +15.9/ +6.7 | -   [flagged: 47% turns, catches 46% of turns]
+  d10 CT1D     top BTC SEL  |   72/142    67   40 |   61/140    46   26 | +24.2/+15.3 | -   [flagged: 57% turns, catches 45% of turns]
+  d10 CT2D     top BTC SEL  |   72/142    67   40 |   56/145    50   25 | +27.0/+22.5 | -   [flagged: 59% turns, catches 45% of turns]
+  d10 CT8CHG   bot BTC WARN |   73/141    34   57 |   55/146     9   40 | +25.0/+11.4 | -   [flagged: 23% turns, catches 18% of turns]
+  d10 LS7      top BTC WARN |   26/52     27   73 |   52/149    17   37 | +25.8/+11.5 | -   [flagged: 21% turns, catches 15% of turns]
+  d10 RATIOCT  top BTC WARN |   72/142    40   54 |   45/156    20   35 | +11.5/ +9.1 | -   [flagged: 32% turns, catches 22% of turns]
+  d10 U2GAP    top BTC WARN |   72/142    36   56 |   69/132    19   39 | +19.8/ +3.7 | -   [flagged: 28% turns, catches 23% of turns]
+  d10 VOLX     top BTC SEL  |   72/142    62   42 |   60/141    45   26 | +20.3/+11.4 | -   [flagged: 55% turns, catches 43% of turns]
+  d0  GAP      top ETH SEL  |  144/286    49   32 |  110/240    28   18 | +14.3/ +9.0 | GAP>5=no   [flagged: 40% turns, catches 43% of turns]
+  d5  CT8CHG   bot ETH WARN |   88/174    38   52 |   89/164    20   34 | +14.4/+13.5 | -   [flagged: 29% turns, catches 26% of turns]
+  d5  U2GAP    bot ETH SEL  |   88/174    57   43 |   73/180    44   23 | +18.4/ +8.5 | -   [flagged: 51% turns, catches 42% of turns]
+  d10 CT1D     bot ETH WARN |   70/137    36   63 |   78/126    22   43 | +24.9/+14.3 | -   [flagged: 28% turns, catches 23% of turns]
+  d10 CT8CHG   bot ETH WARN |   71/136    42   60 |   69/135    17   44 | +21.7/+10.8 | -   [flagged: 30% turns, catches 23% of turns]
+  d10 MVRV30   bot ETH WARN |   70/137    46   58 |   54/150    24   39 | +11.4/ +9.1 | green d10=yes   [flagged: 36% turns, catches 25% of turns]
+  d10 ODD365   top ETH SEL  |   69/138    72   44 |   81/123    42   30 | +18.5/+18.5 | -   [flagged: 56% turns, catches 46% of turns]
+
+survivors: 2
+  Step 3(a) failed: the dated reads pass no more often than with their dates shifted, so none of them counts.
+
+ENTRY QUALITY ONLY. No exit in the data, so no strategy return or track record. Computed signals, never fills.
