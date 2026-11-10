@@ -114,8 +114,11 @@ against the candle close.
   Actions minutes).
 
 ### The seven hardening items
-- **(a) Bad exchange data.** Cross-check every candle against a second source;
-  fail the run on a mismatch.
+- **(a) Bad exchange data.** **PART BUILT 10 Nov 2026** — `.github/scripts/check_candles.py`.
+  Structural faults (missing day, impossible OHLC, zero price or volume) are enforced:
+  they fail before the commit and the run retries. The Kraken close cross-check runs in
+  REPORT mode until its threshold is set from the measured Coinbase-Kraken gap
+  (`datasets/candle_check.json`); then `--cross enforce --max-close-gap PCT`.
 - **(b) No typed-in numbers.** Every figure anyone sees comes from code, never
   entered by hand.
 - ~~**(c) Grade and lens regression test.**~~ **BUILT 9 Nov 2026.**
@@ -127,8 +130,10 @@ against the candle close.
   change is re-baselined with `--approve` and committed, so it shows up in the
   diff. Verified by fault injection (flipped outcome, changed grade, deleted
   signal all fail; 919 signals pass clean).
-- **(d) Alert safety.** Duplicate-alert guard, and withhold the alert if any
-  check in the run failed.
+- ~~**(d) Alert safety.**~~ **BUILT 10 Nov 2026.** Feed schema 4: `signal_id` on every
+  record, an `alerts` list of forming/confirmed/vanished events each emitted exactly
+  once (`feed/alert_log.csv`), and cards + alerts withheld when ANY gating step failed.
+  Withheld alerts go out on the next clean run. `tests/test_feed_alerts.py`, 15/15.
 - **(e) Backups.** An off-GitHub copy of the data and the feed.
 - **(f) Dashboard upload off Claude usage** — moves to Cloudflare.
 - **(g) Dry run.** Several clean weeks before anyone outside sees it.
