@@ -28,6 +28,14 @@
  *
  * Read-only: only GET, HEAD and OPTIONS are accepted. There is no code path
  * that writes to GitHub, and no directory listing is exposed.
+ *
+ * BACKUPS (item 17e, 10 Nov 2026). Optional R2 binding BACKUPS. Once a day, on the
+ * 01:00 UTC tick (after the daily-close run has committed), the cron stores a
+ * snapshot of the exact current commit as daily/ctzb-data-YYYY-MM-DD.tar.gz, tagged
+ * with the commit sha, and on the 1st of the month also monthly/ctzb-data-YYYY-MM.
+ * Write-once: an existing key is never overwritten. Daily copies are expired by an
+ * R2 lifecycle rule, not by code. Nothing a caller sends reaches this path; it runs
+ * only from the cron. Without the binding, it does nothing.
  */
 
 const REPO = 'jaredbausch-ai/ctzb-data';
@@ -236,6 +244,57 @@ async function serve(repoPath, env, headOnly) {
  * because the repo has been quiet. Content age is reported separately as
  * feed_content_age_hours so a consumer can judge that itself.
  */
+/** Hour/minute (UTC) of the daily backup tick. The cron fires every 15 minutes. */
+const BACKUP_AT = { hour: 1, minute: 0 };
+const MAX_BACKUP_BYTES = 200 * 1024 * 1024;
+
+const isBackupTick = (t) => {
+  const d = new Date(t);
+  return d.getUTCHours() === BACKUP_AT.hour && d.getUTCMinutes() === BACKUP_AT.minute;
+};
+
+/** One daily snapshot. Never throws; records the outcome in KV (one write a day). */
+async function backup(env, at) {
+  if (!env.BACKUPS) return { skipped: 'no binding' };
+  const day = new Date(at).toISOString().slice(0, 10);
+  const keys = [`daily/ctzb-data-${day}.tar.gz`];
+  if (day.endsWith('-01')) keys.push(`monthly/ctzb-data-${day.slice(0, 7)}.tar.gz`);
+  const result = { at: new Date(at).toISOString(), keys: [], skipped: [], ok: false, error: null };
+  try {
+    const todo = [];
+    for (const k of keys) ((await env.BACKUPS.head(k)) ? result.skipped : todo).push(k);
+    if (todo.length) {
+      // Pin the snapshot to one commit, so the tag says exactly what is inside.
+      const commit = await (await gh(`https://api.github.com/repos/${REPO}/commits/${BRANCH}`, env, false)).json();
+      const sha = commit && commit.sha;
+      if (!/^[0-9a-f]{40}$/.test(sha || '')) throw new Error('no commit sha');
+      const tar = await (await gh(`https://api.github.com/repos/${REPO}/tarball/${sha}`, env, false)).arrayBuffer();
+      if (tar.byteLength > MAX_BACKUP_BYTES) throw new Error('snapshot too large');
+      if (tar.byteLength < 1024) throw new Error('snapshot too small');
+      for (const k of todo) {
+        await env.BACKUPS.put(k, tar, {
+          httpMetadata: { contentType: 'application/gzip' },
+          customMetadata: { sha, repo: REPO, taken_at: result.at },
+        });
+        result.keys.push(k);
+      }
+      result.sha = sha;
+      result.bytes = tar.byteLength;
+    }
+    result.ok = true;
+  } catch (e) {
+    result.error = String((e && e.message) || 'failed').slice(0, 80); // our own messages only
+  }
+  const prev = (await env.FEED.get('backup', { type: 'json' })) || {};
+  await env.FEED.put('backup', JSON.stringify({
+    ...result,
+    last_ok_at: result.ok ? result.at : prev.last_ok_at || null,
+    last_ok_key: result.ok && result.keys.length ? result.keys[0] : prev.last_ok_key || null,
+    consecutive_failures: result.ok ? 0 : (prev.consecutive_failures || 0) + 1,
+  }));
+  return result;
+}
+
 async function health(env) {
   const status = (await env.FEED.get('status', { type: 'json' })) || null;
   const feedMeta = await env.FEED.get(metaKey(FIXED['/feed/ctzb_feed.json']), { type: 'json' });
@@ -261,6 +320,7 @@ async function health(env) {
         feed_content_changed_at: contentAt ? new Date(contentAt).toISOString() : null,
         feed_content_age_hours: contentAt ? +((Date.now() - contentAt) / 3600000).toFixed(1) : null,
         dataset_count: idx && idx.names ? idx.names.length : null,
+        backup: env.BACKUPS ? await env.FEED.get('backup', { type: 'json' }) : 'not configured',
       },
       null,
       2
@@ -292,5 +352,6 @@ export default {
 
   async scheduled(event, env, ctx) {
     ctx.waitUntil(refresh(env));
+    if (isBackupTick(event.scheduledTime)) ctx.waitUntil(backup(env, event.scheduledTime));
   },
 };

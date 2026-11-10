@@ -19,6 +19,13 @@ are read from `env` at runtime.
 `datasets/*.csv`, `keep.json`, `odds.json`, `troughs.json` byte-for-byte, so a
 consumer of the public repo switches by changing only its base URL.
 
+Backups (item 17e): optional R2 binding `BACKUPS` -> bucket `ctzb-backups` (private).
+Once a day at 01:00 UTC the cron stores the exact current commit as
+`daily/ctzb-data-YYYY-MM-DD.tar.gz` (tagged with its sha), plus `monthly/ctzb-data-YYYY-MM`
+on the 1st. Write-once. An R2 lifecycle rule expires `daily/` after 90 days; `monthly/`
+is kept. ~8.8 MB each. `/health` reports the last backup. To restore: download the object
+from the R2 dashboard and `tar -xzf` it. Tests: `node tests/test_mirror_backup.mjs` (21).
+
 **ctzb-scheduler** (v2, 10 Nov 2026) — KV binding `SCHED`, ONE cron trigger
 `13,25,35,43 * * * *`. The code decides what each tick dispatches: `daily.yml`
 (with `scheduled=true`) at :13 and :43 after each 4-hour close, `watchdog.yml`
