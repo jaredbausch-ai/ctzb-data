@@ -1,13 +1,13 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-10T08:08:44Z",
+ "generated_at": "2026-11-10T08:14:27Z",
  "scored_as_of": "2026-11-10",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-10 08:08 UTC OK 24 subjects, 889 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
-   "2026-11-10 08:08 UTC OK card cross-check, 1 cards match the ledger"
+   "2026-11-10 08:14 UTC OK 24 subjects, 889 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
+   "2026-11-10 08:14 UTC OK card cross-check, 1 cards match the ledger"
   ]
  },
  "cards_withheld": false,
@@ -23,8 +23,8 @@
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 1,
-   "must_close_above": 74437.64,
-   "price_now": 74677.75,
+   "must_close_above": 74442.92,
+   "price_now": 74751.63,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 37 BTC 1D trades with exactly the same confirmations",
@@ -318,7 +318,7 @@
    "provisional": true,
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
-   "entry_close": 74677.75,
+   "entry_close": 74751.63,
    "tags": "A",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -571,7 +571,7 @@
    "confirmations": "",
    "days_elapsed": 30,
    "day10_pct": -2.5,
-   "day30_pct": -16.7,
+   "day30_pct": -16.6,
    "day60_pct": null,
    "best_so_far_pct": 1.7,
    "worst_so_far_pct": -17.9
