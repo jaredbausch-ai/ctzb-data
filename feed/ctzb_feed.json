@@ -1,18 +1,18 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-10T00:44:35Z",
+ "generated_at": "2026-11-10T01:14:32Z",
  "scored_as_of": "2026-11-10",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-10 00:44 UTC OK 28 subjects, 1005 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
-   "2026-11-10 00:44 UTC OK card cross-check, 4 cards match the ledger"
+   "2026-11-10 01:14 UTC OK 31 subjects, 1095 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
+   "2026-11-10 01:14 UTC OK card cross-check, 6 cards match the ledger"
   ]
  },
  "cards_withheld": false,
  "market_regime": "Bullish",
- "next_buy_date": "none ahead",
+ "next_buy_date": "2026-11-25",
  "trades_a_year": "15 on average",
  "cards": [
   {
@@ -23,32 +23,32 @@
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 1,
-   "must_close_above": 2119.61,
-   "price_now": 2123.47,
+   "must_close_above": 2120.0,
+   "price_now": 2128.9,
    "grade": "C",
-   "confirmations": "none",
-   "sample": "the last 27 ETH 1D trades with exactly the same confirmations",
-   "past_trades": 27,
-   "rose10_never_fell25_within60d_pct": 56,
-   "beat_normal_move_pct": 59,
-   "rose20_within60d_pct": 44,
-   "rose10_within60d_pct": 67,
-   "typical_biggest_rise_pct": 14.9,
-   "typical_dip_before_rise_pct": -4.6,
-   "typical_deepest_dip_pct": -9.3,
-   "fell30_within60d_pct": 33,
+   "confirmations": "funding at or above its 90-day median",
+   "sample": "the last 17 ETH 1D trades with exactly the same confirmations",
+   "past_trades": 17,
+   "rose10_never_fell25_within60d_pct": 53,
+   "beat_normal_move_pct": 47,
+   "rose20_within60d_pct": 29,
+   "rose10_within60d_pct": 65,
+   "typical_biggest_rise_pct": 13.3,
+   "typical_dip_before_rise_pct": -8.2,
+   "typical_deepest_dip_pct": -17.7,
+   "fell30_within60d_pct": 29,
    "before_2022": {
-    "past_trades": 7,
-    "rose10_never_fell25_within60d_pct": 57
+    "past_trades": 6,
+    "rose10_never_fell25_within60d_pct": 67
    },
    "since_2022": {
-    "past_trades": 20,
-    "rose10_never_fell25_within60d_pct": 55
+    "past_trades": 11,
+    "rose10_never_fell25_within60d_pct": 45
    },
-   "typical_day_first_rose10": 8,
-   "typical_day_first_rose20": 16,
-   "typical_day_of_60d_high": 16,
-   "typical_day_of_deepest_dip": 23,
+   "typical_day_first_rose10": 9,
+   "typical_day_first_rose20": 29,
+   "typical_day_of_60d_high": 21,
+   "typical_day_of_deepest_dip": 32,
    "active_confluences": [
     {
      "after": "BTC 1D any",
@@ -88,26 +88,212 @@
     {
      "fell_pct": 5,
      "past_trades": 14,
+     "still_rose10_pct": 57,
+     "went_on_to_fall25_pct": 29
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 5,
+     "still_rose10_pct": 0,
+     "went_on_to_fall25_pct": 80
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "chart": "ETH 2D",
+   "asset": "ETH",
+   "timeframe": "2D",
+   "low_date": "2026-11-07",
+   "confirms_on": "2026-11-14",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 2128.9,
+   "grade": "C",
+   "confirmations": "funding at or above its 90-day median",
+   "sample": "the last 27 ETH 2D trades graded C (only 4 had exactly the same confirmations, too few to use)",
+   "past_trades": 27,
+   "rose10_never_fell25_within60d_pct": 52,
+   "beat_normal_move_pct": 52,
+   "rose20_within60d_pct": 41,
+   "rose10_within60d_pct": 67,
+   "typical_biggest_rise_pct": 14.7,
+   "typical_dip_before_rise_pct": -5.9,
+   "typical_deepest_dip_pct": -17.0,
+   "fell30_within60d_pct": 30,
+   "before_2022": {
+    "past_trades": 8,
+    "rose10_never_fell25_within60d_pct": 62
+   },
+   "since_2022": {
+    "past_trades": 19,
+    "rose10_never_fell25_within60d_pct": 47
+   },
+   "typical_day_first_rose10": 12,
+   "typical_day_first_rose20": 24,
+   "typical_day_of_60d_high": 44,
+   "typical_day_of_deepest_dip": 22,
+   "active_confluences": [],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 20,
+     "still_rose10_pct": 50,
+     "went_on_to_fall25_pct": 35
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 14,
      "still_rose10_pct": 36,
      "went_on_to_fall25_pct": 50
     },
     {
-     "fell_pct": 10,
-     "past_trades": 10,
-     "still_rose10_pct": 10,
-     "went_on_to_fall25_pct": 70
-    },
-    {
      "fell_pct": 15,
-     "past_trades": 10,
-     "still_rose10_pct": 10,
-     "went_on_to_fall25_pct": 70
+     "past_trades": 12,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 58
     },
     {
      "fell_pct": 20,
-     "past_trades": 8,
-     "still_rose10_pct": 12,
-     "went_on_to_fall25_pct": 88
+     "past_trades": 9,
+     "still_rose10_pct": 11,
+     "went_on_to_fall25_pct": 78
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "chart": "ETH 3D",
+   "asset": "ETH",
+   "timeframe": "3D",
+   "low_date": "2026-11-06",
+   "confirms_on": "2026-11-17",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 2128.9,
+   "grade": "C",
+   "confirmations": "funding at or above its 90-day median",
+   "sample": "the last 111 grade C trades across all ETH charts (ETH 3D alone has only 13, too few to use)",
+   "past_trades": 111,
+   "rose10_never_fell25_within60d_pct": 53,
+   "beat_normal_move_pct": 58,
+   "rose20_within60d_pct": 43,
+   "rose10_within60d_pct": 67,
+   "typical_biggest_rise_pct": 15.0,
+   "typical_dip_before_rise_pct": -6.0,
+   "typical_deepest_dip_pct": -16.4,
+   "fell30_within60d_pct": 30,
+   "before_2022": {
+    "past_trades": 30,
+    "rose10_never_fell25_within60d_pct": 60
+   },
+   "since_2022": {
+    "past_trades": 81,
+    "rose10_never_fell25_within60d_pct": 51
+   },
+   "typical_day_first_rose10": 10,
+   "typical_day_first_rose20": 18,
+   "typical_day_of_60d_high": 32,
+   "typical_day_of_deepest_dip": 22,
+   "active_confluences": [],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 76,
+     "still_rose10_pct": 47,
+     "went_on_to_fall25_pct": 37
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 54,
+     "still_rose10_pct": 30,
+     "went_on_to_fall25_pct": 52
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 45,
+     "still_rose10_pct": 18,
+     "went_on_to_fall25_pct": 62
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 35,
+     "still_rose10_pct": 11,
+     "went_on_to_fall25_pct": 80
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "chart": "ETH 8D",
+   "asset": "ETH",
+   "timeframe": "8D",
+   "low_date": "2026-11-01",
+   "confirms_on": "2026-12-02",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 2128.9,
+   "grade": "C",
+   "confirmations": "funding at or above its 90-day median",
+   "sample": "the last 111 grade C trades across all ETH charts (ETH 8D alone has only 3, too few to use)",
+   "past_trades": 111,
+   "rose10_never_fell25_within60d_pct": 53,
+   "beat_normal_move_pct": 58,
+   "rose20_within60d_pct": 43,
+   "rose10_within60d_pct": 67,
+   "typical_biggest_rise_pct": 15.0,
+   "typical_dip_before_rise_pct": -6.0,
+   "typical_deepest_dip_pct": -16.4,
+   "fell30_within60d_pct": 30,
+   "before_2022": {
+    "past_trades": 30,
+    "rose10_never_fell25_within60d_pct": 60
+   },
+   "since_2022": {
+    "past_trades": 81,
+    "rose10_never_fell25_within60d_pct": 51
+   },
+   "typical_day_first_rose10": 10,
+   "typical_day_first_rose20": 18,
+   "typical_day_of_60d_high": 32,
+   "typical_day_of_deepest_dip": 22,
+   "active_confluences": [],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 76,
+     "still_rose10_pct": 47,
+     "went_on_to_fall25_pct": 37
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 54,
+     "still_rose10_pct": 30,
+     "went_on_to_fall25_pct": 52
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 45,
+     "still_rose10_pct": 18,
+     "went_on_to_fall25_pct": 62
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 35,
+     "still_rose10_pct": 11,
+     "went_on_to_fall25_pct": 80
     }
    ]
   },
@@ -119,8 +305,8 @@
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 1,
-   "must_close_above": 74457.85,
-   "price_now": 74960.67,
+   "must_close_above": 74469.67,
+   "price_now": 75126.25,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 37 BTC 1D trades with exactly the same confirmations",
@@ -216,7 +402,7 @@
    "confirms_on": "2026-11-14",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74960.67,
+   "price_now": 75126.25,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 38 BTC 2D trades with exactly the same confirmations",
@@ -290,7 +476,7 @@
    "confirms_on": "2026-11-17",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74960.67,
+   "price_now": 75126.25,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 26 BTC 3D trades with exactly the same confirmations",
@@ -352,7 +538,7 @@
    "confirms_on": "2026-12-02",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74960.67,
+   "price_now": 75126.25,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 19 BTC 8D trades graded C (only 8 had exactly the same confirmations, too few to use)",
@@ -447,7 +633,7 @@
    "provisional": true,
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
-   "entry_close": 2123.47,
+   "entry_close": 2128.9,
    "tags": "A + prime dot",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -486,6 +672,17 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "chart": "ETH 2D",
+   "state": "forming",
+   "provisional": true,
+   "low_date": "2026-11-07",
+   "confirms_on": "2026-11-14",
+   "entry_close": 2128.9,
+   "tags": "A + filled diamond + prime dot",
+   "note": "regime on; 2 bar(s) to confirm"
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
    "chart": "ETH 3D",
    "state": "confirmed",
    "provisional": false,
@@ -516,6 +713,17 @@
    "entry_close": 2687.28,
    "tags": "C + hollow diamond",
    "note": "regime on"
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "chart": "ETH 3D",
+   "state": "forming",
+   "provisional": true,
+   "low_date": "2026-11-06",
+   "confirms_on": "2026-11-17",
+   "entry_close": 2128.9,
+   "tags": "A",
+   "note": "regime on; 2 bar(s) to confirm"
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -585,6 +793,17 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "chart": "ETH 8D",
+   "state": "forming",
+   "provisional": true,
+   "low_date": "2026-11-01",
+   "confirms_on": "2026-12-02",
+   "entry_close": 2128.9,
+   "tags": "B + prime dot",
+   "note": "regime on; 2 bar(s) to confirm"
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
    "chart": "BTC 1D",
    "state": "confirmed",
    "provisional": false,
@@ -623,7 +842,7 @@
    "provisional": true,
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
-   "entry_close": 74960.67,
+   "entry_close": 75126.25,
    "tags": "A",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -667,7 +886,7 @@
    "provisional": true,
    "low_date": "2026-11-07",
    "confirms_on": "2026-11-14",
-   "entry_close": 74960.67,
+   "entry_close": 75126.25,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -711,7 +930,7 @@
    "provisional": true,
    "low_date": "2026-11-06",
    "confirms_on": "2026-11-17",
-   "entry_close": 74960.67,
+   "entry_close": 75126.25,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -788,7 +1007,7 @@
    "provisional": true,
    "low_date": "2026-11-01",
    "confirms_on": "2026-12-02",
-   "entry_close": 74960.67,
+   "entry_close": 75126.25,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   }
@@ -909,7 +1128,7 @@
    "confirmations": "",
    "days_elapsed": 30,
    "day10_pct": -2.5,
-   "day30_pct": -16.2,
+   "day30_pct": -16.0,
    "day60_pct": null,
    "best_so_far_pct": 1.7,
    "worst_so_far_pct": -17.9

@@ -7,7 +7,7 @@ ETH 3D,2026-09-22,no,C + diamond + hollow,2687.28,48,open,-0.0,-12.4,,3.3,-22.6,
 ETH 1D,2026-09-26,no,C,2695.53,45,open,0.1,-13.9,,3.0,-22.8,A,HIGH + AGREE + BTC3,no,no
 ETH 5D,2026-09-28,yes,C,2668.13,40,open,-8.4,-14.8,,2.7,-22.0,B,GAP + AGREE,no,no
 ETH 1D,2026-10-05,no,C + prime dot,2709.6,36,open,-10.0,-10.6,,0.6,-23.2,C,HIGH,no,yes
-ETH 1D,2026-10-11,no,A,2534.22,30,open,-2.5,-16.2,,1.7,-17.9,C,,no,no
+ETH 1D,2026-10-11,no,A,2534.22,30,open,-2.5,-16.0,,1.7,-17.9,C,,no,no
 ETH 1D,2026-10-15,no,A,2439.45,26,open,-4.6,,,3.5,-14.7,B,FUND + FCOOL,no,no
 ETH 1D,2026-10-20,no,A,2446.62,21,open,-8.4,,,3.2,-15.0,A,HIGH + FUND + FCOOL,no,no
 ETH 1D,2026-11-02,no,A + diamond + filled,2249.66,8,open,,,,8.8,-7.5,C,FUND,no,yes
