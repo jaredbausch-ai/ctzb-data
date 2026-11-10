@@ -1,13 +1,13 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-10T01:44:37Z",
+ "generated_at": "2026-11-10T02:14:38Z",
  "scored_as_of": "2026-11-10",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-10 01:44 UTC OK 28 subjects, 1005 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
-   "2026-11-10 01:44 UTC OK card cross-check, 4 cards match the ledger"
+   "2026-11-10 02:14 UTC OK 28 subjects, 1005 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
+   "2026-11-10 02:14 UTC OK card cross-check, 4 cards match the ledger"
   ]
  },
  "cards_withheld": false,
@@ -23,8 +23,8 @@
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 1,
-   "must_close_above": 2119.52,
-   "price_now": 2122.15,
+   "must_close_above": 2119.48,
+   "price_now": 2121.58,
    "grade": "C",
    "confirmations": "funding at or above its 90-day median",
    "sample": "the last 17 ETH 1D trades with exactly the same confirmations",
@@ -119,8 +119,8 @@
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
    "bars_to_confirm": 1,
-   "must_close_above": 74454.05,
-   "price_now": 74907.46,
+   "must_close_above": 74451.21,
+   "price_now": 74867.76,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 37 BTC 1D trades with exactly the same confirmations",
@@ -216,7 +216,7 @@
    "confirms_on": "2026-11-14",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74907.46,
+   "price_now": 74867.76,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 38 BTC 2D trades with exactly the same confirmations",
@@ -290,7 +290,7 @@
    "confirms_on": "2026-11-17",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74907.46,
+   "price_now": 74867.76,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 26 BTC 3D trades with exactly the same confirmations",
@@ -352,7 +352,7 @@
    "confirms_on": "2026-12-02",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74907.46,
+   "price_now": 74867.76,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 19 BTC 8D trades graded C (only 8 had exactly the same confirmations, too few to use)",
@@ -447,7 +447,7 @@
    "provisional": true,
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
-   "entry_close": 2122.15,
+   "entry_close": 2121.58,
    "tags": "A + prime dot",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -623,7 +623,7 @@
    "provisional": true,
    "low_date": "2026-11-08",
    "confirms_on": "2026-11-11",
-   "entry_close": 74907.46,
+   "entry_close": 74867.76,
    "tags": "A",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -667,7 +667,7 @@
    "provisional": true,
    "low_date": "2026-11-07",
    "confirms_on": "2026-11-14",
-   "entry_close": 74907.46,
+   "entry_close": 74867.76,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -711,7 +711,7 @@
    "provisional": true,
    "low_date": "2026-11-06",
    "confirms_on": "2026-11-17",
-   "entry_close": 74907.46,
+   "entry_close": 74867.76,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -788,7 +788,7 @@
    "provisional": true,
    "low_date": "2026-11-01",
    "confirms_on": "2026-12-02",
-   "entry_close": 74907.46,
+   "entry_close": 74867.76,
    "tags": "B",
    "note": "regime on; 2 bar(s) to confirm"
   }
