@@ -69,3 +69,26 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 - The ping to Grok when a new signal lands as pending.
 - The repo going private (after the Cloudflare account, before any paid
   member sees a signal). Until then this file is public, like the datasets.
+
+## Schema 4 — signal ids and alerts (10 Nov 2026, item 17d)
+
+Fields added; nothing renamed or removed.
+
+| Field | Where | Meaning |
+|---|---|---|
+| `signal_id` | every card, print and open signal | Chart + confirmation date, e.g. `ETH-1D-2026-11-12`. The same at every stage of a signal's life: the forming card, the confirmed print, and the open signal share it. A trough that slides is a new signal with a new id. |
+| `alerts` | top level | Events NEW in this generation. Each: `alert_id`, `event`, `signal_id`, `chart`, `emitted_at`, `label`. |
+| `alerts[].event` | | `forming` (a card appeared), `confirmed` (it became a signal), `vanished` (an alerted forming card is gone and never confirmed — the trough slid, or the setup no longer qualifies). |
+| `alerts[].alert_id` | | `{signal_id}:{event}`. Fixed for that event, forever. |
+| `alerts_withheld` | top level | True when any scoring check failed this run. `alerts` is then empty. |
+| `alerts_seeded` | top level | True only on the very first run, which records what was already live without alerting on it. |
+| `checks.all_passed`, `checks.steps`, `checks.failed_steps` | `checks` | The outcome of each gating step (refresh, grade, stack, cards, regress). `checks.passed` keeps its old meaning: the stack check alone. |
+| `cards_withheld` | top level | Unchanged meaning, wider trigger: now true when ANY gating step failed, not only the stack check. |
+
+**The one rule for anything that sends alerts:** record every `alert_id` you send and
+never send the same one twice. The pipeline guarantees an alert appears in exactly one
+feed generation (`feed/alert_log.csv`, append-only, committed with the feed), but that
+generation is read many times — every 15 minutes by the mirror, and by every poller.
+
+**Withheld is not dropped.** A withheld alert is not logged, so it is emitted by the
+next run in which every check passes.

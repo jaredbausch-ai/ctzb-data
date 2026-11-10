@@ -151,6 +151,9 @@ jobs:
       - name: Write the live feed
         id: feed
         continue-on-error: true
+        # Item 17d: cards AND alerts are withheld if any of these failed this run.
+        env:
+          CTZB_STEP_OUTCOMES: "refresh=${{ steps.refresh.outcome }},grade=${{ steps.grade.outcome }},stack=${{ steps.stack.outcome }},cards=${{ steps.cards.outcome }},regress=${{ steps.regress.outcome }}"
         run: timeout 5m python feed_live.py
 
       # Third-party sources. 4 Nov 2026: flows and on-chain used to run without
