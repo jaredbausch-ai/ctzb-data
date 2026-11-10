@@ -1,13 +1,13 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-10T13:14:31Z",
+ "generated_at": "2026-11-10T13:44:37Z",
  "scored_as_of": "2026-11-10",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-10 13:14 UTC OK 23 subjects, 856 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
-   "2026-11-10 13:14 UTC OK card cross-check, 0 cards match the ledger"
+   "2026-11-10 13:44 UTC OK 23 subjects, 856 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
+   "2026-11-10 13:44 UTC OK card cross-check, 0 cards match the ledger"
   ]
  },
  "cards_withheld": false,
@@ -361,7 +361,7 @@
    "day30_pct": 0.8,
    "day60_pct": null,
    "best_so_far_pct": 13.4,
-   "worst_so_far_pct": -16.0
+   "worst_so_far_pct": -17.9
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -376,7 +376,7 @@
    "day30_pct": -7.8,
    "day60_pct": null,
    "best_so_far_pct": 7.5,
-   "worst_so_far_pct": -20.3
+   "worst_so_far_pct": -22.2
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -391,7 +391,7 @@
    "day30_pct": -10.9,
    "day60_pct": null,
    "best_so_far_pct": 0.5,
-   "worst_so_far_pct": -25.0
+   "worst_so_far_pct": -26.8
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -406,7 +406,7 @@
    "day30_pct": -12.4,
    "day60_pct": null,
    "best_so_far_pct": 3.3,
-   "worst_so_far_pct": -22.6
+   "worst_so_far_pct": -24.4
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -421,7 +421,7 @@
    "day30_pct": -13.9,
    "day60_pct": null,
    "best_so_far_pct": 3.0,
-   "worst_so_far_pct": -22.8
+   "worst_so_far_pct": -24.6
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -436,7 +436,7 @@
    "day30_pct": -14.8,
    "day60_pct": null,
    "best_so_far_pct": 2.7,
-   "worst_so_far_pct": -22.0
+   "worst_so_far_pct": -23.9
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -451,7 +451,7 @@
    "day30_pct": -10.6,
    "day60_pct": null,
    "best_so_far_pct": 0.6,
-   "worst_so_far_pct": -23.2
+   "worst_so_far_pct": -25.0
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -463,10 +463,10 @@
    "confirmations": "",
    "days_elapsed": 30,
    "day10_pct": -2.5,
-   "day30_pct": -17.3,
+   "day30_pct": -18.3,
    "day60_pct": null,
    "best_so_far_pct": 1.7,
-   "worst_so_far_pct": -17.9
+   "worst_so_far_pct": -19.8
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -481,7 +481,7 @@
    "day30_pct": null,
    "day60_pct": null,
    "best_so_far_pct": 3.5,
-   "worst_so_far_pct": -14.7
+   "worst_so_far_pct": -16.7
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -496,7 +496,7 @@
    "day30_pct": null,
    "day60_pct": null,
    "best_so_far_pct": 3.2,
-   "worst_so_far_pct": -15.0
+   "worst_so_far_pct": -17.0
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -511,7 +511,7 @@
    "day30_pct": null,
    "day60_pct": null,
    "best_so_far_pct": 8.8,
-   "worst_so_far_pct": -7.5
+   "worst_so_far_pct": -9.7
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -526,7 +526,7 @@
    "day30_pct": null,
    "day60_pct": null,
    "best_so_far_pct": 0.5,
-   "worst_so_far_pct": -14.1
+   "worst_so_far_pct": -16.1
   }
  ],
  "confluence_windows": [
