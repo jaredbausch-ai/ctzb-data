@@ -1,13 +1,13 @@
 {
  "schema_version": 3,
- "generated_at": "2026-11-10T16:08:44Z",
+ "generated_at": "2026-11-10T16:14:35Z",
  "scored_as_of": "2026-11-10",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-10 16:08 UTC OK 23 subjects, 856 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
-   "2026-11-10 16:08 UTC OK card cross-check, 0 cards match the ledger"
+   "2026-11-10 16:14 UTC OK 23 subjects, 856 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-10",
+   "2026-11-10 16:14 UTC OK card cross-check, 0 cards match the ledger"
   ]
  },
  "cards_withheld": false,
