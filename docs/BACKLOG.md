@@ -134,8 +134,17 @@ against the candle close.
   record, an `alerts` list of forming/confirmed/vanished events each emitted exactly
   once (`feed/alert_log.csv`), and cards + alerts withheld when ANY gating step failed.
   Withheld alerts go out on the next clean run. `tests/test_feed_alerts.py`, 15/15.
-- **(e) Backups.** An off-GitHub copy of the data and the feed.
-- **(f) Dashboard upload off Claude usage** — moves to Cloudflare.
+- ~~**(e) Backups.**~~ **BUILT 10 Nov 2026.** The mirror Worker writes a daily snapshot of
+  the exact current commit to private R2 bucket `ctzb-backups` at 01:00 UTC
+  (`daily/`, expired after 90 days by a lifecycle rule; `monthly/` on the 1st, kept).
+  Write-once, sha-tagged, ~8.8 MB each. `tests/test_mirror_backup.mjs`, 21/21.
+- **(f) Dashboard upload off Claude usage.** **BUILT 10 Nov 2026, old path not yet
+  retired.** The ETH Setup Standard dashboard now runs as Worker `ctzb-dashboard`,
+  reading the mirror live behind Cloudflare Access (three emails, one-time PIN; the
+  Worker also verifies the Access JWT itself). Phone alerts moved to a private Telegram
+  bot fed by the feed's `alerts`. Still to do: disable the "CTZB dashboard refresh"
+  scheduled task once the new dashboard is seen updating from a pipeline run, point the
+  morning health check away from the old dashboard, and give Joe the new address.
 - **(g) Dry run.** Several clean weeks before anyone outside sees it.
 
 ---
