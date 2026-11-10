@@ -168,6 +168,7 @@ class U:
 
     def reads(self, day):
         """dict name -> bool for this USDT.D timeframe at the end of `day`, or None"""
+        if day > self.ends[-1]: return None   # fix 10 Nov (after first run): no closed bar beyond the data
         k = self.idx(day)
         if k < 60 or k >= len(self.c): return None
         ct, sg, K, KD, c = self.ct, self.sg, self.k, self.kd, self.c

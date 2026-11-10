@@ -1,0 +1,1288 @@
+{
+ "configs_A": 924,
+ "configs_B": 192,
+ "passA": [
+  [
+   "1D CTGE50",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D CTGE55",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D CTLE35",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D CTLE50",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D CTFALL3",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "1D CTFALL5",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D KLE20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D KLE40",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "1D PXDN20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D PXDROP5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D BELOW20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D BELOW50",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D ABOVE20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D ABOVE50",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D PH10_60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D PH10_70",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D PH10_70",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "1D PH30_60",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "1D NEARHI20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "1D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "1D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "1D USIGD20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "1D CTX50_3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D CTX50_5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D SLOPE3",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D KXD1",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "2D CTGE50",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D CTGE55",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D CTGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D CTGE65",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D CTLE50",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D GAPUP0",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D GAPUP2",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D GAPUP5",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D KGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D PXDN10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D PXDN20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D BELOW20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D ABOVE20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D PH10_70",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D PH20_50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "2D PH30_50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "2D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "2D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "2D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D CTGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D CTLE50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D GAPUP0",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D GAPUP2",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D GAPUP5",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D CTFALL3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D CTFALL5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D KGE80",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D KGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D KGE60",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D PXDN3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D PXDN10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D PXDROP10",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D ABOVE20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D PHDIV20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D PHDIV30",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "3D NEARHI20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "3D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D USIG10",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D USIG20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D CTX50_3",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D CTX50_5",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D SLOPE5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D KXD3",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D CTGE55",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D GAPDN0",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D GAPUP0",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D GAPUP2",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D GAPUP5",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D GAPUP8",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D CTFALL3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D PXDN20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D BELOW50",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D BELOW50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D ABOVE50",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D ABOVE50",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D PH10_50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D PH20_60",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D NEARHI20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D USIG10",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D USIG20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D CTX50_3",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D CTX50_5",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D SLOPE5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D OFFPEAK10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D OFFPEAK15",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D OFFPEAK20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D CTGE55",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D CTGE60",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D CTLE50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D GAPUP5",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "8D GAPUP10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D CTFALL1",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D CTFALL2",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D CTFALL5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D KGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "8D PXDN1",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D PXDN20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "8D PXDN20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D BELOW20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D BELOW50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D PH30_60",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D NEARHI10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D SLOPE3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "10D CTGE55",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D CTLE45",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D CTLE50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D GAPUP0",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "10D GAPDN10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "10D GAPUP10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D CTFALL1",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "10D CTFALL2",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "10D PXDN1",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "10D PXDN10",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D PXDN20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D BELOW20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D BELOW50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D ABOVE20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D PHBELOW20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D OFFPEAK10",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D OFFPEAK15",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "M_BELOW3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "M_CT60_2",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "M_CT60_3",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "M_CT60_4",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "M_FALL4",
+   "ETH",
+   "SEL"
+  ]
+ ],
+ "survivors": [
+  [
+   "10D ABOVE20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D BELOW20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D BELOW50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D CTGE55",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D CTLE45",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D GAPUP10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D OFFPEAK10",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D OFFPEAK15",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "10D PXDN20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "1D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "1D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "1D NEARHI20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "1D PH10_70",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "1D USIGD20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "2D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "2D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "2D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "2D PH30_50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D CTX50_3",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D CTX50_5",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D GAPUP0",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "3D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "3D NEARHI20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D ABOVE50",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D BELOW50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D CTGE55",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D CTX50_3",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D CTX50_5",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D FARHI20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "5D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D NEARHI20",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "5D PH10_50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D BELOW50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D CTGE55",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D CTGE60",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D CTLE50",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D FARHI30",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "8D GAPUP10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D NEARHI10",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "8D PXDN20",
+   "BTC",
+   "CAU"
+  ],
+  [
+   "M_CT60_2",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "M_CT60_3",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "M_CT60_4",
+   "BTC",
+   "SEL"
+  ],
+  [
+   "10D GAPDN10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "10D GAPUP0",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D ABOVE20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D ABOVE50",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D BELOW20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D BELOW50",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "1D CTGE55",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D PH10_70",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "1D PXDROP5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D ABOVE20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D BELOW20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D CTGE50",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D CTGE55",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D CTGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D CTLE50",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D GAPUP0",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "2D PXDN10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "2D PXDN20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D ABOVE20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D CTFALL3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D CTGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D GAPUP2",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D KGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "3D PHDIV30",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D PXDN10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "3D SLOPE5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D CTFALL3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D GAPDN0",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D GAPUP0",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D GAPUP2",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D GAPUP5",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "5D OFFPEAK10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D OFFPEAK15",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "5D OFFPEAK20",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D CTFALL2",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D CTFALL5",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D GAPUP5",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "8D KGE60",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "8D NEARHI10",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D PH30_60",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "8D PXDN20",
+   "ETH",
+   "CAU"
+  ],
+  [
+   "8D SLOPE3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "M_BELOW3",
+   "ETH",
+   "SEL"
+  ],
+  [
+   "M_FALL4",
+   "ETH",
+   "SEL"
+  ]
+ ],
+ "shiftA": [
+  [
+   792,
+   140
+  ],
+  [
+   -1339,
+   0
+  ],
+  [
+   -944,
+   60
+  ],
+  [
+   -548,
+   99
+  ],
+  [
+   -648,
+   50
+  ],
+  [
+   -1268,
+   2
+  ],
+  [
+   1272,
+   54
+  ],
+  [
+   -900,
+   70
+  ],
+  [
+   1000,
+   156
+  ],
+  [
+   -537,
+   103
+  ],
+  [
+   1289,
+   64
+  ],
+  [
+   494,
+   48
+  ],
+  [
+   -602,
+   113
+  ],
+  [
+   315,
+   49
+  ],
+  [
+   -807,
+   160
+  ],
+  [
+   284,
+   110
+  ],
+  [
+   -559,
+   116
+  ],
+  [
+   -672,
+   59
+  ],
+  [
+   551,
+   48
+  ],
+  [
+   -623,
+   84
+  ]
+ ],
+ "passB": [],
+ "shiftB": [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  1,
+  1,
+  1,
+  4
+ ]
+}

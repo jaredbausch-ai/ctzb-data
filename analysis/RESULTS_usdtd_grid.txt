@@ -1,0 +1,226 @@
+USDT.D THROUGH CTZB -- full grid, declared 10 Nov 2026 (analysis/usdtd_grid.py docstring)
+signals with a full 60-day window: 919 (ETH 357, BTC 562)
+  USDT.D 1D: 2018-11-15 to 2026-11-10, 313 CT pivot highs, 310 CTZB signals on USDT.D
+  USDT.D 2D: 2015-03-08 to 2026-11-09, 212 CT pivot highs, 220 CTZB signals on USDT.D
+  USDT.D 3D: 2015-03-08 to 2026-11-09, 142 CT pivot highs, 138 CTZB signals on USDT.D
+  USDT.D 5D: 2015-03-07 to 2026-11-07, 83 CT pivot highs, 82 CTZB signals on USDT.D
+  USDT.D 8D: 2015-03-06 to 2026-11-09, 49 CT pivot highs, 51 CTZB signals on USDT.D
+  USDT.D 10D: 2015-03-02 to 2026-11-07, 40 CT pivot highs, 40 CTZB signals on USDT.D
+
+FAMILY A: 924 configurations (read x asset) evaluated
+  had n >= 15 per side in both periods: 741; passed step 1: 260; passed steps 1-3: 142
+  SHIFT PLACEBO (20 random date shifts of USDT.D, 180-1,460 days): passes steps 1-3 mean 79.2, median 67.0, 95th pct 160, max 160
+  real grid 142 vs shifted 95th pct 160: does NOT beat the placebo -- the passes are what this many tries produce by chance
+
+  every config passing steps 1-3 (win / t30 = on minus off, percentage points):
+  read                      asset dir | to 2021: n on/off  win  t30 | 2022 on: n on/off  win  t30 | charts years | shuffle real/p95 | overlap
+  10D ABOVE20               BTC SEL |  187/109  +18.4 -23.6 |  110/121  +23.4  -1.5 | 4/4  6/9  | +24.7/+17.8 | -   <- SURVIVES 1-5
+  10D BELOW20               BTC CAU |  109/187  -18.4 +23.6 |  121/110  -23.4  +1.5 | 4/4  7/9  | +24.7/+17.0 | -   <- SURVIVES 1-5
+  10D BELOW50               BTC CAU |   54/242  -34.0 +39.0 |  135/96   -13.4  +0.9 | 4/4  2/3  | +31.0/+30.2 | -   <- SURVIVES 1-5
+  10D CTGE55                BTC SEL |  157/139  +24.6 -25.9 |   59/172  +31.4  +1.1 | 4/4  7/8  | +33.2/+21.4 | -   <- SURVIVES 1-5
+  10D CTLE45                BTC CAU |   46/250  -25.3 +31.2 |   85/146  -12.2  -0.4 | 4/4  4/6  | +24.7/+22.7 | -   <- SURVIVES 1-5
+  10D CTLE50                BTC CAU |   82/214  -17.2 +21.3 |  126/105  -14.4  -2.2 | 4/4  5/7  | +22.7/+23.5 | -
+  10D FARHI20               BTC CAU |  156/140  -19.2 +24.5 |  135/96   -18.7  -0.9 | 4/4  7/9  | +20.6/+14.5 | -   <- SURVIVES 1-5
+  10D FARHI30               BTC CAU |  107/189  -22.5 +34.7 |   66/165  -24.8  -1.5 | 4/4  6/7  | +21.6/+17.3 | -   <- SURVIVES 1-5
+  10D GAPUP10               BTC SEL |   35/261   +7.4 -23.6 |   25/206  +13.5  +1.6 | 3/3  5/6  | +10.7/ +3.2 | -   <- SURVIVES 1-5
+  10D NEARHI10              BTC SEL |   90/206  +34.5 -26.0 |   28/203  +28.2  +1.1 | 4/4  5/6  | +38.7/+21.2 | -   <- SURVIVES 1-5
+  10D OFFPEAK10             BTC CAU |  200/96    -7.3 +24.2 |  144/87   -12.4  +0.5 | 4/4  6/8  | +14.6/ +8.7 | -   <- SURVIVES 1-5
+  10D OFFPEAK15             BTC CAU |  167/129   -4.6 +26.8 |   97/134  -10.4  -0.9 | 4/4  7/8  | +17.4/ +9.8 | -   <- SURVIVES 1-5
+  10D PHBELOW20             BTC CAU |   47/249   -1.2 +12.4 |   22/209  -19.6  -2.9 | 3/3  7/8  | +10.1/+11.8 | FASTCT=on
+  10D PXDN10                BTC CAU |  125/171   -4.3 +13.1 |  113/118  -14.9  +3.6 | 4/4  6/8  | +10.9/+12.4 | -
+  10D PXDN20                BTC CAU |   72/224  -39.8 +22.0 |  149/82   -29.4  +2.1 | 4/4  6/6  | +40.8/+26.0 | -   <- SURVIVES 1-5
+  1D CTFALL3                BTC SEL |  135/42    +5.2  -6.2 |  180/51    +5.8  -1.7 | 3/4  4/6  |  +5.0/ +9.2 | UP8=off,FASTCT=on
+  1D FARHI20                BTC CAU |  117/60   -27.1 +30.0 |  173/58   -28.0  +1.2 | 4/4  6/6  | +29.7/+15.4 | -   <- SURVIVES 1-5
+  1D FARHI30                BTC CAU |   78/99   -13.4 +37.3 |   86/145  -16.5  +1.4 | 4/4  6/6  | +18.7/+15.6 | -   <- SURVIVES 1-5
+  1D KLE40                  BTC CAU |   84/93    -0.8  +6.7 |  123/108   -5.6  -0.3 | 3/4  5/7  |  +4.8/ +9.7 | BTCX=off,BUCKET_A=on
+  1D KXD1                   BTC CAU |   43/134  -16.2  +2.4 |   25/206   -8.9  +1.6 | 2/3  5/6  |  +7.4/+11.8 | -
+  1D NEARHI20               BTC SEL |   60/117  +27.1 -30.0 |   58/173  +28.0  -1.2 | 4/4  5/6  | +29.7/+16.6 | -   <- SURVIVES 1-5
+  1D PH10_70                BTC SEL |   39/138   +6.9  -7.8 |   46/185  +17.6  -3.2 | 3/3  5/7  | +13.4/+10.5 | -   <- SURVIVES 1-5
+  1D PH30_60                BTC CAU |  122/55   -17.6 +12.7 |  166/65    -9.9  +3.6 | 4/4  5/6  | +14.2/+13.0 | GAP=on
+  1D USIGD20                BTC SEL |   86/91   +10.1  +1.2 |   93/138  +13.7  -2.5 | 4/4  5/6  | +13.9/ +6.9 | -   <- SURVIVES 1-5
+  2D FARHI20                BTC CAU |  175/156  -15.6 +31.4 |  153/78   -17.4  +0.1 | 4/4  8/9  | +19.4/+15.7 | -   <- SURVIVES 1-5
+  2D FARHI30                BTC CAU |  108/223  -15.9 +37.8 |   81/150  -19.2  -2.1 | 4/4  7/8  | +20.5/+14.2 | -   <- SURVIVES 1-5
+  2D NEARHI10               BTC SEL |   96/235  +20.3 -24.8 |   24/207  +34.3  +1.8 | 4/4  6/8  | +29.4/+18.8 | -   <- SURVIVES 1-5
+  2D PH20_50                BTC CAU |  216/115  -18.8  +2.7 |  158/73    -7.6  +3.8 | 3/3  7/9  | +15.2/+10.4 | BUCKET_A=on
+  2D PH30_50                BTC CAU |  252/79   -25.5  +3.6 |  184/47   -11.0  +3.3 | 3/3  7/9  | +21.1/+11.9 | -   <- SURVIVES 1-5
+  3D CTLE50                 BTC CAU |  137/194   -1.8 +20.2 |  128/103   -8.7  -2.3 | 4/4  8/9  |  +8.1/+10.9 | -
+  3D CTX50_3                BTC CAU |   32/299  -30.2 +34.7 |   45/186  -11.5  -0.5 | 4/4  7/8  | +24.6/+14.0 | -   <- SURVIVES 1-5
+  3D CTX50_5                BTC CAU |   61/270  -27.3 +27.6 |   66/165  -12.1  +0.6 | 4/4  9/9  | +23.3/+10.0 | -   <- SURVIVES 1-5
+  3D FARHI20                BTC CAU |  181/150  -17.7 +32.5 |  152/79   -10.8  +2.0 | 4/4  8/9  | +18.3/+14.8 | -   <- SURVIVES 1-5
+  3D FARHI30                BTC CAU |  110/221  -13.3 +36.9 |   80/151  -16.7  -0.1 | 4/4  8/8  | +21.2/+14.8 | -   <- SURVIVES 1-5
+  3D GAPUP0                 BTC CAU |  172/159  -10.9  -0.5 |  124/107  -13.2  +1.4 | 4/4  7/9  | +12.2/+10.1 | -   <- SURVIVES 1-5
+  3D KGE60                  BTC CAU |  161/170  -12.4  +4.8 |  121/110  -11.2  -2.0 | 4/4  6/9  | +12.8/+11.4 | GAP=on
+  3D NEARHI10               BTC SEL |   95/236  +19.9 -26.1 |   26/205  +33.2  +1.4 | 4/4  5/7  | +28.7/+20.2 | -   <- SURVIVES 1-5
+  3D NEARHI20               BTC SEL |  150/181  +17.7 -32.5 |   79/152  +10.8  -2.0 | 4/4  6/9  | +17.7/+15.5 | -   <- SURVIVES 1-5
+  3D PXDROP10               BTC CAU |   61/270   +0.8 +13.5 |   24/207  -16.8  -2.9 | 4/4  8/9  | +11.4/+11.4 | -
+  3D USIG20                 BTC CAU |  235/96    -5.6  +5.7 |  163/68    -5.4  -0.5 | 3/4  8/10 |  +5.4/+10.5 | UP8=on
+  5D ABOVE50                BTC SEL |  244/87   +16.6 -28.2 |  104/127  +29.1  -1.2 | 4/4  7/8  | +28.1/+17.6 | -   <- SURVIVES 1-5
+  5D BELOW50                BTC CAU |   87/244  -16.6 +28.2 |  127/104  -29.1  +1.2 | 4/4  7/8  | +28.1/+17.6 | -   <- SURVIVES 1-5
+  5D CTGE55                 BTC SEL |  169/162   +5.9 -22.7 |   73/158  +21.6  +0.2 | 4/4  6/9  | +16.3/+13.4 | -   <- SURVIVES 1-5
+  5D CTX50_3                BTC CAU |   41/290   -9.1 +30.8 |   30/201  -18.3  +4.7 | 4/4  7/8  | +19.6/ +6.9 | -   <- SURVIVES 1-5
+  5D CTX50_5                BTC CAU |   73/258   -5.3 +19.5 |   56/175   -9.7  +3.6 | 4/4  9/9  | +12.2/ +5.9 | -   <- SURVIVES 1-5
+  5D FARHI20                BTC CAU |  173/158  -15.3 +27.1 |  153/78   -15.4  -1.9 | 4/4  7/8  | +18.6/+15.0 | -   <- SURVIVES 1-5
+  5D FARHI30                BTC CAU |  106/225  -11.6 +34.6 |   77/154  -22.7  -1.9 | 4/4  6/9  | +19.1/+13.5 | -   <- SURVIVES 1-5
+  5D NEARHI10               BTC SEL |  100/231  +13.4 -24.0 |   29/202  +29.9  +1.0 | 4/4  6/8  | +23.3/+18.2 | -   <- SURVIVES 1-5
+  5D NEARHI20               BTC SEL |  158/173  +15.3 -27.1 |   78/153  +15.4  +1.9 | 4/4  6/8  | +18.6/+15.0 | -   <- SURVIVES 1-5
+  5D PH10_50                BTC CAU |   66/265  -12.6  -0.7 |   33/198  -10.1  +7.6 | 4/4  7/9  |  +9.3/ +5.2 | -   <- SURVIVES 1-5
+  5D PH20_60                BTC SEL |   69/262   +8.2 -14.7 |   36/195  +13.4  +0.2 | 4/4  6/8  | +12.2/+14.5 | -
+  5D PXDN20                 BTC CAU |  124/207   +2.0 +12.9 |  114/117  -15.5  +1.8 | 4/4  6/9  |  +8.4/+15.7 | -
+  5D USIG10                 BTC CAU |   73/258   -7.0  +3.7 |   61/170   -6.5  +0.9 | 4/4  7/10 |  +8.3/ +9.2 | -
+  5D USIG20                 BTC CAU |  150/181  -10.3  +1.7 |  106/125   -7.1  +0.4 | 3/4  8/9  |  +9.1/ +9.1 | GAP=on
+  8D BELOW20                BTC CAU |  125/201   -0.3 +17.9 |  128/103  -19.3  +1.2 | 4/4  7/9  | +12.6/+14.0 | -
+  8D BELOW50                BTC CAU |   61/265  -22.5 +33.7 |  136/95   -19.4  +0.8 | 4/4  4/5  | +28.7/+25.5 | -   <- SURVIVES 1-5
+  8D CTGE55                 BTC SEL |  178/148  +16.8 -20.7 |   65/166  +27.1  +0.7 | 4/4  7/9  | +26.1/+15.9 | -   <- SURVIVES 1-5
+  8D CTGE60                 BTC SEL |  138/188  +12.1 -25.2 |   19/212  +18.2  +2.9 | 4/4  6/8  | +22.3/+17.8 | -   <- SURVIVES 1-5
+  8D CTLE50                 BTC CAU |   94/232   -8.7 +21.7 |  139/92   -18.0  +0.7 | 4/4  6/8  | +20.0/+17.7 | -   <- SURVIVES 1-5
+  8D FARHI20                BTC CAU |  155/171  -14.8 +27.4 |  149/82    -8.6  +2.1 | 4/4  7/9  | +16.4/+16.4 | -
+  8D FARHI30                BTC CAU |   97/229  -15.7 +33.6 |   69/162  -14.0  -1.6 | 4/4  6/8  | +18.9/+14.6 | -   <- SURVIVES 1-5
+  8D GAPUP10                BTC SEL |   35/291  +22.7 -21.2 |   24/207   +6.4  -2.9 | 4/4  5/7  | +16.3/ +4.9 | -   <- SURVIVES 1-5
+  8D NEARHI10               BTC SEL |  116/210  +20.6 -24.4 |   35/196  +41.8  +0.3 | 4/4  7/8  | +32.0/+18.3 | -   <- SURVIVES 1-5
+  8D PXDN20                 BTC CAU |   89/237  -27.3 +31.9 |  136/95   -15.9  +2.6 | 4/4  8/9  | +28.3/+20.1 | -   <- SURVIVES 1-5
+  M_CT60_2                  BTC SEL |   57/120  +16.8 -26.5 |   51/180  +16.8  +1.7 | 4/4  5/6  | +19.5/+12.0 | -   <- SURVIVES 1-5
+  M_CT60_3                  BTC SEL |   43/134  +17.6 -25.3 |   38/193  +13.7  +0.0 | 4/4  5/6  | +18.3/+13.7 | -   <- SURVIVES 1-5
+  M_CT60_4                  BTC SEL |   32/145  +12.2 -26.2 |   25/206  +13.5  +1.6 | 4/4  4/5  | +16.1/+12.0 | -   <- SURVIVES 1-5
+  10D CTFALL1               ETH SEL |   52/72   +16.2  -6.8 |  108/125   +9.5  -9.2 | 3/4  4/5  | +10.5/ +9.3 | BTC3=on
+  10D CTFALL2               ETH SEL |   57/67    +6.3 -19.6 |   98/135  +14.4 -16.5 | 3/4  4/5  | +12.7/+10.4 | BTC3=on
+  10D GAPDN10               ETH SEL |   17/107  +10.7  -8.8 |   22/211  +28.7 -21.8 | 4/4  2/3  | +24.1/+12.6 | -   <- SURVIVES 1-5
+  10D GAPUP0                ETH CAU |   46/78    +2.2  +7.2 |  120/113  -10.5 +12.6 | 4/4  4/5  | +10.6/ +9.3 | -   <- SURVIVES 1-5
+  10D PXDN1                 ETH SEL |   52/72   +16.2  -6.8 |  108/125   +9.5  -9.2 | 3/4  4/5  | +10.5/ +7.1 | BTC3=on
+  1D ABOVE20                ETH CAU |   52/72   -10.3 +13.0 |  102/131  -18.7  +8.5 | 4/4  4/5  | +16.3/+11.2 | -   <- SURVIVES 1-5
+  1D ABOVE50                ETH CAU |   57/67   -13.1 +22.6 |  111/122  -10.2 +10.5 | 4/4  4/5  | +14.7/ +9.1 | -   <- SURVIVES 1-5
+  1D BELOW20                ETH SEL |   72/52   +10.3 -13.0 |  131/102  +18.7  -8.5 | 3/4  4/5  | +16.3/ +9.5 | -   <- SURVIVES 1-5
+  1D BELOW50                ETH SEL |   67/57   +13.1 -22.6 |  122/111  +10.2 -10.5 | 3/4  4/5  | +11.7/ +8.3 | -   <- SURVIVES 1-5
+  1D CTFALL5                ETH CAU |   79/45    +2.0  +9.5 |  142/91    +2.8  +7.2 | 3/4  5/6  |  +7.9/ +8.5 | AGREE=on,BTC3=on
+  1D CTGE50                 ETH CAU |   54/70    -8.8 +14.9 |  109/124  -10.3  +7.7 | 4/4  4/5  | +10.7/+10.7 | -
+  1D CTGE55                 ETH CAU |   32/92    -9.6  +7.6 |   60/173  -27.1 +20.5 | 3/3  4/5  | +21.0/+11.7 | -   <- SURVIVES 1-5
+  1D CTLE35                 ETH SEL |   17/107  +10.7 -15.6 |   26/207  +12.3 -17.9 | 3/4  3/4  | +13.4/+18.7 | -
+  1D CTLE50                 ETH SEL |   70/54    +8.8 -14.9 |  124/109  +10.3  -7.7 | 3/4  4/5  | +10.7/+10.7 | -
+  1D CTX50_3                ETH SEL |   26/98   +11.9  -5.0 |   58/175   +8.9  -3.3 | 2/3  4/5  |  +8.2/ +8.2 | GAP=on,BUCKET_A=on
+  1D CTX50_5                ETH SEL |   37/87   +14.5  -4.5 |   76/157  +10.6  -3.9 | 4/4  5/5  | +11.0/ +7.1 | GAP=on
+  1D KLE20                  ETH SEL |   41/83   +13.1  -3.4 |   74/159   +8.7  -3.2 | 3/4  5/6  | +10.7/+10.7 | -
+  1D PH10_60                ETH CAU |   53/71    +0.4 +15.6 |  112/121   -7.6 +15.3 | 4/4  4/5  | +15.4/+12.0 | BTC3=on
+  1D PH10_70                ETH CAU |   21/103  -14.9 +28.3 |   46/187  -15.0  +7.9 | 3/3  4/6  | +16.3/+14.4 | -   <- SURVIVES 1-5
+  1D PXDN20                 ETH SEL |   62/62    +6.5 -22.6 |  118/115  +13.4  -9.1 | 3/4  4/5  | +10.8/+10.8 | -
+  1D PXDROP5                ETH SEL |   37/87   +14.5  -4.5 |   40/193   +9.9  -5.7 | 3/4  4/5  | +17.1/+15.5 | -   <- SURVIVES 1-5
+  1D SLOPE3                 ETH CAU |   76/48    -7.0  +1.0 |  125/108   -4.3  +9.2 | 3/4  5/5  |  +6.4/+10.9 | GAP=on,AGREE=on,FCOOL=on
+  2D ABOVE20                ETH CAU |   61/63   -10.4 +23.2 |  122/111  -15.6 +10.2 | 4/4  4/5  | +14.7/+11.3 | -   <- SURVIVES 1-5
+  2D BELOW20                ETH SEL |   63/61   +10.4 -23.2 |  111/122  +15.6 -10.2 | 3/4  4/5  | +14.7/ +9.1 | -   <- SURVIVES 1-5
+  2D CTGE50                 ETH CAU |   58/66    -9.2 +18.7 |  103/130  -16.0 +11.6 | 4/4  4/5  | +14.1/ +8.3 | -   <- SURVIVES 1-5
+  2D CTGE55                 ETH CAU |   42/82    -4.3 +10.3 |   76/157  -14.8 +13.7 | 4/4  4/5  | +12.5/ +8.7 | -   <- SURVIVES 1-5
+  2D CTGE60                 ETH CAU |   26/98   -17.3 +19.3 |   40/193  -32.3 +18.4 | 3/3  4/5  | +24.7/+13.5 | -   <- SURVIVES 1-5
+  2D CTGE65                 ETH CAU |   17/107   -9.8  +4.8 |   16/217  -30.1 +12.4 | 2/2  4/5  | +13.8/+11.8 | BTC3=on
+  2D CTLE50                 ETH SEL |   66/58    +9.2 -18.7 |  130/103  +16.0 -11.6 | 3/4  4/5  | +12.8/ +6.1 | -   <- SURVIVES 1-5
+  2D GAPUP0                 ETH CAU |   57/67   -13.1  +9.6 |  106/127  -11.4 +10.5 | 4/4  6/6  | +11.9/+10.2 | -   <- SURVIVES 1-5
+  2D GAPUP2                 ETH CAU |   47/77    -7.4  +9.9 |   76/157  -12.8  +7.8 | 3/4  4/6  |  +9.1/+12.3 | HIGH=on,AGREE=on
+  2D GAPUP5                 ETH CAU |   21/103   -9.2  -0.4 |   37/196  -13.8 +15.1 | 3/3  5/5  | +11.6/+13.6 | HIGH=on,AGREE=on,BTC3=on,BUCKET_A=off
+  2D KGE60                  ETH CAU |   54/70   -15.3  +8.4 |   99/134   -9.3 +13.1 | 2/3  6/6  | +11.4/+10.3 | AGREE=on
+  2D PH10_70                ETH CAU |   15/109   +1.1  +8.3 |   30/203  -19.3  +7.9 | 3/3  4/6  | +12.9/+13.2 | -
+  2D PXDN10                 ETH SEL |   61/63    +9.0 -22.0 |  115/118  +15.8  -8.1 | 3/4  4/5  | +13.4/ +8.9 | -   <- SURVIVES 1-5
+  2D PXDN20                 ETH SEL |   68/56   +10.6 -23.3 |  113/120  +20.9 -16.0 | 4/4  4/5  | +19.1/+11.3 | -   <- SURVIVES 1-5
+  3D ABOVE20                ETH CAU |   60/64    +1.9  +7.7 |  113/120  -10.1  +9.8 | 4/4  4/5  |  +9.1/ +8.2 | -   <- SURVIVES 1-5
+  3D CTFALL3                ETH SEL |   77/47   +24.5 -13.4 |  122/111   +8.5  -5.3 | 3/4  4/6  | +16.6/+14.3 | -   <- SURVIVES 1-5
+  3D CTFALL5                ETH SEL |   69/55   +14.6 -11.0 |  108/125   +7.7  -2.3 | 2/3  5/6  | +12.7/+11.6 | FCOOL=off
+  3D CTGE60                 ETH CAU |   29/95    -4.1  +6.2 |   42/191  -16.4 +10.8 | 3/3  4/5  |  +9.1/ +8.9 | -   <- SURVIVES 1-5
+  3D GAPUP2                 ETH CAU |   47/77   -14.2 +16.8 |   86/147  -20.7 +16.6 | 4/4  4/5  | +18.1/+11.9 | -   <- SURVIVES 1-5
+  3D GAPUP5                 ETH CAU |   28/96   -14.4 +11.9 |   53/180  -16.6 +18.4 | 3/3  5/6  | +16.2/+13.0 | BTC3=on
+  3D KGE60                  ETH CAU |   55/69    -8.1 +20.8 |  116/117  -17.6 +12.2 | 4/4  5/6  | +15.9/+14.0 | -   <- SURVIVES 1-5
+  3D KGE80                  ETH CAU |   35/89   -26.5 +28.8 |   72/161   -9.4 +13.6 | 3/3  4/6  | +18.7/+14.7 | BTC3=on
+  3D KXD3                   ETH CAU |   50/74    -8.4 +11.1 |  103/130  -10.8  +1.2 | 3/4  4/6  | +11.1/+10.0 | BUCKET_A=on
+  3D PHDIV20                ETH SEL |   22/102  +25.5  -1.4 |   59/174   +7.7  -6.0 | 3/4  4/6  |  +9.6/ +6.4 | FUND=on
+  3D PHDIV30                ETH SEL |   30/94   +27.7  -7.9 |   82/151  +12.5  -6.0 | 4/4  4/6  | +13.1/ +5.3 | -   <- SURVIVES 1-5
+  3D PXDN10                 ETH SEL |   56/68    +5.7 -19.0 |  106/127  +19.8 -15.5 | 4/4  4/5  | +14.8/ +9.1 | -   <- SURVIVES 1-5
+  3D PXDN3                  ETH SEL |   74/50   +18.5 -17.8 |  132/101  +10.9  -7.1 | 3/3  5/6  | +14.4/ +9.8 | AGREE=on
+  3D SLOPE5                 ETH SEL |   24/100  +20.8  -8.5 |   58/175   +8.9  -3.3 | 3/4  5/5  | +10.2/ +7.1 | -   <- SURVIVES 1-5
+  3D USIG10                 ETH CAU |   44/80    -9.8  +1.7 |   86/147  -11.5  +1.9 | 3/4  5/5  | +11.3/+12.6 | HIGH=off,FUND=off,FCOOL=off
+  5D ABOVE50                ETH SEL |   69/55    +8.1 -14.2 |  100/133  +10.9  -6.6 | 3/4  4/5  | +13.5/+14.6 | -
+  5D BELOW50                ETH CAU |   55/69    -8.1 +14.2 |  133/100  -10.9  +6.6 | 3/4  4/5  | +13.5/+14.6 | -
+  5D CTFALL3                ETH SEL |   58/66   +10.2 -16.9 |  102/131  +14.4 -14.2 | 2/3  4/5  | +13.8/+12.7 | -   <- SURVIVES 1-5
+  5D GAPDN0                 ETH SEL |   57/67    +6.3 -22.8 |  108/125  +18.1 -12.6 | 4/4  4/5  | +13.9/+10.5 | -   <- SURVIVES 1-5
+  5D GAPUP0                 ETH CAU |   67/57    -6.3 +22.8 |  125/108  -18.1 +12.6 | 4/4  4/5  | +16.2/+12.8 | -   <- SURVIVES 1-5
+  5D GAPUP2                 ETH CAU |   47/77    -3.9 +16.8 |   97/136  -23.6 +20.9 | 4/4  4/5  | +19.5/+12.5 | -   <- SURVIVES 1-5
+  5D GAPUP5                 ETH CAU |   27/97   -15.8 +22.6 |   72/161  -15.4 +19.7 | 3/3  5/6  | +20.4/+13.1 | -   <- SURVIVES 1-5
+  5D GAPUP8                 ETH CAU |   18/106  -27.5 +29.4 |   37/196   +2.2 +18.3 | 2/2  4/6  | +22.0/+17.7 | BTC3=on
+  5D OFFPEAK10              ETH SEL |   72/52   +16.9 -29.6 |  112/121  +20.0 -19.1 | 4/4  4/5  | +21.7/+13.8 | -   <- SURVIVES 1-5
+  5D OFFPEAK15              ETH SEL |   55/69    +5.0 -21.7 |   93/140  +24.1 -22.1 | 4/4  4/5  | +18.7/+11.8 | -   <- SURVIVES 1-5
+  5D OFFPEAK20              ETH SEL |   41/83    +9.5 -18.0 |   54/179  +28.3 -18.5 | 4/4  4/5  | +24.3/+11.4 | -   <- SURVIVES 1-5
+  5D SLOPE5                 ETH SEL |   33/91   +16.2  -9.9 |   43/190  +11.1 -15.7 | 3/4  4/5  | +16.6/+16.6 | -
+  8D CTFALL1                ETH SEL |   60/64    +5.1  -8.4 |  124/109  +24.1  -9.4 | 3/3  4/6  | +16.0/ +7.1 | BTC3=on
+  8D CTFALL2                ETH SEL |   60/64    +8.3 -21.4 |   94/139  +21.4 -11.7 | 4/4  4/5  | +19.1/+11.1 | -   <- SURVIVES 1-5
+  8D CTFALL5                ETH SEL |   70/54   +12.1 -37.9 |   96/137  +26.7 -19.4 | 4/4  4/5  | +25.6/+15.5 | -   <- SURVIVES 1-5
+  8D GAPUP5                 ETH CAU |   25/99    -8.8 +20.8 |   68/165  -18.3 +13.7 | 4/4  4/5  | +18.8/+14.2 | -   <- SURVIVES 1-5
+  8D KGE60                  ETH CAU |   40/84    +1.4 +19.4 |  105/128  -12.3 +10.9 | 4/4  4/5  | +13.4/+12.9 | -   <- SURVIVES 1-5
+  8D NEARHI10               ETH SEL |   32/92   +28.3 -26.1 |   36/197  +10.4 -13.5 | 3/4  4/4  | +22.8/+17.4 | -   <- SURVIVES 1-5
+  8D PH30_60                ETH SEL |   25/99   +11.2 -24.2 |   17/216  +32.0 -21.3 | 3/3  2/3  | +28.7/+23.3 | -   <- SURVIVES 1-5
+  8D PXDN1                  ETH SEL |   60/64    +5.1  -8.4 |  124/109  +24.1  -9.4 | 3/3  4/6  | +16.0/ +7.1 | BTC3=on
+  8D PXDN20                 ETH CAU |   53/71   -19.4 +25.5 |  135/98   -17.9 +18.2 | 4/4  5/5  | +22.5/+15.7 | -   <- SURVIVES 1-5
+  8D SLOPE3                 ETH SEL |   39/85    +8.1 -17.0 |   58/175  +22.7 -19.4 | 4/4  4/5  | +19.5/+13.8 | -   <- SURVIVES 1-5
+  M_BELOW3                  ETH SEL |   78/46   +11.6 -14.2 |  140/93   +26.0 -19.0 | 3/4  4/5  | +21.9/ +8.9 | -   <- SURVIVES 1-5
+  M_FALL4                   ETH SEL |   59/65   +14.1 -11.1 |  104/129  +11.0  -2.7 | 3/4  4/5  | +13.0/ +9.6 | -   <- SURVIVES 1-5
+
+  survivors of steps 1-5: 93; distinct findings after step 6 (ETH and BTC one sample): 91
+  Step 4(a) failed at the grid level, so no survivor counts as a finding whatever its own shuffle says.
+
+FAMILY B: USDT.D CT pivot highs as standalone entries (192 configurations)
+  config                                 | to 2021: n  win  t30 | 2022 on: n  win  t30 (vs every day in the same set)
+  B ETH 1D lvlany any gate               |   87  -1.7 -13.1 |  118  -2.7  +1.5
+  B ETH 1D lvlany any all                |  120  +3.7 -14.8 |  186  -1.2  +0.8
+  B ETH 1D lvlany div gate               |   16  -0.8 -16.2 |   16  -2.2  -2.6
+  B ETH 1D lvlany div all                |   23  +5.9 -11.2 |   31  -1.2  +3.0
+  B ETH 1D lvl60 any gate                |   33  -9.0 -10.7 |   47 -11.9  +8.4
+  B ETH 1D lvl60 any all                 |   47  -2.0 -13.9 |   87  -5.0  +3.8
+  B ETH 1D lvl65 any gate                |   24 -15.4  -1.6 |   28  -6.6  +7.2
+  B ETH 1D lvl65 any all                 |   31  -9.9  -8.2 |   46  -7.3  +4.4
+  B ETH 1D lvl70 any all                 |   18  -6.9 -15.1 |   22 -14.6  -7.9
+  B ETH 2D lvlany any gate               |   77  -2.0  +1.4 |   56  +2.3  -3.5
+  B ETH 2D lvlany any all                |  102  -0.3  -1.0 |   89  +3.1  -0.2
+  B ETH 2D lvlany div all                |   16 +13.3  -6.0 |   26  -4.1  +4.7
+  B ETH 2D lvl60 any gate                |   37  -7.4  +8.3 |   20 -10.9 +13.6
+  B ETH 2D lvl60 any all                 |   54  -1.3  -0.2 |   41  +2.4  +5.6
+  B ETH 2D lvl65 any gate                |   28  -1.7  +7.9 |   16 -14.7  +9.9
+  B ETH 2D lvl65 any all                 |   42  +1.1  +0.8 |   28  -3.5  +6.1
+  B ETH 2D lvl70 any all                 |   25  +0.0  -5.3 |   15 -13.0  +7.3
+  B ETH 3D lvlany any gate               |   44  +0.9  -0.9 |   42  -7.8  -2.3
+  B ETH 3D lvlany any all                |   64  +0.8  +1.8 |   64  -4.2  -4.2
+  B ETH 3D lvl60 any gate                |   22  -1.4  -7.7 |   16  -8.4  +9.9
+  B ETH 3D lvl60 any all                 |   37  -0.4  -2.1 |   32  +3.6  +2.0
+  B ETH 3D lvl65 any all                 |   29  +4.4  -6.2 |   23  -2.9  +4.4
+  B ETH 5D lvlany any gate               |   30  +3.8 -11.6 |   17  +7.0  +8.0
+  B ETH 5D lvlany any all                |   43  +1.8  -7.0 |   33  +8.2  +7.3
+  B ETH 5D lvl60 any all                 |   29  +4.4  -6.2 |   22  +8.2 +10.3
+  B ETH 8D lvlany any all                |   27  +2.4 -11.4 |   20  -1.4  -1.1
+  B ETH 10D lvlany any all               |   21  +3.4  +0.8 |   18  +3.6  -3.9
+  B BTC 1D lvlany any gate               |   87  -6.4  -4.1 |  118  +1.4  -0.4
+  B BTC 1D lvlany any all                |  120  -0.1  -3.2 |  186  +1.2  -0.1
+  B BTC 1D lvlany div gate               |   16  -1.4 -10.0 |   16  +1.6  -1.3
+  B BTC 1D lvlany div all                |   23  +0.8  -3.3 |   31  -2.5  +6.9
+  B BTC 1D lvl60 any gate                |   33  -6.3  -7.4 |   47  -1.9  +0.8
+  B BTC 1D lvl60 any all                 |   47  -0.5  -7.9 |   87  -4.9  +4.5
+  B BTC 1D lvl65 any gate                |   24 -13.9  -5.8 |   28  +3.4  -1.3
+  B BTC 1D lvl65 any all                 |   31  -5.2  -4.5 |   46  -2.2  +1.6
+  B BTC 1D lvl70 any all                 |   18  +6.6 -15.1 |   22  +6.1  -4.7
+  B BTC 2D lvlany any gate               |   77  -2.8  +0.9 |   56  -2.0  +0.5
+  B BTC 2D lvlany any all                |  109  -2.3  +0.4 |   89  +0.1  +3.1
+  B BTC 2D lvlany div all                |   17 +22.3 -20.7 |   26  +7.5  +6.1
+  B BTC 2D lvl60 any gate                |   37  -9.8  -3.6 |   20  -0.9  +3.7
+  B BTC 2D lvl60 any all                 |   57  -5.7  -6.6 |   41  +1.8  +7.8
+  B BTC 2D lvl65 any gate                |   28  -3.2 -11.8 |   16  +7.8  -1.3
+  B BTC 2D lvl65 any all                 |   45  -2.3 -11.8 |   28  +8.1  +5.0
+  B BTC 2D lvl70 any all                 |   28  +4.2 -20.7 |   15  -1.4  +4.1
+  B BTC 3D lvlany any gate               |   44  +6.6  +2.5 |   42  -5.0  +1.1
+  B BTC 3D lvlany any all                |   70  -0.1  +2.2 |   64  -2.0  +0.1
+  B BTC 3D lvl60 any gate                |   22  +8.9  -8.9 |   16  +7.8  -1.3
+  B BTC 3D lvl60 any all                 |   41  +0.9  -6.0 |   32  +5.9  +3.2
+  B BTC 3D lvl65 any all                 |   33  +3.6  -8.5 |   23  +8.7  +3.8
+  B BTC 5D lvlany any gate               |   30  -3.9  +4.2 |   17  -6.5  +4.6
+  B BTC 5D lvlany any all                |   45  -4.5  +3.8 |   33  +1.6  +2.8
+  B BTC 5D lvl60 any all                 |   31  -2.0  -4.5 |   22  +6.1  +4.4
+  B BTC 8D lvlany any all                |   28 -10.1  +4.3 |   20  +0.2  +5.7
+  B BTC 10D lvlany any all               |   22 -10.1  +2.1 |   18  +4.1  +1.8
+  testable (n >= 15 both periods): 54 of 192; passed: 0
+  SHIFT PLACEBO: passes mean 0.4, 95th pct 4, max 4; real 0
+  for scale: ETH regime-gated CTZB signals to 2021: win 79% (n 124), t30 19%
+  for scale: ETH regime-gated CTZB signals 2022 on: win 47% (n 233), t30 20%
+  for scale: BTC regime-gated CTZB signals to 2021: win 62% (n 331), t30 22%
+  for scale: BTC regime-gated CTZB signals 2022 on: win 36% (n 231), t30 3%
+
+ENTRY QUALITY ONLY. No exit in the data, so no strategy return or track record. Computed signals, never fills.
