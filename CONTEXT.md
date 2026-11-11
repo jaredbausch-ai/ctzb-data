@@ -1383,8 +1383,15 @@ card from `datasets/ledger.csv` and fails the run on any mismatch. Client screen
 (Joe's side) must read `cards.csv` and follow CARD_SPEC, nothing else.
 **Live feed (built 31 Oct 2026):** `feed_live.py` writes `feed/ctzb_feed.json` every
 Action run, repackaging this run's datasets (cards withheld if checks failed). It is
-the one feed of the plan agreed with Joe; spec in `docs/FEED_SPEC.md`. Still not built:
-Cloudflare backend (waits on the ETHKROS account), the Grok ping, repo private.
+the one feed of the plan agreed with Joe; spec in `docs/FEED_SPEC.md`. **Cloudflare
+(10-11 Nov 2026, `cloudflare/README.md`):** the ETHKROS account exists; `ctzb-feed`
+(read-only mirror of the feed and datasets, works once the repo is private),
+`ctzb-scheduler` (replaces GitHub's timer), `ctzb-dashboard` and R2 backups are built.
+`ctzb-trades` (item 13a, 11 Nov) relays Jared's real Coinbase futures trades as "the
+lead trader's real trades" with a View-only key: percentages only, never dollar
+amounts or contract counts; **dry run** until Noah signs off, then `MODE=live` is
+Jared's switch. Setup in `cloudflare/BRIEF_trades.md`. Still not built: the Grok ping;
+repo private.
 
 **The whole stack runs every time (procedure set 28 Oct 2026, after a missed confluence).**
 `stack_live.py` holds REGISTRY, the single indexed list of every documented read
