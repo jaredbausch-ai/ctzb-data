@@ -1,0 +1,693 @@
+<title>ETHKROS Member Site</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one full-width screen. Header with the market filter and tabs; "Now" is three
+   panels (lead trader | live card with its detail below | previous alerts). Dark neon,
+   single theme by design (approved 10 Nov). Frame colour = the card's state. */
+:root {
+  color-scheme: dark;
+  --bg: #07060F;
+  --panel: #110E22;
+  --panel-2: #18142E;
+  --line: #2B2350;
+  --line-2: #4A3A8C;
+  --text: #F4F1FF;
+  --soft: #D6D1F0;
+  --muted: #A9A3C9;
+  --live: #2DE2E6;      /* live signal, edge intact */
+  --high: #5CE1FF;      /* typical high, upside */
+  --drop: #FF6AC1;      /* typical drop, downside */
+  --fade: #B967FF;      /* fading, the edge level */
+  --fade-2: #C59BFF;
+  --closed: #5C5873;
+  --lead: #FF4FD8;      /* the lead trader's real trades */
+  --lead-bg: #1A0B1F;
+  --lead-line: #5A2350;
+  --lead-soft: #E3B5D6;
+  --ok-bg: #0C1E24;
+  --ok-line: #1F5560;
+  --f-display: "Orbitron", "Arial Black", system-ui, sans-serif;
+  --f-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--text); font-family: var(--f-body); font-size: 14px; line-height: 1.45; }
+* { box-sizing: border-box; }
+button { font: inherit; color: inherit; }
+a { color: var(--live); }
+:focus-visible { outline: 2px solid var(--live); outline-offset: 2px; }
+.num { font-variant-numeric: tabular-nums; }
+.disp { font-family: var(--f-display); letter-spacing: 2px; text-transform: uppercase; }
+
+.app { min-height: 100%; display: flex; flex-direction: column; gap: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 10px; }
+.review { border: 1px dashed var(--line-2); border-radius: 8px; padding: 6px 12px; font-size: 12px; color: var(--soft); display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; }
+.review b { color: var(--text); }
+.switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; margin-left: auto; font-size: 12px; color: var(--text); }
+.switch input { width: 34px; height: 18px; accent-color: var(--fade); }
+
+header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.logo { font-family: var(--f-display); font-weight: 700; font-size: 22px; letter-spacing: 3px; color: var(--live); text-shadow: 0 0 12px rgba(45, 226, 230, .4); }
+.pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; font-size: 13px; border: 1px solid var(--ok-line); background: var(--ok-bg); color: #B8F7FF; }
+.pill.off { border-color: var(--line); background: var(--panel); color: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); box-shadow: 0 0 8px var(--live); flex: none; }
+.pill.off .dot { background: var(--closed); box-shadow: none; }
+.forming { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--muted); flex: 1 1 260px; min-width: 0; }
+.chip { padding: 5px 10px; border-radius: 4px; border: 1px dashed var(--line-2); color: var(--soft); }
+.asof { font-size: 12px; color: var(--muted); }
+nav.tabs { display: flex; gap: 2px; flex-wrap: wrap; }
+nav.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 12px; min-height: 44px; color: var(--muted); cursor: pointer; font-size: 13px; }
+nav.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--live); }
+
+main { flex: 1; min-height: 0; }
+.view[hidden] { display: none !important; }
+.now { display: grid; grid-template-columns: minmax(250px, 300px) minmax(0, 1fr) minmax(270px, 330px); gap: 18px; align-items: stretch; }
+@media (max-width: 1100px) { .now { grid-template-columns: minmax(0, 1fr); } }
+
+/* Frames, Path of Exile style: outer colour = state, inner hairline */
+.frame { border: 2px solid var(--c, var(--live)); border-radius: 6px; padding: 4px; box-shadow: 0 0 26px color-mix(in srgb, var(--c, var(--live)) 25%, transparent); min-width: 0; }
+.frame > .in { border: 1px solid var(--line); border-radius: 3px; background: var(--panel); height: 100%; display: flex; flex-direction: column; }
+.frame.lead { --c: var(--lead); }
+.frame.lead > .in { background: var(--lead-bg); border-color: var(--lead-line); }
+
+.sec-title { font-family: var(--f-display); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
+.small { font-size: 12px; color: var(--muted); }
+.fine { font-size: 10.5px; line-height: 1.45; color: var(--muted); }
+.kv { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+
+/* Lead trader */
+.lead-in { padding: 16px; gap: 12px; }
+.lead-in .sec-title { color: #FF8BE0; }
+.lead-empty { border: 1px dashed var(--lead-line); border-radius: 4px; padding: 12px; font-size: 13px; color: var(--lead-soft); }
+.trade { background: #22102A; border: 1px solid #6A2A60; border-radius: 4px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+
+/* The card */
+.card-head { padding: 10px 18px 9px; text-align: center; border-bottom: 1px solid var(--line); background: var(--panel-2); }
+.card-head .where { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+.card-head .state { font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: 2px; color: var(--c, var(--live)); margin-top: 4px; text-shadow: 0 0 14px color-mix(in srgb, var(--c, var(--live)) 45%, transparent); }
+.card-body { padding: 12px 20px 10px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 10px 24px; }
+@media (max-width: 760px) { .card-body { grid-template-columns: minmax(0, 1fr); } }
+.odds { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; }
+.odds .big { font-size: 58px; font-weight: 700; line-height: 1; letter-spacing: -2px; }
+.stats { display: flex; flex-direction: column; gap: 6px; justify-content: center; }
+.stats .kv span:first-child { font-size: 13px; color: var(--muted); }
+.stats .kv span:last-child { font-size: 18px; text-align: right; font-weight: 600; }
+.stats .miss span:last-child { font-size: 15px; }
+.hi { color: var(--high); } .lo { color: var(--drop); } .ed { color: var(--fade-2); }
+.marker { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; justify-content: center; padding: 7px 12px; border: 1px solid #6A2A60; border-radius: 4px; background: #1E0F24; font-size: 13px; color: #FFC6EC; }
+.marker .dot { background: var(--lead); box-shadow: 0 0 8px var(--lead); }
+
+.detail { border-top: 1px solid var(--line); padding: 10px 20px 10px; display: flex; flex-direction: column; gap: 8px; }
+.detail .sec-title { color: var(--fade-2); font-size: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tile { background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; }
+.tile .t { font-size: 11px; color: var(--muted); }
+.tile .v { font-size: 16px; font-weight: 600; margin-top: 2px; }
+.boxes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 760px) { .boxes { grid-template-columns: minmax(0, 1fr); } }
+.box { border-radius: 4px; padding: 8px 12px; font-size: 13px; color: var(--soft); }
+.box.violet { background: #1A1030; border: 1px solid #3D2A66; }
+.box.teal { background: var(--ok-bg); border: 1px solid var(--ok-line); }
+.box .lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.box.violet .lbl { color: var(--fade-2); } .box.teal .lbl { color: #7FF0FF; }
+.ladder { display: flex; flex-direction: column; gap: 2px; }
+.bar { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 3em; gap: 8px; align-items: center; font-size: 11.5px; line-height: 1.35; color: var(--soft); }
+.bar .t { height: 8px; background: #241E42; border-radius: 4px; overflow: hidden; }
+.bar .f { height: 8px; border-radius: 4px; background: var(--high); }
+.bar .f.gone { background: var(--drop); }
+.card-foot { padding: 8px 20px 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); }
+.btn { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--ok-line); background: var(--ok-bg); color: #7FF0FF; font-weight: 600; font-size: 13px; cursor: pointer; text-decoration: none; }
+.empty-card { padding: 30px 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; text-align: center; flex: 1; }
+.empty-card .big { font-family: var(--f-display); font-size: 18px; letter-spacing: 2px; color: var(--soft); }
+
+/* Previous alerts */
+.prev { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.prev .sec-title { color: var(--live); }
+.grp { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+.mini { border: 2px solid var(--c, var(--live)); border-radius: 5px; background: var(--panel); padding: 9px 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; }
+.mini.fading { --c: var(--fade); } .mini.closed { --c: var(--closed); background: #0E0C1A; }
+.mini .name { font-weight: 600; font-size: 14px; }
+.mini .sub { font-size: 12px; color: var(--muted); }
+.badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+.badge.yes { background: rgba(92, 225, 255, .14); color: var(--high); }
+.badge.no { background: rgba(255, 106, 193, .14); color: var(--drop); }
+.none { font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 5px; padding: 10px 12px; }
+.linkbtn { background: none; border: 0; padding: 8px 0; color: var(--live); cursor: pointer; text-align: left; font-size: 13px; }
+
+/* Chart view */
+.chartwrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 320px); gap: 18px; }
+@media (max-width: 1100px) { .chartwrap { grid-template-columns: minmax(0, 1fr); } }
+.chart-col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.toggle { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.toggle button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 6px; background: none; color: var(--soft); font-weight: 600; font-size: 13px; cursor: pointer; }
+.toggle button[aria-pressed="true"] { background: var(--live); color: #041417; }
+svg text { font-family: var(--f-body); }
+.chartbox { border: 2px solid var(--live); border-radius: 6px; padding: 4px; box-shadow: 0 0 26px rgba(45, 226, 230, .2); }
+.chartbox > div { border: 1px solid var(--line); border-radius: 3px; background: #0B0918; padding: 8px; overflow-x: auto; }
+.cloudbox { border: 1px solid #3D2A66; border-radius: 6px; background: #0B0918; padding: 12px; overflow-x: auto; }
+.side { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.sidebox { border: 1px solid var(--line); border-radius: 6px; background: var(--panel); padding: 14px; display: flex; flex-direction: column; gap: 7px; }
+
+/* Record */
+.rec-head { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+.seg { display: inline-flex; gap: 4px; }
+.seg button { min-height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--soft); cursor: pointer; }
+.seg button[aria-pressed="true"] { border-color: var(--live); color: var(--text); }
+.tablebox { overflow: auto; max-height: calc(100vh - 290px); min-height: 320px; border: 1px solid var(--line); border-radius: 6px; margin-top: 12px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { padding: 8px 12px; text-align: right; border-bottom: 1px solid #1C1736; white-space: nowrap; }
+th:first-child, td:first-child, th:nth-child(2), td:nth-child(2) { text-align: left; }
+th { position: sticky; top: 0; background: var(--panel-2); color: var(--muted); font-weight: 600; font-size: 12px; }
+.sumrow { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 12px; }
+
+/* How to read */
+.read { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 900px) { .read { grid-template-columns: minmax(0, 1fr); } }
+.read .sidebox p { margin: 0; max-width: 68ch; }
+dl { margin: 0; display: grid; grid-template-columns: minmax(8em, 13em) minmax(0, 1fr); gap: 8px 14px; }
+dt { color: var(--soft); font-weight: 600; } dd { margin: 0; color: var(--muted); }
+@media (max-width: 600px) { dl { grid-template-columns: minmax(0, 1fr); } dd { margin-bottom: 6px; } }
+
+footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--line); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="app">
+  <div class="review" id="review">
+    <span><b>Review build.</b> Real pipeline data, scored <span id="rvAsof" class="num">…</span>. Members see top-grade setups only; the lead trader's feed is in dry run.</span>
+    <label class="switch" for="previewSwitch"><input type="checkbox" id="previewSwitch"> Preview with an example setup</label>
+  </div>
+
+  <header class="top">
+    <div class="logo">ETHKROS</div>
+    <div class="pill" id="filterPill"><span class="dot"></span><span id="filterText">Market filter …</span></div>
+    <div class="forming" id="forming"></div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-now" aria-selected="true" data-view="now">Now</button>
+      <button role="tab" id="tab-chart" aria-selected="false" data-view="chart">Chart</button>
+      <button role="tab" id="tab-record" aria-selected="false" data-view="record">Record</button>
+      <button role="tab" id="tab-read" aria-selected="false" data-view="read">How to read a card</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="view" id="view-now" aria-labelledby="tab-now">
+      <div class="now">
+        <section class="frame lead" aria-label="The lead trader's real trades">
+          <div class="in lead-in">
+            <div>
+              <div class="sec-title">Lead trader</div>
+              <div class="small" style="color: var(--lead-soft)">Real trades, posted when they fill</div>
+            </div>
+            <div id="leadBody"></div>
+            <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before an alert, sometimes after, sometimes not at all. Every trade is posted live. Entry, exit, leverage and size as a share of the account; never dollar amounts.</div>
+          </div>
+        </section>
+
+        <section class="frame" id="cardFrame" aria-label="Live setup"><div class="in" id="card"></div></section>
+
+        <section class="prev" aria-label="Previous alerts">
+          <div class="kv"><span class="sec-title">Previous alerts</span><span class="small">odds update with each close</span></div>
+          <div class="grp" style="color: var(--live)">Edge intact</div>
+          <div id="prevIntact"></div>
+          <div class="grp" style="color: var(--muted); margin-top: 4px">Edge lost or closed</div>
+          <div id="prevClosed" style="display: flex; flex-direction: column; gap: 8px"></div>
+          <button class="linkbtn" data-go="record">See the full record, misses included</button>
+        </section>
+      </div>
+    </section>
+
+    <section class="view" id="view-chart" aria-labelledby="tab-chart" hidden>
+      <div class="rec-head" style="margin-bottom: 12px">
+        <div style="flex: 1 1 320px; min-width: 0">
+          <div class="disp" style="font-weight: 700; color: var(--live)" id="chTitle">ETH · 2-day · past confirmed setup</div>
+          <div class="small" id="chSub"></div>
+        </div>
+        <div class="toggle" role="group" aria-label="Chart view">
+          <button id="bAlert" aria-pressed="true">At the alert</button>
+          <button id="bHap" aria-pressed="false">What happened</button>
+        </div>
+      </div>
+      <div class="chartwrap">
+        <div class="chart-col">
+          <div class="chartbox"><div><svg id="chartSvg" viewBox="0 0 1100 520" role="img" aria-label="Candles around the signal with the card's figures drawn on" style="display: block; width: 100%; min-width: 640px; height: auto"></svg></div></div>
+          <div class="cloudbox">
+            <div class="kv" style="margin-bottom: 6px"><span class="sec-title" style="color: var(--fade-2)">Where the past signals went</span><span class="small" id="cloudSub"></span></div>
+            <svg id="cloudSvg" viewBox="0 0 1100 260" role="img" aria-label="Median and middle half of every past top-grade signal's path, 60 days from entry" style="display: block; width: 100%; min-width: 640px; height: auto"></svg>
+            <div class="small" id="cloudNote" style="margin-top: 6px"></div>
+          </div>
+        </div>
+        <aside class="side" id="chartSide"></aside>
+      </div>
+    </section>
+
+    <section class="view" id="view-record" aria-labelledby="tab-record" hidden>
+      <div class="rec-head">
+        <div class="sec-title" style="color: var(--live)">The record · every top-grade signal</div>
+        <div class="seg" role="group" aria-label="Asset">
+          <button data-asset="all" aria-pressed="true">All</button>
+          <button data-asset="ETH" aria-pressed="false">ETH</button>
+          <button data-asset="BTC" aria-pressed="false">BTC</button>
+        </div>
+        <span class="small" id="recCount"></span>
+      </div>
+      <div class="sumrow" id="recSum"></div>
+      <div class="tablebox"><table aria-label="Every past top-grade signal">
+        <thead><tr><th>Confirmed</th><th>Chart</th><th>Entry close</th><th>Reached +20%</th><th>Best</th><th>Deepest drop</th><th>Day 60</th><th>High on day</th></tr></thead>
+        <tbody id="recBody"></tbody>
+      </table></div>
+      <p class="fine" style="margin-top: 8px">Computed signals, not trades. Each row is a signal at its confirmation close, measured over the next 60 days. There is no exit in the data, so this is entry quality, not a return or a track record.</p>
+    </section>
+
+    <section class="view" id="view-read" aria-labelledby="tab-read" hidden>
+      <div class="read">
+        <div class="sidebox">
+          <div class="sec-title" style="color: var(--live)">How the signals work</div>
+          <p>Our indicator watches Bitcoin and Ethereum on the daily and multi-day charts. It looks for one specific moment: when selling pressure has run its course and buyers start taking back control.</p>
+          <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. By the time you get an alert, the signal is final and can't vanish.</p>
+          <p>Signals only fire while our market filter says the broader trend is on your side. In a downtrend the system stays quiet, sometimes for a year.</p>
+          <p>Every confirmed setup is checked against several independent confirmations. Only the ones where the most line up reach members.</p>
+          <p>The odds on each card come from how past signals with the same profile behaved over the next 60 days. They measure the quality of the entry, not a trading result.</p>
+        </div>
+        <div class="sidebox">
+          <div class="sec-title" style="color: var(--fade-2)">Reading a card</div>
+          <dl>
+            <dt>The big number</dt><dd>How many past signals like this one rose 20% within 60 days of the entry close, and how many there were.</dd>
+            <dt>Typical high</dt><dd>The median best price within 60 days, from the entry close.</dd>
+            <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
+            <dt>Edge gone</dt><dd>Where the odds fall below our 70% posting bar: a dip past the line in the first 10 days, or red on day 10.</dd>
+            <dt>If it misses</dt><dd>Of the past signals that did not reach +20%, how many were above entry first, and their median peak before they failed.</dd>
+            <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in. His real trades never change the odds.</dd>
+          </dl>
+          <div class="fine">Odds are hypothetical, computed on past signals, and measure entry quality only. Hypothetical results have inherent limitations. Crypto is volatile and leveraged trading can lose more than you put in.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span class="fine" style="max-width: 900px; font-size: 11px">ETHKROS publishes computed statistics, not personal advice. Odds are hypothetical, measured on past signals, entry quality only. Crypto is volatile and leveraged trading can lose more than you put in.</span>
+    <span class="small" id="feedState"></span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const NS = "http://www.w3.org/2000/svg";
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const MINUS = "−";
+  const fmt = (v, d = 1) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : (+v).toFixed(d).replace("-", MINUS);
+  const pct = (v, d = 1, sign = true) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : ((sign && +v > 0 ? "+" : "") + fmt(v, d) + "%");
+  const money = (v) => v == null ? "n/a" : "$" + (+v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const median = (a) => { const s = a.filter((x) => Number.isFinite(x)).sort((x, y) => x - y); if (!s.length) return null; const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
+  const share = (rows, f) => rows.length ? Math.round(100 * rows.filter(f).length / rows.length) : null;
+  const dateLong = (iso) => { if (!iso) return ""; const d = new Date(iso.length <= 10 ? iso + "T00:00:00Z" : iso); return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }); };
+  const TF_DAYS = { "1D": 1, "2D": 2, "3D": 3, "5D": 5, "8D": 8, "1W": 7 };
+
+  function parseCSV(text) {
+    const rows = []; let row = [], cell = "", q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+      else if (c === '"') q = true;
+      else if (c === ",") { row.push(cell); cell = ""; }
+      else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(cell); rows.push(row); row = []; cell = ""; }
+      else cell += c;
+    }
+    if (cell || row.length) { row.push(cell); rows.push(row); }
+    const head = rows.shift() || [];
+    return rows.filter((r) => r.length === head.length).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
+  }
+  async function get(path, kind) {
+    try { const r = await fetch(path, { cache: "no-store" }); if (!r.ok) return null; return kind === "text" ? await r.text() : await r.json(); }
+    catch (_) { return null; }
+  }
+
+  const S = { feed: null, ledger: [], trades: null, example: null, preview: false, chartMode: "alert", asset: "all" };
+
+  /* ---------- the edge rule, from the feed ---------- */
+  function edgeRule() {
+    const of = S.feed && S.feed.odds_fade;
+    const gone = of && (of.early_dip || []).find((b) => b.edge === "gone");
+    const m = gone && String(gone.band).match(/-?\d+(\.\d+)?/);
+    const red = of && (of.day10 || []).find((b) => /red/.test(b.check));
+    return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? red.rose20_within60d_pct : null };
+  }
+  const misses = (asset) => ((S.feed && S.feed.if_it_misses) || []).find((m) => m.asset === asset) || null;
+
+  /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
+  function liveCards() { return ((S.feed && S.feed.cards) || []).filter((c) => c.grade === "A+"); }
+  function cardFromFeed(c) {
+    return {
+      kind: "forming", asset: c.asset, chart: c.chart, tf: c.timeframe, signal_id: c.signal_id,
+      line: `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)}${c.must_close_above ? " if it closes above " + money(c.must_close_above) : ""}`,
+      odds: c.rose20_within60d_pct, n: c.past_trades, sample: c.sample,
+      high: c.typical_biggest_rise_pct, drop: c.typical_deepest_dip_pct, dipBefore: c.typical_dip_before_rise_pct,
+      highDay: c.typical_day_of_60d_high, reach10: c.rose10_within60d_pct, touched30: c.fell30_within60d_pct,
+      surv10: c.rose10_never_fell25_within60d_pct, entry: null,
+      eras: [["Before 2022", c.before_2022], ["Since 2022", c.since_2022]].filter((e) => e[1]).map(([t, e]) => ({ t, n: e.past_trades, v: e.rose10_never_fell25_within60d_pct, what: "rose 10%, never fell 25%" })),
+      fallsFirst: c.if_it_falls_first || [],
+    };
+  }
+  function cardExample() {
+    const eth = S.ledger.filter((r) => r.asset === "ETH");
+    const f = (k) => eth.map((r) => +r[k]);
+    const early = eth.filter((r) => +r.year < 2022), late = eth.filter((r) => +r.year >= 2022);
+    const go = ((S.feed && S.feed.grade_odds) || []).find((g) => g.asset === "ETH" && g.grade === "A+");
+    return {
+      kind: "example", asset: "ETH", chart: "ETH 2D", tf: "2D", signal_id: "ETH-2D-2024-09-22",
+      line: `Example: confirmed ${dateLong("2024-09-22")} · entry close ${money(2580.92)}`,
+      odds: go ? go.rose20_within60d_pct : share(eth, (r) => r.reached20 === "yes"), n: go ? go.past_trades : eth.length,
+      sample: `every ETH top-grade signal, ${eth.length ? eth[0].entry.slice(0, 4) : ""} on`,
+      high: median(f("bestMove")), drop: go ? go.median_deepest_dip_pct : median(f("maxDrawdown")), dipBefore: median(f("dipBeforeHigh")),
+      highDay: median(f("daysToHigh")), reach10: share(eth, (r) => r.reached10 === "yes"), touched30: share(eth, (r) => r.touched30 === "yes"),
+      surv10: go ? go.rose10_never_fell25_within60d_pct : share(eth, (r) => r.surv10 === "yes"), entry: 2580.92, day60: median(f("return60d")),
+      eras: [["Before 2022", early], ["Since 2022", late]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.reached20 === "yes"), what: "reached +20%" })),
+      fallsFirst: [],
+    };
+  }
+
+  /* ---------- Now: the card ---------- */
+  function renderCard() {
+    const box = $("#card"), frame = $("#cardFrame");
+    const live = liveCards();
+    const m = S.preview ? cardExample() : (live[0] ? cardFromFeed(live[0]) : null);
+    frame.style.setProperty("--c", m ? "var(--live)" : "var(--closed)");
+    if (!m) {
+      const on = S.feed && /bull/i.test(S.feed.market_regime || "");
+      box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)">No setup right now</div></div>
+        <div class="empty-card">
+          <div class="big">Waiting for the next one</div>
+          <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about 18 to 22 times a year." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
+          <div class="small">You'll get a push alert the moment one confirms.</div>
+        </div>
+        <div class="card-foot"><span class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+      return;
+    }
+    const e = edgeRule(), mi = misses(m.asset);
+    const stateTxt = m.kind === "forming" ? "Setup forming" : "Confirmed setup";
+    const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
+    const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median peak ${pct(mi.median_peak_pct)}` : "n/a";
+    box.innerHTML = `
+      <div class="card-head">
+        <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
+        <div class="state">${stateTxt}</div>
+        <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
+      </div>
+      <div class="card-body">
+        <div class="odds">
+          <div class="big num">${m.odds ?? "n/a"}%</div>
+          <div style="font-size: 14px; color: var(--soft)">reached +20% within 60 days</div>
+          <div class="small">from ${m.n} past signals like this one</div>
+        </div>
+        <div class="stats num">
+          <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
+          <div class="kv"><span>Typical drop from entry</span><span class="lo">${pct(m.drop)}</span></div>
+          <div class="kv"><span>Edge gone below</span><span class="ed" style="font-size: 15px">${e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a"}</span></div>
+          <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: up first</span><span>${missTxt}</span></div>
+        </div>
+        <div class="marker"><span class="dot"></span><span>Lead trader: ${leadState(m)}</span></div>
+      </div>
+      <div class="detail">
+        <div class="sec-title">The detail</div>
+        <div class="tiles num">
+          <div class="tile"><div class="t">Dip before the high</div><div class="v lo">${pct(m.dipBefore)}</div></div>
+          <div class="tile"><div class="t">High lands around</div><div class="v hi">Day ${m.highDay ?? "n/a"}</div></div>
+          <div class="tile"><div class="t">Reached +10%</div><div class="v hi">${m.reach10 ?? "n/a"}%</div></div>
+          <div class="tile"><div class="t">Touched ${MINUS}30%</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
+          <div class="tile"><div class="t">Rose 10%, never fell 25%</div><div class="v hi">${m.surv10 ?? "n/a"}%</div></div>
+          <div class="tile"><div class="t">Red on day 10</div><div class="v ed">${e.redOdds ?? "n/a"}% odds</div></div>
+          <div class="tile"><div class="t">Worst drop, misses</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
+          <div class="tile"><div class="t">Price on day 60${m.day60 === undefined ? ", misses" : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
+        </div>
+        <div class="boxes">
+          <div class="box violet"><div class="lbl">Where the odds fade · first 10 days</div><div class="ladder" id="ladder"></div></div>
+          <div class="box teal"><div class="lbl">By era</div><div class="ladder" id="eras"></div>
+            <div class="fine" style="margin-top: 6px">${m.kind === "example" ? "Share of these signals that reached +20%." : "Share that rose 10% and never fell 25%."}</div></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <button class="btn" data-go="chart">Open on the chart →</button>
+        <span class="fine" style="max-width: 44ch">Computed from past signals. Entry quality only: no exit, not a trade or a track record. Hypothetical results have inherent limitations.</span>
+      </div>`;
+    const lad = $("#ladder");
+    const of = S.feed && S.feed.odds_fade;
+    const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than", "<").replace("worse than", "past"), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : [])
+      .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : []);
+    lad.innerHTML = bars.map((b) => `<div class="bar"><span>${esc(b.t.replace(/-/g, MINUS))}</span><div class="t"><div class="f${b.gone ? " gone" : ""}" style="width: ${b.v}%"></div></div><span class="num">${b.v}%</span></div>`).join("")
+      + `<div class="fine">All kept signals. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
+    $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}%</span></div>`).join("");
+  }
+
+  function leadState(m) {
+    const t = S.trades && S.trades.trades;
+    if (!t || !t.length) return "not in";
+    const open = t.filter((x) => x.asset === m.asset);
+    const last = open[0];
+    return last && last.action !== "close" ? `in · ${last.direction}` : "out";
+  }
+
+  /* ---------- Now: lead trader ---------- */
+  function renderLead() {
+    const b = $("#leadBody");
+    const t = S.trades && S.trades.trades;
+    if (!t || !t.length) {
+      b.innerHTML = `<div class="lead-empty">No trades posted yet. The lead trader's real entries and exits appear here the moment they fill.</div>`;
+      return;
+    }
+    b.innerHTML = `<div class="grp" style="color: var(--lead-soft)">Latest</div>` + t.slice(0, 6).map((x) => `
+      <div class="trade num">
+        <div class="kv"><b>${esc(x.asset)} ${esc(x.direction)} · ${esc(x.action)}</b><span class="small">${dateLong(x.time)}</span></div>
+        <div class="kv"><span>Price ${money(x.price)}</span><span>${x.leverage != null ? fmt(x.leverage) + "x" : ""}</span><span>${x.size_pct != null ? fmt(x.size_pct) + "% of acct" : ""}</span></div>
+        ${x.move_pct != null ? `<div class="kv"><span>Move ${pct(x.move_pct)}</span><span>Account ${pct(x.account_pct)}</span></div>` : ""}
+      </div>`).join("");
+  }
+
+  /* ---------- Now: previous alerts ---------- */
+  function openStatus(o) {
+    const e = edgeRule();
+    if (o.days_elapsed >= 10) return (o.day10_pct ?? 0) < 0 ? "fading" : "intact";
+    return e.dipPct !== null && o.worst_so_far_pct <= e.dipPct ? "fading" : "intact";
+  }
+  function renderPrev() {
+    const open = ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+");
+    const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) === "fading");
+    $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">No open top-grade setups.</div>`;
+    const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
+    $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + recent.map((r) => `
+      <div class="mini closed">
+        <div><div class="name">${esc(r.chart)}</div><div class="sub num">${dateLong(r.entry)} · best ${pct(+r.bestMove)} · worst ${pct(+r.maxDrawdown)}</div></div>
+        <span class="badge ${r.reached20 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Reached +20%" : "Missed"}</span>
+      </div>`).join("");
+  }
+  function miniOpen(o, cls) {
+    return `<div class="mini ${cls}"><div><div class="name">${esc(o.chart)}</div><div class="sub num">Day ${o.days_elapsed} of 60 · best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</div></div>
+      <span class="badge ${cls ? "no" : "yes"}">${cls ? "Edge lost" : "On track"}</span></div>`;
+  }
+
+  /* ---------- header ---------- */
+  function renderHeader() {
+    const f = S.feed;
+    const on = f && /bull/i.test(f.market_regime || "");
+    $("#filterPill").classList.toggle("off", !on);
+    $("#filterText").textContent = f ? `Market filter: ${on ? "on" : "off"}` : "Feed unavailable";
+    const forming = liveCards();
+    $("#forming").innerHTML = forming.length
+      ? `<span>Forming:</span>` + forming.map((c) => `<span class="chip">${esc(c.chart)} · confirms ${dateLong(c.confirms_on)}</span>`).join("")
+      : `<span>Nothing forming at the top grade today.</span>`;
+    $("#rvAsof").textContent = f ? `${dateLong(f.scored_as_of)} (feed ${f.generated_at.slice(11, 16)} UTC)` : "unavailable";
+    $("#feedState").textContent = f ? `Data through ${dateLong(f.scored_as_of)} · checks ${f.checks && f.checks.all_passed ? "passed" : "FAILED, cards held back"}` : "";
+  }
+
+  /* ---------- Chart view ---------- */
+  function svgEl(svg, tag, attrs, text) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) {
+      const v = attrs[k];
+      // CSS variables only resolve through style, not presentation attributes
+      if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
+    }
+    if (text !== undefined) { e.textContent = text; e.style.paintOrder = "stroke"; e.style.stroke = "#0B0918"; e.style.strokeWidth = "4px"; e.style.strokeLinejoin = "round"; }
+    svg.appendChild(e); return e;
+  }
+  function renderChart() {
+    const ex = S.example, svg = $("#chartSvg"); svg.innerHTML = "";
+    const m = cardExample(), e = edgeRule(), happened = S.chartMode === "happened";
+    $("#bAlert").setAttribute("aria-pressed", String(!happened)); $("#bHap").setAttribute("aria-pressed", String(happened));
+    $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(2580.92)} · a past computed signal, shown as a member would have seen it. Live setups open here once the candles route is added.`;
+    if (!ex) { svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable"); return; }
+    const W = 1100, H = 520, L = 20, R = 960, T = 24, B = 480, bars = ex.bars, E = ex.entry_index, entry = ex.entry_close, tfd = TF_DAYS["2D"];
+    const n = bars.length, slot = (R - L) / n, X = (i) => L + slot * i + slot / 2;
+    const lv = { high: entry * (1 + m.high / 100), t20: entry * 1.2, drop: entry * (1 + m.drop / 100), edge: e.dipPct !== null ? entry * (1 + e.dipPct / 100) : null };
+    const lo = Math.min(...bars.map((b) => b.l), lv.drop) * 0.95, hi = Math.max(...bars.map((b) => b.h), lv.high) * 1.07;
+    const Y = (p) => B - (p - lo) / (hi - lo) * (B - T);
+    svgEl(svg, "rect", { x: 0, y: 0, width: W, height: H, fill: "#0B0918" });
+    const step = Math.pow(10, Math.floor(Math.log10((hi - lo) / 5))) * 2;
+    for (let p = Math.ceil(lo / step) * step; p <= hi; p += step) {
+      svgEl(svg, "line", { x1: L, x2: R, y1: Y(p), y2: Y(p), stroke: "#1C1736" });
+      svgEl(svg, "text", { x: R + 8, y: Y(p) + 5, fill: "var(--muted)", "font-size": 13 }, "$" + Math.round(p).toLocaleString("en-US"));
+    }
+    for (let i = 0; i < n; i += 7) svgEl(svg, "text", { x: X(i), y: B + 22, fill: "#7E78A3", "font-size": 12, "text-anchor": "middle" }, new Date(bars[i].t * 1000).toLocaleDateString("en-GB", { day: "2-digit", month: "short", timeZone: "UTC" }));
+    const xE = X(E), x60 = X(Math.min(n - 1, E + 60 / tfd)), x10 = X(E + 10 / tfd), xHigh = X(E + Math.round(m.highDay / tfd));
+    svgEl(svg, "rect", { x: xE, y: Y(lv.high), width: x60 - xE, height: Y(entry) - Y(lv.high), fill: "var(--high)", opacity: 0.07 });
+    svgEl(svg, "rect", { x: xE, y: Y(entry), width: x60 - xE, height: Y(lv.drop) - Y(entry), fill: "var(--drop)", opacity: 0.1 });
+    const of = S.feed && S.feed.odds_fade;
+    if (of) {   // the early-dip ladder under entry for the first 10 days
+      const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => b.rose20_within60d_pct))], [-5, -10, "var(--fade)", of.early_dip[2].rose20_within60d_pct], [-10, -20, "var(--drop)", of.early_dip[3].rose20_within60d_pct]];
+      for (const [a, b, c, v] of bands) {
+        const y1 = Y(entry * (1 + a / 100)), y2 = Math.min(B, Y(entry * (1 + b / 100)));
+        svgEl(svg, "rect", { x: xE, y: y1, width: x10 - xE, height: y2 - y1, fill: c, opacity: 0.24 });
+        svgEl(svg, "text", { x: (xE + x10) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, v + "%");
+      }
+    }
+    const hline = (p, c, label, dash, labelBelow, atRight) => {
+      svgEl(svg, "line", { x1: xE, x2: x60, y1: Y(p), y2: Y(p), stroke: c, "stroke-width": 2, "stroke-dasharray": dash || "" });
+      if (label) svgEl(svg, "text", { x: atRight ? x60 - 6 : x10 + 8, y: Y(p) + (labelBelow ? 18 : -7), fill: c, "font-size": 13, "font-weight": 600, "text-anchor": atRight ? "end" : "start" }, label);
+      svgEl(svg, "rect", { x: R + 2, y: Y(p) - 11, width: 112, height: 22, rx: 3, fill: c });
+      svgEl(svg, "text", { x: R + 58, y: Y(p) + 5, fill: "#07060F", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, money(p));
+    };
+    hline(lv.high, "var(--high)", `Typical high ${pct(m.high)}`);
+    hline(lv.t20, "var(--text)", `+20% · ${m.odds}% of past signals got here`, "6 5");
+    hline(entry, "var(--soft)", "");
+    hline(lv.drop, "var(--drop)", `Typical drop ${pct(m.drop)}`, "", true, true);
+    if (lv.edge) {
+      svgEl(svg, "line", { x1: xE, x2: x10, y1: Y(lv.edge), y2: Y(lv.edge), stroke: "var(--fade-2)", "stroke-width": 2.5 });
+      svgEl(svg, "text", { x: xE - 8, y: Y(lv.edge) + 4, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600, "text-anchor": "end" }, `Edge gone below ${money(lv.edge)} (${pct(e.dipPct, 0)}), first 10 days`);
+    }
+    const vline = (x, c, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: c, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: c, "font-size": 12, "font-weight": 600 }, label); };
+    vline(xE, "var(--text)", "Entry");
+    vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% odds`, "4 5", B - 8);
+    vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
+    vline(x60, "var(--fade)", "Day 60", "", T + 30);
+    const upto = happened ? n : E + 1;
+    for (let i = 0; i < upto; i++) {
+      const b = bars[i], col = b.c >= b.o ? "var(--high)" : "var(--drop)";
+      svgEl(svg, "line", { x1: X(i), x2: X(i), y1: Y(b.h), y2: Y(b.l), stroke: col, "stroke-width": 1.5 });
+      svgEl(svg, "rect", { x: X(i) - Math.min(6, slot * 0.35), y: Y(Math.max(b.o, b.c)), width: Math.min(12, slot * 0.7), height: Math.max(1, Math.abs(Y(b.o) - Y(b.c))), fill: col });
+    }
+    if (!happened) svgEl(svg, "text", { x: (xE + x60) / 2 + 40, y: (Y(lv.high) + Y(entry)) / 2, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "The next 60 days, as the odds draw them");
+    else {
+      const win = bars.slice(E + 1, E + 1 + 60 / tfd);
+      const hiB = win.reduce((a, b) => (b.h > a.h ? b : a)), loB = win.reduce((a, b) => (b.l < a.l ? b : a));
+      for (const [b, p, below] of [[hiB, hiB.h, false], [loB, loB.l, true]]) {
+        const i = bars.indexOf(b), d = (i - E) * tfd;
+        svgEl(svg, "circle", { cx: X(i), cy: Y(p), r: 7, fill: "none", stroke: "var(--text)", "stroke-width": 2 });
+        svgEl(svg, "text", { x: X(i) + (below ? 12 : -14), y: Y(p) + (below ? 5 : 5), fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": below ? "start" : "end" }, `This one: ${money(p)} · ${pct((p / entry - 1) * 100)} · day ${d}`);
+      }
+    }
+    renderCloud(happened);
+    renderChartSide(m, happened);
+  }
+  function renderCloud(happened) {
+    const svg = $("#cloudSvg"); svg.innerHTML = "";
+    const pp = ((S.feed && S.feed.past_paths) || []).find((p) => p.asset === "ETH");
+    if (!pp) { svgEl(svg, "text", { x: 550, y: 130, fill: "var(--muted)", "font-size": 14, "text-anchor": "middle" }, "Past paths unavailable in this feed"); return; }
+    const L = 20, R = 960, T = 12, B = 230, P0 = -40, P1 = 100;
+    const X = (d) => L + (R - L) * d / 60, Y = (v) => B - (Math.max(P0, Math.min(P1, v)) - P0) / (P1 - P0) * (B - T);
+    for (const v of [100, 50, 20, 0, -20, -40]) {
+      svgEl(svg, "line", { x1: L, x2: R, y1: Y(v), y2: Y(v), stroke: v === 0 ? "#4A4470" : "#1C1736", "stroke-dasharray": v === 20 ? "6 5" : "" });
+      svgEl(svg, "text", { x: R + 10, y: Y(v) + 5, fill: "var(--muted)", "font-size": 13 }, (v > 0 ? "+" : "") + v + "%");
+    }
+    for (const d of [0, 10, 20, 30, 40, 50, 60]) svgEl(svg, "text", { x: X(d), y: B + 22, fill: "#7E78A3", "font-size": 12, "text-anchor": "middle" }, "Day " + d);
+    const days = pp.days;
+    const band = days.map((d) => `${X(d.day)},${Y(d.q75_pct)}`).concat(days.slice().reverse().map((d) => `${X(d.day)},${Y(d.q25_pct)}`)).join(" ");
+    svgEl(svg, "polygon", { points: band, fill: "var(--fade)", opacity: 0.22 });
+    svgEl(svg, "polyline", { points: days.map((d) => `${X(d.day)},${Y(d.median_pct)}`).join(" "), fill: "none", stroke: "var(--fade)", "stroke-width": 3 });
+    if (happened && S.example) {
+      const ex = S.example, E = ex.entry_index, tfd = 2;
+      const pts = [[0, 0]].concat(ex.bars.slice(E + 1, E + 1 + 30).map((b, k) => [(k + 1) * tfd, (b.c / ex.entry_close - 1) * 100]));
+      svgEl(svg, "polyline", { points: pts.map(([d, v]) => `${X(d)},${Y(v)}`).join(" "), fill: "none", stroke: "var(--text)", "stroke-width": 2.5 });
+    }
+    const last = days[days.length - 1];
+    $("#cloudSub").textContent = `Every past ETH top-grade signal, n ${pp.signals}`;
+    $("#cloudNote").innerHTML = `<span style="color: var(--fade-2)">━</span> median path &nbsp; <span style="color: var(--fade-2); opacity: .6">█</span> middle half of outcomes${happened ? ' &nbsp; <span style="color: var(--text)">━</span> this signal' : ""}. Day 60: median ${pct(last.median_pct)}, middle half ${pct(last.q25_pct)} to ${pct(last.q75_pct)}. Daily closes.`;
+  }
+  function renderChartSide(m, happened) {
+    const ex = S.example, e = edgeRule();
+    let what = "";
+    if (happened && ex) {
+      const E = ex.entry_index, win = ex.bars.slice(E + 1, E + 31), en = ex.entry_close;
+      const hiB = win.reduce((a, b) => (b.h > a.h ? b : a)), loB = win.reduce((a, b) => (b.l < a.l ? b : a)), d10 = ex.bars[E + 5];
+      const reached = win.some((b) => b.h >= en * 1.2);
+      what = `<div class="sidebox" style="border: 2px solid var(--high); background: var(--ok-bg)">
+        <div class="sec-title" style="color: #7FF0FF">What this one did</div>
+        <div class="kv num"><span>Reached +20%</span><b>${reached ? "Yes" : "No"}</b></div>
+        <div class="kv num"><span>Best price</span><b class="hi">${pct((hiB.h / en - 1) * 100)}, day ${(ex.bars.indexOf(hiB) - E) * 2}</b></div>
+        <div class="kv num"><span>Deepest drop</span><b class="lo">${pct((loB.l / en - 1) * 100)}, day ${(ex.bars.indexOf(loB) - E) * 2}</b></div>
+        <div class="kv num"><span>Day 10 check</span><b class="${d10.c < en ? "lo" : "hi"}">${d10.c < en ? "Red" : "Green"}, ${pct((d10.c / en - 1) * 100)}</b></div>
+        <div class="kv num"><span>Price on day 60</span><b>${pct((ex.bars[E + 30].c / en - 1) * 100)}</b></div>
+      </div>`;
+    } else what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">This is all a member had at the alert: the zones, the target and the timing. Press <b style="color: #7FF0FF">What happened</b> to see the real path.</div>`;
+    $("#chartSide").innerHTML = `
+      <div class="sidebox">
+        <div class="sec-title" style="color: var(--live)">What the card said</div>
+        <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${m.odds}%</div>
+        <div class="small">reached +20% within 60 days, from ${m.n} past signals</div>
+        <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(m.entry * (1 + m.high / 100))}</b></div>
+        <div class="kv num"><span class="small">+20% target</span><b>${money(m.entry * 1.2)}</b></div>
+        <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
+        <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${money(m.entry * (1 + e.dipPct / 100))}</b></div>
+      </div>
+      ${what}
+      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">The lead trader's real entries and exits show on the chart as markers. None on this one: it is a historical computed signal.</div>
+      <div class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record. Hypothetical results have inherent limitations. Zones use the pooled ETH top-grade figures, which include this signal.</div>`;
+  }
+
+  /* ---------- Record ---------- */
+  function renderRecord() {
+    const rows = S.ledger.filter((r) => S.asset === "all" || r.asset === S.asset).sort((a, b) => b.entry.localeCompare(a.entry));
+    $$(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.asset === S.asset)));
+    $("#recCount").textContent = `${rows.length} signals · ${rows.filter((r) => r.reached20 !== "yes").length} missed +20%`;
+    $("#recBody").innerHTML = rows.map((r) => `<tr>
+      <td>${dateLong(r.entry)}</td><td>${esc(r.chart)}</td><td>${money(+r.entryPrice)}</td>
+      <td><span class="badge ${r.reached20 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Yes" : "No"}</span></td>
+      <td class="hi">${pct(+r.bestMove)}</td><td class="lo">${pct(+r.maxDrawdown)}</td><td>${pct(+r.return60d)}</td><td>${r.daysToHigh}</td></tr>`).join("");
+    const go = ((S.feed && S.feed.grade_odds) || []).filter((g) => g.grade === "A+" && (S.asset === "all" || g.asset === S.asset));
+    $("#recSum").innerHTML = go.map((g) => {
+      const mi = misses(g.asset);
+      return `<div class="sidebox"><div class="kv"><b>${g.asset}</b><span class="small">${g.past_trades} signals</span></div>
+        <div class="kv num"><span class="small">Reached +20% in 60 days</span><b>${g.rose20_within60d_pct}%</b></div>
+        <div class="kv num"><span class="small">Rose 10%, never fell 25%</span><b>${g.rose10_never_fell25_within60d_pct}%</b></div>
+        <div class="kv num"><span class="small">Median deepest dip</span><b class="lo">${pct(g.median_deepest_dip_pct)}</b></div>
+        ${mi ? `<div class="kv num"><span class="small">Misses: median peak first</span><b class="hi">${pct(mi.median_peak_pct)}</b></div>` : ""}</div>`;
+    }).join("");
+  }
+
+  /* ---------- tabs and wiring ---------- */
+  const VIEWS = ["now", "chart", "record", "read"];
+  function show(v) {
+    if (!VIEWS.includes(v)) v = "now";
+    VIEWS.forEach((x) => { $("#view-" + x).hidden = x !== v; $("#tab-" + x).setAttribute("aria-selected", String(x === v)); });
+    if (location.hash !== "#" + v) history.replaceState(null, "", "#" + v);
+    if (v === "chart") renderChart();
+    if (v === "record") renderRecord();
+  }
+  document.addEventListener("click", (ev) => {
+    const t = ev.target.closest("[data-view],[data-go],[data-asset]");
+    if (!t) return;
+    if (t.dataset.view) show(t.dataset.view);
+    else if (t.dataset.go) show(t.dataset.go);
+    else if (t.dataset.asset) { S.asset = t.dataset.asset; renderRecord(); }
+  });
+  $("#bAlert").addEventListener("click", () => { S.chartMode = "alert"; renderChart(); });
+  $("#bHap").addEventListener("click", () => { S.chartMode = "happened"; renderChart(); });
+  $("#previewSwitch").addEventListener("change", (e) => { S.preview = e.target.checked; renderCard(); });
+  window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+
+  async function boot() {
+    const [feed, ledgerText, trades, example] = await Promise.all([
+      get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
+    S.feed = feed; S.trades = trades; S.example = example;
+    S.ledger = ledgerText ? parseCSV(ledgerText).filter((r) => r.grade === "A+") : [];
+    renderHeader(); renderLead(); renderCard(); renderPrev();
+    show(location.hash.slice(1) || "now");
+  }
+  boot();
+})();
+</script>
