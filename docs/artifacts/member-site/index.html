@@ -351,7 +351,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const red = of && (of.day10 || []).find((b) => /red/.test(b.check));
     return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? red.rose20_within60d_pct : null };
   }
-  const misses = (asset) => ((S.feed && S.feed.if_it_misses) || []).find((m) => m.asset === asset) || null;
+  const misses = (asset, grade = "A+") => ((S.feed && S.feed.if_it_misses) || []).find((m) => m.asset === asset && (m.grade || "A+") === grade) || null;
 
   /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
   function liveCards() { return ((S.feed && S.feed.cards) || []).filter((c) => c.grade === "A+"); }
@@ -368,7 +368,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   }
   function cardFromFeed(c) {
     return {
-      kind: "forming", asset: c.asset, chart: c.chart, tf: c.timeframe, signal_id: c.signal_id, top: c.grade === "A+",
+      kind: "forming", asset: c.asset, chart: c.chart, tf: c.timeframe, signal_id: c.signal_id, top: c.grade === "A+", grade: c.grade,
       line: `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)}${c.must_close_above ? " if it closes above " + money(c.must_close_above) : ""}`,
       odds: c.rose20_within60d_pct, n: c.past_trades, sample: c.sample,
       high: c.typical_biggest_rise_pct, drop: c.typical_deepest_dip_pct, dipBefore: c.typical_dip_before_rise_pct,
@@ -415,7 +415,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="card-foot"><span class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
-    const e = edgeRule(), mi = below ? null : misses(m.asset);
+    const e = edgeRule(), mi = misses(m.asset, m.grade || "A+");
+    const pool = below && mi ? `<div class="fine" style="text-align: right">all ${mi.signals} ${esc(m.asset)} signals of this grade</div>` : "";
     const stateTxt = m.kind === "forming" ? "Setup forming" : "Confirmed setup";
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
     const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median peak ${pct(mi.median_peak_pct)}` : "n/a";
@@ -436,7 +437,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
           <div class="kv"><span>Typical drop from entry</span><span class="lo">${pct(m.drop)}</span></div>
           <div class="kv"><span>Edge gone below</span><span class="ed" style="font-size: 15px">${e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a"}</span></div>
-          <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: up first</span><span>${missTxt}</span></div>
+          <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: up first</span><span>${missTxt}</span></div>${pool}
         </div>
         <div class="marker"><span class="dot"></span><span>Lead trader: ${leadState(m)}</span></div>
       </div>

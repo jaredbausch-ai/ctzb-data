@@ -30,7 +30,16 @@ check("extras_live runs clean", p.returncode == 0, p.stderr[-300:])
 
 # Independent re-derivation from the ledger, not via carddesign.py
 led = [r for r in csv.DictReader(open(f"{DS}/ledger.csv")) if r["grade"] == "A+"]
-miss = {r["asset"]: r for r in csv.DictReader(open(f"{DS}/missstats.csv"))}
+miss = {r["asset"]: r for r in csv.DictReader(open(f"{DS}/missstats.csv")) if r["grade"] == "A+"}
+allmiss = list(csv.DictReader(open(f"{DS}/missstats.csv")))
+for grade in ("A", "B", "C"):
+    for asset in ("ETH", "BTC"):
+        g = [r for r in csv.DictReader(open(f"{DS}/ledger.csv")) if r["grade"] == grade and r["asset"] == asset]
+        row = next((r for r in allmiss if r["grade"] == grade and r["asset"] == asset), None)
+        m = [float(r["bestMove"]) for r in g if r["reached20"] == "no"]
+        if g:
+            check(f"{asset} {grade}: miss count and median peak match the ledger",
+                  row and int(row["misses"]) == len(m) and (not m or float(row["median_peak_pct"]) == round(st.median(m), 1)))
 for asset in ("ETH", "BTC"):
     a = [r for r in led if r["asset"] == asset]
     m = [float(r["bestMove"]) for r in a if r["reached20"] == "no"]
@@ -60,7 +69,7 @@ p = run("feed_live.py", "--datasets", DS, "--out", FEED, "--alert-log", LOG, env
 f = json.load(open(FEED))
 check("feed is schema 5", f["schema_version"] == 5)
 check("feed carries if_it_misses, odds_fade and past_paths", not f["extras_withheld"] and f["if_it_misses"] and f["odds_fade"]["early_dip"] and f["past_paths"])
-eth = next(x for x in f["if_it_misses"] if x["asset"] == "ETH")
+eth = next(x for x in f["if_it_misses"] if x["asset"] == "ETH" and x["grade"] == "A+")
 check("feed miss figures equal the dataset", eth["median_peak_pct"] == float(miss["ETH"]["median_peak_pct"]) and eth["misses"] == int(miss["ETH"]["misses"]))
 check("every new record carries the computed-signal label",
       all("Computed signal" in x["label"] for x in f["if_it_misses"] + f["past_paths"]) and "Computed signal" in f["odds_fade"]["label"])

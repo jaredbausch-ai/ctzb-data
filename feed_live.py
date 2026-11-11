@@ -258,7 +258,7 @@ def main():
          "median_peak_pct": num(r["median_peak_pct"]), "mean_peak_pct": num(r["mean_peak_pct"]),
          "peaked_5_or_more": num(r["peaked_5_or_more"]), "peaked_10_or_more": num(r["peaked_10_or_more"]),
          "median_worst_drop_pct": num(r["median_worst_drop_pct"]), "median_day60_pct": num(r["median_day60_pct"]),
-         "note": "Signals of this grade that did not reach +20% within 60 days. Show the median peak."}
+         "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."}
         for r in rows(d("missstats.csv"))] if extras_ok else []
     fade = rows(d("oddsfade.csv")) if extras_ok else []
     feed["odds_fade"] = {

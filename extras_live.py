@@ -4,7 +4,8 @@ after grade_live.py has written datasets/ledger.csv.
 Writes three datasets that feed_live.py repackages, so no number a member sees is typed
 by hand (item 17b):
 
-  missstats.csv  A+ signals that did not reach +20% within 60 days, per asset: how many,
+  missstats.csv  Signals that did not reach +20% within 60 days, per asset and grade (all
+                 grades since 11 Nov 2026, so a below-bar forming card has them too): how many,
                  how many were above entry first, median / mean peak before failing,
                  median worst drop and day-60 return. Jared 11 Nov 2026: the card shows
                  the MEDIAN peak.
@@ -60,7 +61,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--datasets", default=os.path.join(ROOT, "datasets"))
     a = ap.parse_args()
-    led = [r for r in cd.rows("datasets/ledger.csv") if r["grade"] == "A+"]
+    full = cd.rows("datasets/ledger.csv")
+    led = [r for r in full if r["grade"] == "A+"]
     if not led:
         sys.exit("extras_live: no A+ signals in datasets/ledger.csv; refusing to write")
 
@@ -68,10 +70,14 @@ def main():
     for asset in ASSETS:
         if not any(r["asset"] == asset for r in led):
             continue
-        m = cd.misses(led, asset)
-        if m["misses"] and not finite(m["median_peak_pct"], m["mean_peak_pct"], m["median_worst_drop_pct"], m["median_day60_pct"]):
-            sys.exit(f"extras_live: non-finite miss figure for {asset}")
-        miss_rows.append({"grade": "A+", **{k: m[k] for k in MISS_FIELDS if k in m}})
+        for grade in ("A+", "A", "B", "C"):
+            g = [r for r in full if r["grade"] == grade and r["asset"] == asset]
+            if not g:
+                continue
+            m = cd.misses(g, asset)
+            if m["misses"] and not finite(m["median_peak_pct"], m["mean_peak_pct"], m["median_worst_drop_pct"], m["median_day60_pct"]):
+                sys.exit(f"extras_live: non-finite miss figure for {asset} {grade}")
+            miss_rows.append({"grade": grade, **{k: m[k] for k in MISS_FIELDS if k in m}})
         p = cd.paths(led, asset)
         if not p["n"]:
             sys.exit(f"extras_live: no usable 60-day path for {asset}")
@@ -94,7 +100,7 @@ def main():
     write(os.path.join(a.datasets, "missstats.csv"), MISS_FIELDS, miss_rows)
     write(os.path.join(a.datasets, "pastpaths.csv"), PATH_FIELDS, path_rows)
     write(os.path.join(a.datasets, "oddsfade.csv"), FADE_FIELDS, fade_rows)
-    for m in miss_rows:
+    for m in (x for x in miss_rows if x["grade"] == "A+"):
         print(f"extras_live: {m['asset']} A+ {m['aplus_signals']}, missed +20% {m['misses']}, "
               f"up first {m['up_first']}, median peak {m['median_peak_pct']:+.1f}%")
     print(f"extras_live: paths {', '.join(f'{r} n {n}' for r, n in sorted({(x['asset'], x['n']) for x in path_rows}))}; "
