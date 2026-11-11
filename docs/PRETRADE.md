@@ -130,6 +130,23 @@ signal is a shallow pullback); among gap ≤ 5 signals it is 64% vs 49%, with
 
 ---
 
+### ETH 5D turn under 40 in the 30 days before a 1D / 2D / 3D signal (11 Nov 2026, watch item)
+
+`analysis/lens5d.py`, declared before running. A 5D CTZB signal (trough CT < 40)
+confirmed in the 30 days before a regime-gated ETH 1D / 2D / 3D signal.
+
+| ETH | n on / off | +20% on / off | -30% on / off |
+|---|---|---|---|
+| to 2021 | 4 / 109 | 100% / 77% | 0% / 20% |
+| 2022 on | 38 / 173 | **87% / 36%** | **0% / 25%** |
+
+All 3 charts and all 4 testable years ahead; within-year shuffle +36 vs a 95th
+percentile of +6; no overlap with any live lens or bucket A. **Fails rule 1 on
+sample:** 4 signals to 2021, and the 42 signals are really **5 episodes** (Apr 2020,
+Sep-Nov 2023, Aug-Oct 2024, Apr-May 2025 -- the gate is mostly off when the 5D CT is
+under 40). Not a lens. Watch the next episodes. The 5D CT level alone (< 40, < 35,
+turning) failed the same rules. BTC: too few to judge (8 / 8).
+
 ## In-trade reads — information for the discretionary exit, not exit rules
 
 **Not an entry rule.** Measured from the price you would actually pay
