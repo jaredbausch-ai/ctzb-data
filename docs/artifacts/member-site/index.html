@@ -123,6 +123,15 @@ main { flex: 1; min-height: 0; }
 .empty-card { padding: 30px 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; justify-content: center; text-align: center; flex: 1; }
 .empty-card .big { font-family: var(--f-display); font-size: 18px; letter-spacing: 2px; color: var(--soft); }
 
+/* Setup picker */
+.center { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.center > .frame { flex: 1; }
+.picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.pick { min-height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--soft); cursor: pointer; font-size: 12.5px; display: inline-flex; gap: 8px; align-items: center; }
+.pick b { font-variant-numeric: tabular-nums; }
+.pick[aria-pressed="true"] { border-color: var(--c, var(--live)); color: var(--text); box-shadow: 0 0 12px color-mix(in srgb, var(--c, var(--live)) 30%, transparent); }
+.pick.top { --c: var(--live); } .pick.below { --c: var(--fade); } .pick.ex { --c: var(--muted); }
+
 /* Previous alerts */
 .prev { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .prev .sec-title { color: var(--live); }
@@ -207,7 +216,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           </div>
         </section>
 
-        <section class="frame" id="cardFrame" aria-label="Live setup"><div class="in" id="card"></div></section>
+        <div class="center">
+          <div class="picker" id="picker" role="group" aria-label="Setups"></div>
+          <section class="frame" id="cardFrame" aria-label="Live setup"><div class="in" id="card"></div></section>
+        </div>
 
         <section class="prev" aria-label="Previous alerts">
           <div class="kv"><span class="sec-title">Previous alerts</span><span class="small">odds update with each close</span></div>
@@ -346,6 +358,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +20% odds.
   function formingCards() { return ((S.feed && S.feed.cards) || []).slice().sort((a, b) => (b.rose20_within60d_pct ?? -1) - (a.rose20_within60d_pct ?? -1)); }
   function bestCard() { return liveCards()[0] || formingCards()[0] || null; }
+  function selectable() { const top = liveCards(); return top.concat(formingCards().filter((c) => !top.includes(c))); }
+  function selected() { if (S.preview) return null; const all = selectable(); return all.find((c) => c.signal_id === S.sel) || all[0] || null; }
+  function renderPicker() {
+    const all = selectable(), cur = selected();
+    $("#picker").innerHTML = all.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${cur && cur.signal_id === c.signal_id}">
+        ${esc(c.chart)} <b>${c.rose20_within60d_pct ?? "n/a"}%</b><span class="small">${c.grade === "A+" ? "top grade" : "below bar"} · ${dateLong(c.confirms_on)}</span></button>`).join("")
+      + `<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button>`;
+  }
   function cardFromFeed(c) {
     return {
       kind: "forming", asset: c.asset, chart: c.chart, tf: c.timeframe, signal_id: c.signal_id, top: c.grade === "A+",
@@ -379,7 +399,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   /* ---------- Now: the card ---------- */
   function renderCard() {
     const box = $("#card"), frame = $("#cardFrame");
-    const best = bestCard();
+    renderPicker();
+    const best = selected();
     const m = S.preview ? cardExample() : (best ? cardFromFeed(best) : null);
     const below = !!m && m.kind === "forming" && !m.top;
     frame.style.setProperty("--c", !m ? "var(--closed)" : below ? "var(--fade)" : "var(--live)");
@@ -522,77 +543,117 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (text !== undefined) { e.textContent = text; if (attrs.fill !== "#07060F") { e.style.paintOrder = "stroke"; e.style.stroke = "#0B0918"; e.style.strokeWidth = "4px"; e.style.strokeLinejoin = "round"; } }
     svg.appendChild(e); return e;
   }
-  function renderChart() {
-    const ex = S.example, svg = $("#chartSvg"); svg.innerHTML = "";
-    const m = cardExample(), e = edgeRule(), happened = S.chartMode === "happened";
+  const CANDLES = {};
+  async function candlesFor(chart) { const k = chart.replace(" ", "_"); if (!(k in CANDLES)) CANDLES[k] = await get(`data/candles/${k}.json`); return CANDLES[k]; }
+  const dayOf = (t) => new Date(t * 1000).toISOString().slice(0, 10);
+
+  async function renderChart() {
+    const svg = $("#chartSvg"), e = edgeRule(), c = selected();
+    let m, bars, E, entry, tfd, forming = false, lowIdx = null, confIdx = null;
+    if (!c) {
+      m = cardExample(); const ex = S.example;
+      if (!ex) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable"); return; }
+      bars = ex.bars; E = ex.entry_index; entry = ex.entry_close; tfd = 2;
+      $("#chTitle").textContent = "ETH · 2-day · example: past confirmed setup";
+      $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(entry)} · a past computed signal, shown as a member would have seen it.`;
+    } else {
+      m = cardFromFeed(c); forming = true; tfd = TF_DAYS[c.timeframe] || 1;
+      const cd = await candlesFor(c.chart);
+      if (!cd) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable for " + c.chart); return; }
+      bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c; m.entry = entry;
+      lowIdx = bars.findIndex((b) => dayOf(b.t) === c.low_date);
+      confIdx = E + Math.round((Date.parse(c.confirms_on + "T00:00:00Z") / 1000 - bars[E].t) / 86400 / tfd);
+      $("#chTitle").textContent = `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, below the posting bar"}`;
+      $("#chSub").textContent = `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)} · zones drawn from today's price (${money(entry)}). The real entry is the close on the confirmation day.`;
+    }
+    svg.innerHTML = "";
+    const happened = !forming && S.chartMode === "happened";
+    $(".toggle").hidden = forming;
     $("#bAlert").setAttribute("aria-pressed", String(!happened)); $("#bHap").setAttribute("aria-pressed", String(happened));
-    $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(2580.92)} · a past computed signal, shown as a member would have seen it. Live setups open here once the candles route is added.`;
-    if (!ex) { svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable"); return; }
-    const W = 1100, H = 520, L = 20, R = 960, T = 24, B = 480, bars = ex.bars, E = ex.entry_index, entry = ex.entry_close, tfd = TF_DAYS["2D"];
-    const n = bars.length, slot = (R - L) / n, X = (i) => L + slot * i + slot / 2;
+    const W = 1100, H = 520, L = 20, R = 960, T = 24, B = 480;
+    const nSlots = forming ? bars.length + Math.ceil(60 / tfd) + 1 : bars.length;
+    const slot = (R - L) / nSlots, X = (i) => L + slot * i + slot / 2;
     const lv = { high: entry * (1 + m.high / 100), t20: entry * 1.2, drop: entry * (1 + m.drop / 100), edge: e.dipPct !== null ? entry * (1 + e.dipPct / 100) : null };
     const lo = Math.min(...bars.map((b) => b.l), lv.drop) * 0.95, hi = Math.max(...bars.map((b) => b.h), lv.high) * 1.07;
     const Y = (p) => B - (p - lo) / (hi - lo) * (B - T);
     svgEl(svg, "rect", { x: 0, y: 0, width: W, height: H, fill: "#0B0918" });
-    const step = Math.pow(10, Math.floor(Math.log10((hi - lo) / 5))) * 2;
+    const mag = Math.pow(10, Math.floor(Math.log10((hi - lo) / 5)));
+    const step = [1, 2, 2.5, 5, 10].map((k) => k * mag).find((v) => (hi - lo) / v <= 8) || mag * 10;
+    const levelYs = [lv.high, lv.t20, entry, lv.drop].map(Y);
     for (let p = Math.ceil(lo / step) * step; p <= hi; p += step) {
       svgEl(svg, "line", { x1: L, x2: R, y1: Y(p), y2: Y(p), stroke: "#1C1736" });
-      svgEl(svg, "text", { x: R + 8, y: Y(p) + 5, fill: "var(--muted)", "font-size": 13 }, "$" + Math.round(p).toLocaleString("en-US"));
+      if (levelYs.every((y) => Math.abs(y - Y(p)) > 16)) svgEl(svg, "text", { x: R + 8, y: Y(p) + 5, fill: "var(--muted)", "font-size": 13 }, "$" + Math.round(p).toLocaleString("en-US"));
     }
-    for (let i = 0; i < n; i += 7) svgEl(svg, "text", { x: X(i), y: B + 22, fill: "#7E78A3", "font-size": 12, "text-anchor": "middle" }, new Date(bars[i].t * 1000).toLocaleDateString("en-GB", { day: "2-digit", month: "short", timeZone: "UTC" }));
-    const xE = X(E), x60 = X(Math.min(n - 1, E + 60 / tfd)), x10 = X(E + 10 / tfd), xHigh = X(E + Math.round(m.highDay / tfd));
+    const slotDate = (i) => i < bars.length ? bars[i].t : bars[bars.length - 1].t + (i - bars.length + 1) * tfd * 86400;
+    const every = Math.max(1, Math.round(nSlots / 8));
+    for (let i = 0; i < nSlots; i += every) svgEl(svg, "text", { x: X(i), y: B + 22, fill: "#7E78A3", "font-size": 12, "text-anchor": "middle" }, new Date(slotDate(i) * 1000).toLocaleDateString("en-GB", { day: "2-digit", month: "short", timeZone: "UTC" }));
+    const xE = X(E), x60 = X(Math.min(nSlots - 1, E + 60 / tfd)), x10 = X(E + 10 / tfd), xHigh = X(E + Math.round(m.highDay / tfd));
     svgEl(svg, "rect", { x: xE, y: Y(lv.high), width: x60 - xE, height: Y(entry) - Y(lv.high), fill: "var(--high)", opacity: 0.07 });
     svgEl(svg, "rect", { x: xE, y: Y(entry), width: x60 - xE, height: Y(lv.drop) - Y(entry), fill: "var(--drop)", opacity: 0.1 });
     const of = S.feed && S.feed.odds_fade;
-    if (of) {   // the early-dip ladder under entry for the first 10 days
+    if (of) {
       const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => b.rose20_within60d_pct))], [-5, -10, "var(--fade)", of.early_dip[2].rose20_within60d_pct], [-10, -20, "var(--drop)", of.early_dip[3].rose20_within60d_pct]];
-      for (const [a, b, c, v] of bands) {
-        const y1 = Y(entry * (1 + a / 100)), y2 = Math.min(B, Y(entry * (1 + b / 100)));
-        svgEl(svg, "rect", { x: xE, y: y1, width: x10 - xE, height: y2 - y1, fill: c, opacity: 0.24 });
+      for (const [a1, b1, col, v] of bands) {
+        const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100)));
+        svgEl(svg, "rect", { x: xE, y: y1, width: x10 - xE, height: y2 - y1, fill: col, opacity: 0.24 });
         svgEl(svg, "text", { x: (xE + x10) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, v + "%");
       }
     }
-    const hline = (p, c, label, dash, labelBelow, atRight) => {
-      svgEl(svg, "line", { x1: xE, x2: x60, y1: Y(p), y2: Y(p), stroke: c, "stroke-width": 2, "stroke-dasharray": dash || "" });
-      if (label) svgEl(svg, "text", { x: atRight ? x60 - 6 : x10 + 8, y: Y(p) + (labelBelow ? 18 : -7), fill: c, "font-size": 13, "font-weight": 600, "text-anchor": atRight ? "end" : "start" }, label);
-      svgEl(svg, "rect", { x: R + 2, y: Y(p) - 11, width: 112, height: 22, rx: 3, fill: c });
-      svgEl(svg, "text", { x: R + 58, y: Y(p) + 5, fill: "#07060F", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, money(p));
+    const tags = [];
+    const hline = (p, col, label, dash, labelBelow, atRight) => {
+      svgEl(svg, "line", { x1: xE, x2: x60, y1: Y(p), y2: Y(p), stroke: col, "stroke-width": 2, "stroke-dasharray": dash || "" });
+      if (label) svgEl(svg, "text", { x: atRight ? x60 - 6 : x10 + 8, y: Y(p) + (labelBelow ? 18 : -7), fill: col, "font-size": 13, "font-weight": 600, "text-anchor": atRight ? "end" : "start" }, label);
+      tags.push({ y: Y(p), p, col });
     };
-    hline(lv.high, "var(--high)", `Typical high ${pct(m.high)}`);
-    hline(lv.t20, "var(--text)", `+20% · ${m.odds}% of past signals got here`, "6 5");
+    const close = (a, b) => Math.abs(Y(a) - Y(b)) < 22;
+    const highAbove = lv.high >= lv.t20;   // whichever is higher keeps its label above its line
+    hline(lv.high, "var(--high)", `Typical high ${pct(m.high)}`, "", close(lv.high, lv.t20) && !highAbove, close(lv.high, lv.t20));
+    hline(lv.t20, "var(--text)", `+20% · ${m.odds}% of past signals got here`, "6 5", close(lv.high, lv.t20) && highAbove);
     hline(entry, "var(--soft)", "");
-    hline(lv.drop, "var(--drop)", `Typical drop ${pct(m.drop)}`, "", true, true);
+    hline(lv.drop, "var(--drop)", `Typical drop ${pct(m.drop)}`, "", !(lv.edge && close(lv.drop, lv.edge) && lv.drop > lv.edge), true);
+    tags.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < tags.length; i++) if (tags[i].y - tags[i - 1].y < 24) tags[i].y = tags[i - 1].y + 24;
+    for (const t of tags) {
+      svgEl(svg, "rect", { x: R + 2, y: t.y - 11, width: 112, height: 22, rx: 3, fill: t.col });
+      svgEl(svg, "text", { x: R + 58, y: t.y + 5, fill: "#07060F", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, money(t.p));
+    }
     if (lv.edge) {
       svgEl(svg, "line", { x1: xE, x2: x10, y1: Y(lv.edge), y2: Y(lv.edge), stroke: "var(--fade-2)", "stroke-width": 2.5 });
-      svgEl(svg, "text", { x: x10 + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(e.dipPct, 0)}), first 10 days`);
+      svgEl(svg, "text", { x: x10 + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(e.dipPct, 0)})`);
     }
-    const vline = (x, c, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: c, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: c, "font-size": 12, "font-weight": 600 }, label); };
-    vline(xE, "var(--text)", "Entry");
+    const vline = (x, col, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: col, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: col, "font-size": 12, "font-weight": 600 }, label); };
+    vline(xE, "var(--text)", forming ? "Today" : "Entry");
     vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% odds`, "4 5", B - 8);
     vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
     vline(x60, "var(--fade)", "Day 60", "", T + 30);
-    const upto = happened ? n : E + 1;
+    if (forming && confIdx !== null && confIdx > E && confIdx < nSlots) vline(X(confIdx), "var(--live)", `Confirms ${dateLong(c.confirms_on)}`, "2 4", T + 48);
+    const upto = forming ? bars.length : (happened ? bars.length : E + 1);
     for (let i = 0; i < upto; i++) {
       const b = bars[i], col = b.c >= b.o ? "var(--high)" : "var(--drop)";
       svgEl(svg, "line", { x1: X(i), x2: X(i), y1: Y(b.h), y2: Y(b.l), stroke: col, "stroke-width": 1.5 });
-      svgEl(svg, "rect", { x: X(i) - Math.min(6, slot * 0.35), y: Y(Math.max(b.o, b.c)), width: Math.min(12, slot * 0.7), height: Math.max(1, Math.abs(Y(b.o) - Y(b.c))), fill: col });
+      svgEl(svg, "rect", { x: X(i) - Math.min(6, slot * 0.35), y: Y(Math.max(b.o, b.c)), width: Math.max(2, Math.min(12, slot * 0.7)), height: Math.max(1, Math.abs(Y(b.o) - Y(b.c))), fill: col });
+    }
+    if (forming && lowIdx >= 0) {
+      const b = bars[lowIdx];
+      svgEl(svg, "circle", { cx: X(lowIdx), cy: Y(b.l), r: 7, fill: "none", stroke: "var(--live)", "stroke-width": 2 });
+      svgEl(svg, "text", { x: X(lowIdx) - 12, y: Y(b.l) + 5, fill: "var(--live)", "font-size": 12, "font-weight": 700, "text-anchor": "end" }, `Low ${dateLong(c.low_date)} · ${money(b.l)}`);
     }
     if (!happened) svgEl(svg, "text", { x: (xE + x60) / 2 + 40, y: (Y(lv.high) + Y(entry)) / 2, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "The next 60 days, as the odds draw them");
     else {
       const win = bars.slice(E + 1, E + 1 + 60 / tfd);
-      const hiB = win.reduce((a, b) => (b.h > a.h ? b : a)), loB = win.reduce((a, b) => (b.l < a.l ? b : a));
+      const hiB = win.reduce((x, y) => (y.h > x.h ? y : x)), loB = win.reduce((x, y) => (y.l < x.l ? y : x));
       for (const [b, p, below] of [[hiB, hiB.h, false], [loB, loB.l, true]]) {
         const i = bars.indexOf(b), d = (i - E) * tfd;
         svgEl(svg, "circle", { cx: X(i), cy: Y(p), r: 7, fill: "none", stroke: "var(--text)", "stroke-width": 2 });
-        svgEl(svg, "text", { x: X(i) + (below ? 12 : -14), y: Y(p) + (below ? 5 : 5), fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": below ? "start" : "end" }, `This one: ${money(p)} · ${pct((p / entry - 1) * 100)} · day ${d}`);
+        svgEl(svg, "text", { x: X(i) + (below ? 12 : -14), y: Y(p) + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": below ? "start" : "end" }, `This one: ${money(p)} · ${pct((p / entry - 1) * 100)} · day ${d}`);
       }
     }
-    renderCloud(happened);
-    renderChartSide(m, happened);
+    renderCloud(happened, m.asset, c);
+    renderChartSide(m, happened, forming, c);
   }
-  function renderCloud(happened) {
+  function renderCloud(happened, asset, c) {
     const svg = $("#cloudSvg"); svg.innerHTML = "";
-    const pp = ((S.feed && S.feed.past_paths) || []).find((p) => p.asset === "ETH");
+    const pp = ((S.feed && S.feed.past_paths) || []).find((p) => p.asset === asset);
     if (!pp) { svgEl(svg, "text", { x: 550, y: 130, fill: "var(--muted)", "font-size": 14, "text-anchor": "middle" }, "Past paths unavailable in this feed"); return; }
     const L = 20, R = 960, T = 12, B = 230, P0 = -40, P1 = 100;
     const X = (d) => L + (R - L) * d / 60, Y = (v) => B - (Math.max(P0, Math.min(P1, v)) - P0) / (P1 - P0) * (B - T);
@@ -611,13 +672,16 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "polyline", { points: pts.map(([d, v]) => `${X(d)},${Y(v)}`).join(" "), fill: "none", stroke: "var(--text)", "stroke-width": 2.5 });
     }
     const last = days[days.length - 1];
-    $("#cloudSub").textContent = `Every past ETH top-grade signal, n ${pp.signals}`;
-    $("#cloudNote").innerHTML = `<span style="color: var(--fade-2)">━</span> median path &nbsp; <span style="color: var(--fade-2); opacity: .6">█</span> middle half of outcomes${happened ? ' &nbsp; <span style="color: var(--text)">━</span> this signal' : ""}. Day 60: median ${pct(last.median_pct)}, middle half ${pct(last.q25_pct)} to ${pct(last.q75_pct)}. Daily closes.`;
+    $("#cloudSub").textContent = `Every past ${asset} top-grade signal, n ${pp.signals}`;
+    $("#cloudNote").innerHTML = `<span style="color: var(--fade-2)">━</span> median path &nbsp; <span style="color: var(--fade-2); opacity: .6">█</span> middle half of outcomes${happened ? ' &nbsp; <span style="color: var(--text)">━</span> this signal' : ""}. Day 60: median ${pct(last.median_pct)}, middle half ${pct(last.q25_pct)} to ${pct(last.q75_pct)}. Daily closes.`
+      + (c && c.grade !== "A+" ? ` <span style="color: var(--fade-2)">Top-grade signals only; the selected setup is below the posting bar.</span>` : "");
   }
-  function renderChartSide(m, happened) {
+  function renderChartSide(m, happened, forming, c) {
     const ex = S.example, e = edgeRule();
     let what = "";
-    if (happened && ex) {
+    if (forming) {
+      what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">Still forming. It confirms only if it holds through ${dateLong(c.confirms_on)}, and it can vanish before then. ${c.grade === "A+" ? "" : `Its odds are below the ${e.bar ?? 70}% posting bar, so no alert goes out for it.`}</div>`;
+    } else if (happened && ex) {
       const E = ex.entry_index, win = ex.bars.slice(E + 1, E + 31), en = ex.entry_close;
       const hiB = win.reduce((a, b) => (b.h > a.h ? b : a)), loB = win.reduce((a, b) => (b.l < a.l ? b : a)), d10 = ex.bars[E + 5];
       const reached = win.some((b) => b.h >= en * 1.2);
@@ -632,17 +696,19 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     } else what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">This is all a member had at the alert: the zones, the target and the timing. Press <b style="color: #7FF0FF">What happened</b> to see the real path.</div>`;
     $("#chartSide").innerHTML = `
       <div class="sidebox">
-        <div class="sec-title" style="color: var(--live)">What the card said</div>
-        <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${m.odds}%</div>
+        <div class="sec-title" style="color: var(--live)">What the card says</div>
+        <div class="small">${esc(m.chart)}${forming ? ` · from ${esc(m.sample || "")}` : " · example"}</div>
+        <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${m.odds ?? "n/a"}%</div>
         <div class="small">reached +20% within 60 days, from ${m.n} past signals</div>
         <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(m.entry * (1 + m.high / 100))}</b></div>
         <div class="kv num"><span class="small">+20% target</span><b>${money(m.entry * 1.2)}</b></div>
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
         <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${money(m.entry * (1 + e.dipPct / 100))}</b></div>
+        ${forming ? `<div class="fine">Prices use today's close as a stand-in for the entry.</div>` : ""}
       </div>
       ${what}
-      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">The lead trader's real entries and exits show on the chart as markers. None on this one: it is a historical computed signal.</div>
-      <div class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record. Hypothetical results have inherent limitations. Zones use the pooled ETH top-grade figures, which include this signal.</div>`;
+      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">The lead trader's real entries and exits show on the chart as markers. None on this one.</div>
+      <div class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record. Hypothetical results have inherent limitations.</div>`;
   }
 
   /* ---------- Record ---------- */
@@ -675,15 +741,20 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (v === "record") renderRecord();
   }
   document.addEventListener("click", (ev) => {
-    const t = ev.target.closest("[data-view],[data-go],[data-asset]");
+    const t = ev.target.closest("[data-view],[data-go],[data-asset],[data-sel]");
     if (!t) return;
-    if (t.dataset.view) show(t.dataset.view);
+    if (t.dataset.sel) {
+      S.preview = t.dataset.sel === "example"; if (!S.preview) S.sel = t.dataset.sel;
+      $("#previewSwitch").checked = S.preview; S.chartMode = "alert"; renderCard();
+      if (!$("#view-chart").hidden) renderChart();
+    }
+    else if (t.dataset.view) show(t.dataset.view);
     else if (t.dataset.go) show(t.dataset.go);
     else if (t.dataset.asset) { S.asset = t.dataset.asset; renderRecord(); }
   });
   $("#bAlert").addEventListener("click", () => { S.chartMode = "alert"; renderChart(); });
   $("#bHap").addEventListener("click", () => { S.chartMode = "happened"; renderChart(); });
-  $("#previewSwitch").addEventListener("change", (e) => { S.preview = e.target.checked; renderCard(); });
+  $("#previewSwitch").addEventListener("change", (e) => { S.preview = e.target.checked; renderCard(); if (!$("#view-chart").hidden) renderChart(); });
   window.addEventListener("hashchange", () => show(location.hash.slice(1)));
 
   async function boot() {
@@ -691,7 +762,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
     S.feed = feed; S.trades = trades; S.example = example;
     S.ledger = ledgerText ? parseCSV(ledgerText).filter((r) => r.grade === "A+") : [];
-    if (!bestCard()) { S.preview = true; $("#previewSwitch").checked = true; }
+    if (!bestCard()) { S.preview = true; $("#previewSwitch").checked = true; } else S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
     show(location.hash.slice(1) || "now");
   }
