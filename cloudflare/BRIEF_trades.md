@@ -70,7 +70,7 @@ placeholder.
 **2.3 Code.** Replace it with the file at this commit-pinned URL, then Deploy:
 
 ```
-https://raw.githubusercontent.com/jaredbausch-ai/ctzb-data/19e7c37f1d1586f95a624e9f55e7fdfd5c58fa47/cloudflare/ctzb-trades-worker.js
+https://raw.githubusercontent.com/jaredbausch-ai/ctzb-data/08e06ab1307bab9c635f8342e19a0bab03962fc2/cloudflare/ctzb-trades-worker.js
 ```
 
 Exact-match check before deploying: about 21.8 KB (21,762 bytes); the first line reads
