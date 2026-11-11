@@ -518,7 +518,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       // CSS variables only resolve through style, not presentation attributes
       if (typeof v === "string" && v.includes("var(")) e.style.setProperty(k, v); else e.setAttribute(k, v);
     }
-    if (text !== undefined) { e.textContent = text; e.style.paintOrder = "stroke"; e.style.stroke = "#0B0918"; e.style.strokeWidth = "4px"; e.style.strokeLinejoin = "round"; }
+    // Dark outline behind light labels so they read over candles; never on the dark text inside the price tags.
+    if (text !== undefined) { e.textContent = text; if (attrs.fill !== "#07060F") { e.style.paintOrder = "stroke"; e.style.stroke = "#0B0918"; e.style.strokeWidth = "4px"; e.style.strokeLinejoin = "round"; } }
     svg.appendChild(e); return e;
   }
   function renderChart() {
@@ -563,7 +564,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     hline(lv.drop, "var(--drop)", `Typical drop ${pct(m.drop)}`, "", true, true);
     if (lv.edge) {
       svgEl(svg, "line", { x1: xE, x2: x10, y1: Y(lv.edge), y2: Y(lv.edge), stroke: "var(--fade-2)", "stroke-width": 2.5 });
-      svgEl(svg, "text", { x: xE - 8, y: Y(lv.edge) + 4, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600, "text-anchor": "end" }, `Edge gone below ${money(lv.edge)} (${pct(e.dipPct, 0)}), first 10 days`);
+      svgEl(svg, "text", { x: x10 + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(e.dipPct, 0)}), first 10 days`);
     }
     const vline = (x, c, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: c, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: c, "font-size": 12, "font-weight": 600 }, label); };
     vline(xE, "var(--text)", "Entry");
