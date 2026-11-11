@@ -27,34 +27,39 @@ public until Jared switches it live, after counsel (Noah) signs off.
 The key from 24 Oct is locked to Joe's IP address, so it can't be used from Cloudflare.
 This is a new key, for this Worker only.
 
-**1.1** Open `https://portal.cdp.coinbase.com/api-keys/secret` and sign in with the
-Coinbase account that holds the perps. If it asks to create a developer project, choose
-the free default and report it. Stop at any payment screen.
+**1.1** Open `https://portal.cdp.coinbase.com/access/api` (left menu **Access → API keys**),
+signed in with the Coinbase account that holds the perps. The old `/api-keys/secret`
+address now lands on the Developer Platform dashboard instead (seen 11 Nov). Reject the
+cookie banner. If it asks to create a developer project, choose the free default and
+report it. Stop at any payment screen.
 
-**1.2** Click **Create API key**. Nickname: `ctzb-trades read-only`.
+**1.2** Click **Create API key**. If it asks for a key type, choose **Secret API key**
+(not a client key, wallet or OAuth). Nickname: `ctzb-trades read-only`.
 
-**1.3** Open **API restrictions**:
+**1.3** In the dialog, under **API restrictions**:
 
 | Setting | Value |
 |---|---|
 | Portfolio | the portfolio the perps trade in (usually **Default**). Ask Jared if there's more than one |
-| Permissions | **View** only. **Trade** and **Transfer** must be unchecked |
-| IP allowlist | **leave empty** (see below) |
+| Permission level | **View** only. **Trade** and **Transfer** must be unchecked |
+| Allowlist IPs | **leave empty** (see below) |
 
 Why no IP allowlist: Cloudflare Workers don't call out from fixed addresses, so an
 allowlist would block every request. The protection is that the key can only read.
 
-**1.4** Open **Advanced settings** → signature algorithm **ECDSA**. Not Ed25519;
-Coinbase's trading APIs don't accept it, and the Worker refuses it.
+**1.4** Open **Advanced settings** → signature algorithm. **It defaults to Ed25519:
+change it to ECDSA.** Coinbase's trading APIs don't accept Ed25519, and the Worker
+refuses it.
 
-**1.5** Show Jared the settings, then click **Create API key**.
+**1.5** Show Jared the settings, then click **Create & Download**.
 
-**1.6 STOP. Jared only from here.** The screen now shows the **API key name** (it starts
+**1.6 STOP. Jared only from here.** Jared completes the **2-factor** prompt. The key file
+(JSON) downloads automatically, and a final popup shows the **API key name** (it starts
 `organizations/…/apiKeys/…`) and the **private key** (a block starting
-`-----BEGIN EC PRIVATE KEY-----`). The agent looks away from this screen: no reading,
-no copying, no screenshots. Jared either keeps this window open for Phase 3 or clicks
-**Download API key** and saves the file somewhere private on his computer. It goes
-nowhere else: not a chat, not an email, not the repo.
+`-----BEGIN EC PRIVATE KEY-----`). The agent looks away: no reading, no copying, no
+screenshots. Jared keeps the downloaded file somewhere private for Phase 3 and deletes it
+once the secrets are in Cloudflare. It goes nowhere else: not a chat, not an email, not
+the repo. Jared clicks **Got it**.
 
 **1.7** Back on the key list, confirm the new key shows **View** as its only permission.
 
