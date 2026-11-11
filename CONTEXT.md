@@ -516,6 +516,8 @@ the system's autonomy proven, every figure and percentage audited over and over.
 Run that for **one to two months before selling anything**. Win rates and
 statistics work continues in the background while it runs.
 
+**Paid infrastructure (11 Nov 2026, Jared):** the ETHKROS Cloudflare account is on **Workers Paid ($5/month)**, which removes the free plan's 1,000 KV writes/day, 10 ms CPU and 5-cron limits. GitHub (jaredbausch-ai) has a payment method and an **Actions budget of $20/month with "stop usage when budget limit is reached"**. Public-repo minutes stay free; once the repo is private, measured usage (~163 min/day, ~4,900/month, 10-11 Nov) costs about $17/month over the included amount. Data licences still open for Noah before selling: Coin Metrics Community is CC BY-NC (non-commercial); Coinalyze, DefiLlama free endpoints and Farside state no commercial terms.
+
 **Member card redesign (item 18) -- 10-11 Nov 2026.** Decisions, Jared:
 members are sent A+ only, and the card says "Confirmed setup" (the grade stays
 internal). **The posting bar is 70%: below it a signal's edge is gone** (same
