@@ -1,34 +1,309 @@
 {
- "schema_version": 4,
- "generated_at": "2026-11-11T17:50:38Z",
+ "schema_version": 5,
+ "generated_at": "2026-11-11T18:23:47Z",
  "scored_as_of": "2026-11-11",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
-  "passed": false,
+  "passed": true,
   "lines": [
-   "2026-11-11 17:50 UTC FAILED COVERAGE FAILURE -- ETH 5D turn under 40 in the 30 days before a 1D / 2D / 3D signal (11 Nov 2026, watch item)",
-   "2026-11-11 17:50 UTC OK card cross-check, 4 cards match the ledger"
+   "2026-11-11 18:23 UTC OK 27 subjects, 977 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-11",
+   "2026-11-11 18:23 UTC OK card cross-check, 4 cards match the ledger"
   ],
-  "all_passed": false,
+  "all_passed": true,
   "steps": {
    "refresh": "success",
    "grade": "success",
-   "stack": "failure",
+   "stack": "success",
    "cards": "success",
-   "regress": "success"
+   "regress": "success",
+   "extras": "success"
   },
-  "failed_steps": [
-   "stack"
-  ]
+  "failed_steps": []
  },
- "cards_withheld": true,
- "alerts_withheld": true,
+ "cards_withheld": false,
+ "alerts_withheld": false,
  "alerts_seeded": false,
  "alerts": [],
  "market_regime": "Bullish",
  "next_buy_date": "none ahead",
  "trades_a_year": "15 on average",
- "cards": [],
+ "cards": [
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-1D-2026-11-13",
+   "chart": "ETH 1D",
+   "asset": "ETH",
+   "timeframe": "1D",
+   "low_date": "2026-11-10",
+   "confirms_on": "2026-11-13",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 2089.7,
+   "grade": "C",
+   "confirmations": "funding at or above its 90-day median",
+   "sample": "the last 17 ETH 1D trades with exactly the same confirmations",
+   "past_trades": 17,
+   "rose10_never_fell25_within60d_pct": 53,
+   "beat_normal_move_pct": 47,
+   "rose20_within60d_pct": 29,
+   "rose10_within60d_pct": 65,
+   "typical_biggest_rise_pct": 13.3,
+   "typical_dip_before_rise_pct": -8.2,
+   "typical_deepest_dip_pct": -17.7,
+   "fell30_within60d_pct": 29,
+   "before_2022": {
+    "past_trades": 6,
+    "rose10_never_fell25_within60d_pct": 67
+   },
+   "since_2022": {
+    "past_trades": 11,
+    "rose10_never_fell25_within60d_pct": 45
+   },
+   "typical_day_first_rose10": 9,
+   "typical_day_first_rose20": 29,
+   "typical_day_of_60d_high": 21,
+   "typical_day_of_deepest_dip": 32,
+   "active_confluences": [],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 14,
+     "still_rose10_pct": 57,
+     "went_on_to_fall25_pct": 29
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 5,
+     "still_rose10_pct": 0,
+     "went_on_to_fall25_pct": 80
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "ETH-2D-2026-11-16",
+   "chart": "ETH 2D",
+   "asset": "ETH",
+   "timeframe": "2D",
+   "low_date": "2026-11-09",
+   "confirms_on": "2026-11-16",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 2089.7,
+   "grade": "C",
+   "confirmations": "funding at or above its 90-day median",
+   "sample": "the last 27 ETH 2D trades graded C (only 4 had exactly the same confirmations, too few to use)",
+   "past_trades": 27,
+   "rose10_never_fell25_within60d_pct": 52,
+   "beat_normal_move_pct": 52,
+   "rose20_within60d_pct": 41,
+   "rose10_within60d_pct": 67,
+   "typical_biggest_rise_pct": 14.7,
+   "typical_dip_before_rise_pct": -5.9,
+   "typical_deepest_dip_pct": -17.0,
+   "fell30_within60d_pct": 30,
+   "before_2022": {
+    "past_trades": 8,
+    "rose10_never_fell25_within60d_pct": 62
+   },
+   "since_2022": {
+    "past_trades": 19,
+    "rose10_never_fell25_within60d_pct": 47
+   },
+   "typical_day_first_rose10": 12,
+   "typical_day_first_rose20": 24,
+   "typical_day_of_60d_high": 44,
+   "typical_day_of_deepest_dip": 22,
+   "active_confluences": [],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 20,
+     "still_rose10_pct": 50,
+     "went_on_to_fall25_pct": 35
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 14,
+     "still_rose10_pct": 36,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 12,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 58
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 9,
+     "still_rose10_pct": 11,
+     "went_on_to_fall25_pct": 78
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-1D-2026-11-13",
+   "chart": "BTC 1D",
+   "asset": "BTC",
+   "timeframe": "1D",
+   "low_date": "2026-11-10",
+   "confirms_on": "2026-11-13",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 74463.41,
+   "grade": "C",
+   "confirmations": "an ETH 2D signal in the 10 days before",
+   "sample": "the last 37 BTC 1D trades with exactly the same confirmations",
+   "past_trades": 37,
+   "rose10_never_fell25_within60d_pct": 78,
+   "beat_normal_move_pct": 66,
+   "rose20_within60d_pct": 49,
+   "rose10_within60d_pct": 84,
+   "typical_biggest_rise_pct": 19.1,
+   "typical_dip_before_rise_pct": -4.9,
+   "typical_deepest_dip_pct": -9.5,
+   "fell30_within60d_pct": 8,
+   "before_2022": {
+    "past_trades": 22,
+    "rose10_never_fell25_within60d_pct": 73
+   },
+   "since_2022": {
+    "past_trades": 15,
+    "rose10_never_fell25_within60d_pct": 87
+   },
+   "typical_day_first_rose10": 9,
+   "typical_day_first_rose20": 22,
+   "typical_day_of_60d_high": 44,
+   "typical_day_of_deepest_dip": 23,
+   "active_confluences": [
+    {
+     "after": "ETH 2D any",
+     "after_confirmed": "2026-11-04",
+     "window_closes": "2026-11-14",
+     "applies_to": "all",
+     "past_trades": 136,
+     "rose20_within60d_pct": 60,
+     "rose10_within60d_pct": 81,
+     "fell30_within60d_pct": 12,
+     "note": "Its own sample, separate from the card number; rows overlap and are not added."
+    },
+    {
+     "after": "ETH 2D A",
+     "after_confirmed": "2026-11-04",
+     "window_closes": "2026-11-14",
+     "applies_to": "all",
+     "past_trades": 35,
+     "rose20_within60d_pct": 63,
+     "rose10_within60d_pct": 77,
+     "fell30_within60d_pct": 3,
+     "note": "Its own sample, separate from the card number; rows overlap and are not added."
+    }
+   ],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 17,
+     "still_rose10_pct": 65,
+     "went_on_to_fall25_pct": 24
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 5,
+     "still_rose10_pct": 0,
+     "went_on_to_fall25_pct": 80
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-2D-2026-11-16",
+   "chart": "BTC 2D",
+   "asset": "BTC",
+   "timeframe": "2D",
+   "low_date": "2026-11-09",
+   "confirms_on": "2026-11-16",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 74463.41,
+   "grade": "C",
+   "confirmations": "none",
+   "sample": "the last 15 BTC 2D trades with exactly the same confirmations",
+   "past_trades": 15,
+   "rose10_never_fell25_within60d_pct": 53,
+   "beat_normal_move_pct": 55,
+   "rose20_within60d_pct": 33,
+   "rose10_within60d_pct": 67,
+   "typical_biggest_rise_pct": 14.1,
+   "typical_dip_before_rise_pct": -4.6,
+   "typical_deepest_dip_pct": -15.8,
+   "fell30_within60d_pct": 20,
+   "before_2022": {
+    "past_trades": 11,
+    "rose10_never_fell25_within60d_pct": 36
+   },
+   "since_2022": {
+    "past_trades": 4,
+    "rose10_never_fell25_within60d_pct": 100
+   },
+   "typical_day_first_rose10": 28,
+   "typical_day_first_rose20": 34,
+   "typical_day_of_60d_high": 39,
+   "typical_day_of_deepest_dip": 28,
+   "active_confluences": [],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 10,
+     "still_rose10_pct": 40,
+     "went_on_to_fall25_pct": 60
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 75
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 7,
+     "still_rose10_pct": 14,
+     "went_on_to_fall25_pct": 86
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 6,
+     "still_rose10_pct": 0,
+     "went_on_to_fall25_pct": 100
+    }
+   ]
+  }
+ ],
  "prints": [
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -74,7 +349,7 @@
    "provisional": true,
    "low_date": "2026-11-10",
    "confirms_on": "2026-11-13",
-   "entry_close": 2052.33,
+   "entry_close": 2089.7,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -122,7 +397,7 @@
    "provisional": true,
    "low_date": "2026-11-09",
    "confirms_on": "2026-11-16",
-   "entry_close": 2052.33,
+   "entry_close": 2089.7,
    "tags": "A + filled diamond",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -278,7 +553,7 @@
    "provisional": true,
    "low_date": "2026-11-10",
    "confirms_on": "2026-11-13",
-   "entry_close": 73836.85,
+   "entry_close": 74463.41,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -326,7 +601,7 @@
    "provisional": true,
    "low_date": "2026-11-09",
    "confirms_on": "2026-11-16",
-   "entry_close": 73836.85,
+   "entry_close": 74463.41,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -983,6 +1258,842 @@
    "median_deepest_dip_pct": -15.1,
    "sample": "2020-03-21 to 2026-09-05",
    "note": "Pooled across every chart and mix for this asset. Context only: the card is the number for a live setup."
+  }
+ ],
+ "extras_withheld": false,
+ "if_it_misses": [
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "ETH",
+   "grade": "A+",
+   "signals": 104,
+   "misses": 26,
+   "up_first": 26,
+   "median_peak_pct": 7.1,
+   "mean_peak_pct": 8.1,
+   "peaked_5_or_more": 18,
+   "peaked_10_or_more": 11,
+   "median_worst_drop_pct": -19.7,
+   "median_day60_pct": -12.2,
+   "note": "Signals of this grade that did not reach +20% within 60 days. Show the median peak."
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "BTC",
+   "grade": "A+",
+   "signals": 33,
+   "misses": 7,
+   "up_first": 7,
+   "median_peak_pct": 6.4,
+   "mean_peak_pct": 7.0,
+   "peaked_5_or_more": 5,
+   "peaked_10_or_more": 2,
+   "median_worst_drop_pct": -28.1,
+   "median_day60_pct": -14.6,
+   "note": "Signals of this grade that did not reach +20% within 60 days. Show the median peak."
+  }
+ ],
+ "odds_fade": {
+  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+  "posting_bar_pct": 70,
+  "sample": "Every kept signal, all grades. Below the posting bar the signal's edge is gone.",
+  "early_dip": [
+   {
+    "band": "shallower than -2%",
+    "past_trades": 30,
+    "rose20_within60d_pct": 87,
+    "edge": "intact"
+   },
+   {
+    "band": "-2% to -5%",
+    "past_trades": 44,
+    "rose20_within60d_pct": 89,
+    "edge": "intact"
+   },
+   {
+    "band": "-5% to -10%",
+    "past_trades": 34,
+    "rose20_within60d_pct": 71,
+    "edge": "intact"
+   },
+   {
+    "band": "-10% to -20%",
+    "past_trades": 27,
+    "rose20_within60d_pct": 56,
+    "edge": "gone"
+   },
+   {
+    "band": "worse than -20%",
+    "past_trades": 16,
+    "rose20_within60d_pct": 44,
+    "edge": "gone"
+   }
+  ],
+  "day10": [
+   {
+    "check": "green on day 10",
+    "past_trades": 93,
+    "rose20_within60d_pct": 92,
+    "edge": "intact"
+   },
+   {
+    "check": "red on day 10",
+    "past_trades": 58,
+    "rose20_within60d_pct": 47,
+    "edge": "gone"
+   }
+  ]
+ },
+ "past_paths": [
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "ETH",
+   "grade": "A+",
+   "signals": 104,
+   "note": "Every past signal of this grade, daily closes, lined up at entry: percent from entry by day.",
+   "days": [
+    {
+     "day": 0,
+     "q25_pct": 0.0,
+     "median_pct": 0.0,
+     "q75_pct": 0.0
+    },
+    {
+     "day": 1,
+     "q25_pct": -1.6,
+     "median_pct": 0.4,
+     "q75_pct": 2.5
+    },
+    {
+     "day": 2,
+     "q25_pct": -2.1,
+     "median_pct": 0.5,
+     "q75_pct": 4.5
+    },
+    {
+     "day": 3,
+     "q25_pct": -2.5,
+     "median_pct": 1.2,
+     "q75_pct": 5.5
+    },
+    {
+     "day": 4,
+     "q25_pct": -3.2,
+     "median_pct": 1.8,
+     "q75_pct": 6.6
+    },
+    {
+     "day": 5,
+     "q25_pct": -2.7,
+     "median_pct": 1.8,
+     "q75_pct": 8.2
+    },
+    {
+     "day": 6,
+     "q25_pct": -2.9,
+     "median_pct": 1.4,
+     "q75_pct": 8.6
+    },
+    {
+     "day": 7,
+     "q25_pct": -3.5,
+     "median_pct": 2.9,
+     "q75_pct": 9.0
+    },
+    {
+     "day": 8,
+     "q25_pct": -3.4,
+     "median_pct": 4.2,
+     "q75_pct": 11.1
+    },
+    {
+     "day": 9,
+     "q25_pct": -3.2,
+     "median_pct": 3.4,
+     "q75_pct": 11.1
+    },
+    {
+     "day": 10,
+     "q25_pct": -3.6,
+     "median_pct": 5.3,
+     "q75_pct": 11.6
+    },
+    {
+     "day": 11,
+     "q25_pct": -4.7,
+     "median_pct": 3.7,
+     "q75_pct": 13.1
+    },
+    {
+     "day": 12,
+     "q25_pct": -4.5,
+     "median_pct": 6.1,
+     "q75_pct": 13.7
+    },
+    {
+     "day": 13,
+     "q25_pct": -4.0,
+     "median_pct": 3.2,
+     "q75_pct": 14.8
+    },
+    {
+     "day": 14,
+     "q25_pct": -4.0,
+     "median_pct": 5.3,
+     "q75_pct": 16.2
+    },
+    {
+     "day": 15,
+     "q25_pct": -4.0,
+     "median_pct": 7.2,
+     "q75_pct": 16.7
+    },
+    {
+     "day": 16,
+     "q25_pct": -4.9,
+     "median_pct": 8.1,
+     "q75_pct": 17.7
+    },
+    {
+     "day": 17,
+     "q25_pct": -3.8,
+     "median_pct": 7.2,
+     "q75_pct": 17.1
+    },
+    {
+     "day": 18,
+     "q25_pct": -3.2,
+     "median_pct": 7.8,
+     "q75_pct": 18.4
+    },
+    {
+     "day": 19,
+     "q25_pct": -3.1,
+     "median_pct": 8.3,
+     "q75_pct": 21.2
+    },
+    {
+     "day": 20,
+     "q25_pct": -4.2,
+     "median_pct": 8.2,
+     "q75_pct": 26.0
+    },
+    {
+     "day": 21,
+     "q25_pct": -3.3,
+     "median_pct": 8.5,
+     "q75_pct": 24.8
+    },
+    {
+     "day": 22,
+     "q25_pct": -2.6,
+     "median_pct": 7.7,
+     "q75_pct": 25.6
+    },
+    {
+     "day": 23,
+     "q25_pct": -3.2,
+     "median_pct": 9.6,
+     "q75_pct": 26.1
+    },
+    {
+     "day": 24,
+     "q25_pct": -3.4,
+     "median_pct": 8.7,
+     "q75_pct": 26.1
+    },
+    {
+     "day": 25,
+     "q25_pct": -2.7,
+     "median_pct": 8.9,
+     "q75_pct": 26.8
+    },
+    {
+     "day": 26,
+     "q25_pct": -2.9,
+     "median_pct": 11.0,
+     "q75_pct": 30.4
+    },
+    {
+     "day": 27,
+     "q25_pct": -2.4,
+     "median_pct": 11.8,
+     "q75_pct": 27.6
+    },
+    {
+     "day": 28,
+     "q25_pct": -2.0,
+     "median_pct": 11.3,
+     "q75_pct": 30.7
+    },
+    {
+     "day": 29,
+     "q25_pct": -3.3,
+     "median_pct": 11.4,
+     "q75_pct": 32.0
+    },
+    {
+     "day": 30,
+     "q25_pct": -0.3,
+     "median_pct": 10.9,
+     "q75_pct": 36.5
+    },
+    {
+     "day": 31,
+     "q25_pct": -0.6,
+     "median_pct": 12.0,
+     "q75_pct": 39.0
+    },
+    {
+     "day": 32,
+     "q25_pct": -0.6,
+     "median_pct": 11.1,
+     "q75_pct": 41.7
+    },
+    {
+     "day": 33,
+     "q25_pct": -0.3,
+     "median_pct": 11.4,
+     "q75_pct": 33.5
+    },
+    {
+     "day": 34,
+     "q25_pct": -0.3,
+     "median_pct": 13.0,
+     "q75_pct": 37.1
+    },
+    {
+     "day": 35,
+     "q25_pct": 0.0,
+     "median_pct": 12.8,
+     "q75_pct": 34.0
+    },
+    {
+     "day": 36,
+     "q25_pct": -0.6,
+     "median_pct": 10.5,
+     "q75_pct": 31.5
+    },
+    {
+     "day": 37,
+     "q25_pct": 0.2,
+     "median_pct": 8.7,
+     "q75_pct": 34.8
+    },
+    {
+     "day": 38,
+     "q25_pct": -0.2,
+     "median_pct": 10.3,
+     "q75_pct": 39.5
+    },
+    {
+     "day": 39,
+     "q25_pct": -1.3,
+     "median_pct": 10.9,
+     "q75_pct": 38.2
+    },
+    {
+     "day": 40,
+     "q25_pct": -1.1,
+     "median_pct": 13.9,
+     "q75_pct": 36.8
+    },
+    {
+     "day": 41,
+     "q25_pct": -2.2,
+     "median_pct": 14.2,
+     "q75_pct": 34.7
+    },
+    {
+     "day": 42,
+     "q25_pct": -1.9,
+     "median_pct": 12.6,
+     "q75_pct": 39.8
+    },
+    {
+     "day": 43,
+     "q25_pct": -1.6,
+     "median_pct": 12.6,
+     "q75_pct": 37.8
+    },
+    {
+     "day": 44,
+     "q25_pct": -0.9,
+     "median_pct": 13.0,
+     "q75_pct": 38.4
+    },
+    {
+     "day": 45,
+     "q25_pct": -1.8,
+     "median_pct": 13.4,
+     "q75_pct": 38.4
+    },
+    {
+     "day": 46,
+     "q25_pct": -3.0,
+     "median_pct": 14.1,
+     "q75_pct": 35.9
+    },
+    {
+     "day": 47,
+     "q25_pct": -4.9,
+     "median_pct": 14.9,
+     "q75_pct": 39.3
+    },
+    {
+     "day": 48,
+     "q25_pct": -2.9,
+     "median_pct": 15.4,
+     "q75_pct": 37.0
+    },
+    {
+     "day": 49,
+     "q25_pct": -3.2,
+     "median_pct": 14.4,
+     "q75_pct": 35.7
+    },
+    {
+     "day": 50,
+     "q25_pct": -3.0,
+     "median_pct": 14.9,
+     "q75_pct": 37.3
+    },
+    {
+     "day": 51,
+     "q25_pct": -2.8,
+     "median_pct": 18.9,
+     "q75_pct": 34.8
+    },
+    {
+     "day": 52,
+     "q25_pct": -1.3,
+     "median_pct": 15.4,
+     "q75_pct": 37.0
+    },
+    {
+     "day": 53,
+     "q25_pct": -0.5,
+     "median_pct": 16.5,
+     "q75_pct": 40.7
+    },
+    {
+     "day": 54,
+     "q25_pct": -0.7,
+     "median_pct": 20.2,
+     "q75_pct": 42.1
+    },
+    {
+     "day": 55,
+     "q25_pct": -0.3,
+     "median_pct": 19.9,
+     "q75_pct": 37.7
+    },
+    {
+     "day": 56,
+     "q25_pct": -1.6,
+     "median_pct": 21.2,
+     "q75_pct": 44.3
+    },
+    {
+     "day": 57,
+     "q25_pct": -1.1,
+     "median_pct": 21.9,
+     "q75_pct": 43.9
+    },
+    {
+     "day": 58,
+     "q25_pct": -1.3,
+     "median_pct": 21.1,
+     "q75_pct": 48.6
+    },
+    {
+     "day": 59,
+     "q25_pct": -1.6,
+     "median_pct": 18.5,
+     "q75_pct": 46.7
+    },
+    {
+     "day": 60,
+     "q25_pct": -1.0,
+     "median_pct": 22.4,
+     "q75_pct": 47.4
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "BTC",
+   "grade": "A+",
+   "signals": 33,
+   "note": "Every past signal of this grade, daily closes, lined up at entry: percent from entry by day.",
+   "days": [
+    {
+     "day": 0,
+     "q25_pct": 0.0,
+     "median_pct": 0.0,
+     "q75_pct": 0.0
+    },
+    {
+     "day": 1,
+     "q25_pct": -0.9,
+     "median_pct": 0.2,
+     "q75_pct": 1.4
+    },
+    {
+     "day": 2,
+     "q25_pct": -0.8,
+     "median_pct": 1.2,
+     "q75_pct": 2.6
+    },
+    {
+     "day": 3,
+     "q25_pct": 0.4,
+     "median_pct": 2.2,
+     "q75_pct": 4.8
+    },
+    {
+     "day": 4,
+     "q25_pct": -0.4,
+     "median_pct": 2.1,
+     "q75_pct": 8.8
+    },
+    {
+     "day": 5,
+     "q25_pct": -0.2,
+     "median_pct": 3.0,
+     "q75_pct": 11.6
+    },
+    {
+     "day": 6,
+     "q25_pct": -0.1,
+     "median_pct": 2.3,
+     "q75_pct": 11.1
+    },
+    {
+     "day": 7,
+     "q25_pct": -0.2,
+     "median_pct": 3.6,
+     "q75_pct": 12.0
+    },
+    {
+     "day": 8,
+     "q25_pct": -0.6,
+     "median_pct": 4.5,
+     "q75_pct": 15.9
+    },
+    {
+     "day": 9,
+     "q25_pct": -1.2,
+     "median_pct": 4.8,
+     "q75_pct": 13.6
+    },
+    {
+     "day": 10,
+     "q25_pct": 0.3,
+     "median_pct": 3.3,
+     "q75_pct": 16.5
+    },
+    {
+     "day": 11,
+     "q25_pct": 0.5,
+     "median_pct": 2.7,
+     "q75_pct": 17.6
+    },
+    {
+     "day": 12,
+     "q25_pct": -0.1,
+     "median_pct": 4.8,
+     "q75_pct": 18.4
+    },
+    {
+     "day": 13,
+     "q25_pct": -0.6,
+     "median_pct": 7.6,
+     "q75_pct": 17.9
+    },
+    {
+     "day": 14,
+     "q25_pct": 0.9,
+     "median_pct": 7.5,
+     "q75_pct": 20.2
+    },
+    {
+     "day": 15,
+     "q25_pct": 0.3,
+     "median_pct": 9.0,
+     "q75_pct": 21.1
+    },
+    {
+     "day": 16,
+     "q25_pct": 1.2,
+     "median_pct": 6.5,
+     "q75_pct": 20.8
+    },
+    {
+     "day": 17,
+     "q25_pct": 1.2,
+     "median_pct": 7.0,
+     "q75_pct": 20.1
+    },
+    {
+     "day": 18,
+     "q25_pct": 1.8,
+     "median_pct": 6.8,
+     "q75_pct": 22.8
+    },
+    {
+     "day": 19,
+     "q25_pct": 1.6,
+     "median_pct": 7.4,
+     "q75_pct": 23.0
+    },
+    {
+     "day": 20,
+     "q25_pct": 1.6,
+     "median_pct": 9.8,
+     "q75_pct": 27.1
+    },
+    {
+     "day": 21,
+     "q25_pct": -0.2,
+     "median_pct": 10.3,
+     "q75_pct": 26.0
+    },
+    {
+     "day": 22,
+     "q25_pct": 2.4,
+     "median_pct": 11.2,
+     "q75_pct": 26.8
+    },
+    {
+     "day": 23,
+     "q25_pct": 1.1,
+     "median_pct": 13.2,
+     "q75_pct": 25.0
+    },
+    {
+     "day": 24,
+     "q25_pct": 1.3,
+     "median_pct": 16.6,
+     "q75_pct": 25.0
+    },
+    {
+     "day": 25,
+     "q25_pct": 0.8,
+     "median_pct": 19.4,
+     "q75_pct": 26.3
+    },
+    {
+     "day": 26,
+     "q25_pct": 1.2,
+     "median_pct": 20.3,
+     "q75_pct": 26.5
+    },
+    {
+     "day": 27,
+     "q25_pct": 2.4,
+     "median_pct": 21.8,
+     "q75_pct": 28.8
+    },
+    {
+     "day": 28,
+     "q25_pct": 3.0,
+     "median_pct": 22.9,
+     "q75_pct": 29.3
+    },
+    {
+     "day": 29,
+     "q25_pct": 5.1,
+     "median_pct": 22.2,
+     "q75_pct": 29.2
+    },
+    {
+     "day": 30,
+     "q25_pct": 3.5,
+     "median_pct": 21.9,
+     "q75_pct": 29.4
+    },
+    {
+     "day": 31,
+     "q25_pct": 2.8,
+     "median_pct": 22.8,
+     "q75_pct": 28.2
+    },
+    {
+     "day": 32,
+     "q25_pct": 5.2,
+     "median_pct": 22.4,
+     "q75_pct": 30.3
+    },
+    {
+     "day": 33,
+     "q25_pct": 3.5,
+     "median_pct": 22.9,
+     "q75_pct": 30.4
+    },
+    {
+     "day": 34,
+     "q25_pct": 5.8,
+     "median_pct": 24.6,
+     "q75_pct": 32.2
+    },
+    {
+     "day": 35,
+     "q25_pct": 2.0,
+     "median_pct": 24.9,
+     "q75_pct": 32.2
+    },
+    {
+     "day": 36,
+     "q25_pct": 1.2,
+     "median_pct": 25.2,
+     "q75_pct": 33.6
+    },
+    {
+     "day": 37,
+     "q25_pct": -1.5,
+     "median_pct": 26.5,
+     "q75_pct": 36.6
+    },
+    {
+     "day": 38,
+     "q25_pct": 1.3,
+     "median_pct": 27.3,
+     "q75_pct": 40.2
+    },
+    {
+     "day": 39,
+     "q25_pct": 0.2,
+     "median_pct": 26.9,
+     "q75_pct": 41.3
+    },
+    {
+     "day": 40,
+     "q25_pct": 3.6,
+     "median_pct": 27.2,
+     "q75_pct": 39.7
+    },
+    {
+     "day": 41,
+     "q25_pct": 5.3,
+     "median_pct": 28.9,
+     "q75_pct": 36.4
+    },
+    {
+     "day": 42,
+     "q25_pct": 3.8,
+     "median_pct": 29.4,
+     "q75_pct": 46.2
+    },
+    {
+     "day": 43,
+     "q25_pct": 5.7,
+     "median_pct": 28.8,
+     "q75_pct": 46.8
+    },
+    {
+     "day": 44,
+     "q25_pct": 5.7,
+     "median_pct": 27.5,
+     "q75_pct": 46.6
+    },
+    {
+     "day": 45,
+     "q25_pct": 1.7,
+     "median_pct": 28.5,
+     "q75_pct": 45.2
+    },
+    {
+     "day": 46,
+     "q25_pct": 2.7,
+     "median_pct": 24.8,
+     "q75_pct": 45.6
+    },
+    {
+     "day": 47,
+     "q25_pct": 5.3,
+     "median_pct": 24.7,
+     "q75_pct": 41.8
+    },
+    {
+     "day": 48,
+     "q25_pct": 9.3,
+     "median_pct": 24.9,
+     "q75_pct": 42.8
+    },
+    {
+     "day": 49,
+     "q25_pct": 4.2,
+     "median_pct": 24.0,
+     "q75_pct": 40.5
+    },
+    {
+     "day": 50,
+     "q25_pct": 3.3,
+     "median_pct": 24.0,
+     "q75_pct": 43.5
+    },
+    {
+     "day": 51,
+     "q25_pct": -2.0,
+     "median_pct": 22.4,
+     "q75_pct": 46.2
+    },
+    {
+     "day": 52,
+     "q25_pct": -1.9,
+     "median_pct": 21.7,
+     "q75_pct": 47.8
+    },
+    {
+     "day": 53,
+     "q25_pct": -2.0,
+     "median_pct": 25.6,
+     "q75_pct": 48.4
+    },
+    {
+     "day": 54,
+     "q25_pct": -2.0,
+     "median_pct": 26.3,
+     "q75_pct": 49.7
+    },
+    {
+     "day": 55,
+     "q25_pct": 0.6,
+     "median_pct": 27.9,
+     "q75_pct": 47.6
+    },
+    {
+     "day": 56,
+     "q25_pct": 1.1,
+     "median_pct": 28.0,
+     "q75_pct": 49.7
+    },
+    {
+     "day": 57,
+     "q25_pct": -0.2,
+     "median_pct": 29.3,
+     "q75_pct": 54.5
+    },
+    {
+     "day": 58,
+     "q25_pct": 0.8,
+     "median_pct": 33.3,
+     "q75_pct": 53.0
+    },
+    {
+     "day": 59,
+     "q25_pct": 4.2,
+     "median_pct": 29.5,
+     "q75_pct": 51.5
+    },
+    {
+     "day": 60,
+     "q25_pct": -3.4,
+     "median_pct": 32.7,
+     "q75_pct": 54.5
+    }
+   ]
   }
  ]
 }
