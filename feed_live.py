@@ -249,6 +249,19 @@ def main():
             for r in rows(d("grades.csv"))
         ],
     }
+    # ---- the second-exchange check (11 Nov 2026): lets the health monitor see Kraken
+    # being skipped run after run, which on its own never fails anything ----
+    cc = {}
+    try:
+        with open(d("candle_check.json")) as f:
+            cc = json.load(f)
+    except (OSError, ValueError):
+        pass
+    feed["candle_check"] = {
+        "checked_at": cc.get("checked_at"), "cross_mode": cc.get("cross_mode"),
+        "structural_ok": cc.get("structural_ok"),
+        "kraken": {a: (v or {}).get("status") for a, v in (cc.get("cross") or {}).items()},
+    } if cc else None
     # ---- schema 5: member card figures (extras_live.py) ----
     extras_ok = steps.get("extras") != "failure" and all(
         os.path.exists(d(f)) for f in ("missstats.csv", "pastpaths.csv", "oddsfade.csv"))
@@ -303,7 +316,7 @@ def fail_closed(out_path, err):
             "feed_error": type(err).__name__,
             "cards_withheld": True, "alerts_withheld": True, "extras_withheld": True,
             "alerts": [], "cards": [], "prints": [], "open_signals": [], "confluence_windows": [],
-            "grade_odds": [], "if_it_misses": [], "past_paths": [],
+            "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None,
             "odds_fade": {"label": LABEL, "posting_bar_pct": None, "sample": None, "early_dip": [], "day10": []}}
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     with open(out_path, "w") as f:

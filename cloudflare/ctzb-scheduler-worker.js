@@ -25,6 +25,18 @@
  *
  * Cron trigger (exactly one): 13,25,35,43 * * * *
  *
+ * HEALTH MONITOR (v3, 11 Nov 2026). Every tick also checks everything that can go down
+ * without anything else noticing, and messages Jared on Telegram when a problem starts,
+ * every 6 hours while it lasts, and when it clears. Optional bindings -- without them the
+ * monitor still runs and reports in /health, it just can't reach that part or send:
+ *   MIRROR                 Service Binding -> ctzb-feed   (mirror sync, backup, feed)
+ *   TRADES                 Service Binding -> ctzb-trades (Coinbase trades relay)
+ *   NOTIFY                 KV namespace: the SAME one ctzb-dashboard uses (its heartbeat)
+ *   TELEGRAM_BOT_TOKEN     secret: the same bot as ctzb-dashboard
+ *   TELEGRAM_CHAT_ID       plain var: Jared's numeric Telegram id
+ * The GitHub watchdog reads this Worker's /health, so if Telegram itself is down, or this
+ * Worker stops, the alert still arrives by GitHub email.
+ *
  * SECURITY. This Worker holds a credential that can trigger CI, which is why it
  * is separate from the public mirror:
  *   - The token is read from env in exactly one function, sent only in an
@@ -124,6 +136,186 @@ async function runJob(job, env, at) {
   );
 }
 
+
+/* ======================== health monitor (v3, 11 Nov 2026) ======================== */
+const M = 60 * 1000;
+/** Each check: how long a condition must last before it is a problem. */
+const GRACE = {
+  scheduler: 0,            // the job's own stale window already allows for a missed tick
+  mirror: 0,               // the mirror itself waits an hour (four missed 15-minute syncs)
+  backup: 0,
+  feed_age: 0,             // 5 hours with no new feed = a 4-hour cycle missed
+  withheld: 75 * M,        // a failed run retries within the hour; an hour+ is a problem
+  extras: 75 * M,
+  kraken: 26 * H,          // skipped on one 4-hour run is noise; a whole day is not
+  trades: 10 * M,
+  notifier: 0,
+};
+const FEED_STALE_H = 5;
+const TRADES_STALE_MIN = 20;   // the relay refreshes last_ok_at at least every 15 minutes
+const NOTIFIER_STALE_MIN = 45; // its cron fires 4 times an hour
+const BACKUP_STALE_H = 26;     // daily at 01:00 UTC
+const REMIND_EVERY = 6 * H;
+const monKey = (id) => `mon:${id}`;
+const iso = (t) => (t ? new Date(t).toISOString().slice(0, 16).replace('T', ' ') + ' UTC' : 'never');
+const hoursAgo = (t, now) => (t ? ((now - t) / H).toFixed(1) + 'h' : 'never');
+
+async function svcJSON(svc, path) {
+  if (!svc || typeof svc.fetch !== 'function') return { status: -1, body: null };
+  try {
+    const r = await svc.fetch(new Request('https://svc' + path));
+    if (!r.ok) return { status: r.status, body: null };
+    return { status: r.status, body: await r.json() };
+  } catch (_) {
+    return { status: 0, body: null };
+  }
+}
+
+/** Every check, evaluated now. Returns [{id, bad, text}] -- `bad` before any grace period. */
+async function evaluate(env, now) {
+  const out = [];
+  const add = (id, bad, text) => out.push({ id, bad: !!bad, text });
+
+  // 1. this Worker's own dispatches to GitHub
+  for (const j of JOBS) {
+    const s = await env.SCHED.get(statusKey(j.workflow), { type: 'json' });
+    const last = s && s.last_success_at;
+    const stale = !last || now - last > j.staleAfterMs;
+    const failing = s && s.consecutive_failures >= 3;
+    add('scheduler:' + j.workflow, stale || failing,
+      `The scheduler can't start ${j.workflow} on GitHub: last success ${iso(last)}` +
+      (s ? `, ${s.consecutive_failures} failures in a row (status ${s.last_status})` : '') +
+      '. Check the GitHub token on ctzb-scheduler.');
+  }
+
+  // 2-4. the mirror, its nightly backup, and the feed it serves
+  const mh = await svcJSON(env.MIRROR, '/health');
+  if (mh.status === -1) {
+    add('mirror', false, 'not bound');
+  } else {
+    const b = mh.body;
+    add('mirror', !b || !b.ok,
+      !b ? `The mirror (data for the site, the dashboard and alerts) is unreachable (status ${mh.status}).`
+        : `The mirror hasn't synced from GitHub since ${b.last_clean_run_at || 'never'} (${b.consecutive_failures} failed syncs). The site and the alerts are showing old data.`);
+    const bk = b && b.backup;
+    const bkLast = bk && bk.last_ok_at ? Date.parse(bk.last_ok_at) || bk.last_ok_at : null;
+    add('backup', b && (bk === 'not configured' || !bk || bk.consecutive_failures >= 1 || !bkLast || now - bkLast > BACKUP_STALE_H * H),
+      bk === 'not configured' ? 'Nightly backups are not configured (no R2 binding on ctzb-feed).'
+        : `The nightly backup failed: last good backup ${iso(bkLast)}` + (bk && bk.consecutive_failures ? `, ${bk.consecutive_failures} failures in a row` : '') + '.');
+
+    const fd = await svcJSON(env.MIRROR, '/feed/ctzb_feed.json');
+    const f = fd.body;
+    const gen = f && Date.parse(f.generated_at);
+    add('feed_age', b && b.ok && (!f || !gen || now - gen > FEED_STALE_H * H),
+      !f ? 'The feed is missing from the mirror.'
+        : `No new data for ${hoursAgo(gen, now)}: the pipeline hasn't produced a feed since ${iso(gen)}. GitHub should also have emailed.`);
+    if (f) {
+      const failed = (f.checks && f.checks.failed_steps) || [];
+      add('withheld', f.cards_withheld,
+        `Setups and alerts are being held back: a data check keeps failing (${failed.join(', ') || 'stack check'}). Nothing new reaches the site or your phone until it passes.`);
+      add('extras', f.extras_withheld && !f.cards_withheld,
+        'The member-card figures (if it misses, odds fade, past paths) are being held back: the extras step keeps failing.');
+      const k = f.candle_check && f.candle_check.kraken;
+      if (k) {
+        const notOk = Object.entries(k).filter(([, v]) => v !== 'ok').map(([a, v]) => `${a} ${v}`);
+        add('kraken', notOk.length,
+          `The Kraken price cross-check has been skipped for over a day (${notOk.join(', ')}). Candles are still checked for structure, but not against a second exchange.`);
+      }
+    }
+  }
+
+  // 5. the Coinbase trades relay
+  const th = await svcJSON(env.TRADES, '/health');
+  if (th.status !== -1) {
+    const t = th.body;
+    const last = t && Date.parse(t.last_ok_at);
+    add('trades', !t || !last || now - last > TRADES_STALE_MIN * M || t.consecutive_failures >= 3,
+      !t ? `The trades relay is unreachable (status ${th.status}).`
+        : `The trades relay can't read Coinbase: last good read ${iso(last)}, ${t.consecutive_failures || 0} failures in a row${t.last_error ? ` (${String(t.last_error).slice(0, 80)})` : ''}. Your trades won't post.`);
+  }
+
+  // 6. the Telegram setup-alert sender (ctzb-dashboard's cron)
+  if (env.NOTIFY) {
+    const hb = await env.NOTIFY.get('heartbeat', { type: 'json' });
+    const ns = await env.NOTIFY.get('status', { type: 'json' });
+    const stopped = !hb || now - hb.at > NOTIFIER_STALE_MIN * M;
+    const failing = ns && ns.consecutive_failures >= 2;
+    add('notifier', stopped || failing,
+      stopped ? `The setup-alert sender has stopped (last ran ${iso(hb && hb.at)}). New setups will NOT reach your phone until it's fixed: check ctzb-dashboard's cron.`
+        : `Setup alerts are failing to send (${ns.consecutive_failures} tries in a row, Telegram status ${ns.last_status}).`);
+  }
+  return out;
+}
+
+async function telegram(env, text, fetchImpl) {
+  if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) return -1;
+  try {
+    const r = await fetchImpl(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
+    });
+    return r.status; // status only, never the body
+  } catch (_) {
+    return 0;
+  }
+}
+
+/**
+ * One pass. Per check, KV holds {since, alerted_at, reminded_at} while the condition lasts
+ * and nothing once it clears, so KV is written only when something changes, plus one
+ * small status record per tick. A message that fails to send is retried next tick.
+ */
+async function monitor(env, now, fetchImpl = fetch) {
+  const results = await evaluate(env, now);
+  const sent = [], problems = [];
+  let lastSend = null;
+  if (!(await env.SCHED.get('mon:hello')) && env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) {
+    const st = await telegram(env, 'CTZB health monitor connected. You will get a message here when anything in the pipeline, the mirror, the backup, the trades relay or the alert sender goes down, and again when it recovers.', fetchImpl);
+    if (st === 200) await env.SCHED.put('mon:hello', String(now));
+    lastSend = st;
+  }
+  for (const r of results) {
+    const key = monKey(r.id);
+    const st = await env.SCHED.get(key, { type: 'json' });
+    if (!r.bad) {
+      if (st) {
+        if (st.alerted_at) {
+          const s2 = await telegram(env, `RECOVERED: ${r.id.split(':')[0]} is working again (problem since ${iso(st.since)}).`, fetchImpl);
+          lastSend = s2;
+          if (s2 !== 200 && s2 !== -1) continue; // keep the record; say it next tick
+          sent.push('recovered:' + r.id);
+        }
+        await env.SCHED.delete(key);
+      }
+      continue;
+    }
+    const since = st ? st.since : now;
+    const grace = GRACE[r.id.split(':')[0]] || 0;
+    if (now - since < grace) {
+      if (!st) await env.SCHED.put(key, JSON.stringify({ since }));
+      continue;
+    }
+    problems.push(r.id);
+    const remind = !st || !st.alerted_at || now - (st.reminded_at || st.alerted_at) >= REMIND_EVERY;
+    if (!remind) continue;
+    const first = !st || !st.alerted_at;
+    const s2 = await telegram(env, (first ? 'PROBLEM: ' : `STILL DOWN since ${iso(since)}: `) + r.text, fetchImpl);
+    lastSend = s2;
+    if (s2 === 200) {
+      sent.push(r.id);
+      await env.SCHED.put(key, JSON.stringify({ since, alerted_at: first ? now : st.alerted_at, reminded_at: now }));
+    } else if (!st) {
+      await env.SCHED.put(key, JSON.stringify({ since }));
+    }
+  }
+  const status = { last_run_at: now, problems, last_send_status: lastSend, telegram_configured: !!(env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID),
+    watching: { mirror: !!env.MIRROR, trades: !!env.TRADES, notifier: !!env.NOTIFY } };
+  const prev = await env.SCHED.get('mon:status', { type: 'json' });
+  if (lastSend !== null) status.last_send_at = now; else if (prev) { status.last_send_at = prev.last_send_at || null; status.last_send_status = prev.last_send_status ?? null; }
+  await env.SCHED.put('mon:status', JSON.stringify(status));
+  return { problems, sent };
+}
+
 async function health(env) {
   const now = Date.now();
   const jobs = {};
@@ -145,7 +337,17 @@ async function health(env) {
       total_failures: s ? s.total_failures : null,
     };
   }
-  return new Response(JSON.stringify({ ok: allOk, version: 2, jobs }, null, 2), {
+  const mon = await env.SCHED.get('mon:status', { type: 'json' });
+  const monitorOut = mon ? {
+    last_run_at: new Date(mon.last_run_at).toISOString(),
+    stale: now - mon.last_run_at > 40 * 60 * 1000,
+    problems: mon.problems,
+    telegram_configured: mon.telegram_configured,
+    last_send_at: mon.last_send_at ? new Date(mon.last_send_at).toISOString() : null,
+    last_send_status: mon.last_send_status,
+    watching: mon.watching,
+  } : null;
+  return new Response(JSON.stringify({ ok: allOk, version: 3, jobs, monitor: monitorOut }, null, 2), {
     status: 200,
     headers: JSON_HEADERS,
   });
@@ -165,6 +367,7 @@ export default {
   async scheduled(event, env, ctx) {
     const at = event.scheduledTime;
     for (const job of due(at)) ctx.waitUntil(runJob(job, env, at));
+    ctx.waitUntil(monitor(env, at).catch(() => {}));
   },
 };
 

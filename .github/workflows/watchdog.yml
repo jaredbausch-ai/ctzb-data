@@ -116,3 +116,64 @@ jobs:
           check "Put/call" pcr.yml "options put/call through" "$ps" "$pa" "no commit for $page minutes"
 
           exit $red
+
+      # 11 Nov 2026: the Cloudflare side. The health monitor in ctzb-scheduler messages
+      # Jared on Telegram; this is its backup channel (GitHub email) and its dead-man switch.
+      # Alerts when: a Worker is unreachable, the mirror is stale, the trades relay can't
+      # read Coinbase, the monitor itself has stopped, or it has problems it can't deliver
+      # (Telegram down or not configured). Recovers by closing the issue.
+      - name: Cloudflare Workers healthy, and the monitor delivering
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -u
+          REPO="$GITHUB_REPOSITORY"; now=$(date +%s); red=0
+          BASE="bigpapi.workers.dev"
+          gh label create pipeline-alert -R "$REPO" --color B60205 --description "Data pipeline failing or stale" 2>/dev/null || true
+          get() { code=$(curl -sS -m 20 -o "$2" -w '%{http_code}' "https://$1.$BASE/health" 2>/dev/null || true); echo "${code:-000}"; }
+          age_min() { [ -z "$1" ] || [ "$1" = null ] && { echo 99999; return; }; echo $(( (now - $(date -d "$1" +%s)) / 60 )); }
+          verdict() {  # NAME PROBLEM(empty = healthy)
+            title="Cloudflare health: $1"
+            open=$(gh issue list -R "$REPO" --label pipeline-alert --state open --json number,title \
+                   --jq "[.[] | select(.title == \"$title\")][0].number // empty" 2>/dev/null || true)
+            if [ -z "$2" ]; then
+              echo "$1: ok"
+              [ -n "$open" ] && gh issue close "$open" -R "$REPO" --comment "Recovered $(date -u '+%Y-%m-%d %H:%M UTC')." || true
+              return 0
+            fi
+            echo "$1: PROBLEM -- $2"; red=1
+            if [ -z "$open" ]; then
+              gh issue create -R "$REPO" --label pipeline-alert --title "$title" --body "**$2** (checked $(date -u '+%Y-%m-%d %H:%M UTC') by the GitHub watchdog)." || true
+            elif [ "$(date -u +%M)" -lt 15 ]; then
+              gh issue comment "$open" -R "$REPO" --body "Still failing: $2" || true
+            fi
+          }
+
+          c=$(get ctzb-scheduler s.json); p=""
+          if [ "$c" != 200 ]; then p="ctzb-scheduler /health unreachable (HTTP $c): nothing is starting the pipeline or watching the Workers."
+          elif [ "$(jq -r '.monitor' s.json)" != null ]; then
+            m=$(age_min "$(jq -r '.monitor.last_run_at' s.json)")
+            probs=$(jq -r '.monitor.problems | join(", ")' s.json)
+            send=$(jq -r '.monitor.last_send_status' s.json); tgc=$(jq -r '.monitor.telegram_configured' s.json)
+            if [ "$m" -gt 40 ]; then p="the health monitor has not run for $m minutes."
+            elif [ -n "$probs" ] && { [ "$tgc" != true ] || [ "$send" != 200 ]; }; then
+              p="the health monitor sees problems ($probs) but can't deliver them to Telegram (configured: $tgc, last send status: $send)."
+            fi
+          fi
+          verdict "scheduler and monitor" "$p"
+
+          c=$(get ctzb-feed f.json); p=""
+          if [ "$c" != 200 ]; then p="ctzb-feed (the mirror) /health unreachable (HTTP $c)."
+          elif [ "$(jq -r '.ok' f.json)" != true ]; then p="the mirror has not synced since $(jq -r '.last_clean_run_at' f.json) ($(jq -r '.consecutive_failures' f.json) failed syncs)."
+          fi
+          verdict "mirror" "$p"
+
+          c=$(get ctzb-trades t.json); p=""
+          if [ "$c" != 200 ]; then p="ctzb-trades /health unreachable (HTTP $c)."
+          else
+            m=$(age_min "$(jq -r '.last_ok_at' t.json)"); n=$(jq -r '.consecutive_failures // 0' t.json)
+            if [ "$m" -gt 20 ] || [ "$n" -ge 3 ]; then p="the trades relay last read Coinbase $m minutes ago ($n failures in a row)."; fi
+          fi
+          verdict "trades relay" "$p"
+          exit $red

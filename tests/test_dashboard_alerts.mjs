@@ -6,7 +6,7 @@ const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 // The deployed file exports only `default`; append a test-only export to a temp copy.
 const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "ctzbdash-")), "w.mjs");
 fs.writeFileSync(tmp, fs.readFileSync(path.join(ROOT, "cloudflare/ctzb-dashboard-worker.js"), "utf8") +
-  "\nexport const _test = { notify, alertText };\n");
+  "\nexport const _test = { notify, alertText, tick };\n");
 const { _test, default: worker } = await import(pathToFileURL(tmp));
 const TOKEN = "123456:SECRET-TOKEN-xyz";
 const kv = () => { const m = new Map(); return { m,
@@ -70,5 +70,12 @@ let t3 = await worker.fetch(new Request("https://x/alerts/test", { method: "POST
 check("test send without login is refused", t3.status === 401 && sends.length === 1);
 let t4 = await worker.fetch(new Request("https://x/alerts/test", { headers: B }), tenv(kv()));
 check("GET on the test path does nothing", t4.status === 405 && sends.length === 1);
+// ---- heartbeat (11 Nov 2026): the health monitor watches it ----
+{ const k4 = kv(); feed = feedWith([]); tgStatus = 200;
+  await _test.tick(env(k4), tg); const hb = JSON.parse(k4.m.get("heartbeat"));
+  check("each tick leaves a heartbeat", hb && Date.now() - hb.at < 5000 && hb.result.sent === 0, JSON.stringify(hb));
+  const k5 = kv(); await _test.tick({ ...env(k5), MIRROR: { fetch: async () => { throw new Error("down"); } } }, tg);
+  check("heartbeat even when the mirror is down, with the reason", JSON.parse(k5.m.get("heartbeat")).result.skipped === "feed unreadable");
+  check("heartbeat never holds the bot token", !k5.m.get("heartbeat").includes(TOKEN)); }
 console.log(`\n${res.filter(Boolean).length}/${res.length} passed`);
 process.exit(res.every(Boolean) ? 0 : 1);

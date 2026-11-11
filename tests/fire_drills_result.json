@@ -1,7 +1,7 @@
 {
- "run_at": "2026-11-11T23:36:48Z",
- "passed": 56,
- "total": 56,
+ "run_at": "2026-11-11T23:54:52Z",
+ "passed": 58,
+ "total": 58,
  "drills": [
   {
    "group": "A",
@@ -336,6 +336,18 @@
   {
    "group": "F",
    "drill": "mirror backup (GitHub down, tiny snapshot refused)",
+   "passed": true,
+   "detail": "21/21 passed"
+  },
+  {
+   "group": "F",
+   "drill": "health monitor (every outage messages once, reminds, recovers)",
+   "passed": true,
+   "detail": "36/36 passed"
+  },
+  {
+   "group": "F",
+   "drill": "setup-alert sender (Telegram down, heartbeat)",
    "passed": true,
    "detail": "21/21 passed"
   }

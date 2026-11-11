@@ -354,7 +354,9 @@ def drills_f():
     g = "F"
     for t, what in [("tests/test_site_worker.mjs", "member site Worker (mirror down, bad paths, gate)"),
                     ("tests/test_trades_relay.mjs", "trades relay (Coinbase down, missing key, recovery)"),
-                    ("tests/test_mirror_backup.mjs", "mirror backup (GitHub down, tiny snapshot refused)")]:
+                    ("tests/test_mirror_backup.mjs", "mirror backup (GitHub down, tiny snapshot refused)"),
+                    ("tests/test_health_monitor.mjs", "health monitor (every outage messages once, reminds, recovers)"),
+                    ("tests/test_dashboard_alerts.mjs", "setup-alert sender (Telegram down, heartbeat)")]:
         p = subprocess.run(["node", t], cwd=ROOT, capture_output=True, text=True, timeout=300)
         m = re.search(r"(\d+)/(\d+) passed", p.stdout)
         record(g, what, p.returncode == 0, m.group(0) if m else p.stdout[-200:])

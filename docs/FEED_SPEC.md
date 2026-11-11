@@ -105,3 +105,23 @@ run's `datasets/ledger.csv`, `earlydip.csv` and `holdcheck.csv` (arithmetic in
 | `if_it_misses[]` | top level | Per asset and grade (A+, A, B, C; all grades from 11 Nov 2026): `signals`, `misses` (did not reach +20% within 60 days), `up_first` (of those, how many were above entry first), `median_peak_pct` (**the card shows this**, Jared 11 Nov), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`. |
 | `odds_fade` | top level | `posting_bar_pct` (70; below it the edge is gone, Jared 11 Nov), `early_dip[]` (deepest dip in the first 10 days → `past_trades`, `rose20_within60d_pct`, `edge` intact/gone) and `day10[]` (green / red on day 10, same fields). Every kept signal, all grades. |
 | `past_paths[]` | top level | Per asset, grade A+: `signals` and `days[]` (day 0-60: `q25_pct`, `median_pct`, `q75_pct`, percent from entry on daily closes, every past signal lined up at entry). The chart view's "where the past signals went". |
+
+### `candle_check` (added 11 Nov 2026, additive, schema stays 5)
+
+The candle sanity check from this run, so the health monitor can see the second-exchange
+check being skipped run after run (an unreachable Kraken never fails a run on its own).
+`null` when the check file is missing, and in a fail-closed feed.
+
+```json
+"candle_check": {"checked_at": "2026-11-11T20:13:52+00:00", "cross_mode": "enforce",
+                 "structural_ok": true, "kraken": {"ETH": "ok", "BTC": "ok"}}
+```
+
+`kraken` values: `ok`, `over_threshold`, `unavailable`.
+
+### Fail-closed feed (11 Nov 2026)
+
+If `feed_live.py` itself crashes, it writes a feed with every list empty, `cards_withheld`,
+`alerts_withheld` and `extras_withheld` all true, `checks.failed_steps: ["feed"]` and a
+`feed_error` naming the exception type, then exits 1. Readers need no special case: it is a
+withheld feed.

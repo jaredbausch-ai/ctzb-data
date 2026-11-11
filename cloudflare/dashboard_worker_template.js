@@ -16,7 +16,8 @@
  *
  * Bindings:
  *   MIRROR              Service Binding -> the ctzb-feed Worker
- *   NOTIFY              KV namespace (alerts already sent; notifier status)
+ *   NOTIFY              KV namespace (alerts already sent; notifier status; heartbeat).
+ *                       ctzb-scheduler binds the same namespace to watch the heartbeat.
  *   TELEGRAM_BOT_TOKEN  secret: the bot's token from @BotFather
  *   TELEGRAM_CHAT_ID    plain var: Jared's numeric Telegram id (the bot's only recipient)
  *   GATE_MODE           plain var: "access" (Cloudflare Access) or "password"
@@ -219,6 +220,21 @@ async function notify(env, fetchImpl = fetch) {
   return { sent, failed };
 }
 
+/**
+ * One cron tick: send pending alerts, then leave a heartbeat (11 Nov 2026). The health
+ * monitor in ctzb-scheduler reads it from the shared NOTIFY namespace: if this Worker's
+ * cron stops, setup alerts stop silently, so the heartbeat going stale is itself an alert.
+ * One KV write per tick (4 an hour).
+ */
+async function tick(env, fetchImpl = fetch) {
+  let r;
+  try { r = await notify(env, fetchImpl); } catch (e) { r = { error: "notify threw" }; }
+  if (env.NOTIFY) {
+    try { await env.NOTIFY.put("heartbeat", JSON.stringify({ at: Date.now(), result: r })); } catch (_) {}
+  }
+  return r;
+}
+
 async function handle(req, env, fetchImpl = fetch) {
   const refusal = await gate(req, env, fetchImpl);
   if (refusal) return refusal;
@@ -272,5 +288,5 @@ async function handle(req, env, fetchImpl = fetch) {
 
 export default {
   fetch(req, env) { return handle(req, env); },
-  scheduled(event, env, ctx) { ctx.waitUntil(notify(env)); },
+  scheduled(event, env, ctx) { ctx.waitUntil(tick(env)); },
 };
