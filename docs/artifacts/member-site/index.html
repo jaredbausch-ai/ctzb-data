@@ -178,7 +178,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 <div class="app">
   <div class="review" id="review">
     <span><b>Review build.</b> Real pipeline data, scored <span id="rvAsof" class="num">…</span>. Members see top-grade setups only; the lead trader's feed is in dry run.</span>
-    <label class="switch" for="previewSwitch"><input type="checkbox" id="previewSwitch"> Preview with an example setup</label>
+    <label class="switch" for="previewSwitch"><input type="checkbox" id="previewSwitch"> Show the example card</label>
   </div>
 
   <header class="top">
@@ -343,9 +343,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
   /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
   function liveCards() { return ((S.feed && S.feed.cards) || []).filter((c) => c.grade === "A+"); }
+  // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +20% odds.
+  function formingCards() { return ((S.feed && S.feed.cards) || []).slice().sort((a, b) => (b.rose20_within60d_pct ?? -1) - (a.rose20_within60d_pct ?? -1)); }
+  function bestCard() { return liveCards()[0] || formingCards()[0] || null; }
   function cardFromFeed(c) {
     return {
-      kind: "forming", asset: c.asset, chart: c.chart, tf: c.timeframe, signal_id: c.signal_id,
+      kind: "forming", asset: c.asset, chart: c.chart, tf: c.timeframe, signal_id: c.signal_id, top: c.grade === "A+",
       line: `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)}${c.must_close_above ? " if it closes above " + money(c.must_close_above) : ""}`,
       odds: c.rose20_within60d_pct, n: c.past_trades, sample: c.sample,
       high: c.typical_biggest_rise_pct, drop: c.typical_deepest_dip_pct, dipBefore: c.typical_dip_before_rise_pct,
@@ -376,9 +379,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   /* ---------- Now: the card ---------- */
   function renderCard() {
     const box = $("#card"), frame = $("#cardFrame");
-    const live = liveCards();
-    const m = S.preview ? cardExample() : (live[0] ? cardFromFeed(live[0]) : null);
-    frame.style.setProperty("--c", m ? "var(--live)" : "var(--closed)");
+    const best = bestCard();
+    const m = S.preview ? cardExample() : (best ? cardFromFeed(best) : null);
+    const below = !!m && m.kind === "forming" && !m.top;
+    frame.style.setProperty("--c", !m ? "var(--closed)" : below ? "var(--fade)" : "var(--live)");
     if (!m) {
       const on = S.feed && /bull/i.test(S.feed.market_regime || "");
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)">No setup right now</div></div>
@@ -390,7 +394,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="card-foot"><span class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
-    const e = edgeRule(), mi = misses(m.asset);
+    const e = edgeRule(), mi = below ? null : misses(m.asset);
     const stateTxt = m.kind === "forming" ? "Setup forming" : "Confirmed setup";
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
     const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median peak ${pct(mi.median_peak_pct)}` : "n/a";
@@ -399,6 +403,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
+        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Best setup forming today. Its odds are below the ${e.bar ?? 70}% posting bar, so no alert goes out for it. It can still vanish before it confirms.</div>` : ""}
       </div>
       <div class="card-body">
         <div class="odds">
@@ -497,10 +502,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const on = f && /bull/i.test(f.market_regime || "");
     $("#filterPill").classList.toggle("off", !on);
     $("#filterText").textContent = f ? `Market filter: ${on ? "on" : "off"}` : "Feed unavailable";
-    const forming = liveCards();
+    const forming = formingCards();
     $("#forming").innerHTML = forming.length
-      ? `<span>Forming:</span>` + forming.map((c) => `<span class="chip">${esc(c.chart)} · confirms ${dateLong(c.confirms_on)}</span>`).join("")
-      : `<span>Nothing forming at the top grade today.</span>`;
+      ? `<span>Forming:</span>` + forming.map((c) => `<span class="chip num">${esc(c.chart)} · ${c.rose20_within60d_pct ?? "n/a"}% · confirms ${dateLong(c.confirms_on)}</span>`).join("")
+      : `<span>Nothing forming today.</span>`;
     $("#rvAsof").textContent = f ? `${dateLong(f.scored_as_of)} (feed ${f.generated_at.slice(11, 16)} UTC)` : "unavailable";
     $("#feedState").textContent = f ? `Data through ${dateLong(f.scored_as_of)} · checks ${f.checks && f.checks.all_passed ? "passed" : "FAILED, cards held back"}` : "";
   }
@@ -685,6 +690,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
     S.feed = feed; S.trades = trades; S.example = example;
     S.ledger = ledgerText ? parseCSV(ledgerText).filter((r) => r.grade === "A+") : [];
+    if (!bestCard()) { S.preview = true; $("#previewSwitch").checked = true; }
     renderHeader(); renderLead(); renderCard(); renderPrev();
     show(location.hash.slice(1) || "now");
   }
