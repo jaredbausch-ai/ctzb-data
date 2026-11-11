@@ -1,13 +1,13 @@
 {
  "schema_version": 5,
- "generated_at": "2026-11-11T18:23:47Z",
+ "generated_at": "2026-11-11T20:14:13Z",
  "scored_as_of": "2026-11-11",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-11 18:23 UTC OK 27 subjects, 977 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-11",
-   "2026-11-11 18:23 UTC OK card cross-check, 4 cards match the ledger"
+   "2026-11-11 20:14 UTC OK 27 subjects, 977 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-11",
+   "2026-11-11 20:14 UTC OK card cross-check, 4 cards match the ledger"
   ],
   "all_passed": true,
   "steps": {
@@ -38,7 +38,7 @@
    "confirms_on": "2026-11-13",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2089.7,
+   "price_now": 2079.91,
    "grade": "C",
    "confirmations": "funding at or above its 90-day median",
    "sample": "the last 17 ETH 1D trades with exactly the same confirmations",
@@ -101,7 +101,7 @@
    "confirms_on": "2026-11-16",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2089.7,
+   "price_now": 2079.91,
    "grade": "C",
    "confirmations": "funding at or above its 90-day median",
    "sample": "the last 27 ETH 2D trades graded C (only 4 had exactly the same confirmations, too few to use)",
@@ -164,7 +164,7 @@
    "confirms_on": "2026-11-13",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74463.41,
+   "price_now": 74547.22,
    "grade": "C",
    "confirmations": "an ETH 2D signal in the 10 days before",
    "sample": "the last 37 BTC 1D trades with exactly the same confirmations",
@@ -250,7 +250,7 @@
    "confirms_on": "2026-11-16",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 74463.41,
+   "price_now": 74547.22,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 15 BTC 2D trades with exactly the same confirmations",
@@ -349,7 +349,7 @@
    "provisional": true,
    "low_date": "2026-11-10",
    "confirms_on": "2026-11-13",
-   "entry_close": 2089.7,
+   "entry_close": 2079.91,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -397,7 +397,7 @@
    "provisional": true,
    "low_date": "2026-11-09",
    "confirms_on": "2026-11-16",
-   "entry_close": 2089.7,
+   "entry_close": 2079.91,
    "tags": "A + filled diamond",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -553,7 +553,7 @@
    "provisional": true,
    "low_date": "2026-11-10",
    "confirms_on": "2026-11-13",
-   "entry_close": 74463.41,
+   "entry_close": 74547.22,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -601,7 +601,7 @@
    "provisional": true,
    "low_date": "2026-11-09",
    "confirms_on": "2026-11-16",
-   "entry_close": 74463.41,
+   "entry_close": 74547.22,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -1275,7 +1275,52 @@
    "peaked_10_or_more": 11,
    "median_worst_drop_pct": -19.7,
    "median_day60_pct": -12.2,
-   "note": "Signals of this grade that did not reach +20% within 60 days. Show the median peak."
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "ETH",
+   "grade": "A",
+   "signals": 61,
+   "misses": 23,
+   "up_first": 23,
+   "median_peak_pct": 6.1,
+   "mean_peak_pct": 8.3,
+   "peaked_5_or_more": 15,
+   "peaked_10_or_more": 7,
+   "median_worst_drop_pct": -22.2,
+   "median_day60_pct": -15.3,
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "ETH",
+   "grade": "B",
+   "signals": 81,
+   "misses": 38,
+   "up_first": 38,
+   "median_peak_pct": 7.8,
+   "mean_peak_pct": 8.0,
+   "peaked_5_or_more": 26,
+   "peaked_10_or_more": 13,
+   "median_worst_drop_pct": -23.9,
+   "median_day60_pct": -13.6,
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "ETH",
+   "grade": "C",
+   "signals": 111,
+   "misses": 63,
+   "up_first": 63,
+   "median_peak_pct": 8.4,
+   "mean_peak_pct": 9.1,
+   "peaked_5_or_more": 49,
+   "peaked_10_or_more": 26,
+   "median_worst_drop_pct": -31.3,
+   "median_day60_pct": -13.7,
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
@@ -1290,7 +1335,52 @@
    "peaked_10_or_more": 2,
    "median_worst_drop_pct": -28.1,
    "median_day60_pct": -14.6,
-   "note": "Signals of this grade that did not reach +20% within 60 days. Show the median peak."
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "BTC",
+   "grade": "A",
+   "signals": 81,
+   "misses": 35,
+   "up_first": 35,
+   "median_peak_pct": 8.4,
+   "mean_peak_pct": 8.9,
+   "peaked_5_or_more": 22,
+   "peaked_10_or_more": 14,
+   "median_worst_drop_pct": -19.0,
+   "median_day60_pct": -6.6,
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "BTC",
+   "grade": "B",
+   "signals": 136,
+   "misses": 59,
+   "up_first": 58,
+   "median_peak_pct": 7.9,
+   "mean_peak_pct": 8.5,
+   "peaked_5_or_more": 40,
+   "peaked_10_or_more": 25,
+   "median_worst_drop_pct": -22.7,
+   "median_day60_pct": -7.5,
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "asset": "BTC",
+   "grade": "C",
+   "signals": 312,
+   "misses": 174,
+   "up_first": 173,
+   "median_peak_pct": 8.7,
+   "mean_peak_pct": 9.0,
+   "peaked_5_or_more": 119,
+   "peaked_10_or_more": 79,
+   "median_worst_drop_pct": -22.2,
+   "median_day60_pct": -8.0,
+   "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."
   }
  ],
  "odds_fade": {
