@@ -126,7 +126,10 @@ main { flex: 1; min-height: 0; }
 /* Setup picker */
 .center { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .center > .frame { flex: 1; }
-.picker { display: flex; flex-wrap: wrap; gap: 6px; }
+.picker { display: flex; flex-direction: column; gap: 6px; }
+.prow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.prow .plabel { width: 5.5em; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.prow .pnone { font-size: 12.5px; color: var(--muted); padding: 0 4px; }
 .pick { min-height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--soft); cursor: pointer; font-size: 12.5px; display: inline-flex; gap: 8px; align-items: center; }
 .pick b { font-variant-numeric: tabular-nums; }
 .pick[aria-pressed="true"] { border-color: var(--c, var(--live)); color: var(--text); box-shadow: 0 0 12px color-mix(in srgb, var(--c, var(--live)) 30%, transparent); }
@@ -193,7 +196,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   <header class="top">
     <div class="logo">ETHKROS</div>
     <div class="pill" id="filterPill"><span class="dot"></span><span id="filterText">Market filter …</span></div>
-    <div class="forming" id="forming"></div>
+    <div class="forming" id="forming" aria-hidden="true"></div>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-now" aria-selected="true" data-view="now">Now</button>
       <button role="tab" id="tab-chart" aria-selected="false" data-view="chart">Chart</button>
@@ -370,13 +373,22 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +20% odds.
   function formingCards() { return ((S.feed && S.feed.cards) || []).slice().sort((a, b) => (b.rose10_within60d_pct ?? -1) - (a.rose10_within60d_pct ?? -1)); }
   function bestCard() { return liveCards()[0] || formingCards()[0] || null; }
-  function selectable() { const top = liveCards(); return top.concat(formingCards().filter((c) => !top.includes(c))); }
+  function selectable() {
+    const top = liveCards();
+    return openSignals().map((o) => ({ ...o, _open: true })).concat(top, formingCards().filter((c) => !top.includes(c)));
+  }
   function selected() { if (S.preview) return null; const all = selectable(); return all.find((c) => c.signal_id === S.sel) || all[0] || null; }
   function renderPicker() {
-    const all = selectable(), cur = selected();
-    $("#picker").innerHTML = all.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${cur && cur.signal_id === c.signal_id}">
-        ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">${c.grade === "A+" ? "top grade" : "below bar"} · ${dateLong(c.confirms_on)}</span></button>`).join("")
-      + `<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button>`;
+    const cur = selected(), on = (id) => String(!!cur && cur.signal_id === id);
+    const live = openSignals(), forming = selectable().filter((c) => !c._open);
+    const liveBtns = live.length ? live.map((o) => `<button class="pick top" data-sel="${esc(o.signal_id)}" aria-pressed="${on(o.signal_id)}">
+        ${esc(o.chart)} <b>Day ${o.days_elapsed}</b><span class="small">best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</span></button>`).join("")
+      : `<span class="pnone">No live top-grade setups right now.</span>`;
+    const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
+        ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">${c.grade === "A+" ? "top grade" : "below bar"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
+      : `<span class="pnone">Nothing forming today.</span>`;
+    $("#picker").innerHTML = `<div class="prow"><span class="plabel">Live</span>${liveBtns}</div>
+      <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button></div>`;
   }
   function cardFromFeed(c) {
     return {
@@ -388,6 +400,23 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       surv10: c.rose10_never_fell25_within60d_pct, entry: null,
       eras: [["Before 2022", c.before_2022], ["Since 2022", c.since_2022]].filter((e) => e[1]).map(([t, e]) => ({ t, n: e.past_trades, v: e.rose10_never_fell25_within60d_pct, what: "rose 10%, never fell 25%" })),
       fallsFirst: c.if_it_falls_first || [],
+    };
+  }
+  function openSignals() { return ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+"); }
+  function cardFromOpen(o) {
+    const asset = o.chart.split(" ")[0], tf = o.chart.split(" ")[1];
+    const rows = S.ledger.filter((r) => r.asset === asset), f = (k) => rows.map((r) => +r[k]);
+    const go = ((S.feed && S.feed.grade_odds) || []).find((g) => g.asset === asset && g.grade === "A+");
+    return {
+      kind: "open", asset, chart: o.chart, tf, signal_id: o.signal_id, top: true, grade: "A+",
+      line: `Confirmed ${dateLong(o.entry_date)} · entry close ${money(o.entry_close)} · day ${o.days_elapsed} of 60 · best so far ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}`,
+      odds: go ? go.rose20_within60d_pct : share(rows, (r) => r.reached20 === "yes"), n: go ? go.past_trades : rows.length,
+      sample: `every ${asset} top-grade signal`, high: median(f("bestMove")), drop: go ? go.median_deepest_dip_pct : median(f("maxDrawdown")),
+      dipBefore: median(f("dipBeforeHigh")), highDay: median(f("daysToHigh")), reach10: share(rows, (r) => r.reached10 === "yes"),
+      touched30: share(rows, (r) => r.touched30 === "yes"), surv10: go ? go.rose10_never_fell25_within60d_pct : share(rows, (r) => r.surv10 === "yes"),
+      entry: o.entry_close, day60: median(f("return60d")), entry_date: o.entry_date,
+      eras: [["Before 2022", rows.filter((r) => +r.year < 2022)], ["Since 2022", rows.filter((r) => +r.year >= 2022)]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.reached20 === "yes"), what: "reached +20%" })),
+      fallsFirst: [],
     };
   }
   function cardExample() {
@@ -413,7 +442,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const box = $("#card"), frame = $("#cardFrame");
     renderPicker();
     const best = selected();
-    const m = S.preview ? cardExample() : (best ? cardFromFeed(best) : null);
+    const m = S.preview ? cardExample() : (best ? (best._open ? cardFromOpen(best) : cardFromFeed(best)) : null);
     const below = !!m && m.kind === "forming" && !m.top;
     frame.style.setProperty("--c", !m ? "var(--closed)" : below ? "var(--fade)" : "var(--live)");
     if (!m) {
@@ -429,7 +458,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     }
     const e = edgeRule(), mi = misses(m.asset, m.grade || "A+");
     const pool = below && mi ? `<div class="fine" style="text-align: right">all ${mi.signals} ${esc(m.asset)} signals of this grade</div>` : "";
-    const stateTxt = m.kind === "forming" ? "Setup forming" : "Confirmed setup";
+    const stateTxt = m.kind === "forming" ? "Setup forming" : m.kind === "open" ? "Live setup" : "Confirmed setup";
     const sf = setupFade(m);
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
     const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
@@ -547,10 +576,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const on = f && /bull/i.test(f.market_regime || "");
     $("#filterPill").classList.toggle("off", !on);
     $("#filterText").textContent = f ? `Market filter: ${on ? "on" : "off"}` : "Feed unavailable";
-    const forming = formingCards();
-    $("#forming").innerHTML = forming.length
-      ? `<span>Forming:</span>` + forming.map((c) => `<span class="chip num">${esc(c.chart)} · ${c.rose10_within60d_pct ?? "n/a"}% to +10% · confirms ${dateLong(c.confirms_on)}</span>`).join("")
-      : `<span>Nothing forming today.</span>`;
+    $("#forming").innerHTML = "";
     $("#rvAsof").textContent = f ? `${dateLong(f.scored_as_of)} (feed ${f.generated_at.slice(11, 16)} UTC)` : "unavailable";
     $("#feedState").textContent = f ? `Data through ${dateLong(f.scored_as_of)} · checks ${f.checks && f.checks.all_passed ? "passed" : "FAILED, cards held back"}` : "";
   }
@@ -581,21 +607,24 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       $("#chTitle").textContent = "ETH · 2-day · example: past confirmed setup";
       $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(entry)} · a past computed signal, shown as a member would have seen it.`;
     } else {
-      m = cardFromFeed(c); forming = true; tfd = TF_DAYS[c.timeframe] || 1;
+      m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
       if (!cd) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable for " + c.chart); return; }
-      bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c; m.entry = entry;
-      lowIdx = bars.findIndex((b) => dayOf(b.t) === c.low_date);
+      bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
+      if (c._open) { const k = bars.findIndex((b) => dayOf(b.t) === c.entry_date); if (k >= 0) E = k; entry = c.entry_close; }
+      m.entry = entry;
+      lowIdx = c.low_date ? bars.findIndex((b) => dayOf(b.t) === c.low_date) : -1;
       confIdx = E + Math.round((Date.parse(c.confirms_on + "T00:00:00Z") / 1000 - bars[E].t) / 86400 / tfd);
-      $("#chTitle").textContent = `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, below the posting bar"}`;
-      $("#chSub").textContent = `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)} · zones drawn from today's price (${money(entry)}). The real entry is the close on the confirmation day.`;
+      $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, below the posting bar"}`;
+      $("#chSub").textContent = c._open ? `Confirmed ${dateLong(c.entry_date)} · entry close ${money(entry)}. Zones use the pooled top-grade figures for ${m.asset}.`
+        : `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)} · zones drawn from today's price (${money(entry)}). The real entry is the close on the confirmation day.`;
     }
     svg.innerHTML = "";
     const happened = !forming && S.chartMode === "happened";
     $(".toggle").hidden = forming;
     $("#bAlert").setAttribute("aria-pressed", String(!happened)); $("#bHap").setAttribute("aria-pressed", String(happened));
     const W = 1100, H = 520, L = 20, R = 960, T = 24, B = 480;
-    const nSlots = forming ? bars.length + Math.ceil(60 / tfd) + 1 : bars.length;
+    const nSlots = forming ? Math.max(bars.length, E + Math.ceil(60 / tfd) + 2) : bars.length;
     const slot = (R - L) / nSlots, X = (i) => L + slot * i + slot / 2;
     const sf = forming ? setupFade(m) : null;
     const edgePct = sf ? (sf.edge ? sf.edge : null) : e.dipPct;
@@ -656,7 +685,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "text", { x: x10 + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(edgePct, 0)}${sf ? ", before +10%" : ""})`);
     }
     const vline = (x, col, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: col, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: col, "font-size": 12, "font-weight": 600 }, label); };
-    vline(xE, "var(--text)", forming ? "Today" : "Entry");
+    vline(xE, "var(--text)", forming && !(c && c._open) ? "Today" : "Entry");
     if (!sf) vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% odds`, "4 5", B - 8);
     vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
     vline(x60, "var(--fade)", "Day 60", "", T + 30);
@@ -713,7 +742,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderChartSide(m, happened, forming, c) {
     const ex = S.example, e = edgeRule();
     let what = "";
-    if (forming) {
+    if (forming && c && c._open) {
+      what = `<div class="sidebox" style="border: 2px solid var(--live); background: var(--ok-bg)">
+        <div class="sec-title" style="color: #7FF0FF">Live: day ${c.days_elapsed} of 60</div>
+        <div class="kv num"><span>Best so far</span><b class="hi">${pct(c.best_so_far_pct)}</b></div>
+        <div class="kv num"><span>Worst so far</span><b class="lo">${pct(c.worst_so_far_pct)}</b></div>
+        <div class="kv num"><span>Day 10</span><b>${c.day10_pct == null ? "not yet" : pct(c.day10_pct)}</b></div>
+      </div>`;
+    } else if (forming) {
       what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">Still forming. It confirms only if it holds through ${dateLong(c.confirms_on)}, and it can vanish before then. ${c.grade === "A+" ? "" : `Its odds are below the ${e.bar ?? 70}% posting bar, so no alert goes out for it.`}</div>`;
     } else if (happened && ex) {
       const E = ex.entry_index, win = ex.bars.slice(E + 1, E + 31), en = ex.entry_close;
