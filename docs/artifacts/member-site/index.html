@@ -351,6 +351,17 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const red = of && (of.day10 || []).find((b) => /red/.test(b.check));
     return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? red.rose20_within60d_pct : null };
   }
+  // This setup's own fade (Jared 11 Nov: the player, not the league): after first falling X%, the share of
+  // this setup's past signals that still rose 10%. Below the 70% bar the edge is gone.
+  function setupFade(m) {
+    if (!m || !m.fallsFirst || !m.fallsFirst.length) return null;
+    const rows = m.fallsFirst.map((r) => ({ fell: r.fell_pct, n: r.past_trades, v: r.still_rose10_pct, liq: r.went_on_to_fall25_pct }));
+    const bar = edgeRule().bar ?? 70, base = m.reach10;
+    let edge = null;
+    if (base != null && base < bar) edge = 0;
+    else { const g = rows.find((r) => r.v != null && r.v !== "" && r.v < bar); edge = g ? -g.fell : null; }
+    return { rows, base, edge, bar };
+  }
   const misses = (asset, grade = "A+") => ((S.feed && S.feed.if_it_misses) || []).find((m) => m.asset === asset && (m.grade || "A+") === grade) || null;
 
   /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
@@ -372,7 +383,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       line: `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)}${c.must_close_above ? " if it closes above " + money(c.must_close_above) : ""}`,
       odds: c.rose20_within60d_pct, n: c.past_trades, sample: c.sample,
       high: c.typical_biggest_rise_pct, drop: c.typical_deepest_dip_pct, dipBefore: c.typical_dip_before_rise_pct,
-      highDay: c.typical_day_of_60d_high, reach10: c.rose10_within60d_pct, touched30: c.fell30_within60d_pct,
+      highDay: c.typical_day_of_60d_high, lowDay: c.typical_day_of_deepest_dip, reach10: c.rose10_within60d_pct, touched30: c.fell30_within60d_pct,
       surv10: c.rose10_never_fell25_within60d_pct, entry: null,
       eras: [["Before 2022", c.before_2022], ["Since 2022", c.since_2022]].filter((e) => e[1]).map(([t, e]) => ({ t, n: e.past_trades, v: e.rose10_never_fell25_within60d_pct, what: "rose 10%, never fell 25%" })),
       fallsFirst: c.if_it_falls_first || [],
@@ -418,7 +429,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const e = edgeRule(), mi = misses(m.asset, m.grade || "A+");
     const pool = below && mi ? `<div class="fine" style="text-align: right">all ${mi.signals} ${esc(m.asset)} signals of this grade</div>` : "";
     const stateTxt = m.kind === "forming" ? "Setup forming" : "Confirmed setup";
+    const sf = setupFade(m);
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
+    const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from the start` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
+      : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
     const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median peak ${pct(mi.median_peak_pct)}` : "n/a";
     box.innerHTML = `
       <div class="card-head">
@@ -436,7 +450,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="stats num">
           <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
           <div class="kv"><span>Typical drop from entry</span><span class="lo">${pct(m.drop)}</span></div>
-          <div class="kv"><span>Edge gone below</span><span class="ed" style="font-size: 15px">${e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a"}</span></div>
+          <div class="kv"><span>Edge gone below</span><span class="ed" style="font-size: 15px">${edgeTxt}</span></div>
           <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: up first</span><span>${missTxt}</span></div>${pool}
         </div>
         <div class="marker"><span class="dot"></span><span>Lead trader: ${leadState(m)}</span></div>
@@ -449,12 +463,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="tile"><div class="t">Reached +10%</div><div class="v hi">${m.reach10 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Touched ${MINUS}30%</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Rose 10%, never fell 25%</div><div class="v hi">${m.surv10 ?? "n/a"}%</div></div>
-          <div class="tile"><div class="t">Red on day 10</div><div class="v ed">${e.redOdds ?? "n/a"}% odds</div></div>
+          ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10</div><div class="v ed">${e.redOdds ?? "n/a"}% odds</div></div>`}
           <div class="tile"><div class="t">Worst drop, misses</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
           <div class="tile"><div class="t">Price on day 60${m.day60 === undefined ? ", misses" : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
         <div class="boxes">
-          <div class="box violet"><div class="lbl">Where the odds fade · first 10 days</div><div class="ladder" id="ladder"></div></div>
+          <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · all kept signals"}</div><div class="ladder" id="ladder"></div></div>
           <div class="box teal"><div class="lbl">By era</div><div class="ladder" id="eras"></div>
             <div class="fine" style="margin-top: 6px">${m.kind === "example" ? "Share of these signals that reached +20%." : "Share that rose 10% and never fell 25%."}</div></div>
         </div>
@@ -464,11 +478,18 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <span class="fine" style="max-width: 44ch">Computed from past signals. Entry quality only: no exit, not a trade or a track record. Hypothetical results have inherent limitations.</span>
       </div>`;
     const lad = $("#ladder");
-    const of = S.feed && S.feed.odds_fade;
-    const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than", "<").replace("worse than", "past"), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : [])
-      .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : []);
-    lad.innerHTML = bars.map((b) => `<div class="bar"><span>${esc(b.t.replace(/-/g, MINUS))}</span><div class="t"><div class="f${b.gone ? " gone" : ""}" style="width: ${b.v}%"></div></div><span class="num">${b.v}%</span></div>`).join("")
-      + `<div class="fine">All kept signals. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
+    const row = (t, v, gone, extra) => `<div class="bar"><span>${esc(t).replace(/-/g, MINUS)}${extra ? ` <span class="small">${extra}</span>` : ""}</span><div class="t"><div class="f${gone ? " gone" : ""}" style="width: ${v ?? 0}%"></div></div><span class="num">${v ?? "n/a"}${v != null ? "%" : ""}</span></div>`;
+    if (sf) {
+      lad.innerHTML = row("From the start", sf.base, sf.base < sf.bar, `n ${m.n}`)
+        + sf.rows.map((r) => row(`Falls ${r.fell}% first`, r.v === "" ? null : r.v, r.v !== "" && r.v < sf.bar, `n ${r.n}`)).join("")
+        + `<div class="fine">Share of this setup's past signals that still rose 10% after first falling that far. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
+    } else {
+      const of = S.feed && S.feed.odds_fade;
+      const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than", "<").replace("worse than", "past"), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : [])
+        .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : []);
+      lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
+        + `<div class="fine">Every kept signal, all grades: share that reached +20% by day 60, by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
+    }
     $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}%</span></div>`).join("");
   }
 
@@ -574,8 +595,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const W = 1100, H = 520, L = 20, R = 960, T = 24, B = 480;
     const nSlots = forming ? bars.length + Math.ceil(60 / tfd) + 1 : bars.length;
     const slot = (R - L) / nSlots, X = (i) => L + slot * i + slot / 2;
-    const lv = { high: entry * (1 + m.high / 100), t20: entry * 1.2, drop: entry * (1 + m.drop / 100), edge: e.dipPct !== null ? entry * (1 + e.dipPct / 100) : null };
-    const lo = Math.min(...bars.map((b) => b.l), lv.drop) * 0.95, hi = Math.max(...bars.map((b) => b.h), lv.high) * 1.07;
+    const sf = forming ? setupFade(m) : null;
+    const edgePct = sf ? (sf.edge ? sf.edge : null) : e.dipPct;
+    const lv = { high: entry * (1 + m.high / 100), t20: entry * 1.2, drop: entry * (1 + m.drop / 100), edge: edgePct !== null ? entry * (1 + edgePct / 100) : null };
+    const lo = Math.min(...bars.map((b) => b.l), lv.drop, entry * 0.8) * 0.95, hi = Math.max(...bars.map((b) => b.h), lv.high) * 1.07;
     const Y = (p) => B - (p - lo) / (hi - lo) * (B - T);
     svgEl(svg, "rect", { x: 0, y: 0, width: W, height: H, fill: "#0B0918" });
     const mag = Math.pow(10, Math.floor(Math.log10((hi - lo) / 5)));
@@ -592,7 +615,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     svgEl(svg, "rect", { x: xE, y: Y(lv.high), width: x60 - xE, height: Y(entry) - Y(lv.high), fill: "var(--high)", opacity: 0.07 });
     svgEl(svg, "rect", { x: xE, y: Y(entry), width: x60 - xE, height: Y(lv.drop) - Y(entry), fill: "var(--drop)", opacity: 0.1 });
     const of = S.feed && S.feed.odds_fade;
-    if (of) {
+    if (sf) {   // this setup's own ladder: odds of still rising 10% after first falling this far
+      const xL = X(E + 6 / tfd) > xE + 70 ? X(E + 6 / tfd) : xE + 70;
+      const steps = [[0, -5, sf.base]].concat(sf.rows.slice(0, 3).map((r, k) => [-r.fell, -(sf.rows[k + 1] ? sf.rows[k + 1].fell : r.fell + 5), r.v]));
+      for (const [a1, b1, v] of steps) {
+        const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100))), col = v === "" || v == null ? "var(--closed)" : v >= sf.bar ? "var(--high)" : "var(--drop)";
+        svgEl(svg, "rect", { x: xE, y: y1, width: xL - xE, height: y2 - y1, fill: col, opacity: 0.24 });
+        svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : v + "%");
+      }
+    } else if (of) {
       const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => b.rose20_within60d_pct))], [-5, -10, "var(--fade)", of.early_dip[2].rose20_within60d_pct], [-10, -20, "var(--drop)", of.early_dip[3].rose20_within60d_pct]];
       for (const [a1, b1, col, v] of bands) {
         const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100)));
@@ -619,12 +650,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "text", { x: R + 58, y: t.y + 5, fill: "#07060F", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, money(t.p));
     }
     if (lv.edge) {
-      svgEl(svg, "line", { x1: xE, x2: x10, y1: Y(lv.edge), y2: Y(lv.edge), stroke: "var(--fade-2)", "stroke-width": 2.5 });
-      svgEl(svg, "text", { x: x10 + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(e.dipPct, 0)})`);
+      svgEl(svg, "line", { x1: xE, x2: sf ? x60 : x10, y1: Y(lv.edge), y2: Y(lv.edge), stroke: "var(--fade-2)", "stroke-width": 2.5, "stroke-dasharray": sf ? "8 4" : "" });
+      svgEl(svg, "text", { x: x10 + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(edgePct, 0)}${sf ? ", before +10%" : ""})`);
     }
     const vline = (x, col, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: col, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: col, "font-size": 12, "font-weight": 600 }, label); };
     vline(xE, "var(--text)", forming ? "Today" : "Entry");
-    vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% odds`, "4 5", B - 8);
+    if (!sf) vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% odds`, "4 5", B - 8);
     vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
     vline(x60, "var(--fade)", "Day 60", "", T + 30);
     if (forming && confIdx !== null && confIdx > E && confIdx < nSlots) vline(X(confIdx), "var(--live)", `Confirms ${dateLong(c.confirms_on)}`, "2 4", T + 48);
@@ -704,7 +735,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(m.entry * (1 + m.high / 100))}</b></div>
         <div class="kv num"><span class="small">+20% target</span><b>${money(m.entry * 1.2)}</b></div>
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
-        <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${money(m.entry * (1 + e.dipPct / 100))}</b></div>
+        <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = forming ? setupFade(m) : null; if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(m.entry * (1 + d / 100)) + " (" + pct(d, 0) + ")"; })()}</b></div>
         ${forming ? `<div class="fine">Prices use today's close as a stand-in for the entry.</div>` : ""}
       </div>
       ${what}
