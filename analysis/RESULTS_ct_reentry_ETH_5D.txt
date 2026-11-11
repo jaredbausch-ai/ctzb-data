@@ -1,0 +1,11 @@
+ETH_5D: re-entry by CT level vs by the confirmed turn
+first CT <= 45         n  9 (swings never reaching it: 19)  drawdown after: median -40%, worse than -30% 5, worst -87%  | next-100d high median +18%
+first CT <= 40         n  8 (swings never reaching it: 20)  drawdown after: median -39%, worse than -30% 5, worst -83%  | next-100d high median +46%
+first CT <= 38         n  6 (swings never reaching it: 22)  drawdown after: median -42%, worse than -30% 4, worst -80%  | next-100d high median +46%
+first CT <= 35         n  6 (swings never reaching it: 22)  drawdown after: median -34%, worse than -30% 3, worst -80%  | next-100d high median +46%
+first CT <= 33         n  5 (swings never reaching it: 23)  drawdown after: median -28%, worse than -30% 2, worst -72%  | next-100d high median +27%
+first CT <= 30         n  3 (swings never reaching it: 25)  drawdown after: median -27%, worse than -30% 1, worst -63%  | next-100d high median +53%
+turn, CT<40, gated     n 14  drawdown after: median -15%, worse than -30% 5, worst -87%  | next-100d high median +53%
+turn, CT<40, ungated   n 29  drawdown after: median -18%, worse than -30% 10, worst -87%  | next-100d high median +44%
+turn, CT<35, ungated   n 18  drawdown after: median -16%, worse than -30% 5, worst -87%  | next-100d high median +53%
+ENTRY QUALITY ONLY. No exit in the data. Computed signals, never fills.
