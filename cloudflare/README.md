@@ -74,3 +74,15 @@ each run), trades from `ctzb-trades` (404 until it goes live, which the page sho
 empty state). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
 `access` (`ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`) or `password` (`SITE_PASSWORD`), unset =
 refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (24).
+
+**Health monitor (11 Nov 2026).** `ctzb-scheduler` v3 also watches everything that can fail
+quietly -- its own GitHub dispatches, the mirror's sync, the nightly backup, the feed's age,
+cards or extras held back for over 75 minutes, the Kraken cross-check skipped for over a day,
+the trades relay, and `ctzb-dashboard`'s alert sender (by a heartbeat in the shared `NOTIFY`
+KV) -- and messages Jared on Telegram: PROBLEM once, STILL DOWN every 6 hours, RECOVERED when
+it clears. Extra bindings `MIRROR`, `TRADES`, `NOTIFY`, `TELEGRAM_BOT_TOKEN`,
+`TELEGRAM_CHAT_ID`; setup in `BRIEF_monitor.md`. Backup channel and dead-man: the GitHub
+watchdog reads the three public `/health` routes and opens a `pipeline-alert` issue (GitHub
+emails) if a Worker is unreachable, the mirror or relay is stale, the monitor stops, or it has
+problems it can't deliver. Tests: `node tests/test_health_monitor.mjs` (36).
+
