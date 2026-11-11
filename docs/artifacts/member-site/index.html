@@ -825,10 +825,13 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
   /* ---------- tabs and wiring ---------- */
   const VIEWS = ["now", "chart", "record", "read"];
-  // Fill the screen (Jared, 11 Nov 2026: no dead space on a tall monitor). On a desktop
-  // screen taller than the Now view, the whole page is scaled up until it just fits, at
-  // most 1.3x, and never so far that the layout gets narrower than 1300px. Measured on the
-  // Now view; the other tabs keep the same scale so nothing jumps when switching.
+  // Fit the screen (Jared, 11 Nov 2026: no dead space, no scrolling on a desktop). On a
+  // desktop-width screen the whole page is scaled so the Now view just fills the height:
+  // up to 1.3x on a tall screen (never so far that the layout gets narrower than 1300px),
+  // down to 0.85x on a short one. Below 0.85x the small print gets hard to read, so a very
+  // short screen scrolls instead. Phones and narrow windows keep their stacked layout at 1x.
+  // Measured on the Now view; the other tabs keep the same scale so nothing jumps.
+  const FIT_MIN = 0.85, FIT_MAX = 1.3;
   function fitToScreen() {
     const app = document.querySelector(".app");
     if (!app || $("#view-now").hidden) return;
@@ -836,13 +839,17 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (innerWidth < 1200) return;
     const prevMin = app.style.minHeight; app.style.minHeight = "0";
     const fits = () => app.getBoundingClientRect().height <= innerHeight;
-    let lo = 1, hi = Math.min(1.3, innerWidth / 1300);
-    if (hi > 1 && fits()) {
+    let lo, hi;
+    if (fits()) { lo = 1; hi = Math.min(FIT_MAX, innerWidth / 1300); }
+    else { lo = FIT_MIN; hi = 1; }
+    app.style.zoom = lo;
+    if (hi > lo && fits()) {
       for (let i = 0; i < 9; i++) { const z = (lo + hi) / 2; app.style.zoom = z; if (fits()) lo = z; else hi = z; }
     }
     app.style.minHeight = prevMin;
-    app.style.zoom = lo > 1.01 ? lo.toFixed(3) : "";
-    if (lo > 1.01) document.documentElement.style.setProperty("--fitz", lo.toFixed(3));
+    const z = Math.abs(lo - 1) > 0.01 ? lo : 1;
+    app.style.zoom = z === 1 ? "" : z.toFixed(3);
+    if (z !== 1) document.documentElement.style.setProperty("--fitz", z.toFixed(3));
   }
   let fitTimer = 0;
   addEventListener("resize", () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitToScreen, 120); });
