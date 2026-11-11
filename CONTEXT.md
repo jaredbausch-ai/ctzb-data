@@ -234,6 +234,7 @@ a GitHub Actions runner, which is why the pipeline is built this way.
 | ETH at Day 48 | `claude.ai/artifact/U9DcJovkbFGQyrxULme8Cf` | his. The 20 Oct odds/scenario page, v2. Source `docs/artifacts/eth-day-48.html`. Figures are hardcoded and dated; it does not refresh |
 | Setup Standard draft | `claude.ai/artifact/8ViZjND99xmo8rbcUmmr5r` | Standalone copy, for editing and review. Source `docs/artifacts/joe-console.html` |
 | ETH Setup Standard (Joe's) | `claude.ai/artifact/6tH6hXMh3EYLvUUEM9XgSJ` | **Joe has this link.** Dashboard type; page content lives in the artifact DB at collection `files`, doc `index.html`, field `text`. Update via `ArtifactData` with `if_version` pinned |
+| ETHKROS Card Mockups | `claude.ai/artifact/PqNuDBWR3RphZc3Kn4CfDq` | his. Design canvas for the member card, site and chart view, 10 Nov 2026. Standalone copy `docs/artifacts/ethkros-member-mockup.html` |
 
 The dashboard's live signals are **computed signals, never fills**. Jared has
 taken none of them. Presenting them to a creditor as trades would be
@@ -508,6 +509,21 @@ R.rsi_regime was off: the filter doing its job, not the signal drying up. Any
 per-year count must label those years "gate off (bear market)", never present
 them as the system producing nothing. Gate state 2025-26: on to 2025-12-04, off
 2025-12-05 to 2026-09-01, on again from 2026-09-02.
+
+**Member card redesign (item 18) -- 10-11 Nov 2026.** Decisions, Jared:
+members are sent A+ only, and the card says "Confirmed setup" (the grade stays
+internal). **The posting bar is 70%: below it a signal's edge is gone** (same
+number as WINMIN in refresh.py). On the card that is the early-dip read -- a
+deepest dip past -10% in the first 10 days (56%) or red on day 10 (47%) -- both
+pooled over every kept signal, not A+ only, and labelled so. The "if it misses"
+line shows the **median** peak before failing: ETH +7.1% (26 of 104 missed, all
+26 above entry first), BTC +6.4% (7 of 33). Generator `analysis/carddesign.py`;
+the chart view's past-signal paths come from it too. These figures are NOT in
+the feed yet: when the member site is rebuilt to read the feed (closes 17b) they
+move into grade_live / feed_live with a schema bump, so no member-facing number
+is typed by hand. Design canvas `claude.ai/artifact/PqNuDBWR3RphZc3Kn4CfDq`;
+standalone copy for Joe `docs/artifacts/ethkros-member-mockup.html`; full brief
+in the project doc `claude/client-redesign-brief.md`. Entry quality only.
 
 **A clusters and the CT 50 line — tested 26 Oct 2026, partial in-trade read.**
 `analysis/aclusters.py`, `analysis/areads.py`, declared. Failed A clusters did
