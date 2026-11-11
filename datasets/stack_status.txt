@@ -1,2 +1,2 @@
-2026-11-11 16:22 UTC FAILED COVERAGE FAILURE -- ETH 5D turn under 40 in the 30 days before a 1D / 2D / 3D signal (11 Nov 2026, watch item)
-2026-11-11 16:22 UTC OK card cross-check, 4 cards match the ledger
+2026-11-11 16:40 UTC FAILED COVERAGE FAILURE -- ETH 5D turn under 40 in the 30 days before a 1D / 2D / 3D signal (11 Nov 2026, watch item)
+2026-11-11 16:40 UTC OK card cross-check, 4 cards match the ledger
