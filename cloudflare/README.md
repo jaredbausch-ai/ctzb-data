@@ -9,6 +9,7 @@ record; the dashboard editor is where they are deployed.
 | `ctzb-scheduler` | `ctzb-scheduler-worker.js` | `GITHUB_DISPATCH_TOKEN` — Actions: read+write | no data route; `/health` only |
 | `ctzb-dashboard` | `ctzb-dashboard-worker.js` (**generated** — see below) | none; reads the mirror over a Service Binding | **no** — every path behind a gate that fails closed |
 | `ctzb-trades` | `ctzb-trades-worker.js` | `COINBASE_PRIVATE_KEY` — Coinbase CDP key, **View only** | `/health` only until `MODE=live`; then `/trades.json` |
+| `ctzb-site` | `ctzb-site-worker.js` (**generated** by `build_site.py`) | none; reads the mirror and `ctzb-trades` over Service Bindings | **no** — every path behind a gate that fails closed |
 
 They are separate on purpose. The public mirror must never hold a credential that
 can trigger CI.
@@ -63,3 +64,13 @@ corrected and logged, never posted. `MODE` unset or anything but `live` = dry ru
 nothing public, gated `/dry` (`DRY_VIEW_PASSWORD`) shows what would post. Going live
 needs Noah's sign-off and is Jared's switch. Setup: `BRIEF_trades.md`.
 Tests: `node tests/test_trades_relay.mjs` (41).
+
+**ctzb-site** (11 Nov 2026, item 18) — the member site. Built, not written:
+`python cloudflare/build_site.py` wraps `docs/artifacts/member-site/index.html` and the
+chart example into `site_worker_template.js`. The page reads `data/...` by relative path;
+the Worker answers from fixed tables only: the feed and `ledger.csv` from the mirror,
+candles from the mirror's `datasets/candles_<asset>_<tf>.csv` (written by `extras_live.py`
+each run), trades from `ctzb-trades` (404 until it goes live, which the page shows as an
+empty state). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
+`access` (`ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`) or `password` (`SITE_PASSWORD`), unset =
+refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (24).

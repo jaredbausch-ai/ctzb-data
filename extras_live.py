@@ -12,6 +12,9 @@ by hand (item 17b):
   pastpaths.csv  Every A+ signal's 60-day path on daily closes, lined up at entry: the
                  25th / 50th / 75th percentile for each day, per asset (the chart view's
                  "where the past signals went").
+  candles_<asset>_<tf>.csv  The last 70 bars of each chart (time, open, high, low, close), so the member
+                 site's chart view can draw any forming setup through the read-only mirror,
+                 which serves datasets/*.csv only.
   oddsfade.csv   datasets/earlydip.csv and datasets/holdcheck.csv marked against the
                  70% posting bar (WINMIN in refresh.py). Jared 11 Nov 2026: below 70%
                  the signal's edge is gone. Every kept signal, all grades.
@@ -97,6 +100,19 @@ def main():
     if not fade_rows:
         sys.exit("extras_live: earlydip.csv / holdcheck.csv empty; refusing to write")
 
+    n_candles = 0
+    for asset in ASSETS:
+        for tf in ("1D", "2D", "3D", "5D", "8D"):
+            src = os.path.join(ROOT, "data", f"{asset}_{tf}.csv")
+            if not os.path.exists(src):
+                continue
+            with open(src, newline="") as fh:
+                bars = list(csv.DictReader(fh))[-70:]
+            if not bars or not all(finite(float(b[k])) for b in bars for k in ("open", "high", "low", "close")):
+                sys.exit(f"extras_live: bad candles in {src}")
+            write(os.path.join(a.datasets, f"candles_{asset.lower()}_{tf.lower()}.csv"), ["time", "open", "high", "low", "close"],
+                  [{k: b[k] for k in ("time", "open", "high", "low", "close")} for b in bars])
+            n_candles += 1
     write(os.path.join(a.datasets, "missstats.csv"), MISS_FIELDS, miss_rows)
     write(os.path.join(a.datasets, "pastpaths.csv"), PATH_FIELDS, path_rows)
     write(os.path.join(a.datasets, "oddsfade.csv"), FADE_FIELDS, fade_rows)
@@ -104,7 +120,7 @@ def main():
         print(f"extras_live: {m['asset']} A+ {m['aplus_signals']}, missed +20% {m['misses']}, "
               f"up first {m['up_first']}, median peak {m['median_peak_pct']:+.1f}%")
     print(f"extras_live: paths {', '.join(f'{r} n {n}' for r, n in sorted({(x['asset'], x['n']) for x in path_rows}))}; "
-          f"odds-fade rows {len(fade_rows)}")
+          f"odds-fade rows {len(fade_rows)}; candle files {n_candles}")
 
 
 if __name__ == "__main__":
