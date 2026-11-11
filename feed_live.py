@@ -36,6 +36,7 @@ import argparse
 import csv
 import json
 import os
+import sys
 from datetime import datetime, timezone
 
 SCHEMA_VERSION = 5
@@ -290,5 +291,34 @@ def main():
           f"{len(feed['confluence_windows'])} windows -> {a.out}")
 
 
+def fail_closed(out_path, err):
+    """Fire drills, 11 Nov 2026: when this script itself crashes (a missing column after an
+    upstream step failed, say), the PREVIOUS feed used to stay published, cards and all, as
+    if the run were clean. Overwrite it with an empty, withheld feed instead, so every reader
+    sees that this run's checks failed. Exit 1 still turns the run red and retries it."""
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    feed = {"schema_version": SCHEMA_VERSION, "generated_at": now, "scored_as_of": None, "label": LABEL,
+            "checks": {"passed": False, "all_passed": False, "lines": [], "steps": step_outcomes(),
+                       "failed_steps": ["feed"]},
+            "feed_error": type(err).__name__,
+            "cards_withheld": True, "alerts_withheld": True, "extras_withheld": True,
+            "alerts": [], "cards": [], "prints": [], "open_signals": [], "confluence_windows": [],
+            "grade_odds": [], "if_it_misses": [], "past_paths": [],
+            "odds_fade": {"label": LABEL, "posting_bar_pct": None, "sample": None, "early_dip": [], "day10": []}}
+    os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
+    with open(out_path, "w") as f:
+        json.dump(feed, f, indent=1)
+
+
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception as e:  # noqa: BLE001 -- any crash must leave a withheld feed behind
+        out = "feed/ctzb_feed.json"
+        if "--out" in sys.argv[1:-1]:
+            out = sys.argv[sys.argv.index("--out") + 1]
+        fail_closed(out, e)
+        print(f"FEED BUILD FAILED ({type(e).__name__}: {e}); wrote a withheld feed to {out}", file=sys.stderr)
+        sys.exit(1)

@@ -1,0 +1,343 @@
+{
+ "run_at": "2026-11-11T23:07:46Z",
+ "passed": 56,
+ "total": 56,
+ "drills": [
+  {
+   "group": "A",
+   "drill": "control: current candles pass the freshness check",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "control: real candles pass the structural check",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "4H candles one bar behind (exchange stopped updating): run fails before the commit",
+   "passed": true,
+   "detail": "exit 1"
+  },
+  {
+   "group": "A",
+   "drill": "1D candles a day behind: run fails before the commit",
+   "passed": true,
+   "detail": "exit 1"
+  },
+  {
+   "group": "A",
+   "drill": "BTC_1D.csv missing: run fails before the commit",
+   "passed": true,
+   "detail": "exit 1"
+  },
+  {
+   "group": "A",
+   "drill": "ETH_4H.csv empty: run fails before the commit",
+   "passed": true,
+   "detail": "exit 1"
+  },
+  {
+   "group": "A",
+   "drill": "corrupt candle (low above high): run fails",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "missing day in the 1D file: run fails",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "zero close: run fails",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "zero volume on a closed day: run fails",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "Kraken agrees (0.02% gap): passes at the live 0.5%",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "Coinbase close 0.8% off Kraken two days ago: run fails",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "Kraken unreachable: does NOT block the candles",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "A",
+   "drill": "Coinbase unreachable: fetch fails (run retries)",
+   "passed": true,
+   "detail": "exit 1 after 15s"
+  },
+  {
+   "group": "A",
+   "drill": "Coinbase unreachable: candle files untouched",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "B",
+   "drill": "control: every step passes, cards published",
+   "passed": true,
+   "detail": "{'refresh': 'success', 'grade': 'success', 'extras': 'success', 'stack': 'success', 'cards': 'success', 'regress': 'success'}"
+  },
+  {
+   "group": "B",
+   "drill": "refresh step crashes: cards and alerts withheld",
+   "passed": true,
+   "detail": "refresh=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "grade step crashes: cards and alerts withheld",
+   "passed": true,
+   "detail": "grade=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "extras step crashes: card figures withheld, cards still published",
+   "passed": true,
+   "detail": "extras_withheld=True cards_withheld=False"
+  },
+  {
+   "group": "B",
+   "drill": "stack step crashes: cards and alerts withheld",
+   "passed": true,
+   "detail": "stack=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "cards step crashes: cards and alerts withheld",
+   "passed": true,
+   "detail": "cards=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "regress step crashes: cards and alerts withheld",
+   "passed": true,
+   "detail": "regress=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "ETH_3D.csv missing: rescore fails, all withheld",
+   "passed": true,
+   "detail": "refresh=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "a 2023 signal's grade silently changes: regression guard trips",
+   "passed": true,
+   "detail": "regress=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "a card's odds off by 7 points: card cross-check trips",
+   "passed": true,
+   "detail": "cards=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "a documented read missing from the live stack (the 11 Nov incident)",
+   "passed": true,
+   "detail": "stack=failure cards_withheld=True alerts_withheld=True log unchanged=True"
+  },
+  {
+   "group": "B",
+   "drill": "stack status file empty (stack never ran): withheld",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "C",
+   "drill": "same data twice: second run sends nothing",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "C",
+   "drill": "new setup while a check is failing: no alert, nothing logged",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "C",
+   "drill": "next clean run: the held alert goes out once",
+   "passed": true,
+   "detail": "['BTC-5D-2099-01-04:forming']"
+  },
+  {
+   "group": "C",
+   "drill": "and not again on the run after",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "C",
+   "drill": "setup disappears: one 'vanished' alert",
+   "passed": true,
+   "detail": "['BTC-5D-2099-01-04:vanished']"
+  },
+  {
+   "group": "C",
+   "drill": "and not again",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "C",
+   "drill": "alert log has no duplicate ids",
+   "passed": true,
+   "detail": "46 ids"
+  },
+  {
+   "group": "D",
+   "drill": "refresh: outcome passed to the feed gate",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "refresh: a failure turns the run red (so it retries)",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "grade: outcome passed to the feed gate",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "grade: a failure turns the run red (so it retries)",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "extras: outcome passed to the feed gate",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "extras: a failure turns the run red (so it retries)",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "stack: outcome passed to the feed gate",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "stack: a failure turns the run red (so it retries)",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "cards: outcome passed to the feed gate",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "cards: a failure turns the run red (so it retries)",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "regress: outcome passed to the feed gate",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "regress: a failure turns the run red (so it retries)",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "Kraken cross-check enforced at 0.5%",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "D",
+   "drill": "feed gate covers every gating step",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "E",
+   "drill": "control: fresh feed, no outage or stale warning",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "E",
+   "drill": "mirror down: page says 'Data unavailable', not a quiet market",
+   "passed": true,
+   "detail": "Data unavailable"
+  },
+  {
+   "group": "E",
+   "drill": "checks failed: page says setups are held back",
+   "passed": true,
+   "detail": "Setups held back"
+  },
+  {
+   "group": "E",
+   "drill": "feed 11 hours old: page warns the data is out of date",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "E",
+   "drill": "old feed and nothing forming: warning still shown",
+   "passed": true,
+   "detail": ""
+  },
+  {
+   "group": "F",
+   "drill": "member site Worker (mirror down, bad paths, gate)",
+   "passed": true,
+   "detail": "24/24 passed"
+  },
+  {
+   "group": "F",
+   "drill": "trades relay (Coinbase down, missing key, recovery)",
+   "passed": true,
+   "detail": "41/41 passed"
+  },
+  {
+   "group": "F",
+   "drill": "mirror backup (GitHub down, tiny snapshot refused)",
+   "passed": true,
+   "detail": "21/21 passed"
+  }
+ ]
+}

@@ -52,7 +52,7 @@ set_cards([])
 f = run()
 check("first run seeds the log and sends nothing", f["alerts_seeded"] and f["alerts"] == [] and log_n() > 0,
       f"seeded {log_n()} existing signals")
-check("schema version is 4", f["schema_version"] == 4)
+check("schema version is 5", f["schema_version"] == 5)
 check("every print and open signal carries a signal_id",
       all(x.get("signal_id") for x in f["prints"] + f["open_signals"]))
 n0 = log_n()

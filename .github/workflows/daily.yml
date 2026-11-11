@@ -93,11 +93,14 @@ jobs:
       # Item 17(a), 10 Nov 2026: are the candles RIGHT, not just current? Every chart is
       # built from Coinbase 1D, so one bad daily candle corrupts every signal on it.
       # Structural faults (a missing day, low above high, a zero price or volume) fail
-      # here, before the commit, so a bad fetch is retried and never committed. The
-      # Kraken cross-check runs in REPORT mode until its threshold is set from its own
-      # measured gap; in report mode, or when Kraken is unreachable, it never fails.
+      # here, before the commit, so a bad fetch is retried and never committed.
+      # Kraken cross-check ENFORCED from 11 Nov 2026 (fire drills): any of the last 30
+      # closed days more than 0.5% from Kraken's close fails the run. Threshold from
+      # 720 days measured in report mode: median gap 0.013%, p99 0.09% (ETH) / 0.08%
+      # (BTC), worst day ever 0.164% (ETH, 2025-06-16), so 0.5% is three times the
+      # worst real day. When Kraken is unreachable it still never fails.
       - name: Candles must be sane, and agree with a second exchange
-        run: timeout 5m python .github/scripts/check_candles.py data --out datasets/candle_check.json
+        run: timeout 5m python .github/scripts/check_candles.py data --out datasets/candle_check.json --cross enforce --max-close-gap 0.5
 
       # Must not block the candle commit (review, 4 Nov 2026): a code error here used to
       # leave fresh candles uncommitted. A failure turns the run red after the commit.
@@ -209,14 +212,14 @@ jobs:
 
       - name: Fail the run if any step failed (candles are already committed)
         if: >-
-          steps.refresh.outcome == 'failure' ||
+          steps.refresh.outcome == 'failure' || steps.extras.outcome == 'failure' ||
           steps.grade.outcome == 'failure' || steps.stack.outcome == 'failure' ||
           steps.cards.outcome == 'failure' || steps.regress.outcome == 'failure' ||
           steps.feed.outcome == 'failure' ||
           steps.flows.outcome == 'failure' || steps.onchain.outcome == 'failure' ||
           steps.derivs.outcome == 'failure'
         run: |
-          echo "refresh=${{ steps.refresh.outcome }} grade=${{ steps.grade.outcome }} stack=${{ steps.stack.outcome }} cards=${{ steps.cards.outcome }} regress=${{ steps.regress.outcome }} feed=${{ steps.feed.outcome }} flows=${{ steps.flows.outcome }} onchain=${{ steps.onchain.outcome }} derivs=${{ steps.derivs.outcome }}"
+          echo "refresh=${{ steps.refresh.outcome }} extras=${{ steps.extras.outcome }} grade=${{ steps.grade.outcome }} stack=${{ steps.stack.outcome }} cards=${{ steps.cards.outcome }} regress=${{ steps.regress.outcome }} feed=${{ steps.feed.outcome }} flows=${{ steps.flows.outcome }} onchain=${{ steps.onchain.outcome }} derivs=${{ steps.derivs.outcome }}"
           cat datasets/stack_status.txt || true
           exit 1
 

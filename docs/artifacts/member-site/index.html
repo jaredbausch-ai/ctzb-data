@@ -86,6 +86,7 @@ main { flex: 1; min-height: 0; }
 /* The card */
 .card-head { padding: 10px 18px 9px; text-align: center; border-bottom: 1px solid var(--line); background: var(--panel-2); }
 .card-head .where { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+.stale-note { margin: 10px 0 0; padding: 8px 12px; border: 1px solid var(--drop); border-radius: 8px; color: var(--drop); font-size: 13px; line-height: 1.4; }
 .card-head .state { font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: 2px; color: var(--c, var(--live)); margin-top: 4px; text-shadow: 0 0 14px color-mix(in srgb, var(--c, var(--live)) 45%, transparent); }
 .card-body { padding: 12px 20px 10px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 10px 24px; }
 @media (max-width: 760px) { .card-body { grid-template-columns: minmax(0, 1fr); } }
@@ -373,6 +374,16 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +20% odds.
   function formingCards() { return ((S.feed && S.feed.cards) || []).slice().sort((a, b) => (b.rose10_within60d_pct ?? -1) - (a.rose10_within60d_pct ?? -1)); }
   function bestCard() { return liveCards()[0] || formingCards()[0] || null; }
+  // Fire drills, 11 Nov 2026: an outage, a failed check or an old feed must never read as
+  // "nothing is happening". The pipeline rewrites the feed every 4 hours; 5 hours means a
+  // cycle was missed.
+  const STALE_AFTER_H = 5;
+  function feedAgeH() { const t = S.feed && Date.parse(S.feed.generated_at); return Number.isFinite(t) ? (Date.now() - t) / 3.6e6 : null; }
+  function feedHealth() { return !S.feed ? "down" : S.feed.cards_withheld ? "held" : "ok"; }
+  function staleNote() {
+    const a = feedAgeH();
+    return a !== null && a > STALE_AFTER_H ? `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old. The update pipeline has not refreshed it on schedule, so treat everything below as out of date until it does.</div>` : "";
+  }
   function selectable() {
     const top = liveCards();
     return openSignals().map((o) => ({ ...o, _open: true })).concat(top, formingCards().filter((c) => !top.includes(c)));
@@ -386,7 +397,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       : `<span class="pnone">No live top-grade setups right now.</span>`;
     const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
         ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">${c.grade === "A+" ? "top grade" : "below bar"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
-      : `<span class="pnone">Nothing forming today.</span>`;
+      : `<span class="pnone">${{ down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "Nothing forming today."}</span>`;
     $("#picker").innerHTML = `<div class="prow"><span class="plabel">Live</span>${liveBtns}</div>
       <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button></div>`;
   }
@@ -445,9 +456,19 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const m = S.preview ? cardExample() : (best ? (best._open ? cardFromOpen(best) : cardFromFeed(best)) : null);
     const below = !!m && m.kind === "forming" && !m.top;
     frame.style.setProperty("--c", !m ? "var(--closed)" : below ? "var(--fade)" : "var(--live)");
+    if (!m && feedHealth() !== "ok") {
+      const down = feedHealth() === "down";
+      box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--drop)" data-state="${down ? "down" : "held"}">${down ? "Data unavailable" : "Setups held back"}</div></div>${staleNote()}
+        <div class="empty-card">
+          <div class="big">${down ? "Can't reach the data right now" : "A data check failed on the latest run"}</div>
+          <div class="small" style="max-width: 46ch">${down ? "This is an outage, not a quiet market. Setups may be forming that this page can't show. It recovers on its own once the data source is back." : "The system holds every setup and alert back until its checks pass, so nothing unverified is shown. They return on the next clean run, usually within the hour."}</div>
+        </div>
+        <div class="card-foot"><span class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+      return;
+    }
     if (!m) {
       const on = S.feed && /bull/i.test(S.feed.market_regime || "");
-      box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)">No setup right now</div></div>
+      box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="quiet">No setup right now</div></div>${staleNote()}
         <div class="empty-card">
           <div class="big">Waiting for the next one</div>
           <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about 18 to 22 times a year." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
@@ -470,7 +491,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Best setup forming today. Its odds are below the ${e.bar ?? 70}% posting bar, so no alert goes out for it. It can still vanish before it confirms.</div>` : ""}
-      </div>
+      </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
           <div class="big num">${m.reach10 ?? "n/a"}%</div>
@@ -833,7 +854,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
     S.feed = feed; S.trades = trades; S.example = example;
     S.ledger = ledgerText ? parseCSV(ledgerText).filter((r) => r.grade === "A+") : [];
-    if (!bestCard()) { S.preview = true; $("#previewSwitch").checked = true; } else S.sel = bestCard().signal_id;
+    // The example only stands in for a quiet market, never for an outage or a failed check.
+    if (!bestCard()) { if (feedHealth() === "ok" && !staleNote() && !openSignals().length) { S.preview = true; $("#previewSwitch").checked = true; } } else S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
     show(location.hash.slice(1) || "now");
   }
