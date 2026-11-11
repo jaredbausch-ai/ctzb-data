@@ -54,9 +54,9 @@ header.top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
 .pill.off { border-color: var(--line); background: var(--panel); color: var(--muted); }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); box-shadow: 0 0 8px var(--live); flex: none; }
 .pill.off .dot { background: var(--closed); box-shadow: none; }
-.forming { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--muted); flex: 1 1 260px; min-width: 0; }
+.forming { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); flex: 1 1 260px; min-width: 0; }
 .chip { padding: 5px 10px; border-radius: 4px; border: 1px dashed var(--line-2); color: var(--soft); }
-.asof { font-size: 12px; color: var(--muted); }
+.asof { font-size: 13px; color: var(--muted); }
 nav.tabs { display: flex; gap: 2px; flex-wrap: wrap; }
 nav.tabs button { background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 12px; min-height: 44px; color: var(--muted); cursor: pointer; font-size: 13px; }
 nav.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--live); }
@@ -73,19 +73,19 @@ main { flex: 1; min-height: 0; }
 .frame.lead > .in { background: var(--lead-bg); border-color: var(--lead-line); }
 
 .sec-title { font-family: var(--f-display); font-size: 13px; letter-spacing: 2px; text-transform: uppercase; }
-.small { font-size: 12px; color: var(--muted); }
-.fine { font-size: 10.5px; line-height: 1.45; color: var(--muted); }
+.small { font-size: 13.5px; color: var(--muted); }
+.fine { font-size: 12px; line-height: 1.45; color: var(--muted); }
 .kv { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
 
 /* Lead trader */
 .lead-in { padding: 16px; gap: 12px; }
 .lead-in .sec-title { color: #FF8BE0; }
-.lead-empty { border: 1px dashed var(--lead-line); border-radius: 4px; padding: 12px; font-size: 13px; color: var(--lead-soft); }
+.lead-empty { border: 1px dashed var(--lead-line); border-radius: 4px; padding: 12px; font-size: 14px; color: var(--lead-soft); }
 .trade { background: #22102A; border: 1px solid #6A2A60; border-radius: 4px; padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
 
 /* The card */
 .card-head { padding: 10px 18px 9px; text-align: center; border-bottom: 1px solid var(--line); background: var(--panel-2); }
-.card-head .where { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+.card-head .where { font-size: 12.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
 .stale-note { margin: 10px 0 0; padding: 8px 12px; border: 1px solid var(--drop); border-radius: 8px; color: var(--drop); font-size: 13px; line-height: 1.4; }
 .card-head .state { font-family: var(--f-display); font-weight: 700; font-size: 20px; letter-spacing: 2px; color: var(--c, var(--live)); margin-top: 4px; text-shadow: 0 0 14px color-mix(in srgb, var(--c, var(--live)) 45%, transparent); }
 .card-body { padding: 12px 20px 10px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 10px 24px; }
@@ -93,29 +93,29 @@ main { flex: 1; min-height: 0; }
 .odds { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; }
 .odds .big { font-size: 58px; font-weight: 700; line-height: 1; letter-spacing: -2px; }
 .stats { display: flex; flex-direction: column; gap: 6px; justify-content: center; }
-.stats .kv span:first-child { font-size: 13px; color: var(--muted); }
-.stats .kv span:last-child { font-size: 18px; text-align: right; font-weight: 600; }
+.stats .kv span:first-child { font-size: 14.5px; color: var(--muted); }
+.stats .kv span:last-child { font-size: 19px; text-align: right; font-weight: 600; }
 .stats .miss span:last-child { font-size: 15px; }
 .hi { color: var(--high); } .lo { color: var(--drop); } .ed { color: var(--fade-2); }
 .marker { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; justify-content: center; padding: 7px 12px; border: 1px solid #6A2A60; border-radius: 4px; background: #1E0F24; font-size: 13px; color: #FFC6EC; }
 .marker .dot { background: var(--lead); box-shadow: 0 0 8px var(--lead); }
 
 .detail { border-top: 1px solid var(--line); padding: 10px 20px 10px; display: flex; flex-direction: column; gap: 8px; }
-.detail .sec-title { color: var(--fade-2); font-size: 12px; }
+.detail .sec-title { color: var(--fade-2); font-size: 13px; }
 .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .tile { background: var(--panel-2); border: 1px solid var(--line); border-radius: 4px; padding: 6px 10px; }
-.tile .t { font-size: 11px; color: var(--muted); }
-.tile .v { font-size: 16px; font-weight: 600; margin-top: 2px; }
+.tile .t { font-size: 12.5px; color: var(--muted); }
+.tile .v { font-size: 18px; font-weight: 600; margin-top: 2px; }
 .boxes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 760px) { .boxes { grid-template-columns: minmax(0, 1fr); } }
-.box { border-radius: 4px; padding: 8px 12px; font-size: 13px; color: var(--soft); }
+.box { border-radius: 4px; padding: 8px 12px; font-size: 14px; color: var(--soft); }
 .box.violet { background: #1A1030; border: 1px solid #3D2A66; }
 .box.teal { background: var(--ok-bg); border: 1px solid var(--ok-line); }
-.box .lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+.box .lbl { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
 .box.violet .lbl { color: var(--fade-2); } .box.teal .lbl { color: #7FF0FF; }
 .ladder { display: flex; flex-direction: column; gap: 2px; }
-.bar { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 3em; gap: 8px; align-items: center; font-size: 11.5px; line-height: 1.35; color: var(--soft); }
+.bar { display: grid; grid-template-columns: 9.5em minmax(0, 1fr) 3em; gap: 8px; align-items: center; font-size: 13px; line-height: 1.4; color: var(--soft); }
 .bar .t { height: 8px; background: #241E42; border-radius: 4px; overflow: hidden; }
 .bar .f { height: 8px; border-radius: 4px; background: var(--high); }
 .bar .f.gone { background: var(--drop); }
@@ -129,8 +129,8 @@ main { flex: 1; min-height: 0; }
 .center > .frame { flex: 1; }
 .picker { display: flex; flex-direction: column; gap: 6px; }
 .prow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-.prow .plabel { width: 5.5em; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
-.prow .pnone { font-size: 12.5px; color: var(--muted); padding: 0 4px; }
+.prow .plabel { width: 5.5em; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.prow .pnone { font-size: 13.5px; color: var(--muted); padding: 0 4px; }
 .pick { min-height: 36px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--panel); color: var(--soft); cursor: pointer; font-size: 12.5px; display: inline-flex; gap: 8px; align-items: center; }
 .pick b { font-variant-numeric: tabular-nums; }
 .pick[aria-pressed="true"] { border-color: var(--c, var(--live)); color: var(--text); box-shadow: 0 0 12px color-mix(in srgb, var(--c, var(--live)) 30%, transparent); }
@@ -139,15 +139,15 @@ main { flex: 1; min-height: 0; }
 /* Previous alerts */
 .prev { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .prev .sec-title { color: var(--live); }
-.grp { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; }
+.grp { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
 .mini { border: 2px solid var(--c, var(--live)); border-radius: 5px; background: var(--panel); padding: 9px 12px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; }
 .mini.fading { --c: var(--fade); } .mini.closed { --c: var(--closed); background: #0E0C1A; }
 .mini .name { font-weight: 600; font-size: 14px; }
-.mini .sub { font-size: 12px; color: var(--muted); }
-.badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
+.mini .sub { font-size: 13px; color: var(--muted); }
+.badge { font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; }
 .badge.yes { background: rgba(92, 225, 255, .14); color: var(--high); }
 .badge.no { background: rgba(255, 106, 193, .14); color: var(--drop); }
-.none { font-size: 13px; color: var(--muted); border: 1px dashed var(--line); border-radius: 5px; padding: 10px 12px; }
+.none { font-size: 14px; color: var(--muted); border: 1px dashed var(--line); border-radius: 5px; padding: 10px 12px; }
 .linkbtn { background: none; border: 0; padding: 8px 0; color: var(--live); cursor: pointer; text-align: left; font-size: 13px; }
 
 /* Chart view */
@@ -226,7 +226,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         </div>
 
         <section class="prev" aria-label="Previous alerts">
-          <div class="kv"><span class="sec-title">Previous alerts</span><span class="small">odds update with each close</span></div>
+          <div class="kv"><span class="sec-title" style="white-space: nowrap">Previous alerts</span><span class="small" style="font-size: 12px; text-align: right">odds update each close</span></div>
           <div class="grp" style="color: var(--live)">Edge intact</div>
           <div id="prevIntact"></div>
           <div class="grp" style="color: var(--muted); margin-top: 4px">Edge lost or closed</div>
@@ -299,14 +299,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>If it misses</dt><dd>Of the past signals that did not reach +20%, how many were above entry first, and their median peak before they failed.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in. His real trades never change the odds.</dd>
           </dl>
-          <div class="fine">Odds are hypothetical, computed on past signals, and measure entry quality only. Hypothetical results have inherent limitations. Crypto is volatile and leveraged trading can lose more than you put in.</div>
+          <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="foot">
-    <span class="fine" style="max-width: 900px; font-size: 11px">ETHKROS publishes computed statistics, not personal advice. Odds are hypothetical, measured on past signals, entry quality only. Crypto is volatile and leveraged trading can lose more than you put in.</span>
+    <span class="fine" style="max-width: 900px; font-size: 12.5px">ETHKROS publishes computed statistics, not personal advice. Odds are statistics based on past signal history and data, entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</span>
     <span class="small" id="feedState"></span>
   </footer>
 </div>
@@ -463,7 +463,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="big">${down ? "Can't reach the data right now" : "A data check failed on the latest run"}</div>
           <div class="small" style="max-width: 46ch">${down ? "This is an outage, not a quiet market. Setups may be forming that this page can't show. It recovers on its own once the data source is back." : "The system holds every setup and alert back until its checks pass, so nothing unverified is shown. They return on the next clean run, usually within the hour."}</div>
         </div>
-        <div class="card-foot"><span class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+        <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
     if (!m) {
@@ -474,7 +474,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about 18 to 22 times a year." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
           <div class="small">You'll get a push alert the moment one confirms.</div>
         </div>
-        <div class="card-foot"><span class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+        <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
     const e = edgeRule(), mi = misses(m.asset, m.grade || "A+");
@@ -527,7 +527,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       </div>
       <div class="card-foot">
         <button class="btn" data-go="chart">Open on the chart →</button>
-        <span class="fine" style="max-width: 44ch">Computed from past signals. Entry quality only: no exit, not a trade or a track record. Hypothetical results have inherent limitations.</span>
+        <span class="fine" style="max-width: 44ch">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. Past results don't guarantee future results.</span>
       </div>`;
     const lad = $("#ladder");
     const row = (t, v, gone, extra) => `<div class="bar"><span>${esc(t).replace(/-/g, MINUS)}${extra ? ` <span class="small">${extra}</span>` : ""}</span><div class="t"><div class="f${gone ? " gone" : ""}" style="width: ${v ?? 0}%"></div></div><span class="num">${v ?? "n/a"}${v != null ? "%" : ""}</span></div>`;
@@ -800,7 +800,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       </div>
       ${what}
       <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">The lead trader's real entries and exits show on the chart as markers. None on this one.</div>
-      <div class="fine">Computed from past signals. Entry quality only: no exit, not a trade or a track record. Hypothetical results have inherent limitations.</div>`;
+      <div class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. Past results don't guarantee future results.</div>`;
   }
 
   /* ---------- Record ---------- */
