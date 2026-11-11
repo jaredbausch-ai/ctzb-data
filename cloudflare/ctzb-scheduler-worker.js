@@ -1,5 +1,5 @@
 /**
- * CTZB external scheduler — v2, 10 Nov 2026.
+ * CTZB external scheduler and health monitor — v3, 11 Nov 2026 (v2: 10 Nov).
  *
  * GitHub's cron honoured roughly one tick in three on this repo (22 Oct - 4 Nov
  * 2026) and about one in eleven on 10 Nov. This Worker is now the clock. On its
