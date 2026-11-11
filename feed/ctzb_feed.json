@@ -1,13 +1,13 @@
 {
  "schema_version": 4,
- "generated_at": "2026-11-11T04:14:07Z",
+ "generated_at": "2026-11-11T08:13:59Z",
  "scored_as_of": "2026-11-11",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-11 04:14 UTC OK 25 subjects, 917 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-11",
-   "2026-11-11 04:14 UTC OK card cross-check, 2 cards match the ledger"
+   "2026-11-11 08:13 UTC OK 27 subjects, 977 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-11",
+   "2026-11-11 08:13 UTC OK card cross-check, 4 cards match the ledger"
   ],
   "all_passed": true,
   "steps": {
@@ -24,19 +24,19 @@
  "alerts_seeded": false,
  "alerts": [
   {
-   "alert_id": "ETH-1D-2026-11-13:forming",
+   "alert_id": "BTC-1D-2026-11-13:forming",
    "event": "forming",
-   "signal_id": "ETH-1D-2026-11-13",
-   "chart": "ETH 1D",
-   "emitted_at": "2026-11-11T04:14:07Z",
+   "signal_id": "BTC-1D-2026-11-13",
+   "chart": "BTC 1D",
+   "emitted_at": "2026-11-11T08:13:59Z",
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record."
   },
   {
-   "alert_id": "ETH-2D-2026-11-16:forming",
+   "alert_id": "BTC-2D-2026-11-16:forming",
    "event": "forming",
-   "signal_id": "ETH-2D-2026-11-16",
-   "chart": "ETH 2D",
-   "emitted_at": "2026-11-11T04:14:07Z",
+   "signal_id": "BTC-2D-2026-11-16",
+   "chart": "BTC 2D",
+   "emitted_at": "2026-11-11T08:13:59Z",
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record."
   }
  ],
@@ -54,7 +54,7 @@
    "confirms_on": "2026-11-13",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2061.71,
+   "price_now": 2067.03,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 27 ETH 1D trades with exactly the same confirmations",
@@ -117,7 +117,7 @@
    "confirms_on": "2026-11-16",
    "bars_to_confirm": 2,
    "must_close_above": null,
-   "price_now": 2061.71,
+   "price_now": 2067.03,
    "grade": "C",
    "confirmations": "none",
    "sample": "the last 15 ETH 2D trades with exactly the same confirmations",
@@ -169,6 +169,155 @@
      "went_on_to_fall25_pct": 75
     }
    ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-1D-2026-11-13",
+   "chart": "BTC 1D",
+   "asset": "BTC",
+   "timeframe": "1D",
+   "low_date": "2026-11-10",
+   "confirms_on": "2026-11-13",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 74066.35,
+   "grade": "C",
+   "confirmations": "an ETH 2D signal in the 10 days before",
+   "sample": "the last 37 BTC 1D trades with exactly the same confirmations",
+   "past_trades": 37,
+   "rose10_never_fell25_within60d_pct": 78,
+   "beat_normal_move_pct": 66,
+   "rose20_within60d_pct": 49,
+   "rose10_within60d_pct": 84,
+   "typical_biggest_rise_pct": 19.1,
+   "typical_dip_before_rise_pct": -4.9,
+   "typical_deepest_dip_pct": -9.5,
+   "fell30_within60d_pct": 8,
+   "before_2022": {
+    "past_trades": 22,
+    "rose10_never_fell25_within60d_pct": 73
+   },
+   "since_2022": {
+    "past_trades": 15,
+    "rose10_never_fell25_within60d_pct": 87
+   },
+   "typical_day_first_rose10": 9,
+   "typical_day_first_rose20": 22,
+   "typical_day_of_60d_high": 44,
+   "typical_day_of_deepest_dip": 23,
+   "active_confluences": [
+    {
+     "after": "ETH 2D any",
+     "after_confirmed": "2026-11-04",
+     "window_closes": "2026-11-14",
+     "applies_to": "all",
+     "past_trades": 136,
+     "rose20_within60d_pct": 60,
+     "rose10_within60d_pct": 81,
+     "fell30_within60d_pct": 12,
+     "note": "Its own sample, separate from the card number; rows overlap and are not added."
+    },
+    {
+     "after": "ETH 2D A",
+     "after_confirmed": "2026-11-04",
+     "window_closes": "2026-11-14",
+     "applies_to": "all",
+     "past_trades": 35,
+     "rose20_within60d_pct": 63,
+     "rose10_within60d_pct": 77,
+     "fell30_within60d_pct": 3,
+     "note": "Its own sample, separate from the card number; rows overlap and are not added."
+    }
+   ],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 17,
+     "still_rose10_pct": 65,
+     "went_on_to_fall25_pct": 24
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 50
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 5,
+     "still_rose10_pct": 0,
+     "went_on_to_fall25_pct": 80
+    }
+   ]
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-2D-2026-11-16",
+   "chart": "BTC 2D",
+   "asset": "BTC",
+   "timeframe": "2D",
+   "low_date": "2026-11-09",
+   "confirms_on": "2026-11-16",
+   "bars_to_confirm": 2,
+   "must_close_above": null,
+   "price_now": 74066.35,
+   "grade": "C",
+   "confirmations": "none",
+   "sample": "the last 15 BTC 2D trades with exactly the same confirmations",
+   "past_trades": 15,
+   "rose10_never_fell25_within60d_pct": 53,
+   "beat_normal_move_pct": 55,
+   "rose20_within60d_pct": 33,
+   "rose10_within60d_pct": 67,
+   "typical_biggest_rise_pct": 14.1,
+   "typical_dip_before_rise_pct": -4.6,
+   "typical_deepest_dip_pct": -15.8,
+   "fell30_within60d_pct": 20,
+   "before_2022": {
+    "past_trades": 11,
+    "rose10_never_fell25_within60d_pct": 36
+   },
+   "since_2022": {
+    "past_trades": 4,
+    "rose10_never_fell25_within60d_pct": 100
+   },
+   "typical_day_first_rose10": 28,
+   "typical_day_first_rose20": 34,
+   "typical_day_of_60d_high": 39,
+   "typical_day_of_deepest_dip": 28,
+   "active_confluences": [],
+   "if_it_falls_first": [
+    {
+     "fell_pct": 5,
+     "past_trades": 10,
+     "still_rose10_pct": 40,
+     "went_on_to_fall25_pct": 60
+    },
+    {
+     "fell_pct": 10,
+     "past_trades": 8,
+     "still_rose10_pct": 25,
+     "went_on_to_fall25_pct": 75
+    },
+    {
+     "fell_pct": 15,
+     "past_trades": 7,
+     "still_rose10_pct": 14,
+     "went_on_to_fall25_pct": 86
+    },
+    {
+     "fell_pct": 20,
+     "past_trades": 6,
+     "still_rose10_pct": 0,
+     "went_on_to_fall25_pct": 100
+    }
+   ]
   }
  ],
  "prints": [
@@ -216,7 +365,7 @@
    "provisional": true,
    "low_date": "2026-11-10",
    "confirms_on": "2026-11-13",
-   "entry_close": 2061.71,
+   "entry_close": 2067.03,
    "tags": "A",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -264,7 +413,7 @@
    "provisional": true,
    "low_date": "2026-11-09",
    "confirms_on": "2026-11-16",
-   "entry_close": 2061.71,
+   "entry_close": 2067.03,
    "tags": "A + filled diamond",
    "note": "regime on; 2 bar(s) to confirm"
   },
@@ -414,6 +563,18 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-1D-2026-11-13",
+   "chart": "BTC 1D",
+   "state": "forming",
+   "provisional": true,
+   "low_date": "2026-11-10",
+   "confirms_on": "2026-11-13",
+   "entry_close": 74066.35,
+   "tags": "A",
+   "note": "regime on; 2 bar(s) to confirm"
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
    "signal_id": "BTC-2D-2025-11-28",
    "chart": "BTC 2D",
    "state": "confirmed",
@@ -447,6 +608,18 @@
    "entry_close": 85748.96,
    "tags": "D",
    "note": "regime on"
+  },
+  {
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+   "signal_id": "BTC-2D-2026-11-16",
+   "chart": "BTC 2D",
+   "state": "forming",
+   "provisional": true,
+   "low_date": "2026-11-09",
+   "confirms_on": "2026-11-16",
+   "entry_close": 74066.35,
+   "tags": "A",
+   "note": "regime on; 2 bar(s) to confirm"
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
