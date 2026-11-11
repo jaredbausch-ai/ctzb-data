@@ -431,7 +431,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const stateTxt = m.kind === "forming" ? "Setup forming" : "Confirmed setup";
     const sf = setupFade(m);
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
-    const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from the start` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
+    const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
       : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
     const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median peak ${pct(mi.median_peak_pct)}` : "n/a";
     box.innerHTML = `
@@ -480,7 +480,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const lad = $("#ladder");
     const row = (t, v, gone, extra) => `<div class="bar"><span>${esc(t).replace(/-/g, MINUS)}${extra ? ` <span class="small">${extra}</span>` : ""}</span><div class="t"><div class="f${gone ? " gone" : ""}" style="width: ${v ?? 0}%"></div></div><span class="num">${v ?? "n/a"}${v != null ? "%" : ""}</span></div>`;
     if (sf) {
-      lad.innerHTML = row("From the start", sf.base, sf.base < sf.bar, `n ${m.n}`)
+      lad.innerHTML = row("From entry", sf.base, sf.base < sf.bar, `n ${m.n}`)
         + sf.rows.map((r) => row(`Falls ${r.fell}% first`, r.v === "" ? null : r.v, r.v !== "" && r.v < sf.bar, `n ${r.n}`)).join("")
         + `<div class="fine">Share of this setup's past signals that still rose 10% after first falling that far. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
     } else {
