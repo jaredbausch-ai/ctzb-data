@@ -25,10 +25,10 @@ reads live data from `ctzb-feed` and `ctzb-trades`; nothing in it is typed by ha
 **1.2 Code.** Replace it with the file at this commit-pinned URL, then Deploy:
 
 ```
-https://raw.githubusercontent.com/jaredbausch-ai/ctzb-data/dc52155eb6b68094f4b7033b9d6ed2d35a5410ff/cloudflare/ctzb-site-worker.js
+https://raw.githubusercontent.com/jaredbausch-ai/ctzb-data/3b49edcf28decee8d65e9e96aa09c8c3d8e6857d/cloudflare/ctzb-site-worker.js
 ```
 
-Exact-match check before deploying: 85,046 bytes; the second line reads
+Exact-match check before deploying: 86585 bytes; the second line reads
 ` * ctzb-site — the ETHKROS member site, served from Cloudflare (item 18).`; exactly one
 `export default`. Most of its size is one long line (the page, as a string). If any of
 that differs, stop.
