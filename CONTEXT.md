@@ -510,6 +510,12 @@ per-year count must label those years "gate off (bear market)", never present
 them as the system producing nothing. Gate state 2025-26: on to 2025-12-04, off
 2025-12-05 to 2026-09-01, on again from 2026-09-02.
 
+**The launch plan (Jared, 11 Nov 2026).** Build everything out and run it live,
+privately, for Jared and Joe first: every failover for the backend data proven,
+the system's autonomy proven, every figure and percentage audited over and over.
+Run that for **one to two months before selling anything**. Win rates and
+statistics work continues in the background while it runs.
+
 **Member card redesign (item 18) -- 10-11 Nov 2026.** Decisions, Jared:
 members are sent A+ only, and the card says "Confirmed setup" (the grade stays
 internal). **The posting bar is 70%: below it a signal's edge is gone** (same
