@@ -1396,7 +1396,7 @@ the one feed of the plan agreed with Joe; spec in `docs/FEED_SPEC.md`. **Cloudfl
 `ctzb-trades` (item 13a, 11 Nov) relays Jared's real Coinbase futures trades as "the
 lead trader's real trades" with a View-only key: percentages only, never dollar
 amounts or contract counts; **dry run** until Noah signs off, then `MODE=live` is
-Jared's switch. Setup in `cloudflare/BRIEF_trades.md`. **Running in dry run since 2026-11-11 17:52 UTC** at `ctzb-trades.bigpapi.workers.dev` (deploy 40a4475b): the Coinbase key is ETHCross read-only, View only, portfolio Primary, ECDSA, any IP; baseline taken, /health ok. `last_ok_at` only moves when something changes or every 15 minutes (KV writes are kept low), so a gap of up to 15 minutes there is normal. Still not built: the Grok ping;
+Jared's switch. **Feed schema 5 (11 Nov 2026):** `extras_live.py` (pipeline step `extras`, after the grade) writes `missstats.csv`, `pastpaths.csv`, `oddsfade.csv`; the feed serves them as `if_it_misses`, `past_paths`, `odds_fade`, withheld (never stale) if the step fails, never gating cards or alerts. Arithmetic shared with `analysis/carddesign.py`. Setup in `cloudflare/BRIEF_trades.md`. **Running in dry run since 2026-11-11 17:52 UTC** at `ctzb-trades.bigpapi.workers.dev` (deploy 40a4475b): the Coinbase key is ETHCross read-only, View only, portfolio Primary, ECDSA, any IP; baseline taken, /health ok. `last_ok_at` only moves when something changes or every 15 minutes (KV writes are kept low), so a gap of up to 15 minutes there is normal. Still not built: the Grok ping;
 repo private.
 
 **The whole stack runs every time (procedure set 28 Oct 2026, after a missed confluence).**

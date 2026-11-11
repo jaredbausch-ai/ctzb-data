@@ -1,0 +1,8 @@
+kind,band,n,reached20_pct,posting_bar_pct,edge
+early_dip,shallower than -2%,30,87,70,intact
+early_dip,-2% to -5%,44,89,70,intact
+early_dip,-5% to -10%,34,71,70,intact
+early_dip,-10% to -20%,27,56,70,gone
+early_dip,worse than -20%,16,44,70,gone
+day10,green on day 10,93,92,70,intact
+day10,red on day 10,58,47,70,gone

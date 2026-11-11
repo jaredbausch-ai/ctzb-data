@@ -22,6 +22,10 @@ Rules (docs/FEED_SPEC.md):
     feed, so an alert appears in exactly one generation however many runs happen.
     Senders must still never send an alert_id twice: the same generation is read
     many times.
+  - (schema 5, 11 Nov 2026, item 18) the member card figures written by
+    extras_live.py: if_it_misses, odds_fade, past_paths. Withheld (empty, with
+    extras_withheld true) when that step failed this run, so a stale copy from an
+    earlier run is never served. They never gate cards or alerts.
   - cards AND alerts are withheld when ANY scoring check in the run failed
     (refresh, grade, stack, cards, regression guard), not only the stack check.
     Withheld alerts are not logged, so they go out on the next clean run.
@@ -34,7 +38,7 @@ import json
 import os
 from datetime import datetime, timezone
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 ALERT_LOG_FIELDS = ["alert_id", "event", "signal_id", "chart", "emitted_at"]
 # Steps whose failure withholds cards and alerts. Passed in by daily.yml as
 # CTZB_STEP_OUTCOMES="refresh=success,grade=success,...". Absent = run by hand.
@@ -244,6 +248,37 @@ def main():
             for r in rows(d("grades.csv"))
         ],
     }
+    # ---- schema 5: member card figures (extras_live.py) ----
+    extras_ok = steps.get("extras") != "failure" and all(
+        os.path.exists(d(f)) for f in ("missstats.csv", "pastpaths.csv", "oddsfade.csv"))
+    feed["extras_withheld"] = not extras_ok
+    feed["if_it_misses"] = [
+        {"label": LABEL, "asset": r["asset"], "grade": r["grade"], "signals": num(r["aplus_signals"]),
+         "misses": num(r["misses"]), "up_first": num(r["up_first"]),
+         "median_peak_pct": num(r["median_peak_pct"]), "mean_peak_pct": num(r["mean_peak_pct"]),
+         "peaked_5_or_more": num(r["peaked_5_or_more"]), "peaked_10_or_more": num(r["peaked_10_or_more"]),
+         "median_worst_drop_pct": num(r["median_worst_drop_pct"]), "median_day60_pct": num(r["median_day60_pct"]),
+         "note": "Signals of this grade that did not reach +20% within 60 days. Show the median peak."}
+        for r in rows(d("missstats.csv"))] if extras_ok else []
+    fade = rows(d("oddsfade.csv")) if extras_ok else []
+    feed["odds_fade"] = {
+        "label": LABEL,
+        "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
+        "sample": "Every kept signal, all grades. Below the posting bar the signal's edge is gone.",
+        "early_dip": [{"band": r["band"], "past_trades": num(r["n"]), "rose20_within60d_pct": num(r["reached20_pct"]),
+                       "edge": r["edge"]} for r in fade if r["kind"] == "early_dip"],
+        "day10": [{"check": r["band"], "past_trades": num(r["n"]), "rose20_within60d_pct": num(r["reached20_pct"]),
+                   "edge": r["edge"]} for r in fade if r["kind"] == "day10"],
+    }
+    paths = rows(d("pastpaths.csv")) if extras_ok else []
+    feed["past_paths"] = [
+        {"label": LABEL, "asset": asset, "grade": "A+",
+         "signals": num(next(r["n"] for r in paths if r["asset"] == asset)),
+         "note": "Every past signal of this grade, daily closes, lined up at entry: percent from entry by day.",
+         "days": [{"day": num(r["day"]), "q25_pct": num(r["q25_pct"]), "median_pct": num(r["median_pct"]),
+                   "q75_pct": num(r["q75_pct"])} for r in paths if r["asset"] == asset]}
+        for asset in dict.fromkeys(r["asset"] for r in paths)]
+
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     with open(a.out, "w") as f:
         json.dump(feed, f, indent=1)
