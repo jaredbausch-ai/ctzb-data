@@ -8,6 +8,7 @@ record; the dashboard editor is where they are deployed.
 | `ctzb-feed` | `ctzb-feed-worker.js` | `GITHUB_TOKEN` — Contents: read-only | yes — read-only mirror of the repo |
 | `ctzb-scheduler` | `ctzb-scheduler-worker.js` | `GITHUB_DISPATCH_TOKEN` — Actions: read+write | no data route; `/health` only |
 | `ctzb-dashboard` | `ctzb-dashboard-worker.js` (**generated** — see below) | none; reads the mirror over a Service Binding | **no** — every path behind a gate that fails closed |
+| `ctzb-trades` | `ctzb-trades-worker.js` | `COINBASE_PRIVATE_KEY` — Coinbase CDP key, **View only** | `/health` only until `MODE=live`; then `/trades.json` |
 
 They are separate on purpose. The public mirror must never hold a credential that
 can trigger CI.
@@ -49,3 +50,16 @@ on the next tick. `POST /alerts/test` (gated, once per 10 minutes) checks the pa
 Bindings: `NOTIFY` (KV), secret `TELEGRAM_BOT_TOKEN`, var `TELEGRAM_CHAT_ID`.
 
 Tests: `node tests/test_dashboard_gate.mjs` (26), `node tests/test_dashboard_alerts.mjs` (18).
+
+**ctzb-trades** (11 Nov 2026, item 13a) — the lead trader's real trades, relayed from
+Coinbase. KV binding `TRADES`, cron `* * * * *`. Reads futures fills, positions and the
+futures balance with a **View-only** CDP key (ES256 JWT, one per request), groups the
+fills of one order into one trade, and records open / add / reduce / close with price,
+leverage and size as % of the account; on reduce / close also the move from average
+entry and the result as % of the account. Never dollar amounts, contract counts or
+balances: every stored record passes an allow-list. First run takes a baseline (open
+positions recorded, not posted). Positions reconciled against Coinbase; mismatches are
+corrected and logged, never posted. `MODE` unset or anything but `live` = dry run:
+nothing public, gated `/dry` (`DRY_VIEW_PASSWORD`) shows what would post. Going live
+needs Noah's sign-off and is Jared's switch. Setup: `BRIEF_trades.md`.
+Tests: `node tests/test_trades_relay.mjs` (41).
