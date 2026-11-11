@@ -2,9 +2,11 @@ chart,state,trough,confirms,entry,tags,note
 ETH 1D,confirmed,2026-10-12,2026-10-15,2439.45,A,regime on
 ETH 1D,confirmed,2026-10-17,2026-10-20,2446.62,A,regime on
 ETH 1D,confirmed,2026-10-30,2026-11-02,2249.66,A + filled diamond,regime on
+ETH 1D,forming,2026-11-10,2026-11-13,2061.71,A,regime on; 2 bar(s) to confirm
 ETH 2D,confirmed,2025-11-21,2025-11-28,3031.86,A,regime on
 ETH 2D,confirmed,2026-09-14,2026-09-21,2775.58,C + prime dot,regime on
 ETH 2D,confirmed,2026-10-28,2026-11-04,2422.27,A,regime on
+ETH 2D,forming,2026-11-09,2026-11-16,2061.71,A + filled diamond,regime on; 2 bar(s) to confirm
 ETH 3D,confirmed,2025-09-25,2025-10-06,4686.32,B,regime on
 ETH 3D,confirmed,2025-11-21,2025-12-02,2996.7,A,regime on
 ETH 3D,confirmed,2026-09-13,2026-09-24,2687.28,C + hollow diamond,regime on
