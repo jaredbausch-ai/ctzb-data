@@ -668,7 +668,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       // the confirmation bar is the one that CLOSES on confirms_on, so it opens tfd - 1 days earlier (12 Nov 2026 audit: was one bar late on 2D+)
       confIdx = E + Math.round((Date.parse(c.confirms_on + "T00:00:00Z") / 1000 - (tfd - 1) * 86400 - bars[E].t) / 86400 / tfd);
       $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, not top grade"}`;
-      $("#chSub").textContent = c._open ? `Confirmed ${dateLong(c.entry_date)} · entry close ${money(entry)}. Zones use the pooled top-grade figures for ${m.asset}.`
+      $("#chSub").textContent = c._open ? `Confirmed ${dateLong(c.entry_date)} · entry close ${money(entry)}. Zones use this setup's own card (${m.sample}).`
         : `Low ${dateLong(c.low_day || c.low_date)} · confirms ${dateLong(c.confirms_on)} · price levels drawn from today's price (${money(entry)}), since the entry price is the confirmation close; days count from the confirmation.`;
     }
     svg.innerHTML = "";
