@@ -292,7 +292,7 @@ verify_cards (24 exact), feed tests 15 + 27 + 15, worker tests, fire drills 58/5
 wording item (12 places) and one docs-vs-code item (8 places). Not a clean run. Report:
 `analysis/audit11_2026-11-12/AUDIT11.md`.
 
-**Changed** (this round's commit):
+**Changed** (commit f870d65):
 - **Grade letters reached members.** CONTEXT says the grade stays internal, but the sample line said
   "graded C" / "grade A+" and the miss tiles "312 BTC C". They now say "signals of the top grade" / "of the
   same grade" and "312 BTC same-grade signals". verify_cards reads the new wording; CARD_SPEC states the rule.
