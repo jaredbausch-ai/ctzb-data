@@ -176,7 +176,7 @@ fire drills 58/58.
 count and chart position matched, in both states. 32 rows from 9 issues, all wording (6) or docs (3).
 Report: `analysis/audit7_2026-11-12/AUDIT7.md`.
 
-**Changed** (this round's commit):
+**Changed** (commit 4ea4528):
 - **"If it misses: up first"** read as "above entry before ever being below it", but it counts misses
   whose best price in the 60 days was above entry. Now reads "went above entry"; How to read, FEED_SPEC
   and the code comments say the same. (The figure is unchanged, e.g. 94 of 95.)
