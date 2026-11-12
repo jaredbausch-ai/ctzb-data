@@ -1392,7 +1392,9 @@ ever falling 25.3%", is the line under it] (`measures.surv10`, exact prices; -25
 beat a normal move (`scaled20`), the before-2022 / since-2022 split, the dip table
 and the kill close. `stack_live.py` writes `datasets/cards.csv` and refuses to if
 any internal check fails; `verify_cards.py` (Action step after it) re-derives every
-figure on every card (since 12 Nov 2026 audit #8; before that 10 of them) from `datasets/ledger.csv` and the 1D candles and fails the run on any mismatch. Client screens
+figure on every card computed from its sample (since 12 Nov 2026 audit #8; before that 10 of them) from `datasets/ledger.csv` and the 1D candles;
+the card's own dates and prices (low day, confirms, must close above, latest price, entry close) are not re-derived there,
+only by the independent audits and fails the run on any mismatch. Client screens
 (Joe's side) must read `cards.csv` and follow CARD_SPEC, nothing else.
 **Live feed (built 31 Oct 2026):** `feed_live.py` writes `feed/ctzb_feed.json` every
 Action run, repackaging this run's datasets (cards withheld if checks failed). It is

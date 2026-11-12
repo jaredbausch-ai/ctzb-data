@@ -228,6 +228,42 @@ Report: `analysis/audit8_2026-11-12/AUDIT8.md` (the auditor's caches and page du
 **Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
 feed/candle tests 15 + 27 + 15, worker tests, fire drills 58/58, page screenshot.
 
+## Round 9 — 12 Nov, 13:35 ET (audit #9, a new independent agent)
+
+**Found:** 56,383 comparisons, **0 disagreements between any figure shown and the auditor's own value**
+(third round running with no wrong number). Not counted as a clean run: it listed 6 places where docs and
+code disagree, one of them a real page gap, plus label notes. All fixed. Report:
+`analysis/audit9_2026-11-12/AUDIT9.md`.
+
+**Changed** (this round's commit):
+- **A top-grade forming card had no "can still vanish" warning** (only below-grade ones did), and How to
+  read said "by the time you get an alert, the signal is final" although forming heads-ups exist. Every
+  forming card now says it can still vanish; How to read says a confirmed alert is final and a forming
+  heads-up can vanish.
+- **"Edge lost" / "On track" badges** used best/worst rounded to 0.1% and ignored which came first. The
+  pipeline now decides it (`edge_status`, `edge_level_pct` on each open signal): on exact prices and closed
+  daily bars, whichever came first, the setup's own edge level or +10%. BTC 2D 21 Sep: edge level −5%,
+  lost (unchanged). Chart ladder-zone colours use the exact share too.
+- **No figures typed into the page**: "about N times a year" is counted from the ledger (still 22); the
+  built-in example fallback (2580.92 and hindsight numbers) is gone — without the feed's example card the
+  page says "Example unavailable"; the example's "if it misses" figures now come from the feed
+  (`example_if_it_misses`, n 75: 10 of 10 went above entry), not computed in the page.
+- **One "known by then" rule.** The ledger's odds-on-the-day counted a past signal from entry + 61 days, the
+  example from entry + 60 (both bars close at the same instant). Both now use entry + 60. 73 ledger rows'
+  odds-on-the-day columns moved; nothing else. Regression baseline re-approved after checking by code that
+  only `dayN`, `dayReach10/20/30`, `dayTouched30`, `daySurv10`, `dayScaled20` changed. These columns are
+  not on the member page.
+- **stack_live's internal card checks** now run on every card (forming, live and example), and CARD_SPEC
+  says the ladder counts may stay level but never rise (what the code checks).
+- CONTEXT now says exactly what verify_cards re-derives (every figure computed from a card's sample; the
+  card's dates and prices are covered by the audits).
+- Jared's own dashboard Telegram forming alert said "never fell 25% … past trades": now "Rose 10% within
+  60 days: X% of N past signals (Y% without ever falling 25.3%)". Needs its own redeploy (SITE_CHANGES #7).
+
+**Re-checked after the changes:** every pipeline step, regression (re-approved, then 919 unchanged),
+verify_cards (24 exact), feed tests 15 + 27, all worker tests including dashboard alerts 21/21, fire drills
+58/58, page screenshots (example card, How to read) with no page errors.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

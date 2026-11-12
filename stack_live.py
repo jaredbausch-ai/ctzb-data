@@ -46,6 +46,7 @@ import measures as MS
 OUT = os.path.join(HERE, 'datasets')
 ASSETS = ('ETH', 'BTC'); TFS = ('1D', '2D', '3D', '5D', '8D')
 SPLIT = dt.date(2022, 1, 1)
+EDGE_BAR = 70   # the posting bar (WINMIN in refresh.py); Jared 11 Nov 2026: below it the edge is gone
 WIN = 10
 _HOOK = None
 
@@ -403,6 +404,23 @@ def main():
                 if h >= e0 * 1.10: ok += 1; break
         return [round(100 * ok / n) if n else '', round(100 * liq / n) if n else ''], (round(100 * ok / n, 6) if n else '')
 
+    def edge_status(cd_, a, win, e0):
+        """12 Nov 2026 audit #9. The setup's own edge level, from its card's ladder on the exact shares (0 if
+        even the from-entry share is below the 70% bar, else the first fall whose share is below it, else
+        none), and whether it has been lost: walking the CLOSED daily bars after entry, whichever comes first,
+        a low at or below the edge level (checked first within a day) or a high at +10%. If the from-entry
+        share is already below the bar the edge is lost from the start."""
+        x = lambda k: float(cd_[k]) if cd_.get(k, '') != '' else None
+        if x('l0okExact') is not None and x('l0okExact') < EDGE_BAR:
+            return [0, 'lost']
+        lvl = next((-th for th in (5, 10, 15, 20) if x(f'l{th}okExact') is not None and x(f'l{th}okExact') < EDGE_BAR), '')
+        if lvl == '':
+            return ['', 'intact']
+        for k in win:
+            if DAY[a]['low'][k] <= e0 * (1 + lvl / 100): return [lvl, 'lost']
+            if DAY[a]['high'][k] >= e0 * 1.10: return [lvl, 'intact']
+        return [lvl, 'intact']
+
     def timing(G):
         # card timing (1 Nov 2026, Jared: "how long do I stay in the tree?"): medians, in days from entry,
         # all within the 60 days. Days to +10% / +20% count only the trades that got there.
@@ -502,7 +520,8 @@ def main():
                 open_rows.append([f'{a} {tf}', str(d0), round(e0, 2), (today - d0).days, tags, g, ' + '.join(have) or '-',
                                   mark(10), mark(30), mark(60),
                                   round((max(DAY[a]['high'][k] for k in win) / e0 - 1) * 100, 1) if win else '',
-                                  round((min(DAY[a]['low'][k] for k in win) / e0 - 1) * 100, 1) if win else ''])
+                                  round((min(DAY[a]['low'][k] for k in win) / e0 - 1) * 100, 1) if win else '']
+                                 + edge_status(dict(zip(CARD_HDR, open_cards[-1])), a, win, e0))
         # every registry item
         for rid, label, A_, C_, kind, src in REGISTRY:
             if rid in ('CELLS', 'POS', 'REGIME', 'REGAGE', 'BUCKET', 'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50', 'RETRACE'):
@@ -683,14 +702,13 @@ def main():
         ex_cards.append(card(rx, g, have, basis, G_))
 
     w = lambda p, h, rr: csv.writer(open(os.path.join(OUT, p), 'w', newline='')).writerows([h] + rr)
-    w('cards_example.csv', CARD_HDR, ex_cards)
-    w('cards_open.csv', CARD_HDR, open_cards)
     # every open signal on every graded chart, ETH and BTC (12 Nov 2026 audit: the feed's open
     # signals came from forward.csv, which covers ETH only, so a live BTC top-grade setup never showed)
-    w('open.csv', ['chart', 'entry', 'entryClose', 'elapsed', 'tag', 'grade', 'lenses', 'd10', 'd30', 'd60', 'best', 'worst'], sorted(open_rows, key=lambda x: (x[1], x[0])))
+    w('open.csv', ['chart', 'entry', 'entryClose', 'elapsed', 'tag', 'grade', 'lenses', 'd10', 'd30', 'd60', 'best', 'worst', 'edgeLevel', 'edgeStatus'], sorted(open_rows, key=lambda x: (x[1], x[0])))
     w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'reach10', 'reach30', 'bestMove', 'sample'], out)
     bad = []
-    for c in cards:
+    # every card the site shows: forming, live (open) and the worked example (12 Nov 2026 audit #9)
+    for c in cards + open_cards + ex_cards:
         d = dict(zip(CARD_HDR, c)); nn = d['n']
         if d['nOld'] + d['nNew'] != nn: bad.append(f"{d['chart']}: periods {d['nOld']}+{d['nNew']} != n {nn}")
         if f' {nn} ' not in f" {d['basis']} ": bad.append(f"{d['chart']}: basis text does not state n={nn}")
@@ -703,6 +721,8 @@ def main():
         open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED card checks: ' + '; '.join(bad) + '\n')
         raise SystemExit('CARD CHECK FAILURE: ' + '; '.join(bad))
     w('cards.csv', CARD_HDR, cards)
+    w('cards_example.csv', CARD_HDR, ex_cards)
+    w('cards_open.csv', CARD_HDR, open_cards)
     w('prints.csv', ['chart', 'state', 'trough', 'confirms', 'entry', 'tags', 'note'], prints)
     w('windows.csv', ['openedBy', 'confirmed', 'closes', 'appliesTo'], sorted(wins, key=lambda x: x[2]))
     json.dump([dict(zip(('id', 'label', 'assets', 'charts', 'kind', 'documented'), x)) for x in REGISTRY],

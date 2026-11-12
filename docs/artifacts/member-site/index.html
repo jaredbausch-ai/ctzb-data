@@ -284,7 +284,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="sidebox">
           <div class="sec-title" style="color: var(--live)">How the signals work</div>
           <p>Our indicator watches Bitcoin and Ethereum on the daily and multi-day charts. It looks for one specific moment: when selling pressure has run its course and buyers start taking back control.</p>
-          <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. By the time you get an alert, the signal is final and can't vanish.</p>
+          <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. A confirmed alert is final and can't vanish. A forming heads-up can: it is sent before the confirming close.</p>
           <p>Signals only fire while our market filter says the broader trend is on your side. In a downtrend the system stays quiet, sometimes for a year.</p>
           <p>Every confirmed setup is checked against several independent confirmations. Only the ones where the most line up reach members.</p>
           <p>The odds on each card come from how past signals with the same profile behaved over the next 60 days. They measure the quality of the entry, not a trading result.</p>
@@ -372,16 +372,6 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     else { const g = rows.find((r) => r.x != null && r.x !== "" && r.x < bar); edge = g ? -g.fell : null; }
     return { rows, base, baseX, edge, bar };
   }
-  // The example's misses use only top-grade signals whose 60 days had closed by its date (no hindsight)
-  function missesKnownBy(asset, date) {
-    const lim = Date.parse(date + "T00:00:00Z");
-    const all = S.ledger.filter((r) => r.asset === asset && Date.parse(r.entry + "T00:00:00Z") + 60 * 86400000 <= lim);
-    const ms = all.filter((r) => r.reached10 === "no");
-    if (!ms.length) return null;
-    const b = ms.map((r) => +r.bestMove);
-    return { signals: all.length, misses: ms.length, up_first: b.filter((x) => x > 0).length, median_peak_pct: median(b),
-             median_worst_drop_pct: median(ms.map((r) => +r.maxDrawdown)), median_day60_pct: median(ms.map((r) => +r.return60d)) };
-  }
   const misses = (asset, grade = "A+") => ((S.feed && S.feed.if_it_misses) || []).find((m) => m.asset === asset && (m.grade || "A+") === grade) || null;
 
   /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
@@ -455,24 +445,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // rules from only the signals whose 60 days had closed by then: what a member would have seen at the alert
     const xc = S.feed && S.feed.example_card;
     if (xc) return Object.assign(cardFromFeed(xc), {
-      kind: "example", top: true, entry: xc.entry_close ?? 2580.92, signal_id: "ETH-2D-2024-09-22",
-      line: `Example: confirmed ${dateLong("2024-09-22")} · entry close ${money(xc.entry_close ?? 2580.92)}` });
-    const eth = S.ledger.filter((r) => r.asset === "ETH");
-    const f = (k) => eth.map((r) => +r[k]);
-    const early = eth.filter((r) => +r.year < 2022), late = eth.filter((r) => +r.year >= 2022);
-    const go = ((S.feed && S.feed.grade_odds) || []).find((g) => g.asset === "ETH" && g.grade === "A+");
-    return {
-      kind: "example", asset: "ETH", chart: "ETH 2D", tf: "2D", signal_id: "ETH-2D-2024-09-22",
-      line: `Example: confirmed ${dateLong("2024-09-22")} · entry close ${money(2580.92)}`,
-      odds: go ? go.rose20_within60d_pct : share(eth, (r) => r.reached20 === "yes"), n: go ? go.past_trades : eth.length,
-      sample: `every ETH top-grade signal, ${eth.length ? eth[0].entry.slice(0, 4) : ""} on`,
-      // 12 Nov 2026 audit: exact medians; display rounds them once, and prices are built from the exact value
-      high: median(f("bestMove")), drop: median(f("maxDrawdown")), dipBefore: median(f("dipBeforeHigh")),
-      highDay: r1(median(f("daysToHigh")), 0), reach10: share(eth, (r) => r.reached10 === "yes"), touched30: share(eth, (r) => r.touched30 === "yes"),
-      surv10: go ? go.rose10_never_fell25_within60d_pct : share(eth, (r) => r.surv10 === "yes"), entry: 2580.92, day60: median(f("return60d")),
-      eras: [["Before 2022", early], ["Since 2022", late]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.surv10 === "yes"), what: "rose 10%, never fell 25.3%" })),
-      fallsFirst: [],
-    };
+      kind: "example", top: true, entry: xc.entry_close, signal_id: "ETH-2D-2024-09-22",
+      line: `Example: confirmed ${dateLong("2024-09-22")} · entry close ${money(xc.entry_close)}` });
+    // no hand-built fallback (12 Nov 2026 audit #9): without the feed's example card there is no example
+    return null;
   }
 
   /* ---------- Now: the card ---------- */
@@ -483,6 +459,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const m = S.preview ? cardExample() : (best ? (best._open ? cardFromOpen(best) : cardFromFeed(best)) : null);
     const below = !!m && m.kind === "forming" && !m.top;
     frame.style.setProperty("--c", !m ? "var(--closed)" : below ? "var(--fade)" : "var(--live)");
+    if (!m && S.preview) {
+      box.innerHTML = `<div class="card-head"><div class="where">ETH · 2D chart · example</div><div class="state" style="--c: var(--muted)" data-state="quiet">Example unavailable</div></div>
+        <div class="empty-card"><div class="big">The worked example isn't in the latest data</div><div class="small" style="max-width: 46ch">It comes back with the next good run. Live and forming setups are unaffected.</div></div>
+        <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+      return;
+    }
     if (!m && feedHealth() !== "ok") {
       const down = feedHealth() === "down";
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--drop)" data-state="${down ? "down" : "held"}">${down ? "Data unavailable" : "Setups held back"}</div></div>${staleNote()}
@@ -498,13 +480,13 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="quiet">No setup right now</div></div>${staleNote()}
         <div class="empty-card">
           <div class="big">Waiting for the next one</div>
-          <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about 22 times a year (2020 to 2025 average)." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
+          <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about ${perYear()} times a year (2020 to 2025 average)." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
           <div class="small">You'll get a push alert the moment one confirms.</div>
         </div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
-    const e = edgeRule(), mi = m.kind === "example" ? missesKnownBy(m.asset, "2024-09-22") : misses(m.asset, m.grade || "A+");
+    const e = edgeRule(), mi = m.kind === "example" ? ((S.feed && S.feed.example_if_it_misses) || null) : misses(m.asset, m.grade || "A+");
     const pool = below && mi ? `<div class="fine" style="text-align: right">all ${mi.signals} ${esc(m.asset)} signals of this grade</div>` : "";
     const stateTxt = m.kind === "forming" ? "Setup forming" : m.kind === "open" ? "Live setup" : "Confirmed setup";
     const sf = setupFade(m);
@@ -517,7 +499,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
-        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>` : ""}
+        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>`
+          : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
@@ -604,7 +587,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   /* ---------- Now: previous alerts ---------- */
   // Edge intact or lost, by the setup's OWN ladder (12 Nov 2026 audit #6; it used the pooled ETH table):
   // lost if its from-entry odds are under the bar, or it has fallen past its own edge before rising 10%
+  // top-grade signals a year, 2020 to 2025, counted from the ledger (12 Nov 2026 audit #9: never typed)
+  function perYear() {
+    const n = S.ledger.filter((r) => r.entry >= "2020-01-01" && r.entry <= "2025-12-31").length;
+    return n ? Math.round(n / 6) : "n/a";
+  }
   function openStatus(o) {
+    // 12 Nov 2026 audit #9: decided in the pipeline on exact prices and closed daily bars, by whichever
+    // came first: +10%, or a fall to the setup's own edge level (low checked first within a day)
+    if (o.edge_status) return o.edge_status === "lost" ? "fading" : "intact";
     if (o.best_so_far_pct != null && o.best_so_far_pct >= 10) return "intact";
     const sf = setupFade(cardFromOpen(o));
     if (!sf) return "intact";
@@ -660,7 +651,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     let m, bars, E, entry, tfd, forming = false, lowIdx = null, confIdx = null;
     if (!c) {
       m = cardExample(); const ex = S.example;
-      if (!ex) {
+      if (!ex || !m) {
         svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable");
         $("#chTitle").textContent = "ETH · 2-day · example"; $("#chSub").textContent = "The example's chart data couldn't be loaded.";
         $("#chartSide").innerHTML = ""; return;
@@ -734,9 +725,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const of = S.feed && S.feed.odds_fade;
     if (sf) {   // this setup's own ladder: odds of still rising 10% after first falling this far
       const xL = X(E + 6 / tfd) > xE + 70 ? X(E + 6 / tfd) : xE + 70;
-      const steps = [[0, -5, sf.base]].concat(sf.rows.slice(0, 3).map((r, k) => [-r.fell, -(sf.rows[k + 1] ? sf.rows[k + 1].fell : r.fell + 5), r.v]));
-      for (const [a1, b1, v] of steps) {
-        const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100))), col = v === "" || v == null ? "var(--closed)" : v >= sf.bar ? "var(--high)" : "var(--drop)";
+      const steps = [[0, -5, sf.base, sf.baseX]].concat(sf.rows.slice(0, 3).map((r, k) => [-r.fell, -(sf.rows[k + 1] ? sf.rows[k + 1].fell : r.fell + 5), r.v, r.x]));
+      for (const [a1, b1, v, vx] of steps) {   // colour tested on the exact share (12 Nov 2026 audit #9)
+        const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100))), col = v === "" || v == null ? "var(--closed)" : (vx ?? v) >= sf.bar ? "var(--high)" : "var(--drop)";
         svgEl(svg, "rect", { x: xE, y: y1, width: xL - xE, height: y2 - y1, fill: col, opacity: 0.24 });
         svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : v + "%");
       }

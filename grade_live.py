@@ -241,7 +241,10 @@ def main():
                    for r in rows if r['a'] == a and r['tf'] in GRADED_TF and 'm' in r
                    and (a != 'ETH' or (r['fund'] is not None and r['fcool_ok']))], key=lambda x: x[1])
     def day_odds(a, g, d0):
-        prior = [h for h in hist if h[0] == a and (h[1] + dt.timedelta(days=61)) <= d0]
+        # a prior signal counts once its 60th day (entry + 60) has closed by this entry's close; both bars
+        # close at the same instant when they fall on the same date. Was entry + 61 until 12 Nov 2026 (audit
+        # #9), one day stricter than the example card's rule; now one rule everywhere.
+        prior = [h for h in hist if h[0] == a and (h[1] + dt.timedelta(days=60)) <= d0]
         G = [h for h in prior if h[2] == g]
         if len(G) < 10 or not prior: return ['', '', '', '', len(G), '', '']
         def rate(fn):

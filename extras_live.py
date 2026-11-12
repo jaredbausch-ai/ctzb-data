@@ -124,6 +124,10 @@ def main():
     lim = dt.date(2024, 9, 22)
     known = [r for r in led if r["asset"] == "ETH" and dt.date.fromisoformat(r["entry"]) + dt.timedelta(days=60) <= lim]
     pe = cd.paths(known, "ETH")
+    # ...and its "if it misses" figures, same sample (12 Nov 2026 audit #9: computed here, not in the page)
+    me = cd.misses(known, "ETH") if known else None
+    write(os.path.join(a.datasets, "missstats_example.csv"), MISS_FIELDS,
+          [{"grade": "A+", **{k: me[k] for k in MISS_FIELDS if k in me}}] if me else [])
     write(os.path.join(a.datasets, "pastpaths_example.csv"), PATH_FIELDS,
           [{"asset": "ETH", "day": day, "n": pe["n"], "q25_pct": pe["q25"][day], "median_pct": pe["median"][day], "q75_pct": pe["q75"][day]}
            for day in range(61)] if pe["n"] else [])

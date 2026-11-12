@@ -275,6 +275,9 @@ def main():
              "confirmations": r["lenses"], "days_elapsed": num(r["elapsed"]),
              "day10_pct": num(r["d10"]), "day30_pct": num(r["d30"]), "day60_pct": num(r["d60"]),
              "best_so_far_pct": num(r["best"]), "worst_so_far_pct": num(r["worst"]),
+             # 12 Nov 2026 audit #9: the setup's own edge level (its card's ladder, exact shares) and whether it
+             # was lost: whichever came first on closed daily bars, the edge level or +10%
+             "edge_level_pct": num(r.get("edgeLevel", "")), "edge_status": r.get("edgeStatus") or None,
              "card": open_cards.get((r["chart"], r["entry"]))}
             for r in (rows(d("open.csv")) if os.path.exists(d("open.csv")) else [])
         ] if all_ok else [],
@@ -345,6 +348,14 @@ def main():
                    "q75_pct": num(r["q75_pct"])} for r in paths if r["asset"] == asset]}
         for asset in dict.fromkeys(r["asset"] for r in paths)]
 
+    me = rows(d("missstats_example.csv")) if extras_ok and os.path.exists(d("missstats_example.csv")) else []
+    feed["example_if_it_misses"] = {
+        "label": LABEL, "asset": "ETH", "grade": "A+", "signals": num(me[0]["aplus_signals"]), "misses": num(me[0]["misses"]),
+        "up_first": num(me[0]["up_first"]), "median_peak_pct": num(me[0]["median_peak_pct"]),
+        "median_worst_drop_pct": num(me[0]["median_worst_drop_pct"]), "median_day60_pct": num(me[0]["median_day60_pct"]),
+        "miss_rule": "did not rise 10% within 60 days",
+        "note": "The worked example's misses: only ETH top-grade signals whose 60th day had closed by 2024-09-22."} if me else None
+
     pe = rows(d("pastpaths_example.csv")) if extras_ok and os.path.exists(d("pastpaths_example.csv")) else []
     feed["example_past_paths"] = {
         "label": LABEL, "asset": "ETH", "grade": "A+", "signals": num(pe[0]["n"]),
@@ -376,7 +387,7 @@ def fail_closed(out_path, err):
             "feed_error": type(err).__name__,
             "cards_withheld": True, "alerts_withheld": True, "extras_withheld": True,
             "alerts": [], "cards": [], "prints": [], "open_signals": [], "confluence_windows": [],
-            "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None, "example_card": None, "example_past_paths": None,
+            "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None, "example_card": None, "example_past_paths": None, "example_if_it_misses": None,
             "odds_fade": {"label": LABEL, "posting_bar_pct": None, "sample": None, "early_dip": [], "day10": []}}
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     with open(out_path, "w") as f:

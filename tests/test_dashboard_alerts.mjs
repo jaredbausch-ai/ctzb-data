@@ -14,7 +14,7 @@ const kv = () => { const m = new Map(); return { m,
   put: async (k, v) => { m.set(k, v); } }; };
 const card = { signal_id: "ETH-2D-2026-11-12", chart: "ETH 2D", low_date: "2026-11-07", confirms_on: "2026-11-12",
   must_close_above: 2124.0, grade: "A+", confirmations: "GAP + HIGH + AGREE + BTC3", past_trades: 33,
-  rose10_never_fell25_within60d_pct: 78, rose20_within60d_pct: 61, typical_deepest_dip_pct: -10.5 };
+  rose10_within60d_pct: 88, rose10_never_fell25_within60d_pct: 78, rose20_within60d_pct: 61, typical_deepest_dip_pct: -10.5 };
 const feedWith = (alerts, extra = {}) => ({ alerts_withheld: false, cards: [card], prints: [], open_signals: [], alerts, ...extra });
 const A = (event, sid = "ETH-2D-2026-11-12", chart = "ETH 2D") => ({ alert_id: `${sid}:${event}`, event, signal_id: sid, chart });
 let feed; const mirror = { fetch: async () => new Response(JSON.stringify(feed)) };
@@ -28,7 +28,7 @@ let r = await _test.notify(env(k), tg);
 check("new alert is sent once", r.sent === 1 && sends.length === 1);
 check("sent to the configured chat only", sends[0].body.chat_id === "999");
 const text = sends[0].body.text;
-check("forming message carries the card's numbers", text.includes("FORMING  ETH 2D") && text.includes("78% of 33") && text.includes("must close above 2124.00") && text.includes("Grade A+"), JSON.stringify(text.split("\n")[0]));
+check("forming message carries the card's numbers", text.includes("FORMING  ETH 2D") && text.includes("88% of 33 past signals (78% without ever falling 25.3%)") && text.includes("must close above 2124.00") && text.includes("Grade A+"), JSON.stringify(text.split("\n")[0]));
 check("message carries the computed-signal label", text.includes("Computed signal, not a trade"));
 sends = []; for (let i = 0; i < 16; i++) await _test.notify(env(k), tg);
 check("16 more ticks on the same feed (a 4h feed read every 15 min): no resend", sends.length === 0);

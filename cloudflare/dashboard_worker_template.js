@@ -154,7 +154,7 @@ function alertText(a, feed) {
       lines.push(`Low ${card.low_date}, confirms ${card.confirms_on}` +
         (card.must_close_above != null ? `, must close above ${NUM(card.must_close_above, 2)}` : ""));
       lines.push(`Grade ${card.grade || "?"}${card.confirmations ? " (" + card.confirmations + ")" : ""}`);
-      lines.push(`Rose 10% and never fell 25% in 60d: ${PCT(card.rose10_never_fell25_within60d_pct)} of ${card.past_trades ?? "?"} past trades`);
+      lines.push(`Rose 10% within 60 days: ${PCT(card.rose10_within60d_pct)} of ${card.past_trades ?? "?"} past signals (${PCT(card.rose10_never_fell25_within60d_pct)} without ever falling 25.3%)`);
       lines.push(`Rose 20%: ${PCT(card.rose20_within60d_pct)}   Typical deepest dip: ${NUM(card.typical_deepest_dip_pct) ?? "n/a"}%`);
     }
     lines.push("Not confirmed yet. It can vanish.");

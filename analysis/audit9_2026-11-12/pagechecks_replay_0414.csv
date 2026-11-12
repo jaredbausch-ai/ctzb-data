@@ -1,0 +1,1350 @@
+state,location,label,shown,yours,ok,cause
+replay_0414,candles ETH 1D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles ETH 2D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles ETH 3D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles ETH 5D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles ETH 8D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles BTC 1D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles BTC 2D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles BTC 3D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles BTC 5D,last 70 bars equal raw data,True,True,True,
+replay_0414,candles BTC 8D,last 70 bars equal raw data,True,True,True,
+replay_0414,example json,bar 0 2024-08-12,"(2555.09, 2750.0, 2509.58, 2703.49)","(2555.09, 2750.0, 2509.58, 2703.49)",True,
+replay_0414,example json,bar 1 2024-08-14,"(2703.49, 2782.61, 2516.07, 2570.5)","(2703.49, 2782.61, 2516.07, 2570.5)",True,
+replay_0414,example json,bar 2 2024-08-16,"(2570.22, 2631.06, 2551.29, 2614.64)","(2570.22, 2631.06, 2551.29, 2614.64)",True,
+replay_0414,example json,bar 3 2024-08-18,"(2614.64, 2687.92, 2563.98, 2637.15)","(2614.64, 2687.92, 2563.98, 2637.15)",True,
+replay_0414,example json,bar 4 2024-08-20,"(2637.63, 2697.11, 2536.49, 2631.14)","(2637.63, 2697.11, 2536.49, 2631.14)",True,
+replay_0414,example json,bar 5 2024-08-22,"(2631.18, 2800.89, 2584.59, 2764.73)","(2631.18, 2800.89, 2584.59, 2764.73)",True,
+replay_0414,example json,bar 6 2024-08-24,"(2764.89, 2820.86, 2732.75, 2747.57)","(2764.89, 2820.86, 2732.75, 2747.57)",True,
+replay_0414,example json,bar 7 2024-08-26,"(2747.06, 2763.51, 2393.38, 2458.22)","(2747.06, 2763.51, 2393.38, 2458.22)",True,
+replay_0414,example json,bar 8 2024-08-28,"(2457.84, 2597.0, 2418.63, 2527.71)","(2457.84, 2597.0, 2418.63, 2527.71)",True,
+replay_0414,example json,bar 9 2024-08-30,"(2527.76, 2551.26, 2430.25, 2512.62)","(2527.76, 2551.26, 2430.25, 2512.62)",True,
+replay_0414,example json,bar 10 2024-09-01,"(2512.49, 2564.02, 2399.2, 2537.81)","(2512.49, 2564.02, 2399.2, 2537.81)",True,
+replay_0414,example json,bar 11 2024-09-03,"(2537.99, 2553.75, 2307.12, 2450.46)","(2537.99, 2553.75, 2307.12, 2450.46)",True,
+replay_0414,example json,bar 12 2024-09-05,"(2450.26, 2465.98, 2150.0, 2224.46)","(2450.26, 2465.98, 2150.0, 2224.46)",True,
+replay_0414,example json,bar 13 2024-09-07,"(2224.55, 2334.03, 2221.01, 2297.47)","(2224.55, 2334.03, 2221.01, 2297.47)",True,
+replay_0414,example json,bar 14 2024-09-09,"(2297.35, 2399.99, 2273.0, 2388.26)","(2297.35, 2399.99, 2273.0, 2388.26)",True,
+replay_0414,example json,bar 15 2024-09-11,"(2388.71, 2392.13, 2276.66, 2361.63)","(2388.71, 2392.13, 2276.66, 2361.63)",True,
+replay_0414,example json,bar 16 2024-09-13,"(2361.75, 2466.49, 2336.57, 2418.19)","(2361.75, 2466.49, 2336.57, 2418.19)",True,
+replay_0414,example json,bar 17 2024-09-15,"(2418.3, 2430.91, 2251.99, 2295.21)","(2418.3, 2430.91, 2251.99, 2295.21)",True,
+replay_0414,example json,bar 18 2024-09-17,"(2295.35, 2394.0, 2263.05, 2374.59)","(2295.35, 2394.0, 2263.05, 2374.59)",True,
+replay_0414,example json,bar 19 2024-09-19,"(2374.78, 2573.26, 2372.73, 2562.02)","(2374.78, 2573.26, 2372.73, 2562.02)",True,
+replay_0414,example json,bar 20 2024-09-21,"(2562.1, 2632.92, 2525.0, 2580.92)","(2562.1, 2632.92, 2525.0, 2580.92)",True,
+replay_0414,example json,bar 21 2024-09-23,"(2580.93, 2704.62, 2539.64, 2653.31)","(2580.93, 2704.62, 2539.64, 2653.31)",True,
+replay_0414,example json,bar 22 2024-09-25,"(2653.53, 2673.77, 2553.93, 2632.53)","(2653.53, 2673.77, 2553.93, 2632.53)",True,
+replay_0414,example json,bar 23 2024-09-27,"(2632.63, 2729.39, 2615.45, 2675.79)","(2632.63, 2729.39, 2615.45, 2675.79)",True,
+replay_0414,example json,bar 24 2024-09-29,"(2675.88, 2683.77, 2573.89, 2601.27)","(2675.88, 2683.77, 2573.89, 2601.27)",True,
+replay_0414,example json,bar 25 2024-10-01,"(2601.33, 2657.98, 2351.92, 2363.76)","(2601.33, 2657.98, 2351.92, 2363.76)",True,
+replay_0414,example json,bar 26 2024-10-03,"(2363.51, 2440.96, 2309.17, 2414.43)","(2363.51, 2440.96, 2309.17, 2414.43)",True,
+replay_0414,example json,bar 27 2024-10-05,"(2414.43, 2457.57, 2389.68, 2439.84)","(2414.43, 2457.57, 2389.68, 2439.84)",True,
+replay_0414,example json,bar 28 2024-10-07,"(2439.36, 2520.39, 2399.24, 2439.48)","(2439.36, 2520.39, 2399.24, 2439.48)",True,
+replay_0414,example json,bar 29 2024-10-09,"(2439.47, 2472.09, 2327.83, 2384.32)","(2439.47, 2472.09, 2327.83, 2384.32)",True,
+replay_0414,example json,bar 30 2024-10-11,"(2384.42, 2489.67, 2379.84, 2475.79)","(2384.42, 2489.67, 2379.84, 2475.79)",True,
+replay_0414,example json,bar 31 2024-10-13,"(2475.79, 2653.03, 2435.88, 2628.74)","(2475.79, 2653.03, 2435.88, 2628.74)",True,
+replay_0414,example json,bar 32 2024-10-15,"(2628.75, 2687.63, 2536.47, 2610.54)","(2628.75, 2687.63, 2536.47, 2610.54)",True,
+replay_0414,example json,bar 33 2024-10-17,"(2610.56, 2676.07, 2574.29, 2641.98)","(2610.56, 2676.07, 2574.29, 2641.98)",True,
+replay_0414,example json,bar 34 2024-10-19,"(2642.0, 2758.08, 2630.82, 2746.22)","(2642.0, 2758.08, 2630.82, 2746.22)",True,
+replay_0414,example json,bar 35 2024-10-21,"(2745.91, 2768.22, 2603.37, 2620.84)","(2745.91, 2768.22, 2603.37, 2620.84)",True,
+replay_0414,example json,bar 36 2024-10-23,"(2620.84, 2626.29, 2448.36, 2533.99)","(2620.84, 2626.29, 2448.36, 2533.99)",True,
+replay_0414,example json,bar 37 2024-10-25,"(2534.0, 2564.84, 2379.35, 2479.49)","(2534.0, 2564.84, 2379.35, 2479.49)",True,
+replay_0414,example json,bar 38 2024-10-27,"(2479.49, 2588.0, 2460.47, 2565.66)","(2479.49, 2588.0, 2460.47, 2565.66)",True,
+replay_0414,example json,bar 39 2024-10-29,"(2565.66, 2721.09, 2559.3, 2658.16)","(2565.66, 2721.09, 2559.3, 2658.16)",True,
+replay_0414,example json,bar 40 2024-10-31,"(2658.15, 2668.12, 2464.83, 2510.27)","(2658.15, 2668.12, 2464.83, 2510.27)",True,
+replay_0414,example json,bar 41 2024-11-02,"(2510.27, 2522.48, 2409.53, 2456.57)","(2510.27, 2522.48, 2409.53, 2456.57)",True,
+replay_0414,example json,bar 42 2024-11-04,"(2456.15, 2489.44, 2355.43, 2422.24)","(2456.15, 2489.44, 2355.43, 2422.24)",True,
+replay_0414,example json,bar 43 2024-11-06,"(2422.24, 2920.62, 2420.14, 2897.65)","(2422.24, 2920.62, 2420.14, 2897.65)",True,
+replay_0414,example json,bar 44 2024-11-08,"(2897.65, 3158.83, 2888.99, 3127.97)","(2897.65, 3158.83, 2888.99, 3127.97)",True,
+replay_0414,example json,bar 45 2024-11-10,"(3127.96, 3391.61, 3069.19, 3375.78)","(3127.96, 3391.61, 3069.19, 3375.78)",True,
+replay_0414,example json,bar 46 2024-11-12,"(3375.79, 3446.98, 3120.8, 3191.45)","(3375.79, 3446.98, 3120.8, 3191.45)",True,
+replay_0414,example json,bar 47 2024-11-14,"(3191.34, 3242.75, 3012.94, 3090.76)","(3191.34, 3242.75, 3012.94, 3090.76)",True,
+replay_0414,example json,bar 48 2024-11-16,"(3090.76, 3220.0, 3036.64, 3076.79)","(3090.76, 3220.0, 3036.64, 3076.79)",True,
+replay_0414,example json,bar 49 2024-11-18,"(3076.79, 3226.8, 3050.83, 3111.7)","(3076.79, 3226.8, 3050.83, 3111.7)",True,
+replay_0414,example json,bar 50 2024-11-20,"(3111.63, 3390.35, 3031.38, 3359.9)","(3111.63, 3390.35, 3031.38, 3359.9)",True,
+replay_0414,example json,bar 51 2024-11-22,"(3360.11, 3500.0, 3260.78, 3397.51)","(3360.11, 3500.0, 3260.78, 3397.51)",True,
+replay_0414,example json,entry_index bar closes 2024-09-22,2024-09-22,2024-09-22,True,
+replay_0414,example json,entry_close,2580.92,2580.92,True,
+replay_0414,example json,bars cover 60 days after entry,True,True,True,
+replay_0414,page live card BTC-2D-2026-09-21,where,BTC · 2D CHART,BTC · 2D CHART,True,
+replay_0414,page live card BTC-2D-2026-09-21,state,Live setup,Live setup,True,
+replay_0414,page live card BTC-2D-2026-09-21,card line,"Confirmed 21 Sept 2026 · entry close $86,594.94 · day 52 of 60 · best so far +0.8% · worst −16.1%","Confirmed 21 Sept 2026 · entry close $86,594.94 · day 52 of 60 · best so far +0.8% · worst −16.1%",True,
+replay_0414,page live card BTC-2D-2026-09-21,big number,"85%
+rose 10% within 60 days
+76% did it without ever falling 25.3%
+from 33 past signals like this one · every figure covers the 60 days after entry","85%
+rose 10% within 60 days
+76% did it without ever falling 25.3%
+from 33 past signals like this one · every figure covers the 60 days after entry",True,
+replay_0414,page live card BTC-2D-2026-09-21,typical high,"Typical high
++42.9%","Typical high
++42.9%",True,
+replay_0414,page live card BTC-2D-2026-09-21,typical drop,"Typical drop from entry
+−6.5%","Typical drop from entry
+−6.5%",True,
+replay_0414,page live card BTC-2D-2026-09-21,edge gone,"Edge gone below
+−5% before it rises 10%","Edge gone below
+−5% before it rises 10%",True,
+replay_0414,page live card BTC-2D-2026-09-21,if it misses,"If it misses: went above entry
+5 of 5 · median best +6.2%","If it misses: went above entry
+5 of 5 · median best +6.2%",True,
+replay_0414,page live card BTC-2D-2026-09-21,dip before high,"Dip before the high, from entry
+−3.6%","Dip before the high, from entry
+−3.6%",True,
+replay_0414,page live card BTC-2D-2026-09-21,high day,"High lands around
+Day 40","High lands around
+Day 40",True,
+replay_0414,page live card BTC-2D-2026-09-21,reached +20%,"Reached +20% within 60 days · n 33
+79%","Reached +20% within 60 days · n 33
+79%",True,
+replay_0414,page live card BTC-2D-2026-09-21,touched -30%,"Touched −30% within 60 days · n 33
+9%","Touched −30% within 60 days · n 33
+9%",True,
+replay_0414,page live card BTC-2D-2026-09-21,deepest dip day,"Deepest dip lands around
+Day 10","Deepest dip lands around
+Day 10",True,
+replay_0414,page live card BTC-2D-2026-09-21,misses worst drop,"Typical worst drop, misses · 5 misses of all 33 BTC A+
+−19.1%","Typical worst drop, misses · 5 misses of all 33 BTC A+
+−19.1%",True,
+replay_0414,page live card BTC-2D-2026-09-21,misses day 60,"Typical change by day 60, misses · 5 misses of all 33 BTC A+
+−12.7%","Typical change by day 60, misses · 5 misses of all 33 BTC A+
+−12.7%",True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder rows,5,5,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder From entry,From entry n 33 | 82%,From entry n 33 | 82%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder From entry gone colour (exact < 70),False,False,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder From entry bar width,82%,82%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 5% first,Falls 5% first n 15 | 60%,Falls 5% first n 15 | 60%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 5% first gone colour (exact < 70),True,True,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 5% first bar width,60%,60%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 10% first,Falls 10% first n 8 | 38%,Falls 10% first n 8 | 38%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 10% first gone colour (exact < 70),True,True,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 10% first bar width,38%,38%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 15% first,Falls 15% first n 6 | 17%,Falls 15% first n 6 | 17%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 15% first gone colour (exact < 70),True,True,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 15% first bar width,17%,17%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 20% first,Falls 20% first n 3 | 0%,Falls 20% first n 3 | 0%,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 20% first gone colour (exact < 70),True,True,True,
+replay_0414,page live card BTC-2D-2026-09-21,ladder Falls 20% first bar width,0%,0%,True,
+replay_0414,page live card BTC-2D-2026-09-21,era rows,2,2,True,
+replay_0414,page live card BTC-2D-2026-09-21,era Before 2022,Before 2022 n 20 | 80%,Before 2022 n 20 | 80%,True,
+replay_0414,page live card BTC-2D-2026-09-21,era Since 2022,Since 2022 n 13 | 69%,Since 2022 n 13 | 69%,True,
+replay_0414,page live chart BTC-2D-2026-09-21,Entry line on the bar closing on the entry date,558.026316,558.026316,True,
+replay_0414,page live chart BTC-2D-2026-09-21,Day 60 line on the bar containing day 60,929.078947,929.078947,True,
+replay_0414,page live chart BTC-2D-2026-09-21,High line on the bar containing the typical high day,805.394737,805.394737,True,
+replay_0414,page live chart BTC-2D-2026-09-21,High line label,High usually ~day 40,High usually ~day 40,True,
+replay_0414,page live chart BTC-2D-2026-09-21,zone starts at entry bar,558.026316,558.026316,True,
+replay_0414,page live chart BTC-2D-2026-09-21,zone ends at day 60 bar,929.078947,929.078947,True,
+replay_0414,page live chart BTC-2D-2026-09-21,zone starts at entry bar,558.026316,558.026316,True,
+replay_0414,page live chart BTC-2D-2026-09-21,zone ends at day 60 bar,929.078947,929.078947,True,
+replay_0414,page live chart BTC-2D-2026-09-21,Typical high label,Typical high +42.9%,Typical high +42.9%,True,
+replay_0414,page live chart BTC-2D-2026-09-21,+10% label,+10% · 85% of past signals got here,+10% · 85% of past signals got here,True,
+replay_0414,page live chart BTC-2D-2026-09-21,Typical drop label,Typical drop −6.5%,Typical drop −6.5%,True,
+replay_0414,page live chart BTC-2D-2026-09-21,price tags,"['$123,756.71', '$80,961.00', '$86,594.94', '$95,254.43']","['$123,756.71', '$80,961.00', '$86,594.94', '$95,254.43']",True,
+replay_0414,page live chart BTC-2D-2026-09-21,edge line label,"Edge gone below $82,265.19 (−5%, before +10%)","Edge gone below $82,265.19 (−5%, before +10%)",True,
+replay_0414,page live chart BTC-2D-2026-09-21,ladder zone labels on chart,"['82%', '60%', '38%', '17%']","['82%', '60%', '38%', '17%']",True,
+replay_0414,page live chart BTC-2D-2026-09-21,"axis tick $60,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page live chart BTC-2D-2026-09-21,"axis tick $70,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page live chart BTC-2D-2026-09-21,"axis tick $90,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page live chart BTC-2D-2026-09-21,"axis tick $100,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page live chart BTC-2D-2026-09-21,"axis tick $110,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page live chart BTC-2D-2026-09-21,"axis tick $120,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page live chart BTC-2D-2026-09-21,"axis tick $130,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 0,26 Jun,26 Jun,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 10,16 Jul,16 Jul,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 20,05 Aug,05 Aug,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 30,25 Aug,25 Aug,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 40,14 Sept,14 Sept,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 50,04 Oct,04 Oct,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 60,24 Oct,24 Oct,True,
+replay_0414,page live chart BTC-2D-2026-09-21,x-axis label at slot 70,13 Nov,13 Nov,True,
+replay_0414,page live chart BTC-2D-2026-09-21,ladder zone 0 colour (exact share vs 70%),fill: var(--high);,fill: var(--high);,True,
+replay_0414,page live chart BTC-2D-2026-09-21,ladder zone 1 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page live chart BTC-2D-2026-09-21,ladder zone 2 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page live chart BTC-2D-2026-09-21,ladder zone 3 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page live chart BTC-2D-2026-09-21,candles drawn,70,70,True,
+replay_0414,page live chart BTC-2D-2026-09-21,side: source,"BTC 2D · from all 33 past grade A+ signals across all BTC charts (BTC 2D alone has only 12, too few to use)","BTC 2D · from all 33 past grade A+ signals across all BTC charts (BTC 2D alone has only 12, too few to use)",True,
+replay_0414,page live chart BTC-2D-2026-09-21,side: big,"85%
+rose 10% within 60 days, from 33 past signals; 76% without ever falling 25.3%","85%
+rose 10% within 60 days, from 33 past signals; 76% without ever falling 25.3%",True,
+replay_0414,page live chart BTC-2D-2026-09-21,side: typical high,"Typical high
++42.9% · $123,756.71","Typical high
++42.9% · $123,756.71",True,
+replay_0414,page live chart BTC-2D-2026-09-21,side: +10% target,"+10% target
+$95,254.43","+10% target
+$95,254.43",True,
+replay_0414,page live chart BTC-2D-2026-09-21,side: +20%,"Reached +20% within 60 days
+79%","Reached +20% within 60 days
+79%",True,
+replay_0414,page live chart BTC-2D-2026-09-21,side: typical drop,"Typical drop
+−6.5% · $80,961.00","Typical drop
+−6.5% · $80,961.00",True,
+replay_0414,page live chart BTC-2D-2026-09-21,side: edge,"Edge gone below
+$82,265.19 (−5%)","Edge gone below
+$82,265.19 (−5%)",True,
+replay_0414,page live chart BTC-2D-2026-09-21,title,"BTC · 2D · LIVE SETUP, DAY 52 OF 60","BTC · 2D · LIVE SETUP, DAY 52 OF 60",True,
+replay_0414,page live chart BTC-2D-2026-09-21,subtitle,"Confirmed 21 Sept 2026 · entry close $86,594.94. Zones use this setup's own card (all 33 past grade A+ signals across all BTC charts (BTC 2D alone has only 12, too few to use)). The shaded zones are the next 60 days, as the odds draw them.","Confirmed 21 Sept 2026 · entry close $86,594.94. Zones use this setup's own card (all 33 past grade A+ signals across all BTC charts (BTC 2D alone has only 12, too few to use)). The shaded zones are the next 60 days, as the odds draw them.",True,
+replay_0414,page live chart BTC-2D-2026-09-21,live box,"LIVE: DAY 52 OF 60
+Best so far
++0.8%
+Worst so far
+−16.1%
+Day 10
+−2.0%","LIVE: DAY 52 OF 60
+Best so far
++0.8%
+Worst so far
+−16.1%
+Day 10
+−2.0%",True,
+replay_0414,page live chart BTC-2D-2026-09-21,cloud subtitle,"Every past BTC top-grade signal, n 33","Every past BTC top-grade signal, n 33",True,
+replay_0414,page live chart BTC-2D-2026-09-21,cloud day-60 note,"Day 60: median +32.7%, middle half −3.4% to +54.5%. Daily closes.","Day 60: median +32.7%, middle half −3.4% to +54.5%. Daily closes.",True,
+replay_0414,page live chart BTC-2D-2026-09-21,cloud median line: 61 points,61,61,True,
+replay_0414,page live chart BTC-2D-2026-09-21,cloud median line points = my medians,[],[],True,
+replay_0414,page live chart BTC-2D-2026-09-21,cloud middle-half band = my quartiles,[],[],True,
+replay_0414,page forming card BTC-1D-2026-11-13,where,BTC · 1D CHART,BTC · 1D CHART,True,
+replay_0414,page forming card BTC-1D-2026-11-13,state,Setup forming,Setup forming,True,
+replay_0414,page forming card BTC-1D-2026-11-13,card line,"Low 10 Nov 2026 · confirms 13 Nov 2026 if it closes above $73,533.06","Low 10 Nov 2026 · confirms 13 Nov 2026 if it closes above $73,533.06",True,
+replay_0414,page forming card BTC-1D-2026-11-13,below-grade note,"Best setup forming today. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.","Best setup forming today. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.",True,
+replay_0414,page forming card BTC-1D-2026-11-13,big number,"84%
+rose 10% within 60 days
+78% did it without ever falling 25.3%
+from 37 past signals like this one · every figure covers the 60 days after entry","84%
+rose 10% within 60 days
+78% did it without ever falling 25.3%
+from 37 past signals like this one · every figure covers the 60 days after entry",True,
+replay_0414,page forming card BTC-1D-2026-11-13,typical high,"Typical high
++19.1%","Typical high
++19.1%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,typical drop,"Typical drop from entry
+−9.5%","Typical drop from entry
+−9.5%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,edge gone,"Edge gone below
+−5% before it rises 10%","Edge gone below
+−5% before it rises 10%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,if it misses,"If it misses: went above entry
+94 of 95 · median best +4.0%","If it misses: went above entry
+94 of 95 · median best +4.0%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,misses pool,all 312 BTC signals of this grade,all 312 BTC signals of this grade,True,
+replay_0414,page forming card BTC-1D-2026-11-13,dip before high,"Dip before the high, from entry
+−4.9%","Dip before the high, from entry
+−4.9%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,high day,"High lands around
+Day 44","High lands around
+Day 44",True,
+replay_0414,page forming card BTC-1D-2026-11-13,reached +20%,"Reached +20% within 60 days · n 37
+49%","Reached +20% within 60 days · n 37
+49%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,touched -30%,"Touched −30% within 60 days · n 37
+8%","Touched −30% within 60 days · n 37
+8%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,deepest dip day,"Deepest dip lands around
+Day 23","Deepest dip lands around
+Day 23",True,
+replay_0414,page forming card BTC-1D-2026-11-13,misses worst drop,"Typical worst drop, misses · 95 misses of all 312 BTC C
+−26.7%","Typical worst drop, misses · 95 misses of all 312 BTC C
+−26.7%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,misses day 60,"Typical change by day 60, misses · 95 misses of all 312 BTC C
+−10.7%","Typical change by day 60, misses · 95 misses of all 312 BTC C
+−10.7%",True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder rows,5,5,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder From entry,From entry n 37 | 84%,From entry n 37 | 84%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder From entry gone colour (exact < 70),False,False,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder From entry bar width,84%,84%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 5% first,Falls 5% first n 17 | 65%,Falls 5% first n 17 | 65%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 5% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 5% first bar width,65%,65%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 10% first,Falls 10% first n 8 | 25%,Falls 10% first n 8 | 25%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 10% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 10% first bar width,25%,25%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 15% first,Falls 15% first n 8 | 25%,Falls 15% first n 8 | 25%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 15% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 15% first bar width,25%,25%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 20% first,Falls 20% first n 5 | 0%,Falls 20% first n 5 | 0%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 20% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-1D-2026-11-13,ladder Falls 20% first bar width,0%,0%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,era rows,2,2,True,
+replay_0414,page forming card BTC-1D-2026-11-13,era Before 2022,Before 2022 n 22 | 73%,Before 2022 n 22 | 73%,True,
+replay_0414,page forming card BTC-1D-2026-11-13,era Since 2022,Since 2022 n 15 | 87%,Since 2022 n 15 | 87%,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Today line on the last (open) bar,511.203008,511.203008,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Confirms line on the confirmation bar,518.270677,518.270677,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Confirms label,"Confirms 13 Nov 2026 · entry, day 0","Confirms 13 Nov 2026 · entry, day 0",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Day 60 line on the bar containing day 60,942.330827,942.330827,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,High line on the bar containing the typical high day,829.24812,829.24812,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,High line label,High usually ~day 44,High usually ~day 44,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,zone starts at entry bar,518.270677,518.270677,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,zone ends at day 60 bar,942.330827,942.330827,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,zone starts at entry bar,518.270677,518.270677,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,zone ends at day 60 bar,942.330827,942.330827,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Typical high label,Typical high +19.1%,Typical high +19.1%,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,+10% label,+10% · 84% of past signals got here,+10% · 84% of past signals got here,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Typical drop label,Typical drop −9.5%,Typical drop −9.5%,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,price tags,"['$66,739.49', '$73,736.44', '$81,110.08', '$87,819.56']","['$66,739.49', '$73,736.44', '$81,110.08', '$87,819.56']",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,edge line label,"Edge gone below $70,049.62 (−5%, before +10%)","Edge gone below $70,049.62 (−5%, before +10%)",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,ladder zone labels on chart,"['84%', '65%', '25%', '25%']","['84%', '65%', '25%', '25%']",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,"axis tick $60,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,"axis tick $65,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,"axis tick $70,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,"axis tick $85,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,"axis tick $90,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 0,04 Sept,04 Sept,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 17,21 Sept,21 Sept,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 34,08 Oct,08 Oct,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 51,25 Oct,25 Oct,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 68,11 Nov,11 Nov,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 85,28 Nov,28 Nov,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 102,15 Dec,15 Dec,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,x-axis label at slot 119,01 Jan,01 Jan,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,ladder zone 0 colour (exact share vs 70%),fill: var(--high);,fill: var(--high);,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,ladder zone 1 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,ladder zone 2 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,ladder zone 3 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,candles drawn,70,70,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Low marker label,"Low 10 Nov 2026 · $72,643.48","Low 10 Nov 2026 · $72,643.48",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,Low circle on the trough bar,497.067669,497.067669,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,side: source,BTC 1D · from all 37 past BTC 1D signals with exactly the same confirmations,BTC 1D · from all 37 past BTC 1D signals with exactly the same confirmations,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,side: big,"84%
+rose 10% within 60 days, from 37 past signals; 78% without ever falling 25.3%","84%
+rose 10% within 60 days, from 37 past signals; 78% without ever falling 25.3%",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,side: typical high,"Typical high
++19.1% · $87,819.56","Typical high
++19.1% · $87,819.56",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,side: +10% target,"+10% target
+$81,110.08","+10% target
+$81,110.08",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,side: +20%,"Reached +20% within 60 days
+49%","Reached +20% within 60 days
+49%",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,side: typical drop,"Typical drop
+−9.5% · $66,739.49","Typical drop
+−9.5% · $66,739.49",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,side: edge,"Edge gone below
+$70,049.62 (−5%)","Edge gone below
+$70,049.62 (−5%)",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,title,"BTC · 1D · FORMING, NOT TOP GRADE","BTC · 1D · FORMING, NOT TOP GRADE",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,subtitle,"Low 10 Nov 2026 · confirms 13 Nov 2026 · price levels drawn from today's price ($73,736.44), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.","Low 10 Nov 2026 · confirms 13 Nov 2026 · price levels drawn from today's price ($73,736.44), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,stand-in note,True,True,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,still forming box,True,True,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,cloud subtitle,"Every past BTC top-grade signal, n 33","Every past BTC top-grade signal, n 33",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,cloud day-60 note,"Day 60: median +32.7%, middle half −3.4% to +54.5%. Daily closes.","Day 60: median +32.7%, middle half −3.4% to +54.5%. Daily closes.",True,
+replay_0414,page forming chart BTC-1D-2026-11-13,cloud median line: 61 points,61,61,True,
+replay_0414,page forming chart BTC-1D-2026-11-13,cloud median line points = my medians,[],[],True,
+replay_0414,page forming chart BTC-1D-2026-11-13,cloud middle-half band = my quartiles,[],[],True,
+replay_0414,page forming card ETH-2D-2026-11-16,where,ETH · 2D CHART,ETH · 2D CHART,True,
+replay_0414,page forming card ETH-2D-2026-11-16,state,Setup forming,Setup forming,True,
+replay_0414,page forming card ETH-2D-2026-11-16,card line,Low 10 Nov 2026 · confirms 16 Nov 2026,Low 10 Nov 2026 · confirms 16 Nov 2026,True,
+replay_0414,page forming card ETH-2D-2026-11-16,below-grade note,"Setup forming. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.","Setup forming. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.",True,
+replay_0414,page forming card ETH-2D-2026-11-16,big number,"67%
+rose 10% within 60 days
+52% did it without ever falling 25.3%
+from 27 past signals like this one · every figure covers the 60 days after entry","67%
+rose 10% within 60 days
+52% did it without ever falling 25.3%
+from 27 past signals like this one · every figure covers the 60 days after entry",True,
+replay_0414,page forming card ETH-2D-2026-11-16,typical high,"Typical high
++14.7%","Typical high
++14.7%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,typical drop,"Typical drop from entry
+−17.0%","Typical drop from entry
+−17.0%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,edge gone,"Edge gone below
+Below the 70% bar from entry","Edge gone below
+Below the 70% bar from entry",True,
+replay_0414,page forming card ETH-2D-2026-11-16,if it misses,"If it misses: went above entry
+37 of 37 · median best +5.5%","If it misses: went above entry
+37 of 37 · median best +5.5%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,misses pool,all 111 ETH signals of this grade,all 111 ETH signals of this grade,True,
+replay_0414,page forming card ETH-2D-2026-11-16,dip before high,"Dip before the high, from entry
+−5.9%","Dip before the high, from entry
+−5.9%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,high day,"High lands around
+Day 44","High lands around
+Day 44",True,
+replay_0414,page forming card ETH-2D-2026-11-16,reached +20%,"Reached +20% within 60 days · n 27
+41%","Reached +20% within 60 days · n 27
+41%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,touched -30%,"Touched −30% within 60 days · n 27
+30%","Touched −30% within 60 days · n 27
+30%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,deepest dip day,"Deepest dip lands around
+Day 22","Deepest dip lands around
+Day 22",True,
+replay_0414,page forming card ETH-2D-2026-11-16,misses worst drop,"Typical worst drop, misses · 37 misses of all 111 ETH C
+−35.5%","Typical worst drop, misses · 37 misses of all 111 ETH C
+−35.5%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,misses day 60,"Typical change by day 60, misses · 37 misses of all 111 ETH C
+−20.9%","Typical change by day 60, misses · 37 misses of all 111 ETH C
+−20.9%",True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder rows,5,5,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder From entry,From entry n 27 | 63%,From entry n 27 | 63%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder From entry gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder From entry bar width,63%,63%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 5% first,Falls 5% first n 20 | 50%,Falls 5% first n 20 | 50%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 5% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 5% first bar width,50%,50%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 10% first,Falls 10% first n 14 | 36%,Falls 10% first n 14 | 36%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 10% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 10% first bar width,36%,36%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 15% first,Falls 15% first n 12 | 25%,Falls 15% first n 12 | 25%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 15% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 15% first bar width,25%,25%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 20% first,Falls 20% first n 9 | 11%,Falls 20% first n 9 | 11%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 20% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-2D-2026-11-16,ladder Falls 20% first bar width,11%,11%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,era rows,2,2,True,
+replay_0414,page forming card ETH-2D-2026-11-16,era Before 2022,Before 2022 n 8 | 63%,Before 2022 n 8 | 63%,True,
+replay_0414,page forming card ETH-2D-2026-11-16,era Since 2022,Since 2022 n 19 | 47%,Since 2022 n 19 | 47%,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Today line on the last (open) bar,648.173077,648.173077,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Confirms line on the confirmation bar,666.25,666.25,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Confirms label,"Confirms 16 Nov 2026 · entry, day 0","Confirms 16 Nov 2026 · entry, day 0",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Day 60 line on the bar containing day 60,946.442308,946.442308,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,High line on the bar containing the typical high day,865.096154,865.096154,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,High line label,High usually ~day 44,High usually ~day 44,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,zone starts at entry bar,666.25,666.25,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,zone ends at day 60 bar,946.442308,946.442308,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,zone starts at entry bar,666.25,666.25,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,zone ends at day 60 bar,946.442308,946.442308,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Typical high label,Typical high +14.7%,Typical high +14.7%,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,+10% label,+10% · 67% of past signals got here,+10% · 67% of past signals got here,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Typical drop label,Typical drop −17.0%,Typical drop −17.0%,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,price tags,"['$1,702.93', '$2,052.66', '$2,257.93', '$2,354.33']","['$1,702.93', '$2,052.66', '$2,257.93', '$2,354.33']",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,edge line absent (no edge level),False,False,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,ladder zone labels on chart,"['63%', '50%', '36%', '25%']","['63%', '50%', '36%', '25%']",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,"axis tick $1,600 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,"axis tick $1,800 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,"axis tick $2,200 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,"axis tick $2,600 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,"axis tick $2,800 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,"axis tick $3,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 0,26 Jun,26 Jun,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 13,22 Jul,22 Jul,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 26,17 Aug,17 Aug,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 39,12 Sept,12 Sept,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 52,08 Oct,08 Oct,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 65,03 Nov,03 Nov,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 78,29 Nov,29 Nov,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,x-axis label at slot 91,25 Dec,25 Dec,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,ladder zone 0 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,ladder zone 1 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,ladder zone 2 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,ladder zone 3 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,candles drawn,70,70,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Low marker label,"Low 10 Nov 2026 · $2,003.24","Low 10 Nov 2026 · $2,003.24",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,Low circle on the trough bar,639.134615,639.134615,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,side: source,"ETH 2D · from all 27 past ETH 2D signals graded C (only 4 had exactly the same confirmations, too few to use)","ETH 2D · from all 27 past ETH 2D signals graded C (only 4 had exactly the same confirmations, too few to use)",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,side: big,"67%
+rose 10% within 60 days, from 27 past signals; 52% without ever falling 25.3%","67%
+rose 10% within 60 days, from 27 past signals; 52% without ever falling 25.3%",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,side: typical high,"Typical high
++14.7% · $2,354.33","Typical high
++14.7% · $2,354.33",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,side: +10% target,"+10% target
+$2,257.93","+10% target
+$2,257.93",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,side: +20%,"Reached +20% within 60 days
+41%","Reached +20% within 60 days
+41%",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,side: typical drop,"Typical drop
+−17.0% · $1,702.93","Typical drop
+−17.0% · $1,702.93",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,side: edge,"Edge gone below
+below the bar already","Edge gone below
+below the bar already",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,title,"ETH · 2D · FORMING, NOT TOP GRADE","ETH · 2D · FORMING, NOT TOP GRADE",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,subtitle,"Low 10 Nov 2026 · confirms 16 Nov 2026 · price levels drawn from today's price ($2,052.66), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.","Low 10 Nov 2026 · confirms 16 Nov 2026 · price levels drawn from today's price ($2,052.66), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,stand-in note,True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,still forming box,True,True,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,cloud subtitle,"Every past ETH top-grade signal, n 104","Every past ETH top-grade signal, n 104",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,cloud day-60 note,"Day 60: median +22.4%, middle half −1.0% to +47.3%. Daily closes.","Day 60: median +22.4%, middle half −1.0% to +47.3%. Daily closes.",True,
+replay_0414,page forming chart ETH-2D-2026-11-16,cloud median line: 61 points,61,61,True,
+replay_0414,page forming chart ETH-2D-2026-11-16,cloud median line points = my medians,[],[],True,
+replay_0414,page forming chart ETH-2D-2026-11-16,cloud middle-half band = my quartiles,[],[],True,
+replay_0414,page forming card BTC-2D-2026-11-16,where,BTC · 2D CHART,BTC · 2D CHART,True,
+replay_0414,page forming card BTC-2D-2026-11-16,state,Setup forming,Setup forming,True,
+replay_0414,page forming card BTC-2D-2026-11-16,card line,Low 10 Nov 2026 · confirms 16 Nov 2026,Low 10 Nov 2026 · confirms 16 Nov 2026,True,
+replay_0414,page forming card BTC-2D-2026-11-16,below-grade note,"Setup forming. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.","Setup forming. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.",True,
+replay_0414,page forming card BTC-2D-2026-11-16,big number,"67%
+rose 10% within 60 days
+53% did it without ever falling 25.3%
+from 15 past signals like this one · every figure covers the 60 days after entry","67%
+rose 10% within 60 days
+53% did it without ever falling 25.3%
+from 15 past signals like this one · every figure covers the 60 days after entry",True,
+replay_0414,page forming card BTC-2D-2026-11-16,typical high,"Typical high
++14.1%","Typical high
++14.1%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,typical drop,"Typical drop from entry
+−15.8%","Typical drop from entry
+−15.8%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,edge gone,"Edge gone below
+Below the 70% bar from entry","Edge gone below
+Below the 70% bar from entry",True,
+replay_0414,page forming card BTC-2D-2026-11-16,if it misses,"If it misses: went above entry
+94 of 95 · median best +4.0%","If it misses: went above entry
+94 of 95 · median best +4.0%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,misses pool,all 312 BTC signals of this grade,all 312 BTC signals of this grade,True,
+replay_0414,page forming card BTC-2D-2026-11-16,dip before high,"Dip before the high, from entry
+−4.6%","Dip before the high, from entry
+−4.6%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,high day,"High lands around
+Day 39","High lands around
+Day 39",True,
+replay_0414,page forming card BTC-2D-2026-11-16,reached +20%,"Reached +20% within 60 days · n 15
+33%","Reached +20% within 60 days · n 15
+33%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,touched -30%,"Touched −30% within 60 days · n 15
+20%","Touched −30% within 60 days · n 15
+20%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,deepest dip day,"Deepest dip lands around
+Day 28","Deepest dip lands around
+Day 28",True,
+replay_0414,page forming card BTC-2D-2026-11-16,misses worst drop,"Typical worst drop, misses · 95 misses of all 312 BTC C
+−26.7%","Typical worst drop, misses · 95 misses of all 312 BTC C
+−26.7%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,misses day 60,"Typical change by day 60, misses · 95 misses of all 312 BTC C
+−10.7%","Typical change by day 60, misses · 95 misses of all 312 BTC C
+−10.7%",True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder rows,5,5,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder From entry,From entry n 15 | 60%,From entry n 15 | 60%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder From entry gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder From entry bar width,60%,60%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 5% first,Falls 5% first n 10 | 40%,Falls 5% first n 10 | 40%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 5% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 5% first bar width,40%,40%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 10% first,Falls 10% first n 8 | 25%,Falls 10% first n 8 | 25%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 10% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 10% first bar width,25%,25%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 15% first,Falls 15% first n 7 | 14%,Falls 15% first n 7 | 14%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 15% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 15% first bar width,14%,14%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 20% first,Falls 20% first n 6 | 0%,Falls 20% first n 6 | 0%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 20% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card BTC-2D-2026-11-16,ladder Falls 20% first bar width,0%,0%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,era rows,2,2,True,
+replay_0414,page forming card BTC-2D-2026-11-16,era Before 2022,Before 2022 n 11 | 36%,Before 2022 n 11 | 36%,True,
+replay_0414,page forming card BTC-2D-2026-11-16,era Since 2022,Since 2022 n 4 | 100%,Since 2022 n 4 | 100%,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Today line on the last (open) bar,648.173077,648.173077,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Confirms line on the confirmation bar,666.25,666.25,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Confirms label,"Confirms 16 Nov 2026 · entry, day 0","Confirms 16 Nov 2026 · entry, day 0",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Day 60 line on the bar containing day 60,946.442308,946.442308,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,High line on the bar containing the typical high day,847.019231,847.019231,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,High line label,High usually ~day 39,High usually ~day 39,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,zone starts at entry bar,666.25,666.25,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,zone ends at day 60 bar,946.442308,946.442308,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,zone starts at entry bar,666.25,666.25,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,zone ends at day 60 bar,946.442308,946.442308,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Typical high label,Typical high +14.1%,Typical high +14.1%,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,+10% label,+10% · 67% of past signals got here,+10% · 67% of past signals got here,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Typical drop label,Typical drop −15.8%,Typical drop −15.8%,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,price tags,"['$62,082.86', '$73,736.44', '$81,110.08', '$84,147.61']","['$62,082.86', '$73,736.44', '$81,110.08', '$84,147.61']",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,edge line absent (no edge level),False,False,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,ladder zone labels on chart,"['60%', '40%', '25%', '14%']","['60%', '40%', '25%', '14%']",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,"axis tick $55,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,"axis tick $60,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,"axis tick $65,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,"axis tick $70,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,"axis tick $90,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 0,26 Jun,26 Jun,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 13,22 Jul,22 Jul,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 26,17 Aug,17 Aug,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 39,12 Sept,12 Sept,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 52,08 Oct,08 Oct,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 65,03 Nov,03 Nov,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 78,29 Nov,29 Nov,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,x-axis label at slot 91,25 Dec,25 Dec,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,ladder zone 0 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,ladder zone 1 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,ladder zone 2 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,ladder zone 3 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,candles drawn,70,70,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Low marker label,"Low 10 Nov 2026 · $72,643.48","Low 10 Nov 2026 · $72,643.48",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,Low circle on the trough bar,639.134615,639.134615,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,side: source,BTC 2D · from all 15 past BTC 2D signals with exactly the same confirmations,BTC 2D · from all 15 past BTC 2D signals with exactly the same confirmations,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,side: big,"67%
+rose 10% within 60 days, from 15 past signals; 53% without ever falling 25.3%","67%
+rose 10% within 60 days, from 15 past signals; 53% without ever falling 25.3%",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,side: typical high,"Typical high
++14.1% · $84,147.61","Typical high
++14.1% · $84,147.61",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,side: +10% target,"+10% target
+$81,110.08","+10% target
+$81,110.08",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,side: +20%,"Reached +20% within 60 days
+33%","Reached +20% within 60 days
+33%",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,side: typical drop,"Typical drop
+−15.8% · $62,082.86","Typical drop
+−15.8% · $62,082.86",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,side: edge,"Edge gone below
+below the bar already","Edge gone below
+below the bar already",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,title,"BTC · 2D · FORMING, NOT TOP GRADE","BTC · 2D · FORMING, NOT TOP GRADE",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,subtitle,"Low 10 Nov 2026 · confirms 16 Nov 2026 · price levels drawn from today's price ($73,736.44), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.","Low 10 Nov 2026 · confirms 16 Nov 2026 · price levels drawn from today's price ($73,736.44), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,stand-in note,True,True,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,still forming box,True,True,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,cloud subtitle,"Every past BTC top-grade signal, n 33","Every past BTC top-grade signal, n 33",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,cloud day-60 note,"Day 60: median +32.7%, middle half −3.4% to +54.5%. Daily closes.","Day 60: median +32.7%, middle half −3.4% to +54.5%. Daily closes.",True,
+replay_0414,page forming chart BTC-2D-2026-11-16,cloud median line: 61 points,61,61,True,
+replay_0414,page forming chart BTC-2D-2026-11-16,cloud median line points = my medians,[],[],True,
+replay_0414,page forming chart BTC-2D-2026-11-16,cloud middle-half band = my quartiles,[],[],True,
+replay_0414,page forming card ETH-1D-2026-11-13,where,ETH · 1D CHART,ETH · 1D CHART,True,
+replay_0414,page forming card ETH-1D-2026-11-13,state,Setup forming,Setup forming,True,
+replay_0414,page forming card ETH-1D-2026-11-13,card line,"Low 10 Nov 2026 · confirms 13 Nov 2026 if it closes above $2,047.21","Low 10 Nov 2026 · confirms 13 Nov 2026 if it closes above $2,047.21",True,
+replay_0414,page forming card ETH-1D-2026-11-13,below-grade note,"Setup forming. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.","Setup forming. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.",True,
+replay_0414,page forming card ETH-1D-2026-11-13,big number,"65%
+rose 10% within 60 days
+53% did it without ever falling 25.3%
+from 17 past signals like this one · every figure covers the 60 days after entry","65%
+rose 10% within 60 days
+53% did it without ever falling 25.3%
+from 17 past signals like this one · every figure covers the 60 days after entry",True,
+replay_0414,page forming card ETH-1D-2026-11-13,typical high,"Typical high
++13.3%","Typical high
++13.3%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,typical drop,"Typical drop from entry
+−17.7%","Typical drop from entry
+−17.7%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,edge gone,"Edge gone below
+Below the 70% bar from entry","Edge gone below
+Below the 70% bar from entry",True,
+replay_0414,page forming card ETH-1D-2026-11-13,if it misses,"If it misses: went above entry
+37 of 37 · median best +5.5%","If it misses: went above entry
+37 of 37 · median best +5.5%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,misses pool,all 111 ETH signals of this grade,all 111 ETH signals of this grade,True,
+replay_0414,page forming card ETH-1D-2026-11-13,dip before high,"Dip before the high, from entry
+−8.2%","Dip before the high, from entry
+−8.2%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,high day,"High lands around
+Day 21","High lands around
+Day 21",True,
+replay_0414,page forming card ETH-1D-2026-11-13,reached +20%,"Reached +20% within 60 days · n 17
+29%","Reached +20% within 60 days · n 17
+29%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,touched -30%,"Touched −30% within 60 days · n 17
+29%","Touched −30% within 60 days · n 17
+29%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,deepest dip day,"Deepest dip lands around
+Day 32","Deepest dip lands around
+Day 32",True,
+replay_0414,page forming card ETH-1D-2026-11-13,misses worst drop,"Typical worst drop, misses · 37 misses of all 111 ETH C
+−35.5%","Typical worst drop, misses · 37 misses of all 111 ETH C
+−35.5%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,misses day 60,"Typical change by day 60, misses · 37 misses of all 111 ETH C
+−20.9%","Typical change by day 60, misses · 37 misses of all 111 ETH C
+−20.9%",True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder rows,5,5,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder From entry,From entry n 17 | 65%,From entry n 17 | 65%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder From entry gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder From entry bar width,65%,65%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 5% first,Falls 5% first n 14 | 57%,Falls 5% first n 14 | 57%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 5% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 5% first bar width,57%,57%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 10% first,Falls 10% first n 8 | 25%,Falls 10% first n 8 | 25%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 10% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 10% first bar width,25%,25%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 15% first,Falls 15% first n 8 | 25%,Falls 15% first n 8 | 25%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 15% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 15% first bar width,25%,25%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 20% first,Falls 20% first n 5 | 0%,Falls 20% first n 5 | 0%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 20% first gone colour (exact < 70),True,True,True,
+replay_0414,page forming card ETH-1D-2026-11-13,ladder Falls 20% first bar width,0%,0%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,era rows,2,2,True,
+replay_0414,page forming card ETH-1D-2026-11-13,era Before 2022,Before 2022 n 6 | 67%,Before 2022 n 6 | 67%,True,
+replay_0414,page forming card ETH-1D-2026-11-13,era Since 2022,Since 2022 n 11 | 45%,Since 2022 n 11 | 45%,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Today line on the last (open) bar,511.203008,511.203008,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Confirms line on the confirmation bar,518.270677,518.270677,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Confirms label,"Confirms 13 Nov 2026 · entry, day 0","Confirms 13 Nov 2026 · entry, day 0",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Day 60 line on the bar containing day 60,942.330827,942.330827,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,High line on the bar containing the typical high day,666.691729,666.691729,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,High line label,High usually ~day 21,High usually ~day 21,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,zone starts at entry bar,518.270677,518.270677,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,zone ends at day 60 bar,942.330827,942.330827,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,zone starts at entry bar,518.270677,518.270677,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,zone ends at day 60 bar,942.330827,942.330827,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Typical high label,Typical high +13.3%,Typical high +13.3%,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,+10% label,+10% · 65% of past signals got here,+10% · 65% of past signals got here,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Typical drop label,Typical drop −17.7%,Typical drop −17.7%,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,price tags,"['$1,688.34', '$2,052.66', '$2,257.93', '$2,325.58']","['$1,688.34', '$2,052.66', '$2,257.93', '$2,325.58']",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,edge line absent (no edge level),False,False,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,ladder zone labels on chart,"['65%', '57%', '25%', '25%']","['65%', '57%', '25%', '25%']",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $1,600 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $1,800 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $2,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $2,200 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $2,400 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $2,600 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $2,800 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,"axis tick $3,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 0,04 Sept,04 Sept,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 17,21 Sept,21 Sept,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 34,08 Oct,08 Oct,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 51,25 Oct,25 Oct,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 68,11 Nov,11 Nov,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 85,28 Nov,28 Nov,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 102,15 Dec,15 Dec,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,x-axis label at slot 119,01 Jan,01 Jan,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,ladder zone 0 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,ladder zone 1 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,ladder zone 2 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,ladder zone 3 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,candles drawn,70,70,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Low marker label,"Low 10 Nov 2026 · $2,003.24","Low 10 Nov 2026 · $2,003.24",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,Low circle on the trough bar,497.067669,497.067669,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,side: source,ETH 1D · from all 17 past ETH 1D signals with exactly the same confirmations,ETH 1D · from all 17 past ETH 1D signals with exactly the same confirmations,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,side: big,"65%
+rose 10% within 60 days, from 17 past signals; 53% without ever falling 25.3%","65%
+rose 10% within 60 days, from 17 past signals; 53% without ever falling 25.3%",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,side: typical high,"Typical high
++13.3% · $2,325.58","Typical high
++13.3% · $2,325.58",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,side: +10% target,"+10% target
+$2,257.93","+10% target
+$2,257.93",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,side: +20%,"Reached +20% within 60 days
+29%","Reached +20% within 60 days
+29%",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,side: typical drop,"Typical drop
+−17.7% · $1,688.34","Typical drop
+−17.7% · $1,688.34",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,side: edge,"Edge gone below
+below the bar already","Edge gone below
+below the bar already",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,title,"ETH · 1D · FORMING, NOT TOP GRADE","ETH · 1D · FORMING, NOT TOP GRADE",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,subtitle,"Low 10 Nov 2026 · confirms 13 Nov 2026 · price levels drawn from today's price ($2,052.66), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.","Low 10 Nov 2026 · confirms 13 Nov 2026 · price levels drawn from today's price ($2,052.66), since the entry price is the confirmation close; days count from the confirmation. The shaded zones are the next 60 days, as the odds draw them.",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,stand-in note,True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,still forming box,True,True,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,cloud subtitle,"Every past ETH top-grade signal, n 104","Every past ETH top-grade signal, n 104",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,cloud day-60 note,"Day 60: median +22.4%, middle half −1.0% to +47.3%. Daily closes.","Day 60: median +22.4%, middle half −1.0% to +47.3%. Daily closes.",True,
+replay_0414,page forming chart ETH-1D-2026-11-13,cloud median line: 61 points,61,61,True,
+replay_0414,page forming chart ETH-1D-2026-11-13,cloud median line points = my medians,[],[],True,
+replay_0414,page forming chart ETH-1D-2026-11-13,cloud middle-half band = my quartiles,[],[],True,
+replay_0414,page example card,where,ETH · 2D CHART · EXAMPLE,ETH · 2D CHART · EXAMPLE,True,
+replay_0414,page example card,state,Confirmed setup,Confirmed setup,True,
+replay_0414,page example card,card line,"Example: confirmed 22 Sept 2024 · entry close $2,580.92","Example: confirmed 22 Sept 2024 · entry close $2,580.92",True,
+replay_0414,page example card,big number,"87%
+rose 10% within 60 days
+80% did it without ever falling 25.3%
+from 75 past signals like this one · every figure covers the 60 days after entry","87%
+rose 10% within 60 days
+80% did it without ever falling 25.3%
+from 75 past signals like this one · every figure covers the 60 days after entry",True,
+replay_0414,page example card,typical high,"Typical high
++35.0%","Typical high
++35.0%",True,
+replay_0414,page example card,typical drop,"Typical drop from entry
+−11.4%","Typical drop from entry
+−11.4%",True,
+replay_0414,page example card,edge gone,"Edge gone below
+−10% before it rises 10%","Edge gone below
+−10% before it rises 10%",True,
+replay_0414,page example card,if it misses,"If it misses: went above entry
+10 of 10 · median best +5.3%","If it misses: went above entry
+10 of 10 · median best +5.3%",True,
+replay_0414,page example card,dip before high,"Dip before the high, from entry
+−6.1%","Dip before the high, from entry
+−6.1%",True,
+replay_0414,page example card,high day,"High lands around
+Day 43","High lands around
+Day 43",True,
+replay_0414,page example card,reached +20%,"Reached +20% within 60 days · n 75
+79%","Reached +20% within 60 days · n 75
+79%",True,
+replay_0414,page example card,touched -30%,"Touched −30% within 60 days · n 75
+4%","Touched −30% within 60 days · n 75
+4%",True,
+replay_0414,page example card,deepest dip day,"Deepest dip lands around
+Day 13","Deepest dip lands around
+Day 13",True,
+replay_0414,page example card,misses worst drop,"Typical worst drop, misses · 10 misses of all 75 ETH A+
+−22.6%","Typical worst drop, misses · 10 misses of all 75 ETH A+
+−22.6%",True,
+replay_0414,page example card,misses day 60,"Typical change by day 60, misses · 10 misses of all 75 ETH A+
+−12.2%","Typical change by day 60, misses · 10 misses of all 75 ETH A+
+−12.2%",True,
+replay_0414,page example card,ladder rows,5,5,True,
+replay_0414,page example card,ladder From entry,From entry n 75 | 87%,From entry n 75 | 87%,True,
+replay_0414,page example card,ladder From entry gone colour (exact < 70),False,False,True,
+replay_0414,page example card,ladder From entry bar width,87%,87%,True,
+replay_0414,page example card,ladder Falls 5% first,Falls 5% first n 43 | 77%,Falls 5% first n 43 | 77%,True,
+replay_0414,page example card,ladder Falls 5% first gone colour (exact < 70),False,False,True,
+replay_0414,page example card,ladder Falls 5% first bar width,77%,77%,True,
+replay_0414,page example card,ladder Falls 10% first,Falls 10% first n 29 | 66%,Falls 10% first n 29 | 66%,True,
+replay_0414,page example card,ladder Falls 10% first gone colour (exact < 70),True,True,True,
+replay_0414,page example card,ladder Falls 10% first bar width,66%,66%,True,
+replay_0414,page example card,ladder Falls 15% first,Falls 15% first n 13 | 46%,Falls 15% first n 13 | 46%,True,
+replay_0414,page example card,ladder Falls 15% first gone colour (exact < 70),True,True,True,
+replay_0414,page example card,ladder Falls 15% first bar width,46%,46%,True,
+replay_0414,page example card,ladder Falls 20% first,Falls 20% first n 5 | 0%,Falls 20% first n 5 | 0%,True,
+replay_0414,page example card,ladder Falls 20% first gone colour (exact < 70),True,True,True,
+replay_0414,page example card,ladder Falls 20% first bar width,0%,0%,True,
+replay_0414,page example card,era rows,2,2,True,
+replay_0414,page example card,era Before 2022,Before 2022 n 42 | 86%,Before 2022 n 42 | 86%,True,
+replay_0414,page example card,era Since 2022,Since 2022 n 33 | 73%,Since 2022 n 33 | 73%,True,
+replay_0414,page example chart (at the alert),Entry line on the bar closing on the entry date,390.576923,390.576923,True,
+replay_0414,page example chart (at the alert),Day 60 line on the bar containing day 60,932.884615,932.884615,True,
+replay_0414,page example chart (at the alert),High line on the bar containing the typical high day,788.269231,788.269231,True,
+replay_0414,page example chart (at the alert),High line label,High usually ~day 43,High usually ~day 43,True,
+replay_0414,page example chart (at the alert),zone starts at entry bar,390.576923,390.576923,True,
+replay_0414,page example chart (at the alert),zone ends at day 60 bar,932.884615,932.884615,True,
+replay_0414,page example chart (at the alert),zone starts at entry bar,390.576923,390.576923,True,
+replay_0414,page example chart (at the alert),zone ends at day 60 bar,932.884615,932.884615,True,
+replay_0414,page example chart (at the alert),Typical high label,Typical high +35.0%,Typical high +35.0%,True,
+replay_0414,page example chart (at the alert),+10% label,+10% · 87% of past signals got here,+10% · 87% of past signals got here,True,
+replay_0414,page example chart (at the alert),Typical drop label,Typical drop −11.4%,Typical drop −11.4%,True,
+replay_0414,page example chart (at the alert),price tags,"['$2,285.85', '$2,580.92', '$2,839.01', '$3,485.15']","['$2,285.85', '$2,580.92', '$2,839.01', '$3,485.15']",True,
+replay_0414,page example chart (at the alert),edge line label,"Edge gone below $2,322.83 (−10%, before +10%)","Edge gone below $2,322.83 (−10%, before +10%)",True,
+replay_0414,page example chart (at the alert),ladder zone labels on chart,"['87%', '77%', '66%', '46%']","['87%', '77%', '66%', '46%']",True,
+replay_0414,page example chart (at the alert),"axis tick $2,000 position within 0.001px (scale from bars to the alert)",True,True,True,
+replay_0414,page example chart (at the alert),"axis tick $2,500 position within 0.001px (scale from bars to the alert)",True,True,True,
+replay_0414,page example chart (at the alert),"axis tick $2,750 position within 0.001px (scale from bars to the alert)",True,True,True,
+replay_0414,page example chart (at the alert),"axis tick $3,000 position within 0.001px (scale from bars to the alert)",True,True,True,
+replay_0414,page example chart (at the alert),"axis tick $3,250 position within 0.001px (scale from bars to the alert)",True,True,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 0,12 Aug,12 Aug,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 7,26 Aug,26 Aug,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 14,09 Sept,09 Sept,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 21,23 Sept,23 Sept,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 28,07 Oct,07 Oct,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 35,21 Oct,21 Oct,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 42,04 Nov,04 Nov,True,
+replay_0414,page example chart (at the alert),x-axis label at slot 49,18 Nov,18 Nov,True,
+replay_0414,page example chart (at the alert),ladder zone 0 colour (exact share vs 70%),fill: var(--high);,fill: var(--high);,True,
+replay_0414,page example chart (at the alert),ladder zone 1 colour (exact share vs 70%),fill: var(--high);,fill: var(--high);,True,
+replay_0414,page example chart (at the alert),ladder zone 2 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page example chart (at the alert),ladder zone 3 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page example chart (at the alert),candles drawn,21,21,True,
+replay_0414,page example chart (at the alert),side: source,ETH 2D · example,ETH 2D · example,True,
+replay_0414,page example chart (at the alert),side: big,"87%
+rose 10% within 60 days, from 75 past signals; 80% without ever falling 25.3%","87%
+rose 10% within 60 days, from 75 past signals; 80% without ever falling 25.3%",True,
+replay_0414,page example chart (at the alert),side: typical high,"Typical high
++35.0% · $3,485.15","Typical high
++35.0% · $3,485.15",True,
+replay_0414,page example chart (at the alert),side: +10% target,"+10% target
+$2,839.01","+10% target
+$2,839.01",True,
+replay_0414,page example chart (at the alert),side: +20%,"Reached +20% within 60 days
+79%","Reached +20% within 60 days
+79%",True,
+replay_0414,page example chart (at the alert),side: typical drop,"Typical drop
+−11.4% · $2,285.85","Typical drop
+−11.4% · $2,285.85",True,
+replay_0414,page example chart (at the alert),side: edge,"Edge gone below
+$2,322.83 (−10%)","Edge gone below
+$2,322.83 (−10%)",True,
+replay_0414,page example chart (at the alert),title,ETH · 2-DAY · EXAMPLE: PAST CONFIRMED SETUP,ETH · 2-DAY · EXAMPLE: PAST CONFIRMED SETUP,True,
+replay_0414,page example chart (at the alert),subtitle,"Confirmed 22 Sept 2024 · entry close $2,580.92 · a past computed signal. Its odds use only the signals whose 60 days had closed by then, as a member would have seen them. The shaded zones are the next 60 days, as the odds draw them.","Confirmed 22 Sept 2024 · entry close $2,580.92 · a past computed signal. Its odds use only the signals whose 60 days had closed by then, as a member would have seen them. The shaded zones are the next 60 days, as the odds draw them.",True,
+replay_0414,page example chart (at the alert),no outcome markers at the alert,[],[],True,
+replay_0414,page example chart (at the alert),cloud subtitle,"ETH top-grade signals whose 60 days had closed by 22 Sept 2024, n 75","ETH top-grade signals whose 60 days had closed by 22 Sept 2024, n 75",True,
+replay_0414,page example chart (at the alert),cloud day-60 note,"Day 60: median +22.4%, middle half +2.7% to +49.4%. Daily closes.","Day 60: median +22.4%, middle half +2.7% to +49.4%. Daily closes.",True,
+replay_0414,page example chart (at the alert),cloud median line: 61 points,61,61,True,
+replay_0414,page example chart (at the alert),cloud median line points = my medians,[],[],True,
+replay_0414,page example chart (at the alert),cloud middle-half band = my quartiles,[],[],True,
+replay_0414,page example chart (what happened),Entry line on the bar closing on the entry date,390.576923,390.576923,True,
+replay_0414,page example chart (what happened),Day 60 line on the bar containing day 60,932.884615,932.884615,True,
+replay_0414,page example chart (what happened),High line on the bar containing the typical high day,788.269231,788.269231,True,
+replay_0414,page example chart (what happened),High line label,High usually ~day 43,High usually ~day 43,True,
+replay_0414,page example chart (what happened),zone starts at entry bar,390.576923,390.576923,True,
+replay_0414,page example chart (what happened),zone ends at day 60 bar,932.884615,932.884615,True,
+replay_0414,page example chart (what happened),zone starts at entry bar,390.576923,390.576923,True,
+replay_0414,page example chart (what happened),zone ends at day 60 bar,932.884615,932.884615,True,
+replay_0414,page example chart (what happened),Typical high label,Typical high +35.0%,Typical high +35.0%,True,
+replay_0414,page example chart (what happened),+10% label,+10% · 87% of past signals got here,+10% · 87% of past signals got here,True,
+replay_0414,page example chart (what happened),Typical drop label,Typical drop −11.4%,Typical drop −11.4%,True,
+replay_0414,page example chart (what happened),price tags,"['$2,285.85', '$2,580.92', '$2,839.01', '$3,485.15']","['$2,285.85', '$2,580.92', '$2,839.01', '$3,485.15']",True,
+replay_0414,page example chart (what happened),edge line label,"Edge gone below $2,322.83 (−10%, before +10%)","Edge gone below $2,322.83 (−10%, before +10%)",True,
+replay_0414,page example chart (what happened),ladder zone labels on chart,"['87%', '77%', '66%', '46%']","['87%', '77%', '66%', '46%']",True,
+replay_0414,page example chart (what happened),"axis tick $2,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page example chart (what happened),"axis tick $2,500 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page example chart (what happened),"axis tick $2,750 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page example chart (what happened),"axis tick $3,000 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page example chart (what happened),"axis tick $3,250 position within 0.001px (scale from all bars)",True,True,True,
+replay_0414,page example chart (what happened),x-axis label at slot 0,12 Aug,12 Aug,True,
+replay_0414,page example chart (what happened),x-axis label at slot 7,26 Aug,26 Aug,True,
+replay_0414,page example chart (what happened),x-axis label at slot 14,09 Sept,09 Sept,True,
+replay_0414,page example chart (what happened),x-axis label at slot 21,23 Sept,23 Sept,True,
+replay_0414,page example chart (what happened),x-axis label at slot 28,07 Oct,07 Oct,True,
+replay_0414,page example chart (what happened),x-axis label at slot 35,21 Oct,21 Oct,True,
+replay_0414,page example chart (what happened),x-axis label at slot 42,04 Nov,04 Nov,True,
+replay_0414,page example chart (what happened),x-axis label at slot 49,18 Nov,18 Nov,True,
+replay_0414,page example chart (what happened),ladder zone 0 colour (exact share vs 70%),fill: var(--high);,fill: var(--high);,True,
+replay_0414,page example chart (what happened),ladder zone 1 colour (exact share vs 70%),fill: var(--high);,fill: var(--high);,True,
+replay_0414,page example chart (what happened),ladder zone 2 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page example chart (what happened),ladder zone 3 colour (exact share vs 70%),fill: var(--drop);,fill: var(--drop);,True,
+replay_0414,page example chart (what happened),candles drawn,52,52,True,
+replay_0414,page example chart (what happened),side: source,ETH 2D · example,ETH 2D · example,True,
+replay_0414,page example chart (what happened),side: big,"87%
+rose 10% within 60 days, from 75 past signals; 80% without ever falling 25.3%","87%
+rose 10% within 60 days, from 75 past signals; 80% without ever falling 25.3%",True,
+replay_0414,page example chart (what happened),side: typical high,"Typical high
++35.0% · $3,485.15","Typical high
++35.0% · $3,485.15",True,
+replay_0414,page example chart (what happened),side: +10% target,"+10% target
+$2,839.01","+10% target
+$2,839.01",True,
+replay_0414,page example chart (what happened),side: +20%,"Reached +20% within 60 days
+79%","Reached +20% within 60 days
+79%",True,
+replay_0414,page example chart (what happened),side: typical drop,"Typical drop
+−11.4% · $2,285.85","Typical drop
+−11.4% · $2,285.85",True,
+replay_0414,page example chart (what happened),side: edge,"Edge gone below
+$2,322.83 (−10%)","Edge gone below
+$2,322.83 (−10%)",True,
+replay_0414,page example chart (what happened),cloud subtitle,"ETH top-grade signals whose 60 days had closed by 22 Sept 2024, n 75","ETH top-grade signals whose 60 days had closed by 22 Sept 2024, n 75",True,
+replay_0414,page example chart (what happened),cloud day-60 note,"Day 60: median +22.4%, middle half +2.7% to +49.4%. Daily closes.","Day 60: median +22.4%, middle half +2.7% to +49.4%. Daily closes.",True,
+replay_0414,page example chart (what happened),cloud median line: 61 points,61,61,True,
+replay_0414,page example chart (what happened),cloud median line points = my medians,[],[],True,
+replay_0414,page example chart (what happened),cloud middle-half band = my quartiles,[],[],True,
+replay_0414,page example chart (what happened),side: reached,"Reached +10% / +20%
+Yes / Yes","Reached +10% / +20%
+Yes / Yes",True,
+replay_0414,page example chart (what happened),side: best price,"Best price
++33.6%, days 51–52","Best price
++33.6%, days 51–52",True,
+replay_0414,page example chart (what happened),side: deepest drop,"Deepest drop
+−10.5%, days 11–12","Deepest drop
+−10.5%, days 11–12",True,
+replay_0414,page example chart (what happened),side: day 10,"Day 10 check
+Red, −8.4%","Day 10 check
+Red, −8.4%",True,
+replay_0414,page example chart (what happened),side: day 60,"Price on day 60
++30.2%","Price on day 60
++30.2%",True,
+replay_0414,page example chart (what happened),outcome markers,"['This one: $2,309.17 · −10.5% · days 11–12', 'This one: $3,446.98 · +33.6% · days 51–52']","['This one: $2,309.17 · −10.5% · days 11–12', 'This one: $3,446.98 · +33.6% · days 51–52']",True,
+replay_0414,page example chart (what happened),deepest dip (min daily low)/ 2D bar low agree,2309.17,2309.17,True,
+replay_0414,page picker live,BTC-2D-2026-09-21,"BTC 2D
+Day 52
+best +0.8% · worst −16.1%","BTC 2D
+Day 52
+best +0.8% · worst −16.1%",True,
+replay_0414,page picker forming,ETH-1D-2026-11-13,"ETH 1D
+65%
+rose 10% in 60 days · n 17 · not top grade · confirms 13 Nov 2026","ETH 1D
+65%
+rose 10% in 60 days · n 17 · not top grade · confirms 13 Nov 2026",True,
+replay_0414,page picker forming,ETH-2D-2026-11-16,"ETH 2D
+67%
+rose 10% in 60 days · n 27 · not top grade · confirms 16 Nov 2026","ETH 2D
+67%
+rose 10% in 60 days · n 27 · not top grade · confirms 16 Nov 2026",True,
+replay_0414,page picker forming,BTC-1D-2026-11-13,"BTC 1D
+84%
+rose 10% in 60 days · n 37 · not top grade · confirms 13 Nov 2026","BTC 1D
+84%
+rose 10% in 60 days · n 37 · not top grade · confirms 13 Nov 2026",True,
+replay_0414,page picker forming,BTC-2D-2026-11-16,"BTC 2D
+67%
+rose 10% in 60 days · n 15 · not top grade · confirms 16 Nov 2026","BTC 2D
+67%
+rose 10% in 60 days · n 15 · not top grade · confirms 16 Nov 2026",True,
+replay_0414,page picker,forming order by rose 10% (desc),"['BTC-1D-2026-11-13', 'ETH-2D-2026-11-16', 'BTC-2D-2026-11-16', 'ETH-1D-2026-11-13']","['BTC-1D-2026-11-13', 'ETH-2D-2026-11-16', 'BTC-2D-2026-11-16', 'ETH-1D-2026-11-13']",True,
+replay_0414,page previous signals,BTC-2D-2026-09-21,"BTC 2D
+Day 52 of 60 · best +0.8% · worst −16.1%
+Edge lost","BTC 2D
+Day 52 of 60 · best +0.8% · worst −16.1%
+Edge lost",True,
+replay_0414,page previous signals,BTC-2D-2026-09-21 group,lost,lost,True,
+replay_0414,page previous signals (closed),ETH 1D 2025-12-04,"ETH 1D
+4 Dec 2025 · best +11.0% · worst −31.2%
+Rose 10%","ETH 1D
+4 Dec 2025 · best +11.0% · worst −31.2%
+Rose 10%",True,
+replay_0414,page previous signals (closed),BTC 1D 2025-12-04,"BTC 1D
+4 Dec 2025 · best +6.4% · worst −19.1%
+Missed","BTC 1D
+4 Dec 2025 · best +6.4% · worst −19.1%
+Missed",True,
+replay_0414,page previous signals (closed),ETH 3D 2025-10-06,"ETH 3D
+6 Oct 2025 · best +1.6% · worst −44.1%
+Missed","ETH 3D
+6 Oct 2025 · best +1.6% · worst −44.1%
+Missed",True,
+replay_0414,page previous signals (closed),ETH 2D 2025-08-24,"ETH 2D
+24 Aug 2025 · best +0.4% · worst −26.6%
+Missed","ETH 2D
+24 Aug 2025 · best +0.4% · worst −26.6%
+Missed",True,
+replay_0414,page previous signals (closed),ETH 3D 2025-08-10,"ETH 3D
+10 Aug 2025 · best +16.6% · worst −10.0%
+Rose 10%","ETH 3D
+10 Aug 2025 · best +16.6% · worst −10.0%
+Rose 10%",True,
+replay_0414,page past signals (all),count,137 signals · 20 missed +10%,137 signals · 20 missed +10%,True,
+replay_0414,page past signals (all),rows,137,137,True,
+replay_0414,page past signals (all),row 4 Dec 2025 ETH 1D,"['4 Dec 2025', 'ETH 1D', '$3,134.13', 'Yes', 'No', '+11.0%', '−31.2%', '−25.2%', '6']","['4 Dec 2025', 'ETH 1D', '$3,134.13', 'Yes', 'No', '+11.0%', '−31.2%', '−25.2%', '6']",True,
+replay_0414,page past signals (all),row 4 Dec 2025 BTC 1D,"['4 Dec 2025', 'BTC 1D', '$92,093.54', 'No', 'No', '+6.4%', '−19.1%', '−14.6%', '41']","['4 Dec 2025', 'BTC 1D', '$92,093.54', 'No', 'No', '+6.4%', '−19.1%', '−14.6%', '41']",True,
+replay_0414,page past signals (all),row 6 Oct 2025 ETH 3D,"['6 Oct 2025', 'ETH 3D', '$4,686.32', 'No', 'No', '+1.6%', '−44.1%', '−35.5%', '1']","['6 Oct 2025', 'ETH 3D', '$4,686.32', 'No', 'No', '+1.6%', '−44.1%', '−35.5%', '1']",True,
+replay_0414,page past signals (all),row 24 Aug 2025 ETH 2D,"['24 Aug 2025', 'ETH 2D', '$4,779.87', 'No', 'No', '+0.4%', '−26.6%', '−19.3%', '1']","['24 Aug 2025', 'ETH 2D', '$4,779.87', 'No', 'No', '+0.4%', '−26.6%', '−19.3%', '1']",True,
+replay_0414,page past signals (all),row 10 Aug 2025 ETH 3D,"['10 Aug 2025', 'ETH 3D', '$4,251.91', 'Yes', 'No', '+16.6%', '−10.0%', '+2.8%', '14']","['10 Aug 2025', 'ETH 3D', '$4,251.91', 'Yes', 'No', '+16.6%', '−10.0%', '+2.8%', '14']",True,
+replay_0414,page past signals (all),row 10 Jul 2025 BTC 1D,"['10 Jul 2025', 'BTC 1D', '$116,031.30', 'No', 'No', '+7.3%', '−7.6%', '−3.4%', '35']","['10 Jul 2025', 'BTC 1D', '$116,031.30', 'No', 'No', '+7.3%', '−7.6%', '−3.4%', '35']",True,
+replay_0414,page past signals (all),row 9 Jul 2025 ETH 5D,"['9 Jul 2025', 'ETH 5D', '$2,769.83', 'Yes', 'Yes', '+78.9%', '−0.5%', '+55.4%', '46']","['9 Jul 2025', 'ETH 5D', '$2,769.83', 'Yes', 'Yes', '+78.9%', '−0.5%', '+55.4%', '46']",True,
+replay_0414,page past signals (all),row 7 Jul 2025 ETH 2D,"['7 Jul 2025', 'ETH 2D', '$2,542.38', 'Yes', 'Yes', '+94.9%', '−0.7%', '+69.4%', '48']","['7 Jul 2025', 'ETH 2D', '$2,542.38', 'Yes', 'Yes', '+94.9%', '−0.7%', '+69.4%', '48']",True,
+replay_0414,page past signals (all),row 4 Jul 2025 ETH 1D,"['4 Jul 2025', 'ETH 1D', '$2,508.80', 'Yes', 'Yes', '+97.5%', '−0.8%', '+72.5%', '51']","['4 Jul 2025', 'ETH 1D', '$2,508.80', 'Yes', 'Yes', '+97.5%', '−0.8%', '+72.5%', '51']",True,
+replay_0414,page past signals (all),row 10 May 2025 ETH 1D,"['10 May 2025', 'ETH 1D', '$2,583.80', 'Yes', 'No', '+11.5%', '−18.2%', '+7.2%', '32']","['10 May 2025', 'ETH 1D', '$2,583.80', 'Yes', 'No', '+11.5%', '−18.2%', '+7.2%', '32']",True,
+replay_0414,page past signals (all),row 30 Apr 2025 ETH 3D,"['30 Apr 2025', 'ETH 3D', '$1,793.79', 'Yes', 'Yes', '+60.6%', '−2.4%', '+39.4%', '42']","['30 Apr 2025', 'ETH 3D', '$1,793.79', 'Yes', 'Yes', '+60.6%', '−2.4%', '+39.4%', '42']",True,
+replay_0414,page past signals (all),row 24 Apr 2025 ETH 1D,"['24 Apr 2025', 'ETH 1D', '$1,770.41', 'Yes', 'Yes', '+62.7%', '−2.1%', '+36.3%', '48']","['24 Apr 2025', 'ETH 1D', '$1,770.41', 'Yes', 'Yes', '+62.7%', '−2.1%', '+36.3%', '48']",True,
+replay_0414,page past signals (all),row 19 Apr 2025 ETH 1D,"['19 Apr 2025', 'ETH 1D', '$1,612.87', 'Yes', 'Yes', '+78.6%', '−4.6%', '+56.6%', '53']","['19 Apr 2025', 'ETH 1D', '$1,612.87', 'Yes', 'Yes', '+78.6%', '−4.6%', '+56.6%', '53']",True,
+replay_0414,page past signals (all),row 14 Apr 2025 BTC 2D,"['14 Apr 2025', 'BTC 2D', '$84,590.36', 'Yes', 'Yes', '+32.4%', '−1.8%', '+25.5%', '38']","['14 Apr 2025', 'BTC 2D', '$84,590.36', 'Yes', 'Yes', '+32.4%', '−1.8%', '+25.5%', '38']",True,
+replay_0414,page past signals (all),row 20 Jan 2025 ETH 2D,"['20 Jan 2025', 'ETH 2D', '$3,280.40', 'No', 'No', '+4.8%', '−46.5%', '−40.1%', '11']","['20 Jan 2025', 'ETH 2D', '$3,280.40', 'No', 'No', '+4.8%', '−46.5%', '−40.1%', '11']",True,
+replay_0414,page past signals (all),row 6 Dec 2024 ETH 1D,"['6 Dec 2024', 'ETH 1D', '$4,004.83', 'No', 'No', '+2.6%', '−46.3%', '−31.8%', '10']","['6 Dec 2024', 'ETH 1D', '$4,004.83', 'No', 'No', '+2.6%', '−46.3%', '−31.8%', '10']",True,
+replay_0414,page past signals (all),row 29 Nov 2024 ETH 1D,"['29 Nov 2024', 'ETH 1D', '$3,593.67', 'Yes', 'No', '+14.3%', '−18.9%', '−14.4%', '17']","['29 Nov 2024', 'ETH 1D', '$3,593.67', 'Yes', 'No', '+14.3%', '−18.9%', '−14.4%', '17']",True,
+replay_0414,page past signals (all),row 28 Nov 2024 ETH 3D,"['28 Nov 2024', 'ETH 3D', '$3,579.11', 'Yes', 'No', '+14.8%', '−18.6%', '−11.1%', '18']","['28 Nov 2024', 'ETH 3D', '$3,579.11', 'Yes', 'No', '+14.8%', '−18.6%', '−11.1%', '18']",True,
+replay_0414,page past signals (all),row 23 Nov 2024 ETH 1D,"['23 Nov 2024', 'ETH 1D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']","['23 Nov 2024', 'ETH 1D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']",True,
+replay_0414,page past signals (all),row 23 Nov 2024 ETH 2D,"['23 Nov 2024', 'ETH 2D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']","['23 Nov 2024', 'ETH 2D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']",True,
+replay_0414,page past signals (all),row 20 Nov 2024 ETH 5D,"['20 Nov 2024', 'ETH 5D', '$3,072.24', 'Yes', 'Yes', '+33.7%', '−5.2%', '+4.5%', '26']","['20 Nov 2024', 'ETH 5D', '$3,072.24', 'Yes', 'Yes', '+33.7%', '−5.2%', '+4.5%', '26']",True,
+replay_0414,page past signals (all),row 13 Nov 2024 ETH 3D,"['13 Nov 2024', 'ETH 3D', '$3,191.45', 'Yes', 'Yes', '+28.8%', '−5.6%', '+2.3%', '33']","['13 Nov 2024', 'ETH 3D', '$3,191.45', 'Yes', 'Yes', '+28.8%', '−5.6%', '+2.3%', '33']",True,
+replay_0414,page past signals (all),row 11 Nov 2024 ETH 2D,"['11 Nov 2024', 'ETH 2D', '$3,375.78', 'Yes', 'Yes', '+21.7%', '−10.7%', '−3.2%', '35']","['11 Nov 2024', 'ETH 2D', '$3,375.78', 'Yes', 'Yes', '+21.7%', '−10.7%', '−3.2%', '35']",True,
+replay_0414,page past signals (all),row 9 Nov 2024 BTC 2D,"['9 Nov 2024', 'BTC 2D', '$76,716.06', 'Yes', 'Yes', '+41.3%', '−0.2%', '+23.9%', '38']","['9 Nov 2024', 'BTC 2D', '$76,716.06', 'Yes', 'Yes', '+41.3%', '−0.2%', '+23.9%', '38']",True,
+replay_0414,page past signals (all),row 7 Nov 2024 ETH 1D,"['7 Nov 2024', 'ETH 1D', '$2,897.65', 'Yes', 'Yes', '+41.8%', '−0.3%', '+27.3%', '39']","['7 Nov 2024', 'ETH 1D', '$2,897.65', 'Yes', 'Yes', '+41.8%', '−0.3%', '+27.3%', '39']",True,
+replay_0414,page past signals (all),row 7 Nov 2024 BTC 1D,"['7 Nov 2024', 'BTC 1D', '$75,920.00', 'Yes', 'Yes', '+42.8%', '−0.4%', '+34.7%', '40']","['7 Nov 2024', 'BTC 1D', '$75,920.00', 'Yes', 'Yes', '+42.8%', '−0.4%', '+34.7%', '40']",True,
+replay_0414,page past signals (all),row 1 Nov 2024 ETH 2D,"['1 Nov 2024', 'ETH 2D', '$2,510.27', 'Yes', 'Yes', '+63.7%', '−6.2%', '+32.7%', '45']","['1 Nov 2024', 'ETH 2D', '$2,510.27', 'Yes', 'Yes', '+63.7%', '−6.2%', '+32.7%', '45']",True,
+replay_0414,page past signals (all),row 20 Oct 2024 ETH 1D,"['20 Oct 2024', 'ETH 1D', '$2,746.22', 'Yes', 'Yes', '+49.6%', '−14.2%', '+24.3%', '57']","['20 Oct 2024', 'ETH 1D', '$2,746.22', 'Yes', 'Yes', '+49.6%', '−14.2%', '+24.3%', '57']",True,
+replay_0414,page past signals (all),row 16 Oct 2024 ETH 2D,"['16 Oct 2024', 'ETH 2D', '$2,610.54', 'Yes', 'Yes', '+56.9%', '−9.8%', '+51.6%', '51']","['16 Oct 2024', 'ETH 2D', '$2,610.54', 'Yes', 'Yes', '+56.9%', '−9.8%', '+51.6%', '51']",True,
+replay_0414,page past signals (all),row 16 Oct 2024 BTC 2D,"['16 Oct 2024', 'BTC 2D', '$67,608.44', 'Yes', 'Yes', '+55.5%', '−3.6%', '+54.5%', '60']","['16 Oct 2024', 'BTC 2D', '$67,608.44', 'Yes', 'Yes', '+55.5%', '−3.6%', '+54.5%', '60']",True,
+replay_0414,page past signals (all),row 12 Oct 2024 ETH 1D,"['12 Oct 2024', 'ETH 1D', '$2,475.79', 'Yes', 'Yes', '+65.4%', '−4.9%', '+54.9%', '55']","['12 Oct 2024', 'ETH 1D', '$2,475.79', 'Yes', 'Yes', '+65.4%', '−4.9%', '+54.9%', '55']",True,
+replay_0414,page past signals (all),row 28 Sept 2024 ETH 1D,"['28 Sept 2024', 'ETH 1D', '$2,675.79', 'Yes', 'Yes', '+37.8%', '−13.7%', '+36.7%', '60']","['28 Sept 2024', 'ETH 1D', '$2,675.79', 'Yes', 'Yes', '+37.8%', '−13.7%', '+36.7%', '60']",True,
+replay_0414,page past signals (all),row 22 Sept 2024 ETH 2D,"['22 Sept 2024', 'ETH 2D', '$2,580.92', 'Yes', 'Yes', '+33.6%', '−10.5%', '+30.2%', '51']","['22 Sept 2024', 'ETH 2D', '$2,580.92', 'Yes', 'Yes', '+33.6%', '−10.5%', '+30.2%', '51']",True,
+replay_0414,page past signals (all),row 19 Sept 2024 ETH 1D,"['19 Sept 2024', 'ETH 1D', '$2,465.84', 'Yes', 'Yes', '+39.8%', '−6.4%', '+30.1%', '54']","['19 Sept 2024', 'ETH 1D', '$2,465.84', 'Yes', 'Yes', '+39.8%', '−6.4%', '+30.1%', '54']",True,
+replay_0414,page past signals (all),row 19 Sept 2024 BTC 1D,"['19 Sept 2024', 'BTC 1D', '$62,960.14', 'Yes', 'Yes', '+48.5%', '−6.5%', '+43.8%', '55']","['19 Sept 2024', 'BTC 1D', '$62,960.14', 'Yes', 'Yes', '+48.5%', '−6.5%', '+43.8%', '55']",True,
+replay_0414,page past signals (all),row 23 Aug 2024 ETH 1D,"['23 Aug 2024', 'ETH 1D', '$2,764.73', 'No', 'No', '+2.0%', '−22.2%', '−5.2%', '1']","['23 Aug 2024', 'ETH 1D', '$2,764.73', 'No', 'No', '+2.0%', '−22.2%', '−5.2%', '1']",True,
+replay_0414,page past signals (all),row 21 Jul 2024 BTC 1D,"['21 Jul 2024', 'BTC 1D', '$68,181.28', 'No', 'No', '+2.7%', '−28.1%', '−7.7%', '8']","['21 Jul 2024', 'BTC 1D', '$68,181.28', 'No', 'No', '+2.7%', '−28.1%', '−7.7%', '8']",True,
+replay_0414,page past signals (all),row 29 May 2024 ETH 5D,"['29 May 2024', 'ETH 5D', '$3,762.11', 'No', 'No', '+3.4%', '−25.3%', '−13.1%', '7']","['29 May 2024', 'ETH 5D', '$3,762.11', 'No', 'No', '+3.4%', '−25.3%', '−13.1%', '7']",True,
+replay_0414,page past signals (all),row 27 May 2024 ETH 1D,"['27 May 2024', 'ETH 1D', '$3,890.72', 'No', 'No', '+0.9%', '−27.8%', '−15.8%', '1']","['27 May 2024', 'ETH 1D', '$3,890.72', 'No', 'No', '+0.9%', '−27.8%', '−15.8%', '1']",True,
+replay_0414,page past signals (all),row 23 May 2024 ETH 3D,"['23 May 2024', 'ETH 3D', '$3,780.83', 'No', 'No', '+5.1%', '−25.7%', '−9.0%', '4']","['23 May 2024', 'ETH 3D', '$3,780.83', 'No', 'No', '+5.1%', '−25.7%', '−9.0%', '4']",True,
+replay_0414,page past signals (all),row 17 May 2024 ETH 1D,"['17 May 2024', 'ETH 1D', '$3,093.39', 'Yes', 'Yes', '+28.5%', '−9.2%', '+11.4%', '10']","['17 May 2024', 'ETH 1D', '$3,093.39', 'Yes', 'Yes', '+28.5%', '−9.2%', '+11.4%', '10']",True,
+replay_0414,page past signals (all),row 29 Apr 2024 ETH 1D,"['29 Apr 2024', 'ETH 1D', '$3,215.53', 'Yes', 'Yes', '+23.6%', '−12.5%', '+4.9%', '28']","['29 Apr 2024', 'ETH 1D', '$3,215.53', 'Yes', 'Yes', '+23.6%', '−12.5%', '+4.9%', '28']",True,
+replay_0414,page past signals (all),row 8 Mar 2024 ETH 1D,"['8 Mar 2024', 'ETH 1D', '$3,892.60', 'No', 'No', '+5.2%', '−27.7%', '−22.8%', '4']","['8 Mar 2024', 'ETH 1D', '$3,892.60', 'No', 'No', '+5.2%', '−27.7%', '−22.8%', '4']",True,
+replay_0414,page past signals (all),row 3 Mar 2024 ETH 3D,"['3 Mar 2024', 'ETH 3D', '$3,489.53', 'Yes', 'No', '+17.3%', '−19.4%', '−14.4%', '9']","['3 Mar 2024', 'ETH 3D', '$3,489.53', 'Yes', 'No', '+17.3%', '−19.4%', '−14.4%', '9']",True,
+replay_0414,page past signals (all),row 26 Feb 2024 ETH 1D,"['26 Feb 2024', 'ETH 1D', '$3,178.34', 'Yes', 'Yes', '+28.8%', '−10.3%', '−1.5%', '15']","['26 Feb 2024', 'ETH 1D', '$3,178.34', 'Yes', 'Yes', '+28.8%', '−10.3%', '−1.5%', '15']",True,
+replay_0414,page past signals (all),row 20 Feb 2024 ETH 1D,"['20 Feb 2024', 'ETH 1D', '$3,015.56', 'Yes', 'Yes', '+35.8%', '−5.5%', '+4.7%', '21']","['20 Feb 2024', 'ETH 1D', '$3,015.56', 'Yes', 'Yes', '+35.8%', '−5.5%', '+4.7%', '21']",True,
+replay_0414,page past signals (all),row 7 Feb 2024 ETH 1D,"['7 Feb 2024', 'ETH 1D', '$2,424.55', 'Yes', 'Yes', '+68.9%', '−0.6%', '+42.4%', '34']","['7 Feb 2024', 'ETH 1D', '$2,424.55', 'Yes', 'Yes', '+68.9%', '−0.6%', '+42.4%', '34']",True,
+replay_0414,page past signals (all),row 7 Feb 2024 BTC 1D,"['7 Feb 2024', 'BTC 1D', '$44,343.61', 'Yes', 'Yes', '+66.5%', '0.0%', '+56.4%', '36']","['7 Feb 2024', 'BTC 1D', '$44,343.61', 'Yes', 'Yes', '+66.5%', '0.0%', '+56.4%', '36']",True,
+replay_0414,page past signals (all),row 10 Jan 2024 ETH 1D,"['10 Jan 2024', 'ETH 1D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']","['10 Jan 2024', 'ETH 1D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']",True,
+replay_0414,page past signals (all),row 10 Jan 2024 ETH 5D,"['10 Jan 2024', 'ETH 5D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']","['10 Jan 2024', 'ETH 5D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']",True,
+replay_0414,page past signals (all),row 9 Dec 2023 ETH 1D,"['9 Dec 2023', 'ETH 1D', '$2,341.28', 'Yes', 'No', '+16.1%', '−10.3%', '+3.6%', '34']","['9 Dec 2023', 'ETH 1D', '$2,341.28', 'Yes', 'No', '+16.1%', '−10.3%', '+3.6%', '34']",True,
+replay_0414,page past signals (all),row 8 Dec 2023 ETH 3D,"['8 Dec 2023', 'ETH 3D', '$2,358.59', 'Yes', 'No', '+15.2%', '−11.0%', '+0.6%', '35']","['8 Dec 2023', 'ETH 3D', '$2,358.59', 'Yes', 'No', '+15.2%', '−11.0%', '+0.6%', '35']",True,
+replay_0414,page past signals (all),row 6 Dec 2023 ETH 5D,"['6 Dec 2023', 'ETH 5D', '$2,232.80', 'Yes', 'Yes', '+21.7%', '−5.9%', '+2.5%', '37']","['6 Dec 2023', 'ETH 5D', '$2,232.80', 'Yes', 'Yes', '+21.7%', '−5.9%', '+2.5%', '37']",True,
+replay_0414,page past signals (all),row 4 Dec 2023 ETH 2D,"['4 Dec 2023', 'ETH 2D', '$2,243.29', 'Yes', 'Yes', '+21.2%', '−6.4%', '+2.9%', '39']","['4 Dec 2023', 'ETH 2D', '$2,243.29', 'Yes', 'Yes', '+21.2%', '−6.4%', '+2.9%', '39']",True,
+replay_0414,page past signals (all),row 2 Dec 2023 ETH 1D,"['2 Dec 2023', 'ETH 1D', '$2,165.76', 'Yes', 'Yes', '+25.5%', '−3.0%', '+5.3%', '41']","['2 Dec 2023', 'ETH 1D', '$2,165.76', 'Yes', 'Yes', '+25.5%', '−3.0%', '+5.3%', '41']",True,
+replay_0414,page past signals (all),row 26 Nov 2023 ETH 3D,"['26 Nov 2023', 'ETH 3D', '$2,063.09', 'Yes', 'Yes', '+31.7%', '−3.8%', '+7.5%', '47']","['26 Nov 2023', 'ETH 3D', '$2,063.09', 'Yes', 'Yes', '+31.7%', '−3.8%', '+7.5%', '47']",True,
+replay_0414,page past signals (all),row 5 Nov 2023 ETH 1D,"['5 Nov 2023', 'ETH 1D', '$1,893.16', 'Yes', 'Yes', '+29.3%', '−2.2%', '+19.9%', '53']","['5 Nov 2023', 'ETH 1D', '$1,893.16', 'Yes', 'Yes', '+29.3%', '−2.2%', '+19.9%', '53']",True,
+replay_0414,page past signals (all),row 31 Oct 2023 ETH 1D,"['31 Oct 2023', 'ETH 1D', '$1,815.14', 'Yes', 'Yes', '+34.9%', '−2.1%', '+26.2%', '58']","['31 Oct 2023', 'ETH 1D', '$1,815.14', 'Yes', 'Yes', '+34.9%', '−2.1%', '+26.2%', '58']",True,
+replay_0414,page past signals (all),row 27 Oct 2023 ETH 5D,"['27 Oct 2023', 'ETH 5D', '$1,779.81', 'Yes', 'Yes', '+35.0%', '−0.9%', '+25.3%', '43']","['27 Oct 2023', 'ETH 5D', '$1,779.81', 'Yes', 'Yes', '+35.0%', '−0.9%', '+25.3%', '43']",True,
+replay_0414,page past signals (all),row 21 Oct 2023 ETH 3D,"['21 Oct 2023', 'ETH 3D', '$1,629.38', 'Yes', 'Yes', '+47.5%', '−0.4%', '+35.1%', '49']","['21 Oct 2023', 'ETH 3D', '$1,629.38', 'Yes', 'Yes', '+47.5%', '−0.4%', '+35.1%', '49']",True,
+replay_0414,page past signals (all),row 8 Oct 2023 ETH 1D,"['8 Oct 2023', 'ETH 1D', '$1,633.78', 'Yes', 'Yes', '+45.9%', '−6.9%', '+44.2%', '60']","['8 Oct 2023', 'ETH 1D', '$1,633.78', 'Yes', 'Yes', '+45.9%', '−6.9%', '+44.2%', '60']",True,
+replay_0414,page past signals (all),row 3 Oct 2023 ETH 3D,"['3 Oct 2023', 'ETH 3D', '$1,656.91', 'Yes', 'Yes', '+32.2%', '−8.2%', '+30.7%', '60']","['3 Oct 2023', 'ETH 3D', '$1,656.91', 'Yes', 'Yes', '+32.2%', '−8.2%', '+30.7%', '60']",True,
+replay_0414,page past signals (all),row 1 Oct 2023 BTC 2D,"['1 Oct 2023', 'BTC 2D', '$27,995.46', 'Yes', 'Yes', '+37.5%', '−5.3%', '+34.8%', '59']","['1 Oct 2023', 'BTC 2D', '$27,995.46', 'Yes', 'Yes', '+37.5%', '−5.3%', '+34.8%', '59']",True,
+replay_0414,page past signals (all),row 29 Sept 2023 BTC 1D,"['29 Sept 2023', 'BTC 1D', '$26,907.00', 'Yes', 'Yes', '+42.9%', '−1.4%', '+40.6%', '56']","['29 Sept 2023', 'BTC 1D', '$26,907.00', 'Yes', 'Yes', '+42.9%', '−1.4%', '+40.6%', '56']",True,
+replay_0414,page past signals (all),row 17 Sept 2023 BTC 2D,"['17 Sept 2023', 'BTC 2D', '$26,530.95', 'Yes', 'Yes', '+43.2%', '−2.1%', '+36.3%', '53']","['17 Sept 2023', 'BTC 2D', '$26,530.95', 'Yes', 'Yes', '+43.2%', '−2.1%', '+36.3%', '53']",True,
+replay_0414,page past signals (all),row 5 Jul 2023 ETH 2D,"['5 Jul 2023', 'ETH 2D', '$1,910.14', 'No', 'No', '+6.2%', '−19.4%', '−14.4%', '9']","['5 Jul 2023', 'ETH 2D', '$1,910.14', 'No', 'No', '+6.2%', '−19.4%', '−14.4%', '9']",True,
+replay_0414,page past signals (all),row 1 Jul 2023 ETH 1D,"['1 Jul 2023', 'ETH 1D', '$1,924.14', 'No', 'No', '+5.5%', '−20.0%', '−11.4%', '13']","['1 Jul 2023', 'ETH 1D', '$1,924.14', 'No', 'No', '+5.5%', '−20.0%', '−11.4%', '13']",True,
+replay_0414,page past signals (all),row 21 Jun 2023 BTC 2D,"['21 Jun 2023', 'BTC 2D', '$29,995.08', 'No', 'No', '+6.2%', '−15.9%', '−12.7%', '22']","['21 Jun 2023', 'BTC 2D', '$29,995.08', 'No', 'No', '+6.2%', '−15.9%', '−12.7%', '22']",True,
+replay_0414,page past signals (all),row 9 Jun 2023 ETH 5D,"['9 Jun 2023', 'ETH 5D', '$1,840.46', 'Yes', 'No', '+10.3%', '−12.0%', '+0.8%', '35']","['9 Jun 2023', 'ETH 5D', '$1,840.46', 'Yes', 'No', '+10.3%', '−12.0%', '+0.8%', '35']",True,
+replay_0414,page past signals (all),row 4 Jun 2023 ETH 1D,"['4 Jun 2023', 'ETH 1D', '$1,890.23', 'No', 'No', '+7.4%', '−14.3%', '−3.0%', '40']","['4 Jun 2023', 'ETH 1D', '$1,890.23', 'No', 'No', '+7.4%', '−14.3%', '−3.0%', '40']",True,
+replay_0414,page past signals (all),row 30 May 2023 ETH 2D,"['30 May 2023', 'ETH 2D', '$1,901.11', 'No', 'No', '+6.7%', '−14.8%', '−1.1%', '45']","['30 May 2023', 'ETH 2D', '$1,901.11', 'No', 'No', '+6.7%', '−14.8%', '−1.1%', '45']",True,
+replay_0414,page past signals (all),row 30 Apr 2023 ETH 2D,"['30 Apr 2023', 'ETH 2D', '$1,870.76', 'No', 'No', '+8.0%', '−13.4%', '−1.0%', '6']","['30 Apr 2023', 'ETH 2D', '$1,870.76', 'No', 'No', '+8.0%', '−13.4%', '−1.0%', '6']",True,
+replay_0414,page past signals (all),row 5 Apr 2023 ETH 1D,"['5 Apr 2023', 'ETH 1D', '$1,908.90', 'Yes', 'No', '+12.3%', '−9.0%', '−1.0%', '11']","['5 Apr 2023', 'ETH 1D', '$1,908.90', 'Yes', 'No', '+12.3%', '−9.0%', '−1.0%', '11']",True,
+replay_0414,page past signals (all),row 28 Feb 2023 ETH 1D,"['28 Feb 2023', 'ETH 1D', '$1,605.40', 'Yes', 'Yes', '+33.5%', '−14.7%', '+18.9%', '47']","['28 Feb 2023', 'ETH 1D', '$1,605.40', 'Yes', 'Yes', '+33.5%', '−14.7%', '+18.9%', '47']",True,
+replay_0414,page past signals (all),row 20 Feb 2023 ETH 3D,"['20 Feb 2023', 'ETH 3D', '$1,703.63', 'Yes', 'Yes', '+25.8%', '−19.6%', '+8.5%', '55']","['20 Feb 2023', 'ETH 3D', '$1,703.63', 'Yes', 'Yes', '+25.8%', '−19.6%', '+8.5%', '55']",True,
+replay_0414,page past signals (all),row 8 Nov 2021 ETH 1D,"['8 Nov 2021', 'ETH 1D', '$4,811.90', 'No', 'No', '+1.2%', '−36.3%', '−33.5%', '2']","['8 Nov 2021', 'ETH 1D', '$4,811.90', 'No', 'No', '+1.2%', '−36.3%', '−33.5%', '2']",True,
+replay_0414,page past signals (all),row 8 Nov 2021 BTC 1D,"['8 Nov 2021', 'BTC 1D', '$67,554.84', 'No', 'No', '+2.1%', '−39.9%', '−38.5%', '2']","['8 Nov 2021', 'BTC 1D', '$67,554.84', 'No', 'No', '+2.1%', '−39.9%', '−38.5%', '2']",True,
+replay_0414,page past signals (all),row 21 Oct 2021 ETH 1D,"['21 Oct 2021', 'ETH 1D', '$4,053.90', 'Yes', 'Yes', '+20.1%', '−11.8%', '−2.7%', '20']","['21 Oct 2021', 'ETH 1D', '$4,053.90', 'Yes', 'Yes', '+20.1%', '−11.8%', '−2.7%', '20']",True,
+replay_0414,page past signals (all),row 15 Oct 2021 BTC 1D,"['15 Oct 2021', 'BTC 1D', '$61,695.39', 'Yes', 'No', '+11.8%', '−31.4%', '−21.6%', '26']","['15 Oct 2021', 'BTC 1D', '$61,695.39', 'Yes', 'No', '+11.8%', '−31.4%', '−21.6%', '26']",True,
+replay_0414,page past signals (all),row 13 Oct 2021 ETH 1D,"['13 Oct 2021', 'ETH 1D', '$3,608.21', 'Yes', 'Yes', '+34.9%', '−0.9%', '+14.5%', '28']","['13 Oct 2021', 'ETH 1D', '$3,608.21', 'Yes', 'Yes', '+34.9%', '−0.9%', '+14.5%', '28']",True,
+replay_0414,page past signals (all),row 5 Oct 2021 ETH 2D,"['5 Oct 2021', 'ETH 2D', '$3,515.30', 'Yes', 'Yes', '+38.5%', '−4.9%', '+17.3%', '36']","['5 Oct 2021', 'ETH 2D', '$3,515.30', 'Yes', 'Yes', '+38.5%', '−4.9%', '+17.3%', '36']",True,
+replay_0414,page past signals (all),row 5 Oct 2021 BTC 2D,"['5 Oct 2021', 'BTC 2D', '$51,493.99', 'Yes', 'Yes', '+34.0%', '−17.8%', '−4.4%', '36']","['5 Oct 2021', 'BTC 2D', '$51,493.99', 'Yes', 'Yes', '+34.0%', '−17.8%', '−4.4%', '36']",True,
+replay_0414,page past signals (all),row 1 Oct 2021 ETH 1D,"['1 Oct 2021', 'ETH 1D', '$3,311.16', 'Yes', 'Yes', '+47.0%', '−1.6%', '+40.0%', '40']","['1 Oct 2021', 'ETH 1D', '$3,311.16', 'Yes', 'Yes', '+47.0%', '−1.6%', '+40.0%', '40']",True,
+replay_0414,page past signals (all),row 1 Oct 2021 BTC 1D,"['1 Oct 2021', 'BTC 1D', '$48,165.76', 'Yes', 'Yes', '+43.3%', '−2.6%', '+18.3%', '40']","['1 Oct 2021', 'BTC 1D', '$48,165.76', 'Yes', 'Yes', '+43.3%', '−2.6%', '+18.3%', '40']",True,
+replay_0414,page past signals (all),row 10 May 2021 ETH 5D,"['10 May 2021', 'ETH 5D', '$3,949.45', 'Yes', 'No', '+11.0%', '−57.0%', '−45.6%', '2']","['10 May 2021', 'ETH 5D', '$3,949.45', 'Yes', 'No', '+11.0%', '−57.0%', '−45.6%', '2']",True,
+replay_0414,page past signals (all),row 7 May 2021 ETH 1D,"['7 May 2021', 'ETH 1D', '$3,484.70', 'Yes', 'Yes', '+25.8%', '−51.2%', '−33.4%', '5']","['7 May 2021', 'ETH 1D', '$3,484.70', 'Yes', 'Yes', '+25.8%', '−51.2%', '−33.4%', '5']",True,
+replay_0414,page past signals (all),row 14 Apr 2021 ETH 2D,"['14 Apr 2021', 'ETH 2D', '$2,432.54', 'Yes', 'Yes', '+80.2%', '−29.0%', '+3.2%', '28']","['14 Apr 2021', 'ETH 2D', '$2,432.54', 'Yes', 'Yes', '+80.2%', '−29.0%', '+3.2%', '28']",True,
+replay_0414,page past signals (all),row 10 Apr 2021 ETH 1D,"['10 Apr 2021', 'ETH 1D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']","['10 Apr 2021', 'ETH 1D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']",True,
+replay_0414,page past signals (all),row 10 Apr 2021 ETH 5D,"['10 Apr 2021', 'ETH 5D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']","['10 Apr 2021', 'ETH 5D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']",True,
+replay_0414,page past signals (all),row 6 Apr 2021 ETH 1D,"['6 Apr 2021', 'ETH 1D', '$2,113.00', 'Yes', 'Yes', '+107.5%', '−18.2%', '+24.5%', '36']","['6 Apr 2021', 'ETH 1D', '$2,113.00', 'Yes', 'Yes', '+107.5%', '−18.2%', '+24.5%', '36']",True,
+replay_0414,page past signals (all),row 3 Apr 2021 ETH 3D,"['3 Apr 2021', 'ETH 3D', '$2,009.25', 'Yes', 'Yes', '+118.2%', '−14.0%', '+34.7%', '39']","['3 Apr 2021', 'ETH 3D', '$2,009.25', 'Yes', 'Yes', '+118.2%', '−14.0%', '+34.7%', '39']",True,
+replay_0414,page past signals (all),row 10 Feb 2021 ETH 1D,"['10 Feb 2021', 'ETH 1D', '$1,742.93', 'Yes', 'Yes', '+25.9%', '−25.8%', '+23.4%', '59']","['10 Feb 2021', 'ETH 1D', '$1,742.93', 'Yes', 'Yes', '+25.9%', '−25.8%', '+23.4%', '59']",True,
+replay_0414,page past signals (all),row 9 Feb 2021 ETH 5D,"['9 Feb 2021', 'ETH 5D', '$1,772.16', 'Yes', 'Yes', '+23.9%', '−27.1%', '+20.4%', '60']","['9 Feb 2021', 'ETH 5D', '$1,772.16', 'Yes', 'Yes', '+23.9%', '−27.1%', '+20.4%', '60']",True,
+replay_0414,page past signals (all),row 5 Feb 2021 ETH 3D,"['5 Feb 2021', 'ETH 3D', '$1,721.06', 'Yes', 'Yes', '+25.0%', '−24.9%', '+22.8%', '60']","['5 Feb 2021', 'ETH 3D', '$1,721.06', 'Yes', 'Yes', '+25.0%', '−24.9%', '+22.8%', '60']",True,
+replay_0414,page past signals (all),row 3 Feb 2021 ETH 1D,"['3 Feb 2021', 'ETH 1D', '$1,668.72', 'Yes', 'Yes', '+28.5%', '−22.5%', '+24.4%', '58']","['3 Feb 2021', 'ETH 1D', '$1,668.72', 'Yes', 'Yes', '+28.5%', '−22.5%', '+24.4%', '58']",True,
+replay_0414,page past signals (all),row 3 Feb 2021 BTC 1D,"['3 Feb 2021', 'BTC 1D', '$37,678.37', 'Yes', 'Yes', '+64.0%', '−4.0%', '+54.5%', '38']","['3 Feb 2021', 'BTC 1D', '$37,678.37', 'Yes', 'Yes', '+64.0%', '−4.0%', '+54.5%', '38']",True,
+replay_0414,page past signals (all),row 7 Jan 2021 BTC 1D,"['7 Jan 2021', 'BTC 1D', '$39,505.56', 'Yes', 'Yes', '+47.7%', '−27.3%', '+32.7%', '45']","['7 Jan 2021', 'BTC 1D', '$39,505.56', 'Yes', 'Yes', '+47.7%', '−27.3%', '+32.7%', '45']",True,
+replay_0414,page past signals (all),row 4 Jan 2021 ETH 1D,"['4 Jan 2021', 'ETH 1D', '$1,042.38', 'Yes', 'Yes', '+95.8%', '−13.2%', '+46.7%', '47']","['4 Jan 2021', 'ETH 1D', '$1,042.38', 'Yes', 'Yes', '+95.8%', '−13.2%', '+46.7%', '47']",True,
+replay_0414,page past signals (all),row 3 Jan 2021 ETH 3D,"['3 Jan 2021', 'ETH 3D', '$980.44', 'Yes', 'Yes', '+108.2%', '−9.6%', '+57.0%', '48']","['3 Jan 2021', 'ETH 3D', '$980.44', 'Yes', 'Yes', '+108.2%', '−9.6%', '+57.0%', '48']",True,
+replay_0414,page past signals (all),row 29 Dec 2020 ETH 2D,"['29 Dec 2020', 'ETH 2D', '$731.76', 'Yes', 'Yes', '+179.0%', '−2.3%', '+99.6%', '53']","['29 Dec 2020', 'ETH 2D', '$731.76', 'Yes', 'Yes', '+179.0%', '−2.3%', '+99.6%', '53']",True,
+replay_0414,page past signals (all),row 26 Dec 2020 ETH 1D,"['26 Dec 2020', 'ETH 1D', '$636.52', 'Yes', 'Yes', '+220.7%', '−1.8%', '+155.3%', '56']","['26 Dec 2020', 'ETH 1D', '$636.52', 'Yes', 'Yes', '+220.7%', '−1.8%', '+155.3%', '56']",True,
+replay_0414,page past signals (all),row 26 Dec 2020 BTC 1D,"['26 Dec 2020', 'BTC 1D', '$26,475.35', 'Yes', 'Yes', '+120.5%', '−2.7%', '+87.9%', '57']","['26 Dec 2020', 'BTC 1D', '$26,475.35', 'Yes', 'Yes', '+120.5%', '−2.7%', '+87.9%', '57']",True,
+replay_0414,page past signals (all),row 25 Dec 2020 ETH 5D,"['25 Dec 2020', 'ETH 5D', '$626.75', 'Yes', 'Yes', '+225.7%', '−1.8%', '+151.7%', '57']","['25 Dec 2020', 'ETH 5D', '$626.75', 'Yes', 'Yes', '+225.7%', '−1.8%', '+151.7%', '57']",True,
+replay_0414,page past signals (all),row 19 Dec 2020 ETH 3D,"['19 Dec 2020', 'ETH 3D', '$658.96', 'Yes', 'Yes', '+185.0%', '−16.3%', '+181.0%', '56']","['19 Dec 2020', 'ETH 3D', '$658.96', 'Yes', 'Yes', '+185.0%', '−16.3%', '+181.0%', '56']",True,
+replay_0414,page past signals (all),row 17 Dec 2020 ETH 2D,"['17 Dec 2020', 'ETH 2D', '$643.37', 'Yes', 'Yes', '+191.9%', '−14.3%', '+176.6%', '58']","['17 Dec 2020', 'ETH 2D', '$643.37', 'Yes', 'Yes', '+191.9%', '−14.3%', '+176.6%', '58']",True,
+replay_0414,page past signals (all),row 17 Dec 2020 BTC 2D,"['17 Dec 2020', 'BTC 2D', '$22,826.48', 'Yes', 'Yes', '+117.7%', '−4.0%', '+110.0%', '59']","['17 Dec 2020', 'BTC 2D', '$22,826.48', 'Yes', 'Yes', '+117.7%', '−4.0%', '+110.0%', '59']",True,
+replay_0414,page past signals (all),row 21 Nov 2020 ETH 2D,"['21 Nov 2020', 'ETH 2D', '$553.07', 'Yes', 'Yes', '+160.4%', '−13.2%', '+149.0%', '59']","['21 Nov 2020', 'ETH 2D', '$553.07', 'Yes', 'Yes', '+160.4%', '−13.2%', '+149.0%', '59']",True,
+replay_0414,page past signals (all),row 21 Nov 2020 BTC 2D,"['21 Nov 2020', 'BTC 2D', '$18,721.21', 'Yes', 'Yes', '+124.3%', '−13.5%', '+89.6%', '48']","['21 Nov 2020', 'BTC 2D', '$18,721.21', 'Yes', 'Yes', '+124.3%', '−13.5%', '+89.6%', '48']",True,
+replay_0414,page past signals (all),row 5 Nov 2020 ETH 1D,"['5 Nov 2020', 'ETH 1D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']","['5 Nov 2020', 'ETH 1D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']",True,
+replay_0414,page past signals (all),row 5 Nov 2020 ETH 2D,"['5 Nov 2020', 'ETH 2D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']","['5 Nov 2020', 'ETH 2D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']",True,
+replay_0414,page past signals (all),row 5 Nov 2020 BTC 1D,"['5 Nov 2020', 'BTC 1D', '$15,608.21', 'Yes', 'Yes', '+123.0%', '−8.3%', '+105.1%', '59']","['5 Nov 2020', 'BTC 1D', '$15,608.21', 'Yes', 'Yes', '+123.0%', '−8.3%', '+105.1%', '59']",True,
+replay_0414,page past signals (all),row 23 Oct 2020 ETH 1D,"['23 Oct 2020', 'ETH 1D', '$409.52', 'Yes', 'Yes', '+65.3%', '−9.5%', '+55.5%', '55']","['23 Oct 2020', 'ETH 1D', '$409.52', 'Yes', 'Yes', '+65.3%', '−9.5%', '+55.5%', '55']",True,
+replay_0414,page past signals (all),row 22 Oct 2020 ETH 2D,"['22 Oct 2020', 'ETH 2D', '$414.70', 'Yes', 'Yes', '+63.3%', '−10.7%', '+46.6%', '56']","['22 Oct 2020', 'ETH 2D', '$414.70', 'Yes', 'Yes', '+63.3%', '−10.7%', '+46.6%', '56']",True,
+replay_0414,page past signals (all),row 22 Oct 2020 BTC 2D,"['22 Oct 2020', 'BTC 2D', '$12,987.02', 'Yes', 'Yes', '+87.1%', '−2.0%', '+75.0%', '59']","['22 Oct 2020', 'BTC 2D', '$12,987.02', 'Yes', 'Yes', '+87.1%', '−2.0%', '+75.0%', '59']",True,
+replay_0414,page past signals (all),row 21 Oct 2020 ETH 5D,"['21 Oct 2020', 'ETH 5D', '$391.53', 'Yes', 'Yes', '+72.9%', '−5.4%', '+63.1%', '57']","['21 Oct 2020', 'ETH 5D', '$391.53', 'Yes', 'Yes', '+72.9%', '−5.4%', '+63.1%', '57']",True,
+replay_0414,page past signals (all),row 19 Oct 2020 BTC 1D,"['19 Oct 2020', 'BTC 1D', '$11,760.45', 'Yes', 'Yes', '+102.2%', '−0.6%', '+96.7%', '59']","['19 Oct 2020', 'BTC 1D', '$11,760.45', 'Yes', 'Yes', '+102.2%', '−0.6%', '+96.7%', '59']",True,
+replay_0414,page past signals (all),row 12 Oct 2020 ETH 2D,"['12 Oct 2020', 'ETH 2D', '$386.74', 'Yes', 'Yes', '+64.6%', '−6.6%', '+40.7%', '50']","['12 Oct 2020', 'ETH 2D', '$386.74', 'Yes', 'Yes', '+64.6%', '−6.6%', '+40.7%', '50']",True,
+replay_0414,page past signals (all),row 9 Oct 2020 ETH 1D,"['9 Oct 2020', 'ETH 1D', '$365.36', 'Yes', 'Yes', '+74.2%', '−1.1%', '+51.8%', '53']","['9 Oct 2020', 'ETH 1D', '$365.36', 'Yes', 'Yes', '+74.2%', '−1.1%', '+51.8%', '53']",True,
+replay_0414,page past signals (all),row 31 Jul 2020 ETH 1D,"['31 Jul 2020', 'ETH 1D', '$346.86', 'Yes', 'Yes', '+41.0%', '−10.6%', '+3.8%', '32']","['31 Jul 2020', 'ETH 1D', '$346.86', 'Yes', 'Yes', '+41.0%', '−10.6%', '+3.8%', '32']",True,
+replay_0414,page past signals (all),row 25 Jul 2020 ETH 3D,"['25 Jul 2020', 'ETH 3D', '$305.66', 'Yes', 'Yes', '+60.0%', '−1.8%', '+4.9%', '38']","['25 Jul 2020', 'ETH 3D', '$305.66', 'Yes', 'Yes', '+60.0%', '−1.8%', '+4.9%', '38']",True,
+replay_0414,page past signals (all),row 22 Jul 2020 ETH 2D,"['22 Jul 2020', 'ETH 2D', '$264.28', 'Yes', 'Yes', '+85.0%', '−1.6%', '+40.3%', '41']","['22 Jul 2020', 'ETH 2D', '$264.28', 'Yes', 'Yes', '+85.0%', '−1.6%', '+40.3%', '41']",True,
+replay_0414,page past signals (all),row 6 Jul 2020 ETH 1D,"['6 Jul 2020', 'ETH 1D', '$241.65', 'Yes', 'Yes', '+102.3%', '−4.9%', '+61.0%', '57']","['6 Jul 2020', 'ETH 1D', '$241.65', 'Yes', 'Yes', '+102.3%', '−4.9%', '+61.0%', '57']",True,
+replay_0414,page past signals (all),row 8 Jun 2020 ETH 1D,"['8 Jun 2020', 'ETH 1D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']","['8 Jun 2020', 'ETH 1D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']",True,
+replay_0414,page past signals (all),row 8 Jun 2020 ETH 5D,"['8 Jun 2020', 'ETH 5D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']","['8 Jun 2020', 'ETH 5D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']",True,
+replay_0414,page past signals (all),row 4 Jun 2020 ETH 3D,"['4 Jun 2020', 'ETH 3D', '$243.18', 'Yes', 'Yes', '+70.7%', '−11.5%', '+58.8%', '59']","['4 Jun 2020', 'ETH 3D', '$243.18', 'Yes', 'Yes', '+70.7%', '−11.5%', '+58.8%', '59']",True,
+replay_0414,page past signals (all),row 27 May 2020 ETH 1D,"['27 May 2020', 'ETH 1D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']","['27 May 2020', 'ETH 1D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']",True,
+replay_0414,page past signals (all),row 27 May 2020 ETH 2D,"['27 May 2020', 'ETH 2D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']","['27 May 2020', 'ETH 2D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']",True,
+replay_0414,page past signals (all),row 9 May 2020 ETH 1D,"['9 May 2020', 'ETH 1D', '$210.00', 'Yes', 'Yes', '+20.8%', '−16.0%', '+17.7%', '24']","['9 May 2020', 'ETH 1D', '$210.00', 'Yes', 'Yes', '+20.8%', '−16.0%', '+17.7%', '24']",True,
+replay_0414,page past signals (all),row 18 Apr 2020 ETH 1D,"['18 Apr 2020', 'ETH 1D', '$187.88', 'Yes', 'Yes', '+35.0%', '−11.4%', '+24.4%', '45']","['18 Apr 2020', 'ETH 1D', '$187.88', 'Yes', 'Yes', '+35.0%', '−11.4%', '+24.4%', '45']",True,
+replay_0414,page past signals (all),row 25 Mar 2020 BTC 1D,"['25 Mar 2020', 'BTC 1D', '$6,690.96', 'Yes', 'Yes', '+50.6%', '−12.5%', '+30.3%', '43']","['25 Mar 2020', 'BTC 1D', '$6,690.96', 'Yes', 'Yes', '+50.6%', '−12.5%', '+30.3%', '43']",True,
+replay_0414,page past signals (all),row 9 Oct 2019 BTC 1D,"['9 Oct 2019', 'BTC 1D', '$8,590.00', 'Yes', 'Yes', '+22.7%', '−24.0%', '−12.5%', '17']","['9 Oct 2019', 'BTC 1D', '$8,590.00', 'Yes', 'Yes', '+22.7%', '−24.0%', '−12.5%', '17']",True,
+replay_0414,page past signals (all),row 21 Jun 2019 BTC 1D,"['21 Jun 2019', 'BTC 1D', '$10,236.20', 'Yes', 'Yes', '+35.5%', '−11.4%', '+5.2%', '5']","['21 Jun 2019', 'BTC 1D', '$10,236.20', 'Yes', 'Yes', '+35.5%', '−11.4%', '+5.2%', '5']",True,
+replay_0414,page past signals (all),row 9 May 2019 BTC 1D,"['9 May 2019', 'BTC 1D', '$6,153.09', 'Yes', 'Yes', '+125.4%', '−0.7%', '+99.8%', '48']","['9 May 2019', 'BTC 1D', '$6,153.09', 'Yes', 'Yes', '+125.4%', '−0.7%', '+99.8%', '48']",True,
+replay_0414,page past signals (all),row 20 Apr 2018 BTC 1D,"['20 Apr 2018', 'BTC 1D', '$8,866.27', 'Yes', 'No', '+12.2%', '−30.8%', '−24.0%', '15']","['20 Apr 2018', 'BTC 1D', '$8,866.27', 'Yes', 'No', '+12.2%', '−30.8%', '−24.0%', '15']",True,
+replay_0414,page past signals (all),row 8 Aug 2017 BTC 2D,"['8 Aug 2017', 'BTC 2D', '$3,422.43', 'Yes', 'Yes', '+45.5%', '−13.1%', '+29.3%', '25']","['8 Aug 2017', 'BTC 2D', '$3,422.43', 'Yes', 'Yes', '+45.5%', '−13.1%', '+29.3%', '25']",True,
+replay_0414,page past signals (all),row 1 Feb 2017 BTC 1D,"['1 Feb 2017', 'BTC 1D', '$992.75', 'Yes', 'Yes', '+37.0%', '−10.3%', '+12.2%', '37']","['1 Feb 2017', 'BTC 1D', '$992.75', 'Yes', 'Yes', '+37.0%', '−10.3%', '+12.2%', '37']",True,
+replay_0414,page past signals (all),row 26 Oct 2016 BTC 2D,"['26 Oct 2016', 'BTC 2D', '$674.00', 'Yes', 'Yes', '+36.3%', '−0.4%', '+33.0%', '58']","['26 Oct 2016', 'BTC 2D', '$674.00', 'Yes', 'Yes', '+36.3%', '−0.4%', '+33.0%', '58']",True,
+replay_0414,page past signals (all),sorted newest first,"['4 Dec 2025', '4 Dec 2025', '6 Oct 2025', '24 Aug 2025', '10 Aug 2025', '10 Jul 2025', '9 Jul 2025', '7 Jul 2025', '4 Jul 2025', '10 May 2025', '30 Apr 2025', '24 Apr 2025', '19 Apr 2025', '14 Apr 2025', '20 Jan 2025', '6 Dec 2024', '29 Nov 2024', '28 Nov 2024', '23 Nov 2024', '23 Nov 2024', '20 Nov 2024', '13 Nov 2024', '11 Nov 2024', '9 Nov 2024', '7 Nov 2024', '7 Nov 2024', '1 Nov 2024', '20 Oct 2024', '16 Oct 2024', '16 Oct 2024', '12 Oct 2024', '28 Sept 2024', '22 Sept 2024', '19 Sept 2024', '19 Sept 2024', '23 Aug 2024', '21 Jul 2024', '29 May 2024', '27 May 2024', '23 May 2024', '17 May 2024', '29 Apr 2024', '8 Mar 2024', '3 Mar 2024', '26 Feb 2024', '20 Feb 2024', '7 Feb 2024', '7 Feb 2024', '10 Jan 2024', '10 Jan 2024', '9 Dec 2023', '8 Dec 2023', '6 Dec 2023', '4 Dec 2023', '2 Dec 2023', '26 Nov 2023', '5 Nov 2023', '31 Oct 2023', '27 Oct 2023', '21 Oct 2023', '8 Oct 2023', '3 Oct 2023', '1 Oct 2023', '29 Sept 2023', '17 Sept 2023', '5 Jul 2023', '1 Jul 2023', '21 Jun 2023', '9 Jun 2023', '4 Jun 2023', '30 May 2023', '30 Apr 2023', '5 Apr 2023', '28 Feb 2023', '20 Feb 2023', '8 Nov 2021', '8 Nov 2021', '21 Oct 2021', '15 Oct 2021', '13 Oct 2021', '5 Oct 2021', '5 Oct 2021', '1 Oct 2021', '1 Oct 2021', '10 May 2021', '7 May 2021', '14 Apr 2021', '10 Apr 2021', '10 Apr 2021', '6 Apr 2021', '3 Apr 2021', '10 Feb 2021', '9 Feb 2021', '5 Feb 2021', '3 Feb 2021', '3 Feb 2021', '7 Jan 2021', '4 Jan 2021', '3 Jan 2021', '29 Dec 2020', '26 Dec 2020', '26 Dec 2020', '25 Dec 2020', '19 Dec 2020', '17 Dec 2020', '17 Dec 2020', '21 Nov 2020', '21 Nov 2020', '5 Nov 2020', '5 Nov 2020', '5 Nov 2020', '23 Oct 2020', '22 Oct 2020', '22 Oct 2020', '21 Oct 2020', '19 Oct 2020', '12 Oct 2020', '9 Oct 2020', '31 Jul 2020', '25 Jul 2020', '22 Jul 2020', '6 Jul 2020', '8 Jun 2020', '8 Jun 2020', '4 Jun 2020', '27 May 2020', '27 May 2020', '9 May 2020', '18 Apr 2020', '25 Mar 2020', '9 Oct 2019', '21 Jun 2019', '9 May 2019', '20 Apr 2018', '8 Aug 2017', '1 Feb 2017', '26 Oct 2016']","['4 Dec 2025', '4 Dec 2025', '6 Oct 2025', '24 Aug 2025', '10 Aug 2025', '10 Jul 2025', '9 Jul 2025', '7 Jul 2025', '4 Jul 2025', '10 May 2025', '30 Apr 2025', '24 Apr 2025', '19 Apr 2025', '14 Apr 2025', '20 Jan 2025', '6 Dec 2024', '29 Nov 2024', '28 Nov 2024', '23 Nov 2024', '23 Nov 2024', '20 Nov 2024', '13 Nov 2024', '11 Nov 2024', '9 Nov 2024', '7 Nov 2024', '7 Nov 2024', '1 Nov 2024', '20 Oct 2024', '16 Oct 2024', '16 Oct 2024', '12 Oct 2024', '28 Sept 2024', '22 Sept 2024', '19 Sept 2024', '19 Sept 2024', '23 Aug 2024', '21 Jul 2024', '29 May 2024', '27 May 2024', '23 May 2024', '17 May 2024', '29 Apr 2024', '8 Mar 2024', '3 Mar 2024', '26 Feb 2024', '20 Feb 2024', '7 Feb 2024', '7 Feb 2024', '10 Jan 2024', '10 Jan 2024', '9 Dec 2023', '8 Dec 2023', '6 Dec 2023', '4 Dec 2023', '2 Dec 2023', '26 Nov 2023', '5 Nov 2023', '31 Oct 2023', '27 Oct 2023', '21 Oct 2023', '8 Oct 2023', '3 Oct 2023', '1 Oct 2023', '29 Sept 2023', '17 Sept 2023', '5 Jul 2023', '1 Jul 2023', '21 Jun 2023', '9 Jun 2023', '4 Jun 2023', '30 May 2023', '30 Apr 2023', '5 Apr 2023', '28 Feb 2023', '20 Feb 2023', '8 Nov 2021', '8 Nov 2021', '21 Oct 2021', '15 Oct 2021', '13 Oct 2021', '5 Oct 2021', '5 Oct 2021', '1 Oct 2021', '1 Oct 2021', '10 May 2021', '7 May 2021', '14 Apr 2021', '10 Apr 2021', '10 Apr 2021', '6 Apr 2021', '3 Apr 2021', '10 Feb 2021', '9 Feb 2021', '5 Feb 2021', '3 Feb 2021', '3 Feb 2021', '7 Jan 2021', '4 Jan 2021', '3 Jan 2021', '29 Dec 2020', '26 Dec 2020', '26 Dec 2020', '25 Dec 2020', '19 Dec 2020', '17 Dec 2020', '17 Dec 2020', '21 Nov 2020', '21 Nov 2020', '5 Nov 2020', '5 Nov 2020', '5 Nov 2020', '23 Oct 2020', '22 Oct 2020', '22 Oct 2020', '21 Oct 2020', '19 Oct 2020', '12 Oct 2020', '9 Oct 2020', '31 Jul 2020', '25 Jul 2020', '22 Jul 2020', '6 Jul 2020', '8 Jun 2020', '8 Jun 2020', '4 Jun 2020', '27 May 2020', '27 May 2020', '9 May 2020', '18 Apr 2020', '25 Mar 2020', '9 Oct 2019', '21 Jun 2019', '9 May 2019', '20 Apr 2018', '8 Aug 2017', '1 Feb 2017', '26 Oct 2016']",True,
+replay_0414,page past signals (all),summary ETH,"ETH
+104 signals
+Rose 10% in 60 days
+86%
+Reached +20% in 60 days
+75%
+Rose 10%, never fell 25.3%
+80%
+Median deepest dip
+−10.9%
+Misses: median best price
++4.8%","ETH
+104 signals
+Rose 10% in 60 days
+86%
+Reached +20% in 60 days
+75%
+Rose 10%, never fell 25.3%
+80%
+Median deepest dip
+−10.9%
+Misses: median best price
++4.8%",True,
+replay_0414,page past signals (all),summary BTC,"BTC
+33 signals
+Rose 10% in 60 days
+85%
+Reached +20% in 60 days
+79%
+Rose 10%, never fell 25.3%
+76%
+Median deepest dip
+−6.5%
+Misses: median best price
++6.2%","BTC
+33 signals
+Rose 10% in 60 days
+85%
+Reached +20% in 60 days
+79%
+Rose 10%, never fell 25.3%
+76%
+Median deepest dip
+−6.5%
+Misses: median best price
++6.2%",True,
+replay_0414,page past signals (ETH),count,104 signals · 15 missed +10%,104 signals · 15 missed +10%,True,
+replay_0414,page past signals (ETH),rows,104,104,True,
+replay_0414,page past signals (ETH),row 4 Dec 2025 ETH 1D,"['4 Dec 2025', 'ETH 1D', '$3,134.13', 'Yes', 'No', '+11.0%', '−31.2%', '−25.2%', '6']","['4 Dec 2025', 'ETH 1D', '$3,134.13', 'Yes', 'No', '+11.0%', '−31.2%', '−25.2%', '6']",True,
+replay_0414,page past signals (ETH),row 6 Oct 2025 ETH 3D,"['6 Oct 2025', 'ETH 3D', '$4,686.32', 'No', 'No', '+1.6%', '−44.1%', '−35.5%', '1']","['6 Oct 2025', 'ETH 3D', '$4,686.32', 'No', 'No', '+1.6%', '−44.1%', '−35.5%', '1']",True,
+replay_0414,page past signals (ETH),row 24 Aug 2025 ETH 2D,"['24 Aug 2025', 'ETH 2D', '$4,779.87', 'No', 'No', '+0.4%', '−26.6%', '−19.3%', '1']","['24 Aug 2025', 'ETH 2D', '$4,779.87', 'No', 'No', '+0.4%', '−26.6%', '−19.3%', '1']",True,
+replay_0414,page past signals (ETH),row 10 Aug 2025 ETH 3D,"['10 Aug 2025', 'ETH 3D', '$4,251.91', 'Yes', 'No', '+16.6%', '−10.0%', '+2.8%', '14']","['10 Aug 2025', 'ETH 3D', '$4,251.91', 'Yes', 'No', '+16.6%', '−10.0%', '+2.8%', '14']",True,
+replay_0414,page past signals (ETH),row 9 Jul 2025 ETH 5D,"['9 Jul 2025', 'ETH 5D', '$2,769.83', 'Yes', 'Yes', '+78.9%', '−0.5%', '+55.4%', '46']","['9 Jul 2025', 'ETH 5D', '$2,769.83', 'Yes', 'Yes', '+78.9%', '−0.5%', '+55.4%', '46']",True,
+replay_0414,page past signals (ETH),row 7 Jul 2025 ETH 2D,"['7 Jul 2025', 'ETH 2D', '$2,542.38', 'Yes', 'Yes', '+94.9%', '−0.7%', '+69.4%', '48']","['7 Jul 2025', 'ETH 2D', '$2,542.38', 'Yes', 'Yes', '+94.9%', '−0.7%', '+69.4%', '48']",True,
+replay_0414,page past signals (ETH),row 4 Jul 2025 ETH 1D,"['4 Jul 2025', 'ETH 1D', '$2,508.80', 'Yes', 'Yes', '+97.5%', '−0.8%', '+72.5%', '51']","['4 Jul 2025', 'ETH 1D', '$2,508.80', 'Yes', 'Yes', '+97.5%', '−0.8%', '+72.5%', '51']",True,
+replay_0414,page past signals (ETH),row 10 May 2025 ETH 1D,"['10 May 2025', 'ETH 1D', '$2,583.80', 'Yes', 'No', '+11.5%', '−18.2%', '+7.2%', '32']","['10 May 2025', 'ETH 1D', '$2,583.80', 'Yes', 'No', '+11.5%', '−18.2%', '+7.2%', '32']",True,
+replay_0414,page past signals (ETH),row 30 Apr 2025 ETH 3D,"['30 Apr 2025', 'ETH 3D', '$1,793.79', 'Yes', 'Yes', '+60.6%', '−2.4%', '+39.4%', '42']","['30 Apr 2025', 'ETH 3D', '$1,793.79', 'Yes', 'Yes', '+60.6%', '−2.4%', '+39.4%', '42']",True,
+replay_0414,page past signals (ETH),row 24 Apr 2025 ETH 1D,"['24 Apr 2025', 'ETH 1D', '$1,770.41', 'Yes', 'Yes', '+62.7%', '−2.1%', '+36.3%', '48']","['24 Apr 2025', 'ETH 1D', '$1,770.41', 'Yes', 'Yes', '+62.7%', '−2.1%', '+36.3%', '48']",True,
+replay_0414,page past signals (ETH),row 19 Apr 2025 ETH 1D,"['19 Apr 2025', 'ETH 1D', '$1,612.87', 'Yes', 'Yes', '+78.6%', '−4.6%', '+56.6%', '53']","['19 Apr 2025', 'ETH 1D', '$1,612.87', 'Yes', 'Yes', '+78.6%', '−4.6%', '+56.6%', '53']",True,
+replay_0414,page past signals (ETH),row 20 Jan 2025 ETH 2D,"['20 Jan 2025', 'ETH 2D', '$3,280.40', 'No', 'No', '+4.8%', '−46.5%', '−40.1%', '11']","['20 Jan 2025', 'ETH 2D', '$3,280.40', 'No', 'No', '+4.8%', '−46.5%', '−40.1%', '11']",True,
+replay_0414,page past signals (ETH),row 6 Dec 2024 ETH 1D,"['6 Dec 2024', 'ETH 1D', '$4,004.83', 'No', 'No', '+2.6%', '−46.3%', '−31.8%', '10']","['6 Dec 2024', 'ETH 1D', '$4,004.83', 'No', 'No', '+2.6%', '−46.3%', '−31.8%', '10']",True,
+replay_0414,page past signals (ETH),row 29 Nov 2024 ETH 1D,"['29 Nov 2024', 'ETH 1D', '$3,593.67', 'Yes', 'No', '+14.3%', '−18.9%', '−14.4%', '17']","['29 Nov 2024', 'ETH 1D', '$3,593.67', 'Yes', 'No', '+14.3%', '−18.9%', '−14.4%', '17']",True,
+replay_0414,page past signals (ETH),row 28 Nov 2024 ETH 3D,"['28 Nov 2024', 'ETH 3D', '$3,579.11', 'Yes', 'No', '+14.8%', '−18.6%', '−11.1%', '18']","['28 Nov 2024', 'ETH 3D', '$3,579.11', 'Yes', 'No', '+14.8%', '−18.6%', '−11.1%', '18']",True,
+replay_0414,page past signals (ETH),row 23 Nov 2024 ETH 1D,"['23 Nov 2024', 'ETH 1D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']","['23 Nov 2024', 'ETH 1D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']",True,
+replay_0414,page past signals (ETH),row 23 Nov 2024 ETH 2D,"['23 Nov 2024', 'ETH 2D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']","['23 Nov 2024', 'ETH 2D', '$3,397.51', 'Yes', 'Yes', '+20.9%', '−14.2%', '−4.6%', '23']",True,
+replay_0414,page past signals (ETH),row 20 Nov 2024 ETH 5D,"['20 Nov 2024', 'ETH 5D', '$3,072.24', 'Yes', 'Yes', '+33.7%', '−5.2%', '+4.5%', '26']","['20 Nov 2024', 'ETH 5D', '$3,072.24', 'Yes', 'Yes', '+33.7%', '−5.2%', '+4.5%', '26']",True,
+replay_0414,page past signals (ETH),row 13 Nov 2024 ETH 3D,"['13 Nov 2024', 'ETH 3D', '$3,191.45', 'Yes', 'Yes', '+28.8%', '−5.6%', '+2.3%', '33']","['13 Nov 2024', 'ETH 3D', '$3,191.45', 'Yes', 'Yes', '+28.8%', '−5.6%', '+2.3%', '33']",True,
+replay_0414,page past signals (ETH),row 11 Nov 2024 ETH 2D,"['11 Nov 2024', 'ETH 2D', '$3,375.78', 'Yes', 'Yes', '+21.7%', '−10.7%', '−3.2%', '35']","['11 Nov 2024', 'ETH 2D', '$3,375.78', 'Yes', 'Yes', '+21.7%', '−10.7%', '−3.2%', '35']",True,
+replay_0414,page past signals (ETH),row 7 Nov 2024 ETH 1D,"['7 Nov 2024', 'ETH 1D', '$2,897.65', 'Yes', 'Yes', '+41.8%', '−0.3%', '+27.3%', '39']","['7 Nov 2024', 'ETH 1D', '$2,897.65', 'Yes', 'Yes', '+41.8%', '−0.3%', '+27.3%', '39']",True,
+replay_0414,page past signals (ETH),row 1 Nov 2024 ETH 2D,"['1 Nov 2024', 'ETH 2D', '$2,510.27', 'Yes', 'Yes', '+63.7%', '−6.2%', '+32.7%', '45']","['1 Nov 2024', 'ETH 2D', '$2,510.27', 'Yes', 'Yes', '+63.7%', '−6.2%', '+32.7%', '45']",True,
+replay_0414,page past signals (ETH),row 20 Oct 2024 ETH 1D,"['20 Oct 2024', 'ETH 1D', '$2,746.22', 'Yes', 'Yes', '+49.6%', '−14.2%', '+24.3%', '57']","['20 Oct 2024', 'ETH 1D', '$2,746.22', 'Yes', 'Yes', '+49.6%', '−14.2%', '+24.3%', '57']",True,
+replay_0414,page past signals (ETH),row 16 Oct 2024 ETH 2D,"['16 Oct 2024', 'ETH 2D', '$2,610.54', 'Yes', 'Yes', '+56.9%', '−9.8%', '+51.6%', '51']","['16 Oct 2024', 'ETH 2D', '$2,610.54', 'Yes', 'Yes', '+56.9%', '−9.8%', '+51.6%', '51']",True,
+replay_0414,page past signals (ETH),row 12 Oct 2024 ETH 1D,"['12 Oct 2024', 'ETH 1D', '$2,475.79', 'Yes', 'Yes', '+65.4%', '−4.9%', '+54.9%', '55']","['12 Oct 2024', 'ETH 1D', '$2,475.79', 'Yes', 'Yes', '+65.4%', '−4.9%', '+54.9%', '55']",True,
+replay_0414,page past signals (ETH),row 28 Sept 2024 ETH 1D,"['28 Sept 2024', 'ETH 1D', '$2,675.79', 'Yes', 'Yes', '+37.8%', '−13.7%', '+36.7%', '60']","['28 Sept 2024', 'ETH 1D', '$2,675.79', 'Yes', 'Yes', '+37.8%', '−13.7%', '+36.7%', '60']",True,
+replay_0414,page past signals (ETH),row 22 Sept 2024 ETH 2D,"['22 Sept 2024', 'ETH 2D', '$2,580.92', 'Yes', 'Yes', '+33.6%', '−10.5%', '+30.2%', '51']","['22 Sept 2024', 'ETH 2D', '$2,580.92', 'Yes', 'Yes', '+33.6%', '−10.5%', '+30.2%', '51']",True,
+replay_0414,page past signals (ETH),row 19 Sept 2024 ETH 1D,"['19 Sept 2024', 'ETH 1D', '$2,465.84', 'Yes', 'Yes', '+39.8%', '−6.4%', '+30.1%', '54']","['19 Sept 2024', 'ETH 1D', '$2,465.84', 'Yes', 'Yes', '+39.8%', '−6.4%', '+30.1%', '54']",True,
+replay_0414,page past signals (ETH),row 23 Aug 2024 ETH 1D,"['23 Aug 2024', 'ETH 1D', '$2,764.73', 'No', 'No', '+2.0%', '−22.2%', '−5.2%', '1']","['23 Aug 2024', 'ETH 1D', '$2,764.73', 'No', 'No', '+2.0%', '−22.2%', '−5.2%', '1']",True,
+replay_0414,page past signals (ETH),row 29 May 2024 ETH 5D,"['29 May 2024', 'ETH 5D', '$3,762.11', 'No', 'No', '+3.4%', '−25.3%', '−13.1%', '7']","['29 May 2024', 'ETH 5D', '$3,762.11', 'No', 'No', '+3.4%', '−25.3%', '−13.1%', '7']",True,
+replay_0414,page past signals (ETH),row 27 May 2024 ETH 1D,"['27 May 2024', 'ETH 1D', '$3,890.72', 'No', 'No', '+0.9%', '−27.8%', '−15.8%', '1']","['27 May 2024', 'ETH 1D', '$3,890.72', 'No', 'No', '+0.9%', '−27.8%', '−15.8%', '1']",True,
+replay_0414,page past signals (ETH),row 23 May 2024 ETH 3D,"['23 May 2024', 'ETH 3D', '$3,780.83', 'No', 'No', '+5.1%', '−25.7%', '−9.0%', '4']","['23 May 2024', 'ETH 3D', '$3,780.83', 'No', 'No', '+5.1%', '−25.7%', '−9.0%', '4']",True,
+replay_0414,page past signals (ETH),row 17 May 2024 ETH 1D,"['17 May 2024', 'ETH 1D', '$3,093.39', 'Yes', 'Yes', '+28.5%', '−9.2%', '+11.4%', '10']","['17 May 2024', 'ETH 1D', '$3,093.39', 'Yes', 'Yes', '+28.5%', '−9.2%', '+11.4%', '10']",True,
+replay_0414,page past signals (ETH),row 29 Apr 2024 ETH 1D,"['29 Apr 2024', 'ETH 1D', '$3,215.53', 'Yes', 'Yes', '+23.6%', '−12.5%', '+4.9%', '28']","['29 Apr 2024', 'ETH 1D', '$3,215.53', 'Yes', 'Yes', '+23.6%', '−12.5%', '+4.9%', '28']",True,
+replay_0414,page past signals (ETH),row 8 Mar 2024 ETH 1D,"['8 Mar 2024', 'ETH 1D', '$3,892.60', 'No', 'No', '+5.2%', '−27.7%', '−22.8%', '4']","['8 Mar 2024', 'ETH 1D', '$3,892.60', 'No', 'No', '+5.2%', '−27.7%', '−22.8%', '4']",True,
+replay_0414,page past signals (ETH),row 3 Mar 2024 ETH 3D,"['3 Mar 2024', 'ETH 3D', '$3,489.53', 'Yes', 'No', '+17.3%', '−19.4%', '−14.4%', '9']","['3 Mar 2024', 'ETH 3D', '$3,489.53', 'Yes', 'No', '+17.3%', '−19.4%', '−14.4%', '9']",True,
+replay_0414,page past signals (ETH),row 26 Feb 2024 ETH 1D,"['26 Feb 2024', 'ETH 1D', '$3,178.34', 'Yes', 'Yes', '+28.8%', '−10.3%', '−1.5%', '15']","['26 Feb 2024', 'ETH 1D', '$3,178.34', 'Yes', 'Yes', '+28.8%', '−10.3%', '−1.5%', '15']",True,
+replay_0414,page past signals (ETH),row 20 Feb 2024 ETH 1D,"['20 Feb 2024', 'ETH 1D', '$3,015.56', 'Yes', 'Yes', '+35.8%', '−5.5%', '+4.7%', '21']","['20 Feb 2024', 'ETH 1D', '$3,015.56', 'Yes', 'Yes', '+35.8%', '−5.5%', '+4.7%', '21']",True,
+replay_0414,page past signals (ETH),row 7 Feb 2024 ETH 1D,"['7 Feb 2024', 'ETH 1D', '$2,424.55', 'Yes', 'Yes', '+68.9%', '−0.6%', '+42.4%', '34']","['7 Feb 2024', 'ETH 1D', '$2,424.55', 'Yes', 'Yes', '+68.9%', '−0.6%', '+42.4%', '34']",True,
+replay_0414,page past signals (ETH),row 10 Jan 2024 ETH 1D,"['10 Jan 2024', 'ETH 1D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']","['10 Jan 2024', 'ETH 1D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']",True,
+replay_0414,page past signals (ETH),row 10 Jan 2024 ETH 5D,"['10 Jan 2024', 'ETH 5D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']","['10 Jan 2024', 'ETH 5D', '$2,584.77', 'Yes', 'Yes', '+54.8%', '−16.2%', '+50.2%', '58']",True,
+replay_0414,page past signals (ETH),row 9 Dec 2023 ETH 1D,"['9 Dec 2023', 'ETH 1D', '$2,341.28', 'Yes', 'No', '+16.1%', '−10.3%', '+3.6%', '34']","['9 Dec 2023', 'ETH 1D', '$2,341.28', 'Yes', 'No', '+16.1%', '−10.3%', '+3.6%', '34']",True,
+replay_0414,page past signals (ETH),row 8 Dec 2023 ETH 3D,"['8 Dec 2023', 'ETH 3D', '$2,358.59', 'Yes', 'No', '+15.2%', '−11.0%', '+0.6%', '35']","['8 Dec 2023', 'ETH 3D', '$2,358.59', 'Yes', 'No', '+15.2%', '−11.0%', '+0.6%', '35']",True,
+replay_0414,page past signals (ETH),row 6 Dec 2023 ETH 5D,"['6 Dec 2023', 'ETH 5D', '$2,232.80', 'Yes', 'Yes', '+21.7%', '−5.9%', '+2.5%', '37']","['6 Dec 2023', 'ETH 5D', '$2,232.80', 'Yes', 'Yes', '+21.7%', '−5.9%', '+2.5%', '37']",True,
+replay_0414,page past signals (ETH),row 4 Dec 2023 ETH 2D,"['4 Dec 2023', 'ETH 2D', '$2,243.29', 'Yes', 'Yes', '+21.2%', '−6.4%', '+2.9%', '39']","['4 Dec 2023', 'ETH 2D', '$2,243.29', 'Yes', 'Yes', '+21.2%', '−6.4%', '+2.9%', '39']",True,
+replay_0414,page past signals (ETH),row 2 Dec 2023 ETH 1D,"['2 Dec 2023', 'ETH 1D', '$2,165.76', 'Yes', 'Yes', '+25.5%', '−3.0%', '+5.3%', '41']","['2 Dec 2023', 'ETH 1D', '$2,165.76', 'Yes', 'Yes', '+25.5%', '−3.0%', '+5.3%', '41']",True,
+replay_0414,page past signals (ETH),row 26 Nov 2023 ETH 3D,"['26 Nov 2023', 'ETH 3D', '$2,063.09', 'Yes', 'Yes', '+31.7%', '−3.8%', '+7.5%', '47']","['26 Nov 2023', 'ETH 3D', '$2,063.09', 'Yes', 'Yes', '+31.7%', '−3.8%', '+7.5%', '47']",True,
+replay_0414,page past signals (ETH),row 5 Nov 2023 ETH 1D,"['5 Nov 2023', 'ETH 1D', '$1,893.16', 'Yes', 'Yes', '+29.3%', '−2.2%', '+19.9%', '53']","['5 Nov 2023', 'ETH 1D', '$1,893.16', 'Yes', 'Yes', '+29.3%', '−2.2%', '+19.9%', '53']",True,
+replay_0414,page past signals (ETH),row 31 Oct 2023 ETH 1D,"['31 Oct 2023', 'ETH 1D', '$1,815.14', 'Yes', 'Yes', '+34.9%', '−2.1%', '+26.2%', '58']","['31 Oct 2023', 'ETH 1D', '$1,815.14', 'Yes', 'Yes', '+34.9%', '−2.1%', '+26.2%', '58']",True,
+replay_0414,page past signals (ETH),row 27 Oct 2023 ETH 5D,"['27 Oct 2023', 'ETH 5D', '$1,779.81', 'Yes', 'Yes', '+35.0%', '−0.9%', '+25.3%', '43']","['27 Oct 2023', 'ETH 5D', '$1,779.81', 'Yes', 'Yes', '+35.0%', '−0.9%', '+25.3%', '43']",True,
+replay_0414,page past signals (ETH),row 21 Oct 2023 ETH 3D,"['21 Oct 2023', 'ETH 3D', '$1,629.38', 'Yes', 'Yes', '+47.5%', '−0.4%', '+35.1%', '49']","['21 Oct 2023', 'ETH 3D', '$1,629.38', 'Yes', 'Yes', '+47.5%', '−0.4%', '+35.1%', '49']",True,
+replay_0414,page past signals (ETH),row 8 Oct 2023 ETH 1D,"['8 Oct 2023', 'ETH 1D', '$1,633.78', 'Yes', 'Yes', '+45.9%', '−6.9%', '+44.2%', '60']","['8 Oct 2023', 'ETH 1D', '$1,633.78', 'Yes', 'Yes', '+45.9%', '−6.9%', '+44.2%', '60']",True,
+replay_0414,page past signals (ETH),row 3 Oct 2023 ETH 3D,"['3 Oct 2023', 'ETH 3D', '$1,656.91', 'Yes', 'Yes', '+32.2%', '−8.2%', '+30.7%', '60']","['3 Oct 2023', 'ETH 3D', '$1,656.91', 'Yes', 'Yes', '+32.2%', '−8.2%', '+30.7%', '60']",True,
+replay_0414,page past signals (ETH),row 5 Jul 2023 ETH 2D,"['5 Jul 2023', 'ETH 2D', '$1,910.14', 'No', 'No', '+6.2%', '−19.4%', '−14.4%', '9']","['5 Jul 2023', 'ETH 2D', '$1,910.14', 'No', 'No', '+6.2%', '−19.4%', '−14.4%', '9']",True,
+replay_0414,page past signals (ETH),row 1 Jul 2023 ETH 1D,"['1 Jul 2023', 'ETH 1D', '$1,924.14', 'No', 'No', '+5.5%', '−20.0%', '−11.4%', '13']","['1 Jul 2023', 'ETH 1D', '$1,924.14', 'No', 'No', '+5.5%', '−20.0%', '−11.4%', '13']",True,
+replay_0414,page past signals (ETH),row 9 Jun 2023 ETH 5D,"['9 Jun 2023', 'ETH 5D', '$1,840.46', 'Yes', 'No', '+10.3%', '−12.0%', '+0.8%', '35']","['9 Jun 2023', 'ETH 5D', '$1,840.46', 'Yes', 'No', '+10.3%', '−12.0%', '+0.8%', '35']",True,
+replay_0414,page past signals (ETH),row 4 Jun 2023 ETH 1D,"['4 Jun 2023', 'ETH 1D', '$1,890.23', 'No', 'No', '+7.4%', '−14.3%', '−3.0%', '40']","['4 Jun 2023', 'ETH 1D', '$1,890.23', 'No', 'No', '+7.4%', '−14.3%', '−3.0%', '40']",True,
+replay_0414,page past signals (ETH),row 30 May 2023 ETH 2D,"['30 May 2023', 'ETH 2D', '$1,901.11', 'No', 'No', '+6.7%', '−14.8%', '−1.1%', '45']","['30 May 2023', 'ETH 2D', '$1,901.11', 'No', 'No', '+6.7%', '−14.8%', '−1.1%', '45']",True,
+replay_0414,page past signals (ETH),row 30 Apr 2023 ETH 2D,"['30 Apr 2023', 'ETH 2D', '$1,870.76', 'No', 'No', '+8.0%', '−13.4%', '−1.0%', '6']","['30 Apr 2023', 'ETH 2D', '$1,870.76', 'No', 'No', '+8.0%', '−13.4%', '−1.0%', '6']",True,
+replay_0414,page past signals (ETH),row 5 Apr 2023 ETH 1D,"['5 Apr 2023', 'ETH 1D', '$1,908.90', 'Yes', 'No', '+12.3%', '−9.0%', '−1.0%', '11']","['5 Apr 2023', 'ETH 1D', '$1,908.90', 'Yes', 'No', '+12.3%', '−9.0%', '−1.0%', '11']",True,
+replay_0414,page past signals (ETH),row 28 Feb 2023 ETH 1D,"['28 Feb 2023', 'ETH 1D', '$1,605.40', 'Yes', 'Yes', '+33.5%', '−14.7%', '+18.9%', '47']","['28 Feb 2023', 'ETH 1D', '$1,605.40', 'Yes', 'Yes', '+33.5%', '−14.7%', '+18.9%', '47']",True,
+replay_0414,page past signals (ETH),row 20 Feb 2023 ETH 3D,"['20 Feb 2023', 'ETH 3D', '$1,703.63', 'Yes', 'Yes', '+25.8%', '−19.6%', '+8.5%', '55']","['20 Feb 2023', 'ETH 3D', '$1,703.63', 'Yes', 'Yes', '+25.8%', '−19.6%', '+8.5%', '55']",True,
+replay_0414,page past signals (ETH),row 8 Nov 2021 ETH 1D,"['8 Nov 2021', 'ETH 1D', '$4,811.90', 'No', 'No', '+1.2%', '−36.3%', '−33.5%', '2']","['8 Nov 2021', 'ETH 1D', '$4,811.90', 'No', 'No', '+1.2%', '−36.3%', '−33.5%', '2']",True,
+replay_0414,page past signals (ETH),row 21 Oct 2021 ETH 1D,"['21 Oct 2021', 'ETH 1D', '$4,053.90', 'Yes', 'Yes', '+20.1%', '−11.8%', '−2.7%', '20']","['21 Oct 2021', 'ETH 1D', '$4,053.90', 'Yes', 'Yes', '+20.1%', '−11.8%', '−2.7%', '20']",True,
+replay_0414,page past signals (ETH),row 13 Oct 2021 ETH 1D,"['13 Oct 2021', 'ETH 1D', '$3,608.21', 'Yes', 'Yes', '+34.9%', '−0.9%', '+14.5%', '28']","['13 Oct 2021', 'ETH 1D', '$3,608.21', 'Yes', 'Yes', '+34.9%', '−0.9%', '+14.5%', '28']",True,
+replay_0414,page past signals (ETH),row 5 Oct 2021 ETH 2D,"['5 Oct 2021', 'ETH 2D', '$3,515.30', 'Yes', 'Yes', '+38.5%', '−4.9%', '+17.3%', '36']","['5 Oct 2021', 'ETH 2D', '$3,515.30', 'Yes', 'Yes', '+38.5%', '−4.9%', '+17.3%', '36']",True,
+replay_0414,page past signals (ETH),row 1 Oct 2021 ETH 1D,"['1 Oct 2021', 'ETH 1D', '$3,311.16', 'Yes', 'Yes', '+47.0%', '−1.6%', '+40.0%', '40']","['1 Oct 2021', 'ETH 1D', '$3,311.16', 'Yes', 'Yes', '+47.0%', '−1.6%', '+40.0%', '40']",True,
+replay_0414,page past signals (ETH),row 10 May 2021 ETH 5D,"['10 May 2021', 'ETH 5D', '$3,949.45', 'Yes', 'No', '+11.0%', '−57.0%', '−45.6%', '2']","['10 May 2021', 'ETH 5D', '$3,949.45', 'Yes', 'No', '+11.0%', '−57.0%', '−45.6%', '2']",True,
+replay_0414,page past signals (ETH),row 7 May 2021 ETH 1D,"['7 May 2021', 'ETH 1D', '$3,484.70', 'Yes', 'Yes', '+25.8%', '−51.2%', '−33.4%', '5']","['7 May 2021', 'ETH 1D', '$3,484.70', 'Yes', 'Yes', '+25.8%', '−51.2%', '−33.4%', '5']",True,
+replay_0414,page past signals (ETH),row 14 Apr 2021 ETH 2D,"['14 Apr 2021', 'ETH 2D', '$2,432.54', 'Yes', 'Yes', '+80.2%', '−29.0%', '+3.2%', '28']","['14 Apr 2021', 'ETH 2D', '$2,432.54', 'Yes', 'Yes', '+80.2%', '−29.0%', '+3.2%', '28']",True,
+replay_0414,page past signals (ETH),row 10 Apr 2021 ETH 1D,"['10 Apr 2021', 'ETH 1D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']","['10 Apr 2021', 'ETH 1D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']",True,
+replay_0414,page past signals (ETH),row 10 Apr 2021 ETH 5D,"['10 Apr 2021', 'ETH 5D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']","['10 Apr 2021', 'ETH 5D', '$2,133.08', 'Yes', 'Yes', '+105.5%', '−19.0%', '+22.4%', '32']",True,
+replay_0414,page past signals (ETH),row 6 Apr 2021 ETH 1D,"['6 Apr 2021', 'ETH 1D', '$2,113.00', 'Yes', 'Yes', '+107.5%', '−18.2%', '+24.5%', '36']","['6 Apr 2021', 'ETH 1D', '$2,113.00', 'Yes', 'Yes', '+107.5%', '−18.2%', '+24.5%', '36']",True,
+replay_0414,page past signals (ETH),row 3 Apr 2021 ETH 3D,"['3 Apr 2021', 'ETH 3D', '$2,009.25', 'Yes', 'Yes', '+118.2%', '−14.0%', '+34.7%', '39']","['3 Apr 2021', 'ETH 3D', '$2,009.25', 'Yes', 'Yes', '+118.2%', '−14.0%', '+34.7%', '39']",True,
+replay_0414,page past signals (ETH),row 10 Feb 2021 ETH 1D,"['10 Feb 2021', 'ETH 1D', '$1,742.93', 'Yes', 'Yes', '+25.9%', '−25.8%', '+23.4%', '59']","['10 Feb 2021', 'ETH 1D', '$1,742.93', 'Yes', 'Yes', '+25.9%', '−25.8%', '+23.4%', '59']",True,
+replay_0414,page past signals (ETH),row 9 Feb 2021 ETH 5D,"['9 Feb 2021', 'ETH 5D', '$1,772.16', 'Yes', 'Yes', '+23.9%', '−27.1%', '+20.4%', '60']","['9 Feb 2021', 'ETH 5D', '$1,772.16', 'Yes', 'Yes', '+23.9%', '−27.1%', '+20.4%', '60']",True,
+replay_0414,page past signals (ETH),row 5 Feb 2021 ETH 3D,"['5 Feb 2021', 'ETH 3D', '$1,721.06', 'Yes', 'Yes', '+25.0%', '−24.9%', '+22.8%', '60']","['5 Feb 2021', 'ETH 3D', '$1,721.06', 'Yes', 'Yes', '+25.0%', '−24.9%', '+22.8%', '60']",True,
+replay_0414,page past signals (ETH),row 3 Feb 2021 ETH 1D,"['3 Feb 2021', 'ETH 1D', '$1,668.72', 'Yes', 'Yes', '+28.5%', '−22.5%', '+24.4%', '58']","['3 Feb 2021', 'ETH 1D', '$1,668.72', 'Yes', 'Yes', '+28.5%', '−22.5%', '+24.4%', '58']",True,
+replay_0414,page past signals (ETH),row 4 Jan 2021 ETH 1D,"['4 Jan 2021', 'ETH 1D', '$1,042.38', 'Yes', 'Yes', '+95.8%', '−13.2%', '+46.7%', '47']","['4 Jan 2021', 'ETH 1D', '$1,042.38', 'Yes', 'Yes', '+95.8%', '−13.2%', '+46.7%', '47']",True,
+replay_0414,page past signals (ETH),row 3 Jan 2021 ETH 3D,"['3 Jan 2021', 'ETH 3D', '$980.44', 'Yes', 'Yes', '+108.2%', '−9.6%', '+57.0%', '48']","['3 Jan 2021', 'ETH 3D', '$980.44', 'Yes', 'Yes', '+108.2%', '−9.6%', '+57.0%', '48']",True,
+replay_0414,page past signals (ETH),row 29 Dec 2020 ETH 2D,"['29 Dec 2020', 'ETH 2D', '$731.76', 'Yes', 'Yes', '+179.0%', '−2.3%', '+99.6%', '53']","['29 Dec 2020', 'ETH 2D', '$731.76', 'Yes', 'Yes', '+179.0%', '−2.3%', '+99.6%', '53']",True,
+replay_0414,page past signals (ETH),row 26 Dec 2020 ETH 1D,"['26 Dec 2020', 'ETH 1D', '$636.52', 'Yes', 'Yes', '+220.7%', '−1.8%', '+155.3%', '56']","['26 Dec 2020', 'ETH 1D', '$636.52', 'Yes', 'Yes', '+220.7%', '−1.8%', '+155.3%', '56']",True,
+replay_0414,page past signals (ETH),row 25 Dec 2020 ETH 5D,"['25 Dec 2020', 'ETH 5D', '$626.75', 'Yes', 'Yes', '+225.7%', '−1.8%', '+151.7%', '57']","['25 Dec 2020', 'ETH 5D', '$626.75', 'Yes', 'Yes', '+225.7%', '−1.8%', '+151.7%', '57']",True,
+replay_0414,page past signals (ETH),row 19 Dec 2020 ETH 3D,"['19 Dec 2020', 'ETH 3D', '$658.96', 'Yes', 'Yes', '+185.0%', '−16.3%', '+181.0%', '56']","['19 Dec 2020', 'ETH 3D', '$658.96', 'Yes', 'Yes', '+185.0%', '−16.3%', '+181.0%', '56']",True,
+replay_0414,page past signals (ETH),row 17 Dec 2020 ETH 2D,"['17 Dec 2020', 'ETH 2D', '$643.37', 'Yes', 'Yes', '+191.9%', '−14.3%', '+176.6%', '58']","['17 Dec 2020', 'ETH 2D', '$643.37', 'Yes', 'Yes', '+191.9%', '−14.3%', '+176.6%', '58']",True,
+replay_0414,page past signals (ETH),row 21 Nov 2020 ETH 2D,"['21 Nov 2020', 'ETH 2D', '$553.07', 'Yes', 'Yes', '+160.4%', '−13.2%', '+149.0%', '59']","['21 Nov 2020', 'ETH 2D', '$553.07', 'Yes', 'Yes', '+160.4%', '−13.2%', '+149.0%', '59']",True,
+replay_0414,page past signals (ETH),row 5 Nov 2020 ETH 1D,"['5 Nov 2020', 'ETH 1D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']","['5 Nov 2020', 'ETH 1D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']",True,
+replay_0414,page past signals (ETH),row 5 Nov 2020 ETH 2D,"['5 Nov 2020', 'ETH 2D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']","['5 Nov 2020', 'ETH 2D', '$417.17', 'Yes', 'Yes', '+180.2%', '−0.4%', '+149.9%', '60']",True,
+replay_0414,page past signals (ETH),row 23 Oct 2020 ETH 1D,"['23 Oct 2020', 'ETH 1D', '$409.52', 'Yes', 'Yes', '+65.3%', '−9.5%', '+55.5%', '55']","['23 Oct 2020', 'ETH 1D', '$409.52', 'Yes', 'Yes', '+65.3%', '−9.5%', '+55.5%', '55']",True,
+replay_0414,page past signals (ETH),row 22 Oct 2020 ETH 2D,"['22 Oct 2020', 'ETH 2D', '$414.70', 'Yes', 'Yes', '+63.3%', '−10.7%', '+46.6%', '56']","['22 Oct 2020', 'ETH 2D', '$414.70', 'Yes', 'Yes', '+63.3%', '−10.7%', '+46.6%', '56']",True,
+replay_0414,page past signals (ETH),row 21 Oct 2020 ETH 5D,"['21 Oct 2020', 'ETH 5D', '$391.53', 'Yes', 'Yes', '+72.9%', '−5.4%', '+63.1%', '57']","['21 Oct 2020', 'ETH 5D', '$391.53', 'Yes', 'Yes', '+72.9%', '−5.4%', '+63.1%', '57']",True,
+replay_0414,page past signals (ETH),row 12 Oct 2020 ETH 2D,"['12 Oct 2020', 'ETH 2D', '$386.74', 'Yes', 'Yes', '+64.6%', '−6.6%', '+40.7%', '50']","['12 Oct 2020', 'ETH 2D', '$386.74', 'Yes', 'Yes', '+64.6%', '−6.6%', '+40.7%', '50']",True,
+replay_0414,page past signals (ETH),row 9 Oct 2020 ETH 1D,"['9 Oct 2020', 'ETH 1D', '$365.36', 'Yes', 'Yes', '+74.2%', '−1.1%', '+51.8%', '53']","['9 Oct 2020', 'ETH 1D', '$365.36', 'Yes', 'Yes', '+74.2%', '−1.1%', '+51.8%', '53']",True,
+replay_0414,page past signals (ETH),row 31 Jul 2020 ETH 1D,"['31 Jul 2020', 'ETH 1D', '$346.86', 'Yes', 'Yes', '+41.0%', '−10.6%', '+3.8%', '32']","['31 Jul 2020', 'ETH 1D', '$346.86', 'Yes', 'Yes', '+41.0%', '−10.6%', '+3.8%', '32']",True,
+replay_0414,page past signals (ETH),row 25 Jul 2020 ETH 3D,"['25 Jul 2020', 'ETH 3D', '$305.66', 'Yes', 'Yes', '+60.0%', '−1.8%', '+4.9%', '38']","['25 Jul 2020', 'ETH 3D', '$305.66', 'Yes', 'Yes', '+60.0%', '−1.8%', '+4.9%', '38']",True,
+replay_0414,page past signals (ETH),row 22 Jul 2020 ETH 2D,"['22 Jul 2020', 'ETH 2D', '$264.28', 'Yes', 'Yes', '+85.0%', '−1.6%', '+40.3%', '41']","['22 Jul 2020', 'ETH 2D', '$264.28', 'Yes', 'Yes', '+85.0%', '−1.6%', '+40.3%', '41']",True,
+replay_0414,page past signals (ETH),row 6 Jul 2020 ETH 1D,"['6 Jul 2020', 'ETH 1D', '$241.65', 'Yes', 'Yes', '+102.3%', '−4.9%', '+61.0%', '57']","['6 Jul 2020', 'ETH 1D', '$241.65', 'Yes', 'Yes', '+102.3%', '−4.9%', '+61.0%', '57']",True,
+replay_0414,page past signals (ETH),row 8 Jun 2020 ETH 1D,"['8 Jun 2020', 'ETH 1D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']","['8 Jun 2020', 'ETH 1D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']",True,
+replay_0414,page past signals (ETH),row 8 Jun 2020 ETH 5D,"['8 Jun 2020', 'ETH 5D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']","['8 Jun 2020', 'ETH 5D', '$246.55', 'Yes', 'Yes', '+68.3%', '−12.7%', '+54.0%', '55']",True,
+replay_0414,page past signals (ETH),row 4 Jun 2020 ETH 3D,"['4 Jun 2020', 'ETH 3D', '$243.18', 'Yes', 'Yes', '+70.7%', '−11.5%', '+58.8%', '59']","['4 Jun 2020', 'ETH 3D', '$243.18', 'Yes', 'Yes', '+70.7%', '−11.5%', '+58.8%', '59']",True,
+replay_0414,page past signals (ETH),row 27 May 2020 ETH 1D,"['27 May 2020', 'ETH 1D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']","['27 May 2020', 'ETH 1D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']",True,
+replay_0414,page past signals (ETH),row 27 May 2020 ETH 2D,"['27 May 2020', 'ETH 2D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']","['27 May 2020', 'ETH 2D', '$208.41', 'Yes', 'Yes', '+53.5%', '−1.9%', '+49.4%', '60']",True,
+replay_0414,page past signals (ETH),row 9 May 2020 ETH 1D,"['9 May 2020', 'ETH 1D', '$210.00', 'Yes', 'Yes', '+20.8%', '−16.0%', '+17.7%', '24']","['9 May 2020', 'ETH 1D', '$210.00', 'Yes', 'Yes', '+20.8%', '−16.0%', '+17.7%', '24']",True,
+replay_0414,page past signals (ETH),row 18 Apr 2020 ETH 1D,"['18 Apr 2020', 'ETH 1D', '$187.88', 'Yes', 'Yes', '+35.0%', '−11.4%', '+24.4%', '45']","['18 Apr 2020', 'ETH 1D', '$187.88', 'Yes', 'Yes', '+35.0%', '−11.4%', '+24.4%', '45']",True,
+replay_0414,page past signals (ETH),sorted newest first,"['4 Dec 2025', '6 Oct 2025', '24 Aug 2025', '10 Aug 2025', '9 Jul 2025', '7 Jul 2025', '4 Jul 2025', '10 May 2025', '30 Apr 2025', '24 Apr 2025', '19 Apr 2025', '20 Jan 2025', '6 Dec 2024', '29 Nov 2024', '28 Nov 2024', '23 Nov 2024', '23 Nov 2024', '20 Nov 2024', '13 Nov 2024', '11 Nov 2024', '7 Nov 2024', '1 Nov 2024', '20 Oct 2024', '16 Oct 2024', '12 Oct 2024', '28 Sept 2024', '22 Sept 2024', '19 Sept 2024', '23 Aug 2024', '29 May 2024', '27 May 2024', '23 May 2024', '17 May 2024', '29 Apr 2024', '8 Mar 2024', '3 Mar 2024', '26 Feb 2024', '20 Feb 2024', '7 Feb 2024', '10 Jan 2024', '10 Jan 2024', '9 Dec 2023', '8 Dec 2023', '6 Dec 2023', '4 Dec 2023', '2 Dec 2023', '26 Nov 2023', '5 Nov 2023', '31 Oct 2023', '27 Oct 2023', '21 Oct 2023', '8 Oct 2023', '3 Oct 2023', '5 Jul 2023', '1 Jul 2023', '9 Jun 2023', '4 Jun 2023', '30 May 2023', '30 Apr 2023', '5 Apr 2023', '28 Feb 2023', '20 Feb 2023', '8 Nov 2021', '21 Oct 2021', '13 Oct 2021', '5 Oct 2021', '1 Oct 2021', '10 May 2021', '7 May 2021', '14 Apr 2021', '10 Apr 2021', '10 Apr 2021', '6 Apr 2021', '3 Apr 2021', '10 Feb 2021', '9 Feb 2021', '5 Feb 2021', '3 Feb 2021', '4 Jan 2021', '3 Jan 2021', '29 Dec 2020', '26 Dec 2020', '25 Dec 2020', '19 Dec 2020', '17 Dec 2020', '21 Nov 2020', '5 Nov 2020', '5 Nov 2020', '23 Oct 2020', '22 Oct 2020', '21 Oct 2020', '12 Oct 2020', '9 Oct 2020', '31 Jul 2020', '25 Jul 2020', '22 Jul 2020', '6 Jul 2020', '8 Jun 2020', '8 Jun 2020', '4 Jun 2020', '27 May 2020', '27 May 2020', '9 May 2020', '18 Apr 2020']","['4 Dec 2025', '6 Oct 2025', '24 Aug 2025', '10 Aug 2025', '9 Jul 2025', '7 Jul 2025', '4 Jul 2025', '10 May 2025', '30 Apr 2025', '24 Apr 2025', '19 Apr 2025', '20 Jan 2025', '6 Dec 2024', '29 Nov 2024', '28 Nov 2024', '23 Nov 2024', '23 Nov 2024', '20 Nov 2024', '13 Nov 2024', '11 Nov 2024', '7 Nov 2024', '1 Nov 2024', '20 Oct 2024', '16 Oct 2024', '12 Oct 2024', '28 Sept 2024', '22 Sept 2024', '19 Sept 2024', '23 Aug 2024', '29 May 2024', '27 May 2024', '23 May 2024', '17 May 2024', '29 Apr 2024', '8 Mar 2024', '3 Mar 2024', '26 Feb 2024', '20 Feb 2024', '7 Feb 2024', '10 Jan 2024', '10 Jan 2024', '9 Dec 2023', '8 Dec 2023', '6 Dec 2023', '4 Dec 2023', '2 Dec 2023', '26 Nov 2023', '5 Nov 2023', '31 Oct 2023', '27 Oct 2023', '21 Oct 2023', '8 Oct 2023', '3 Oct 2023', '5 Jul 2023', '1 Jul 2023', '9 Jun 2023', '4 Jun 2023', '30 May 2023', '30 Apr 2023', '5 Apr 2023', '28 Feb 2023', '20 Feb 2023', '8 Nov 2021', '21 Oct 2021', '13 Oct 2021', '5 Oct 2021', '1 Oct 2021', '10 May 2021', '7 May 2021', '14 Apr 2021', '10 Apr 2021', '10 Apr 2021', '6 Apr 2021', '3 Apr 2021', '10 Feb 2021', '9 Feb 2021', '5 Feb 2021', '3 Feb 2021', '4 Jan 2021', '3 Jan 2021', '29 Dec 2020', '26 Dec 2020', '25 Dec 2020', '19 Dec 2020', '17 Dec 2020', '21 Nov 2020', '5 Nov 2020', '5 Nov 2020', '23 Oct 2020', '22 Oct 2020', '21 Oct 2020', '12 Oct 2020', '9 Oct 2020', '31 Jul 2020', '25 Jul 2020', '22 Jul 2020', '6 Jul 2020', '8 Jun 2020', '8 Jun 2020', '4 Jun 2020', '27 May 2020', '27 May 2020', '9 May 2020', '18 Apr 2020']",True,
+replay_0414,page past signals (ETH),summary ETH,"ETH
+104 signals
+Rose 10% in 60 days
+86%
+Reached +20% in 60 days
+75%
+Rose 10%, never fell 25.3%
+80%
+Median deepest dip
+−10.9%
+Misses: median best price
++4.8%","ETH
+104 signals
+Rose 10% in 60 days
+86%
+Reached +20% in 60 days
+75%
+Rose 10%, never fell 25.3%
+80%
+Median deepest dip
+−10.9%
+Misses: median best price
++4.8%",True,
+replay_0414,page past signals (BTC),count,33 signals · 5 missed +10%,33 signals · 5 missed +10%,True,
+replay_0414,page past signals (BTC),rows,33,33,True,
+replay_0414,page past signals (BTC),row 4 Dec 2025 BTC 1D,"['4 Dec 2025', 'BTC 1D', '$92,093.54', 'No', 'No', '+6.4%', '−19.1%', '−14.6%', '41']","['4 Dec 2025', 'BTC 1D', '$92,093.54', 'No', 'No', '+6.4%', '−19.1%', '−14.6%', '41']",True,
+replay_0414,page past signals (BTC),row 10 Jul 2025 BTC 1D,"['10 Jul 2025', 'BTC 1D', '$116,031.30', 'No', 'No', '+7.3%', '−7.6%', '−3.4%', '35']","['10 Jul 2025', 'BTC 1D', '$116,031.30', 'No', 'No', '+7.3%', '−7.6%', '−3.4%', '35']",True,
+replay_0414,page past signals (BTC),row 14 Apr 2025 BTC 2D,"['14 Apr 2025', 'BTC 2D', '$84,590.36', 'Yes', 'Yes', '+32.4%', '−1.8%', '+25.5%', '38']","['14 Apr 2025', 'BTC 2D', '$84,590.36', 'Yes', 'Yes', '+32.4%', '−1.8%', '+25.5%', '38']",True,
+replay_0414,page past signals (BTC),row 9 Nov 2024 BTC 2D,"['9 Nov 2024', 'BTC 2D', '$76,716.06', 'Yes', 'Yes', '+41.3%', '−0.2%', '+23.9%', '38']","['9 Nov 2024', 'BTC 2D', '$76,716.06', 'Yes', 'Yes', '+41.3%', '−0.2%', '+23.9%', '38']",True,
+replay_0414,page past signals (BTC),row 7 Nov 2024 BTC 1D,"['7 Nov 2024', 'BTC 1D', '$75,920.00', 'Yes', 'Yes', '+42.8%', '−0.4%', '+34.7%', '40']","['7 Nov 2024', 'BTC 1D', '$75,920.00', 'Yes', 'Yes', '+42.8%', '−0.4%', '+34.7%', '40']",True,
+replay_0414,page past signals (BTC),row 16 Oct 2024 BTC 2D,"['16 Oct 2024', 'BTC 2D', '$67,608.44', 'Yes', 'Yes', '+55.5%', '−3.6%', '+54.5%', '60']","['16 Oct 2024', 'BTC 2D', '$67,608.44', 'Yes', 'Yes', '+55.5%', '−3.6%', '+54.5%', '60']",True,
+replay_0414,page past signals (BTC),row 19 Sept 2024 BTC 1D,"['19 Sept 2024', 'BTC 1D', '$62,960.14', 'Yes', 'Yes', '+48.5%', '−6.5%', '+43.8%', '55']","['19 Sept 2024', 'BTC 1D', '$62,960.14', 'Yes', 'Yes', '+48.5%', '−6.5%', '+43.8%', '55']",True,
+replay_0414,page past signals (BTC),row 21 Jul 2024 BTC 1D,"['21 Jul 2024', 'BTC 1D', '$68,181.28', 'No', 'No', '+2.7%', '−28.1%', '−7.7%', '8']","['21 Jul 2024', 'BTC 1D', '$68,181.28', 'No', 'No', '+2.7%', '−28.1%', '−7.7%', '8']",True,
+replay_0414,page past signals (BTC),row 7 Feb 2024 BTC 1D,"['7 Feb 2024', 'BTC 1D', '$44,343.61', 'Yes', 'Yes', '+66.5%', '0.0%', '+56.4%', '36']","['7 Feb 2024', 'BTC 1D', '$44,343.61', 'Yes', 'Yes', '+66.5%', '0.0%', '+56.4%', '36']",True,
+replay_0414,page past signals (BTC),row 1 Oct 2023 BTC 2D,"['1 Oct 2023', 'BTC 2D', '$27,995.46', 'Yes', 'Yes', '+37.5%', '−5.3%', '+34.8%', '59']","['1 Oct 2023', 'BTC 2D', '$27,995.46', 'Yes', 'Yes', '+37.5%', '−5.3%', '+34.8%', '59']",True,
+replay_0414,page past signals (BTC),row 29 Sept 2023 BTC 1D,"['29 Sept 2023', 'BTC 1D', '$26,907.00', 'Yes', 'Yes', '+42.9%', '−1.4%', '+40.6%', '56']","['29 Sept 2023', 'BTC 1D', '$26,907.00', 'Yes', 'Yes', '+42.9%', '−1.4%', '+40.6%', '56']",True,
+replay_0414,page past signals (BTC),row 17 Sept 2023 BTC 2D,"['17 Sept 2023', 'BTC 2D', '$26,530.95', 'Yes', 'Yes', '+43.2%', '−2.1%', '+36.3%', '53']","['17 Sept 2023', 'BTC 2D', '$26,530.95', 'Yes', 'Yes', '+43.2%', '−2.1%', '+36.3%', '53']",True,
+replay_0414,page past signals (BTC),row 21 Jun 2023 BTC 2D,"['21 Jun 2023', 'BTC 2D', '$29,995.08', 'No', 'No', '+6.2%', '−15.9%', '−12.7%', '22']","['21 Jun 2023', 'BTC 2D', '$29,995.08', 'No', 'No', '+6.2%', '−15.9%', '−12.7%', '22']",True,
+replay_0414,page past signals (BTC),row 8 Nov 2021 BTC 1D,"['8 Nov 2021', 'BTC 1D', '$67,554.84', 'No', 'No', '+2.1%', '−39.9%', '−38.5%', '2']","['8 Nov 2021', 'BTC 1D', '$67,554.84', 'No', 'No', '+2.1%', '−39.9%', '−38.5%', '2']",True,
+replay_0414,page past signals (BTC),row 15 Oct 2021 BTC 1D,"['15 Oct 2021', 'BTC 1D', '$61,695.39', 'Yes', 'No', '+11.8%', '−31.4%', '−21.6%', '26']","['15 Oct 2021', 'BTC 1D', '$61,695.39', 'Yes', 'No', '+11.8%', '−31.4%', '−21.6%', '26']",True,
+replay_0414,page past signals (BTC),row 5 Oct 2021 BTC 2D,"['5 Oct 2021', 'BTC 2D', '$51,493.99', 'Yes', 'Yes', '+34.0%', '−17.8%', '−4.4%', '36']","['5 Oct 2021', 'BTC 2D', '$51,493.99', 'Yes', 'Yes', '+34.0%', '−17.8%', '−4.4%', '36']",True,
+replay_0414,page past signals (BTC),row 1 Oct 2021 BTC 1D,"['1 Oct 2021', 'BTC 1D', '$48,165.76', 'Yes', 'Yes', '+43.3%', '−2.6%', '+18.3%', '40']","['1 Oct 2021', 'BTC 1D', '$48,165.76', 'Yes', 'Yes', '+43.3%', '−2.6%', '+18.3%', '40']",True,
+replay_0414,page past signals (BTC),row 3 Feb 2021 BTC 1D,"['3 Feb 2021', 'BTC 1D', '$37,678.37', 'Yes', 'Yes', '+64.0%', '−4.0%', '+54.5%', '38']","['3 Feb 2021', 'BTC 1D', '$37,678.37', 'Yes', 'Yes', '+64.0%', '−4.0%', '+54.5%', '38']",True,
+replay_0414,page past signals (BTC),row 7 Jan 2021 BTC 1D,"['7 Jan 2021', 'BTC 1D', '$39,505.56', 'Yes', 'Yes', '+47.7%', '−27.3%', '+32.7%', '45']","['7 Jan 2021', 'BTC 1D', '$39,505.56', 'Yes', 'Yes', '+47.7%', '−27.3%', '+32.7%', '45']",True,
+replay_0414,page past signals (BTC),row 26 Dec 2020 BTC 1D,"['26 Dec 2020', 'BTC 1D', '$26,475.35', 'Yes', 'Yes', '+120.5%', '−2.7%', '+87.9%', '57']","['26 Dec 2020', 'BTC 1D', '$26,475.35', 'Yes', 'Yes', '+120.5%', '−2.7%', '+87.9%', '57']",True,
+replay_0414,page past signals (BTC),row 17 Dec 2020 BTC 2D,"['17 Dec 2020', 'BTC 2D', '$22,826.48', 'Yes', 'Yes', '+117.7%', '−4.0%', '+110.0%', '59']","['17 Dec 2020', 'BTC 2D', '$22,826.48', 'Yes', 'Yes', '+117.7%', '−4.0%', '+110.0%', '59']",True,
+replay_0414,page past signals (BTC),row 21 Nov 2020 BTC 2D,"['21 Nov 2020', 'BTC 2D', '$18,721.21', 'Yes', 'Yes', '+124.3%', '−13.5%', '+89.6%', '48']","['21 Nov 2020', 'BTC 2D', '$18,721.21', 'Yes', 'Yes', '+124.3%', '−13.5%', '+89.6%', '48']",True,
+replay_0414,page past signals (BTC),row 5 Nov 2020 BTC 1D,"['5 Nov 2020', 'BTC 1D', '$15,608.21', 'Yes', 'Yes', '+123.0%', '−8.3%', '+105.1%', '59']","['5 Nov 2020', 'BTC 1D', '$15,608.21', 'Yes', 'Yes', '+123.0%', '−8.3%', '+105.1%', '59']",True,
+replay_0414,page past signals (BTC),row 22 Oct 2020 BTC 2D,"['22 Oct 2020', 'BTC 2D', '$12,987.02', 'Yes', 'Yes', '+87.1%', '−2.0%', '+75.0%', '59']","['22 Oct 2020', 'BTC 2D', '$12,987.02', 'Yes', 'Yes', '+87.1%', '−2.0%', '+75.0%', '59']",True,
+replay_0414,page past signals (BTC),row 19 Oct 2020 BTC 1D,"['19 Oct 2020', 'BTC 1D', '$11,760.45', 'Yes', 'Yes', '+102.2%', '−0.6%', '+96.7%', '59']","['19 Oct 2020', 'BTC 1D', '$11,760.45', 'Yes', 'Yes', '+102.2%', '−0.6%', '+96.7%', '59']",True,
+replay_0414,page past signals (BTC),row 25 Mar 2020 BTC 1D,"['25 Mar 2020', 'BTC 1D', '$6,690.96', 'Yes', 'Yes', '+50.6%', '−12.5%', '+30.3%', '43']","['25 Mar 2020', 'BTC 1D', '$6,690.96', 'Yes', 'Yes', '+50.6%', '−12.5%', '+30.3%', '43']",True,
+replay_0414,page past signals (BTC),row 9 Oct 2019 BTC 1D,"['9 Oct 2019', 'BTC 1D', '$8,590.00', 'Yes', 'Yes', '+22.7%', '−24.0%', '−12.5%', '17']","['9 Oct 2019', 'BTC 1D', '$8,590.00', 'Yes', 'Yes', '+22.7%', '−24.0%', '−12.5%', '17']",True,
+replay_0414,page past signals (BTC),row 21 Jun 2019 BTC 1D,"['21 Jun 2019', 'BTC 1D', '$10,236.20', 'Yes', 'Yes', '+35.5%', '−11.4%', '+5.2%', '5']","['21 Jun 2019', 'BTC 1D', '$10,236.20', 'Yes', 'Yes', '+35.5%', '−11.4%', '+5.2%', '5']",True,
+replay_0414,page past signals (BTC),row 9 May 2019 BTC 1D,"['9 May 2019', 'BTC 1D', '$6,153.09', 'Yes', 'Yes', '+125.4%', '−0.7%', '+99.8%', '48']","['9 May 2019', 'BTC 1D', '$6,153.09', 'Yes', 'Yes', '+125.4%', '−0.7%', '+99.8%', '48']",True,
+replay_0414,page past signals (BTC),row 20 Apr 2018 BTC 1D,"['20 Apr 2018', 'BTC 1D', '$8,866.27', 'Yes', 'No', '+12.2%', '−30.8%', '−24.0%', '15']","['20 Apr 2018', 'BTC 1D', '$8,866.27', 'Yes', 'No', '+12.2%', '−30.8%', '−24.0%', '15']",True,
+replay_0414,page past signals (BTC),row 8 Aug 2017 BTC 2D,"['8 Aug 2017', 'BTC 2D', '$3,422.43', 'Yes', 'Yes', '+45.5%', '−13.1%', '+29.3%', '25']","['8 Aug 2017', 'BTC 2D', '$3,422.43', 'Yes', 'Yes', '+45.5%', '−13.1%', '+29.3%', '25']",True,
+replay_0414,page past signals (BTC),row 1 Feb 2017 BTC 1D,"['1 Feb 2017', 'BTC 1D', '$992.75', 'Yes', 'Yes', '+37.0%', '−10.3%', '+12.2%', '37']","['1 Feb 2017', 'BTC 1D', '$992.75', 'Yes', 'Yes', '+37.0%', '−10.3%', '+12.2%', '37']",True,
+replay_0414,page past signals (BTC),row 26 Oct 2016 BTC 2D,"['26 Oct 2016', 'BTC 2D', '$674.00', 'Yes', 'Yes', '+36.3%', '−0.4%', '+33.0%', '58']","['26 Oct 2016', 'BTC 2D', '$674.00', 'Yes', 'Yes', '+36.3%', '−0.4%', '+33.0%', '58']",True,
+replay_0414,page past signals (BTC),sorted newest first,"['4 Dec 2025', '10 Jul 2025', '14 Apr 2025', '9 Nov 2024', '7 Nov 2024', '16 Oct 2024', '19 Sept 2024', '21 Jul 2024', '7 Feb 2024', '1 Oct 2023', '29 Sept 2023', '17 Sept 2023', '21 Jun 2023', '8 Nov 2021', '15 Oct 2021', '5 Oct 2021', '1 Oct 2021', '3 Feb 2021', '7 Jan 2021', '26 Dec 2020', '17 Dec 2020', '21 Nov 2020', '5 Nov 2020', '22 Oct 2020', '19 Oct 2020', '25 Mar 2020', '9 Oct 2019', '21 Jun 2019', '9 May 2019', '20 Apr 2018', '8 Aug 2017', '1 Feb 2017', '26 Oct 2016']","['4 Dec 2025', '10 Jul 2025', '14 Apr 2025', '9 Nov 2024', '7 Nov 2024', '16 Oct 2024', '19 Sept 2024', '21 Jul 2024', '7 Feb 2024', '1 Oct 2023', '29 Sept 2023', '17 Sept 2023', '21 Jun 2023', '8 Nov 2021', '15 Oct 2021', '5 Oct 2021', '1 Oct 2021', '3 Feb 2021', '7 Jan 2021', '26 Dec 2020', '17 Dec 2020', '21 Nov 2020', '5 Nov 2020', '22 Oct 2020', '19 Oct 2020', '25 Mar 2020', '9 Oct 2019', '21 Jun 2019', '9 May 2019', '20 Apr 2018', '8 Aug 2017', '1 Feb 2017', '26 Oct 2016']",True,
+replay_0414,page past signals (BTC),summary BTC,"BTC
+33 signals
+Rose 10% in 60 days
+85%
+Reached +20% in 60 days
+79%
+Rose 10%, never fell 25.3%
+76%
+Median deepest dip
+−6.5%
+Misses: median best price
++6.2%","BTC
+33 signals
+Rose 10% in 60 days
+85%
+Reached +20% in 60 days
+79%
+Rose 10%, never fell 25.3%
+76%
+Median deepest dip
+−6.5%
+Misses: median best price
++6.2%",True,
+replay_0414,page banner,scored,12 Nov 2026 (feed 04:14 UTC),12 Nov 2026 (feed 04:14 UTC),True,
+replay_0414,page footer,closed through / updated / checks,Daily candles closed through 11 Nov 2026 · updated 04:14 UTC · checks passed,Daily candles closed through 11 Nov 2026 · updated 04:14 UTC · checks passed,True,
+replay_0414,page footer,both assets have a closed daily bar for that date,True,True,True,
+replay_0414,page header,market filter,on,on,True,
+replay_0414,page how to read,25.3% = 1/3.3 - 5% maintenance,25.3,25.3,True,
+replay_0414,page how to read,70% bar = WINMIN,True,True,True,
+replay_0414,page errors,page script errors,[],[],True,

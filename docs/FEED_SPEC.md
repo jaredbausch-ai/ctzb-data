@@ -214,3 +214,20 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   the "exact" value. Card medians and shares are computed on full-precision measures and stored to 6 places
   (`*_exact_pct`); every displayed figure is rounded once, from that value, half away from zero.
 - `verify_cards.py` now re-derives every figure on a card (see CARD_SPEC "What keeps it airtight" #2).
+
+### Audit #9 corrections (12 Nov 2026)
+
+- `open_signals[]` gain `edge_level_pct` (the setup's own edge level from its card's ladder, exact shares: 0 if
+  even the from-entry share is below 70%, else the first fall whose share is below 70%, else empty) and
+  `edge_status` ("intact" / "lost"): on closed daily bars after entry, whichever came first, a low at or below
+  the edge level (low checked first within a day) or a high at +10%; "lost" from the start when the edge level
+  is 0. The page's Previous signals badges read it.
+- `example_if_it_misses` (new, top level): the worked example's "if it misses" figures, ETH top-grade signals
+  whose 60th day had closed by 2024-09-22 (same sample as `example_card`). The page used to compute these itself.
+- One "known by then" rule: a past signal counts once its 60th day (entry + 60) has closed by the moment in
+  question. The ledger's odds-on-the-day columns used entry + 61 (one day stricter); they now use entry + 60,
+  like the example. 73 ledger rows' odds-on-the-day columns moved; nothing else (baseline re-approved).
+- The page types no figures: "about N times a year" is counted from the ledger (2020-2025), and without the
+  feed's `example_card` the example says "unavailable" rather than falling back to built-in numbers.
+- Every forming card says it can still vanish (top grade too), and How to read says a confirmed alert is final
+  while a forming heads-up can vanish.

@@ -69,7 +69,8 @@ All are measured from the buy price (the close of the confirmation bar) and with
 1. `stack_live.py` refuses to write the cards (and fails the run) if a card's two
    period counts don't add up to its sample, its source line doesn't state the
    sample size, any share is outside 0-100, the line under the big number (surv10) exceeds the big number ("rose 10%"), or the
-   dip-table counts don't shrink row by row.
+   dip-table counts grow from one row to the next (each row is a subset of the one above, so a count can stay
+   level but never rise), or the first exceeds n. These checks run on every card: forming, live and the example.
 2. `verify_cards.py` re-derives every card's sample from `datasets/ledger.csv`, which
    `grade_live.py` builds separately, and recomputes every figure on the card: n, the big number,
    surv10, scaled20, +20%, -30%, the rounded and exact medians, the eras, the timing, and the
