@@ -220,8 +220,10 @@ logs and every generator from the CT/Signal work.
 | `docs/artifacts/` | published pages, committed so git keeps every version |
 | `docs/reference/` | source documents |
 
-The refresh Action runs six times a day at 01:20, 05:20, 09:20, 13:20, 17:20
-and 21:20 UTC. Coinbase is unreachable from the Claude container but works from
+The refresh Action runs after each 4-hour close: the `ctzb-scheduler` Worker triggers daily.yml at :13
+past 00, 04, 08, 12, 16 and 20 UTC, with a backup at :43 that the workflow skips when the :13 run already
+landed the candle (GitHub's own cron, the old 01:20 / 05:20 ... schedule, proved unreliable; see
+`cloudflare/ctzb-scheduler-worker.js`). Coinbase is unreachable from the Claude container but works from
 a GitHub Actions runner, which is why the pipeline is built this way.
 `GH_TOKEN` in the container is invalid; mint working credentials with
 `add_repo` using `access: "push"`.
@@ -524,7 +526,8 @@ statistics work continues in the background while it runs.
 ("the player, not the league"), the pooled early-dip read is a general explainer only, and every figure below is in the feed;
 see the 12 Nov audit paragraphs and docs/FEED_SPEC.md.] Decisions, Jared:
 members are sent A+ only, and the card says "Confirmed setup" (the grade stays
-internal). **The posting bar is 70%: below it a signal's edge is gone** (same
+internal) [since 12 Nov 2026: a live top-grade card says "Live setup", a forming one "Setup forming", and the
+worked example "Confirmed setup"; no grade letter is shown anywhere]. **The posting bar is 70%: below it a signal's edge is gone** (same
 number as WINMIN in refresh.py). On the card that is the early-dip read -- a
 deepest dip past -10% in the first 10 days (56%) or red on day 10 (47%) -- both
 pooled over every kept signal, not A+ only, and labelled so. The "if it misses"

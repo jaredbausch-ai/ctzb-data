@@ -1,7 +1,8 @@
 # Live feed spec
 
 `feed/ctzb_feed.json`, written by `feed_live.py` in every run of the candle
-Action (every 4 hours, first run 7 minutes after the 00:00 UTC close). It is
+Action (every 4 hours: the `ctzb-scheduler` Worker triggers it 13 minutes after each 4-hour close, 00, 04,
+08, 12, 16 and 20 UTC, with a backup at :43). It is
 the "one feed" in the live-feed plan agreed with Joe on 31 Oct 2026
 (`docs/joe/2026-10-28_live_feed_proposal_SENT.md`, `docs/joe/2026-10-31_feed_open_items_SENT.md`).
 
@@ -227,7 +228,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - One "known by then" rule: a past signal counts once its 60th day (entry + 60) has closed by the moment in
   question. The ledger's odds-on-the-day columns used entry + 61 (one day stricter); they now use entry + 60,
   like the example. 73 ledger rows' odds-on-the-day columns moved; nothing else (baseline re-approved).
-- The page types no figures: "about N times a year" is counted from the ledger (2020-2025), and without the
+- The page types no figures: the 70% bar in How to read comes from the feed (`odds_fade.posting_bar_pct`), "about N times a year" is counted from the ledger (2020-2025), and without the
   feed's `example_card` the example says "unavailable" rather than falling back to built-in numbers.
 - Every forming card says it can still vanish (top grade too), and How to read says a confirmed alert is final
   while a forming heads-up can vanish.

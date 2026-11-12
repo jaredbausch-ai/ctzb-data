@@ -296,7 +296,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>Typical high</dt><dd>The median best price within 60 days, from the entry close.</dd>
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, the share of its past signals that still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
-            <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our 70% bar.</dd>
+            <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our <span id="howBar">posting bar</span>.</dd>
             <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median of their best price within the 60 days.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
           </dl>
@@ -841,7 +841,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span>Day 10 check</span><b class="${d10.c < en ? "lo" : "hi"}">${d10.c < en ? "Red" : "Green"}, ${pct((d10.c / en - 1) * 100)}</b></div>
         <div class="kv num"><span>Price on day 60</span><b>${pct((ex.bars[E + 30].c / en - 1) * 100)}</b></div>
       </div>`;
-    } else what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">This is all a member had at the alert: the zones, the target and the timing. Press <b style="color: #7FF0FF">What happened</b> to see the real path.</div>`;
+    } else what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">This is all a member had at the alert: the zones, the +10% level and the timing. Press <b style="color: #7FF0FF">What happened</b> to see the real path.</div>`;
     $("#chartSide").innerHTML = `
       <div class="sidebox">
         <div class="sec-title" style="color: var(--live)">What the card says</div>
@@ -849,7 +849,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${m.reach10 ?? "n/a"}%</div>
         <div class="small">rose 10% within 60 days, from ${m.n} past signals; ${m.surv10 ?? "n/a"}% without ever falling 25.3%</div>
         <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(m.entry * (1 + m.high / 100))}</b></div>
-        <div class="kv num"><span class="small">+10% target</span><b>${money(m.entry * 1.1)}</b></div>
+        <div class="kv num"><span class="small">+10% level</span><b>${money(m.entry * 1.1)}</b></div>
         <div class="kv num"><span class="small">Reached +20% within 60 days</span><b>${m.odds ?? "n/a"}%</b></div>
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
         <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(m.entry * (1 + d / 100)) + " (" + pct(d, 0) + ")"; })()}</b></div>
@@ -945,6 +945,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // The example only stands in for a quiet market, never for an outage or a failed check.
     if (!bestCard()) { if (feedHealth() === "ok" && !staleNote() && !openSignals().length) { S.preview = true; $("#previewSwitch").checked = true; } } else S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
+    { const of = S.feed && S.feed.odds_fade; if (of && of.posting_bar_pct != null) $("#howBar").textContent = of.posting_bar_pct + "% bar"; }
     show(location.hash.slice(1) || "now");
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitToScreen);
   }

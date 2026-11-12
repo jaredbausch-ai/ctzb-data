@@ -301,6 +301,30 @@ wording item (12 places) and one docs-vs-code item (8 places). Not a clean run. 
 
 **Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
 feed tests, worker tests, fire drills 58/58, page screenshot.
+## Round 12 — 12 Nov, 14:55 ET (audit #12, a new independent agent)
+
+**Found:** 55,941 comparisons. **No figure disagreed** — feed, ledger and rendered page all matched to the last
+digit (sixth round running). 5 docs-vs-code items. Not a clean run. Report: `analysis/audit12_2026-11-12/AUDIT12.md`.
+
+**Found by me while fixing this round — the live pipeline was failing.** Every Action run since about 15:30 UTC
+failed its refresh step: `refresh.py` imported `analysis/tagstats.py` (added in the round-3 corrections), which
+needs numpy, and the Action installs numpy only at the next step. Every local test passed because numpy is
+installed here. The feed was withheld all that time, so the live site showed "Setups held back". Fixed in
+commit 3c240ec (`bucket_end` defined in refresh.py), pushed at 19:47 UTC, and a fresh run dispatched. New test
+`tests/test_action_env.py` runs refresh with numpy blocked: it fails on the old code, passes on the new. It is
+now part of every round's checks.
+
+**Changed** (this round's commit):
+- CONTEXT and FEED_SPEC give the real schedule: the `ctzb-scheduler` Worker triggers the pipeline at :13 after
+  each 4-hour close (backup :43), not 01:20 / 05:20 … or "7 minutes after".
+- CARD_SPEC has a new section defining every label on the member site's card (from-entry row, Edge gone below,
+  If it misses, the miss tiles, +10% level …) with its feed field, so it is again the single definition.
+- How to read's "our 70% bar" now comes from the feed (`odds_fade.posting_bar_pct`), not typed.
+- CONTEXT: the card states are "Live setup" / "Setup forming" / "Confirmed setup" (example), no grade letter.
+- "+10% target" → "+10% level" (it is a measuring level; there is no exit in the data).
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
+feed tests, worker tests, fire drills 58/58, Action-environment test 1/1.
 
 ---
 
