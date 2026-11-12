@@ -11,6 +11,7 @@ differs. 8D cards are skipped: 8D signals are not in the graded ledger.
 """
 import csv, os, sys, statistics as st, datetime as dt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from clock import now_utc  # noqa: E402
 from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule (audit 12 Nov 2026)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -100,9 +101,9 @@ def main():
             bad.append(f"ledger {r['chart']} {r['entry']}: surv10 column disagrees with its own figures")
     status = os.path.join(OUT, 'stack_status.txt')
     if bad:
-        open(status, 'a').write(f'{dt.datetime.utcnow():%Y-%m-%d %H:%M} UTC FAILED card cross-check: ' + '; '.join(bad) + '\n')
+        open(status, 'a').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED card cross-check: ' + '; '.join(bad) + '\n')
         raise SystemExit('CARD CROSS-CHECK FAILURE:\n  ' + '\n  '.join(bad))
-    open(status, 'a').write(f'{dt.datetime.utcnow():%Y-%m-%d %H:%M} UTC OK card cross-check, {checked} cards match the ledger\n')
+    open(status, 'a').write(f'{now_utc():%Y-%m-%d %H:%M} UTC OK card cross-check, {checked} cards match the ledger\n')
     print(f'verify_cards: {checked} cards match the ledger')
 
 

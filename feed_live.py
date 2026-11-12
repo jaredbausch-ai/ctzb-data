@@ -136,7 +136,8 @@ def card(r):
         "confirms_on": r["confirms"],
         "bars_to_confirm": num(r["barsNeeded"]),
         "must_close_above": num(r["killClose"]),
-        "price_now": num(r["priceNow"]),
+        "price_now": num(r["priceNow"]),     # forming: today's price (stand-in for the entry); live: today's price; example: none
+        "entry_close": num(r.get("entryClose", "")),   # live and example: the actual entry close; forming: not yet known
         "grade": r["grade"],
         "confirmations": r["lenses"],
         "sample": r["basis"],
@@ -166,6 +167,8 @@ def card(r):
              "note": "Its own sample, separate from the card number; rows overlap and are not added."}
             for x in json.loads(r.get("confluences") or "[]")
         ],
+        # the ladder's first row (12 Nov 2026 audit #5): from entry, rose 10% before ever falling 25.3%
+        "from_entry": {"past_trades": num(r["n"]), "still_rose10_pct": num(r.get("l0ok", "")), "went_on_to_fall25_pct": num(r.get("l0liq", ""))},
         "if_it_falls_first": [
             {"fell_pct": k, "past_trades": num(r[f"l{k}n"]),
              "still_rose10_pct": num(r[f"l{k}ok"]), "went_on_to_fall25_pct": num(r[f"l{k}liq"])}
@@ -190,7 +193,7 @@ def main():
     cards = [card(r) for r in rows(d("cards.csv"))] if all_ok else []
     # the member site's worked example, as a real card from what was known at its alert (12 Nov 2026)
     ex_rows = rows(d("cards_example.csv")) if os.path.exists(d("cards_example.csv")) else []
-    example_card = dict(card(ex_rows[0]), example=True, entry_close=num(ex_rows[0]["priceNow"])) if all_ok and ex_rows else None
+    example_card = dict(card(ex_rows[0]), example=True) if all_ok and ex_rows else None
     open_cards = {(r["chart"], r["confirms"]): card(r) for r in (rows(d("cards_open.csv")) if os.path.exists(d("cards_open.csv")) else [])} if all_ok else {}
     now = now_utc().strftime("%Y-%m-%dT%H:%M:%SZ")
 

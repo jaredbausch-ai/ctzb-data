@@ -154,6 +154,7 @@ main { flex: 1; min-height: 0; }
 .chartwrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 320px); gap: 18px; }
 @media (max-width: 1100px) { .chartwrap { grid-template-columns: minmax(0, 1fr); } }
 .chart-col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.toggle[hidden] { display: none; }
 .toggle { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
 .toggle button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 6px; background: none; color: var(--soft); font-weight: 600; font-size: 13px; cursor: pointer; }
 .toggle button[aria-pressed="true"] { background: var(--live); color: #041417; }
@@ -294,7 +295,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>The big number</dt><dd>How many past signals like this one rose 10% within 60 days of the entry close. The line under it: how many did that without ever falling 25.3% below the entry close, where 3.3x leverage with 5% maintenance margin liquidates.</dd>
             <dt>Typical high</dt><dd>The median best price within 60 days, from the entry close.</dd>
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
-            <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, how many of its past signals still rose 10%. The number of signals is shown on every row.</dd>
+            <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, how many of its past signals still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our 70% bar.</dd>
             <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many were above entry at some point first, and the median of their best price within the 60 days.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in. His real trades never change the odds.</dd>
@@ -362,7 +363,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function setupFade(m) {
     if (!m || !m.fallsFirst || !m.fallsFirst.length) return null;
     const rows = m.fallsFirst.map((r) => ({ fell: r.fell_pct, n: r.past_trades, v: r.still_rose10_pct, liq: r.went_on_to_fall25_pct }));
-    const bar = edgeRule().bar ?? 70, base = m.reach10;
+    const bar = edgeRule().bar ?? 70, base = m.fromEntry ?? m.reach10;   // same measure as the rows below it (12 Nov 2026 audit #5)
     let edge = null;
     if (base != null && base < bar) edge = 0;
     else { const g = rows.find((r) => r.v != null && r.v !== "" && r.v < bar); edge = g ? -g.fell : null; }
@@ -421,7 +422,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       highDay: c.typical_day_of_60d_high, lowDay: c.typical_day_of_deepest_dip, reach10: c.rose10_within60d_pct, touched30: c.fell30_within60d_pct,
       surv10: c.rose10_never_fell25_within60d_pct, entry: null,
       eras: [["Before 2022", c.before_2022], ["Since 2022", c.since_2022]].filter((e) => e[1]).map(([t, e]) => ({ t, n: e.past_trades, v: e.rose10_never_fell25_within60d_pct, what: "rose 10%, never fell 25.3%" })),
-      fallsFirst: c.if_it_falls_first || [],
+      fallsFirst: c.if_it_falls_first || [], fromEntry: c.from_entry ? c.from_entry.still_rose10_pct : null,
     };
   }
   function openSignals() { return ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+"); }
@@ -621,7 +622,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $("#filterText").textContent = f ? `Market filter: ${on ? "on" : "off"}` : "Feed unavailable";
     $("#forming").innerHTML = "";
     $("#rvAsof").textContent = f ? `${dateLong(f.scored_as_of)} (feed ${f.generated_at.slice(11, 16)} UTC)` : "unavailable";
-    $("#feedState").textContent = f ? `Data through ${dateLong(f.scored_as_of)} · checks ${f.checks && f.checks.all_passed ? "passed" : "FAILED, cards held back"}` : "";
+    const closedThrough = f && f.generated_at ? new Date(Date.parse(f.generated_at) - 86400000).toISOString().slice(0, 10) : null;
+    $("#feedState").textContent = f ? `Daily candles closed through ${dateLong(closedThrough)} · updated ${f.generated_at.slice(11, 16)} UTC · checks ${f.checks && f.checks.all_passed ? "passed" : "FAILED, cards held back"}` : "";
   }
 
   /* ---------- Chart view ---------- */
@@ -666,7 +668,6 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       m.entry = entry;
       lowIdx = c.low_date ? bars.findIndex((b) => dayOf(b.t) === c.low_date) : -1;
       // the confirmation bar is the one that CLOSES on confirms_on, so it opens tfd - 1 days earlier (12 Nov 2026 audit: was one bar late on 2D+)
-      confIdx = E + Math.round((Date.parse(c.confirms_on + "T00:00:00Z") / 1000 - (tfd - 1) * 86400 - bars[E].t) / 86400 / tfd);
       $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, not top grade"}`;
       $("#chSub").textContent = c._open ? `Confirmed ${dateLong(c.entry_date)} · entry close ${money(entry)}. Zones use this setup's own card (${m.sample}).`
         : `Low ${dateLong(c.low_day || c.low_date)} · confirms ${dateLong(c.confirms_on)} · price levels drawn from today's price (${money(entry)}), since the entry price is the confirmation close; days count from the confirmation.`;
@@ -679,13 +680,29 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     { const sub = $("#chSub"); sub.textContent = sub.textContent.replace(/ The shaded zones are the next 60 days.*$/, "") + (happened ? "" : " The shaded zones are the next 60 days, as the odds draw them."); }
     const W = 1100, H = 520, L = 20, R = 960, T = 24, B = 480;
     // Day counts run from the entry, which for a forming setup is the confirmation close, not today (12 Nov 2026 audit)
-    const A = forming && !(c && c._open) && confIdx !== null && confIdx > E ? confIdx : E;
-    const nSlots = forming ? Math.max(bars.length, A + Math.ceil(60 / tfd) + 2) : bars.length;
+    // 12 Nov 2026 audit #5: every day line is placed by DATE. Future bars follow the chart's own rule
+    // (2D+ bars restart on 1 January, so the last bar of a year can be short), never a fixed bar count.
+    const nextOpen = (t) => {
+      if (tfd === 1) return t + 86400;
+      const y = new Date(t * 1000).getUTCFullYear(), jan1 = Date.UTC(y, 0, 1) / 1000, nextJan = Date.UTC(y + 1, 0, 1) / 1000;
+      const n = jan1 + (Math.floor((t - jan1) / 86400 / tfd) + 1) * tfd * 86400;
+      return n >= nextJan ? nextJan : n;
+    };
+    const entryDay = forming && !(c && c._open) ? c.confirms_on : (c && c._open ? c.entry_date : "2024-09-22");
+    const tEntry = Date.parse(entryDay + "T00:00:00Z") / 1000;
+    const opens = bars.map((b) => b.t);
+    if (forming) while (opens[opens.length - 1] <= tEntry + 61 * 86400) opens.push(nextOpen(opens[opens.length - 1]));
+    const slotOf = (t) => { let i = 0; while (i + 1 < opens.length && opens[i + 1] <= t) i++; return i; };
+    const dayX = (k) => slotOf(tEntry + k * 86400);
+    const A = forming && !(c && c._open) ? dayX(0) : E;
+    const nSlots = forming ? opens.length : bars.length;
     const slot = (R - L) / nSlots, X = (i) => L + slot * i + slot / 2;
     const sf = setupFade(m);
     const edgePct = sf ? (sf.edge ? sf.edge : null) : e.dipPct;
     const lv = { high: entry * (1 + m.high / 100), t20: entry * 1.1, drop: entry * (1 + m.drop / 100), edge: edgePct !== null ? entry * (1 + edgePct / 100) : null };
-    const lo = Math.min(...bars.map((b) => b.l), lv.drop, entry * 0.8) * 0.95, hi = Math.max(...bars.map((b) => b.h), lv.high) * 1.07;
+    // "At the alert" on the example is scaled only by what was known then (12 Nov 2026 audit #5)
+    const shown = !forming && !happened ? bars.slice(0, E + 1) : bars;
+    const lo = Math.min(...shown.map((b) => b.l), lv.drop, entry * 0.8) * 0.95, hi = Math.max(...shown.map((b) => b.h), lv.high) * 1.07;
     const Y = (p) => B - (p - lo) / (hi - lo) * (B - T);
     svgEl(svg, "rect", { x: 0, y: 0, width: W, height: H, fill: "#0B0918" });
     const mag = Math.pow(10, Math.floor(Math.log10((hi - lo) / 5)));
@@ -695,10 +712,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "line", { x1: L, x2: R, y1: Y(p), y2: Y(p), stroke: "#1C1736" });
       if (levelYs.every((y) => Math.abs(y - Y(p)) > 16)) svgEl(svg, "text", { x: R + 8, y: Y(p) + 5, fill: "var(--muted)", "font-size": 13 }, "$" + Math.round(p).toLocaleString("en-US"));
     }
-    const slotDate = (i) => i < bars.length ? bars[i].t : bars[bars.length - 1].t + (i - bars.length + 1) * tfd * 86400;
+    const slotDate = (i) => opens[Math.min(i, opens.length - 1)];
     const every = Math.max(1, Math.round(nSlots / 8));
     for (let i = 0; i < nSlots; i += every) svgEl(svg, "text", { x: X(i), y: B + 22, fill: "#7E78A3", "font-size": 12, "text-anchor": "middle" }, new Date(slotDate(i) * 1000).toLocaleDateString("en-GB", { day: "2-digit", month: "short", timeZone: "UTC" }));
-    const xT = X(E), xE = X(A), x60 = X(Math.min(nSlots - 1, A + 60 / tfd)), x10 = X(A + 10 / tfd), xHigh = X(A + Math.round(m.highDay / tfd));
+    const xT = X(E), xE = X(A), x60 = X(Math.min(nSlots - 1, dayX(60))), x10 = X(dayX(10)), xHigh = X(dayX(Math.round(m.highDay)));
     svgEl(svg, "rect", { x: xE, y: Y(lv.high), width: x60 - xE, height: Y(entry) - Y(lv.high), fill: "var(--high)", opacity: 0.07 });
     svgEl(svg, "rect", { x: xE, y: Y(entry), width: x60 - xE, height: Y(lv.drop) - Y(entry), fill: "var(--drop)", opacity: 0.1 });
     const of = S.feed && S.feed.odds_fade;
@@ -745,7 +762,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!sf) vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% still rose 10% after day 10`, "4 5", B - 8);
     vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
     vline(x60, "var(--fade)", "Day 60", "", T + 30);
-    if (forming && confIdx !== null && confIdx > E && confIdx < nSlots) vline(X(confIdx), "var(--live)", `Confirms ${dateLong(c.confirms_on)} · entry, day 0`, "2 4", T + 48);
+    if (forming && !(c && c._open) && A > E) vline(X(A), "var(--live)", `Confirms ${dateLong(c.confirms_on)} · entry, day 0`, "2 4", T + 48);
     const upto = forming ? bars.length : (happened ? bars.length : E + 1);
     for (let i = 0; i < upto; i++) {
       const b = bars[i], col = b.c >= b.o ? "var(--high)" : "var(--drop)";
@@ -758,10 +775,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "text", { x: X(lowIdx) - 12, y: Y(b.l) + 5, fill: "var(--live)", "font-size": 12, "font-weight": 700, "text-anchor": "end" }, `Low ${dateLong(c.low_day || c.low_date)} · ${money(b.l)}`);
     }
     else if (happened) {   // the outcome only in "What happened", never "At the alert" (12 Nov 2026 audit)
-      const win = bars.slice(E + 1, E + 1 + 60 / tfd);
+      const win = bars.filter((b, i) => i > E && b.t < tEntry + 61 * 86400);
       const hiB = win.reduce((x, y) => (y.h > x.h ? y : x)), loB = win.reduce((x, y) => (y.l < x.l ? y : x));
       for (const [b, p, below] of [[hiB, hiB.h, false], [loB, loB.l, true]]) {
-        const i = bars.indexOf(b), d = (i - E) * tfd, dTxt = tfd > 1 ? `days ${d - tfd + 1}–${d}` : `day ${d}`;
+        const i = bars.indexOf(b), d0 = Math.round((b.t - tEntry) / 86400), d1 = Math.min(60, Math.round(((i + 1 < bars.length ? bars[i + 1].t : nextOpen(b.t)) - tEntry) / 86400) - 1);
+        const dTxt = d1 > d0 ? `days ${d0}–${d1}` : `day ${d0}`;
         svgEl(svg, "circle", { cx: X(i), cy: Y(p), r: 7, fill: "none", stroke: "var(--text)", "stroke-width": 2 });
         svgEl(svg, "text", { x: X(i) + (below ? 12 : -14), y: Y(p) + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": below ? "start" : "end" }, `This one: ${money(p)} · ${pct((p / entry - 1) * 100)} · ${dTxt}`);
       }
@@ -830,7 +848,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span class="small">Reached +20%</span><b>${m.odds ?? "n/a"}%</b></div>
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
         <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(m.entry * (1 + d / 100)) + " (" + pct(d, 0) + ")"; })()}</b></div>
-        ${forming && !(c && c._open) ? `<div class="fine">Prices use today's close as a stand-in for the entry.</div>` : ""}
+        ${forming && !(c && c._open) ? `<div class="fine">Prices use the latest price (today's bar is still open) as a stand-in for the entry.</div>` : ""}
       </div>
       ${what}
       <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">The lead trader's real entries and exits show on the chart as markers. None on this one.</div>

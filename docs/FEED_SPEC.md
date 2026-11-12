@@ -166,3 +166,19 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - The walk-forward tier (refresh.py `select_tier(upto=...)`, used by `odds_fade` and forward.csv's `tier`) counts only
   signals whose 60-day outcome had closed before 1 January of the year in question (it used to count signals dated
   before 1 January whose outcomes ended after it).
+
+### Audit #5 corrections (12 Nov 2026)
+
+- `cards[].from_entry` (also on `example_card` and `open_signals[].card`): `past_trades`, `still_rose10_pct` (the
+  share of the sample that rose 10% before ever falling 25.3%) and `went_on_to_fall25_pct`. It is the ladder's first
+  row, measured exactly like the `if_it_falls_first` rows under it. The big number stays `rose10_within60d_pct`.
+- The ladder checks a day's low before its high in every step (the cautious reading; a daily bar doesn't say which
+  came first).
+- `price_now`: forming cards, the latest price (today's bar is still open), a stand-in for the entry; live cards,
+  the latest price; the example, none. `entry_close`: live and example cards, the actual entry close; forming, empty.
+- `open_signals[]` cover the graded charts only: 1D, 2D, 3D, 5D.
+- `odds_fade`: the walk-forward tier itself is chosen by refresh.py's original rule (`select_tier`: each chart's own
+  bars, `NMIN`/`WINMIN`, only outcomes closed before 1 January); only the fade's groupings and outcomes are measured on
+  daily candles from the entry close.
+- `low_day` is found within the trough bar's real span (2D+ bars restart on 1 January, so a year's last bar can be
+  shorter).

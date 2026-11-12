@@ -25,11 +25,12 @@ Writes datasets/:
 Historical rates for entry quality only. Computed signals, never fills.
   python3 -I stack_live.py
 """
-import csv, json, os, re, sys, datetime as dt, statistics as st
+import bisect, csv, json, os, re, sys, datetime as dt, statistics as st
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, 'analysis'))
 import engine as E
+from clock import now_utc  # noqa: E402 -- CTZB_NOW replays a past run
 from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule, half away from zero (audit 12 Nov 2026)
 import regimes as R
 import grokpack as GP
@@ -128,7 +129,7 @@ def check_coverage(evaluated):
     unevaluated = [i for i in REG_IDS if i not in evaluated]
     if missing or unknown or unevaluated:
         msg = ('COVERAGE FAILURE -- ' + '; '.join(missing + unknown + unevaluated))
-        open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{dt.datetime.utcnow():%Y-%m-%d %H:%M} UTC FAILED {msg}\n')
+        open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED {msg}\n')
         raise SystemExit('COVERAGE FAILURE -- a documented read is not in the live stack:\n'
                          + ''.join(f'  PRETRADE heading not mapped: {h}\n' for h in missing)
                          + ''.join(f'  mapped id not in REGISTRY: {i}\n' for i in unknown)
@@ -284,10 +285,12 @@ def main():
     # ------------------------------------------------ subjects: forming + open
     subjects = []
     prints = []
+    CHD = {}   # each chart's bar open dates
     for a in ASSETS:
         for tf in TFS:
             path = f'data/{a}_{tf}.csv'
             b = E.load(path); C, D = b['close'], b['date']; n = len(C)
+            CHD[(a, tf)] = list(D)
             ct = E.rsi(C, 14); em = E.ema(ct, 14); kL = E.sma(E.stoch_of(ct, 14), 3); zm = RF.zser(ct)
             step = int(st.median([(D[i] - D[i - 1]).days for i in range(max(1, n - 20), n)]))
             sig = allsig[(a, tf)]
@@ -363,15 +366,31 @@ def main():
                 if i0 is None: continue
                 Hs = DAY[a0]['high'][i0 + 1:i0 + 61]; Ls = DAY[a0]['low'][i0 + 1:i0 + 61]
                 for j, (h, l) in enumerate(zip(Hs, Ls)):
-                    if h >= e0 * 1.10: break
+                    # within one daily bar the order is unknown: the low is checked first, the
+                    # cautious reading, in both steps (12 Nov 2026 audit #5)
                     if l <= e0 * (1 - th / 100):
                         hit += 1
                         for hh, ll in zip(Hs[j:], Ls[j:]):
                             if ll <= e0 * (1 + MS.LIQ / 100): liq += 1; break
                             if hh >= e0 * 1.10: ok += 1; break
                         break
+                    if h >= e0 * 1.10: break
             res += [hit, round(100 * ok / hit) if hit else '', round(100 * liq / hit) if hit else '']
         return res
+
+    def from_entry(G):
+        # the ladder's first row (12 Nov 2026 audit #5), measured like the rows under it: of every
+        # signal in the sample, the share that rose 10% BEFORE ever falling 25.3%, and the share
+        # that fell 25.3% first (low checked first within a day)
+        ok = liq = n = 0
+        for s0 in G:
+            a0 = s0['a']; i0 = DPOS[a0].get(s0['d0']); e0 = s0['entry']
+            if i0 is None: continue
+            n += 1
+            for h, l in zip(DAY[a0]['high'][i0 + 1:i0 + 61], DAY[a0]['low'][i0 + 1:i0 + 61]):
+                if l <= e0 * (1 + MS.LIQ / 100): liq += 1; break
+                if h >= e0 * 1.10: ok += 1; break
+        return [round(100 * ok / n) if n else '', round(100 * liq / n) if n else '']
 
     def timing(G):
         # card timing (1 Nov 2026, Jared: "how long do I stay in the tree?"): medians, in days from entry,
@@ -385,7 +404,10 @@ def main():
         # 12 Nov 2026 audit #4: `trough` is the trough BAR's open date; on a 2D+ chart the low itself
         # printed on one of that bar's days. The day of the lowest daily low inside the bar.
         t0 = trough if isinstance(trough, dt.date) else dt.date.fromisoformat(str(trough))
-        days = [t0 + dt.timedelta(days=k) for k in range(int(tf.rstrip('D')))]
+        cd = CHD.get((a, tf), [])
+        k = bisect.bisect_left(cd, t0)
+        nxt = cd[k + 1] if k + 1 < len(cd) else t0 + dt.timedelta(days=int(tf.rstrip('D')))   # bars restart on 1 January
+        days = [t0 + dt.timedelta(days=i) for i in range((nxt - t0).days)]
         cand = [(DAY[a]['low'][DPOS[a][d]], d) for d in days if d in DPOS[a]]
         return str(min(cand)[1]) if cand else str(t0)
 
@@ -395,7 +417,8 @@ def main():
         old = [s0 for s0 in G if s0['d0'] < SPLIT]; new = [s0 for s0 in G if s0['d0'] >= SPLIT]
         sv = lambda X: round(100 * sum(MS.surv10(s0['m']) for s0 in X) / len(X)) if X else ''
         return [f"{r['a']} {r['tf']}", r['a'], r['tf'], str(r['_trough']), low_day(r['a'], r['tf'], r['_trough']), str(r['d0']), r['_need'], r['_kill'] if r['_kill'] else '',
-                round(r['entry'], 2), g, '; '.join(PLAIN.get(k, k) for k in have) or 'none', basis, n,
+                r['_price_now'] if '_price_now' in r else round(r['entry'], 2), r.get('_entry_close', ''),
+                g, '; '.join(PLAIN.get(k, k) for k in have) or 'none', basis, n,
                 pct(sum(MS.surv10(s0['m']) for s0 in G)), round(100 * sum(sc) / len(sc)) if sc else '',
                 pct(sum(s0['m']['up'] >= 20 for s0 in G)), pct(sum(s0['m']['up'] >= 10 for s0 in G)),
                 round(st.median(s0['m']['up'] for s0 in G), 1) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 1) if n else '',
@@ -404,11 +427,11 @@ def main():
                 # (entry x (1 + pct)) are rounded once, to the cent, not twice
                 round(st.median(s0['m']['up'] for s0 in G), 6) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 6) if n else '',
                 round(st.median(s0['m']['dd'] for s0 in G), 6) if n else '',
-                len(old), sv(old), len(new), sv(new)] + ladder(G) + timing(G)
-    CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'lowDay', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'grade', 'lenses', 'basis', 'n',
+                len(old), sv(old), len(new), sv(new)] + from_entry(G) + ladder(G) + timing(G)
+    CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'lowDay', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'entryClose', 'grade', 'lenses', 'basis', 'n',
                 'surv10', 'scaled20', 'reach20', 'reach10', 'bestMove', 'dipBeforeHigh', 'maxDip60', 'touched30',
                 'bestMoveExact', 'dipBeforeHighExact', 'maxDip60Exact',
-                'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow', 'confluences']
+                'nOld', 'surv10Old', 'nNew', 'surv10New', 'l0ok', 'l0liq'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow', 'confluences']
     cells = []
     J = json.load(open(os.path.join(HERE, 'analysis', 'grokpack.json')))
     for lay in ('layer4', 'layer4_small', 'layer4b'):
@@ -454,10 +477,11 @@ def main():
         out.append([subj, 'CONSOLE RECORD', basis] + rec(G_) + ['like for like'])
         if state.startswith('forming'):
             cards.append(card(r, g, have, basis, G_))
-        elif state.startswith('open'):
+        elif state.startswith('open') and tf in ('1D', '2D', '3D', '5D'):   # graded charts only
             # 12 Nov 2026 audit: a live (open) setup gets its own card too, built exactly like a
             # forming one, so its ladder and edge are its own, never the pooled table
-            open_cards.append(card(dict(r, _trough=r.get('tdate', ''), _need='', _kill=None), g, have, basis, G_))
+            open_cards.append(card(dict(r, _trough=r.get('tdate', ''), _need='', _kill=None,
+                                        _price_now=round(DAY[a]['close'][-1], 2), _entry_close=round(r['entry'], 2)), g, have, basis, G_))
             # ...and its progress so far, from CLOSED daily candles (today's bar is still forming)
             i0 = DPOS[a].get(d0); e0 = r['entry']
             if i0 is not None:
@@ -643,7 +667,7 @@ def main():
         if len(ex) >= 15: basis, G_ = f'all {len(ex)} {a} {tf} signals with exactly the same confirmations whose 60 days had closed by then', ex
         elif len(sg) >= 15: basis, G_ = f'all {len(sg)} {a} {tf} signals graded {g} whose 60 days had closed by then (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
         else: basis, G_ = f'all {len(ag)} grade {g} signals across all {a} charts whose 60 days had closed by then ({a} {tf} alone had only {len(sg)}, too few to use)', ag
-        rx = dict(exr, _trough=exr['tdate'], _need='', _kill=None)
+        rx = dict(exr, _trough=exr['tdate'], _need='', _kill=None, _price_now='', _entry_close=round(exr['entry'], 2))
         ex_cards.append(card(rx, g, have, basis, G_))
 
     w = lambda p, h, rr: csv.writer(open(os.path.join(OUT, p), 'w', newline='')).writerows([h] + rr)
@@ -664,7 +688,7 @@ def main():
         ln = [d[f'l{t}n'] for t in (5, 10, 15, 20)]
         if ln != sorted(ln, reverse=True) or ln[0] > nn: bad.append(f"{d['chart']}: dip ladder counts {ln} inconsistent with n {nn}")
     if bad:
-        open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{dt.datetime.utcnow():%Y-%m-%d %H:%M} UTC FAILED card checks: ' + '; '.join(bad) + '\n')
+        open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED card checks: ' + '; '.join(bad) + '\n')
         raise SystemExit('CARD CHECK FAILURE: ' + '; '.join(bad))
     w('cards.csv', CARD_HDR, cards)
     w('prints.csv', ['chart', 'state', 'trough', 'confirms', 'entry', 'tags', 'note'], prints)
@@ -672,7 +696,7 @@ def main():
     json.dump([dict(zip(('id', 'label', 'assets', 'charts', 'kind', 'documented'), x)) for x in REGISTRY],
               open(os.path.join(HERE, 'analysis', 'registry.json'), 'w'), indent=1)
     open(os.path.join(OUT, 'stack_status.txt'), 'w').write(
-        f'{dt.datetime.utcnow():%Y-%m-%d %H:%M} UTC OK {len(subjects)} subjects, {len(out)} reads, {len(wins)} open windows, '
+        f'{now_utc():%Y-%m-%d %H:%M} UTC OK {len(subjects)} subjects, {len(out)} reads, {len(wins)} open windows, '
         f'{len(REG_IDS)} registry ids, {len(cells)} confluence cells, data to {today}\n')
     print(f'stack_live: {len(subjects)} subjects, {len(out)} reads, {len(wins)} open windows, '
           f'{len(heads)} PRETRADE headings covered, {len(REG_IDS)} registry ids, {len(cells)} confluence cells')
