@@ -82,6 +82,33 @@ from an unrounded median).
 - `verify_cards.py` is exact (tolerance 0), applies the flash-print rule, and also checks the live
   and example cards. Feed spec and CONTEXT updated.
 
+## Round 4 — 12 Nov, 10:45 ET (audit #4, a new independent agent)
+
+**Found:** 55,983 comparisons; the **feed and ledger matched exactly** (51,447 comparisons, zero
+disagreements). 23 issues: 17 on the page, 6 where docs and code disagreed. Report:
+`analysis/audit4_2026-11-12/AUDIT4.md`.
+
+**Changed** (commits 94d90a0, 7342597):
+- **Walk-forward tier lookahead.** `refresh.py` said the tier for a year uses "only data available
+  by then", but it counted signals dated before 1 January whose 60-day outcomes ended after it.
+  Now only outcomes closed before 1 January count. This moves the all-signals odds fade (e.g. red on
+  day 10: 62% of 58 → 63% of 64) and the walk-forward table. Neither is shown on a card.
+- **Live chart on 2-day+ charts** was anchored to today, because it looked for a bar opening on the
+  entry date. It now uses the bar that closes on it, and says so if the chart data doesn't reach back.
+- The actual **day the low printed** (`low_day`) is shown, not the 2-day bar's open date ("Low 9 Nov"
+  was really 10 Nov).
+- "Best setup forming today" only on the best one; banner says alerts are top grade only and
+  below-grade forming setups are shown for context; "No open top-grade setup with its edge intact";
+  the example subtitle says its odds use only signals known by then; the live side panel no longer
+  says prices use today's close; the live chart subtitle says zones come from the setup's own card.
+- "If it misses" now reads "median best (price within the 60 days)", which is what it measures; it
+  used to say "peak before they failed".
+- A value that rounds to zero shows no sign ("0.0%", not "−0.0%").
+- Docs: CARD_SPEC and FEED_SPEC now say the big number is "rose 10%" (surv10 is the line under it),
+  the ladder is "before falling 25.3%", open signals come from `open.csv`, and the new `low_day`.
+- `tests/build_audit_states.sh` builds both audit states from the current repo, so every round
+  audits exactly what's committed.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
@@ -92,3 +119,10 @@ from an unrounded median).
   would change about 22–29 signals. Jared's call; not changed.
 - **Diamond definition.** CT against K versus the previous trough among all troughs, as in
   `engine.py`.
+- **Order inside a day.** A daily bar doesn't say whether its high or its low came first; the ladder
+  checks the low first (the cautious reading). Reading it the other way moves two ladder rows by a
+  signal or two.
+- **"Must close above"** for a setup one bar from confirming assumes today's open bar closes at the
+  current price.
+- **"Day N of 60"** is the day in progress.
+- **`peaked_10_or_more`** is 0 by construction now that a miss means "did not rise 10%".
