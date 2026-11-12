@@ -38,7 +38,7 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `cards_withheld` | | True when checks failed |
 | `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | As on the dashboard |
 | `cards[]` | cards.csv | One per FORMING setup (below). A live (open) setup's card is `open_signals[].card`; the worked example's is `example_card` |
-| `prints[]` | prints.csv | Every confirmed and forming low; `provisional` true until it confirms |
+| `prints[]` | prints.csv | The last 3 confirmed lows per chart plus any forming low; `provisional` true until it confirms. The regime note is read on the trough date (since 12 Nov 2026 audit #13; it was the confirmation date) |
 | `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
 | `confluence_windows[]` | windows.csv | Every confluence window open now and when it closes |
 | `grade_odds[]` | grades.csv | Pooled grade record per asset |

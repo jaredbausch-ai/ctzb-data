@@ -325,6 +325,26 @@ now part of every round's checks.
 
 **Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
 feed tests, worker tests, fire drills 58/58, Action-environment test 1/1.
+**Pipeline confirmed:** the 20:04 UTC run passed every step (refresh, grade, stack, cards, regression, extras);
+the feed is published again with all 23 open signals and their cards.
+
+## Round 13 — 12 Nov, 15:25 ET (audit #13, a new independent agent)
+
+**Found:** 59,181 comparisons. **No number wrong** (seventh round running): ledger, feed, all 51 cards and the
+page. One label (4 places) and 4 docs-vs-code items. Not a clean run. Report: `analysis/audit13_2026-11-12/AUDIT13.md`.
+
+**Changed** (this round's commit):
+- **Example miss tiles** said "10 misses of all 75 ETH top-grade signals"; 75 is only those known by 22 Sep 2024
+  (104 today). Now "10 misses of the 75 ETH top-grade signals known by then".
+- **Regime note on `prints[]`** read the gate on the confirmation date, contradicting the documented trough
+  date, so three signals the gate let through were labelled "regime off" (ETH 5D and BTC 5D 6 Dec 2025, BTC 3D
+  14 Dec 2025). Now read on the trough date, for forming lows too. Feed only; not on the page.
+- FEED_SPEC: `prints[]` is the last 3 confirmed per chart plus any forming low (not "every").
+- CARD_SPEC: Typical high / drop prices appear on the Chart tab; "If it misses" is the median best of all the
+  misses — How to read now says so too.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
+feed tests, worker tests, Action-environment test, fire drills 58/58, page screenshot.
 
 ---
 

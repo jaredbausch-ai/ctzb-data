@@ -300,7 +300,8 @@ def main():
             for s in sig[-3:]:
                 prints.append([f'{a} {tf}', 'confirmed', str(s['tdate']), str(s['d0']), round(s['entry'], 2),
                                ' + '.join([s['bk']] + (['filled diamond'] if s['strong'] else ['hollow diamond'] if s['dis'] else []) + (['prime dot'] if s['prime'] else [])),
-                               'regime on' if gate(s['d0']) else 'regime off'])
+                               # the gate is read on the trough date, as everywhere else (12 Nov 2026 audit #13)
+                               'regime on' if gate(s['tdate']) else 'regime off'])
             p = RF.provisional(ct, kL, zm, D, n)
             if p:
                 conf_open = D[-1] + dt.timedelta(days=step * p['need'])
@@ -330,7 +331,7 @@ def main():
                 r['fastct'] = None if fc is None or ct[i] is None else (ct[i] - ct[p['ti']]) >= fc
                 tags = ' + '.join([p['bucket']] + (['filled diamond'] if strong else ['hollow diamond'] if dis else []) + (['prime dot'] if r['prime'] else []))
                 prints.append([f'{a} {tf}', 'forming', str(p['date']), str(d0f), round(C[i], 2), tags,
-                               ('regime on' if gate(today) else 'regime off') + f'; {p["need"]} bar(s) to confirm'])
+                               ('regime on' if gate(p['date']) else 'regime off') + f'; {p["need"]} bar(s) to confirm'])
                 r['_trough'] = p['date']; r['_need'] = p['need']; r['_kill'] = None
                 # kill close: the confirmation-bar close at or below which CT would not stay above
                 # the trough CT. If the confirmation bar is the last (still open) bar, its close is

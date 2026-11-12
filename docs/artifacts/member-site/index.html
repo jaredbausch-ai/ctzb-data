@@ -297,7 +297,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, the share of its past signals that still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our <span id="howBar">posting bar</span>.</dd>
-            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median of their best price within the 60 days.</dd>
+            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median best price of all those misses within the 60 days.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
           </dl>
           <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</div>
@@ -526,8 +526,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="tile"><div class="t">Touched ${MINUS}30% within 60 days · n ${m.n}</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
           ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${e.redOdds ?? "n/a"}%</div></div>`}
-          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
-          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
+          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
+          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
         <div class="boxes">
           <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · ETH tier signals"}</div><div class="ladder" id="ladder"></div></div>
