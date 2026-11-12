@@ -170,6 +170,32 @@ causes on the page and feed labels, plus 8 places where the docs and code disagr
 verify_cards (24 cards exact), unit tests (feed 15 + 27, candles 15, workers 21/26/36/21/24/41),
 fire drills 58/58.
 
+## Round 7 — 12 Nov, 12:20 ET (audit #7, a new independent agent)
+
+**Found:** 60,626 comparisons. **No wrong number anywhere**: every price, percentage, count, date, day
+count and chart position matched, in both states. 32 rows from 9 issues, all wording (6) or docs (3).
+Report: `analysis/audit7_2026-11-12/AUDIT7.md`.
+
+**Changed** (this round's commit):
+- **"If it misses: up first"** read as "above entry before ever being below it", but it counts misses
+  whose best price in the 60 days was above entry. Now reads "went above entry"; How to read, FEED_SPEC
+  and the code comments say the same. (The figure is unchanged, e.g. 94 of 95.)
+- **"Worst drop, misses"** is a median: now "Typical worst drop, misses".
+- **Forming picker buttons** showed a bare "84%": now "84% rose 10% in 60 days · n 37".
+- **"Reached +20%" and "Touched −30%" tiles** now say "within 60 days · n N"; the chart side panel says
+  "Reached +20% within 60 days".
+- **Past signals title** now says "Every top-grade signal whose 60 days have closed" (the live BTC 2D
+  signal isn't in that table yet, correctly).
+- **Feed field names that say "trades"**: every `past_trades` gains a `past_signals` twin and
+  `trades_a_year` a `signals_a_year` twin, same values; old names stay.
+- **Lead trader with no data** (an auditor note, fixed anyway): if his feed can't be read, the page now
+  says "unavailable" instead of "not in" / "No trades posted yet".
+- Docs: CARD_SPEC (first graded ETH signal is ETH 3D 21 Mar 2020, grade C; first top grade 18 Apr 2020;
+  the eras split surv10, not the big number), CONTEXT ("25.3%", not "25%").
+
+**Re-checked after the changes:** feed tests 15 + 27, site worker 24, fire drills 58/58, page
+screenshot with the replay data.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

@@ -263,7 +263,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
     <section class="view" id="view-record" aria-labelledby="tab-record" hidden>
       <div class="rec-head">
-        <div class="sec-title" style="color: var(--live)">Every top-grade signal · computed, never traded</div>
+        <div class="sec-title" style="color: var(--live)">Every top-grade signal whose 60 days have closed · computed, never traded</div>
         <div class="seg" role="group" aria-label="Asset">
           <button data-asset="all" aria-pressed="true">All</button>
           <button data-asset="ETH" aria-pressed="false">ETH</button>
@@ -297,8 +297,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, how many of its past signals still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our 70% bar.</dd>
-            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many were above entry at some point first, and the median of their best price within the 60 days.</dd>
-            <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in. His real trades never change the odds.</dd>
+            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median of their best price within the 60 days.</dd>
+            <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
           </dl>
           <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</div>
         </div>
@@ -408,7 +408,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         ${esc(o.chart)} <b>Day ${o.days_elapsed}</b><span class="small">best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</span></button>`).join("")
       : `<span class="pnone">No live top-grade setups right now.</span>`;
     const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
-        ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
+        ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">rose 10% in 60 days · n ${c.past_trades ?? "n/a"} · ${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
       : `<span class="pnone">${{ down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "Nothing forming today."}</span>`;
     $("#picker").innerHTML = `<div class="prow"><span class="plabel">Live</span>${liveBtns}</div>
       <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button></div>`;
@@ -526,7 +526,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
           <div class="kv"><span>Typical drop from entry</span><span class="lo">${pct(m.drop)}</span></div>
           <div class="kv"><span>Edge gone below</span><span class="ed" style="font-size: 15px">${edgeTxt}</span></div>
-          <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: up first</span><span>${missTxt}</span></div>${pool}
+          <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: went above entry</span><span>${missTxt}</span></div>${pool}
         </div>
         <div class="marker"><span class="dot"></span><span>Lead trader: ${leadState(m)}</span></div>
       </div>
@@ -535,11 +535,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="tiles num">
           <div class="tile"><div class="t">Dip before the high, from entry</div><div class="v lo">${pct(m.dipBefore)}</div></div>
           <div class="tile"><div class="t">High lands around</div><div class="v hi">Day ${m.highDay ?? "n/a"}</div></div>
-          <div class="tile"><div class="t">Reached +20%</div><div class="v hi">${m.odds ?? "n/a"}%</div></div>
-          <div class="tile"><div class="t">Touched ${MINUS}30%</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
+          <div class="tile"><div class="t">Reached +20% within 60 days · n ${m.n}</div><div class="v hi">${m.odds ?? "n/a"}%</div></div>
+          <div class="tile"><div class="t">Touched ${MINUS}30% within 60 days · n ${m.n}</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
           ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${e.redOdds ?? "n/a"}%</div></div>`}
-          <div class="tile"><div class="t">Worst drop, misses${mi && mi.signals ? ` · all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
+          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
           <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
         <div class="boxes">
@@ -570,6 +570,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
   function leadState(m) {
     const t = S.trades && S.trades.trades;
+    if (!S.trades) return "unavailable";
     if (!t || !t.length) return "not in";
     const open = t.filter((x) => x.asset === m.asset);
     const last = open[0];
@@ -580,6 +581,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderLead() {
     const b = $("#leadBody");
     const t = S.trades && S.trades.trades;
+    if (!S.trades) {
+      b.innerHTML = `<div class="lead-empty">The lead trader's feed is unavailable right now. His real entries and exits appear here the moment they fill.</div>`;
+      return;
+    }
     if (!t || !t.length) {
       b.innerHTML = `<div class="lead-empty">No trades posted yet. The lead trader's real entries and exits appear here the moment they fill.</div>`;
       return;
@@ -850,7 +855,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="small">rose 10% within 60 days, from ${m.n} past signals; ${m.surv10 ?? "n/a"}% without ever falling 25.3%</div>
         <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(m.entry * (1 + m.high / 100))}</b></div>
         <div class="kv num"><span class="small">+10% target</span><b>${money(m.entry * 1.1)}</b></div>
-        <div class="kv num"><span class="small">Reached +20%</span><b>${m.odds ?? "n/a"}%</b></div>
+        <div class="kv num"><span class="small">Reached +20% within 60 days</span><b>${m.odds ?? "n/a"}%</b></div>
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
         <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(m.entry * (1 + d / 100)) + " (" + pct(d, 0) + ")"; })()}</b></div>
         ${forming && !(c && c._open) ? `<div class="fine">Prices use the latest price (today's bar is still open) as a stand-in for the entry.</div>` : ""}

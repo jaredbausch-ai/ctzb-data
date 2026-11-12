@@ -177,6 +177,24 @@ def card(r):
     }
 
 
+def signal_aliases(o):
+    """Audit #7 (12 Nov 2026): no signal was traded, so every `past_trades` gains a `past_signals` twin and
+    `trades_a_year` a `signals_a_year` twin, same values, placed right after. The old names stay (fields are
+    never renamed)."""
+    if isinstance(o, list):
+        return [signal_aliases(x) for x in o]
+    if not isinstance(o, dict):
+        return o
+    out = {}
+    for k, v in o.items():
+        out[k] = signal_aliases(v)
+        if k == "past_trades":
+            out["past_signals"] = out[k]
+        elif k == "trades_a_year":
+            out["signals_a_year"] = out[k]
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--datasets", default="datasets")
@@ -332,6 +350,7 @@ def main():
         "days": [{"day": num(r["day"]), "q25_pct": num(r["q25_pct"]), "median_pct": num(r["median_pct"]),
                   "q75_pct": num(r["q75_pct"])} for r in pe]} if pe else None
 
+    feed = signal_aliases(feed)
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     with open(a.out, "w") as f:
         json.dump(feed, f, indent=1)

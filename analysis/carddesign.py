@@ -5,7 +5,7 @@ signal, and nothing is tuned: every figure re-reads the pipeline's own
 datasets for A+ signals (the only grade members are sent) and reports it.
 
 1. If it misses. A+ signals that did NOT rise 10% within 60 days of entry (+20% until 11 Nov 2026):
-   how many were above entry first, and how far (median and mean of the best
+   how many went above entry at some point in the 60 days, and how far (median and mean of the best
    move above entry inside the 60 days). Also their median worst drop and
    median day-60 return. Source: datasets/ledger.csv (bestMove, maxDrawdown,
    return60d). Jared 11 Nov: the card shows the MEDIAN peak.
