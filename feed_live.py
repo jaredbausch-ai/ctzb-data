@@ -280,7 +280,7 @@ def main():
     feed["odds_fade"] = {
         "label": LABEL,
         "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
-        "sample": "Every kept signal, all grades. Below the posting bar the signal's edge is gone.",
+        "sample": "ETH signals in the walk-forward tier, every chart, 2016 on (refresh.py earlydip/holdcheck). The +10% share counts highs from day 10 to day 60. Below the posting bar the edge is gone.",
         "edge_measured_on": "rose 10% within 60 days",
         "early_dip": [{"band": r["band"], "past_trades": num(r["n"]), "rose10_within60d_pct": num(r["reached10_pct"]),
                        "rose20_within60d_pct": num(r["reached20_pct"]), "edge": r["edge"]} for r in fade if r["kind"] == "early_dip"],

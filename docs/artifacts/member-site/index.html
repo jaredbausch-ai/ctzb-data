@@ -225,8 +225,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <section class="frame" id="cardFrame" aria-label="Live setup"><div class="in" id="card"></div></section>
         </div>
 
-        <section class="prev" aria-label="Previous alerts">
-          <div class="kv"><span class="sec-title" style="white-space: nowrap">Previous alerts</span><span class="small" style="font-size: 12px; text-align: right">odds update each close</span></div>
+        <section class="prev" aria-label="Previous signals">
+          <div class="kv"><span class="sec-title" style="white-space: nowrap">Previous signals</span><span class="small" style="font-size: 12px; text-align: right">odds update each close</span></div>
           <div class="grp" style="color: var(--live)">Edge intact</div>
           <div id="prevIntact"></div>
           <div class="grp" style="color: var(--muted); margin-top: 4px">Edge lost or closed</div>
@@ -291,7 +291,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="sidebox">
           <div class="sec-title" style="color: var(--fade-2)">Reading a card</div>
           <dl>
-            <dt>The big number</dt><dd>How many past signals like this one rose 10% within 60 days of the entry close. The line under it: how many did that without ever falling 25%, the dip that would wipe out a 4x position.</dd>
+            <dt>The big number</dt><dd>How many past signals like this one rose 10% within 60 days of the entry close. The line under it: how many did that without ever falling 25%, 25.3% below the entry close, where 3.3x leverage with 5% maintenance margin liquidates.</dd>
             <dt>Typical high</dt><dd>The median best price within 60 days, from the entry close.</dd>
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, how many of its past signals still rose 10%. The number of signals is shown on every row.</dd>
@@ -471,7 +471,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="quiet">No setup right now</div></div>${staleNote()}
         <div class="empty-card">
           <div class="big">Waiting for the next one</div>
-          <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about 18 to 22 times a year." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
+          <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about 22 times a year (2020 to 2025 average)." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
           <div class="small">You'll get a push alert the moment one confirms.</div>
         </div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
@@ -497,7 +497,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="big num">${m.reach10 ?? "n/a"}%</div>
           <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days</div>
           <div style="font-size: 13px; color: var(--high)">${m.surv10 ?? "n/a"}% did it without ever falling 25%</div>
-          <div class="small">from ${m.n} past signals like this one</div>
+          <div class="small">${m.kind === "forming" ? `from ${m.n} past signals like this one` : `from all ${m.n} ${esc(m.asset)} top-grade signals`}</div>
         </div>
         <div class="stats num">
           <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
@@ -510,17 +510,17 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       <div class="detail">
         <div class="sec-title">The detail</div>
         <div class="tiles num">
-          <div class="tile"><div class="t">Dip before the high</div><div class="v lo">${pct(m.dipBefore)}</div></div>
+          <div class="tile"><div class="t">Dip before the high, from entry</div><div class="v lo">${pct(m.dipBefore)}</div></div>
           <div class="tile"><div class="t">High lands around</div><div class="v hi">Day ${m.highDay ?? "n/a"}</div></div>
           <div class="tile"><div class="t">Reached +20%</div><div class="v hi">${m.odds ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Touched ${MINUS}30%</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
-          ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10</div><div class="v ed">${e.redOdds ?? "n/a"}% odds</div></div>`}
+          ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10</div><div class="v ed">${e.redOdds ?? "n/a"}% still rose 10%</div></div>`}
           <div class="tile"><div class="t">Worst drop, misses</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
           <div class="tile"><div class="t">Price on day 60${m.day60 === undefined ? ", misses" : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
         <div class="boxes">
-          <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · all kept signals"}</div><div class="ladder" id="ladder"></div></div>
+          <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · ETH tier signals"}</div><div class="ladder" id="ladder"></div></div>
           <div class="box teal"><div class="lbl">By era</div><div class="ladder" id="eras"></div>
             <div class="fine" style="margin-top: 6px">Share that rose 10% and never fell 25%.</div></div>
         </div>
@@ -540,7 +540,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than", "<").replace("worse than", "past"), v: (b.rose10_within60d_pct ?? b.rose20_within60d_pct), gone: b.edge === "gone" })) : [])
         .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_within60d_pct ?? b.rose20_within60d_pct), gone: b.edge === "gone" })) : []);
       lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
-        + `<div class="fine">Every kept signal, all grades: share that rose 10% within 60 days, by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
+        + `<div class="fine">ETH signals in the walk-forward tier, every chart, 2016 on: share that rose 10% between day 10 and day 60, by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
     }
     $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}%</span></div>`).join("");
   }
@@ -623,10 +623,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     let m, bars, E, entry, tfd, forming = false, lowIdx = null, confIdx = null;
     if (!c) {
       m = cardExample(); const ex = S.example;
-      if (!ex) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable"); return; }
+      if (!ex) {
+        svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable");
+        $("#chTitle").textContent = "ETH · 2-day · example"; $("#chSub").textContent = "The example's chart data couldn't be loaded.";
+        $("#chartSide").innerHTML = ""; return;
+      }
       bars = ex.bars; E = ex.entry_index; entry = ex.entry_close; tfd = 2;
       $("#chTitle").textContent = "ETH · 2-day · example: past confirmed setup";
-      $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(entry)} · a past computed signal, shown as a member would have seen it.`;
+      $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(entry)} · a past computed signal. Its odds use the full history, including signals after it.`;
     } else {
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
@@ -709,7 +713,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     }
     const vline = (x, col, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: col, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: col, "font-size": 12, "font-weight": 600 }, label); };
     vline(xE, "var(--text)", forming && !(c && c._open) ? "Today" : "Entry");
-    if (!sf) vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% odds`, "4 5", B - 8);
+    if (!sf) vline(x10, "var(--fade-2)", `Day 10 · red here: ${e.redOdds}% still rose 10%`, "4 5", B - 8);
     vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
     vline(x60, "var(--fade)", "Day 60", "", T + 30);
     if (forming && confIdx !== null && confIdx > E && confIdx < nSlots) vline(X(confIdx), "var(--live)", `Confirms ${dateLong(c.confirms_on)}`, "2 4", T + 48);
@@ -728,9 +732,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       const win = bars.slice(E + 1, E + 1 + 60 / tfd);
       const hiB = win.reduce((x, y) => (y.h > x.h ? y : x)), loB = win.reduce((x, y) => (y.l < x.l ? y : x));
       for (const [b, p, below] of [[hiB, hiB.h, false], [loB, loB.l, true]]) {
-        const i = bars.indexOf(b), d = (i - E) * tfd;
+        const i = bars.indexOf(b), d = (i - E) * tfd, dTxt = tfd > 1 ? `days ${d - tfd + 1}–${d}` : `day ${d}`;
         svgEl(svg, "circle", { cx: X(i), cy: Y(p), r: 7, fill: "none", stroke: "var(--text)", "stroke-width": 2 });
-        svgEl(svg, "text", { x: X(i) + (below ? 12 : -14), y: Y(p) + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": below ? "start" : "end" }, `This one: ${money(p)} · ${pct((p / entry - 1) * 100)} · day ${d}`);
+        svgEl(svg, "text", { x: X(i) + (below ? 12 : -14), y: Y(p) + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": below ? "start" : "end" }, `This one: ${money(p)} · ${pct((p / entry - 1) * 100)} · ${dTxt}`);
       }
     }
     renderCloud(happened, m.asset, c);
@@ -780,8 +784,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       what = `<div class="sidebox" style="border: 2px solid var(--high); background: var(--ok-bg)">
         <div class="sec-title" style="color: #7FF0FF">What this one did</div>
         <div class="kv num"><span>Reached +10% / +20%</span><b>${reached ? "Yes" : "No"} / ${reached20 ? "Yes" : "No"}</b></div>
-        <div class="kv num"><span>Best price</span><b class="hi">${pct((hiB.h / en - 1) * 100)}, day ${(ex.bars.indexOf(hiB) - E) * 2}</b></div>
-        <div class="kv num"><span>Deepest drop</span><b class="lo">${pct((loB.l / en - 1) * 100)}, day ${(ex.bars.indexOf(loB) - E) * 2}</b></div>
+        <div class="kv num"><span>Best price</span><b class="hi">${pct((hiB.h / en - 1) * 100)}, days ${(ex.bars.indexOf(hiB) - E) * 2 - 1}–${(ex.bars.indexOf(hiB) - E) * 2}</b></div>
+        <div class="kv num"><span>Deepest drop</span><b class="lo">${pct((loB.l / en - 1) * 100)}, days ${(ex.bars.indexOf(loB) - E) * 2 - 1}–${(ex.bars.indexOf(loB) - E) * 2}</b></div>
         <div class="kv num"><span>Day 10 check</span><b class="${d10.c < en ? "lo" : "hi"}">${d10.c < en ? "Red" : "Green"}, ${pct((d10.c / en - 1) * 100)}</b></div>
         <div class="kv num"><span>Price on day 60</span><b>${pct((ex.bars[E + 30].c / en - 1) * 100)}</b></div>
       </div>`;
