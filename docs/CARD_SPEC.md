@@ -54,11 +54,15 @@ All are measured from the buy price (the close of the confirmation bar) and with
 
 - Plain words only. No internal names (lens codes, "headline", "surv10", "basis",
   "bucket") on a card.
-- Every percentage that depends on a time window says "within 60 days".
-- The sample size is always visible, small, in the card's corner.
+- The card says once, under the big number, that every figure covers the 60 days after entry ("rose 10%
+  within 60 days" ... "every figure covers the 60 days after entry"). A figure on a different window
+  names its window (e.g. "after day 10", "by day 60").
+- The sample size is always visible, small, under the big number. Anything on a different sample
+  shows its own n: each ladder row, each era, and the misses (their count and the pool).
 - The card always ends with: these are past signals, not real trades, and past
   results don't promise future ones. Entry quality only.
-- Forming lows are labelled provisional until they confirm.
+- A forming low is labelled "Setup forming" with "It can still vanish before it confirms" until it
+  confirms.
 
 ## What keeps it airtight
 
@@ -67,8 +71,11 @@ All are measured from the buy price (the close of the confirmation bar) and with
    sample size, any share is outside 0-100, the line under the big number (surv10) exceeds the big number ("rose 10%"), or the
    dip-table counts don't shrink row by row.
 2. `verify_cards.py` re-derives every card's sample from `datasets/ledger.csv`, which
-   `grade_live.py` builds separately, and recomputes the figures; any mismatch fails
-   the run (red Action, `stack_status.txt` FAILED). The dashboard refresh reports it.
+   `grade_live.py` builds separately, and recomputes every figure on the card: n, the big number,
+   surv10, scaled20, +20%, -30%, the rounded and exact medians, the eras, the timing, and the
+   from-entry and falls-first ladder rows (from the 1D candles, written out independently). Exact,
+   except the three 6-place exact medians, confirmable from the 6-place ledger to one unit in the
+   6th place (since 12 Nov 2026, audit #8). Any mismatch fails the run (red Action, `stack_status.txt` FAILED). The dashboard refresh reports it.
    On 28 Oct this check caught a dip of -25.26% that a rounded figure turned into
    -25.3%; the cards use exact prices.
 3. The quoted-versus-actual record (ledger, "odds on the day") shows how past quotes

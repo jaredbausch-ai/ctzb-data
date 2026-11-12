@@ -5,8 +5,11 @@ datasets/cards.csv is built by stack_live.py. datasets/ledger.csv is built separ
 grade_live.py, one row per graded signal. This script re-derives each card's sample
 from the ledger alone, using the rule written on the card (exactly the same
 confirmations / this chart at the same grade / the same grade across the asset's
-charts), recomputes every percentage and median, and fails the run if any figure
-differs. 8D cards are skipped: 8D signals are not in the graded ledger.
+charts), recomputes every figure on the card and fails the run if any differs, exactly: n, the
+big number (rose 10%), surv10, scaled20, +20%, -30%, the rounded and exact medians, the eras,
+the timing medians, and the from-entry row and every falls-first ladder row (shown and exact
+shares) from the 1D candles. 8D cards are skipped: 8D signals are not in the graded ledger.
+(Extended 12 Nov 2026, audit #8: it used to check 10 of these.)
   python3 -I verify_cards.py
 """
 import csv, os, sys, statistics as st, datetime as dt
@@ -47,6 +50,44 @@ def day_path(a, d0, entry, H=60):
     return first(10), first(20), (hi[0] - d0).days, (lo[0] - d0).days
 
 
+def window(a, d0, H=60):
+    """(high, low) of each closed daily bar in the 60 calendar days after d0, flash prints clamped."""
+    day_path(a, d0, 1.0)
+    end = d0 + dt.timedelta(days=H)
+    return [(x[1], x[2]) for x in _DAY[a] if d0 < x[0] <= end]
+
+
+def ladder(G):
+    """From-entry and falls-first rows, written out independently of stack_live: within a day the
+    low is checked before the high; rose 10% = high >= entry x 1.10; fell 25.3% = low <= entry x 0.747."""
+    out = {}
+    W = [(window(r['asset'], dt.date.fromisoformat(r['entry'])), float(r['entryPrice'])) for r in G]
+    n = ok = liq = 0
+    for w, e in W:
+        n += 1
+        for h, l in w:
+            if l <= e * (1 + LIQ / 100): liq += 1; break
+            if h >= e * 1.10: ok += 1; break
+    out.update(l0ok=round(100 * ok / n) if n else '', l0liq=round(100 * liq / n) if n else '',
+               l0okExact=round(100 * ok / n, 6) if n else '')
+    for th in (5, 10, 15, 20):
+        hit = ok = liq = 0
+        for w, e in W:
+            for j, (h, l) in enumerate(w):
+                if l <= e * (1 - th / 100):
+                    hit += 1
+                    for hh, ll in w[j:]:
+                        if ll <= e * (1 + LIQ / 100): liq += 1; break
+                        if hh >= e * 1.10: ok += 1; break
+                    break
+                if h >= e * 1.10: break
+        out[f'l{th}n'] = hit
+        out[f'l{th}ok'] = round(100 * ok / hit) if hit else ''
+        out[f'l{th}liq'] = round(100 * liq / hit) if hit else ''
+        out[f'l{th}okExact'] = round(100 * ok / hit, 6) if hit else ''
+    return out
+
+
 def main():
     cards = list(csv.DictReader(open(os.path.join(OUT, 'cards.csv'))))
     # 12 Nov 2026: the member site's worked example is a card too, built only from signals
@@ -74,11 +115,22 @@ def main():
         n = len(G)
         def pct(f): return round(100 * sum(1 for r in G if f(r)) / n) if n else ''
         mine = {'n': n,
-                'surv10': pct(lambda r: r['surv10'] == 'yes'),   # exact values; the ledger's dips are rounded to 0.1
+                'surv10': pct(lambda r: r['surv10'] == 'yes'),   # the ledger's yes/no, decided on exact prices
                 'reach20': pct(lambda r: r['reached20'] == 'yes'),
                 'touched30': pct(lambda r: r['touched30'] == 'yes'),
                 'bestMove': round(st.median(float(r['bestMove']) for r in G), 1) if n else '',
-                'maxDip60': round(st.median(float(r['maxDrawdown']) for r in G), 1) if n else ''}
+                'maxDip60': round(st.median(float(r['maxDrawdown']) for r in G), 1) if n else '',
+                'reach10': pct(lambda r: r['reached10'] == 'yes'),
+                'dipBeforeHigh': round(st.median(float(r['dipBeforeHigh']) for r in G), 1) if n else '',
+                'bestMoveExact': round(st.median(float(r['bestMove']) for r in G), 6) if n else '',
+                'dipBeforeHighExact': round(st.median(float(r['dipBeforeHigh']) for r in G), 6) if n else '',
+                'maxDip60Exact': round(st.median(float(r['maxDrawdown']) for r in G), 6) if n else ''}
+        sc = [r['scaled20'] == 'yes' for r in G if r['scaled20'] in ('yes', 'no')]
+        mine['scaled20'] = round(100 * sum(sc) / len(sc)) if sc else ''
+        old = [r for r in G if r['entry'] < '2022-01-01']; new = [r for r in G if r['entry'] >= '2022-01-01']
+        sv = lambda X: round(100 * sum(r['surv10'] == 'yes' for r in X) / len(X)) if X else ''
+        mine.update(nOld=len(old), surv10Old=sv(old), nNew=len(new), surv10New=sv(new))
+        mine.update(ladder(G))
         paths = [p for p in (day_path(r['asset'], dt.date.fromisoformat(r['entry']), float(r['entryPrice'])) for r in G) if p]
         mm = lambda xs: round(st.median(xs)) if xs else ''
         timing = {'daysTo10': mm([p[0] for p in paths if p[0] is not None]), 'daysTo20': mm([p[1] for p in paths if p[1] is not None]),
@@ -88,10 +140,13 @@ def main():
             if (cv == '') != (v == '') or (cv != '' and abs(float(cv) - v) > 0):   # exact since 12 Nov 2026
                 bad.append(f"{c['chart']} {k}: card {cv} vs 1D data {v}")
         for k, v in mine.items():
-            cv = c[k]
-            cv = int(cv) if k in ('n', 'surv10', 'reach20', 'touched30') and cv != '' else (float(cv) if cv != '' else '')
-            tol = 0   # 12 Nov 2026: the ledger is exact and both sides round once, the same way
-            if cv == '' or v == '' or abs(cv - v) > tol:
+            cv = c.get(k, '')
+            cv = float(cv) if cv != '' else ''
+            # 12 Nov 2026: exact (0) for every shown figure. The three *Exact medians are the card's
+            # full-precision medians to 6 places; the ledger stores each measure to 6 places, so from the
+            # ledger they can only be confirmed to within one unit in the 6th place.
+            tol = 1e-6 + 1e-12 if k.endswith('Exact') and k[:2] != 'l0' and not k.startswith(('l5', 'l10', 'l15', 'l20')) else 0
+            if (cv == '') != (v == '') or (cv != '' and abs(cv - v) > tol):
                 bad.append(f"{c['chart']} {k}: card {c[k]} vs ledger {v}")
         checked += 1
     # the ledger's surv10 column must agree with its own rounded figures except at the -25.3 line

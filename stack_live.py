@@ -366,7 +366,9 @@ def main():
         return [DAY[a0]['high'][k] for k in ks], [DAY[a0]['low'][k] for k in ks]
 
     def ladder(G):
-        res = []
+        # returns the shown rows and, separately, each step's exact "still rose 10%" share (12 Nov 2026
+        # audit #8: the 70% edge bar is tested once, on the exact share)
+        res, exact = [], []
         for th in (5, 10, 15, 20):
             hit = ok = liq = 0
             for s0 in G:
@@ -384,7 +386,8 @@ def main():
                         break
                     if h >= e0 * 1.10: break
             res += [hit, round(100 * ok / hit) if hit else '', round(100 * liq / hit) if hit else '']
-        return res
+            exact.append(round(100 * ok / hit, 6) if hit else '')
+        return res, exact
 
     def from_entry(G):
         # the ladder's first row (12 Nov 2026 audit #5), measured like the rows under it: of every
@@ -398,7 +401,7 @@ def main():
             for h, l in zip(*win60(a0, i0, s0['d0'])):
                 if l <= e0 * (1 + MS.LIQ / 100): liq += 1; break
                 if h >= e0 * 1.10: ok += 1; break
-        return [round(100 * ok / n) if n else '', round(100 * liq / n) if n else '']
+        return [round(100 * ok / n) if n else '', round(100 * liq / n) if n else ''], (round(100 * ok / n, 6) if n else '')
 
     def timing(G):
         # card timing (1 Nov 2026, Jared: "how long do I stay in the tree?"): medians, in days from entry,
@@ -424,6 +427,7 @@ def main():
         sc = [x for x in (MS.scaled20(s0['a'], s0['d0'], s0['m']) for s0 in G) if x is not None]
         old = [s0 for s0 in G if s0['d0'] < SPLIT]; new = [s0 for s0 in G if s0['d0'] >= SPLIT]
         sv = lambda X: round(100 * sum(MS.surv10(s0['m']) for s0 in X) / len(X)) if X else ''
+        fe, fex = from_entry(G); la, lax = ladder(G)
         return [f"{r['a']} {r['tf']}", r['a'], r['tf'], str(r['_trough']), low_day(r['a'], r['tf'], r['_trough']), str(r['d0']), r['_need'], r['_kill'] if r['_kill'] else '',
                 r['_price_now'] if '_price_now' in r else round(r['entry'], 2), r.get('_entry_close', ''),
                 g, '; '.join(PLAIN.get(k, k) for k in have) or 'none', basis, n,
@@ -435,11 +439,11 @@ def main():
                 # (entry x (1 + pct)) are rounded once, to the cent, not twice
                 round(st.median(s0['m']['up'] for s0 in G), 6) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 6) if n else '',
                 round(st.median(s0['m']['dd'] for s0 in G), 6) if n else '',
-                len(old), sv(old), len(new), sv(new)] + from_entry(G) + ladder(G) + timing(G)
+                len(old), sv(old), len(new), sv(new)] + fe + la + [fex] + lax + timing(G)
     CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'lowDay', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'entryClose', 'grade', 'lenses', 'basis', 'n',
                 'surv10', 'scaled20', 'reach20', 'reach10', 'bestMove', 'dipBeforeHigh', 'maxDip60', 'touched30',
                 'bestMoveExact', 'dipBeforeHighExact', 'maxDip60Exact',
-                'nOld', 'surv10Old', 'nNew', 'surv10New', 'l0ok', 'l0liq'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow', 'confluences']
+                'nOld', 'surv10Old', 'nNew', 'surv10New', 'l0ok', 'l0liq'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['l0okExact', 'l5okExact', 'l10okExact', 'l15okExact', 'l20okExact'] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow', 'confluences']
     cells = []
     J = json.load(open(os.path.join(HERE, 'analysis', 'grokpack.json')))
     for lay in ('layer4', 'layer4_small', 'layer4b'):

@@ -17,8 +17,11 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 - `cards` is empty and `cards_withheld` is true whenever `stack_status.txt`
   has a FAILED line (stack coverage or the card cross-check). Same gate as
   the dashboard refresh task.
-- Card numbers follow `docs/CARD_SPEC.md`. A screen showing a card shows
-  `past_trades` beside every percentage and labels forming lows provisional.
+- Card numbers follow `docs/CARD_SPEC.md`. A screen showing a card shows the card's sample size
+  (`past_trades`) under the big number, which covers every figure from that sample; anything on a
+  different sample shows its own n (each ladder row, each era, and the misses: their count and pool).
+  A forming low is shown as "Setup forming ... can still vanish before it confirms" until it
+  confirms (`prints[].provisional`; the card's own state is the `cards[]` list itself, forming only).
 - `grade_odds` is pooled context only. Never show it as the number for a
   live setup (CONTEXT, "Never quote the pooled grade alone").
 
@@ -134,7 +137,8 @@ The card's headline is "rose 10% within 60 days", so the figures built around it
   Each entry carries `miss_rule` saying so. Field names unchanged.
 - `odds_fade`: each `early_dip` and `day10` row gains `rose10_within60d_pct`; `edge` is now
   marked on it against the 70% bar (was on +20%). `rose20_within60d_pct` stays, for detail.
-  `edge_measured_on: "rose 10% within 60 days"`.
+  `edge_measured_on` was "rose 10% within 60 days"; since 12 Nov (audit #6) it is "rose 10% after day 10
+  (days 11 to 60)", which is the window those shares count, and the `rose10/20_after_day10_pct` fields name it.
 
 The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - `grade_odds`: each entry gains `rose10_within60d_pct` (from grades.csv `reach10`).
@@ -197,3 +201,16 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   same values. They count computed signals; none was traded. The old names stay because fields are never renamed.
 - `if_it_misses[].up_first` counts misses whose best price within the 60 days was above entry (they went above
   entry at some point), not "above entry before ever being below it". The page says "went above entry".
+
+### Audit #8 corrections (12 Nov 2026)
+
+- `odds_fade.sample` now says what the sample is: ETH signals on the chart/tag pairs of the walk-forward tier
+  as fixed on 1 Jan 2026, applied to every signal from 2016. That is **in-sample** (the tier was chosen on the
+  outcomes of almost all of them). It is a general explainer and is not on any card.
+- The 70% edge bar is tested once, on the exact share, never on the whole-percent one shown: `earlydip.csv` /
+  `holdcheck.csv` gain `reached10Exact`; card ladder rows and `from_entry` gain `still_rose10_exact_pct`
+  (cards.csv `l0okExact`, `l5okExact` ... `l20okExact`). The page tests the bar on those.
+- **Rounding, stated precisely.** Each signal's measures are stored to 6 decimal places (the ledger); that is
+  the "exact" value. Card medians and shares are computed on full-precision measures and stored to 6 places
+  (`*_exact_pct`); every displayed figure is rounded once, from that value, half away from zero.
+- `verify_cards.py` now re-derives every figure on a card (see CARD_SPEC "What keeps it airtight" #2).

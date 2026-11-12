@@ -292,10 +292,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="sidebox">
           <div class="sec-title" style="color: var(--fade-2)">Reading a card</div>
           <dl>
-            <dt>The big number</dt><dd>How many past signals like this one rose 10% within 60 days of the entry close. The line under it: how many did that without ever falling 25.3% below the entry close, where 3.3x leverage with 5% maintenance margin liquidates.</dd>
+            <dt>The big number</dt><dd>The share of past signals like this one that rose 10% within 60 days of the entry close. The line under it: the share that did that without ever falling 25.3% below the entry close, where 3.3x leverage with 5% maintenance margin liquidates.</dd>
             <dt>Typical high</dt><dd>The median best price within 60 days, from the entry close.</dd>
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
-            <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, how many of its past signals still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
+            <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, the share of its past signals that still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our 70% bar.</dd>
             <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median of their best price within the 60 days.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
@@ -362,12 +362,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // this setup's past signals that still rose 10%. Below the 70% bar the edge is gone.
   function setupFade(m) {
     if (!m || !m.fallsFirst || !m.fallsFirst.length) return null;
-    const rows = m.fallsFirst.map((r) => ({ fell: r.fell_pct, n: r.past_trades, v: r.still_rose10_pct, liq: r.went_on_to_fall25_pct }));
+    const rows = m.fallsFirst.map((r) => ({ fell: r.fell_pct, n: r.past_trades, v: r.still_rose10_pct, liq: r.went_on_to_fall25_pct,
+      x: r.still_rose10_exact_pct ?? r.still_rose10_pct }));
     const bar = edgeRule().bar ?? 70, base = m.fromEntry ?? m.reach10;   // same measure as the rows below it (12 Nov 2026 audit #5)
     let edge = null;
-    if (base != null && base < bar) edge = 0;
-    else { const g = rows.find((r) => r.v != null && r.v !== "" && r.v < bar); edge = g ? -g.fell : null; }
-    return { rows, base, edge, bar };
+    // the 70% bar is tested once, on the exact share; the whole-percent one is only for display (12 Nov 2026 audit #8)
+    const baseX = m.fromEntryExact ?? base;
+    if (baseX != null && baseX < bar) edge = 0;
+    else { const g = rows.find((r) => r.x != null && r.x !== "" && r.x < bar); edge = g ? -g.fell : null; }
+    return { rows, base, baseX, edge, bar };
   }
   // The example's misses use only top-grade signals whose 60 days had closed by its date (no hindsight)
   function missesKnownBy(asset, date) {
@@ -423,6 +426,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       surv10: c.rose10_never_fell25_within60d_pct, entry: null,
       eras: [["Before 2022", c.before_2022], ["Since 2022", c.since_2022]].filter((e) => e[1]).map(([t, e]) => ({ t, n: e.past_trades, v: e.rose10_never_fell25_within60d_pct, what: "rose 10%, never fell 25.3%" })),
       fallsFirst: c.if_it_falls_first || [], fromEntry: c.from_entry ? c.from_entry.still_rose10_pct : null,
+      fromEntryExact: c.from_entry ? (c.from_entry.still_rose10_exact_pct ?? c.from_entry.still_rose10_pct) : null,
     };
   }
   function openSignals() { return ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+"); }
@@ -507,7 +511,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
     const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
       : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
-    const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median best ${pct(mi.median_peak_pct)}` : "n/a";
+    const missTxt = mi ? `${mi.up_first} of ${mi.misses}` + ` · median best ${pct(mi.median_peak_pct)}` : "n/a";
     box.innerHTML = `
       <div class="card-head">
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
@@ -520,7 +524,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="big num">${m.reach10 ?? "n/a"}%</div>
           <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days</div>
           <div style="font-size: 13px; color: var(--high)">${m.surv10 ?? "n/a"}% did it without ever falling 25.3%</div>
-          <div class="small">${m.fromCard ? `from ${m.n} past signals like this one` : `from all ${m.n} ${esc(m.asset)} top-grade signals`}</div>
+          <div class="small">${m.fromCard ? `from ${m.n} past signals like this one` : `from all ${m.n} ${esc(m.asset)} top-grade signals`} · every figure covers the 60 days after entry</div>
         </div>
         <div class="stats num">
           <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
@@ -539,8 +543,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="tile"><div class="t">Touched ${MINUS}30% within 60 days · n ${m.n}</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
           ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${e.redOdds ?? "n/a"}%</div></div>`}
-          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
-          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
+          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
+          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
         <div class="boxes">
           <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · ETH tier signals"}</div><div class="ladder" id="ladder"></div></div>
@@ -555,15 +559,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const lad = $("#ladder");
     const row = (t, v, gone, extra) => `<div class="bar"><span>${esc(t).replace(/-/g, MINUS)}${extra ? ` <span class="small">${extra}</span>` : ""}</span><div class="t"><div class="f${gone ? " gone" : ""}" style="width: ${v ?? 0}%"></div></div><span class="num">${v ?? "n/a"}${v != null ? "%" : ""}</span></div>`;
     if (sf) {
-      lad.innerHTML = row("From entry", sf.base, sf.base < sf.bar, `n ${m.n}`)
-        + sf.rows.map((r) => row(`Falls ${r.fell}% first`, r.v === "" ? null : r.v, r.v !== "" && r.v < sf.bar, `n ${r.n}`)).join("")
+      lad.innerHTML = row("From entry", sf.base, sf.baseX != null && sf.baseX < sf.bar, `n ${m.n}`)
+        + sf.rows.map((r) => row(`Falls ${r.fell}% first`, r.v === "" ? null : r.v, r.x !== "" && r.x != null && r.x < sf.bar, `n ${r.n}`)).join("")
         + `<div class="fine">Share of this setup's past signals that, after first falling that far, still rose 10% before ever falling 25.3%. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
     } else {
       const of = S.feed && S.feed.odds_fade;
       const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : [])
         .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : []);
       lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
-        + `<div class="fine">ETH signals in the walk-forward tier, every chart, 2016 on: share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
+        + `<div class="fine">ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan 2026, applied to every signal from 2016 (in-sample: the tier was chosen on most of these outcomes): share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
     }
     $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}%</span></div>`).join("");
   }

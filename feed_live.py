@@ -168,10 +168,12 @@ def card(r):
             for x in json.loads(r.get("confluences") or "[]")
         ],
         # the ladder's first row (12 Nov 2026 audit #5): from entry, rose 10% before ever falling 25.3%
-        "from_entry": {"past_trades": num(r["n"]), "still_rose10_pct": num(r.get("l0ok", "")), "went_on_to_fall25_pct": num(r.get("l0liq", ""))},
+        "from_entry": {"past_trades": num(r["n"]), "still_rose10_pct": num(r.get("l0ok", "")), "went_on_to_fall25_pct": num(r.get("l0liq", "")),
+                       "still_rose10_exact_pct": num(r.get("l0okExact", ""))},
         "if_it_falls_first": [
             {"fell_pct": k, "past_trades": num(r[f"l{k}n"]),
-             "still_rose10_pct": num(r[f"l{k}ok"]), "went_on_to_fall25_pct": num(r[f"l{k}liq"])}
+             "still_rose10_pct": num(r[f"l{k}ok"]), "went_on_to_fall25_pct": num(r[f"l{k}liq"]),
+             "still_rose10_exact_pct": num(r.get(f"l{k}okExact", ""))}
             for k in (5, 10, 15, 20)
         ],
     }
@@ -321,7 +323,7 @@ def main():
     feed["odds_fade"] = {
         "label": LABEL,
         "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
-        "sample": "ETH signals in the walk-forward tier, every chart, 2016 on (refresh.py earlydip/holdcheck), measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
+        "sample": "ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan 2026, applied to every signal from 2016 (refresh.py earlydip/holdcheck). In-sample: the tier was chosen on the outcomes of almost all of these signals. Measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
         "edge_measured_on": "rose 10% after day 10 (days 11 to 60)",
         # rose10/20_after_day10_pct name the real window (days 11-60). The *_within60d_pct names are
         # kept, same values, because feed fields are never renamed or removed (FEED_SPEC); don't use them.

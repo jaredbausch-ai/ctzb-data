@@ -2,9 +2,10 @@
 
 Descriptive only. Nothing here is a filter test, nothing selects or grades a
 signal, and nothing is tuned: every figure re-reads the pipeline's own
-datasets for A+ signals (the only grade members are sent) and reports it.
+datasets and reports it.
 
-1. If it misses. A+ signals that did NOT rise 10% within 60 days of entry (+20% until 11 Nov 2026):
+1. If it misses. Per asset and grade (A+, A, B, C since 11 Nov 2026, so a below-grade forming card
+   has its own): signals that did NOT rise 10% within 60 days of entry (+20% until 11 Nov 2026):
    how many went above entry at some point in the 60 days, and how far (median and mean of the best
    move above entry inside the 60 days). Also their median worst drop and
    median day-60 return. Source: datasets/ledger.csv (bestMove, maxDrawdown,
@@ -22,8 +23,9 @@ datasets for A+ signals (the only grade members are sent) and reports it.
 3. Where the odds fade. Re-reads datasets/earlydip.csv (deepest dip in the
    first 10 days -> rose 10%, +20% alongside) and datasets/holdcheck.csv (green / red on
    day 10) and marks each row against the 70% posting bar (WINMIN in
-   refresh.py). Jared 11 Nov: below 70% the signal's edge is gone. These two
-   datasets pool every kept signal, not A+ only, and are labelled so.
+   refresh.py) on the exact share (reached10Exact). Jared 11 Nov: below 70% the signal's edge is
+   gone. These two datasets pool ETH signals on the walk-forward tier fixed on 1 Jan 2026, applied
+   to every signal from 2016 (in-sample), all grades, and are labelled so.
 
 Entry quality only: there is no exit in the data, so none of this is a
 strategy return or a track record. Computed signals, never fills.
@@ -128,15 +130,20 @@ def paths(led, asset):
     }
 
 
+def _x10(r):
+    # 12 Nov 2026 audit #8: the 70% bar is tested on the exact share, not the whole-percent one shown
+    return float(r["reached10Exact"]) if r.get("reached10Exact") not in (None, "") else int(r["reached10"])
+
+
 def fade():
     # Edge is marked on +10% (Jared 11 Nov 2026: the headline moved to +10%); +20% kept alongside.
     early = [{"band": r["band"], "n": int(r["n"]), "reached10_pct": int(r["reached10"]), "reached20_pct": int(r["reached20"]),
-              "edge": "intact" if int(r["reached10"]) >= POST_BAR else "gone"}
+              "edge": "intact" if _x10(r) >= POST_BAR else "gone"}
              for r in rows("datasets/earlydip.csv")]
     hold = [{"check": r["check"], "n": int(r["n"]), "reached10_pct": int(r["reached10"]), "reached20_pct": int(r["reached20"]),
-             "edge": "intact" if int(r["reached10"]) >= POST_BAR else "gone"}
+             "edge": "intact" if _x10(r) >= POST_BAR else "gone"}
             for r in rows("datasets/holdcheck.csv")]
-    return {"posting_bar_pct": POST_BAR, "sample": "every kept signal, all grades", "early_dip": early, "day10": hold}
+    return {"posting_bar_pct": POST_BAR, "sample": "ETH walk-forward tier as fixed on 1 Jan 2026, every signal from 2016, all grades (in-sample)", "early_dip": early, "day10": hold}
 
 
 def main():

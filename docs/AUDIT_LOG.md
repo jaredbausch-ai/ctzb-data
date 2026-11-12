@@ -196,6 +196,38 @@ Report: `analysis/audit7_2026-11-12/AUDIT7.md`.
 **Re-checked after the changes:** feed tests 15 + 27, site worker 24, fire drills 58/58, page
 screenshot with the replay data.
 
+## Round 8 — 12 Nov, 13:10 ET (audit #8, a new independent agent)
+
+**Found:** 59,709 comparisons. **No numeric disagreement in either state** (second round running).
+11 rows, 9 items: one label (the odds-fade sample) and the rest docs that didn't match the code.
+Report: `analysis/audit8_2026-11-12/AUDIT8.md` (the auditor's caches and page dumps left out).
+
+**Changed** (this round's commit):
+- **Odds-fade sample label.** It said "walk-forward tier, 2016 on", but the tier fixed on 1 Jan 2026 is
+  applied to every signal back to 2016, so 167 of 168 are the signals it was chosen on. The feed's
+  `sample` and the page's fine print now say so: in-sample, a general explainer. (Not shown on any card
+  in either state. The auditor notes that judged year by year the "−10% to −20%" row would read 58%
+  "gone" instead of 79% "intact"; I did not change the method — that's a definitional call for Jared.)
+- **The 70% edge bar is now tested on the exact share**, never on the whole-percent one shown (a 69.6%
+  share displays as 70% and used to count as intact). New exact columns: `reached10Exact` in
+  earlydip/holdcheck, `l0okExact`…`l20okExact` on the cards, `still_rose10_exact_pct` in the feed's
+  ladder rows. No badge or edge moved in either state.
+- **`verify_cards.py` now re-derives every figure on a card**, as the docs claimed: added the big number,
+  scaled20, dip-before-high, the three exact medians, both eras, and the from-entry and four ladder rows
+  (written out independently from the 1D candles). Tested by planting four wrong values: all four caught.
+  The three 6-place exact medians are confirmed to one unit in the 6th place (the ledger's precision).
+- **Misses always show their count**: "5 of 5" instead of "Every time", and the miss tiles say "95 misses
+  of all 312 BTC C", since their medians rest on the misses only.
+- The card says once, under the big number, "every figure covers the 60 days after entry"; How to read
+  says "the share" for figures shown as percentages.
+- Docs: rounding stated precisely ("exact" = stored to 6 places, displayed figures rounded once from it);
+  FEED_SPEC n-rule and forming wording match the page; CARD_SPEC wording rules and the verify_cards
+  description; CONTEXT's old big-number line and "still on +20%" marked superseded; carddesign docstring
+  (all four grades, exact edge test).
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
+feed/candle tests 15 + 27 + 15, worker tests, fire drills 58/58, page screenshot.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

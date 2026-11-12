@@ -579,9 +579,11 @@ def ds_earlydip(ch, keep, outdir, data_dir):
         rows.append([lab, len(g),
                      round(sum(1 for p in g if p["mfe"] >= 10) / len(g) * 100),
                      round(sum(1 for p in g if p["mfe"] >= 20) / len(g) * 100),
-                     round(st.median([p["mfe"] for p in g]), 1)])
+                     round(st.median([p["mfe"] for p in g]), 1),
+                     round(sum(1 for p in g if p["mfe"] >= 10) / len(g) * 100, 6)])
+    # reached10Exact (12 Nov 2026 audit #8): the unrounded share, so the 70% bar is tested once, on it
     write_csv(os.path.join(outdir, "earlydip.csv"),
-              ["band", "n", "reached10", "reached20", "medRun"], rows)
+              ["band", "n", "reached10", "reached20", "medRun", "reached10Exact"], rows)
     return rows
 
 
@@ -614,9 +616,10 @@ def ds_holdcheck(ch, keep, outdir, data_dir):
                      round(st.median([x["run"] for x in g]), 1),
                      round(st.median([x["dip"] for x in g]), 1),
                      sum(1 for x in g if x["dip"] <= -33.3),
-                     round(sum(1 for x in g if x["run"] >= 10) / len(g) * 100)])
+                     round(sum(1 for x in g if x["run"] >= 10) / len(g) * 100),
+                     round(sum(1 for x in g if x["run"] >= 10) / len(g) * 100, 6)])
     write_csv(os.path.join(outdir, "holdcheck.csv"),
-              ["check", "n", "reached20", "medRun", "medDip", "deepDips", "reached10"], rows)
+              ["check", "n", "reached20", "medRun", "medDip", "deepDips", "reached10", "reached10Exact"], rows)
     return rows
 
 
