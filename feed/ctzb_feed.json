@@ -1,13 +1,13 @@
 {
  "schema_version": 5,
- "generated_at": "2026-11-12T16:59:25Z",
+ "generated_at": "2026-11-12T17:17:50Z",
  "scored_as_of": "2026-11-12",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-12 16:59 UTC OK 23 subjects, 858 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-12",
-   "2026-11-12 16:59 UTC OK card cross-check, 24 cards match the ledger"
+   "2026-11-12 17:17 UTC OK 23 subjects, 858 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-12",
+   "2026-11-12 17:17 UTC OK card cross-check, 24 cards match the ledger"
   ],
   "all_passed": false,
   "steps": {
@@ -759,7 +759,7 @@
   }
  ],
  "candle_check": {
-  "checked_at": "2026-11-12T16:59:05+00:00",
+  "checked_at": "2026-11-12T17:17:27+00:00",
   "cross_mode": "enforce",
   "structural_ok": true,
   "kraken": {
@@ -902,11 +902,13 @@
   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
   "posting_bar_pct": 70,
   "sample": "ETH signals in the walk-forward tier, every chart, 2016 on (refresh.py earlydip/holdcheck), measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
-  "edge_measured_on": "rose 10% within 60 days",
+  "edge_measured_on": "rose 10% after day 10 (days 11 to 60)",
   "early_dip": [
    {
     "band": "shallower than -2%",
     "past_trades": 34,
+    "rose10_after_day10_pct": 91,
+    "rose20_after_day10_pct": 85,
     "rose10_within60d_pct": 91,
     "rose20_within60d_pct": 85,
     "edge": "intact"
@@ -914,6 +916,8 @@
    {
     "band": "-2% to -5%",
     "past_trades": 50,
+    "rose10_after_day10_pct": 92,
+    "rose20_after_day10_pct": 88,
     "rose10_within60d_pct": 92,
     "rose20_within60d_pct": 88,
     "edge": "intact"
@@ -921,6 +925,8 @@
    {
     "band": "-5% to -10%",
     "past_trades": 36,
+    "rose10_after_day10_pct": 89,
+    "rose20_after_day10_pct": 72,
     "rose10_within60d_pct": 89,
     "rose20_within60d_pct": 72,
     "edge": "intact"
@@ -928,6 +934,8 @@
    {
     "band": "-10% to -20%",
     "past_trades": 29,
+    "rose10_after_day10_pct": 79,
+    "rose20_after_day10_pct": 59,
     "rose10_within60d_pct": 79,
     "rose20_within60d_pct": 59,
     "edge": "intact"
@@ -935,6 +943,8 @@
    {
     "band": "worse than -20%",
     "past_trades": 19,
+    "rose10_after_day10_pct": 42,
+    "rose20_after_day10_pct": 37,
     "rose10_within60d_pct": 42,
     "rose20_within60d_pct": 37,
     "edge": "gone"
@@ -944,6 +954,8 @@
    {
     "check": "green on day 10",
     "past_trades": 104,
+    "rose10_after_day10_pct": 96,
+    "rose20_after_day10_pct": 88,
     "rose10_within60d_pct": 96,
     "rose20_within60d_pct": 88,
     "edge": "intact"
@@ -951,6 +963,8 @@
    {
     "check": "red on day 10",
     "past_trades": 64,
+    "rose10_after_day10_pct": 63,
+    "rose20_after_day10_pct": 48,
     "rose10_within60d_pct": 63,
     "rose20_within60d_pct": 48,
     "edge": "gone"
@@ -1708,5 +1722,380 @@
     }
    ]
   }
- ]
+ ],
+ "example_past_paths": {
+  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+  "asset": "ETH",
+  "grade": "A+",
+  "signals": 75,
+  "note": "The worked example's cloud: only ETH top-grade signals whose 60th day had closed by 2024-09-22.",
+  "days": [
+   {
+    "day": 0,
+    "q25_pct": 0.0,
+    "median_pct": 0.0,
+    "q75_pct": 0.0
+   },
+   {
+    "day": 1,
+    "q25_pct": -1.5,
+    "median_pct": 0.7,
+    "q75_pct": 2.7
+   },
+   {
+    "day": 2,
+    "q25_pct": -1.8,
+    "median_pct": 0.2,
+    "q75_pct": 4.4
+   },
+   {
+    "day": 3,
+    "q25_pct": -2.3,
+    "median_pct": 1.0,
+    "q75_pct": 5.9
+   },
+   {
+    "day": 4,
+    "q25_pct": -2.8,
+    "median_pct": 2.0,
+    "q75_pct": 6.4
+   },
+   {
+    "day": 5,
+    "q25_pct": -2.7,
+    "median_pct": 1.6,
+    "q75_pct": 8.4
+   },
+   {
+    "day": 6,
+    "q25_pct": -3.0,
+    "median_pct": 1.2,
+    "q75_pct": 8.9
+   },
+   {
+    "day": 7,
+    "q25_pct": -3.3,
+    "median_pct": 0.6,
+    "q75_pct": 8.8
+   },
+   {
+    "day": 8,
+    "q25_pct": -3.4,
+    "median_pct": 4.1,
+    "q75_pct": 10.6
+   },
+   {
+    "day": 9,
+    "q25_pct": -2.4,
+    "median_pct": 2.9,
+    "q75_pct": 10.8
+   },
+   {
+    "day": 10,
+    "q25_pct": -4.3,
+    "median_pct": 5.8,
+    "q75_pct": 12.7
+   },
+   {
+    "day": 11,
+    "q25_pct": -4.8,
+    "median_pct": 5.4,
+    "q75_pct": 13.1
+   },
+   {
+    "day": 12,
+    "q25_pct": -3.3,
+    "median_pct": 6.6,
+    "q75_pct": 13.5
+   },
+   {
+    "day": 13,
+    "q25_pct": -3.1,
+    "median_pct": 3.7,
+    "q75_pct": 14.7
+   },
+   {
+    "day": 14,
+    "q25_pct": -1.5,
+    "median_pct": 4.3,
+    "q75_pct": 14.3
+   },
+   {
+    "day": 15,
+    "q25_pct": -2.9,
+    "median_pct": 7.8,
+    "q75_pct": 15.9
+   },
+   {
+    "day": 16,
+    "q25_pct": -4.4,
+    "median_pct": 7.7,
+    "q75_pct": 18.1
+   },
+   {
+    "day": 17,
+    "q25_pct": -3.4,
+    "median_pct": 8.6,
+    "q75_pct": 18.0
+   },
+   {
+    "day": 18,
+    "q25_pct": -2.8,
+    "median_pct": 8.2,
+    "q75_pct": 18.5
+   },
+   {
+    "day": 19,
+    "q25_pct": -3.1,
+    "median_pct": 8.7,
+    "q75_pct": 22.4
+   },
+   {
+    "day": 20,
+    "q25_pct": -4.0,
+    "median_pct": 8.3,
+    "q75_pct": 24.6
+   },
+   {
+    "day": 21,
+    "q25_pct": -2.6,
+    "median_pct": 9.9,
+    "q75_pct": 24.7
+   },
+   {
+    "day": 22,
+    "q25_pct": -2.6,
+    "median_pct": 7.9,
+    "q75_pct": 25.0
+   },
+   {
+    "day": 23,
+    "q25_pct": -2.3,
+    "median_pct": 9.5,
+    "q75_pct": 25.1
+   },
+   {
+    "day": 24,
+    "q25_pct": -2.4,
+    "median_pct": 8.2,
+    "q75_pct": 26.2
+   },
+   {
+    "day": 25,
+    "q25_pct": -2.3,
+    "median_pct": 9.2,
+    "q75_pct": 27.2
+   },
+   {
+    "day": 26,
+    "q25_pct": -2.7,
+    "median_pct": 11.3,
+    "q75_pct": 27.2
+   },
+   {
+    "day": 27,
+    "q25_pct": -2.1,
+    "median_pct": 11.9,
+    "q75_pct": 26.5
+   },
+   {
+    "day": 28,
+    "q25_pct": -1.2,
+    "median_pct": 12.5,
+    "q75_pct": 30.1
+   },
+   {
+    "day": 29,
+    "q25_pct": -2.3,
+    "median_pct": 11.8,
+    "q75_pct": 30.9
+   },
+   {
+    "day": 30,
+    "q25_pct": 0.2,
+    "median_pct": 11.7,
+    "q75_pct": 33.4
+   },
+   {
+    "day": 31,
+    "q25_pct": -0.0,
+    "median_pct": 13.5,
+    "q75_pct": 38.2
+   },
+   {
+    "day": 32,
+    "q25_pct": -0.4,
+    "median_pct": 12.1,
+    "q75_pct": 41.8
+   },
+   {
+    "day": 33,
+    "q25_pct": 2.2,
+    "median_pct": 11.8,
+    "q75_pct": 34.0
+   },
+   {
+    "day": 34,
+    "q25_pct": 2.2,
+    "median_pct": 13.1,
+    "q75_pct": 37.1
+   },
+   {
+    "day": 35,
+    "q25_pct": 1.9,
+    "median_pct": 13.4,
+    "q75_pct": 32.4
+   },
+   {
+    "day": 36,
+    "q25_pct": 2.3,
+    "median_pct": 13.0,
+    "q75_pct": 30.9
+   },
+   {
+    "day": 37,
+    "q25_pct": 0.9,
+    "median_pct": 13.0,
+    "q75_pct": 35.3
+   },
+   {
+    "day": 38,
+    "q25_pct": 2.0,
+    "median_pct": 15.2,
+    "q75_pct": 40.3
+   },
+   {
+    "day": 39,
+    "q25_pct": 2.1,
+    "median_pct": 11.5,
+    "q75_pct": 38.3
+   },
+   {
+    "day": 40,
+    "q25_pct": 1.9,
+    "median_pct": 14.9,
+    "q75_pct": 36.6
+   },
+   {
+    "day": 41,
+    "q25_pct": 2.5,
+    "median_pct": 15.3,
+    "q75_pct": 32.3
+   },
+   {
+    "day": 42,
+    "q25_pct": 2.3,
+    "median_pct": 14.8,
+    "q75_pct": 39.9
+   },
+   {
+    "day": 43,
+    "q25_pct": -0.4,
+    "median_pct": 14.1,
+    "q75_pct": 38.6
+   },
+   {
+    "day": 44,
+    "q25_pct": 2.2,
+    "median_pct": 13.7,
+    "q75_pct": 38.7
+   },
+   {
+    "day": 45,
+    "q25_pct": -0.9,
+    "median_pct": 14.8,
+    "q75_pct": 35.9
+   },
+   {
+    "day": 46,
+    "q25_pct": -0.9,
+    "median_pct": 16.5,
+    "q75_pct": 34.8
+   },
+   {
+    "day": 47,
+    "q25_pct": 0.4,
+    "median_pct": 20.4,
+    "q75_pct": 33.8
+   },
+   {
+    "day": 48,
+    "q25_pct": 0.2,
+    "median_pct": 16.3,
+    "q75_pct": 29.7
+   },
+   {
+    "day": 49,
+    "q25_pct": -0.1,
+    "median_pct": 14.4,
+    "q75_pct": 32.0
+   },
+   {
+    "day": 50,
+    "q25_pct": -0.8,
+    "median_pct": 17.4,
+    "q75_pct": 35.1
+   },
+   {
+    "day": 51,
+    "q25_pct": -0.5,
+    "median_pct": 22.5,
+    "q75_pct": 34.7
+   },
+   {
+    "day": 52,
+    "q25_pct": 0.5,
+    "median_pct": 18.2,
+    "q75_pct": 36.0
+   },
+   {
+    "day": 53,
+    "q25_pct": -0.1,
+    "median_pct": 19.1,
+    "q75_pct": 39.7
+   },
+   {
+    "day": 54,
+    "q25_pct": 0.1,
+    "median_pct": 20.9,
+    "q75_pct": 42.1
+   },
+   {
+    "day": 55,
+    "q25_pct": 0.2,
+    "median_pct": 21.0,
+    "q75_pct": 37.6
+   },
+   {
+    "day": 56,
+    "q25_pct": 1.4,
+    "median_pct": 22.9,
+    "q75_pct": 46.4
+   },
+   {
+    "day": 57,
+    "q25_pct": 0.5,
+    "median_pct": 22.5,
+    "q75_pct": 45.4
+   },
+   {
+    "day": 58,
+    "q25_pct": 0.5,
+    "median_pct": 21.5,
+    "q75_pct": 50.5
+   },
+   {
+    "day": 59,
+    "q25_pct": 0.3,
+    "median_pct": 20.0,
+    "q75_pct": 48.1
+   },
+   {
+    "day": 60,
+    "q25_pct": 2.7,
+    "median_pct": 22.4,
+    "q75_pct": 49.4
+   }
+  ]
+ }
 }
