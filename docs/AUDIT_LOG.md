@@ -314,7 +314,7 @@ commit 3c240ec (`bucket_end` defined in refresh.py), pushed at 19:47 UTC, and a 
 `tests/test_action_env.py` runs refresh with numpy blocked: it fails on the old code, passes on the new. It is
 now part of every round's checks.
 
-**Changed** (this round's commit):
+**Changed** (commit 3ba3890):
 - CONTEXT and FEED_SPEC give the real schedule: the `ctzb-scheduler` Worker triggers the pipeline at :13 after
   each 4-hour close (backup :43), not 01:20 / 05:20 … or "7 minutes after".
 - CARD_SPEC has a new section defining every label on the member site's card (from-entry row, Edge gone below,
