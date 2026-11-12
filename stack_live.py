@@ -381,12 +381,20 @@ def main():
         t20 = [x for x in (MS.days_to(s0['a'], s0['d0'], s0['entry'], 20) for s0 in G) if x is not None]
         return [med(t10), med(t20), med([s0['m']['dpk'] for s0 in G]), med([s0['m']['ddday'] for s0 in G])]
 
+    def low_day(a, tf, trough):
+        # 12 Nov 2026 audit #4: `trough` is the trough BAR's open date; on a 2D+ chart the low itself
+        # printed on one of that bar's days. The day of the lowest daily low inside the bar.
+        t0 = trough if isinstance(trough, dt.date) else dt.date.fromisoformat(str(trough))
+        days = [t0 + dt.timedelta(days=k) for k in range(int(tf.rstrip('D')))]
+        cand = [(DAY[a]['low'][DPOS[a][d]], d) for d in days if d in DPOS[a]]
+        return str(min(cand)[1]) if cand else str(t0)
+
     def card(r, g, have, basis, G):
         n = len(G); pct = lambda k: round(100 * k / n) if n else ''
         sc = [x for x in (MS.scaled20(s0['a'], s0['d0'], s0['m']) for s0 in G) if x is not None]
         old = [s0 for s0 in G if s0['d0'] < SPLIT]; new = [s0 for s0 in G if s0['d0'] >= SPLIT]
         sv = lambda X: round(100 * sum(MS.surv10(s0['m']) for s0 in X) / len(X)) if X else ''
-        return [f"{r['a']} {r['tf']}", r['a'], r['tf'], str(r['_trough']), str(r['d0']), r['_need'], r['_kill'] if r['_kill'] else '',
+        return [f"{r['a']} {r['tf']}", r['a'], r['tf'], str(r['_trough']), low_day(r['a'], r['tf'], r['_trough']), str(r['d0']), r['_need'], r['_kill'] if r['_kill'] else '',
                 round(r['entry'], 2), g, '; '.join(PLAIN.get(k, k) for k in have) or 'none', basis, n,
                 pct(sum(MS.surv10(s0['m']) for s0 in G)), round(100 * sum(sc) / len(sc)) if sc else '',
                 pct(sum(s0['m']['up'] >= 20 for s0 in G)), pct(sum(s0['m']['up'] >= 10 for s0 in G)),
@@ -397,7 +405,7 @@ def main():
                 round(st.median(s0['m']['up'] for s0 in G), 6) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 6) if n else '',
                 round(st.median(s0['m']['dd'] for s0 in G), 6) if n else '',
                 len(old), sv(old), len(new), sv(new)] + ladder(G) + timing(G)
-    CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'grade', 'lenses', 'basis', 'n',
+    CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'lowDay', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'grade', 'lenses', 'basis', 'n',
                 'surv10', 'scaled20', 'reach20', 'reach10', 'bestMove', 'dipBeforeHigh', 'maxDip60', 'touched30',
                 'bestMoveExact', 'dipBeforeHighExact', 'maxDip60Exact',
                 'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow', 'confluences']

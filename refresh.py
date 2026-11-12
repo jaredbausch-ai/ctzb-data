@@ -248,13 +248,20 @@ def pool(ch):
 
 # --------------------------------------------------------------- datasets
 
+def _tf_days(chart):
+    return int(chart.split()[1].rstrip("D"))
+
+
 def select_tier(rows, upto=None):
     """Chart-and-tag combinations clearing NMIN instances at WINMIN percent."""
     keep = []
     for name, _ in CHARTS:
         for t in TAGS:
+            # walk-forward (12 Nov 2026 audit #4): only signals whose 60-day outcome had CLOSED
+            # before `upto` -- r["d"] is the confirmation bar's open date, so the entry is the
+            # close of that bar, tf - 1 days later, and the outcome's last day is 60 days after
             sub = [r for r in rows if r["chart"] == name and t in r["tags"]
-                   and (upto is None or r["d"] < upto)]
+                   and (upto is None or r["d"] + dt.timedelta(days=_tf_days(r["chart"]) - 1 + HOR) < upto)]
             if len(sub) >= NMIN and wr(sub) >= WINMIN:
                 keep.append((name, t))
     return keep

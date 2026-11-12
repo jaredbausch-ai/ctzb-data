@@ -35,7 +35,7 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | As on the dashboard |
 | `cards[]` | cards.csv | One per live setup (below) |
 | `prints[]` | prints.csv | Every confirmed and forming low; `provisional` true until it confirms |
-| `open_signals[]` | forward.csv, status open | Signals inside their 60 days, with day 10/30/60 and best/worst so far (computed, not fills) |
+| `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
 | `confluence_windows[]` | windows.csv | Every confluence window open now and when it closes |
 | `grade_odds[]` | grades.csv | Pooled grade record per asset |
 
@@ -49,7 +49,7 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `price_now` | priceNow | |
 | `grade`, `confirmations` | grade, lenses | |
 | `sample`, `past_trades` | basis, n | The like-for-like sample and its size |
-| `rose10_never_fell25_within60d_pct` | surv10 | The big number |
+| `rose10_never_fell25_within60d_pct` | surv10 | The line under the big number (the big number until 11 Nov 2026; now `rose10_within60d_pct`) |
 | `beat_normal_move_pct` | scaled20 | |
 | `rose20_within60d_pct`, `rose10_within60d_pct` | reach20, reach10 | |
 | `typical_biggest_rise_pct` | bestMove | |
@@ -161,3 +161,8 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - `odds_fade`: measured on daily candles from the entry close; every row's +10%/+20% share counts highs after day 10
   (days 11 to 60); the day-10 rows group by the day-10 daily close. Labelled as a general explainer.
 - `past_paths`: quantiles taken on exact path values, rounded once.
+- `cards[].low_day` (12 Nov 2026, audit #4): the calendar day the low printed. `low_date` stays the trough BAR's open
+  date, which on a 2D+ chart can be a day earlier.
+- The walk-forward tier (refresh.py `select_tier(upto=...)`, used by `odds_fade` and forward.csv's `tier`) counts only
+  signals whose 60-day outcome had closed before 1 January of the year in question (it used to count signals dated
+  before 1 January whose outcomes ended after it).

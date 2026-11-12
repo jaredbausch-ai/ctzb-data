@@ -132,6 +132,7 @@ def card(r):
         "asset": r["asset"],
         "timeframe": r["tf"],
         "low_date": r["trough"],
+        "low_day": r.get("lowDay") or r["trough"],  # the day the low printed (12 Nov 2026); low_date is its bar's open date
         "confirms_on": r["confirms"],
         "bars_to_confirm": num(r["barsNeeded"]),
         "must_close_above": num(r["killClose"]),

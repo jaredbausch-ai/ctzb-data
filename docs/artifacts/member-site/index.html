@@ -190,7 +190,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
 <div class="app">
   <div class="review" id="review">
-    <span><b>Review build.</b> Real pipeline data, scored <span id="rvAsof" class="num">…</span>. Members see top-grade setups only; the lead trader's feed is in dry run.</span>
+    <span><b>Review build.</b> Real pipeline data, scored <span id="rvAsof" class="num">…</span>. Alerts go out for top-grade setups only; below-grade forming setups are shown for context. The lead trader's feed is in dry run.</span>
     <label class="switch" for="previewSwitch"><input type="checkbox" id="previewSwitch"> Show the example card</label>
   </div>
 
@@ -296,7 +296,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, how many of its past signals still rose 10%. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our 70% bar.</dd>
-            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many were above entry first, and their median peak before they failed.</dd>
+            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many were above entry at some point first, and the median of their best price within the 60 days.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in. His real trades never change the odds.</dd>
           </dl>
           <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</div>
@@ -319,8 +319,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const NS = "http://www.w3.org/2000/svg";
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const MINUS = "−";
-  const fmt = (v, d = 1) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : (+v).toFixed(d).replace("-", MINUS);
-  const pct = (v, d = 1, sign = true) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : ((sign && +v > 0 ? "+" : "") + fmt(v, d) + "%");
+  const fmt = (v, d = 1) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : (+(+v).toFixed(d) === 0 ? (0).toFixed(d) : (+v).toFixed(d).replace("-", MINUS));
+  const pct = (v, d = 1, sign = true) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : ((sign && +(+v).toFixed(d) > 0 ? "+" : "") + fmt(v, d) + "%");
   const money = (v) => v == null ? "n/a" : "$" + (+v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const median = (a) => { const s = a.filter((x) => Number.isFinite(x)).sort((x, y) => x - y); if (!s.length) return null; const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
   const r1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(+v)) ? null : +(+v).toFixed(d); // half away from zero, like the feed
@@ -415,7 +415,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function cardFromFeed(c) {
     return {
       kind: "forming", fromCard: true, asset: c.asset, chart: c.chart, tf: c.timeframe, signal_id: c.signal_id, top: c.grade === "A+", grade: c.grade,
-      line: `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)}${c.must_close_above ? " if it closes above " + money(c.must_close_above) : ""}`,
+      line: `Low ${dateLong(c.low_day || c.low_date)} · confirms ${dateLong(c.confirms_on)}${c.must_close_above ? " if it closes above " + money(c.must_close_above) : ""}`,
       odds: c.rose20_within60d_pct, n: c.past_trades, sample: c.sample,
       high: c.typical_biggest_rise_exact_pct ?? c.typical_biggest_rise_pct, drop: c.typical_deepest_dip_exact_pct ?? c.typical_deepest_dip_pct, dipBefore: c.typical_dip_before_rise_exact_pct ?? c.typical_dip_before_rise_pct,
       highDay: c.typical_day_of_60d_high, lowDay: c.typical_day_of_deepest_dip, reach10: c.rose10_within60d_pct, touched30: c.fell30_within60d_pct,
@@ -506,13 +506,13 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
     const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
       : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
-    const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median peak ${pct(mi.median_peak_pct)}` : "n/a";
+    const missTxt = mi ? (mi.up_first === mi.misses ? "Every time" : `${mi.up_first} of ${mi.misses}`) + ` · median best ${pct(mi.median_peak_pct)}` : "n/a";
     box.innerHTML = `
       <div class="card-head">
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
-        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Best setup forming today. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>` : ""}
+        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
@@ -600,7 +600,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderPrev() {
     const open = ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+");
     const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) === "fading");
-    $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">No open top-grade setups.</div>`;
+    $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">No open top-grade setup with its edge intact.</div>`;
     const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
     $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + recent.map((r) => `
       <div class="mini closed">
@@ -652,20 +652,24 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       }
       bars = ex.bars; E = ex.entry_index; entry = ex.entry_close; tfd = 2;
       $("#chTitle").textContent = "ETH · 2-day · example: past confirmed setup";
-      $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(entry)} · a past computed signal. Its odds use the full history, including signals after it.`;
+      $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(entry)} · a past computed signal. Its odds use only the signals whose 60 days had closed by then, as a member would have seen them.`;
     } else {
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
       if (!cd) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable for " + c.chart); return; }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
-      if (c._open) { const k = bars.findIndex((b) => dayOf(b.t) === c.entry_date); if (k >= 0) E = k; entry = c.entry_close; }
+      if (c._open) {
+        const k = bars.findIndex((b) => dayOf(b.t + (tfd - 1) * 86400) === c.entry_date);
+        if (k < 0) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "This chart's data doesn't reach back to the entry"); $("#chartSide").innerHTML = ""; return; }
+        E = k; entry = c.entry_close;
+      }   // the bar that CLOSES on the entry date (12 Nov 2026 audit #4)
       m.entry = entry;
       lowIdx = c.low_date ? bars.findIndex((b) => dayOf(b.t) === c.low_date) : -1;
       // the confirmation bar is the one that CLOSES on confirms_on, so it opens tfd - 1 days earlier (12 Nov 2026 audit: was one bar late on 2D+)
       confIdx = E + Math.round((Date.parse(c.confirms_on + "T00:00:00Z") / 1000 - (tfd - 1) * 86400 - bars[E].t) / 86400 / tfd);
       $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, not top grade"}`;
       $("#chSub").textContent = c._open ? `Confirmed ${dateLong(c.entry_date)} · entry close ${money(entry)}. Zones use the pooled top-grade figures for ${m.asset}.`
-        : `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)} · price levels drawn from today's price (${money(entry)}), since the entry price is the confirmation close; days count from the confirmation.`;
+        : `Low ${dateLong(c.low_day || c.low_date)} · confirms ${dateLong(c.confirms_on)} · price levels drawn from today's price (${money(entry)}), since the entry price is the confirmation close; days count from the confirmation.`;
     }
     svg.innerHTML = "";
     const happened = !forming && S.chartMode === "happened";
@@ -751,7 +755,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (forming && lowIdx >= 0) {
       const b = bars[lowIdx];
       svgEl(svg, "circle", { cx: X(lowIdx), cy: Y(b.l), r: 7, fill: "none", stroke: "var(--live)", "stroke-width": 2 });
-      svgEl(svg, "text", { x: X(lowIdx) - 12, y: Y(b.l) + 5, fill: "var(--live)", "font-size": 12, "font-weight": 700, "text-anchor": "end" }, `Low ${dateLong(c.low_date)} · ${money(b.l)}`);
+      svgEl(svg, "text", { x: X(lowIdx) - 12, y: Y(b.l) + 5, fill: "var(--live)", "font-size": 12, "font-weight": 700, "text-anchor": "end" }, `Low ${dateLong(c.low_day || c.low_date)} · ${money(b.l)}`);
     }
     else if (happened) {   // the outcome only in "What happened", never "At the alert" (12 Nov 2026 audit)
       const win = bars.slice(E + 1, E + 1 + 60 / tfd);
@@ -826,7 +830,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span class="small">Reached +20%</span><b>${m.odds ?? "n/a"}%</b></div>
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
         <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(m.entry * (1 + d / 100)) + " (" + pct(d, 0) + ")"; })()}</b></div>
-        ${forming ? `<div class="fine">Prices use today's close as a stand-in for the entry.</div>` : ""}
+        ${forming && !(c && c._open) ? `<div class="fine">Prices use today's close as a stand-in for the entry.</div>` : ""}
       </div>
       ${what}
       <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">The lead trader's real entries and exits show on the chart as markers. None on this one.</div>
@@ -851,7 +855,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span class="small">Reached +20% in 60 days</span><b>${g.rose20_within60d_pct}%</b></div>
         <div class="kv num"><span class="small">Rose 10%, never fell 25.3%</span><b>${g.rose10_never_fell25_within60d_pct}%</b></div>
         <div class="kv num"><span class="small">Median deepest dip</span><b class="lo">${pct(g.median_deepest_dip_pct)}</b></div>
-        ${mi ? `<div class="kv num"><span class="small">Misses: median peak first</span><b class="hi">${pct(mi.median_peak_pct)}</b></div>` : ""}</div>`;
+        ${mi ? `<div class="kv num"><span class="small">Misses: median best price</span><b class="hi">${pct(mi.median_peak_pct)}</b></div>` : ""}</div>`;
     }).join("");
   }
 

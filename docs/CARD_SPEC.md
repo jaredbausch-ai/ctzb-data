@@ -33,16 +33,17 @@ All are measured from the buy price (the close of the confirmation bar) and with
 
 | On the card | Definition | Field |
 |---|---|---|
-| Corner: N past trades | Size of the sample above | `n` |
-| Big number: Rose 10% and never fell 25%, within 60 days of buying | Share of the sample whose highest price in the 60 days was at least 10% above the buy price AND whose lowest price in the 60 days never reached 25.3% below it (where 3.3x with 5% maintenance margin liquidates). Exact prices, not rounded figures | `surv10` |
+| Corner: N past signals | Size of the sample above | `n` |
+| Big number (since 11 Nov 2026): Rose 10% within 60 days of the entry close | Share of the sample whose highest daily high in the 60 days was at least 10% above the entry close | `reach10` |
+| Line under it: did it without ever falling 25.3% | Share of the sample that rose 10% AND whose lowest daily low in the 60 days never reached 25.3% below the entry close (where 3.3x with 5% maintenance margin liquidates). Exact prices, not rounded figures (until 11 Nov 2026 this was the big number) | `surv10` |
 | Rose 20% or more | Share whose highest price in 60 days was at least 20% above the buy price | `reach20` |
 | Typical biggest rise | Median of each trade's highest price in 60 days vs the buy price | `bestMove` |
 | Typical lowest point vs the buy price, before it made its 60-day high (wording fixed 4 Nov 2026; was "Typical dip before the 60-day high", which read as a pullback from profit) | Median, across the past trades, of each trade's lowest low from the day after the buy up to the day of its 60-day high, as a percentage of the BUY PRICE. Negative = it was under the buy price at some point before topping. It is not a pullback from a profit | `dipBeforeHigh` |
 | Typical deepest dip below the buy price | Median of each trade's lowest price in 60 days, as a percentage of the buy price | `maxDip60` |
 | Fell 30% or more at some point | Share whose lowest price in 60 days was 30% or more below the buy price | `touched30` |
 | Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility) | `scaled20` |
-| Before 2022 / since 2022 (N trades) | The big-number measure split by entry date, with each half's count. The two counts must add up to the corner number | `surv10Old`, `nOld`, `surv10New`, `nNew` |
-| If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that still rose 10% without falling 25.3%, and the share that went on to fall 25.3%. Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
+| Before 2022 / since 2022 (N signals) | The big-number measure split by entry date, with each half's count. The two counts must add up to the corner number | `surv10Old`, `nOld`, `surv10New`, `nNew` |
+| If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that then rose 10% BEFORE falling 25.3% (12 Nov 2026 wording: "before", which is what the code measures), and the share that went on to fall 25.3%. Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
 | Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
 | Typical day it first hit +10% / +20% (trades that got there) | Median calendar days from the buy to the first daily high at least 10% / 20% above the buy price, among the trades in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
@@ -74,3 +75,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
    held up. Quotes ran 10-20 points high on +20% and on this measure (28 Oct); the
    per-trade fitted models that tried to fix it lost to the grade out of sample
    (`analysis/model.py`). Watch this gap; it is the honest limit of the numbers.
+
+
+**Wording, 12 Nov 2026 (audit #4):** the page says "signals", never "trades", for the sample: these are
+computed signals and none was traded. Older rows above that still say "trades" mean the same past signals.
