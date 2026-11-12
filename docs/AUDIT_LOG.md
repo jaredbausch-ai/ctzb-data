@@ -270,7 +270,7 @@ verify_cards (24 exact), feed tests 15 + 27, all worker tests including dashboar
 disagreement in a ledger column the page never shows, and 5 docs-vs-code items. Not a clean run. Report:
 `analysis/audit10_2026-11-12/AUDIT10.md`.
 
-**Changed** (this round's commit):
+**Changed** (commit 7eaf540):
 - **Ledger `dayScaled20` (odds on the day of "beat a normal move")** counted BTC signals from before 2017,
   which have no year of volatility to compare against, as misses; the card's own figure leaves them out.
   Now the same rule as the card. 499 BTC rows moved (16 now blank instead of 0; the rest were understated by
