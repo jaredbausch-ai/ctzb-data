@@ -1,0 +1,181 @@
+{
+"keep": [
+[
+"ETH 1D",
+"hollow"
+],
+[
+"ETH 2D",
+"diamond"
+],
+[
+"ETH 2D",
+"hollow"
+],
+[
+"ETH 3D",
+"prime dot"
+],
+[
+"ETH 5D",
+"any trough"
+],
+[
+"ETH 5D",
+"A"
+],
+[
+"ETH 5D",
+"B"
+],
+[
+"ETH 5D",
+"diamond"
+],
+[
+"ETH 5D",
+"prime dot"
+],
+[
+"ETH 5D",
+"zone-exit B"
+],
+[
+"ETH 8D",
+"any trough"
+],
+[
+"ETH 8D",
+"C"
+]
+],
+"n": 150,
+"rows": [
+{
+"kind": "early_dip",
+"band": "shallower than -2%",
+"method": "chart bars from conf-bar OPEN; high day10-60",
+"n": 29,
+"r10": 90.0,
+"r20": 86.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "-2% to -5%",
+"method": "chart bars from conf-bar OPEN; high day10-60",
+"n": 44,
+"r10": 93.0,
+"r20": 89.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "-5% to -10%",
+"method": "chart bars from conf-bar OPEN; high day10-60",
+"n": 34,
+"r10": 91.0,
+"r20": 71.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "-10% to -20%",
+"method": "chart bars from conf-bar OPEN; high day10-60",
+"n": 27,
+"r10": 78.0,
+"r20": 56.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "worse than -20%",
+"method": "chart bars from conf-bar OPEN; high day10-60",
+"n": 16,
+"r10": 44.0,
+"r20": 44.0,
+"edge_on_r10": "gone"
+},
+{
+"kind": "day10",
+"band": "green on day 10",
+"method": "chart bars from conf-bar OPEN; high day1-60",
+"n": 92,
+"r10": 97.0,
+"r20": 92.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "day10",
+"band": "red on day 10",
+"method": "chart bars from conf-bar OPEN; high day1-60",
+"n": 58,
+"r10": 67.0,
+"r20": 47.0,
+"edge_on_r10": "gone"
+},
+{
+"kind": "early_dip",
+"band": "shallower than -2%",
+"method": "daily from entry close; rose 10% any day 1-60",
+"n": 29,
+"r10": 90.0,
+"r20": 86.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "-2% to -5%",
+"method": "daily from entry close; rose 10% any day 1-60",
+"n": 44,
+"r10": 93.0,
+"r20": 89.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "-5% to -10%",
+"method": "daily from entry close; rose 10% any day 1-60",
+"n": 34,
+"r10": 91.0,
+"r20": 76.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "-10% to -20%",
+"method": "daily from entry close; rose 10% any day 1-60",
+"n": 27,
+"r10": 81.0,
+"r20": 56.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "early_dip",
+"band": "worse than -20%",
+"method": "daily from entry close; rose 10% any day 1-60",
+"n": 16,
+"r10": 50.0,
+"r20": 44.0,
+"edge_on_r10": "gone"
+},
+{
+"kind": "day10",
+"band": "green on day 10",
+"method": "daily from entry close; rose 10% any day 1-60",
+"n": 92,
+"r10": 97.0,
+"r20": 91.0,
+"edge_on_r10": "intact"
+},
+{
+"kind": "day10",
+"band": "red on day 10",
+"method": "daily from entry close; rose 10% any day 1-60",
+"n": 58,
+"r10": 67.0,
+"r20": 48.0,
+"edge_on_r10": "gone"
+}
+]
+}

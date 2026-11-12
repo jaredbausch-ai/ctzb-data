@@ -1,0 +1,1226 @@
+[
+{
+"check": "2",
+"where": "2: grade_odds ETH A+",
+"field": "past_trades",
+"shown": 104,
+"mine": 104,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A+",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 80,
+"mine": 80.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A+",
+"field": "rose20_within60d_pct",
+"shown": 75,
+"mine": 75.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A+",
+"field": "median_deepest_dip_pct",
+"shown": -10.9,
+"mine": -10.9,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A+",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 86.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A+",
+"field": "sample",
+"shown": "2020-03-21 to 2026-09-13",
+"mine": "2020-04-18 to 2025-12-04",
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A",
+"field": "past_trades",
+"shown": 61,
+"mine": 61,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 66,
+"mine": 66.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A",
+"field": "rose20_within60d_pct",
+"shown": 62,
+"mine": 62.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A",
+"field": "median_deepest_dip_pct",
+"shown": -15.0,
+"mine": -15.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 74.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH A",
+"field": "sample",
+"shown": "2020-03-21 to 2026-09-13",
+"mine": "2020-07-13 to 2025-09-15",
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH B",
+"field": "past_trades",
+"shown": 81,
+"mine": 81,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH B",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 59,
+"mine": 59.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH B",
+"field": "rose20_within60d_pct",
+"shown": 53,
+"mine": 53.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH B",
+"field": "median_deepest_dip_pct",
+"shown": -15.3,
+"mine": -15.3,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH B",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 69.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH B",
+"field": "sample",
+"shown": "2020-03-21 to 2026-09-13",
+"mine": "2020-03-25 to 2025-12-02",
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH C",
+"field": "past_trades",
+"shown": 112,
+"mine": 112,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH C",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 54,
+"mine": 54.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH C",
+"field": "rose20_within60d_pct",
+"shown": 43,
+"mine": 43.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH C",
+"field": "median_deepest_dip_pct",
+"shown": -16.4,
+"mine": -16.4,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH C",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 67.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH C",
+"field": "sample",
+"shown": "2020-03-21 to 2026-09-13",
+"mine": "2020-03-21 to 2026-09-13",
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A+",
+"field": "past_trades",
+"shown": 33,
+"mine": 33,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A+",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 76,
+"mine": 76.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A+",
+"field": "rose20_within60d_pct",
+"shown": 79,
+"mine": 79.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A+",
+"field": "median_deepest_dip_pct",
+"shown": -6.5,
+"mine": -6.5,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A+",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 85.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A+",
+"field": "sample",
+"shown": "2016-06-12 to 2026-09-13",
+"mine": "2016-10-26 to 2025-12-04",
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A",
+"field": "past_trades",
+"shown": 81,
+"mine": 81,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 70,
+"mine": 70.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A",
+"field": "rose20_within60d_pct",
+"shown": 57,
+"mine": 57.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A",
+"field": "median_deepest_dip_pct",
+"shown": -9.6,
+"mine": -9.6,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 74.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC A",
+"field": "sample",
+"shown": "2016-06-12 to 2026-09-13",
+"mine": "2016-06-12 to 2025-10-01",
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC B",
+"field": "past_trades",
+"shown": 136,
+"mine": 136,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC B",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 67,
+"mine": 67.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC B",
+"field": "rose20_within60d_pct",
+"shown": 57,
+"mine": 57.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC B",
+"field": "median_deepest_dip_pct",
+"shown": -10.0,
+"mine": -10.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC B",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 75.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC B",
+"field": "sample",
+"shown": "2016-06-12 to 2026-09-13",
+"mine": "2016-07-02 to 2025-11-28",
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC C",
+"field": "past_trades",
+"shown": 313,
+"mine": 313,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC C",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 60,
+"mine": 60.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC C",
+"field": "rose20_within60d_pct",
+"shown": 44,
+"mine": 44.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC C",
+"field": "median_deepest_dip_pct",
+"shown": -12.0,
+"mine": -12.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC C",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 70.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds BTC C",
+"field": "sample",
+"shown": "2016-06-12 to 2026-09-13",
+"mine": "2016-06-25 to 2026-09-13",
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH diamond or prime dot",
+"field": "past_trades",
+"shown": 137,
+"mine": 137,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH diamond or prime dot",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 69,
+"mine": 69.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH diamond or prime dot",
+"field": "rose20_within60d_pct",
+"shown": 66,
+"mine": 66.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH diamond or prime dot",
+"field": "median_deepest_dip_pct",
+"shown": -10.9,
+"mine": -10.9,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH diamond or prime dot",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 76.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH diamond or prime dot",
+"field": "sample",
+"shown": "2020-03-21 to 2026-09-13",
+"mine": "2020-03-21 to 2026-09-13",
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH no diamond or prime dot",
+"field": "past_trades",
+"shown": 221,
+"mine": 221,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH no diamond or prime dot",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 62,
+"mine": 62.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH no diamond or prime dot",
+"field": "rose20_within60d_pct",
+"shown": 53,
+"mine": 53.0,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH no diamond or prime dot",
+"field": "median_deepest_dip_pct",
+"shown": -15.1,
+"mine": -15.1,
+"ok": true
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH no diamond or prime dot",
+"field": "rose10_within60d_pct (FEED_SPEC says present)",
+"shown": null,
+"mine": 73.0,
+"ok": false
+},
+{
+"check": "2",
+"where": "2: grade_odds ETH no diamond or prime dot",
+"field": "sample",
+"shown": "2020-03-21 to 2026-09-13",
+"mine": "2020-03-21 to 2026-09-13",
+"ok": true
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "signals",
+"shown": 104,
+"mine": 104,
+"ok": true,
+"mine_if_miss_is_+20": 104
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "misses",
+"shown": 26,
+"mine": 15,
+"ok": false,
+"mine_if_miss_is_+20": 26
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "up_first",
+"shown": 26,
+"mine": 15,
+"ok": false,
+"mine_if_miss_is_+20": 26
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "median_peak_pct",
+"shown": 7.1,
+"mine": 4.8,
+"ok": false,
+"mine_if_miss_is_+20": 7.1
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "median_worst_drop_pct",
+"shown": -19.7,
+"mine": -25.7,
+"ok": false,
+"mine_if_miss_is_+20": -19.7
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "median_day60_pct",
+"shown": -12.2,
+"mine": -14.4,
+"ok": false,
+"mine_if_miss_is_+20": -12.2
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "mean_peak_pct",
+"shown": 8.1,
+"mine": 4.1,
+"ok": false,
+"mine_if_miss_is_+20": 8.1
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "peaked_5_or_more",
+"shown": 18,
+"mine": 7,
+"ok": false,
+"mine_if_miss_is_+20": 18
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "peaked_10_or_more",
+"shown": 11,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 11
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A+",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "signals",
+"shown": 61,
+"mine": 61,
+"ok": true,
+"mine_if_miss_is_+20": 61
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "misses",
+"shown": 23,
+"mine": 16,
+"ok": false,
+"mine_if_miss_is_+20": 23
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "up_first",
+"shown": 23,
+"mine": 16,
+"ok": false,
+"mine_if_miss_is_+20": 23
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "median_peak_pct",
+"shown": 6.1,
+"mine": 4.5,
+"ok": false,
+"mine_if_miss_is_+20": 6.1
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "median_worst_drop_pct",
+"shown": -22.2,
+"mine": -29.9,
+"ok": false,
+"mine_if_miss_is_+20": -22.2
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "median_day60_pct",
+"shown": -15.3,
+"mine": -19.6,
+"ok": false,
+"mine_if_miss_is_+20": -15.3
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "mean_peak_pct",
+"shown": 8.3,
+"mine": 4.6,
+"ok": false,
+"mine_if_miss_is_+20": 8.3
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "peaked_5_or_more",
+"shown": 15,
+"mine": 8,
+"ok": false,
+"mine_if_miss_is_+20": 15
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "peaked_10_or_more",
+"shown": 7,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 7
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH A",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "signals",
+"shown": 81,
+"mine": 81,
+"ok": true,
+"mine_if_miss_is_+20": 81
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "misses",
+"shown": 38,
+"mine": 25,
+"ok": false,
+"mine_if_miss_is_+20": 38
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "up_first",
+"shown": 38,
+"mine": 25,
+"ok": false,
+"mine_if_miss_is_+20": 38
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "median_peak_pct",
+"shown": 7.8,
+"mine": 5.4,
+"ok": false,
+"mine_if_miss_is_+20": 7.7
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "median_worst_drop_pct",
+"shown": -23.9,
+"mine": -32.9,
+"ok": false,
+"mine_if_miss_is_+20": -23.8
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "median_day60_pct",
+"shown": -13.6,
+"mine": -16.9,
+"ok": false,
+"mine_if_miss_is_+20": -13.6
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "mean_peak_pct",
+"shown": 8.0,
+"mine": 4.9,
+"ok": false,
+"mine_if_miss_is_+20": 8.0
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "peaked_5_or_more",
+"shown": 26,
+"mine": 13,
+"ok": false,
+"mine_if_miss_is_+20": 26
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "peaked_10_or_more",
+"shown": 13,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 13
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH B",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "signals",
+"shown": 112,
+"mine": 112,
+"ok": true,
+"mine_if_miss_is_+20": 112
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "misses",
+"shown": 64,
+"mine": 37,
+"ok": false,
+"mine_if_miss_is_+20": 64
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "up_first",
+"shown": 64,
+"mine": 37,
+"ok": false,
+"mine_if_miss_is_+20": 64
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "median_peak_pct",
+"shown": 8.9,
+"mine": 5.5,
+"ok": false,
+"mine_if_miss_is_+20": 8.9
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "median_worst_drop_pct",
+"shown": -30.6,
+"mine": -35.5,
+"ok": false,
+"mine_if_miss_is_+20": -30.6
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "median_day60_pct",
+"shown": -14.2,
+"mine": -20.9,
+"ok": false,
+"mine_if_miss_is_+20": -14.2
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "mean_peak_pct",
+"shown": 9.2,
+"mine": 5.5,
+"ok": false,
+"mine_if_miss_is_+20": 9.2
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "peaked_5_or_more",
+"shown": 50,
+"mine": 23,
+"ok": false,
+"mine_if_miss_is_+20": 50
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "peaked_10_or_more",
+"shown": 27,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 27
+},
+{
+"check": "3",
+"where": "3: if_it_misses ETH C",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "signals",
+"shown": 33,
+"mine": 33,
+"ok": true,
+"mine_if_miss_is_+20": 33
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "misses",
+"shown": 7,
+"mine": 5,
+"ok": false,
+"mine_if_miss_is_+20": 7
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "up_first",
+"shown": 7,
+"mine": 5,
+"ok": false,
+"mine_if_miss_is_+20": 7
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "median_peak_pct",
+"shown": 6.4,
+"mine": 6.2,
+"ok": false,
+"mine_if_miss_is_+20": 6.4
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "median_worst_drop_pct",
+"shown": -28.1,
+"mine": -19.1,
+"ok": false,
+"mine_if_miss_is_+20": -28.1
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "median_day60_pct",
+"shown": -14.6,
+"mine": -12.7,
+"ok": false,
+"mine_if_miss_is_+20": -14.6
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "mean_peak_pct",
+"shown": 7.0,
+"mine": 4.9,
+"ok": false,
+"mine_if_miss_is_+20": 7.0
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "peaked_5_or_more",
+"shown": 5,
+"mine": 3,
+"ok": false,
+"mine_if_miss_is_+20": 5
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "peaked_10_or_more",
+"shown": 2,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 2
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A+",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "signals",
+"shown": 81,
+"mine": 81,
+"ok": true,
+"mine_if_miss_is_+20": 81
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "misses",
+"shown": 35,
+"mine": 21,
+"ok": false,
+"mine_if_miss_is_+20": 35
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "up_first",
+"shown": 35,
+"mine": 21,
+"ok": false,
+"mine_if_miss_is_+20": 35
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "median_peak_pct",
+"shown": 8.4,
+"mine": 4.6,
+"ok": false,
+"mine_if_miss_is_+20": 8.4
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "median_worst_drop_pct",
+"shown": -19.0,
+"mine": -20.2,
+"ok": false,
+"mine_if_miss_is_+20": -19.0
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "median_day60_pct",
+"shown": -6.6,
+"mine": -15.0,
+"ok": false,
+"mine_if_miss_is_+20": -6.6
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "mean_peak_pct",
+"shown": 8.9,
+"mine": 4.9,
+"ok": false,
+"mine_if_miss_is_+20": 8.9
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "peaked_5_or_more",
+"shown": 22,
+"mine": 8,
+"ok": false,
+"mine_if_miss_is_+20": 22
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "peaked_10_or_more",
+"shown": 14,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 14
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC A",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "signals",
+"shown": 136,
+"mine": 136,
+"ok": true,
+"mine_if_miss_is_+20": 136
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "misses",
+"shown": 59,
+"mine": 34,
+"ok": false,
+"mine_if_miss_is_+20": 59
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "up_first",
+"shown": 58,
+"mine": 34,
+"ok": false,
+"mine_if_miss_is_+20": 59
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "median_peak_pct",
+"shown": 7.9,
+"mine": 4.5,
+"ok": false,
+"mine_if_miss_is_+20": 7.9
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "median_worst_drop_pct",
+"shown": -22.7,
+"mine": -26.9,
+"ok": false,
+"mine_if_miss_is_+20": -22.7
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "median_day60_pct",
+"shown": -7.5,
+"mine": -16.0,
+"ok": false,
+"mine_if_miss_is_+20": -7.5
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "mean_peak_pct",
+"shown": 8.5,
+"mine": 4.5,
+"ok": false,
+"mine_if_miss_is_+20": 8.5
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "peaked_5_or_more",
+"shown": 40,
+"mine": 15,
+"ok": false,
+"mine_if_miss_is_+20": 40
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "peaked_10_or_more",
+"shown": 25,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 25
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC B",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "signals",
+"shown": 313,
+"mine": 313,
+"ok": true,
+"mine_if_miss_is_+20": 313
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "misses",
+"shown": 175,
+"mine": 95,
+"ok": false,
+"mine_if_miss_is_+20": 175
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "up_first",
+"shown": 174,
+"mine": 94,
+"ok": false,
+"mine_if_miss_is_+20": 174
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "median_peak_pct",
+"shown": 8.8,
+"mine": 4.0,
+"ok": false,
+"mine_if_miss_is_+20": 8.8
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "median_worst_drop_pct",
+"shown": -22.2,
+"mine": -26.7,
+"ok": false,
+"mine_if_miss_is_+20": -22.2
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "median_day60_pct",
+"shown": -8.0,
+"mine": -10.7,
+"ok": false,
+"mine_if_miss_is_+20": -8.0
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "mean_peak_pct",
+"shown": 9.1,
+"mine": 4.6,
+"ok": false,
+"mine_if_miss_is_+20": 9.1
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "peaked_5_or_more",
+"shown": 120,
+"mine": 39,
+"ok": false,
+"mine_if_miss_is_+20": 119
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "peaked_10_or_more",
+"shown": 80,
+"mine": 0,
+"ok": false,
+"mine_if_miss_is_+20": 80
+},
+{
+"check": "3",
+"where": "3: if_it_misses BTC C",
+"field": "miss_rule (FEED_SPEC says present)",
+"shown": null,
+"mine": "did not rise 10% within 60 days",
+"ok": false
+},
+{
+"check": "6",
+"where": "6: past_paths ETH",
+"field": "signals",
+"shown": 104,
+"mine": 104,
+"ok": true
+},
+{
+"check": "6",
+"where": "6: past_paths ETH",
+"field": "183 day-quantiles",
+"shown": "",
+"mine": "0 off by >0.1",
+"ok": true
+},
+{
+"check": "6",
+"where": "6: past_paths BTC",
+"field": "signals",
+"shown": 33,
+"mine": 33,
+"ok": true
+},
+{
+"check": "6",
+"where": "6: past_paths BTC",
+"field": "183 day-quantiles",
+"shown": "",
+"mine": "0 off by >0.1",
+"ok": true
+}
+]

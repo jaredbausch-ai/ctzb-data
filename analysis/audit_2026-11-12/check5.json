@@ -1,0 +1,1518 @@
+[
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "past_trades",
+"shown": 17,
+"mine": 17,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "rose10_within60d_pct",
+"shown": 65,
+"mine": 65.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 53,
+"mine": 53.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "rose20_within60d_pct",
+"shown": 29,
+"mine": 29.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "fell30_within60d_pct",
+"shown": 29,
+"mine": 29.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "typical_biggest_rise_pct",
+"shown": 13.3,
+"mine": 13.3,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "typical_deepest_dip_pct",
+"shown": -17.7,
+"mine": -17.7,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "typical_dip_before_rise_pct",
+"shown": -8.2,
+"mine": -8.2,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "beat_normal_move_pct",
+"shown": 47,
+"mine": 47.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "before_2022.past_trades",
+"shown": 6,
+"mine": 6,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "before_2022.surv10",
+"shown": 67,
+"mine": 67.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "since_2022.past_trades",
+"shown": 11,
+"mine": 11,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "since_2022.surv10",
+"shown": 45,
+"mine": 45.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_first_rose10",
+"shown": 9,
+"mine": 9.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_first_rose20",
+"shown": 29,
+"mine": 29.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_of_60d_high",
+"shown": 21,
+"mine": 21.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_of_deepest_dip",
+"shown": 32,
+"mine": 32.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 5% first: past_trades",
+"shown": 14,
+"mine": 14,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 5% first: still_rose10_pct",
+"shown": 57,
+"mine": 57.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 5% first: went_on_to_fall25_pct",
+"shown": 29,
+"mine": 29.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 10% first: past_trades",
+"shown": 8,
+"mine": 8,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 10% first: still_rose10_pct",
+"shown": 25,
+"mine": 25.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 10% first: went_on_to_fall25_pct",
+"shown": 50,
+"mine": 50.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 15% first: past_trades",
+"shown": 8,
+"mine": 8,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 15% first: still_rose10_pct",
+"shown": 25,
+"mine": 25.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 15% first: went_on_to_fall25_pct",
+"shown": 50,
+"mine": 50.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 20% first: past_trades",
+"shown": 5,
+"mine": 5,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 20% first: still_rose10_pct",
+"shown": 0,
+"mine": 0.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "falls 20% first: went_on_to_fall25_pct",
+"shown": 80,
+"mine": 80.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "price_now",
+"shown": 2051.99,
+"mine": 2051.99,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "low_date is a provisional CT pivot low",
+"shown": "2026-11-10",
+"mine": true,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "bars_to_confirm",
+"shown": 1,
+"mine": 1,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "confirms_on",
+"shown": "2026-11-13",
+"mine": "2026-11-13",
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "must_close_above",
+"shown": 2047.16,
+"mine": 2047.16,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-1D-2026-11-13 (exact lenses)",
+"field": "_sample",
+"shown": "the last 17 ETH 1D trades with exactly the same confirmations",
+"mine": [
+[
+"ETH 1D",
+"2020-05-14"
+],
+[
+"ETH 1D",
+"2020-06-24"
+],
+[
+"ETH 1D",
+"2020-08-24"
+],
+[
+"ETH 1D",
+"2021-01-30"
+],
+[
+"ETH 1D",
+"2021-11-21"
+],
+[
+"ETH 1D",
+"2021-11-29"
+],
+[
+"ETH 1D",
+"2023-02-02"
+],
+[
+"ETH 1D",
+"2023-02-16"
+],
+[
+"ETH 1D",
+"2023-05-14"
+],
+[
+"ETH 1D",
+"2023-07-27"
+],
+[
+"ETH 1D",
+"2024-03-22"
+],
+[
+"ETH 1D",
+"2024-06-21"
+],
+[
+"ETH 1D",
+"2024-06-27"
+],
+[
+"ETH 1D",
+"2024-07-08"
+],
+[
+"ETH 1D",
+"2025-06-08"
+],
+[
+"ETH 1D",
+"2025-10-20"
+],
+[
+"ETH 1D",
+"2025-11-07"
+]
+],
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16",
+"field": "sample text: exact-lens count",
+"shown": "the last 27 ETH 2D trades graded C (only 4 had exactly the same confirmations, too few to use)",
+"mine": "4 exact-lens rows",
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "past_trades",
+"shown": 27,
+"mine": 27,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "rose10_within60d_pct",
+"shown": 67,
+"mine": 67.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 52,
+"mine": 52.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "rose20_within60d_pct",
+"shown": 41,
+"mine": 41.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "fell30_within60d_pct",
+"shown": 30,
+"mine": 30.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "typical_biggest_rise_pct",
+"shown": 14.7,
+"mine": 14.7,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "typical_deepest_dip_pct",
+"shown": -17.0,
+"mine": -17.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "typical_dip_before_rise_pct",
+"shown": -5.9,
+"mine": -5.9,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "beat_normal_move_pct",
+"shown": 52,
+"mine": 52.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "before_2022.past_trades",
+"shown": 8,
+"mine": 8,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "before_2022.surv10",
+"shown": 62,
+"mine": 63.0,
+"ok": false
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "since_2022.past_trades",
+"shown": 19,
+"mine": 19,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "since_2022.surv10",
+"shown": 47,
+"mine": 47.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "typical_day_first_rose10",
+"shown": 12,
+"mine": 12.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "typical_day_first_rose20",
+"shown": 24,
+"mine": 24.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "typical_day_of_60d_high",
+"shown": 44,
+"mine": 44.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "typical_day_of_deepest_dip",
+"shown": 22,
+"mine": 22.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 5% first: past_trades",
+"shown": 20,
+"mine": 20,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 5% first: still_rose10_pct",
+"shown": 50,
+"mine": 50.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 5% first: went_on_to_fall25_pct",
+"shown": 35,
+"mine": 35.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 10% first: past_trades",
+"shown": 14,
+"mine": 14,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 10% first: still_rose10_pct",
+"shown": 36,
+"mine": 36.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 10% first: went_on_to_fall25_pct",
+"shown": 50,
+"mine": 50.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 15% first: past_trades",
+"shown": 12,
+"mine": 12,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 15% first: still_rose10_pct",
+"shown": 25,
+"mine": 25.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 15% first: went_on_to_fall25_pct",
+"shown": 58,
+"mine": 58.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 20% first: past_trades",
+"shown": 9,
+"mine": 9,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 20% first: still_rose10_pct",
+"shown": 11,
+"mine": 11.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "falls 20% first: went_on_to_fall25_pct",
+"shown": 78,
+"mine": 78.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "price_now",
+"shown": 2051.99,
+"mine": 2051.99,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "low_date is a provisional CT pivot low",
+"shown": "2026-11-09",
+"mine": true,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "bars_to_confirm",
+"shown": 2,
+"mine": 2,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "confirms_on",
+"shown": "2026-11-16",
+"mine": "2026-11-16",
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "must_close_above",
+"shown": null,
+"mine": null,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card ETH-2D-2026-11-16 (chart+grade)",
+"field": "_sample",
+"shown": "the last 27 ETH 2D trades graded C (only 4 had exactly the same confirmations, too few to use)",
+"mine": [
+[
+"ETH 2D",
+"2020-09-14"
+],
+[
+"ETH 2D",
+"2020-09-28"
+],
+[
+"ETH 2D",
+"2021-03-05"
+],
+[
+"ETH 2D",
+"2021-05-28"
+],
+[
+"ETH 2D",
+"2021-09-17"
+],
+[
+"ETH 2D",
+"2021-09-27"
+],
+[
+"ETH 2D",
+"2021-11-24"
+],
+[
+"ETH 2D",
+"2021-12-02"
+],
+[
+"ETH 2D",
+"2022-01-14"
+],
+[
+"ETH 2D",
+"2023-02-05"
+],
+[
+"ETH 2D",
+"2023-05-20"
+],
+[
+"ETH 2D",
+"2023-06-21"
+],
+[
+"ETH 2D",
+"2023-08-24"
+],
+[
+"ETH 2D",
+"2023-09-17"
+],
+[
+"ETH 2D",
+"2023-10-19"
+],
+[
+"ETH 2D",
+"2024-01-30"
+],
+[
+"ETH 2D",
+"2024-06-30"
+],
+[
+"ETH 2D",
+"2024-07-14"
+],
+[
+"ETH 2D",
+"2024-08-13"
+],
+[
+"ETH 2D",
+"2024-09-12"
+],
+[
+"ETH 2D",
+"2025-03-09"
+],
+[
+"ETH 2D",
+"2025-04-14"
+],
+[
+"ETH 2D",
+"2025-06-27"
+],
+[
+"ETH 2D",
+"2025-10-01"
+],
+[
+"ETH 2D",
+"2025-10-17"
+],
+[
+"ETH 2D",
+"2025-11-10"
+],
+[
+"ETH 2D",
+"2025-11-28"
+]
+],
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "past_trades",
+"shown": 37,
+"mine": 37,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "rose10_within60d_pct",
+"shown": 84,
+"mine": 84.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 78,
+"mine": 78.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "rose20_within60d_pct",
+"shown": 49,
+"mine": 49.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "fell30_within60d_pct",
+"shown": 8,
+"mine": 8.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "typical_biggest_rise_pct",
+"shown": 19.1,
+"mine": 19.1,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "typical_deepest_dip_pct",
+"shown": -9.5,
+"mine": -9.5,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "typical_dip_before_rise_pct",
+"shown": -4.9,
+"mine": -4.9,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "beat_normal_move_pct",
+"shown": 66,
+"mine": 66.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "before_2022.past_trades",
+"shown": 22,
+"mine": 22,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "before_2022.surv10",
+"shown": 73,
+"mine": 73.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "since_2022.past_trades",
+"shown": 15,
+"mine": 15,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "since_2022.surv10",
+"shown": 87,
+"mine": 87.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_first_rose10",
+"shown": 9,
+"mine": 9.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_first_rose20",
+"shown": 22,
+"mine": 23.0,
+"ok": false
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_of_60d_high",
+"shown": 44,
+"mine": 44.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "typical_day_of_deepest_dip",
+"shown": 23,
+"mine": 23.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 5% first: past_trades",
+"shown": 17,
+"mine": 17,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 5% first: still_rose10_pct",
+"shown": 65,
+"mine": 65.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 5% first: went_on_to_fall25_pct",
+"shown": 24,
+"mine": 24.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 10% first: past_trades",
+"shown": 8,
+"mine": 8,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 10% first: still_rose10_pct",
+"shown": 25,
+"mine": 25.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 10% first: went_on_to_fall25_pct",
+"shown": 50,
+"mine": 50.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 15% first: past_trades",
+"shown": 8,
+"mine": 8,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 15% first: still_rose10_pct",
+"shown": 25,
+"mine": 25.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 15% first: went_on_to_fall25_pct",
+"shown": 50,
+"mine": 50.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 20% first: past_trades",
+"shown": 5,
+"mine": 5,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 20% first: still_rose10_pct",
+"shown": 0,
+"mine": 0.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "falls 20% first: went_on_to_fall25_pct",
+"shown": 80,
+"mine": 80.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "price_now",
+"shown": 73799.24,
+"mine": 73799.24,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "low_date is a provisional CT pivot low",
+"shown": "2026-11-10",
+"mine": true,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "bars_to_confirm",
+"shown": 1,
+"mine": 1,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "confirms_on",
+"shown": "2026-11-13",
+"mine": "2026-11-13",
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "must_close_above",
+"shown": 73537.55,
+"mine": 73537.55,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-1D-2026-11-13 (exact lenses)",
+"field": "_sample",
+"shown": "the last 37 BTC 1D trades with exactly the same confirmations",
+"mine": [
+[
+"BTC 1D",
+"2016-08-30"
+],
+[
+"BTC 1D",
+"2016-09-18"
+],
+[
+"BTC 1D",
+"2017-04-17"
+],
+[
+"BTC 1D",
+"2017-09-24"
+],
+[
+"BTC 1D",
+"2018-02-28"
+],
+[
+"BTC 1D",
+"2018-04-02"
+],
+[
+"BTC 1D",
+"2018-04-09"
+],
+[
+"BTC 1D",
+"2018-06-25"
+],
+[
+"BTC 1D",
+"2019-07-30"
+],
+[
+"BTC 1D",
+"2019-08-25"
+],
+[
+"BTC 1D",
+"2019-09-01"
+],
+[
+"BTC 1D",
+"2019-09-13"
+],
+[
+"BTC 1D",
+"2020-05-27"
+],
+[
+"BTC 1D",
+"2020-09-06"
+],
+[
+"BTC 1D",
+"2020-10-06"
+],
+[
+"BTC 1D",
+"2021-01-24"
+],
+[
+"BTC 1D",
+"2021-06-01"
+],
+[
+"BTC 1D",
+"2021-09-02"
+],
+[
+"BTC 1D",
+"2021-09-24"
+],
+[
+"BTC 1D",
+"2021-11-25"
+],
+[
+"BTC 1D",
+"2021-12-07"
+],
+[
+"BTC 1D",
+"2021-12-20"
+],
+[
+"BTC 1D",
+"2023-02-13"
+],
+[
+"BTC 1D",
+"2023-04-06"
+],
+[
+"BTC 1D",
+"2023-05-21"
+],
+[
+"BTC 1D",
+"2023-05-27"
+],
+[
+"BTC 1D",
+"2024-01-17"
+],
+[
+"BTC 1D",
+"2024-01-21"
+],
+[
+"BTC 1D",
+"2024-04-05"
+],
+[
+"BTC 1D",
+"2024-05-11"
+],
+[
+"BTC 1D",
+"2024-08-14"
+],
+[
+"BTC 1D",
+"2024-08-18"
+],
+[
+"BTC 1D",
+"2024-09-04"
+],
+[
+"BTC 1D",
+"2025-02-21"
+],
+[
+"BTC 1D",
+"2025-03-13"
+],
+[
+"BTC 1D",
+"2025-08-28"
+],
+[
+"BTC 1D",
+"2025-09-01"
+]
+],
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "past_trades",
+"shown": 15,
+"mine": 15,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "rose10_within60d_pct",
+"shown": 67,
+"mine": 67.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "rose10_never_fell25_within60d_pct",
+"shown": 53,
+"mine": 53.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "rose20_within60d_pct",
+"shown": 33,
+"mine": 33.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "fell30_within60d_pct",
+"shown": 20,
+"mine": 20.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "typical_biggest_rise_pct",
+"shown": 14.1,
+"mine": 14.1,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "typical_deepest_dip_pct",
+"shown": -15.8,
+"mine": -15.8,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "typical_dip_before_rise_pct",
+"shown": -4.6,
+"mine": -4.6,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "beat_normal_move_pct",
+"shown": 55,
+"mine": 55.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "before_2022.past_trades",
+"shown": 11,
+"mine": 11,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "before_2022.surv10",
+"shown": 36,
+"mine": 36.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "since_2022.past_trades",
+"shown": 4,
+"mine": 4,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "since_2022.surv10",
+"shown": 100,
+"mine": 100.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "typical_day_first_rose10",
+"shown": 28,
+"mine": 28.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "typical_day_first_rose20",
+"shown": 34,
+"mine": 34.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "typical_day_of_60d_high",
+"shown": 39,
+"mine": 39.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "typical_day_of_deepest_dip",
+"shown": 28,
+"mine": 28.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 5% first: past_trades",
+"shown": 10,
+"mine": 10,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 5% first: still_rose10_pct",
+"shown": 40,
+"mine": 40.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 5% first: went_on_to_fall25_pct",
+"shown": 60,
+"mine": 60.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 10% first: past_trades",
+"shown": 8,
+"mine": 8,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 10% first: still_rose10_pct",
+"shown": 25,
+"mine": 25.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 10% first: went_on_to_fall25_pct",
+"shown": 75,
+"mine": 75.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 15% first: past_trades",
+"shown": 7,
+"mine": 7,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 15% first: still_rose10_pct",
+"shown": 14,
+"mine": 14.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 15% first: went_on_to_fall25_pct",
+"shown": 86,
+"mine": 86.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 20% first: past_trades",
+"shown": 6,
+"mine": 6,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 20% first: still_rose10_pct",
+"shown": 0,
+"mine": 0.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "falls 20% first: went_on_to_fall25_pct",
+"shown": 100,
+"mine": 100.0,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "price_now",
+"shown": 73799.24,
+"mine": 73799.24,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "low_date is a provisional CT pivot low",
+"shown": "2026-11-09",
+"mine": true,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "bars_to_confirm",
+"shown": 2,
+"mine": 2,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "confirms_on",
+"shown": "2026-11-16",
+"mine": "2026-11-16",
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "must_close_above",
+"shown": null,
+"mine": null,
+"ok": true
+},
+{
+"check": "5",
+"where": "5: card BTC-2D-2026-11-16 (exact lenses)",
+"field": "_sample",
+"shown": "the last 15 BTC 2D trades with exactly the same confirmations",
+"mine": [
+[
+"BTC 2D",
+"2016-06-28"
+],
+[
+"BTC 2D",
+"2016-07-16"
+],
+[
+"BTC 2D",
+"2016-08-21"
+],
+[
+"BTC 2D",
+"2016-09-28"
+],
+[
+"BTC 2D",
+"2017-01-18"
+],
+[
+"BTC 2D",
+"2017-06-21"
+],
+[
+"BTC 2D",
+"2019-08-20"
+],
+[
+"BTC 2D",
+"2019-09-17"
+],
+[
+"BTC 2D",
+"2020-08-31"
+],
+[
+"BTC 2D",
+"2021-03-21"
+],
+[
+"BTC 2D",
+"2021-12-16"
+],
+[
+"BTC 2D",
+"2023-05-18"
+],
+[
+"BTC 2D",
+"2023-06-11"
+],
+[
+"BTC 2D",
+"2023-12-22"
+],
+[
+"BTC 2D",
+"2025-09-05"
+]
+],
+"ok": true
+}
+]
