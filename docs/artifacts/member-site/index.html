@@ -396,7 +396,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         ${esc(o.chart)} <b>Day ${o.days_elapsed}</b><span class="small">best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</span></button>`).join("")
       : `<span class="pnone">No live top-grade setups right now.</span>`;
     const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
-        ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">${c.grade === "A+" ? "top grade" : "below bar"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
+        ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
       : `<span class="pnone">${{ down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "Nothing forming today."}</span>`;
     $("#picker").innerHTML = `<div class="prow"><span class="plabel">Live</span>${liveBtns}</div>
       <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button></div>`;
@@ -490,7 +490,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
-        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Best setup forming today. Its odds are below the ${e.bar ?? 70}% posting bar, so no alert goes out for it. It can still vanish before it confirms.</div>` : ""}
+        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Best setup forming today. It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
@@ -636,7 +636,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       m.entry = entry;
       lowIdx = c.low_date ? bars.findIndex((b) => dayOf(b.t) === c.low_date) : -1;
       confIdx = E + Math.round((Date.parse(c.confirms_on + "T00:00:00Z") / 1000 - bars[E].t) / 86400 / tfd);
-      $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, below the posting bar"}`;
+      $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, not top grade"}`;
       $("#chSub").textContent = c._open ? `Confirmed ${dateLong(c.entry_date)} · entry close ${money(entry)}. Zones use the pooled top-grade figures for ${m.asset}.`
         : `Low ${dateLong(c.low_date)} · confirms ${dateLong(c.confirms_on)} · zones drawn from today's price (${money(entry)}). The real entry is the close on the confirmation day.`;
     }
@@ -758,7 +758,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const last = days[days.length - 1];
     $("#cloudSub").textContent = `Every past ${asset} top-grade signal, n ${pp.signals}`;
     $("#cloudNote").innerHTML = `<span style="color: var(--fade-2)">━</span> median path &nbsp; <span style="color: var(--fade-2); opacity: .6">█</span> middle half of outcomes${happened ? ' &nbsp; <span style="color: var(--text)">━</span> this signal' : ""}. Day 60: median ${pct(last.median_pct)}, middle half ${pct(last.q25_pct)} to ${pct(last.q75_pct)}. Daily closes.`
-      + (c && c.grade !== "A+" ? ` <span style="color: var(--fade-2)">Top-grade signals only; the selected setup is below the posting bar.</span>` : "");
+      + (c && c.grade !== "A+" ? ` <span style="color: var(--fade-2)">Top-grade signals only; the selected setup isn't top grade.</span>` : "");
   }
   function renderChartSide(m, happened, forming, c) {
     const ex = S.example, e = edgeRule();
@@ -771,7 +771,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span>Day 10</span><b>${c.day10_pct == null ? "not yet" : pct(c.day10_pct)}</b></div>
       </div>`;
     } else if (forming) {
-      what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">Still forming. It confirms only if it holds through ${dateLong(c.confirms_on)}, and it can vanish before then. ${c.grade === "A+" ? "" : `Its odds are below the ${e.bar ?? 70}% posting bar, so no alert goes out for it.`}</div>`;
+      what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">Still forming. It confirms only if it holds through ${dateLong(c.confirms_on)}, and it can vanish before then. ${c.grade === "A+" ? "" : `It isn't top grade, so no alert goes out for it.`}</div>`;
     } else if (happened && ex) {
       const E = ex.entry_index, win = ex.bars.slice(E + 1, E + 31), en = ex.entry_close;
       const hiB = win.reduce((a, b) => (b.h > a.h ? b : a)), loB = win.reduce((a, b) => (b.l < a.l ? b : a)), d10 = ex.bars[E + 5];
@@ -817,6 +817,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $("#recSum").innerHTML = go.map((g) => {
       const mi = misses(g.asset);
       return `<div class="sidebox"><div class="kv"><b>${g.asset}</b><span class="small">${g.past_trades} signals</span></div>
+        <div class="kv num"><span class="small">Rose 10% in 60 days</span><b>${g.rose10_within60d_pct ?? "n/a"}%</b></div>
         <div class="kv num"><span class="small">Reached +20% in 60 days</span><b>${g.rose20_within60d_pct}%</b></div>
         <div class="kv num"><span class="small">Rose 10%, never fell 25%</span><b>${g.rose10_never_fell25_within60d_pct}%</b></div>
         <div class="kv num"><span class="small">Median deepest dip</span><b class="lo">${pct(g.median_deepest_dip_pct)}</b></div>

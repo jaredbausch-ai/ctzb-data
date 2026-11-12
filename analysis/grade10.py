@@ -80,7 +80,7 @@ def main():
         for g in GRADES:
             s = stats([r for r in led if r["chart"] == c and r["grade"] == g])
             out["by_chart"][f"{c} {g}"] = s
-            cells.append(f"{s['rose10']}% ({s['rose20']}%) n{s['n']}" if s["n"] else "-")
+            cells.append(f"{s['rose10']}% ({s['rose20']}%) n{s['n']}" if s["n"] else "none on record")
         p(f"   {c:<8}" + "".join(f"{x:>17}" for x in cells))
     p("")
 
@@ -92,7 +92,7 @@ def main():
             for g in GRADES:
                 s = stats([r for r in led if r["asset"] == a and r["grade"] == g and y0 <= r["yr"] <= y1])
                 out["by_era"][f"{a} {name} {g}"] = s
-                cells.append(f"{s['rose10']}% ({s['rose20']}%) n{s['n']}" if s["n"] else "-")
+                cells.append(f"{s['rose10']}% ({s['rose20']}%) n{s['n']}" if s["n"] else "none on record")
             p(f"   {a} {name:<8}" + "".join(f"{x:>17}" for x in cells))
         p("")
 

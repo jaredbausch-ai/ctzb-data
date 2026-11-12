@@ -137,3 +137,4 @@ The card's headline is "rose 10% within 60 days", so the figures built around it
   `edge_measured_on: "rose 10% within 60 days"`.
 
 The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
+- `grade_odds`: each entry gains `rose10_within60d_pct` (from grades.csv `reach10`).

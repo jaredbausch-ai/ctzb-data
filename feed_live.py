@@ -242,6 +242,7 @@ def main():
         ],
         "grade_odds": [
             {"label": LABEL, "asset": r["asset"], "grade": r["grade"], "past_trades": num(r["n"]),
+             "rose10_within60d_pct": num(r["reach10"]),
              "rose10_never_fell25_within60d_pct": num(r["surv10"]),
              "rose20_within60d_pct": num(r["reach20"]),
              "median_deepest_dip_pct": num(r["medDip"]), "sample": r["sample"],

@@ -20,8 +20,8 @@ no exit, not a strategy return or a track record. Grade odds are whole-sample (h
                           A+                A                B                C
    BTC 1D      81% (71%) n21    80% (73%) n30    79% (58%) n72   69% (41%) n158
    BTC 2D      92% (92%) n12    57% (43%) n30    72% (51%) n39    70% (48%) n60
-   BTC 3D                  -    91% (45%) n11    75% (69%) n16    74% (48%) n65
-   BTC 5D                  -    90% (60%) n10     56% (44%) n9    63% (43%) n30
+   BTC 3D     none on record    91% (45%) n11    75% (69%) n16    74% (48%) n65
+   BTC 5D     none on record    90% (60%) n10     56% (44%) n9    63% (43%) n30
    ETH 1D      86% (76%) n51    68% (60%) n25    73% (51%) n37    64% (42%) n67
    ETH 2D      77% (77%) n22    81% (69%) n16    62% (50%) n24    67% (41%) n27
    ETH 3D      89% (67%) n18    70% (50%) n10    67% (53%) n15    69% (46%) n13
@@ -30,7 +30,7 @@ no exit, not a strategy return or a track record. Grade odds are whole-sample (h
 3. By era, assets apart: rose 10% (+20%), n. ETH and BTC share dates: one sample, not two.
 
                               A+                A                B                C
-   ETH 2016-19                 -                -                -                -
+   ETH 2016-19    none on record   none on record   none on record   none on record
    ETH 2020-21     98% (95%) n42    94% (78%) n18    79% (71%) n34    80% (67%) n30
    ETH 2022-23     76% (57%) n21    64% (43%) n14    60% (45%) n20    69% (31%) n26
    ETH 2024-26     78% (63%) n41    66% (62%) n29    63% (37%) n27    59% (36%) n56
