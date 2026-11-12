@@ -9,6 +9,8 @@ BULL = [("2014-12-04","2017-12-17"),("2018-12-17","2021-11-10"),
         ("2022-11-10","2025-10-06"),("2026-06-24","2029-12-31")]
 CYCLE_LOWS = ["2015-01-14","2018-12-15","2022-11-21","2026-06-24"]
 
+EPS = 1e-9  # smaller than any real oscillator move (values are 0-100); larger than float residue
+
 def _d(s): return dt.datetime.strptime(s,"%Y-%m-%d").date()
 BULLD = [(_d(a),_d(b)) for a,b in BULL]
 CLD = [_d(x) for x in CYCLE_LOWS]
@@ -167,7 +169,10 @@ def signals(path, rsiLen=14, stLen=14, smK=3, smD=3, pvL=3, pvR=3,
         dK  = tk-pK  if hasPrev else None
         ap = arng[ti-1] if ti-1>=0 else None
         rx = (hi[ti]-lo[ti])/ap if (ap and ap>0) else None
-        dis = bool(hasPrev and ((dCt>0 and dK<0) or (dCt<0 and dK>0)))
+        # 12 Nov 2026 audit: when K sits at 0 at both troughs the running sums leave ~1e-13
+        # of residue, and a dK of +-5e-15 used to read as divergence (3 graded signals wrongly
+        # tagged diamond). A change smaller than EPS is no change.
+        dis = bool(hasPrev and ((dCt>EPS and dK<-EPS) or (dCt<-EPS and dK>EPS)))
         strong = dis and v<zMid
         prime = 20<=tk<50
         if inb:

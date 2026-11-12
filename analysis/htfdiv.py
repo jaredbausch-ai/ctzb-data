@@ -33,6 +33,9 @@ LOW = ('1D', '2D')
 WIN = 10            # days, same window the confluence work uses
 
 
+EPS = 1e-9
+
+
 def divergences(path, osc='ct'):
     """(confirmation_date, trough_date) for each confirmed bullish divergence.
     Lower low in PRICE, higher low in the oscillator, vs the previous trough."""
@@ -50,11 +53,13 @@ def divergences(path, osc='ct'):
         if v is None: continue
         w = [series[j] for j in range(ti - 3, ti + 4)]
         if any(x is None for x in w): continue
-        if any(series[j] <= v for j in range(ti - 3, ti)): continue
-        if any(series[j] <= v for j in range(ti + 1, ti + 4)): continue
+        # 12 Nov 2026 audit: K can sit at 0 for bars on end with ~1e-13 of float residue;
+        # differences under EPS are no difference (no pivot, no divergence).
+        if any(series[j] <= v + EPS for j in range(ti - 3, ti)): continue
+        if any(series[j] <= v + EPS for j in range(ti + 1, ti + 4)): continue
         if prev is not None:
             pl, pv = prev[1], prev[2]
-            if lo[ti] < pl and v > pv:
+            if lo[ti] < pl and v > pv + EPS:
                 out.append((dates[conf], dates[ti]))
         prev = (ti, lo[ti], v)
     return out

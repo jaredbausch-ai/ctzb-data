@@ -30,6 +30,7 @@ import csv, json, os, re, sys, datetime as dt, statistics as st
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, 'analysis'))
 import engine as E
+from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule, half away from zero (audit 12 Nov 2026)
 import regimes as R
 import grokpack as GP
 import pcrtest as PT

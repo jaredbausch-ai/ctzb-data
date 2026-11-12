@@ -138,3 +138,10 @@ The card's headline is "rose 10% within 60 days", so the figures built around it
 
 The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - `grade_odds`: each entry gains `rose10_within60d_pct` (from grades.csv `reach10`).
+
+### Audit corrections (12 Nov 2026)
+
+- `grade_odds[].sample` is that grade's own first and last signal ("2020-04-18 to 2025-12-04"),
+  not the asset's whole range.
+- Every rounded figure is rounded half away from zero (62.5 -> 63), once, from the unrounded value.
+- A signal appears in the ledger, and in every figure built from it, only once its 60th day has closed.

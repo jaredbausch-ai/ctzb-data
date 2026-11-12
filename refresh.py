@@ -30,6 +30,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine as E          # noqa: E402
+from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule, half away from zero (audit 12 Nov 2026)
 import regimes as R         # noqa: E402
 
 CHARTS = [("ETH 1D", "ETH_1D.csv"), ("ETH 2D", "ETH_2D.csv"),
@@ -694,7 +695,8 @@ def main():
                     help="how the traded tier is chosen (default walkforward)")
     a = ap.parse_args()
 
-    today = (dt.date.fromisoformat(a.today) if a.today else dt.date.today())
+    from clock import now_utc  # CTZB_NOW replays a past run (tests)
+    today = (dt.date.fromisoformat(a.today) if a.today else now_utc().date())
     os.makedirs(a.out, exist_ok=True)
     keep_path = a.keep or os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                        "keep.json")

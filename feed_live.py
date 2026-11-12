@@ -35,6 +35,7 @@ Usage: python feed_live.py [--datasets datasets] [--out feed/ctzb_feed.json]
 import argparse
 import csv
 import json
+from clock import now_utc  # CTZB_NOW lets a test replay a past run
 import os
 import sys
 from datetime import datetime, timezone
@@ -176,7 +177,7 @@ def main():
     failed_steps = [k for k in GATING_STEPS if steps.get(k) == "failure"]
     all_ok = ok and not failed_steps
     cards = [card(r) for r in rows(d("cards.csv"))] if all_ok else []
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    now = now_utc().strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # ---- alerts: once per event, ever (item 17d) ----
     forming = {sid(r["chart"], r["confirms"]): r["chart"] for r in rows(d("cards.csv")) if r.get("confirms")}
@@ -312,7 +313,7 @@ def fail_closed(out_path, err):
     upstream step failed, say), the PREVIOUS feed used to stay published, cards and all, as
     if the run were clean. Overwrite it with an empty, withheld feed instead, so every reader
     sees that this run's checks failed. Exit 1 still turns the run red and retries it."""
-    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    now = now_utc().strftime("%Y-%m-%dT%H:%M:%SZ")
     feed = {"schema_version": SCHEMA_VERSION, "generated_at": now, "scored_as_of": None, "label": LABEL,
             "checks": {"passed": False, "all_passed": False, "lines": [], "steps": step_outcomes(),
                        "failed_steps": ["feed"]},

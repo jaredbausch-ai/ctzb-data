@@ -44,6 +44,7 @@ import csv, json, math, os, sys, datetime as dt, statistics as st
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, 'analysis'))
 import engine as E
+from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule, half away from zero (audit 12 Nov 2026)
 import measures as MS
 import grokpack as GP
 import pcrtest as PT
@@ -183,14 +184,14 @@ def main():
             G = [r for r in G0 if r['grade'] == g]
             n = len(G)
             if not n:
-                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', '', '', '', '', '', '', '', '', '', '']); continue
+                out.append([a, g, 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']); continue
             k = sum(r['win'] for r in G); dds = sorted(r['m']['dd'] for r in G); ups = sorted(r['m']['up'] for r in G)
             out.append([a, g, n, round(n / yrs, 1), round(100 * k / n), round(wilson_lo(k, n)),
                         round(100 * sum(r['t30'] for r in G) / n), round(100 * sum(r['t20'] for r in G) / n),
                         round(st.median(dds), 1), round(st.median(r['m']['ddpk'] for r in G), 1),
                         round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                         round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
-                        f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1),
+                        f'{min(r["d0"] for r in G)} to {max(r["d0"] for r in G)}', round(dds[0], 1),  # the group's own first and last signal (audit 12 Nov 2026)
                         round(st.median(dds[:max(1, round(0.10 * n))]), 1)] + extra(G))
     G0 = [r for r in rows if r['a'] == 'ETH' and r['tf'] in GRADED_TF and r['fund'] is not None and r['fcool_ok']]
     yrs = max(1, len({r['yr'] for r in G0}))
@@ -205,7 +206,7 @@ def main():
                     round(st.median(dds), 1), round(st.median(r['m']['ddpk'] for r in G), 1),
                     round(dds[int(0.25 * (n - 1))], 1), round(dds[int(0.10 * (n - 1))], 1),
                     round(st.median(ups), 1), round(ups[int(0.75 * (n - 1))], 1), round(max(ups), 1),
-                    f'{min(r["d0"] for r in G0)} to {max(r["d0"] for r in G0)}', round(dds[0], 1),
+                    f'{min(r["d0"] for r in G)} to {max(r["d0"] for r in G)}', round(dds[0], 1),  # the group's own first and last signal (audit 12 Nov 2026)
                     round(st.median(dds[:max(1, round(0.10 * n))]), 1)] + extra(G))
     wcsv(os.path.join(OUT, 'grades.csv'),
          ['asset', 'grade', 'n', 'perYear', 'reach20', 'worstPlausible', 'touched30', 'touched20', 'medDip',
@@ -226,8 +227,11 @@ def main():
             m = r['m']
             led.append([a, f'{a} {r["tf"]}', str(r['tdate']), str(r['d0']), round(r['entry'], 2), tags, g, names or '-',
                         o[4] if o else '', o[6] if o else '', o[8] if o else '',
-                        'yes' if r['win'] else 'no', 'yes' if r['t30'] else 'no', round(m['up'], 1), round(m['dd'], 1),
-                        round(m['ddpk'], 1), round(m['ret'], 1), m.get('dpk', ''), r['yr'],
+                        # 12 Nov 2026 audit: stored to 6 places, not 1, so every count and median
+                        # built from the ledger (misses, the example card) uses the true value;
+                        # pages round for display.
+                        'yes' if r['win'] else 'no', 'yes' if r['t30'] else 'no', round(m['up'], 6), round(m['dd'], 6),
+                        round(m['ddpk'], 6), round(m['ret'], 6), m.get('dpk', ''), r['yr'],
                         'yes' if m['up'] >= 10 else 'no', 'yes' if m['up'] >= 15 else 'no',
                         'yes' if MS.surv10(m) else 'no', (lambda v: '' if v is None else 'yes' if v else 'no')(MS.scaled20(a, r['d0'], m))])
     # Odds on the day: the grade's rates from signals of the same asset and grade

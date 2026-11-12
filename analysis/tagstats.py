@@ -28,6 +28,11 @@ import sys, os, argparse, datetime as dt
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import engine as E, regimes as R
+try:
+    from clock import now_utc as _now_utc
+except ImportError:  # run from analysis/ without the repo root on the path
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from clock import now_utc as _now_utc
 
 HS = (30, 60, 90)
 
@@ -39,7 +44,11 @@ def bucket_end(bdates, j):
 def measure(day, pos, d0, c0, H):
     i = pos[d0]; end = d0 + dt.timedelta(days=H)
     w = [k for k in range(i + 1, len(day['date'])) if day['date'][k] <= end]
-    if not w or day['date'][w[-1]] < end or w[-1] == len(day['date']) - 1 and day['date'][-1] == end and False:
+    if not w or day['date'][w[-1]] < end:
+        return None
+    # 12 Nov 2026 audit: if day 60 is the file's last daily bar and that bar is today's
+    # (still forming, UTC), the window isn't finished yet.
+    if w[-1] == len(day['date']) - 1 and day['date'][-1] >= _now_utc().date():
         return None
     hi = [day['high'][k] for k in w]; lo = [day['low'][k] for k in w]
     kp = w[int(np.argmax(hi))]; kl = w[int(np.argmin(lo))]

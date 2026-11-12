@@ -38,6 +38,9 @@ import os
 import statistics as st
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+import sys  # noqa: E402
+sys.path.insert(0, ROOT)
+from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule (audit 12 Nov 2026)
 POST_BAR = 70  # WINMIN in refresh.py; Jared 11 Nov 2026: below this the edge is gone
 CLIP_HI, CLIP_LO = 100.0, -40.0
 

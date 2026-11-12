@@ -42,14 +42,31 @@ def record(group, name, ok, detail=""):
     print(f"  {'PASS' if ok else '*** FAIL ***'}  {group} {name}" + (f"  -- {detail}" if detail else ""), flush=True)
 
 
-def fresh_copy(tag):
+# Groups B and C replay a pinned past pipeline run (12 Nov 2026): today's code on the data
+# committed by the 04:14 UTC run of 12 Nov, which had four forming setups, with the clock set
+# to that moment. So the drills always have cards to break, whatever the market is doing.
+FIXTURE_COMMIT = "4aa1208"
+FIXTURE_NOW = "2026-11-12T04:14:00Z"
+FIXDIRS = set()
+
+
+def fresh_copy(tag, fixture=False):
     d = os.path.join(TMP, tag)
-    shutil.copytree(BASE, d)
+    shutil.copytree(BASE_FIX if fixture else BASE, d)
+    if fixture:
+        FIXDIRS.add(d)
     return d
+
+
+def fed_this_run(d):
+    """The feed file was rewritten by this drill (a crash used to leave the old one)."""
+    return os.path.getmtime(os.path.join(d, "feed", "ctzb_feed.json")) >= START_TS
 
 
 def run(d, script, args=(), env=None):
     e = dict(os.environ, **(env or {}))
+    if any(d == x or d.startswith(x + os.sep) for x in FIXDIRS):
+        e["CTZB_NOW"] = FIXTURE_NOW
     p = subprocess.run([PY, script, *args], cwd=d, env=e, capture_output=True, text=True, timeout=900)
     return p.returncode, p.stdout + p.stderr
 
@@ -179,7 +196,7 @@ def drills_a():
 # ---------------------------------------------------------------- B: scoring steps
 def drills_b():
     g = "B"
-    d = fresh_copy("b-control")
+    d = fresh_copy("b-control", fixture=True)
     log_before = open(os.path.join(d, "feed", "alert_log.csv")).read()
     out, rc, feed = scoring_chain(d)
     record(g, "control: every step passes, cards published", all(v == "success" for v in out.values()) and not feed["cards_withheld"]
@@ -190,15 +207,15 @@ def drills_b():
     def expect_withheld(label, out, feed, step, d):
         # the feed itself must be THIS run's (a crash used to leave the previous one published)
         lb = open(os.path.join(d, "feed", "alert_log.csv")).read()
-        ok = (feed["generated_at"] >= START and out.get(step) == "failure" and feed["cards_withheld"] and feed["alerts_withheld"]
+        ok = (fed_this_run(d) and out.get(step) == "failure" and feed["cards_withheld"] and feed["alerts_withheld"]
               and feed["cards"] == [] and feed["alerts"] == [] and lb == log_before)
         record(g, label, ok, f"{step}={out.get(step)} cards_withheld={feed['cards_withheld']} alerts_withheld={feed['alerts_withheld']} log unchanged={lb == log_before}")
 
     for sid, script, _ in STEPS:
-        x = fresh_copy(f"b-crash-{sid}")
+        x = fresh_copy(f"b-crash-{sid}", fixture=True)
         out, rc, feed = scoring_chain(x, before=lambda s, dd, sid=sid, script=script: crash(script)(dd) if s == sid else None)
         if sid == "extras":
-            ok = feed["generated_at"] >= START and out["extras"] == "failure" and feed["extras_withheld"] and not feed["cards_withheld"] and not feed["if_it_misses"] and not feed["odds_fade"]["early_dip"] and not feed["past_paths"]
+            ok = fed_this_run(x) and out["extras"] == "failure" and feed["extras_withheld"] and not feed["cards_withheld"] and not feed["if_it_misses"] and not feed["odds_fade"]["early_dip"] and not feed["past_paths"]
             record(g, "extras step crashes: card figures withheld, cards still published", ok,
                    f"extras_withheld={feed['extras_withheld']} cards_withheld={feed['cards_withheld']}")
         else:
@@ -206,7 +223,7 @@ def drills_b():
         shutil.rmtree(x)
 
     # Realistic faults
-    x = fresh_copy("b-missing-chart"); os.remove(os.path.join(x, "data", "ETH_3D.csv"))
+    x = fresh_copy("b-missing-chart", fixture=True); os.remove(os.path.join(x, "data", "ETH_3D.csv"))
     out, rc, feed = scoring_chain(x); expect_withheld("ETH_3D.csv missing: rescore fails, all withheld", out, feed, "refresh", x); shutil.rmtree(x)
 
     def past_grade(s, dd):
@@ -217,7 +234,7 @@ def drills_b():
         old["grade"] = "C" if old["grade"] != "C" else "A+"
         with open(p, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
-    x = fresh_copy("b-regress"); out, rc, feed = scoring_chain(x, before=past_grade)
+    x = fresh_copy("b-regress", fixture=True); out, rc, feed = scoring_chain(x, before=past_grade)
     expect_withheld("a 2023 signal's grade silently changes: regression guard trips", out, feed, "regress", x); shutil.rmtree(x)
 
     def bad_card(s, dd):
@@ -227,7 +244,7 @@ def drills_b():
         rows[0]["surv10"] = str(int(rows[0]["surv10"]) + 7)
         with open(p, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
-    x = fresh_copy("b-card"); out, rc, feed = scoring_chain(x, before=bad_card)
+    x = fresh_copy("b-card", fixture=True); out, rc, feed = scoring_chain(x, before=bad_card)
     expect_withheld("a card's odds off by 7 points: card cross-check trips", out, feed, "cards", x); shutil.rmtree(x)
 
     def unmapped(s, dd):
@@ -236,10 +253,10 @@ def drills_b():
         p = os.path.join(dd, "docs", "PRETRADE.md"); t = open(p).read()
         t = t.replace("## In-trade reads", "### Fire drill lens, not in the registry\n\nInjected.\n\n## In-trade reads", 1)
         open(p, "w").write(t)
-    x = fresh_copy("b-coverage"); out, rc, feed = scoring_chain(x, before=unmapped)
+    x = fresh_copy("b-coverage", fixture=True); out, rc, feed = scoring_chain(x, before=unmapped)
     expect_withheld("a documented read missing from the live stack (the 11 Nov incident)", out, feed, "stack", x); shutil.rmtree(x)
 
-    x = fresh_copy("b-hand"); out, rc, feed = scoring_chain(x, extra_env={"CTZB_STEP_OUTCOMES": ""})
+    x = fresh_copy("b-hand", fixture=True); out, rc, feed = scoring_chain(x, extra_env={"CTZB_STEP_OUTCOMES": ""})
     open(os.path.join(x, "datasets", "stack_status.txt"), "w").write("")
     rc, _ = run(x, "feed_live.py", [], {"CTZB_STEP_OUTCOMES": ""})
     feed = json.load(open(os.path.join(x, "feed", "ctzb_feed.json")))
@@ -249,7 +266,7 @@ def drills_b():
 # ---------------------------------------------------------------- C: alerts
 def drills_c():
     g = "C"
-    d = fresh_copy("c-alerts")
+    d = fresh_copy("c-alerts", fixture=True)
     shutil.copytree(os.path.join(CONTROL, "datasets"), os.path.join(d, "datasets"), dirs_exist_ok=True)
     shutil.copy(os.path.join(CONTROL, "feed", "alert_log.csv"), os.path.join(d, "feed", "alert_log.csv"))
     ok_env = {"CTZB_STEP_OUTCOMES": ",".join(f"{k}=success" for k in GATING + ("extras",))}
@@ -363,9 +380,16 @@ def drills_f():
 
 
 def main():
-    global BASE
+    global BASE, BASE_FIX, START_TS
     BASE = os.path.join(TMP, "base")
     shutil.copytree(ROOT, BASE, ignore=shutil.ignore_patterns(".git", "node_modules", "__pycache__"))
+    BASE_FIX = os.path.join(TMP, "base-fixture")
+    shutil.copytree(BASE, BASE_FIX)
+    for sub in ("data", "datasets", "feed"):
+        shutil.rmtree(os.path.join(BASE_FIX, sub))
+    arc = subprocess.run(["git", "-C", ROOT, "archive", FIXTURE_COMMIT, "data", "datasets", "feed"], capture_output=True, check=True).stdout
+    subprocess.run(["tar", "-x", "-C", BASE_FIX], input=arc, check=True)
+    START_TS = time.time() - 1
     t0 = time.time()
     global START
     START = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")

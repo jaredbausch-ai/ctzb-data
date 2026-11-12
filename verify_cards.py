@@ -10,6 +10,8 @@ differs. 8D cards are skipped: 8D signals are not in the graded ledger.
   python3 -I verify_cards.py
 """
 import csv, os, sys, statistics as st, datetime as dt
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule (audit 12 Nov 2026)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, 'datasets')
