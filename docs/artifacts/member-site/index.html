@@ -526,8 +526,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="tile"><div class="t">Touched ${MINUS}30% within 60 days · n ${m.n}</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
           ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${e.redOdds ?? "n/a"}%</div></div>`}
-          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
-          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
+          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
+          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of all ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
         <div class="boxes">
           <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · ETH tier signals"}</div><div class="ladder" id="ladder"></div></div>
@@ -856,7 +856,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         ${forming && !(c && c._open) ? `<div class="fine">Prices use the latest price (today's bar is still open) as a stand-in for the entry.</div>` : ""}
       </div>
       ${what}
-      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">The lead trader's real entries and exits show on the chart as markers. None on this one.</div>
+      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${S.trades ? "The lead trader's real entries and exits show on the chart as markers. None on this one." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown."}</div>
       <div class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. Past results don't guarantee future results.</div>`;
   }
 

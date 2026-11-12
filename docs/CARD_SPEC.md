@@ -53,7 +53,9 @@ All are measured from the buy price (the close of the confirmation bar) and with
 ## Wording rules
 
 - Plain words only. No internal names (lens codes, "headline", "surv10", "basis",
-  "bucket") on a card.
+  "bucket") on a card, and no grade letters: the grade stays internal, so a card says "the top grade" or
+  "the same grade" (12 Nov 2026 audit #11; the sample line, e.g. "all 37 past BTC 1D signals of the same
+  grade", and the miss tiles, e.g. "95 misses of all 312 BTC same-grade signals").
 - The card says once, under the big number, that every figure covers the 60 days after entry ("rose 10%
   within 60 days" ... "every figure covers the 60 days after entry"). A figure on a different window
   names its window (e.g. "after day 10", "by day 60").

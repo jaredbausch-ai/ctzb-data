@@ -286,6 +286,21 @@ disagreement in a ledger column the page never shows, and 5 docs-vs-code items. 
 
 **Re-checked after the changes:** every pipeline step, regression (re-approved, then 919 unchanged),
 verify_cards (24 exact), feed tests 15 + 27 + 15, worker tests, fire drills 58/58, page screenshot.
+## Round 11 — 12 Nov, 14:25 ET (audit #11, a new independent agent)
+
+**Found:** 62,489 comparisons. **No number disagreed anywhere** (fifth round running), ledger included. One
+wording item (12 places) and one docs-vs-code item (8 places). Not a clean run. Report:
+`analysis/audit11_2026-11-12/AUDIT11.md`.
+
+**Changed** (this round's commit):
+- **Grade letters reached members.** CONTEXT says the grade stays internal, but the sample line said
+  "graded C" / "grade A+" and the miss tiles "312 BTC C". They now say "signals of the top grade" / "of the
+  same grade" and "312 BTC same-grade signals". verify_cards reads the new wording; CARD_SPEC states the rule.
+- **The chart's lead-trader note** said "None on this one" even when his feed couldn't be read; it now says the
+  feed is unavailable in that case.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
+feed tests, worker tests, fire drills 58/58, page screenshot.
 
 ---
 

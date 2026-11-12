@@ -231,3 +231,10 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   feed's `example_card` the example says "unavailable" rather than falling back to built-in numbers.
 - Every forming card says it can still vanish (top grade too), and How to read says a confirmed alert is final
   while a forming heads-up can vanish.
+
+### Audit #11 corrections (12 Nov 2026)
+
+- No grade letters in member-facing text (CONTEXT: "the grade stays internal"). A card's `sample` now reads
+  "signals of the top grade" / "signals of the same grade" instead of "graded C" / "grade A+"; the `grade` field
+  itself is unchanged (it drives logic, it isn't shown).
+- The chart's lead-trader note says his feed is unavailable when it can't be read, instead of "None on this one".

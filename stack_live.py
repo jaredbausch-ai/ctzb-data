@@ -47,6 +47,8 @@ OUT = os.path.join(HERE, 'datasets')
 ASSETS = ('ETH', 'BTC'); TFS = ('1D', '2D', '3D', '5D', '8D')
 SPLIT = dt.date(2022, 1, 1)
 EDGE_BAR = 70   # the posting bar (WINMIN in refresh.py); Jared 11 Nov 2026: below it the edge is gone
+# members never see a grade letter (CONTEXT, member card: "the grade stays internal"; 12 Nov 2026 audit #11)
+gp = lambda g: 'the top grade' if g == 'A+' else 'the same grade'
 WIN = 10
 _HOOK = None
 
@@ -502,8 +504,8 @@ def main():
         out.append([subj, f'This chart at grade {g} (any mix of {len(have)} lenses)', 'record'] + rec(sg) + ['from 2020' if a == 'ETH' else 'full history'])
         out.append([subj, f'Grade {g}, all {a} charts', 'record'] + rec(ag) + ['from 2020' if a == 'ETH' else 'full history'])
         if len(ex) >= 15: basis, G_ = f'all {len(ex)} past {a} {tf} signals with exactly the same confirmations', ex  # 'signals', not 'trades': none were taken (12 Nov 2026 audit)
-        elif len(sg) >= 15: basis, G_ = f'all {len(sg)} past {a} {tf} signals graded {g} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
-        else: basis, G_ = f'all {len(ag)} past grade {g} signals across all {a} charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
+        elif len(sg) >= 15: basis, G_ = f'all {len(sg)} past {a} {tf} signals of {gp(g)} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
+        else: basis, G_ = f'all {len(ag)} past signals of {gp(g)} across all {a} charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
         out.append([subj, 'CONSOLE RECORD', basis] + rec(G_) + ['like for like'])
         if state.startswith('forming'):
             cards.append(card(r, g, have, basis, G_))
@@ -696,8 +698,8 @@ def main():
         ag = [s for s in known if s['a'] == a and s['tf'] in ('1D', '2D', '3D', '5D')
               and s.get('fund') is not None and s.get('fcool') is not None and gof(len(sets(s))) == g]
         if len(ex) >= 15: basis, G_ = f'all {len(ex)} {a} {tf} signals with exactly the same confirmations whose 60 days had closed by then', ex
-        elif len(sg) >= 15: basis, G_ = f'all {len(sg)} {a} {tf} signals graded {g} whose 60 days had closed by then (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
-        else: basis, G_ = f'all {len(ag)} grade {g} signals across all {a} charts whose 60 days had closed by then ({a} {tf} alone had only {len(sg)}, too few to use)', ag
+        elif len(sg) >= 15: basis, G_ = f'all {len(sg)} {a} {tf} signals of {gp(g)} whose 60 days had closed by then (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
+        else: basis, G_ = f'all {len(ag)} signals of {gp(g)} across all {a} charts whose 60 days had closed by then ({a} {tf} alone had only {len(sg)}, too few to use)', ag
         rx = dict(exr, _trough=exr['tdate'], _need='', _kill=None, _price_now='', _entry_close=round(exr['entry'], 2))
         ex_cards.append(card(rx, g, have, basis, G_))
 

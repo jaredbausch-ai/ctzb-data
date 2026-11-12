@@ -106,9 +106,9 @@ def main():
         lenses = set() if c['lenses'] == 'none' else {PLAIN[x] for x in c['lenses'].split('; ')}
         b = c['basis']
         L = led if '_known_by' not in c else [r for r in led if dt.date.fromisoformat(r['entry']) + dt.timedelta(days=60) <= c['_known_by']]
-        if 'exactly the same confirmations' in b and not b.split(' signals ')[1].startswith('graded'):
+        if 'exactly the same confirmations' in b and not b.split(' signals ')[1].startswith(('graded', 'of ')):
             G = [r for r in L if r['chart'] == c['chart'] and set(x for x in r['lenses'].split(' + ') if x != '-') == lenses]
-        elif f"{c['chart']} signals graded" in b:
+        elif f"{c['chart']} signals graded" in b or f"{c['chart']} signals of " in b:
             G = [r for r in L if r['chart'] == c['chart'] and r['grade'] == c['grade']]
         else:
             G = [r for r in L if r['asset'] == c['asset'] and r['grade'] == c['grade']]
