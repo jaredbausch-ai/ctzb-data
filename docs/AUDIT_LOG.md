@@ -351,7 +351,7 @@ feed tests, worker tests, Action-environment test, fire drills 58/58, page scree
 them real behaviour problems in states that don't occur today (the auditor replayed a filter-off date to show
 them). Not a clean run. Report: `analysis/audit14_2026-11-12/AUDIT14.md`.
 
-**Changed** (this round's commit):
+**Changed** (commit c7755bd):
 - **Forming cards with the market filter off.** Replaying 11 Jun 2026 (filter off), the pipeline produced 10
   forming cards and 10 forming alerts under a header reading "Market filter: off". A filter-off low can never
   confirm as a signal. Forming cards and alerts now exist only when the filter is on at the low's trough date.
