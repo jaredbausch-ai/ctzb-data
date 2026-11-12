@@ -593,9 +593,12 @@ def ds_holdcheck(ch, keep, outdir):
                      round(sum(1 for x in g if x["run"] >= 20) / len(g) * 100),
                      round(E.med([x["run"] for x in g]), 1),
                      round(E.med([x["dip"] for x in g]), 1),
-                     sum(1 for x in g if x["dip"] <= -33.3)])
+                     sum(1 for x in g if x["dip"] <= -33.3),
+                     # 11 Nov 2026: the member card's headline moved to +10%, so the
+                     # day-10 check carries it too (added last; earlier columns unchanged)
+                     round(sum(1 for x in g if x["run"] >= 10) / len(g) * 100)])
     write_csv(os.path.join(outdir, "holdcheck.csv"),
-              ["check", "n", "reached20", "medRun", "medDip", "deepDips"], rows)
+              ["check", "n", "reached20", "medRun", "medDip", "deepDips", "reached10"], rows)
     return rows
 
 

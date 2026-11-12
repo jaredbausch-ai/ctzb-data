@@ -272,17 +272,19 @@ def main():
          "median_peak_pct": num(r["median_peak_pct"]), "mean_peak_pct": num(r["mean_peak_pct"]),
          "peaked_5_or_more": num(r["peaked_5_or_more"]), "peaked_10_or_more": num(r["peaked_10_or_more"]),
          "median_worst_drop_pct": num(r["median_worst_drop_pct"]), "median_day60_pct": num(r["median_day60_pct"]),
-         "note": "Signals of this asset and grade that did not reach +20% within 60 days. Show the median peak."}
+         "miss_rule": "did not rise 10% within 60 days",
+         "note": "Signals of this asset and grade that did not rise 10% within 60 days (the card's headline). Show the median peak."}
         for r in rows(d("missstats.csv"))] if extras_ok else []
     fade = rows(d("oddsfade.csv")) if extras_ok else []
     feed["odds_fade"] = {
         "label": LABEL,
         "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
         "sample": "Every kept signal, all grades. Below the posting bar the signal's edge is gone.",
-        "early_dip": [{"band": r["band"], "past_trades": num(r["n"]), "rose20_within60d_pct": num(r["reached20_pct"]),
-                       "edge": r["edge"]} for r in fade if r["kind"] == "early_dip"],
-        "day10": [{"check": r["band"], "past_trades": num(r["n"]), "rose20_within60d_pct": num(r["reached20_pct"]),
-                   "edge": r["edge"]} for r in fade if r["kind"] == "day10"],
+        "edge_measured_on": "rose 10% within 60 days",
+        "early_dip": [{"band": r["band"], "past_trades": num(r["n"]), "rose10_within60d_pct": num(r["reached10_pct"]),
+                       "rose20_within60d_pct": num(r["reached20_pct"]), "edge": r["edge"]} for r in fade if r["kind"] == "early_dip"],
+        "day10": [{"check": r["band"], "past_trades": num(r["n"]), "rose10_within60d_pct": num(r["reached10_pct"]),
+                   "rose20_within60d_pct": num(r["reached20_pct"]), "edge": r["edge"]} for r in fade if r["kind"] == "day10"],
     }
     paths = rows(d("pastpaths.csv")) if extras_ok else []
     feed["past_paths"] = [

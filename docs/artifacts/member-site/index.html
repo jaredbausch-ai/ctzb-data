@@ -272,7 +272,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       </div>
       <div class="sumrow" id="recSum"></div>
       <div class="tablebox"><table aria-label="Every past top-grade signal">
-        <thead><tr><th>Confirmed</th><th>Chart</th><th>Entry close</th><th>Reached +20%</th><th>Best</th><th>Deepest drop</th><th>Day 60</th><th>High on day</th></tr></thead>
+        <thead><tr><th>Confirmed</th><th>Chart</th><th>Entry close</th><th>Rose 10%</th><th>Reached +20%</th><th>Best</th><th>Deepest drop</th><th>Day 60</th><th>High on day</th></tr></thead>
         <tbody id="recBody"></tbody>
       </table></div>
       <p class="fine" style="margin-top: 8px">Computed signals, not trades. Each row is a signal at its confirmation close, measured over the next 60 days. There is no exit in the data, so this is entry quality, not a return or a track record.</p>
@@ -296,7 +296,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, how many of its past signals still rose 10%. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our 70% bar.</dd>
-            <dt>If it misses</dt><dd>Of the past signals that did not reach +20%, how many were above entry first, and their median peak before they failed.</dd>
+            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many were above entry first, and their median peak before they failed.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in. His real trades never change the odds.</dd>
           </dl>
           <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</div>
@@ -354,7 +354,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const gone = of && (of.early_dip || []).find((b) => b.edge === "gone");
     const m = gone && String(gone.band).match(/-?\d+(\.\d+)?/);
     const red = of && (of.day10 || []).find((b) => /red/.test(b.check));
-    return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? red.rose20_within60d_pct : null };
+    return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? (red.rose10_within60d_pct ?? red.rose20_within60d_pct) : null };
   }
   // This setup's own fade (Jared 11 Nov: the player, not the league): after first falling X%, the share of
   // this setup's past signals that still rose 10%. Below the 70% bar the edge is gone.
@@ -371,7 +371,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
   /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
   function liveCards() { return ((S.feed && S.feed.cards) || []).filter((c) => c.grade === "A+"); }
-  // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +20% odds.
+  // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +10% odds.
   function formingCards() { return ((S.feed && S.feed.cards) || []).slice().sort((a, b) => (b.rose10_within60d_pct ?? -1) - (a.rose10_within60d_pct ?? -1)); }
   function bestCard() { return liveCards()[0] || formingCards()[0] || null; }
   // Fire drills, 11 Nov 2026: an outage, a failed check or an old feed must never read as
@@ -426,7 +426,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       dipBefore: median(f("dipBeforeHigh")), highDay: median(f("daysToHigh")), reach10: share(rows, (r) => r.reached10 === "yes"),
       touched30: share(rows, (r) => r.touched30 === "yes"), surv10: go ? go.rose10_never_fell25_within60d_pct : share(rows, (r) => r.surv10 === "yes"),
       entry: o.entry_close, day60: median(f("return60d")), entry_date: o.entry_date,
-      eras: [["Before 2022", rows.filter((r) => +r.year < 2022)], ["Since 2022", rows.filter((r) => +r.year >= 2022)]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.reached20 === "yes"), what: "reached +20%" })),
+      eras: [["Before 2022", rows.filter((r) => +r.year < 2022)], ["Since 2022", rows.filter((r) => +r.year >= 2022)]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.surv10 === "yes"), what: "rose 10%, never fell 25%" })),
       fallsFirst: [],
     };
   }
@@ -443,7 +443,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       high: median(f("bestMove")), drop: go ? go.median_deepest_dip_pct : median(f("maxDrawdown")), dipBefore: median(f("dipBeforeHigh")),
       highDay: median(f("daysToHigh")), reach10: share(eth, (r) => r.reached10 === "yes"), touched30: share(eth, (r) => r.touched30 === "yes"),
       surv10: go ? go.rose10_never_fell25_within60d_pct : share(eth, (r) => r.surv10 === "yes"), entry: 2580.92, day60: median(f("return60d")),
-      eras: [["Before 2022", early], ["Since 2022", late]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.reached20 === "yes"), what: "reached +20%" })),
+      eras: [["Before 2022", early], ["Since 2022", late]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.surv10 === "yes"), what: "rose 10%, never fell 25%" })),
       fallsFirst: [],
     };
   }
@@ -522,7 +522,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="boxes">
           <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · all kept signals"}</div><div class="ladder" id="ladder"></div></div>
           <div class="box teal"><div class="lbl">By era</div><div class="ladder" id="eras"></div>
-            <div class="fine" style="margin-top: 6px">${m.kind === "example" ? "Share of these signals that reached +20%." : "Share that rose 10% and never fell 25%."}</div></div>
+            <div class="fine" style="margin-top: 6px">Share that rose 10% and never fell 25%.</div></div>
         </div>
       </div>
       <div class="card-foot">
@@ -537,10 +537,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         + `<div class="fine">Share of this setup's past signals that still rose 10% after first falling that far. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
     } else {
       const of = S.feed && S.feed.odds_fade;
-      const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than", "<").replace("worse than", "past"), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : [])
-        .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: b.rose20_within60d_pct, gone: b.edge === "gone" })) : []);
+      const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than", "<").replace("worse than", "past"), v: (b.rose10_within60d_pct ?? b.rose20_within60d_pct), gone: b.edge === "gone" })) : [])
+        .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_within60d_pct ?? b.rose20_within60d_pct), gone: b.edge === "gone" })) : []);
       lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
-        + `<div class="fine">Every kept signal, all grades: share that reached +20% by day 60, by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
+        + `<div class="fine">Every kept signal, all grades: share that rose 10% within 60 days, by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
     }
     $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}%</span></div>`).join("");
   }
@@ -583,7 +583,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + recent.map((r) => `
       <div class="mini closed">
         <div><div class="name">${esc(r.chart)}</div><div class="sub num">${dateLong(r.entry)} · best ${pct(+r.bestMove)} · worst ${pct(+r.maxDrawdown)}</div></div>
-        <span class="badge ${r.reached20 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Reached +20%" : "Missed"}</span>
+        <span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Reached +20%" : r.reached10 === "yes" ? "Rose 10%" : "Missed"}</span>
       </div>`).join("");
   }
   function miniOpen(o, cls) {
@@ -676,7 +676,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : v + "%");
       }
     } else if (of) {
-      const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => b.rose20_within60d_pct))], [-5, -10, "var(--fade)", of.early_dip[2].rose20_within60d_pct], [-10, -20, "var(--drop)", of.early_dip[3].rose20_within60d_pct]];
+      const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => (b.rose10_within60d_pct ?? b.rose20_within60d_pct)))], [-5, -10, "var(--fade)", ((b) => (b.rose10_within60d_pct ?? b.rose20_within60d_pct))(of.early_dip[2])], [-10, -20, "var(--drop)", ((b) => (b.rose10_within60d_pct ?? b.rose20_within60d_pct))(of.early_dip[3])]];
       for (const [a1, b1, col, v] of bands) {
         const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100)));
         svgEl(svg, "rect", { x: xE, y: y1, width: x10 - xE, height: y2 - y1, fill: col, opacity: 0.24 });
@@ -807,9 +807,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderRecord() {
     const rows = S.ledger.filter((r) => S.asset === "all" || r.asset === S.asset).sort((a, b) => b.entry.localeCompare(a.entry));
     $$(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.asset === S.asset)));
-    $("#recCount").textContent = `${rows.length} signals · ${rows.filter((r) => r.reached20 !== "yes").length} missed +20%`;
+    $("#recCount").textContent = `${rows.length} signals · ${rows.filter((r) => r.reached10 !== "yes").length} missed +10%`;
     $("#recBody").innerHTML = rows.map((r) => `<tr>
       <td>${dateLong(r.entry)}</td><td>${esc(r.chart)}</td><td>${money(+r.entryPrice)}</td>
+      <td><span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached10 === "yes" ? "Yes" : "No"}</span></td>
       <td><span class="badge ${r.reached20 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Yes" : "No"}</span></td>
       <td class="hi">${pct(+r.bestMove)}</td><td class="lo">${pct(+r.maxDrawdown)}</td><td>${pct(+r.return60d)}</td><td>${r.daysToHigh}</td></tr>`).join("");
     const go = ((S.feed && S.feed.grade_odds) || []).filter((g) => g.grade === "A+" && (S.asset === "all" || g.asset === S.asset));

@@ -125,3 +125,15 @@ If `feed_live.py` itself crashes, it writes a feed with every list empty, `cards
 `alerts_withheld` and `extras_withheld` all true, `checks.failed_steps: ["feed"]` and a
 `feed_error` naming the exception type, then exits 1. Readers need no special case: it is a
 withheld feed.
+
+### +10% switch (11 Nov 2026, additive, schema stays 5)
+
+The card's headline is "rose 10% within 60 days", so the figures built around it follow:
+
+- `if_it_misses`: a miss is now a signal that **did not rise 10% within 60 days** (was +20%).
+  Each entry carries `miss_rule` saying so. Field names unchanged.
+- `odds_fade`: each `early_dip` and `day10` row gains `rose10_within60d_pct`; `edge` is now
+  marked on it against the 70% bar (was on +20%). `rose20_within60d_pct` stays, for detail.
+  `edge_measured_on: "rose 10% within 60 days"`.
+
+The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.

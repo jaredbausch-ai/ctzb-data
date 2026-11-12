@@ -4,7 +4,7 @@ Descriptive only. Nothing here is a filter test, nothing selects or grades a
 signal, and nothing is tuned: every figure re-reads the pipeline's own
 datasets for A+ signals (the only grade members are sent) and reports it.
 
-1. If it misses. A+ signals that did NOT reach +20% within 60 days of entry:
+1. If it misses. A+ signals that did NOT rise 10% within 60 days of entry (+20% until 11 Nov 2026):
    how many were above entry first, and how far (median and mean of the best
    move above entry inside the 60 days). Also their median worst drop and
    median day-60 return. Source: datasets/ledger.csv (bestMove, maxDrawdown,
@@ -20,7 +20,7 @@ datasets for A+ signals (the only grade members are sent) and reports it.
    counted.
 
 3. Where the odds fade. Re-reads datasets/earlydip.csv (deepest dip in the
-   first 10 days -> reached +20%) and datasets/holdcheck.csv (green / red on
+   first 10 days -> rose 10%, +20% alongside) and datasets/holdcheck.csv (green / red on
    day 10) and marks each row against the 70% posting bar (WINMIN in
    refresh.py). Jared 11 Nov: below 70% the signal's edge is gone. These two
    datasets pool every kept signal, not A+ only, and are labelled so.
@@ -59,9 +59,12 @@ def utc_date(ts):
     return dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).date()
 
 
+MISS_RULE = "did not rise 10% within 60 days"  # Jared 11 Nov 2026: +10% is the headline, so a miss is a +10% miss
+
+
 def misses(led, asset):
     a = [r for r in led if r["asset"] == asset]
-    m = [r for r in a if r["reached20"] == "no"]
+    m = [r for r in a if r["reached10"] == "no"]
     best = [float(r["bestMove"]) for r in m]
     return {
         "asset": asset, "aplus_signals": len(a), "misses": len(m),
@@ -114,11 +117,12 @@ def paths(led, asset):
 
 
 def fade():
-    early = [{"band": r["band"], "n": int(r["n"]), "reached20_pct": int(r["reached20"]),
-              "edge": "intact" if int(r["reached20"]) >= POST_BAR else "gone"}
+    # Edge is marked on +10% (Jared 11 Nov 2026: the headline moved to +10%); +20% kept alongside.
+    early = [{"band": r["band"], "n": int(r["n"]), "reached10_pct": int(r["reached10"]), "reached20_pct": int(r["reached20"]),
+              "edge": "intact" if int(r["reached10"]) >= POST_BAR else "gone"}
              for r in rows("datasets/earlydip.csv")]
-    hold = [{"check": r["check"], "n": int(r["n"]), "reached20_pct": int(r["reached20"]),
-             "edge": "intact" if int(r["reached20"]) >= POST_BAR else "gone"}
+    hold = [{"check": r["check"], "n": int(r["n"]), "reached10_pct": int(r["reached10"]), "reached20_pct": int(r["reached20"]),
+             "edge": "intact" if int(r["reached10"]) >= POST_BAR else "gone"}
             for r in rows("datasets/holdcheck.csv")]
     return {"posting_bar_pct": POST_BAR, "sample": "every kept signal, all grades", "early_dip": early, "day10": hold}
 
@@ -134,7 +138,7 @@ def main():
            "fade": fade()}
 
     print("Card redesign figures (analysis/carddesign.py). Computed signals; entry quality only.\n")
-    print("1. If it misses: A+ signals that did not reach +20% within 60 days\n")
+    print("1. If it misses: A+ signals that did not rise 10% within 60 days\n")
     print(f"{'':6}{'A+':>5}{'miss':>6}{'up 1st':>8}{'med peak':>10}{'mean peak':>11}{'>=+5%':>7}{'>=+10%':>8}{'med worst':>11}{'med d60':>9}")
     for m in res["misses"]:
         print(f"{m['asset']:6}{m['aplus_signals']:>5}{m['misses']:>6}{m['up_first']:>8}{m['median_peak_pct']:>+9.1f}%"
@@ -151,9 +155,9 @@ def main():
     f = res["fade"]
     print(f"\n3. Where the odds fade (posting bar {f['posting_bar_pct']}%; {f['sample']})\n")
     for r in f["early_dip"]:
-        print(f"   deepest dip in first 10 days {r['band']:<20} n {r['n']:>3}  reached +20% {r['reached20_pct']:>3}%  edge {r['edge']}")
+        print(f"   deepest dip in first 10 days {r['band']:<20} n {r['n']:>3}  rose 10% {r['reached10_pct']:>3}%  (+20% {r['reached20_pct']:>3}%)  edge {r['edge']}")
     for r in f["day10"]:
-        print(f"   {r['check']:<46} n {r['n']:>3}  reached +20% {r['reached20_pct']:>3}%  edge {r['edge']}")
+        print(f"   {r['check']:<46} n {r['n']:>3}  rose 10% {r['reached10_pct']:>3}%  (+20% {r['reached20_pct']:>3}%)  edge {r['edge']}")
 
     with open(a.json, "w") as fh:
         json.dump(res, fh, separators=(",", ":"))

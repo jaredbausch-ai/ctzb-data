@@ -44,7 +44,7 @@ ASSETS = ("ETH", "BTC")
 MISS_FIELDS = ["asset", "grade", "aplus_signals", "misses", "up_first", "median_peak_pct", "mean_peak_pct",
                "peaked_5_or_more", "peaked_10_or_more", "median_worst_drop_pct", "median_day60_pct"]
 PATH_FIELDS = ["asset", "day", "n", "q25_pct", "median_pct", "q75_pct"]
-FADE_FIELDS = ["kind", "band", "n", "reached20_pct", "posting_bar_pct", "edge"]
+FADE_FIELDS = ["kind", "band", "n", "reached20_pct", "posting_bar_pct", "edge", "reached10_pct"]
 
 
 def write(path, fields, rows):
@@ -94,9 +94,9 @@ def main():
 
     f = cd.fade()
     fade_rows = [{"kind": "early_dip", "band": r["band"], "n": r["n"], "reached20_pct": r["reached20_pct"],
-                  "posting_bar_pct": f["posting_bar_pct"], "edge": r["edge"]} for r in f["early_dip"]] + \
+                  "reached10_pct": r["reached10_pct"], "posting_bar_pct": f["posting_bar_pct"], "edge": r["edge"]} for r in f["early_dip"]] + \
                 [{"kind": "day10", "band": r["check"], "n": r["n"], "reached20_pct": r["reached20_pct"],
-                  "posting_bar_pct": f["posting_bar_pct"], "edge": r["edge"]} for r in f["day10"]]
+                  "reached10_pct": r["reached10_pct"], "posting_bar_pct": f["posting_bar_pct"], "edge": r["edge"]} for r in f["day10"]]
     if not fade_rows:
         sys.exit("extras_live: earlydip.csv / holdcheck.csv empty; refusing to write")
 

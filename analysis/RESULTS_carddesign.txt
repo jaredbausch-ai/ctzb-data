@@ -1,10 +1,10 @@
 Card redesign figures (analysis/carddesign.py). Computed signals; entry quality only.
 
-1. If it misses: A+ signals that did not reach +20% within 60 days
+1. If it misses: A+ signals that did not rise 10% within 60 days
 
          A+  miss  up 1st  med peak  mean peak  >=+5%  >=+10%  med worst  med d60
-ETH     104    26      26     +7.1%      +8.1%     18      11     -19.7%   -12.2%
-BTC      33     7       7     +6.4%      +7.0%      5       2     -28.1%   -14.6%
+ETH     104    15      15     +4.8%      +4.1%      7       0     -25.7%   -14.4%
+BTC      33     5       5     +6.2%      +4.9%      3       0     -19.1%   -12.7%
 
 2. Where the past signals went: 60-day paths on daily closes, lined up at entry
 
@@ -13,12 +13,12 @@ BTC  n 33  skipped 0  day 10 median +3.3%  day 41 median +28.9%  day 60 median +
 
 3. Where the odds fade (posting bar 70%; every kept signal, all grades)
 
-   deepest dip in first 10 days shallower than -2%   n  30  reached +20%  87%  edge intact
-   deepest dip in first 10 days -2% to -5%           n  44  reached +20%  89%  edge intact
-   deepest dip in first 10 days -5% to -10%          n  34  reached +20%  71%  edge intact
-   deepest dip in first 10 days -10% to -20%         n  27  reached +20%  56%  edge gone
-   deepest dip in first 10 days worse than -20%      n  16  reached +20%  44%  edge gone
-   green on day 10                                n  93  reached +20%  92%  edge intact
-   red on day 10                                  n  58  reached +20%  47%  edge gone
+   deepest dip in first 10 days shallower than -2%   n  30  rose 10%  90%  (+20%  87%)  edge intact
+   deepest dip in first 10 days -2% to -5%           n  44  rose 10%  93%  (+20%  89%)  edge intact
+   deepest dip in first 10 days -5% to -10%          n  34  rose 10%  91%  (+20%  71%)  edge intact
+   deepest dip in first 10 days -10% to -20%         n  27  rose 10%  78%  (+20%  56%)  edge intact
+   deepest dip in first 10 days worse than -20%      n  16  rose 10%  44%  (+20%  44%)  edge gone
+   green on day 10                                n  93  rose 10%  97%  (+20%  92%)  edge intact
+   red on day 10                                  n  58  rose 10%  67%  (+20%  47%)  edge gone
 
 wrote analysis/carddesign.json

@@ -36,13 +36,13 @@ for grade in ("A", "B", "C"):
     for asset in ("ETH", "BTC"):
         g = [r for r in csv.DictReader(open(f"{DS}/ledger.csv")) if r["grade"] == grade and r["asset"] == asset]
         row = next((r for r in allmiss if r["grade"] == grade and r["asset"] == asset), None)
-        m = [float(r["bestMove"]) for r in g if r["reached20"] == "no"]
+        m = [float(r["bestMove"]) for r in g if r["reached10"] == "no"]
         if g:
             check(f"{asset} {grade}: miss count and median peak match the ledger",
                   row and int(row["misses"]) == len(m) and (not m or float(row["median_peak_pct"]) == round(st.median(m), 1)))
 for asset in ("ETH", "BTC"):
     a = [r for r in led if r["asset"] == asset]
-    m = [float(r["bestMove"]) for r in a if r["reached20"] == "no"]
+    m = [float(r["bestMove"]) for r in a if r["reached10"] == "no"]
     if not a:
         continue
     row = miss.get(asset)
@@ -63,7 +63,7 @@ for asset in ("ETH", "BTC"):
 
 fade = list(csv.DictReader(open(f"{DS}/oddsfade.csv")))
 check("odds-fade marks each row against 70%",
-      fade and all((int(r["reached20_pct"]) >= 70) == (r["edge"] == "intact") and r["posting_bar_pct"] == "70" for r in fade))
+      fade and all((int(r["reached10_pct"]) >= 70) == (r["edge"] == "intact") and r["posting_bar_pct"] == "70" for r in fade))
 
 p = run("feed_live.py", "--datasets", DS, "--out", FEED, "--alert-log", LOG, env_extra={"CTZB_STEP_OUTCOMES": OK + ",extras=success"})
 f = json.load(open(FEED))
