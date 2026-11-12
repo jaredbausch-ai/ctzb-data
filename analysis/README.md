@@ -81,4 +81,4 @@ beside the hits. `docs/PRETRADE.md` has the full set of guards.
 | `grade5.py` | Funding once vs twice in the ETH grade (declared 28 Oct): no version passes the ordering rule |
 | `grade6.py` | Grade audit 2 (declared 28 Oct): FASTCT added to BTC; B3E3 and K1 near misses on sample size |
 | `carddesign.py`, `RESULTS_carddesign.txt`, `carddesign.json` | Member card redesign figures (10-11 Nov 2026, item 18), descriptive only, A+ signals: "if it misses" (ETH 26 of 104 missed +20%, all 26 above entry first, median peak +7.1%), the 60-day path of every A+ signal lined up at entry (the chart view's "where the past signals went"), and the early-dip / day-10 reads marked against the 70% posting bar. Not yet in the feed |
-| `grade10.py` | 11 Nov 2026 | The live conviction grade measured on +10% instead of +20%: by asset, chart and era, ordering, and the 70% bar. Descriptive only, nothing chosen. `RESULTS_grade10.txt`, `grade10.json`. |
+| `grade10.py`, `RESULTS_grade10.txt`, `grade10.json` | The live conviction grade measured on +10% instead of +20% (11 Nov 2026): by asset, chart and era, A+ ordering, and the 70% bar. Descriptive only, nothing chosen |
