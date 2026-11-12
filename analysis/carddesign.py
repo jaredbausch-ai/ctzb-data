@@ -107,9 +107,13 @@ def paths(led, asset):
         if len(p) < 61:
             skipped.append((r["chart"], r["entry"], "fewer than 60 daily closes"))
             continue
-        out.append({"chart": r["chart"], "entry": r["entry"], "reached20": r["reached20"], "path": [round(v, 2) for v in p]})
+        out.append({"chart": r["chart"], "entry": r["entry"], "reached20": r["reached20"], "path": [round(v, 2) for v in p], "_exact": p})
     days = range(61)
-    pct = {f: [round(q([x["path"][d] for x in out], f), 1) for d in days] for f in (0.25, 0.5, 0.75)}
+    # 12 Nov 2026 audit: quantiles of the exact path values, rounded once (they used to be
+    # taken on values already rounded to 2 places)
+    pct = {f: [round(q([x["_exact"][d] for x in out], f), 1) for d in days] for f in (0.25, 0.5, 0.75)}
+    for x in out:
+        del x["_exact"]
     return {
         "asset": asset, "n": len(out), "skipped": skipped,
         "median": pct[0.5], "q25": pct[0.25], "q75": pct[0.75],

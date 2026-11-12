@@ -22,11 +22,11 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 - `grade_odds` is pooled context only. Never show it as the number for a
   live setup (CONTEXT, "Never quote the pooled grade alone").
 
-## Top level (schema 3; schema 2 added the four card timing fields, 1 Nov 2026; schema 3 added `active_confluences`, 4 Nov 2026)
+## Top level (schema 5 now; schema 2 added the four card timing fields, 1 Nov 2026; schema 3 added `active_confluences`, 4 Nov 2026; 4 and 5 below)
 
 | Field | Source | Meaning |
 |---|---|---|
-| `schema_version` | | 3 |
+| `schema_version` | | 5 |
 | `generated_at` | | UTC time the file was written |
 | `scored_as_of` | status.csv | Date of the data scored |
 | `label` | | The computed-signal label |
@@ -102,7 +102,7 @@ run's `datasets/ledger.csv`, `earlydip.csv` and `holdcheck.csv` (arithmetic in
 | Field | Where | Meaning |
 |---|---|---|
 | `extras_withheld` | top level | True when the `extras` step failed this run. The three fields below are then empty, so a stale copy is never served. |
-| `if_it_misses[]` | top level | Per asset and grade (A+, A, B, C; all grades from 11 Nov 2026): `signals`, `misses` (did not reach +20% within 60 days), `up_first` (of those, how many were above entry first), `median_peak_pct` (**the card shows this**, Jared 11 Nov), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`. |
+| `if_it_misses[]` | top level | Per asset and grade (A+, A, B, C; all grades from 11 Nov 2026): `signals`, `misses` (did not rise 10% within 60 days; +20% until 11 Nov 2026), `up_first` (of those, how many were above entry first), `median_peak_pct` (**the card shows this**, Jared 11 Nov), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`. |
 | `odds_fade` | top level | `posting_bar_pct` (70; below it the edge is gone, Jared 11 Nov), `early_dip[]` (deepest dip in the first 10 days → `past_trades`, `rose20_within60d_pct`, `edge` intact/gone) and `day10[]` (green / red on day 10, same fields). Every kept signal, all grades. |
 | `past_paths[]` | top level | Per asset, grade A+: `signals` and `days[]` (day 0-60: `q25_pct`, `median_pct`, `q75_pct`, percent from entry on daily closes, every past signal lined up at entry). The chart view's "where the past signals went". |
 
@@ -145,3 +145,19 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   not the asset's whole range.
 - Every rounded figure is rounded half away from zero (62.5 -> 63), once, from the unrounded value.
 - A signal appears in the ledger, and in every figure built from it, only once its 60th day has closed.
+
+### Second audit corrections (12 Nov 2026, independent audit #3)
+
+- `cards[]` gain `typical_biggest_rise_exact_pct`, `typical_dip_before_rise_exact_pct`, `typical_deepest_dip_exact_pct`:
+  the same medians unrounded. Show the rounded fields; build prices (entry x (1 + pct/100)) from the exact ones.
+- `cards[].sample` says "all N past ... signals", not "the last N ... trades": every past signal is used, and none was traded.
+- `example_card` (new, top level): the member site's worked example (ETH 2D, confirmed 2024-09-22) as a full card, same
+  fields as `cards[]` plus `example: true` and `entry_close`, built by the forming-card rules from only the signals whose
+  60th day had closed by 2024-09-22. `null` when withheld.
+- `open_signals[]` now cover ETH and BTC on 1D/2D/3D/5D (they were ETH only), come from `datasets/open.csv`
+  (stack_live.py), are dated by the confirmation CLOSE date (same id as the print and the card), count `days_elapsed` in
+  calendar days since that close, and take day-10/30/60 and best/worst from closed daily candles. Each carries `card`:
+  its own full card (sample, ladder, edge). Withheld (empty) when checks fail.
+- `odds_fade`: measured on daily candles from the entry close; every row's +10%/+20% share counts highs after day 10
+  (days 11 to 60); the day-10 rows group by the day-10 daily close. Labelled as a general explainer.
+- `past_paths`: quantiles taken on exact path values, rounded once.

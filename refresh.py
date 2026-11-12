@@ -504,38 +504,66 @@ def ds_invalidation(ch, outdir):
     return len(pooled)
 
 
-def ds_earlydip(ch, keep, outdir):
-    """earlydip.csv - does an early fall predict failure?
+_DAILY = {}
 
-    Grouped by the worst dip in the first EARLY days only, then scored on
-    what happened from day EARLY to the horizon. Splitting the window this
-    way is what keeps it honest: grouping a trade by its eventual worst dip
-    and then reporting its eventual outcome is partly circular, because a
-    deep dip and a bad result are the same fact measured twice.
-    """
-    pool = []
+
+def _daily_data(data_dir):
+    """ETH and BTC daily candles, flash prints neutralised exactly as on the charts."""
+    if data_dir not in _DAILY:
+        day = {}
+        for a in ("ETH", "BTC"):
+            b = E.load(os.path.join(data_dir, f"{a}_1D.csv"))
+            H, L, O, Cl, Dd = list(b["high"]), list(b["low"]), b["open"], b["close"], b["date"]
+            _declean(H, L, O, Cl, Dd, f"{a} 1D")
+            day[a] = dict(D=Dd, H=H, L=L, C=Cl, pos={d: i for i, d in enumerate(Dd)})
+        _DAILY[data_dir] = day
+    return _DAILY[data_dir]
+
+
+def _daily_windows(ch, keep, data_dir):
+    """Every kept signal's 60-day window, on DAILY candles from the entry close (12 Nov 2026
+    audit: these tables used to be measured on each chart's own bars from the confirmation
+    bar's open date, unlike every other figure). Day k is the k-th calendar day after the
+    entry date (the confirmation bar's close date); a window counts only once its 60th day's
+    daily bar has closed. Flash prints are neutralised exactly as on the charts."""
+    from clock import now_utc
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis"))
+    from tagstats import bucket_end
+    today = now_utc().date()
+    day = _daily_data(data_dir)
+    out = []
     for nm, c in ch.items():
-        C, Hi, Lo, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
+        a = nm.split()[0]
+        dd = day[a]
         for s in c["sg"]:
             if not any(nm == k[0] and k[1] in s["tg"] for k in keep):
                 continue
-            ei = s["ei"]
-            if D[-1] < D[ei] + dt.timedelta(days=HOR):
+            d0 = bucket_end(c["D"], s["ei"])
+            if d0 is None or d0 not in dd["pos"]:
                 continue
-            e = C[ei]
-            lo, hi_after = None, None
-            for j in range(ei + 1, n):
-                d = (D[j] - D[ei]).days
-                if d > HOR:
-                    break
-                if d <= EARLY:
-                    lo = Lo[j] if lo is None else min(lo, Lo[j])
-                if d >= EARLY:
-                    hi_after = Hi[j] if hi_after is None else max(hi_after, Hi[j])
-            if lo is None or hi_after is None:
-                continue
-            pool.append(dict(dip=(lo / e - 1) * 100,
-                             mfe=(hi_after / e - 1) * 100))
+            i0 = dd["pos"][d0]
+            e = dd["C"][i0]                       # entry close = the daily close on the entry date
+            w = [(k, (dd["D"][k] - d0).days) for k in range(i0 + 1, len(dd["D"])) if (dd["D"][k] - d0).days <= HOR]
+            if not w or w[-1][1] < HOR or dd["D"][w[-1][0]] >= today:
+                continue                           # day 60 not reached, or still forming
+            out.append(dict(e=e, days=w, dd=dd))
+    return out
+
+
+def ds_earlydip(ch, keep, outdir, data_dir):
+    """earlydip.csv - does an early fall predict failure?
+
+    Grouped by the worst dip in the first EARLY days only, then scored on what happened
+    AFTER day EARLY (days 11 to 60). Splitting the window this way is what keeps it honest:
+    grouping a trade by its eventual worst dip and then reporting its eventual outcome is
+    partly circular, because a deep dip and a bad result are the same fact measured twice.
+    """
+    pool = []
+    for x in _daily_windows(ch, keep, data_dir):
+        dd, e = x["dd"], x["e"]
+        lo = min(dd["L"][k] for k, d in x["days"] if d <= EARLY)
+        hi_after = max(dd["H"][k] for k, d in x["days"] if d > EARLY)
+        pool.append(dict(dip=(lo / e - 1) * 100, mfe=(hi_after / e - 1) * 100))
     rows = []
     for hi, lo, lab in EARLY_BANDS:
         g = [p for p in pool if lo < p["dip"] <= hi]
@@ -544,77 +572,68 @@ def ds_earlydip(ch, keep, outdir):
         rows.append([lab, len(g),
                      round(sum(1 for p in g if p["mfe"] >= 10) / len(g) * 100),
                      round(sum(1 for p in g if p["mfe"] >= 20) / len(g) * 100),
-                     round(E.med([p["mfe"] for p in g]), 1)])
+                     round(st.median([p["mfe"] for p in g]), 1)])
     write_csv(os.path.join(outdir, "earlydip.csv"),
               ["band", "n", "reached10", "reached20", "medRun"], rows)
     return rows
 
 
-def ds_holdcheck(ch, keep, outdir):
+def ds_holdcheck(ch, keep, outdir, data_dir):
     """holdcheck.csv - is the position green at the day-10 check?
 
-    The cheapest question with the most in it. Trades that are green on
-    day 10 and trades that are not behave like two different populations:
-    a good trade dips early and peaks around day 40, a bad one peaks in
-    the first week and bleeds for two months. The liquidation-grade
-    drawdowns live almost entirely in the red group, and their low does
-    not arrive until about day 50, so the check leaves well before the
-    damage.
+    Green = the daily close on day 10 at or above the entry close. The outcome columns
+    (reached20, reached10, medRun) count what happened AFTER the day-10 close (days 11 to 60),
+    because that is what the check is asked to predict; medDip and deepDips are the whole
+    60-day window. A good trade dips early and peaks around day 40, a bad one peaks in the
+    first week and bleeds for two months.
     """
     rows = []
     groups = {"green on day 10": [], "red on day 10": []}
-    for nm, c in ch.items():
-        C, Hi, Lo, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
-        for s in c["sg"]:
-            if not any(nm == k[0] and k[1] in s["tg"] for k in keep):
-                continue
-            ei = s["ei"]
-            if D[-1] < D[ei] + dt.timedelta(days=HOR):
-                continue
-            e = C[ei]
-            cl10 = None
-            hi = lo = None
-            for j in range(ei + 1, n):
-                age = (D[j] - D[ei]).days
-                if age > HOR:
-                    break
-                hi = Hi[j] if hi is None else max(hi, Hi[j])
-                lo = Lo[j] if lo is None else min(lo, Lo[j])
-                if age <= 10:
-                    cl10 = (C[j] / e - 1) * 100
-            if cl10 is None or hi is None:
-                continue
-            g = "green on day 10" if cl10 >= 0 else "red on day 10"
-            groups[g].append(dict(run=(hi / e - 1) * 100, dip=(lo / e - 1) * 100))
+    for x in _daily_windows(ch, keep, data_dir):
+        dd, e = x["dd"], x["e"]
+        k10 = [k for k, d in x["days"] if d == EARLY]
+        if not k10:
+            continue
+        cl10 = (dd["C"][k10[0]] / e - 1) * 100
+        run = (max(dd["H"][k] for k, d in x["days"] if d > EARLY) / e - 1) * 100
+        dip = (min(dd["L"][k] for k, d in x["days"]) / e - 1) * 100
+        groups["green on day 10" if cl10 >= 0 else "red on day 10"].append(dict(run=run, dip=dip))
     for lab in ("green on day 10", "red on day 10"):
         g = groups[lab]
         if len(g) < 5:
             continue
         rows.append([lab, len(g),
                      round(sum(1 for x in g if x["run"] >= 20) / len(g) * 100),
-                     round(E.med([x["run"] for x in g]), 1),
-                     round(E.med([x["dip"] for x in g]), 1),
+                     round(st.median([x["run"] for x in g]), 1),
+                     round(st.median([x["dip"] for x in g]), 1),
                      sum(1 for x in g if x["dip"] <= -33.3),
-                     # 11 Nov 2026: the member card's headline moved to +10%, so the
-                     # day-10 check carries it too (added last; earlier columns unchanged)
                      round(sum(1 for x in g if x["run"] >= 10) / len(g) * 100)])
     write_csv(os.path.join(outdir, "holdcheck.csv"),
               ["check", "n", "reached20", "medRun", "medDip", "deepDips", "reached10"], rows)
     return rows
 
 
-def ds_forward(ch, rows_all, outdir):
+def ds_forward(ch, rows_all, outdir, data_dir):
     """forward.csv - the live out-of-sample record, rebuilt from candles.
 
     EVERY signal entered on or after FORWARD_FROM, with a `tier` column
     saying whether it was in the traded set as that set stood in January of
     the signal's own year. The complete enumeration is the point: a log of
     only the traded ones cannot be distinguished from a log that quietly
-    drops its losers. A trade stays
-    "open" until its horizon elapses; no alert, no email, no manual entry,
-    and a missing row cannot be mistaken for a quiet market because the
-    whole file is derived each run.
+    drops its losers. A trade stays "open" until its 60th day has closed; no
+    alert, no email, no manual entry, and a missing row cannot be mistaken for
+    a quiet market because the whole file is derived each run.
+
+    12 Nov 2026 audit: dated and measured like every other figure. `entry` is the
+    confirmation bar's CLOSE date (the same date as the ledger, the prints and the
+    cards, so one signal has one id); `elapsed` is calendar days since that close;
+    d10/d30/d60, best and worst come from DAILY candles that have closed. A signal
+    whose confirmation bar is still open is not listed (it hasn't confirmed).
     """
+    from clock import now_utc
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis"))
+    from tagstats import bucket_end
+    today = now_utc().date()
     tiers = {}   # year -> the tier fixed at that year's January
 
     def tier_for(year):
@@ -622,42 +641,35 @@ def ds_forward(ch, rows_all, outdir):
             tiers[year] = set(select_tier(rows_all, upto=dt.date(year, 1, 1)))
         return tiers[year]
 
+    day = _daily_data(data_dir)
     out = []
     for nm, c in ch.items():
-        C, Hi, Lo, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
-        last = D[-1]
+        C, D = c["C"], c["D"]
+        dd = day[nm.split()[0]]
         for s in c["sg"]:
-            if s["edate"] < FORWARD_FROM:
+            ei = s["ei"]
+            d0 = bucket_end(D, ei)
+            if d0 is None or d0 >= today or d0 not in dd["pos"]:
+                continue                      # confirmation bar still open
+            if d0 < FORWARD_FROM:
                 continue
             in_tier = any(nm == k[0] and k[1] in s["tg"] for k in tier_for(s["edate"].year))
-            ei = s["ei"]
             e = C[ei]
-            elapsed = (last - D[ei]).days
-            best, worst = None, None
-            for j in range(ei + 1, n):
-                if (D[j] - D[ei]).days > HOR:
-                    break
-                best = Hi[j] if best is None else max(best, Hi[j])
-                worst = Lo[j] if worst is None else min(worst, Lo[j])
+            elapsed = (today - d0).days
+            i0 = dd["pos"][d0]
+            win = [k for k in range(i0 + 1, len(dd["D"])) if dd["D"][k] < today and (dd["D"][k] - d0).days <= HOR]
+            best = max((dd["H"][k] for k in win), default=None)
+            worst = min((dd["L"][k] for k in win), default=None)
             marks = {}
             for m in MARKS:
-                marks[m] = ""
-                if elapsed < m:
-                    continue
-                # the last close at or before the mark
-                v = None
-                for j in range(ei + 1, n):
-                    if (D[j] - D[ei]).days <= m:
-                        v = C[j]
-                    else:
-                        break
-                if v is not None:
-                    marks[m] = round((v / e - 1) * 100, 1)
+                k = [x for x in win if (dd["D"][x] - d0).days == m]
+                marks[m] = round((dd["C"][k[0]] / e - 1) * 100, 1) if k else ""
+            closed = (d0 + dt.timedelta(days=HOR)) < today
             out.append([
-                nm, str(s["edate"]), "yes" if in_tier else "no",
+                nm, str(d0), "yes" if in_tier else "no",
                 " + ".join(t for t in s["tg"] if t != "any trough"),
                 round(e, 2), elapsed,
-                "closed" if elapsed >= HOR else "open",
+                "closed" if closed else "open",
                 marks[10], marks[30], marks[60],
                 "" if best is None else round((best / e - 1) * 100, 1),
                 "" if worst is None else round((worst / e - 1) * 100, 1)])
@@ -737,9 +749,9 @@ def main():
     allbase = ds_walkforward(ch, rows_all, today, a.out)
     ds_confluence(ch, dates, a.out)
     n_inval = ds_invalidation(ch, a.out)
-    early = ds_earlydip(ch, keep, a.out)
-    hold = ds_holdcheck(ch, keep, a.out)
-    fwd, fwd_closed, fwd_won = ds_forward(ch, rows_all, a.out)
+    early = ds_earlydip(ch, keep, a.out, a.data)
+    hold = ds_holdcheck(ch, keep, a.out, a.data)
+    fwd, fwd_closed, fwd_won = ds_forward(ch, rows_all, a.out, a.data)
     status = ds_status(reg, today, buy, per_year, a.out)
 
     # ------------------------------------------------------------ summary

@@ -1,8 +1,8 @@
 kind,band,n,reached20_pct,posting_bar_pct,edge,reached10_pct
-early_dip,shallower than -2%,29,86,70,intact,90
-early_dip,-2% to -5%,44,89,70,intact,93
-early_dip,-5% to -10%,34,71,70,intact,91
+early_dip,shallower than -2%,29,83,70,intact,90
+early_dip,-2% to -5%,44,86,70,intact,91
+early_dip,-5% to -10%,34,71,70,intact,88
 early_dip,-10% to -20%,27,56,70,intact,78
 early_dip,worse than -20%,16,44,70,gone,44
-day10,green on day 10,92,92,70,intact,97
-day10,red on day 10,58,47,70,gone,67
+day10,green on day 10,92,87,70,intact,96
+day10,red on day 10,58,48,70,gone,62

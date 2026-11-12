@@ -392,9 +392,14 @@ def main():
                 pct(sum(s0['m']['up'] >= 20 for s0 in G)), pct(sum(s0['m']['up'] >= 10 for s0 in G)),
                 round(st.median(s0['m']['up'] for s0 in G), 1) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 1) if n else '',
                 round(st.median(s0['m']['dd'] for s0 in G), 1) if n else '', pct(sum(s0['m']['dd'] <= -30 for s0 in G)),
+                # 12 Nov 2026 audit: the same three medians unrounded, so prices built from them
+                # (entry x (1 + pct)) are rounded once, to the cent, not twice
+                round(st.median(s0['m']['up'] for s0 in G), 6) if n else '', round(st.median(s0['m']['ddpk'] for s0 in G), 6) if n else '',
+                round(st.median(s0['m']['dd'] for s0 in G), 6) if n else '',
                 len(old), sv(old), len(new), sv(new)] + ladder(G) + timing(G)
     CARD_HDR = ['chart', 'asset', 'tf', 'trough', 'confirms', 'barsNeeded', 'killClose', 'priceNow', 'grade', 'lenses', 'basis', 'n',
                 'surv10', 'scaled20', 'reach20', 'reach10', 'bestMove', 'dipBeforeHigh', 'maxDip60', 'touched30',
+                'bestMoveExact', 'dipBeforeHighExact', 'maxDip60Exact',
                 'nOld', 'surv10Old', 'nNew', 'surv10New'] + [f'l{t}{k}' for t in (5, 10, 15, 20) for k in ('n', 'ok', 'liq')] + ['daysTo10', 'daysTo20', 'daysToHigh', 'daysToLow', 'confluences']
     cells = []
     J = json.load(open(os.path.join(HERE, 'analysis', 'grokpack.json')))
@@ -408,6 +413,7 @@ def main():
         LENS[k] = LENS[k] + v
     for k, v in json.load(open(os.path.join(HERE, 'analysis', 'grade6.json')))['added'].items():
         LENS[k] = LENS[k] + v
+    open_cards = []; open_rows = []
     for state, r, tags in subjects:
         a, tf, d0 = r['a'], r['tf'], r['d0']
         subj = f'{a} {tf} {state}, confirms {d0}' if state.startswith('forming') else f'{a} {tf} {state}, entry {d0}'
@@ -434,12 +440,25 @@ def main():
         ag = [s for s in Aall if gof(len(sets(s))) == g]
         out.append([subj, f'This chart at grade {g} (any mix of {len(have)} lenses)', 'record'] + rec(sg) + ['from 2020' if a == 'ETH' else 'full history'])
         out.append([subj, f'Grade {g}, all {a} charts', 'record'] + rec(ag) + ['from 2020' if a == 'ETH' else 'full history'])
-        if len(ex) >= 15: basis, G_ = f'the last {len(ex)} {a} {tf} trades with exactly the same confirmations', ex
-        elif len(sg) >= 15: basis, G_ = f'the last {len(sg)} {a} {tf} trades graded {g} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
-        else: basis, G_ = f'the last {len(ag)} grade {g} trades across all {a} charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
+        if len(ex) >= 15: basis, G_ = f'all {len(ex)} past {a} {tf} signals with exactly the same confirmations', ex  # 'signals', not 'trades': none were taken (12 Nov 2026 audit)
+        elif len(sg) >= 15: basis, G_ = f'all {len(sg)} past {a} {tf} signals graded {g} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
+        else: basis, G_ = f'all {len(ag)} past grade {g} signals across all {a} charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
         out.append([subj, 'CONSOLE RECORD', basis] + rec(G_) + ['like for like'])
         if state.startswith('forming'):
             cards.append(card(r, g, have, basis, G_))
+        elif state.startswith('open'):
+            # 12 Nov 2026 audit: a live (open) setup gets its own card too, built exactly like a
+            # forming one, so its ladder and edge are its own, never the pooled table
+            open_cards.append(card(dict(r, _trough=r.get('tdate', ''), _need='', _kill=None), g, have, basis, G_))
+            # ...and its progress so far, from CLOSED daily candles (today's bar is still forming)
+            i0 = DPOS[a].get(d0); e0 = r['entry']
+            if i0 is not None:
+                win = [k for k in range(i0 + 1, len(DAY[a]['date'])) if DAY[a]['date'][k] < today and (DAY[a]['date'][k] - d0).days <= 60]
+                mark = lambda m: next((round((DAY[a]['close'][k] / e0 - 1) * 100, 1) for k in win if (DAY[a]['date'][k] - d0).days == m), '')
+                open_rows.append([f'{a} {tf}', str(d0), round(e0, 2), (today - d0).days, tags, g, ' + '.join(have) or '-',
+                                  mark(10), mark(30), mark(60),
+                                  round((max(DAY[a]['high'][k] for k in win) / e0 - 1) * 100, 1) if win else '',
+                                  round((min(DAY[a]['low'][k] for k in win) / e0 - 1) * 100, 1) if win else ''])
         # every registry item
         for rid, label, A_, C_, kind, src in REGISTRY:
             if rid in ('CELLS', 'POS', 'REGIME', 'REGAGE', 'BUCKET', 'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50', 'RETRACE'):
@@ -592,7 +611,39 @@ def main():
                 lower = ', '.join(f'{a} {t}' for t in TFS[:TFS.index(tf)])
                 if lower: wins.append([f'{a} {tf}', str(d), str(d + dt.timedelta(days=WIN)), f'DIVH flag (bullish Stoch divergence) for {lower}'])
 
+    # 12 Nov 2026 audit: the member site's worked example (ETH 2D, confirmed 2024-09-22) gets a real
+    # card, built by exactly the rules of a forming card, from ONLY the signals whose 60th day had
+    # closed by that date: what a member would have seen at the alert. Its own ladder and edge, never
+    # the pooled early-dip table (CONTEXT: "the player, not the league").
+    EX_A, EX_TF, EX_D0 = 'ETH', '2D', dt.date(2024, 9, 22)
+    ex_cards = []
+    exr = next((s for s in rows if s['a'] == EX_A and s['tf'] == EX_TF and s['d0'] == EX_D0), None)
+    if exr is not None:
+        a, tf = EX_A, EX_TF
+        known = [s for s in rows if s['d0'] + dt.timedelta(days=60) <= EX_D0]
+        F = feats(exr)
+        have = [k for k in LENS[a] if F.get(k)]
+        g = 'C' if len(have) <= 1 else 'B' if len(have) == 2 else 'A' if len(have) == 3 else 'A+'
+        sets = lambda s: {k for k in LENS[a] if feats(s).get(k)}
+        gof = lambda c: 'C' if c <= 1 else 'B' if c == 2 else 'A' if c == 3 else 'A+'
+        Cr = [s for s in known if s['a'] == a and s['tf'] == tf]
+        Cf = [s for s in Cr if s.get('fund') is not None and s.get('fcool') is not None]
+        ex = [s for s in Cf if set(have) == sets(s)]
+        sg = [s for s in Cf if gof(len(sets(s))) == g]
+        ag = [s for s in known if s['a'] == a and s['tf'] in ('1D', '2D', '3D', '5D')
+              and s.get('fund') is not None and s.get('fcool') is not None and gof(len(sets(s))) == g]
+        if len(ex) >= 15: basis, G_ = f'all {len(ex)} {a} {tf} signals with exactly the same confirmations whose 60 days had closed by then', ex
+        elif len(sg) >= 15: basis, G_ = f'all {len(sg)} {a} {tf} signals graded {g} whose 60 days had closed by then (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
+        else: basis, G_ = f'all {len(ag)} grade {g} signals across all {a} charts whose 60 days had closed by then ({a} {tf} alone had only {len(sg)}, too few to use)', ag
+        rx = dict(exr, _trough=exr['tdate'], _need='', _kill=None)
+        ex_cards.append(card(rx, g, have, basis, G_))
+
     w = lambda p, h, rr: csv.writer(open(os.path.join(OUT, p), 'w', newline='')).writerows([h] + rr)
+    w('cards_example.csv', CARD_HDR, ex_cards)
+    w('cards_open.csv', CARD_HDR, open_cards)
+    # every open signal on every graded chart, ETH and BTC (12 Nov 2026 audit: the feed's open
+    # signals came from forward.csv, which covers ETH only, so a live BTC top-grade setup never showed)
+    w('open.csv', ['chart', 'entry', 'entryClose', 'elapsed', 'tag', 'grade', 'lenses', 'd10', 'd30', 'd60', 'best', 'worst'], sorted(open_rows, key=lambda x: (x[1], x[0])))
     w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'reach10', 'reach30', 'bestMove', 'sample'], out)
     bad = []
     for c in cards:

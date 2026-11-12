@@ -35,10 +35,16 @@ Usage: python feed_live.py [--datasets datasets] [--out feed/ctzb_feed.json]
 import argparse
 import csv
 import json
-from clock import now_utc  # CTZB_NOW lets a test replay a past run
 import os
 import sys
 from datetime import datetime, timezone
+
+
+def now_utc():
+    """Real time, or CTZB_NOW (ISO 8601) when a test replays a past run; same rule as clock.py,
+    inlined because the tests run this file from a copy of its own."""
+    v = os.environ.get("CTZB_NOW")
+    return datetime.fromisoformat(v.replace("Z", "+00:00")).astimezone(timezone.utc) if v else datetime.now(timezone.utc)
 
 SCHEMA_VERSION = 5
 ALERT_LOG_FIELDS = ["alert_id", "event", "signal_id", "chart", "emitted_at"]
@@ -141,6 +147,10 @@ def card(r):
         "typical_biggest_rise_pct": num(r["bestMove"]),
         "typical_dip_before_rise_pct": num(r["dipBeforeHigh"]),
         "typical_deepest_dip_pct": num(r["maxDip60"]),
+        # unrounded, for prices built from them (12 Nov 2026 audit); display the rounded ones
+        "typical_biggest_rise_exact_pct": num(r.get("bestMoveExact", "")),
+        "typical_dip_before_rise_exact_pct": num(r.get("dipBeforeHighExact", "")),
+        "typical_deepest_dip_exact_pct": num(r.get("maxDip60Exact", "")),
         "fell30_within60d_pct": num(r["touched30"]),
         "before_2022": {"past_trades": num(r["nOld"]), "rose10_never_fell25_within60d_pct": num(r["surv10Old"])},
         "since_2022": {"past_trades": num(r["nNew"]), "rose10_never_fell25_within60d_pct": num(r["surv10New"])},
@@ -177,6 +187,10 @@ def main():
     failed_steps = [k for k in GATING_STEPS if steps.get(k) == "failure"]
     all_ok = ok and not failed_steps
     cards = [card(r) for r in rows(d("cards.csv"))] if all_ok else []
+    # the member site's worked example, as a real card from what was known at its alert (12 Nov 2026)
+    ex_rows = rows(d("cards_example.csv")) if os.path.exists(d("cards_example.csv")) else []
+    example_card = dict(card(ex_rows[0]), example=True, entry_close=num(ex_rows[0]["priceNow"])) if all_ok and ex_rows else None
+    open_cards = {(r["chart"], r["confirms"]): card(r) for r in (rows(d("cards_open.csv")) if os.path.exists(d("cards_open.csv")) else [])} if all_ok else {}
     now = now_utc().strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # ---- alerts: once per event, ever (item 17d) ----
@@ -221,6 +235,7 @@ def main():
         "next_buy_date": status.get("Next buy date"),
         "trades_a_year": status.get("Trades a year"),
         "cards": cards,
+        "example_card": example_card,
         "prints": [
             {"label": LABEL, "signal_id": sid(r["chart"], r["confirms"]), "chart": r["chart"], "state": r["state"],
              "provisional": r["state"] != "confirmed",
@@ -228,14 +243,17 @@ def main():
              "entry_close": num(r["entry"]), "tags": r["tags"], "note": r["note"]}
             for r in rows(d("prints.csv"))
         ],
+        # every signal inside its 60 days, ETH and BTC, from stack_live's open.csv (12 Nov 2026 audit);
+        # each carries its own card (sample, ladder, edge). Dated by the confirmation close.
         "open_signals": [
             {"label": LABEL, "signal_id": sid(r["chart"], r["entry"]), "chart": r["chart"], "entry_date": r["entry"],
              "entry_close": num(r["entryClose"]), "tags": r["tag"], "grade": r["grade"],
              "confirmations": r["lenses"], "days_elapsed": num(r["elapsed"]),
              "day10_pct": num(r["d10"]), "day30_pct": num(r["d30"]), "day60_pct": num(r["d60"]),
-             "best_so_far_pct": num(r["best"]), "worst_so_far_pct": num(r["worst"])}
-            for r in rows(d("forward.csv")) if r["status"] == "open"
-        ],
+             "best_so_far_pct": num(r["best"]), "worst_so_far_pct": num(r["worst"]),
+             "card": open_cards.get((r["chart"], r["entry"]))}
+            for r in (rows(d("open.csv")) if os.path.exists(d("open.csv")) else [])
+        ] if all_ok else [],
         "confluence_windows": [
             {"opened_by": r["openedBy"], "confirmed": r["confirmed"],
              "closes": r["closes"], "applies_to": r["appliesTo"]}
@@ -281,7 +299,7 @@ def main():
     feed["odds_fade"] = {
         "label": LABEL,
         "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
-        "sample": "ETH signals in the walk-forward tier, every chart, 2016 on (refresh.py earlydip/holdcheck). The +10% share counts highs from day 10 to day 60. Below the posting bar the edge is gone.",
+        "sample": "ETH signals in the walk-forward tier, every chart, 2016 on (refresh.py earlydip/holdcheck), measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
         "edge_measured_on": "rose 10% within 60 days",
         "early_dip": [{"band": r["band"], "past_trades": num(r["n"]), "rose10_within60d_pct": num(r["reached10_pct"]),
                        "rose20_within60d_pct": num(r["reached20_pct"]), "edge": r["edge"]} for r in fade if r["kind"] == "early_dip"],
@@ -320,7 +338,7 @@ def fail_closed(out_path, err):
             "feed_error": type(err).__name__,
             "cards_withheld": True, "alerts_withheld": True, "extras_withheld": True,
             "alerts": [], "cards": [], "prints": [], "open_signals": [], "confluence_windows": [],
-            "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None,
+            "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None, "example_card": None,
             "odds_fade": {"label": LABEL, "posting_bar_pct": None, "sample": None, "early_dip": [], "day10": []}}
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     with open(out_path, "w") as f:

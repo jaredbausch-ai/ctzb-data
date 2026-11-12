@@ -30,7 +30,14 @@ def day_path(a, d0, entry, H=60):
     day of the 60-day high, day of the 60-day low) for one entry."""
     if a not in _DAY:
         rows = list(csv.DictReader(open(os.path.join(HERE, 'data', f'{a}_1D.csv'))))
-        _DAY[a] = [(dt.datetime.utcfromtimestamp(int(r['time'])).date(), float(r['high']), float(r['low'])) for r in rows]
+        # the repo's documented flash-print rule (engine._declamp / refresh._declean, CONTEXT): a low
+        # under half the bar's body, or a high over twice it, is pulled back to the body. Written out
+        # here, not imported, so this check stays independent of the engine.
+        def fix(r):
+            o, h, l, c = (float(r[k]) for k in ('open', 'high', 'low', 'close'))
+            lb, hb = min(o, c), max(o, c)
+            return (l if not (lb > 0 and l < 0.5 * lb) else lb), (h if not (hb > 0 and h > hb / 0.5) else hb)
+        _DAY[a] = [(dt.datetime.fromtimestamp(int(r['time']), dt.timezone.utc).date(),) + tuple(reversed(fix(r))) for r in rows]
     D = _DAY[a]; end = d0 + dt.timedelta(days=H)
     w = [x for x in D if d0 < x[0] <= end]
     if not w: return None
@@ -41,6 +48,14 @@ def day_path(a, d0, entry, H=60):
 
 def main():
     cards = list(csv.DictReader(open(os.path.join(OUT, 'cards.csv'))))
+    # 12 Nov 2026: the member site's worked example is a card too, built only from signals
+    # whose 60th day had closed by its confirmation date (2024-09-22)
+    op_path = os.path.join(OUT, 'cards_open.csv')
+    cards += list(csv.DictReader(open(op_path))) if os.path.exists(op_path) else []
+    ex_path = os.path.join(OUT, 'cards_example.csv')
+    for c in (list(csv.DictReader(open(ex_path))) if os.path.exists(ex_path) else []):
+        c['_known_by'] = dt.date.fromisoformat(c['confirms'])
+        cards.append(c)
     led = list(csv.DictReader(open(os.path.join(OUT, 'ledger.csv'))))
     bad, checked = [], 0
     for c in cards:
@@ -48,12 +63,13 @@ def main():
             continue
         lenses = set() if c['lenses'] == 'none' else {PLAIN[x] for x in c['lenses'].split('; ')}
         b = c['basis']
-        if 'exactly the same confirmations' in b and not b.split(' trades ')[1].startswith('graded'):
-            G = [r for r in led if r['chart'] == c['chart'] and set(x for x in r['lenses'].split(' + ') if x != '-') == lenses]
-        elif f"{c['chart']} trades graded" in b:
-            G = [r for r in led if r['chart'] == c['chart'] and r['grade'] == c['grade']]
+        L = led if '_known_by' not in c else [r for r in led if dt.date.fromisoformat(r['entry']) + dt.timedelta(days=60) <= c['_known_by']]
+        if 'exactly the same confirmations' in b and not b.split(' signals ')[1].startswith('graded'):
+            G = [r for r in L if r['chart'] == c['chart'] and set(x for x in r['lenses'].split(' + ') if x != '-') == lenses]
+        elif f"{c['chart']} signals graded" in b:
+            G = [r for r in L if r['chart'] == c['chart'] and r['grade'] == c['grade']]
         else:
-            G = [r for r in led if r['asset'] == c['asset'] and r['grade'] == c['grade']]
+            G = [r for r in L if r['asset'] == c['asset'] and r['grade'] == c['grade']]
         n = len(G)
         def pct(f): return round(100 * sum(1 for r in G if f(r)) / n) if n else ''
         mine = {'n': n,
@@ -68,12 +84,12 @@ def main():
                   'daysToHigh': mm([p[2] for p in paths]), 'daysToLow': mm([p[3] for p in paths])}
         for k, v in timing.items():
             cv = c.get(k, '')
-            if (cv == '') != (v == '') or (cv != '' and abs(float(cv) - v) > 1):
+            if (cv == '') != (v == '') or (cv != '' and abs(float(cv) - v) > 0):   # exact since 12 Nov 2026
                 bad.append(f"{c['chart']} {k}: card {cv} vs 1D data {v}")
         for k, v in mine.items():
             cv = c[k]
             cv = int(cv) if k in ('n', 'surv10', 'reach20', 'touched30') and cv != '' else (float(cv) if cv != '' else '')
-            tol = 1 if k in ('surv10', 'reach20', 'touched30') else 0.15 if k in ('bestMove', 'maxDip60') else 0
+            tol = 0   # 12 Nov 2026: the ledger is exact and both sides round once, the same way
             if cv == '' or v == '' or abs(cv - v) > tol:
                 bad.append(f"{c['chart']} {k}: card {c[k]} vs ledger {v}")
         checked += 1

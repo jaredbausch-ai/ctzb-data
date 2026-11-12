@@ -262,8 +262,8 @@ def main():
         dates[(a, tf)] = E.load(f'data/{a}_{tf}.csv')['date']
     by_key = {}
     for r in every:
-        ed = dates[(r['a'], r['tf'])][r['ei']]
-        by_key[(r['ch'], str(ed))] = r
+        # forward.csv is keyed by the confirmation CLOSE date since 12 Nov 2026 (audit), like the ledger
+        by_key[(r['ch'], str(r['d0']))] = r
     fp = os.path.join(OUT, 'forward.csv')
     if os.path.exists(fp):
         h, rs = rcsv(fp)
