@@ -1,0 +1,649 @@
+{
+ "note": "Descriptive. Live grade, +10% yardstick. Entry quality only.",
+ "by_asset": {
+  "ETH A+": {
+   "n": 104,
+   "rose10": 86,
+   "rose10_lo": 78,
+   "surv10": 80,
+   "rose20": 75,
+   "med_best": 35.0,
+   "per_year": 14.9
+  },
+  "ETH A": {
+   "n": 61,
+   "rose10": 74,
+   "rose10_lo": 62,
+   "surv10": 66,
+   "rose20": 62,
+   "med_best": 28.5,
+   "per_year": 8.7
+  },
+  "ETH B": {
+   "n": 81,
+   "rose10": 69,
+   "rose10_lo": 58,
+   "surv10": 59,
+   "rose20": 53,
+   "med_best": 22.5,
+   "per_year": 11.6
+  },
+  "ETH C": {
+   "n": 112,
+   "rose10": 67,
+   "rose10_lo": 58,
+   "surv10": 54,
+   "rose20": 43,
+   "med_best": 14.9,
+   "per_year": 16.0
+  },
+  "BTC A+": {
+   "n": 33,
+   "rose10": 85,
+   "rose10_lo": 69,
+   "surv10": 76,
+   "rose20": 79,
+   "med_best": 42.9,
+   "per_year": 3.0
+  },
+  "BTC A": {
+   "n": 81,
+   "rose10": 74,
+   "rose10_lo": 64,
+   "surv10": 70,
+   "rose20": 57,
+   "med_best": 25.7,
+   "per_year": 7.4
+  },
+  "BTC B": {
+   "n": 136,
+   "rose10": 75,
+   "rose10_lo": 67,
+   "surv10": 67,
+   "rose20": 57,
+   "med_best": 28.6,
+   "per_year": 12.4
+  },
+  "BTC C": {
+   "n": 313,
+   "rose10": 70,
+   "rose10_lo": 64,
+   "surv10": 60,
+   "rose20": 44,
+   "med_best": 16.8,
+   "per_year": 28.5
+  }
+ },
+ "by_chart": {
+  "BTC 1D A+": {
+   "n": 21,
+   "rose10": 81,
+   "rose10_lo": 60,
+   "surv10": 67,
+   "rose20": 71,
+   "med_best": 42.9
+  },
+  "BTC 1D A": {
+   "n": 30,
+   "rose10": 80,
+   "rose10_lo": 63,
+   "surv10": 77,
+   "rose20": 73,
+   "med_best": 29.4
+  },
+  "BTC 1D B": {
+   "n": 72,
+   "rose10": 79,
+   "rose10_lo": 68,
+   "surv10": 71,
+   "rose20": 58,
+   "med_best": 30.3
+  },
+  "BTC 1D C": {
+   "n": 158,
+   "rose10": 69,
+   "rose10_lo": 61,
+   "surv10": 60,
+   "rose20": 41,
+   "med_best": 16.0
+  },
+  "BTC 2D A+": {
+   "n": 12,
+   "rose10": 92,
+   "rose10_lo": 65,
+   "surv10": 92,
+   "rose20": 92,
+   "med_best": 42.2
+  },
+  "BTC 2D A": {
+   "n": 30,
+   "rose10": 57,
+   "rose10_lo": 39,
+   "surv10": 50,
+   "rose20": 43,
+   "med_best": 12.6
+  },
+  "BTC 2D B": {
+   "n": 39,
+   "rose10": 72,
+   "rose10_lo": 56,
+   "surv10": 67,
+   "rose20": 51,
+   "med_best": 20.9
+  },
+  "BTC 2D C": {
+   "n": 60,
+   "rose10": 70,
+   "rose10_lo": 57,
+   "surv10": 60,
+   "rose20": 48,
+   "med_best": 19.4
+  },
+  "BTC 3D A+": {
+   "n": 0
+  },
+  "BTC 3D A": {
+   "n": 11,
+   "rose10": 91,
+   "rose10_lo": 62,
+   "surv10": 91,
+   "rose20": 45,
+   "med_best": 19.8
+  },
+  "BTC 3D B": {
+   "n": 16,
+   "rose10": 75,
+   "rose10_lo": 51,
+   "surv10": 62,
+   "rose20": 69,
+   "med_best": 46.6
+  },
+  "BTC 3D C": {
+   "n": 65,
+   "rose10": 74,
+   "rose10_lo": 62,
+   "surv10": 63,
+   "rose20": 48,
+   "med_best": 17.7
+  },
+  "BTC 5D A+": {
+   "n": 0
+  },
+  "BTC 5D A": {
+   "n": 10,
+   "rose10": 90,
+   "rose10_lo": 60,
+   "surv10": 90,
+   "rose20": 60,
+   "med_best": 24.4
+  },
+  "BTC 5D B": {
+   "n": 9,
+   "rose10": 56,
+   "rose10_lo": 27,
+   "surv10": 44,
+   "rose20": 44,
+   "med_best": 12.2
+  },
+  "BTC 5D C": {
+   "n": 30,
+   "rose10": 63,
+   "rose10_lo": 46,
+   "surv10": 53,
+   "rose20": 43,
+   "med_best": 15.2
+  },
+  "ETH 1D A+": {
+   "n": 51,
+   "rose10": 86,
+   "rose10_lo": 74,
+   "surv10": 80,
+   "rose20": 76,
+   "med_best": 34.9
+  },
+  "ETH 1D A": {
+   "n": 25,
+   "rose10": 68,
+   "rose10_lo": 48,
+   "surv10": 64,
+   "rose20": 60,
+   "med_best": 26.1
+  },
+  "ETH 1D B": {
+   "n": 37,
+   "rose10": 73,
+   "rose10_lo": 57,
+   "surv10": 62,
+   "rose20": 51,
+   "med_best": 27.4
+  },
+  "ETH 1D C": {
+   "n": 67,
+   "rose10": 64,
+   "rose10_lo": 52,
+   "surv10": 54,
+   "rose20": 42,
+   "med_best": 14.9
+  },
+  "ETH 2D A+": {
+   "n": 22,
+   "rose10": 77,
+   "rose10_lo": 57,
+   "surv10": 73,
+   "rose20": 77,
+   "med_best": 55.2
+  },
+  "ETH 2D A": {
+   "n": 16,
+   "rose10": 81,
+   "rose10_lo": 57,
+   "surv10": 62,
+   "rose20": 69,
+   "med_best": 33.5
+  },
+  "ETH 2D B": {
+   "n": 24,
+   "rose10": 62,
+   "rose10_lo": 43,
+   "surv10": 54,
+   "rose20": 50,
+   "med_best": 17.9
+  },
+  "ETH 2D C": {
+   "n": 27,
+   "rose10": 67,
+   "rose10_lo": 48,
+   "surv10": 52,
+   "rose20": 41,
+   "med_best": 14.7
+  },
+  "ETH 3D A+": {
+   "n": 18,
+   "rose10": 89,
+   "rose10_lo": 67,
+   "surv10": 89,
+   "rose20": 67,
+   "med_best": 30.2
+  },
+  "ETH 3D A": {
+   "n": 10,
+   "rose10": 70,
+   "rose10_lo": 40,
+   "surv10": 60,
+   "rose20": 50,
+   "med_best": 23.9
+  },
+  "ETH 3D B": {
+   "n": 15,
+   "rose10": 67,
+   "rose10_lo": 42,
+   "surv10": 53,
+   "rose20": 53,
+   "med_best": 20.8
+  },
+  "ETH 3D C": {
+   "n": 13,
+   "rose10": 69,
+   "rose10_lo": 42,
+   "surv10": 62,
+   "rose20": 46,
+   "med_best": 18.8
+  },
+  "ETH 5D A+": {
+   "n": 13,
+   "rose10": 92,
+   "rose10_lo": 67,
+   "surv10": 77,
+   "rose20": 77,
+   "med_best": 35.0
+  },
+  "ETH 5D A": {
+   "n": 10,
+   "rose10": 80,
+   "rose10_lo": 49,
+   "surv10": 80,
+   "rose20": 70,
+   "med_best": 32.6
+  },
+  "ETH 5D B": {
+   "n": 5,
+   "rose10": 80,
+   "rose10_lo": 38,
+   "surv10": 80,
+   "rose20": 80,
+   "med_best": 39.5
+  },
+  "ETH 5D C": {
+   "n": 5,
+   "rose10": 100,
+   "rose10_lo": 57,
+   "surv10": 40,
+   "rose20": 60,
+   "med_best": 28.9
+  }
+ },
+ "by_era": {
+  "ETH 2016-19 A+": {
+   "n": 0
+  },
+  "ETH 2016-19 A": {
+   "n": 0
+  },
+  "ETH 2016-19 B": {
+   "n": 0
+  },
+  "ETH 2016-19 C": {
+   "n": 0
+  },
+  "ETH 2020-21 A+": {
+   "n": 42,
+   "rose10": 98,
+   "rose10_lo": 88,
+   "surv10": 86,
+   "rose20": 95,
+   "med_best": 68.3
+  },
+  "ETH 2020-21 A": {
+   "n": 18,
+   "rose10": 94,
+   "rose10_lo": 74,
+   "surv10": 72,
+   "rose20": 78,
+   "med_best": 36.2
+  },
+  "ETH 2020-21 B": {
+   "n": 34,
+   "rose10": 79,
+   "rose10_lo": 63,
+   "surv10": 62,
+   "rose20": 71,
+   "med_best": 48.2
+  },
+  "ETH 2020-21 C": {
+   "n": 30,
+   "rose10": 80,
+   "rose10_lo": 63,
+   "surv10": 60,
+   "rose20": 67,
+   "med_best": 37.8
+  },
+  "ETH 2022-23 A+": {
+   "n": 21,
+   "rose10": 76,
+   "rose10_lo": 55,
+   "surv10": 76,
+   "rose20": 57,
+   "med_best": 21.7
+  },
+  "ETH 2022-23 A": {
+   "n": 14,
+   "rose10": 64,
+   "rose10_lo": 39,
+   "surv10": 64,
+   "rose20": 43,
+   "med_best": 19.7
+  },
+  "ETH 2022-23 B": {
+   "n": 20,
+   "rose10": 60,
+   "rose10_lo": 39,
+   "surv10": 60,
+   "rose20": 45,
+   "med_best": 18.5
+  },
+  "ETH 2022-23 C": {
+   "n": 26,
+   "rose10": 69,
+   "rose10_lo": 50,
+   "surv10": 65,
+   "rose20": 31,
+   "med_best": 13.3
+  },
+  "ETH 2024-26 A+": {
+   "n": 41,
+   "rose10": 78,
+   "rose10_lo": 63,
+   "surv10": 76,
+   "rose20": 63,
+   "med_best": 28.8
+  },
+  "ETH 2024-26 A": {
+   "n": 29,
+   "rose10": 66,
+   "rose10_lo": 47,
+   "surv10": 62,
+   "rose20": 62,
+   "med_best": 28.5
+  },
+  "ETH 2024-26 B": {
+   "n": 27,
+   "rose10": 63,
+   "rose10_lo": 44,
+   "surv10": 56,
+   "rose20": 37,
+   "med_best": 13.4
+  },
+  "ETH 2024-26 C": {
+   "n": 56,
+   "rose10": 59,
+   "rose10_lo": 46,
+   "surv10": 45,
+   "rose20": 36,
+   "med_best": 13.1
+  },
+  "BTC 2016-19 A+": {
+   "n": 7,
+   "rose10": 100,
+   "rose10_lo": 65,
+   "surv10": 86,
+   "rose20": 86,
+   "med_best": 36.3
+  },
+  "BTC 2016-19 A": {
+   "n": 22,
+   "rose10": 86,
+   "rose10_lo": 67,
+   "surv10": 82,
+   "rose20": 77,
+   "med_best": 45.6
+  },
+  "BTC 2016-19 B": {
+   "n": 52,
+   "rose10": 88,
+   "rose10_lo": 77,
+   "surv10": 69,
+   "rose20": 73,
+   "med_best": 48.0
+  },
+  "BTC 2016-19 C": {
+   "n": 118,
+   "rose10": 75,
+   "rose10_lo": 66,
+   "surv10": 60,
+   "rose20": 58,
+   "med_best": 26.1
+  },
+  "BTC 2020-21 A+": {
+   "n": 13,
+   "rose10": 92,
+   "rose10_lo": 67,
+   "surv10": 77,
+   "rose20": 85,
+   "med_best": 64.0
+  },
+  "BTC 2020-21 A": {
+   "n": 18,
+   "rose10": 72,
+   "rose10_lo": 49,
+   "surv10": 61,
+   "rose20": 56,
+   "med_best": 27.0
+  },
+  "BTC 2020-21 B": {
+   "n": 31,
+   "rose10": 71,
+   "rose10_lo": 53,
+   "surv10": 68,
+   "rose20": 65,
+   "med_best": 28.9
+  },
+  "BTC 2020-21 C": {
+   "n": 70,
+   "rose10": 71,
+   "rose10_lo": 60,
+   "surv10": 57,
+   "rose20": 47,
+   "med_best": 19.3
+  },
+  "BTC 2022-23 A+": {
+   "n": 4,
+   "rose10": 75,
+   "rose10_lo": 30,
+   "surv10": 75,
+   "rose20": 75,
+   "med_best": 40.2
+  },
+  "BTC 2022-23 A": {
+   "n": 20,
+   "rose10": 75,
+   "rose10_lo": 53,
+   "surv10": 75,
+   "rose20": 60,
+   "med_best": 22.6
+  },
+  "BTC 2022-23 B": {
+   "n": 15,
+   "rose10": 67,
+   "rose10_lo": 42,
+   "surv10": 67,
+   "rose20": 40,
+   "med_best": 17.0
+  },
+  "BTC 2022-23 C": {
+   "n": 39,
+   "rose10": 72,
+   "rose10_lo": 56,
+   "surv10": 72,
+   "rose20": 49,
+   "med_best": 19.1
+  },
+  "BTC 2024-26 A+": {
+   "n": 9,
+   "rose10": 67,
+   "rose10_lo": 35,
+   "surv10": 67,
+   "rose20": 67,
+   "med_best": 41.3
+  },
+  "BTC 2024-26 A": {
+   "n": 21,
+   "rose10": 62,
+   "rose10_lo": 41,
+   "surv10": 62,
+   "rose20": 33,
+   "med_best": 16.0
+  },
+  "BTC 2024-26 B": {
+   "n": 38,
+   "rose10": 63,
+   "rose10_lo": 47,
+   "surv10": 63,
+   "rose20": 34,
+   "med_best": 13.2
+  },
+  "BTC 2024-26 C": {
+   "n": 86,
+   "rose10": 60,
+   "rose10_lo": 50,
+   "surv10": 57,
+   "rose20": 20,
+   "med_best": 12.8
+  }
+ },
+ "ordering": {
+  "asset": {
+   "held": 2,
+   "of": 2,
+   "exceptions": []
+  },
+  "chart": {
+   "held": 4,
+   "of": 6,
+   "exceptions": [
+    "ETH 2D: A+ 77% vs A 81%",
+    "ETH 5D: A+ 92% vs C 100%"
+   ]
+  },
+  "era": {
+   "held": 6,
+   "of": 6,
+   "exceptions": []
+  }
+ },
+ "bar70": [
+  {
+   "cell": "ETH A+",
+   "n": 104,
+   "rose10": 86,
+   "clears10": true,
+   "rose20": 75,
+   "clears20": true
+  },
+  {
+   "cell": "ETH A",
+   "n": 61,
+   "rose10": 74,
+   "clears10": true,
+   "rose20": 62,
+   "clears20": false
+  },
+  {
+   "cell": "ETH B",
+   "n": 81,
+   "rose10": 69,
+   "clears10": false,
+   "rose20": 53,
+   "clears20": false
+  },
+  {
+   "cell": "ETH C",
+   "n": 112,
+   "rose10": 67,
+   "clears10": false,
+   "rose20": 43,
+   "clears20": false
+  },
+  {
+   "cell": "BTC A+",
+   "n": 33,
+   "rose10": 85,
+   "clears10": true,
+   "rose20": 79,
+   "clears20": true
+  },
+  {
+   "cell": "BTC A",
+   "n": 81,
+   "rose10": 74,
+   "clears10": true,
+   "rose20": 57,
+   "clears20": false
+  },
+  {
+   "cell": "BTC B",
+   "n": 136,
+   "rose10": 75,
+   "clears10": true,
+   "rose20": 57,
+   "clears20": false
+  },
+  {
+   "cell": "BTC C",
+   "n": 313,
+   "rose10": 70,
+   "clears10": true,
+   "rose20": 44,
+   "clears20": false
+  }
+ ]
+}

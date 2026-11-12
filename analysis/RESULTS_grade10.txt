@@ -1,0 +1,59 @@
+Conviction grade measured on +10% instead of +20% (analysis/grade10.py, 11 Nov 2026)
+Descriptive only: the live grade, unchanged; only the yardstick moves. Entry quality only:
+no exit, not a strategy return or a track record. Grade odds are whole-sample (hindsight).
+
+1. By asset and grade (every graded signal, full 60 days)
+
+                n   /yr  rose 10%  (95% low)  +10%, never -25%   +20%  med best
+   ETH A+     104  14.9       86%        78%               80%    75%    +35.0%
+   ETH A       61   8.7       74%        62%               66%    62%    +28.5%
+   ETH B       81  11.6       69%        58%               59%    53%    +22.5%
+   ETH C      112  16.0       67%        58%               54%    43%    +14.9%
+
+   BTC A+      33   3.0       85%        69%               76%    79%    +42.9%
+   BTC A       81   7.4       74%        64%               70%    57%    +25.7%
+   BTC B      136  12.4       75%        67%               67%    57%    +28.6%
+   BTC C      313  28.5       70%        64%               60%    44%    +16.8%
+
+2. By chart: rose 10% (+20% in brackets), n
+
+                          A+                A                B                C
+   BTC 1D      81% (71%) n21    80% (73%) n30    79% (58%) n72   69% (41%) n158
+   BTC 2D      92% (92%) n12    57% (43%) n30    72% (51%) n39    70% (48%) n60
+   BTC 3D                  -    91% (45%) n11    75% (69%) n16    74% (48%) n65
+   BTC 5D                  -    90% (60%) n10     56% (44%) n9    63% (43%) n30
+   ETH 1D      86% (76%) n51    68% (60%) n25    73% (51%) n37    64% (42%) n67
+   ETH 2D      77% (77%) n22    81% (69%) n16    62% (50%) n24    67% (41%) n27
+   ETH 3D      89% (67%) n18    70% (50%) n10    67% (53%) n15    69% (46%) n13
+   ETH 5D      92% (77%) n13    80% (70%) n10     80% (80%) n5    100% (60%) n5
+
+3. By era, assets apart: rose 10% (+20%), n. ETH and BTC share dates: one sample, not two.
+
+                              A+                A                B                C
+   ETH 2016-19                 -                -                -                -
+   ETH 2020-21     98% (95%) n42    94% (78%) n18    79% (71%) n34    80% (67%) n30
+   ETH 2022-23     76% (57%) n21    64% (43%) n14    60% (45%) n20    69% (31%) n26
+   ETH 2024-26     78% (63%) n41    66% (62%) n29    63% (37%) n27    59% (36%) n56
+
+   BTC 2016-19     100% (86%) n7    86% (77%) n22    88% (73%) n52   75% (58%) n118
+   BTC 2020-21     92% (85%) n13    72% (56%) n18    71% (65%) n31    71% (47%) n70
+   BTC 2022-23      75% (75%) n4    75% (60%) n20    67% (40%) n15    72% (49%) n39
+   BTC 2024-26      67% (67%) n9    62% (33%) n21    63% (34%) n38    60% (20%) n86
+
+4. Ordering on +10%: is A+ above every lower grade? (cells with fewer than 5 signals skipped)
+
+   asset    A+ on top in 2 of 2
+   chart    A+ on top in 4 of 6;  not on top: ETH 2D: A+ 77% vs A 81% | ETH 5D: A+ 92% vs C 100%
+   era      A+ on top in 6 of 6
+
+5. The 70% bar on +10%: cells that clear it (and on +20%, for comparison)
+
+                 rose 10%  clears   +20%  clears
+   ETH A+             86%     yes    75%     yes
+   ETH A              74%     yes    62%      no
+   ETH B              69%      no    53%      no
+   ETH C              67%      no    43%      no
+   BTC A+             85%     yes    79%     yes
+   BTC A              74%     yes    57%      no
+   BTC B              75%     yes    57%      no
+   BTC C              70%     yes    44%      no
