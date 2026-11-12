@@ -644,6 +644,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const happened = !forming && S.chartMode === "happened";
     $(".toggle").hidden = forming;
     $("#bAlert").setAttribute("aria-pressed", String(!happened)); $("#bHap").setAttribute("aria-pressed", String(happened));
+    // 11 Nov 2026: this caption used to sit inside the chart, on top of the +10% line; it lives in the subtitle now.
+    { const sub = $("#chSub"); sub.textContent = sub.textContent.replace(/ The shaded zones are the next 60 days.*$/, "") + (happened ? "" : " The shaded zones are the next 60 days, as the odds draw them."); }
     const W = 1100, H = 520, L = 20, R = 960, T = 24, B = 480;
     const nSlots = forming ? Math.max(bars.length, E + Math.ceil(60 / tfd) + 2) : bars.length;
     const slot = (R - L) / nSlots, X = (i) => L + slot * i + slot / 2;
@@ -722,7 +724,6 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "circle", { cx: X(lowIdx), cy: Y(b.l), r: 7, fill: "none", stroke: "var(--live)", "stroke-width": 2 });
       svgEl(svg, "text", { x: X(lowIdx) - 12, y: Y(b.l) + 5, fill: "var(--live)", "font-size": 12, "font-weight": 700, "text-anchor": "end" }, `Low ${dateLong(c.low_date)} · ${money(b.l)}`);
     }
-    if (!happened) svgEl(svg, "text", { x: (xE + x60) / 2 + 40, y: (Y(lv.high) + Y(entry)) / 2, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "The next 60 days, as the odds draw them");
     else {
       const win = bars.slice(E + 1, E + 1 + 60 / tfd);
       const hiB = win.reduce((x, y) => (y.h > x.h ? y : x)), loB = win.reduce((x, y) => (y.l < x.l ? y : x));
