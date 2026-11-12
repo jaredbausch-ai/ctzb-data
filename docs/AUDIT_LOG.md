@@ -143,7 +143,7 @@ chart price matched. 47 issues from 9 causes. Report: `analysis/audit5_2026-11-1
 causes on the page and feed labels, plus 8 places where the docs and code disagreed. Report:
 `analysis/audit6_2026-11-12/AUDIT6.md`.
 
-**Changed** (this round's commit):
+**Changed** (commit 37bcab3):
 - **The example's "where past signals went" cloud used hindsight.** It drew every ETH top-grade
   signal up to today (n 104). It now draws only those whose 60th day had closed by 22 Sep 2024
   (n 75), the same rule as the example's card. New file `pastpaths_example.csv`, new feed field
