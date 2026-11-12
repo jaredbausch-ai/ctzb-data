@@ -235,7 +235,7 @@ feed/candle tests 15 + 27 + 15, worker tests, fire drills 58/58, page screenshot
 code disagree, one of them a real page gap, plus label notes. All fixed. Report:
 `analysis/audit9_2026-11-12/AUDIT9.md`.
 
-**Changed** (this round's commit):
+**Changed** (commit bf2d4b6):
 - **A top-grade forming card had no "can still vanish" warning** (only below-grade ones did), and How to
   read said "by the time you get an alert, the signal is final" although forming heads-ups exist. Every
   forming card now says it can still vanish; How to read says a confirmed alert is final and a forming
