@@ -30,6 +30,13 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine as E          # noqa: E402
+
+
+def bucket_end(bdates, j):
+    """Last calendar day of chart bar j (the day before the next bar opens); None for the last bar.
+    Same as analysis/tagstats.bucket_end, written here so refresh.py needs no numpy: the Action installs numpy
+    only after this step, and importing tagstats here failed every run from 12 Nov 2026 ~15:30 UTC until fixed."""
+    return bdates[j + 1] - dt.timedelta(days=1) if j + 1 < len(bdates) else None
 from rounding import rnd as round  # noqa: E402,A001 -- one rounding rule, half away from zero (audit 12 Nov 2026)
 import regimes as R         # noqa: E402
 
@@ -535,7 +542,6 @@ def _daily_windows(ch, keep, data_dir):
     daily bar has closed. Flash prints are neutralised exactly as on the charts."""
     from clock import now_utc
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis"))
-    from tagstats import bucket_end
     today = now_utc().date()
     day = _daily_data(data_dir)
     out = []
@@ -642,7 +648,6 @@ def ds_forward(ch, rows_all, outdir, data_dir):
     """
     from clock import now_utc
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis"))
-    from tagstats import bucket_end
     today = now_utc().date()
     tiers = {}   # year -> the tier fixed at that year's January
 
