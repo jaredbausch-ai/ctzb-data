@@ -1,13 +1,13 @@
 {
  "schema_version": 5,
- "generated_at": "2026-11-12T18:24:47Z",
+ "generated_at": "2026-11-12T18:58:18Z",
  "scored_as_of": "2026-11-12",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-12 18:24 UTC OK 23 subjects, 858 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-12",
-   "2026-11-12 18:24 UTC OK card cross-check, 24 cards match the ledger"
+   "2026-11-12 18:58 UTC OK 23 subjects, 858 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-12",
+   "2026-11-12 18:58 UTC OK card cross-check, 24 cards match the ledger"
   ],
   "all_passed": false,
   "steps": {
@@ -772,7 +772,7 @@
   }
  ],
  "candle_check": {
-  "checked_at": "2026-11-12T18:24:29+00:00",
+  "checked_at": "2026-11-12T18:57:56+00:00",
   "cross_mode": "enforce",
   "structural_ok": true,
   "kraken": {
@@ -1743,6 +1743,19 @@
    ]
   }
  ],
+ "example_if_it_misses": {
+  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
+  "asset": "ETH",
+  "grade": "A+",
+  "signals": 75,
+  "misses": 10,
+  "up_first": 10,
+  "median_peak_pct": 5.3,
+  "median_worst_drop_pct": -22.6,
+  "median_day60_pct": -12.2,
+  "miss_rule": "did not rise 10% within 60 days",
+  "note": "The worked example's misses: only ETH top-grade signals whose 60th day had closed by 2024-09-22."
+ },
  "example_past_paths": {
   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
   "asset": "ETH",
