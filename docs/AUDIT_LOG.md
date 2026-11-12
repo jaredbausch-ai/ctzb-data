@@ -333,7 +333,7 @@ the feed is published again with all 23 open signals and their cards.
 **Found:** 59,181 comparisons. **No number wrong** (seventh round running): ledger, feed, all 51 cards and the
 page. One label (4 places) and 4 docs-vs-code items. Not a clean run. Report: `analysis/audit13_2026-11-12/AUDIT13.md`.
 
-**Changed** (this round's commit):
+**Changed** (commit 0a5822d):
 - **Example miss tiles** said "10 misses of all 75 ETH top-grade signals"; 75 is only those known by 22 Sep 2024
   (104 today). Now "10 misses of the 75 ETH top-grade signals known by then".
 - **Regime note on `prints[]`** read the gate on the confirmation date, contradicting the documented trough
