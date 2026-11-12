@@ -1,0 +1,35 @@
+check,where,field,shown,mine,cause,ok
+1,ledger ETH 2D 2023-03-15,tags,B + filled diamond,B,,False
+1,ledger ETH 1D 2023-08-21,tags,A + filled diamond,A,,False
+1,ledger BTC 2D 2020-03-18,tags,A + filled diamond,A,,False
+2,grade_odds ETH A+,sample,2020-03-21 to 2026-09-13,2020-04-18 to 2025-12-04,,False
+2,grade_odds ETH A,sample,2020-03-21 to 2026-09-13,2020-07-13 to 2025-09-15,,False
+2,grade_odds ETH B,sample,2020-03-21 to 2026-09-13,2020-03-25 to 2025-12-02,,False
+2,grade_odds BTC A+,sample,2016-06-12 to 2026-09-13,2016-10-26 to 2025-12-04,,False
+2,grade_odds BTC A,sample,2016-06-12 to 2026-09-13,2016-06-12 to 2025-10-01,,False
+2,grade_odds BTC B,sample,2016-06-12 to 2026-09-13,2016-07-02 to 2025-11-28,,False
+2,grade_odds BTC C,sample,2016-06-12 to 2026-09-13,2016-06-25 to 2026-09-13,,False
+3,if_it_misses BTC B,up_first,33,34,,False
+3,if_it_misses BTC B,median_peak_pct,4.6,4.5,,False
+3,if_it_misses BTC C,peaked_5_or_more,40,39,,False
+4,odds_fade early_dip shallower than -2%,past_trades,30,"29 (CONTEXT daily method: n 29, r10 90.0, r20 86.0)",,False
+4,odds_fade early_dip shallower than -2%,rose20_within60d_pct,87,"86.0 (CONTEXT daily method: n 29, r10 90.0, r20 86.0)",,False
+4,odds_fade day10 green on day 10,past_trades,93,"92 (CONTEXT daily method: n 92, r10 97.0, r20 91.0)",,False
+5,card ETH-2D-2026-11-16 (chart+grade),before_2022.surv10,62,63.0,,False
+5,card BTC-1D-2026-11-13 (exact lenses),typical_day_first_rose20,22,23.0,,False
+7,card BTC-1D-2026-11-13,Dip before the high,,-4.9,,False
+7,card ETH-2D-2026-11-16,Dip before the high,,-5.9,,False
+7,card ETH-2D-2026-11-16,era before 2022 %,62,63.0,"5/8 = 62.5%: Python round() is banker's, shows 62",False
+7,card BTC-2D-2026-11-16,Dip before the high,,-4.6,,False
+7,card ETH-1D-2026-11-13,Dip before the high,,-8.2,,False
+7,example card,from N past signals,,104,,False
+7,example card,Typical high,+35.0%,34.9,page takes the median of the ledger's 0.1-rounded bestMove,False
+7,example card,Dip before the high,,-5.5,,False
+7,example card,Red on day 10 odds,,67.0,feed day10 row has no rose10 field; page falls back to the +20% share under a +10% page,False
+7,example chart,Typical high price,"$3,482.95",3481.66,typical high pct 35.0 vs 34.9,False
+7,example chart,Day 10 vline red odds,,67.0,+20% share shown,False
+7,example chart,This one: best day,,51,"page counts 2D bars and reports the day the bar closes, not the day of the high",False
+7,example chart,This one: low day,,11,"2D bar close day, not the day of the low",False
+7,example chart,What this one did: best day,,51,2D bar close day,False
+7,example chart,What this one did: deepest day,,11,2D bar close day,False
+7,"example chart (spec routing, example json 404)",side panel shows,,ETH 2D · example,"renderChart returns early on missing example data and leaves the previous setup's title, side panel and cloud on screen",False
