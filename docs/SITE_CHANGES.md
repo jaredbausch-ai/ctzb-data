@@ -16,6 +16,12 @@ Live right now: version **656d67c3** (11 Nov 2026).
 |---|---|---|---|
 | 1 | Audit label fixes: "Previous alerts" renamed "Previous signals" (none were ever sent as alerts); the 25% line explained as 25.3%, where 3.3x with 5% maintenance liquidates (was "4x"); example and open cards say "from all N top-grade signals" (pooled), not "like this one"; "Dip before the high, from entry"; "about 22 a year (2020 to 2025 average)" replaces the hand-typed 18 to 22; red-on-day-10 shown as "% still rose 10%"; the ETH tier fade labelled as what it is (ETH walk-forward tier, +10% counted day 10 to 60); example odds noted as using the full history; example 2-day bars give the high/low as a two-day span; a missing example chart no longer leaves the previous setup's panel up. | 9b9fa72 | 12 Nov (audit) |
 
+## Requested, not built yet
+
+| # | Change | Requested |
+|---|---|---|
+| R1 | Previous signals column ("Edge intact" and "Edge lost or closed"): clicking a past signal's mini card opens its full card in the middle panel, the same card a member sees for a live setup. | 12 Nov (Jared) |
+
 ## Deployed
 
 ### 656d67c3 — 11 Nov 2026 (built from 9a013e3)
