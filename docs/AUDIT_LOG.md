@@ -383,7 +383,7 @@ auditor also replayed 55 other dates and built synthetic page states, and there 
 data doesn't show**, plus 6 docs-vs-code items. Not a clean run. Report: `analysis/audit15_2026-11-12/AUDIT15.md`
 (`all_checks.csv` is gzipped).
 
-**Changed** (this round's commit):
+**Changed** (commit b8269c3):
 - **Forming lows across a year-end showed the wrong confirmation date.** 2D+ bars restart on 1 January, but the
   date was built with a fixed bar step (replay 31 Dec 2023: ETH 2D "confirms 1 Jan 2024", really 31 Dec 2023;
   replay 31 Dec 2024: BTC 5D "14 Jan 2025", really 10 Jan). The signal id would also have changed on
