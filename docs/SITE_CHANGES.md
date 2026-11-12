@@ -15,7 +15,7 @@ Live right now: version **ffab70e3** (11 Nov 2026), confirmed by Jared.
 | # | Change | Commit | Requested |
 |---|---|---|---|
 | 1 | Page scales to fit the screen on desktop widths: up to 1.3x on tall screens (never narrower than a 1300px layout), down to 0.85x on short ones; very short screens scroll. Phones unchanged. | 16709dd | 11 Nov |
-| 2 | +10% switch finished: "If it misses" counts signals that did not rise 10%; Previous alerts badges read Rose 10% / Reached +20% / Missed; Record gets a Rose 10% column and counts +10% misses; the all-signals fade bars and chart bands use +10%; the example card's eras show "rose 10%, never fell 25%". | see git log | 11 Nov |
+| 2 | +10% switch finished: "If it misses" counts signals that did not rise 10%; Previous alerts badges read Rose 10% / Reached +20% / Missed; Record gets a Rose 10% column and counts +10% misses; the all-signals fade bars and chart bands use +10%; the example card's eras show "rose 10%, never fell 25%". | c085adf | 11 Nov |
 
 ## Deployed
 
