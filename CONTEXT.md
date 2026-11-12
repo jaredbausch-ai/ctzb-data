@@ -527,7 +527,9 @@ number as WINMIN in refresh.py). On the card that is the early-dip read -- a
 deepest dip past -10% in the first 10 days (56%) or red on day 10 (47%) -- both
 pooled over every kept signal, not A+ only, and labelled so. The "if it misses"
 line shows the **median** peak before failing: ETH +7.1% (26 of 104 missed, all
-26 above entry first), BTC +6.4% (7 of 33). Generator `analysis/carddesign.py`;
+26 above entry first), BTC +6.4% (7 of 33). [Superseded 11-12 Nov 2026: a miss is now "did not rise 10%",
+the tile reads "median best (price within the 60 days)", and every figure comes from the feed
+(`missstats.csv`); the +20%-era numbers in this paragraph are history, not current.] Generator `analysis/carddesign.py`;
 the chart view's past-signal paths come from it too. These figures are NOT in
 the feed yet: when the member site is rebuilt to read the feed (closes 17b) they
 move into grade_live / feed_live with a schema bump, so no member-facing number

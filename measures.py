@@ -1,7 +1,8 @@
 """Success measures (set by Jared 28 Oct 2026, after tonight's yardstick comparison).
 
-HEADLINE  surv10: price reached +10% above entry within 60 days AND never touched
-          -25% below entry in those 60 days (-25.3% is where 3.3x leverage with 5%
+SURV10    (the card's headline until 11 Nov 2026; since then the line under the big number, which
+          is "rose 10% within 60 days") price reached +10% above entry within 60 days AND never touched
+          -25.3% below entry in those 60 days (-25.3% is where 3.3x leverage with 5%
           maintenance margin liquidates). Barely drifts between markets (66% to
           2021, 62% from 2022) and separates A+ (79%) from C (58%).
 MOVE      scaled20: the best move within 60 days reached +20% x (365-day daily

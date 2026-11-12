@@ -304,11 +304,17 @@ def main():
         "label": LABEL,
         "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
         "sample": "ETH signals in the walk-forward tier, every chart, 2016 on (refresh.py earlydip/holdcheck), measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
-        "edge_measured_on": "rose 10% within 60 days",
-        "early_dip": [{"band": r["band"], "past_trades": num(r["n"]), "rose10_within60d_pct": num(r["reached10_pct"]),
-                       "rose20_within60d_pct": num(r["reached20_pct"]), "edge": r["edge"]} for r in fade if r["kind"] == "early_dip"],
-        "day10": [{"check": r["band"], "past_trades": num(r["n"]), "rose10_within60d_pct": num(r["reached10_pct"]),
-                   "rose20_within60d_pct": num(r["reached20_pct"]), "edge": r["edge"]} for r in fade if r["kind"] == "day10"],
+        "edge_measured_on": "rose 10% after day 10 (days 11 to 60)",
+        # rose10/20_after_day10_pct name the real window (days 11-60). The *_within60d_pct names are
+        # kept, same values, because feed fields are never renamed or removed (FEED_SPEC); don't use them.
+        "early_dip": [{"band": r["band"], "past_trades": num(r["n"]),
+                       "rose10_after_day10_pct": num(r["reached10_pct"]), "rose20_after_day10_pct": num(r["reached20_pct"]),
+                       "rose10_within60d_pct": num(r["reached10_pct"]), "rose20_within60d_pct": num(r["reached20_pct"]),
+                       "edge": r["edge"]} for r in fade if r["kind"] == "early_dip"],
+        "day10": [{"check": r["band"], "past_trades": num(r["n"]),
+                   "rose10_after_day10_pct": num(r["reached10_pct"]), "rose20_after_day10_pct": num(r["reached20_pct"]),
+                   "rose10_within60d_pct": num(r["reached10_pct"]), "rose20_within60d_pct": num(r["reached20_pct"]),
+                   "edge": r["edge"]} for r in fade if r["kind"] == "day10"],
     }
     paths = rows(d("pastpaths.csv")) if extras_ok else []
     feed["past_paths"] = [
@@ -318,6 +324,13 @@ def main():
          "days": [{"day": num(r["day"]), "q25_pct": num(r["q25_pct"]), "median_pct": num(r["median_pct"]),
                    "q75_pct": num(r["q75_pct"])} for r in paths if r["asset"] == asset]}
         for asset in dict.fromkeys(r["asset"] for r in paths)]
+
+    pe = rows(d("pastpaths_example.csv")) if extras_ok and os.path.exists(d("pastpaths_example.csv")) else []
+    feed["example_past_paths"] = {
+        "label": LABEL, "asset": "ETH", "grade": "A+", "signals": num(pe[0]["n"]),
+        "note": "The worked example's cloud: only ETH top-grade signals whose 60th day had closed by 2024-09-22.",
+        "days": [{"day": num(r["day"]), "q25_pct": num(r["q25_pct"]), "median_pct": num(r["median_pct"]),
+                  "q75_pct": num(r["q75_pct"])} for r in pe]} if pe else None
 
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     with open(a.out, "w") as f:
@@ -342,7 +355,7 @@ def fail_closed(out_path, err):
             "feed_error": type(err).__name__,
             "cards_withheld": True, "alerts_withheld": True, "extras_withheld": True,
             "alerts": [], "cards": [], "prints": [], "open_signals": [], "confluence_windows": [],
-            "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None, "example_card": None,
+            "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None, "example_card": None, "example_past_paths": None,
             "odds_fade": {"label": LABEL, "posting_bar_pct": None, "sample": None, "early_dip": [], "day10": []}}
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     with open(out_path, "w") as f:

@@ -357,6 +357,14 @@ def main():
              'BTC3': 'a BTC 3D signal in the 10 days before', 'BTCX': 'an ETH 2D signal in the 10 days before', 'FUND': 'funding at or above its 90-day median',
              'FCOOL': 'funding not cooling', 'UP8': 'the 8D chart rising', 'FASTCT': 'CT recovering fast from the low'}
 
+    def win60(a0, i0, d0):
+        # highs and lows of the 60 CALENDAR days after the entry date (12 Nov 2026 audit #6: was 60 bars)
+        D0 = DAY[a0]['date']; ks = []
+        for k in range(i0 + 1, len(D0)):
+            if (D0[k] - d0).days > 60: break
+            ks.append(k)
+        return [DAY[a0]['high'][k] for k in ks], [DAY[a0]['low'][k] for k in ks]
+
     def ladder(G):
         res = []
         for th in (5, 10, 15, 20):
@@ -364,7 +372,7 @@ def main():
             for s0 in G:
                 a0 = s0['a']; i0 = DPOS[a0].get(s0['d0']); e0 = s0['entry']
                 if i0 is None: continue
-                Hs = DAY[a0]['high'][i0 + 1:i0 + 61]; Ls = DAY[a0]['low'][i0 + 1:i0 + 61]
+                Hs, Ls = win60(a0, i0, s0['d0'])
                 for j, (h, l) in enumerate(zip(Hs, Ls)):
                     # within one daily bar the order is unknown: the low is checked first, the
                     # cautious reading, in both steps (12 Nov 2026 audit #5)
@@ -387,7 +395,7 @@ def main():
             a0 = s0['a']; i0 = DPOS[a0].get(s0['d0']); e0 = s0['entry']
             if i0 is None: continue
             n += 1
-            for h, l in zip(DAY[a0]['high'][i0 + 1:i0 + 61], DAY[a0]['low'][i0 + 1:i0 + 61]):
+            for h, l in zip(*win60(a0, i0, s0['d0'])):
                 if l <= e0 * (1 + MS.LIQ / 100): liq += 1; break
                 if h >= e0 * 1.10: ok += 1; break
         return [round(100 * ok / n) if n else '', round(100 * liq / n) if n else '']

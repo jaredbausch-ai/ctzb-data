@@ -23,7 +23,7 @@ come from" line, and states the sample size there and in the corner. Never use a
 group of stronger setups ("at least these confirmations") as a trade's odds: on
 28 Oct that showed 82% for a trade whose like-for-like record was 60%.
 
-ETH samples start in 2020 (funding data begins then); BTC samples start in 2016.
+ETH samples start once funding data and its 90-day median exist (the first graded ETH signal is 18 Apr 2020); BTC samples start in 2016.
 Only signals whose 60 days are complete are counted.
 
 ## Every number on the card
@@ -64,7 +64,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
 
 1. `stack_live.py` refuses to write the cards (and fails the run) if a card's two
    period counts don't add up to its sample, its source line doesn't state the
-   sample size, any share is outside 0-100, the big number exceeds "rose 10%", or the
+   sample size, any share is outside 0-100, the line under the big number (surv10) exceeds the big number ("rose 10%"), or the
    dip-table counts don't shrink row by row.
 2. `verify_cards.py` re-derives every card's sample from `datasets/ledger.csv`, which
    `grade_live.py` builds separately, and recomputes the figures; any mismatch fails

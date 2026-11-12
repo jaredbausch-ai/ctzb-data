@@ -33,7 +33,7 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `checks.passed`, `checks.lines` | stack_status.txt | Stack and card checks |
 | `cards_withheld` | | True when checks failed |
 | `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | As on the dashboard |
-| `cards[]` | cards.csv | One per live setup (below) |
+| `cards[]` | cards.csv | One per FORMING setup (below). A live (open) setup's card is `open_signals[].card`; the worked example's is `example_card` |
 | `prints[]` | prints.csv | Every confirmed and forming low; `provisional` true until it confirms |
 | `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
 | `confluence_windows[]` | windows.csv | Every confluence window open now and when it closes |
@@ -103,7 +103,7 @@ run's `datasets/ledger.csv`, `earlydip.csv` and `holdcheck.csv` (arithmetic in
 |---|---|---|
 | `extras_withheld` | top level | True when the `extras` step failed this run. The three fields below are then empty, so a stale copy is never served. |
 | `if_it_misses[]` | top level | Per asset and grade (A+, A, B, C; all grades from 11 Nov 2026): `signals`, `misses` (did not rise 10% within 60 days; +20% until 11 Nov 2026), `up_first` (of those, how many were above entry first), `median_peak_pct` (**the card shows this**, Jared 11 Nov), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`. |
-| `odds_fade` | top level | `posting_bar_pct` (70; below it the edge is gone, Jared 11 Nov), `early_dip[]` (deepest dip in the first 10 days → `past_trades`, `rose20_within60d_pct`, `edge` intact/gone) and `day10[]` (green / red on day 10, same fields). Every kept signal, all grades. |
+| `odds_fade` | top level | `posting_bar_pct` (70; below it the edge is gone, Jared 11 Nov), `early_dip[]` (deepest dip in the first 10 days → `past_trades`, `rose10_after_day10_pct`, `rose20_after_day10_pct`, `edge` intact/gone on the +10% share) and `day10[]` (green / red on the day-10 close, same fields). ETH walk-forward tier signals only, every chart (see the 12 Nov sections). The `*_within60d_pct` fields carry the same values under their original names, kept because fields are never renamed; their window is also days 11 to 60. |
 | `past_paths[]` | top level | Per asset, grade A+: `signals` and `days[]` (day 0-60: `q25_pct`, `median_pct`, `q75_pct`, percent from entry on daily closes, every past signal lined up at entry). The chart view's "where the past signals went". |
 
 ### `candle_check` (added 11 Nov 2026, additive, schema stays 5)
@@ -182,3 +182,11 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   daily candles from the entry close.
 - `low_day` is found within the trough bar's real span (2D+ bars restart on 1 January, so a year's last bar can be
   shorter).
+
+### Audit #6 corrections (12 Nov 2026)
+
+- `open_signals[].day60_pct` is always empty: a signal leaves the list the day its 60th daily bar closes. Kept
+  because fields are never removed.
+- `example_past_paths` (new, top level): the worked example's cloud, built only from ETH top-grade signals whose
+  60th day had closed by 2024-09-22 (the same sample as `example_card`). Same shape as one `past_paths[]` entry.
+- Every 60-day window (ladder, from-entry row, paths) counts 60 CALENDAR days after the entry date, not 60 bars.

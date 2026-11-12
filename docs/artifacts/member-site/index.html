@@ -227,7 +227,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         </div>
 
         <section class="prev" aria-label="Previous signals">
-          <div class="kv"><span class="sec-title" style="white-space: nowrap">Previous signals</span><span class="small" style="font-size: 12px; text-align: right">odds update each close</span></div>
+          <div class="kv"><span class="sec-title" style="white-space: nowrap">Previous signals</span><span class="small" style="font-size: 12px; text-align: right">updates each close</span></div>
           <div class="grp" style="color: var(--live)">Edge intact</div>
           <div id="prevIntact"></div>
           <div class="grp" style="color: var(--muted); margin-top: 4px">Edge lost or closed</div>
@@ -356,7 +356,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const gone = of && (of.early_dip || []).find((b) => b.edge === "gone");
     const m = gone && String(gone.band).match(/-?\d+(\.\d+)?/);
     const red = of && (of.day10 || []).find((b) => /red/.test(b.check));
-    return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? (red.rose10_within60d_pct ?? red.rose20_within60d_pct) : null };
+    return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? (red.rose10_after_day10_pct ?? red.rose10_within60d_pct) : null };
   }
   // This setup's own fade (Jared 11 Nov: the player, not the league): after first falling X%, the share of
   // this setup's past signals that still rose 10%. Below the 70% bar the edge is gone.
@@ -539,8 +539,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="tile"><div class="t">Touched ${MINUS}30%</div><div class="v lo">${m.touched30 ?? "n/a"}%</div></div>
           <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
           ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${e.redOdds ?? "n/a"}%</div></div>`}
-          <div class="tile"><div class="t">Worst drop, misses</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
-          <div class="tile"><div class="t">Typical price on day 60${m.day60 === undefined ? ", misses" : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
+          <div class="tile"><div class="t">Worst drop, misses${mi && mi.signals ? ` · all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
+          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · all ${mi.signals} ${esc(m.asset)} ${esc(m.grade || "A+")}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
         <div class="boxes">
           <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · ETH tier signals"}</div><div class="ladder" id="ladder"></div></div>
@@ -560,8 +560,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         + `<div class="fine">Share of this setup's past signals that, after first falling that far, still rose 10% before ever falling 25.3%. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
     } else {
       const of = S.feed && S.feed.odds_fade;
-      const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: (b.rose10_within60d_pct ?? b.rose20_within60d_pct), gone: b.edge === "gone" })) : [])
-        .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_within60d_pct ?? b.rose20_within60d_pct), gone: b.edge === "gone" })) : []);
+      const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : [])
+        .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : []);
       lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
         + `<div class="fine">ETH signals in the walk-forward tier, every chart, 2016 on: share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
     }
@@ -593,10 +593,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   }
 
   /* ---------- Now: previous alerts ---------- */
+  // Edge intact or lost, by the setup's OWN ladder (12 Nov 2026 audit #6; it used the pooled ETH table):
+  // lost if its from-entry odds are under the bar, or it has fallen past its own edge before rising 10%
   function openStatus(o) {
-    const e = edgeRule();
-    if (o.days_elapsed >= 10) return (o.day10_pct ?? 0) < 0 ? "fading" : "intact";
-    return e.dipPct !== null && o.worst_so_far_pct <= e.dipPct ? "fading" : "intact";
+    if (o.best_so_far_pct != null && o.best_so_far_pct >= 10) return "intact";
+    const sf = setupFade(cardFromOpen(o));
+    if (!sf) return "intact";
+    if (sf.edge === 0) return "fading";
+    return sf.edge !== null && o.worst_so_far_pct != null && o.worst_so_far_pct <= sf.edge ? "fading" : "intact";
   }
   function renderPrev() {
     const open = ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+");
@@ -728,7 +732,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : v + "%");
       }
     } else if (of) {
-      const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => (b.rose10_within60d_pct ?? b.rose20_within60d_pct)))], [-5, -10, "var(--fade)", ((b) => (b.rose10_within60d_pct ?? b.rose20_within60d_pct))(of.early_dip[2])], [-10, -20, "var(--drop)", ((b) => (b.rose10_within60d_pct ?? b.rose20_within60d_pct))(of.early_dip[3])]];
+      const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct)))], [-5, -10, "var(--fade)", ((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct))(of.early_dip[2])], [-10, -20, "var(--drop)", ((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct))(of.early_dip[3])]];
       for (const [a1, b1, col, v] of bands) {
         const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100)));
         svgEl(svg, "rect", { x: xE, y: y1, width: x10 - xE, height: y2 - y1, fill: col, opacity: 0.24 });
@@ -789,7 +793,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   }
   function renderCloud(happened, asset, c) {
     const svg = $("#cloudSvg"); svg.innerHTML = "";
-    const pp = ((S.feed && S.feed.past_paths) || []).find((p) => p.asset === asset);
+    // the example's cloud uses only signals known by its date, the same sample as its card (12 Nov 2026 audit #6)
+    const pp = !c && S.feed && S.feed.example_past_paths ? S.feed.example_past_paths : ((S.feed && S.feed.past_paths) || []).find((p) => p.asset === asset);
     if (!pp) { svgEl(svg, "text", { x: 550, y: 130, fill: "var(--muted)", "font-size": 14, "text-anchor": "middle" }, "Past paths unavailable in this feed"); return; }
     const L = 20, R = 960, T = 12, B = 230, P0 = -40, P1 = 100;
     const X = (d) => L + (R - L) * d / 60, Y = (v) => B - (Math.max(P0, Math.min(P1, v)) - P0) / (P1 - P0) * (B - T);
@@ -808,7 +813,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "polyline", { points: pts.map(([d, v]) => `${X(d)},${Y(v)}`).join(" "), fill: "none", stroke: "var(--text)", "stroke-width": 2.5 });
     }
     const last = days[days.length - 1];
-    $("#cloudSub").textContent = `Every past ${asset} top-grade signal, n ${pp.signals}`;
+    $("#cloudSub").textContent = !c && S.feed && S.feed.example_past_paths ? `ETH top-grade signals whose 60 days had closed by 22 Sept 2024, n ${pp.signals}` : `Every past ${asset} top-grade signal, n ${pp.signals}`;
     $("#cloudNote").innerHTML = `<span style="color: var(--fade-2)">━</span> median path &nbsp; <span style="color: var(--fade-2); opacity: .6">█</span> middle half of outcomes${happened ? ' &nbsp; <span style="color: var(--text)">━</span> this signal' : ""}. Day 60: median ${pct(last.median_pct)}, middle half ${pct(last.q25_pct)} to ${pct(last.q75_pct)}. Daily closes.`
       + (c && c.grade !== "A+" ? ` <span style="color: var(--fade-2)">Top-grade signals only; the selected setup isn't top grade.</span>` : "");
   }

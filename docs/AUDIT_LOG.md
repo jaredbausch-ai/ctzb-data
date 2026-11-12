@@ -137,6 +137,39 @@ chart price matched. 47 issues from 9 causes. Report: `analysis/audit5_2026-11-1
 - The At-the-alert/What-happened toggle was showing on live and forming charts (a CSS rule beat
   `hidden`); fixed.
 
+## Round 6 — 12 Nov, 11:45 ET (audit #6, a new independent agent)
+
+**Found:** 56,371 comparisons. Feed and ledger matched exactly again. 25 disagreement rows from 6
+causes on the page and feed labels, plus 8 places where the docs and code disagreed. Report:
+`analysis/audit6_2026-11-12/AUDIT6.md`.
+
+**Changed** (this round's commit):
+- **The example's "where past signals went" cloud used hindsight.** It drew every ETH top-grade
+  signal up to today (n 104). It now draws only those whose 60th day had closed by 22 Sep 2024
+  (n 75), the same rule as the example's card. New file `pastpaths_example.csv`, new feed field
+  `example_past_paths`; the subtitle names the sample.
+- **"Edge lost" / "On track" on Previous signals** was judged by the pooled ETH table, even for a
+  BTC setup. It now uses the setup's own ladder, as How to read says. (The BTC 2D 21 Sep badge is
+  unchanged: Edge lost.)
+- **Odds-fade field names** said "within 60 days" but count days 11–60. New fields
+  `rose10_after_day10_pct` / `rose20_after_day10_pct`; the old names stay as aliases with the same
+  values (fields are never renamed); `edge_measured_on` says "days 11 to 60". The page reads the new
+  ones.
+- **Miss tiles** now say their sample ("· all N ETH C signals"), since it is the whole grade, not the
+  card's chart.
+- Labels: "Typical change by day 60" (it's a %, not a price); Previous signals header "updates each
+  close" (it shows no odds).
+- **60-day windows** (ladder, from-entry row, past paths) now count 60 calendar days rather than 60
+  daily bars. No figure moved: the daily data has no gaps after May 2016.
+- Docs: FEED_SPEC (`cards[]` is forming setups only; `day60_pct` is always empty; odds-fade sample is
+  ETH tier, days 11–60), CARD_SPEC (the check is surv10 ≤ rose 10%; ETH's first graded signal is
+  18 Apr 2020 under the funding rule), the measures.py docstring, extras_live.py docstring and log
+  line (+10%, not +20%), and CONTEXT's +20%-era miss figures marked superseded.
+
+**Re-checked after the changes:** every pipeline step, regression (919 signals unchanged),
+verify_cards (24 cards exact), unit tests (feed 15 + 27, candles 15, workers 21/26/36/21/24/41),
+fire drills 58/58.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

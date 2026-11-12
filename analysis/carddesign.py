@@ -102,10 +102,15 @@ def paths(led, asset):
         if nxt not in at:
             skipped.append((r["chart"], r["entry"], "no daily bar at the chart's next open"))
             continue
+        # day k = the daily close on the k-th CALENDAR day after the entry date (12 Nov 2026 audit #6)
         j = at[nxt]
-        p = [0.0] + [(float(daily[j + k]["close"]) / ep - 1) * 100 for k in range(60) if j + k < len(daily)]
+        p = [0.0]
+        for k in range(60):
+            if j + k >= len(daily) or utc_date(daily[j + k]["time"]) != ed + dt.timedelta(days=k + 1):
+                break
+            p.append((float(daily[j + k]["close"]) / ep - 1) * 100)
         if len(p) < 61:
-            skipped.append((r["chart"], r["entry"], "fewer than 60 daily closes"))
+            skipped.append((r["chart"], r["entry"], "fewer than 60 consecutive daily closes"))
             continue
         out.append({"chart": r["chart"], "entry": r["entry"], "reached20": r["reached20"], "path": [round(v, 2) for v in p], "_exact": p})
     days = range(61)

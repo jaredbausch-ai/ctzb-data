@@ -1,14 +1,16 @@
 """Member card figures for the live feed (item 18, schema 5). Runs every pipeline run,
 after grade_live.py has written datasets/ledger.csv.
 
-Writes three datasets that feed_live.py repackages, so no number a member sees is typed
+Writes these datasets that feed_live.py repackages, so no number a member sees is typed
 by hand (item 17b):
 
   missstats.csv  Signals that did not rise 10% within 60 days (since 11 Nov 2026), per asset and grade (all
                  grades since 11 Nov 2026, so a below-bar forming card has them too): how many,
-                 how many were above entry first, median / mean peak before failing,
-                 median worst drop and day-60 return. Jared 11 Nov 2026: the card shows
-                 the MEDIAN peak.
+                 how many were above entry first, median / mean best price within the 60
+                 days, median worst drop and day-60 return. Jared 11 Nov 2026: the card shows
+                 the MEDIAN best.
+  pastpaths_example.csv  The same for the worked example: ETH A+ signals whose 60th day had
+                 closed by 22 Sep 2024 only.
   pastpaths.csv  Every A+ signal's 60-day path on daily closes, lined up at entry: the
                  25th / 50th / 75th percentile for each day, per asset (the chart view's
                  "where the past signals went").
@@ -17,7 +19,8 @@ by hand (item 17b):
                  which serves datasets/*.csv only.
   oddsfade.csv   datasets/earlydip.csv and datasets/holdcheck.csv marked against the
                  70% posting bar (WINMIN in refresh.py). Jared 11 Nov 2026: below 70%
-                 the signal's edge is gone. Every kept signal, all grades.
+                 the signal's edge is gone. ETH walk-forward tier signals, every chart,
+                 measured on daily candles from the entry close, outcome days 11 to 60.
 
 The arithmetic is analysis/carddesign.py's, imported, so the analysis write-up and the
 feed can never disagree. Descriptive only: entry quality, no exit in the data, computed
@@ -30,6 +33,7 @@ Usage: python extras_live.py [--datasets datasets]
 """
 import argparse
 import csv
+import datetime as dt
 import importlib.util
 import math
 import os
@@ -115,9 +119,17 @@ def main():
             n_candles += 1
     write(os.path.join(a.datasets, "missstats.csv"), MISS_FIELDS, miss_rows)
     write(os.path.join(a.datasets, "pastpaths.csv"), PATH_FIELDS, path_rows)
+    # the worked example's cloud (12 Nov 2026 audit #6): only the ETH top-grade signals whose 60th
+    # day had closed by its confirmation, 22 Sep 2024 -- the same sample as its card
+    lim = dt.date(2024, 9, 22)
+    known = [r for r in led if r["asset"] == "ETH" and dt.date.fromisoformat(r["entry"]) + dt.timedelta(days=60) <= lim]
+    pe = cd.paths(known, "ETH")
+    write(os.path.join(a.datasets, "pastpaths_example.csv"), PATH_FIELDS,
+          [{"asset": "ETH", "day": day, "n": pe["n"], "q25_pct": pe["q25"][day], "median_pct": pe["median"][day], "q75_pct": pe["q75"][day]}
+           for day in range(61)] if pe["n"] else [])
     write(os.path.join(a.datasets, "oddsfade.csv"), FADE_FIELDS, fade_rows)
     for m in (x for x in miss_rows if x["grade"] == "A+"):
-        print(f"extras_live: {m['asset']} A+ {m['aplus_signals']}, missed +20% {m['misses']}, "
+        print(f"extras_live: {m['asset']} A+ {m['aplus_signals']}, missed +10% {m['misses']}, "
               f"up first {m['up_first']}, median peak {m['median_peak_pct']:+.1f}%")
     print(f"extras_live: paths {', '.join(f'{r} n {n}' for r, n in sorted({(x['asset'], x['n']) for x in path_rows}))}; "
           f"odds-fade rows {len(fade_rows)}; candle files {n_candles}")
