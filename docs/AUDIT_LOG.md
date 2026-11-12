@@ -202,7 +202,7 @@ screenshot with the replay data.
 11 rows, 9 items: one label (the odds-fade sample) and the rest docs that didn't match the code.
 Report: `analysis/audit8_2026-11-12/AUDIT8.md` (the auditor's caches and page dumps left out).
 
-**Changed** (this round's commit):
+**Changed** (commit d4f2e4b):
 - **Odds-fade sample label.** It said "walk-forward tier, 2016 on", but the tier fixed on 1 Jan 2026 is
   applied to every signal back to 2016, so 167 of 168 are the signals it was chosen on. The feed's
   `sample` and the page's fine print now say so: in-sample, a general explainer. (Not shown on any card
