@@ -1,15 +1,15 @@
-2026-11-12 16:14:07 BTC: fetching BTCUSDT from 2026-10-30
-2026-11-12 16:14:08   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:09   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:11   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:15   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:15   3367 Binance days, 3367 overlapping with Coinbase, 2017-08-17 -> 2026-11-04
-2026-11-12 16:14:15 ETH: fetching ETHUSDT from 2026-10-30
-2026-11-12 16:14:15   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:16   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:18   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:22   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
-2026-11-12 16:14:22   3367 Binance days, 3367 overlapping with Coinbase, 2017-08-17 -> 2026-11-04
-2026-11-12 16:14:22 stablecoins: 3271 days, 2017-11-29 -> 2026-11-12, latest $289.0B
-2026-11-12 16:14:23 BTC ETF: 14 days, 2026-10-26 -> 2026-11-12
-2026-11-12 16:14:26 ETH ETF: 14 days, 2026-10-26 -> 2026-11-12
+2026-11-12 16:18:20 BTC: fetching BTCUSDT from 2026-10-30
+2026-11-12 16:18:21   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:22   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:24   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:28   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:28   3367 Binance days, 3367 overlapping with Coinbase, 2017-08-17 -> 2026-11-04
+2026-11-12 16:18:28 ETH: fetching ETHUSDT from 2026-10-30
+2026-11-12 16:18:28   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:29   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:31   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:35   HTTP 451 on https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime=1793318400000&l
+2026-11-12 16:18:35   3367 Binance days, 3367 overlapping with Coinbase, 2017-08-17 -> 2026-11-04
+2026-11-12 16:18:36 stablecoins: 3271 days, 2017-11-29 -> 2026-11-12, latest $289.0B
+2026-11-12 16:18:37 BTC ETF: 14 days, 2026-10-26 -> 2026-11-12
+2026-11-12 16:18:39 ETH ETF: 14 days, 2026-10-26 -> 2026-11-12
