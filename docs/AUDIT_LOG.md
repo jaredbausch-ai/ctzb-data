@@ -109,6 +109,34 @@ disagreements). 23 issues: 17 on the page, 6 where docs and code disagreed. Repo
 - `tests/build_audit_states.sh` builds both audit states from the current repo, so every round
   audits exactly what's committed.
 
+## Round 5 — 12 Nov, 11:15 ET (audit #5, a new independent agent)
+
+**Found:** 61,226 comparisons. Every ledger row, grade_odds, if_it_misses, past_paths, the odds fade,
+all 23 open signals per state, every card median/share/era/timing, every Past-signals row and every
+chart price matched. 47 issues from 9 causes. Report: `analysis/audit5_2026-11-12/AUDIT5.md`.
+
+**Changed** (commit 31c2165):
+- **Ladder order within a day.** The first step checked the day's high before its low, contradicting
+  the cautious rule the second step used. Both now check the low first (example "falls 5% first":
+  41 · 76% → 43 · 77%).
+- **Ladder "From entry" row** counted any +10%, while the rows under it count +10% before a 25.3%
+  fall. Cards now carry `from_entry` on the same measure (BTC 2D forming: 67% → 60%); the big number
+  is unchanged.
+- **Chart day lines are placed by date.** 2D+ bars restart on 1 January, so counting 30 two-day bars
+  put Day 60 one bar early across New Year. Future bars now follow that rule, and Day 10, the
+  high-day and Day 60 sit on the bars containing those calendar days.
+- The example's **"At the alert"** view is scaled only by prices known at the alert.
+- **Live cards' `price_now`** held the entry close. Cards now carry `price_now` (latest price) and
+  `entry_close` separately.
+- `low_day` is searched within the trough bar's real span (a year's last bar can be short).
+- Open signals are limited to the graded charts (1D–5D; 8D isn't graded).
+- Every timestamp a step writes uses the replay clock, so replays are exact.
+- Wording: "the latest price (today's bar is still open)" rather than "today's close"; the footer
+  says "daily candles closed through 11 Nov · updated HH:MM UTC" rather than "Data through 12 Nov";
+  How to read now says "before ever falling 25.3%" and explains the from-entry row.
+- The At-the-alert/What-happened toggle was showing on live and forming charts (a CSS rule beat
+  `hidden`); fixed.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
@@ -120,9 +148,11 @@ disagreements). 23 issues: 17 on the page, 6 where docs and code disagreed. Repo
 - **Diamond definition.** CT against K versus the previous trough among all troughs, as in
   `engine.py`.
 - **Order inside a day.** A daily bar doesn't say whether its high or its low came first; the ladder
-  checks the low first (the cautious reading). Reading it the other way moves two ladder rows by a
-  signal or two.
+  checks the low first (the cautious reading), in every step since round 5.
 - **"Must close above"** for a setup one bar from confirming assumes today's open bar closes at the
   current price.
 - **"Day N of 60"** is the day in progress.
 - **`peaked_10_or_more`** is 0 by construction now that a miss means "did not rise 10%".
+- **The all-signals odds fade's tier** is chosen by refresh.py's original rule on each chart's own bars;
+  only its groupings and outcomes use daily candles. It is a general explainer and not shown on any
+  card.
