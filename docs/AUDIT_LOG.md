@@ -264,6 +264,29 @@ code disagree, one of them a real page gap, plus label notes. All fixed. Report:
 verify_cards (24 exact), feed tests 15 + 27, all worker tests including dashboard alerts 21/21, fire drills
 58/58, page screenshots (example card, How to read) with no page errors.
 
+## Round 10 — 12 Nov, 14:00 ET (audit #10, a new independent agent)
+
+**Found:** 60,863 comparisons. **Nothing a member sees disagreed** (fourth round running). One real data
+disagreement in a ledger column the page never shows, and 5 docs-vs-code items. Not a clean run. Report:
+`analysis/audit10_2026-11-12/AUDIT10.md`.
+
+**Changed** (this round's commit):
+- **Ledger `dayScaled20` (odds on the day of "beat a normal move")** counted BTC signals from before 2017,
+  which have no year of volatility to compare against, as misses; the card's own figure leaves them out.
+  Now the same rule as the card. 499 BTC rows moved (16 now blank instead of 0; the rest were understated by
+  3–97 points, e.g. BTC 3D 25 Jul 2020: 45 → 61). Every value now equals the auditor's independent figure.
+  Regression baseline re-approved after checking by code that only `dayScaled20` changed.
+- **The card now says which sample it uses** under the big number (e.g. "from all 33 past grade A+ signals
+  across all BTC charts (BTC 2D alone has only 12, too few to use)"), not just "like this one", which could
+  hide a broader sample. CARD_SPEC updated to match (no "corner").
+- CONTEXT: verify_cards' one tolerance (the 6-place exact medians) stated; the 10-11 Nov member-card paragraph
+  marked partly superseded (cards use their own ladder; the figures are in the feed).
+- Member-site README: the candle route added; "Not deployed yet" replaced with where it is deployed.
+- `extras_live.py` docstring lists `missstats_example.csv`.
+
+**Re-checked after the changes:** every pipeline step, regression (re-approved, then 919 unchanged),
+verify_cards (24 exact), feed tests 15 + 27 + 15, worker tests, fire drills 58/58, page screenshot.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

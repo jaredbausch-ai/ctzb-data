@@ -18,8 +18,8 @@ rule that gives 15 or more:
 2. Same chart, same grade (any mix of confirmations that adds up to that grade).
 3. Same grade across all of that asset's charts.
 
-The card always says which rule it used, in plain words, in the "Where these numbers
-come from" line, and states the sample size there and in the corner. Never use a
+The card always says which rule it used, in plain words, under the big number (and again on the
+chart view), and states the sample size there. Never use a
 group of stronger setups ("at least these confirmations") as a trade's odds: on
 28 Oct that showed 82% for a trade whose like-for-like record was 60%.
 
@@ -42,7 +42,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
 | Typical deepest dip below the buy price | Median of each trade's lowest price in 60 days, as a percentage of the buy price | `maxDip60` |
 | Fell 30% or more at some point | Share whose lowest price in 60 days was 30% or more below the buy price | `touched30` |
 | Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility) | `scaled20` |
-| Before 2022 / since 2022 (N signals) | "Rose 10% and never fell 25.3%" (surv10, the line under the big number) split by entry date, with each half's count. The two counts must add up to the corner number | `surv10Old`, `nOld`, `surv10New`, `nNew` |
+| Before 2022 / since 2022 (N signals) | "Rose 10% and never fell 25.3%" (surv10, the line under the big number) split by entry date, with each half's count. The two counts must add up to the card's n | `surv10Old`, `nOld`, `surv10New`, `nNew` |
 | If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that then rose 10% BEFORE falling 25.3% (12 Nov 2026 wording: "before", which is what the code measures), and the share that went on to fall 25.3%. Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
 | Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |

@@ -9,7 +9,9 @@ by hand (item 17b):
                  how many went above entry at some point, median / mean best price within the 60
                  days, median worst drop and day-60 return. Jared 11 Nov 2026: the card shows
                  the MEDIAN best.
-  pastpaths_example.csv  The same for the worked example: ETH A+ signals whose 60th day had
+  missstats_example.csv  The worked example's "if it misses" figures: ETH A+ signals whose 60th day
+                 had closed by 22 Sep 2024 only.
+  pastpaths_example.csv  The same paths for the worked example: ETH A+ signals whose 60th day had
                  closed by 22 Sep 2024 only.
   pastpaths.csv  Every A+ signal's 60-day path on daily closes, lined up at entry: the
                  25th / 50th / 75th percentile for each day, per asset (the chart view's

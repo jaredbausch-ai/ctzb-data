@@ -507,7 +507,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="big num">${m.reach10 ?? "n/a"}%</div>
           <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days</div>
           <div style="font-size: 13px; color: var(--high)">${m.surv10 ?? "n/a"}% did it without ever falling 25.3%</div>
-          <div class="small">${m.fromCard ? `from ${m.n} past signals like this one` : `from all ${m.n} ${esc(m.asset)} top-grade signals`} · every figure covers the 60 days after entry</div>
+          <div class="small">${m.fromCard ? `from ${esc(m.sample || m.n + " past signals")}` : `from all ${m.n} ${esc(m.asset)} top-grade signals`} · every figure covers the 60 days after entry</div>
         </div>
         <div class="stats num">
           <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>

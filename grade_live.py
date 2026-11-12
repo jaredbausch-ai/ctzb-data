@@ -247,11 +247,15 @@ def main():
         prior = [h for h in hist if h[0] == a and (h[1] + dt.timedelta(days=60)) <= d0]
         G = [h for h in prior if h[2] == g]
         if len(G) < 10 or not prior: return ['', '', '', '', len(G), '', '']
-        def rate(fn):
-            base = sum(fn(h[3]) for h in prior) / len(prior)
-            return round(100 * (sum(fn(h[3]) for h in G) + 5 * base) / (len(G) + 5))
+        def rate(fn, ok=lambda m: True):
+            P = [h for h in prior if ok(h[3])]; Gk = [h for h in G if ok(h[3])]
+            if not P or not Gk: return ''
+            base = sum(fn(h[3]) for h in P) / len(P)
+            return round(100 * (sum(fn(h[3]) for h in Gk) + 5 * base) / (len(Gk) + 5))
+        # dayScaled20 (12 Nov 2026 audit #10): like the card's beat_normal_move_pct, signals with no year of
+        # volatility before entry (BTC before 2017) are left out, not counted as misses
         return [rate(lambda m: m['up'] >= 10), rate(lambda m: m['up'] >= 20), rate(lambda m: m['up'] >= 30), rate(lambda m: m['dd'] <= -30), len(G),
-                rate(lambda m: MS.surv10(m)), rate(lambda m: bool(m['sc']))]
+                rate(lambda m: MS.surv10(m)), rate(lambda m: bool(m['sc']), ok=lambda m: m['sc'] is not None)]
     for x in led:
         x += day_odds(x[0], x[6], dt.date.fromisoformat(x[3]))
     wcsv(os.path.join(OUT, 'ledger.csv'),
