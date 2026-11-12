@@ -392,7 +392,9 @@ def ds_tier(ch, rows_all, keep, outdir, scoreable_to):
         rep([r for r in T if r["agree"] >= k], f"with {k}+ other charts agreeing")
     write_csv(os.path.join(outdir, "tier.csv"),
               ["filter", "trades", "perYear", "win", "medRun", "medDD"], out)
-    per_year = out[0][2] if out else None
+    # the unrounded rate, so the status line rounds it once (12 Nov 2026 audit #14: it was the 1-decimal
+    # figure rounded a second time)
+    per_year = len(T) / span if out else None
     return T, per_year
 
 
@@ -702,7 +704,7 @@ def ds_status(reg, today, buy, per_year, outdir):
     up = [r for r in buy if r["status"] == "Upcoming"]
     rows = [["Market regime", "Bullish" if reg(today) else "Bearish"],
             ["Next buy date", up[0]["buyDate"] if up else "none ahead"],
-            ["Trades a year", f"{per_year:.0f} on average" if per_year else "—"],
+            ["Trades a year", f"{round(per_year)} on average" if per_year else "—"],   # one rounding rule (audit #14)
             ["Scored as of", str(today)],
             ["Updated (UTC)", __import__("clock").now_utc().strftime("%Y-%m-%d %H:%M UTC")]]
     write_csv(os.path.join(outdir, "status.csv"), ["item", "value"], rows)

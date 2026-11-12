@@ -1,4 +1,4 @@
-"""Tests for the schema 5 member card figures (extras_live.py -> feed_live.py, item 18).
+"""Tests for the member card figures (schema 5, now 6) (extras_live.py -> feed_live.py, item 18).
 Runs both as the pipeline does, on a copy of datasets/.
 
 Run: python tests/test_feed_extras.py   -- exits 1 if any case fails.
@@ -67,7 +67,12 @@ check("odds-fade marks each row against 70%",
 
 p = run("feed_live.py", "--datasets", DS, "--out", FEED, "--alert-log", LOG, env_extra={"CTZB_STEP_OUTCOMES": OK + ",extras=success"})
 f = json.load(open(FEED))
-check("feed is schema 5", f["schema_version"] == 5)
+check("feed is schema 6", f["schema_version"] == 6)
+import re as _re
+_const = lambda path, name: int(_re.search(rf"^{name}\s*=\s*(\d+)", open(os.path.join(ROOT, path)).read(), _re.M).group(1))
+check("the posting bar is one number everywhere (feed, refresh WINMIN, stack EDGE_BAR, carddesign POST_BAR)",
+      f.get("posting_bar_pct") == _const("refresh.py", "WINMIN") == _const("stack_live.py", "EDGE_BAR") == _const("analysis/carddesign.py", "POST_BAR") == _const("feed_live.py", "POSTING_BAR"),
+      str(f.get("posting_bar_pct")))
 check("feed carries if_it_misses, odds_fade and past_paths", not f["extras_withheld"] and f["if_it_misses"] and f["odds_fade"]["early_dip"] and f["past_paths"])
 eth = next(x for x in f["if_it_misses"] if x["asset"] == "ETH" and x["grade"] == "A+")
 check("feed miss figures equal the dataset", eth["median_peak_pct"] == float(miss["ETH"]["median_peak_pct"]) and eth["misses"] == int(miss["ETH"]["misses"]))

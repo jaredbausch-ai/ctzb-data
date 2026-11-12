@@ -8,7 +8,8 @@ confirmations / this chart at the same grade / the same grade across the asset's
 charts), recomputes every figure on the card and fails the run if any differs, exactly: n, the
 big number (rose 10%), surv10, scaled20, +20%, -30%, the rounded and exact medians, the eras,
 the timing medians, and the from-entry row and every falls-first ladder row (shown and exact
-shares) from the 1D candles. 8D cards are skipped: 8D signals are not in the graded ledger.
+shares) from the 1D candles. There are no 8D cards since 12 Nov 2026 (audit #14: stack_live only
+builds cards on graded charts); the 8D skip below is a guard, and it fails the run if one appears.
 (Extended 12 Nov 2026, audit #8: it used to check 10 of these.)
   python3 -I verify_cards.py
 """
@@ -102,6 +103,7 @@ def main():
     bad, checked = [], 0
     for c in cards:
         if c['tf'] == '8D':
+            bad.append(f"{c['chart']}: an 8D card exists; 8D is not graded and cannot be re-derived")
             continue
         lenses = set() if c['lenses'] == 'none' else {PLAIN[x] for x in c['lenses'].split('; ')}
         b = c['basis']

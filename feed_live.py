@@ -46,7 +46,8 @@ def now_utc():
     v = os.environ.get("CTZB_NOW")
     return datetime.fromisoformat(v.replace("Z", "+00:00")).astimezone(timezone.utc) if v else datetime.now(timezone.utc)
 
-SCHEMA_VERSION = 5
+SCHEMA_VERSION = 6   # 6 (12 Nov 2026): every field added on 11-12 Nov (the +10% switch and audits #1-#14), batched
+POSTING_BAR = 70     # WINMIN in refresh.py / EDGE_BAR in stack_live.py (tests/test_feed_extras.py checks they agree)
 ALERT_LOG_FIELDS = ["alert_id", "event", "signal_id", "chart", "emitted_at"]
 # Steps whose failure withholds cards and alerts. Passed in by daily.yml as
 # CTZB_STEP_OUTCOMES="refresh=success,grade=success,...". Absent = run by hand.
@@ -247,6 +248,9 @@ def main():
     feed = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": now,
+        # the 70% bar below which a setup's edge is gone; top level so a card's ladder can be read against it
+        # even when odds_fade is withheld (12 Nov 2026 audit #14)
+        "posting_bar_pct": POSTING_BAR,
         "scored_as_of": status.get("Scored as of"),
         "label": LABEL,
         "checks": {"passed": ok, "lines": check_lines,
@@ -381,7 +385,7 @@ def fail_closed(out_path, err):
     if the run were clean. Overwrite it with an empty, withheld feed instead, so every reader
     sees that this run's checks failed. Exit 1 still turns the run red and retries it."""
     now = now_utc().strftime("%Y-%m-%dT%H:%M:%SZ")
-    feed = {"schema_version": SCHEMA_VERSION, "generated_at": now, "scored_as_of": None, "label": LABEL,
+    feed = {"schema_version": SCHEMA_VERSION, "generated_at": now, "posting_bar_pct": POSTING_BAR, "scored_as_of": None, "label": LABEL,
             "checks": {"passed": False, "all_passed": False, "lines": [], "steps": step_outcomes(),
                        "failed_steps": ["feed"]},
             "feed_error": type(err).__name__,

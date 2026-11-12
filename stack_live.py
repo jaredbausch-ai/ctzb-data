@@ -308,13 +308,18 @@ def main():
                 d0f = conf_open + dt.timedelta(days=step - 1)
                 piv, _ = E.signals(path, regime=lambda d: True)
                 prevp = [x for x in piv if x['ti'] < p['ti']]
-                dis = bool(prevp) and p['k'] is not None and ((p['ct'] - prevp[-1]['ct']) * (p['k'] - prevp[-1]['k']) < 0)
-                strong = dis and p['ct'] < 50
+                # exact CT and K with the engine's EPS guard, never the 1-decimal display values
+                # (12 Nov 2026 audit #14): the same test engine.signals applies once the low confirms
+                cx, kx = ct[p['ti']], kL[p['ti']]
+                dct = cx - prevp[-1]['ct'] if prevp else None
+                dk = kx - prevp[-1]['k'] if prevp and kx is not None else None
+                dis = bool(dct is not None and dk is not None and ((dct > E.EPS and dk < -E.EPS) or (dct < -E.EPS and dk > E.EPS)))
+                strong = dis and cx < 50
                 prev_entry = sig[-1]['entry'] if sig else None
                 k8 = closed_index(B8[a]['date'], today)
                 i = n - 1
                 r = dict(a=a, tf=tf, ch=f'{a} {tf}', d0=d0f, entry=C[i], bk=p['bucket'], dis=dis, strong=strong,
-                         prime=p['k'] is not None and 20 <= p['k'] < 50,
+                         prime=kx is not None and 20 <= kx < 50,
                          gap=(ct[i] - em[i]) if ct[i] is not None and em[i] is not None else None,
                          higher=prev_entry is not None and C[i] > prev_entry,
                          up8=k8 >= 1 and C8[a][k8] is not None and C8[a][k8 - 1] is not None and C8[a][k8] > C8[a][k8 - 1],
@@ -508,7 +513,12 @@ def main():
         elif len(sg) >= 15: basis, G_ = f'all {len(sg)} past {a} {tf} signals of {gp(g)} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
         else: basis, G_ = f'all {len(ag)} past signals of {gp(g)} across all {a} charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
         out.append([subj, 'CONSOLE RECORD', basis] + rec(G_) + ['like for like'])
-        if state.startswith('forming'):
+        # A forming low gets a member card (and so a forming alert) only on a graded chart (1D-5D; 8D is not
+        # graded and verify_cards cannot re-derive it) and only when the regime gate is on at its trough date:
+        # a gate-off low can never confirm as a signal, and its odds would come from gate-on signals
+        # (12 Nov 2026 audit #14). It still shows in prints.csv / liveread.csv with its "regime off" note.
+        made_card = state.startswith('forming') and tf in ('1D', '2D', '3D', '5D') and gate(r['_trough'])
+        if made_card:
             cards.append(card(r, g, have, basis, G_))
         elif state.startswith('open') and tf in ('1D', '2D', '3D', '5D'):   # graded charts only
             # 12 Nov 2026 audit: a live (open) setup gets its own card too, built exactly like a
@@ -549,8 +559,11 @@ def main():
         ex_t = [s for s in Cr if s['bk'] == r['bk'] and same_d(s) and bool(s['prime']) == bool(r['prime'])]
         out.append([subj, f'Exact tags on this chart: {r["bk"]} + {dk} + {"prime dot" if r["prime"] else "no prime dot"} [tag, exact]', 'ON']
                    + rec(ex_t) + ['full history' + (' (under 15 trades: too few to quote alone)' if len(ex_t) < 15 else '')])
+        # ON / OFF is read on the trough date, like the gate everywhere else (12 Nov 2026 audit #14; it was
+        # the entry date). The age stays as of the entry date (or today for a forming low), as before.
         ra = regime_age(d0 if d0 <= today else today)
-        out.append([subj, 'Regime gate [Tier 1 #6]', 'ON' if ra is not None else 'OFF', '', '', '', '', '', '', '', '', f'on for {ra} days' if ra is not None else ''])
+        g_on = gate(r.get('tdate') or r.get('_trough') or (d0 if d0 <= today else today))
+        out.append([subj, 'Regime gate [Tier 1 #6]', 'ON' if g_on else 'OFF', '', '', '', '', '', '', '', '', f'on for {ra} days' if g_on and ra is not None else ''])
         # confluence cells
         evaluated.add('CELLS'); act = []
         for lay, c in cells:
@@ -569,7 +582,7 @@ def main():
                 act.append({'after': c['confirm'], 'afterTag': c['ctag'], 'confirmed': str(conf[-1]['d0']),
                             'closes': str(conf[-1]['d0'] + dt.timedelta(days=WIN)), 'tag': c['tag'],
                             'n': rr[0], 'reach20': rr[1], 'touched30': rr[2], 'reach10': rr[5]})
-        if state.startswith('forming'):
+        if made_card:
             cards[-1].append(json.dumps(sorted(act, key=lambda x: -x['n']), separators=(',', ':')))
         # positioning read
         evaluated.add('POS')

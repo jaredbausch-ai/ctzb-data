@@ -52,6 +52,14 @@ All are measured from the buy price (the close of the confirmation bar) and with
 
 ## The member site's card (12 Nov 2026)
 
+Which lows get a card: a forming low only on a graded chart (1D, 2D, 3D, 5D) with the regime gate on at its
+trough date; a live (open) setup on a graded chart; the worked example. There are no 8D cards.
+
+A live setup's card is the card as issued at its entry close. Because a from-entry figure beside an open signal
+can read as today's chance (CONTEXT, 31 Oct 2026), the card itself says "Edge lost" or "On track", says the
+odds are "as of the entry close, not from today", and an edge-lost card is dimmed and not drawn in the live
+colour. No from-today odds are computed for members.
+
 The member site (`docs/artifacts/member-site/index.html`) shows the same card in its own words. Each label
 below is defined here; anything not listed is in the table above.
 

@@ -345,6 +345,35 @@ page. One label (4 places) and 4 docs-vs-code items. Not a clean run. Report: `a
 
 **Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact),
 feed tests, worker tests, Action-environment test, fire drills 58/58, page screenshot.
+## Round 14 — 12 Nov, 16:05 ET (audit #14, a new independent agent)
+
+**Found:** 61,267 comparisons, **0 numeric disagreements** (eighth round running). 11 docs-vs-code items, two of
+them real behaviour problems in states that don't occur today (the auditor replayed a filter-off date to show
+them). Not a clean run. Report: `analysis/audit14_2026-11-12/AUDIT14.md`.
+
+**Changed** (this round's commit):
+- **Forming cards with the market filter off.** Replaying 11 Jun 2026 (filter off), the pipeline produced 10
+  forming cards and 10 forming alerts under a header reading "Market filter: off". A filter-off low can never
+  confirm as a signal. Forming cards and alerts now exist only when the filter is on at the low's trough date.
+  New test `tests/test_gate_off.sh` replays that date: 0 cards, 0 forming alerts (old code: 10 and 10).
+- **8D forming cards** got a grade and a sample although 8D isn't graded and the card checker skipped them.
+  Cards are now built on graded charts only (1D–5D); the checker fails the run if an 8D card ever appears.
+- **Live setup card (Jared's 31 Oct rule: no from-entry figure beside a live trade).** The live BTC 2D card showed
+  its from-entry 85% in the live colour on day 52 with its edge lost. The card itself now says "Edge lost" /
+  "On track", says the odds are "as of the entry close, not from today", and an edge-lost card is dimmed and not
+  drawn in the live colour. No from-today figure was invented; whether members should get one is left to Jared
+  (noted in CONTEXT beside the rule).
+- **Feed schema 6.** The rule says the version goes up when fields are added; it had stayed at 5 through
+  11–12 Nov. New top-level `posting_bar_pct`, so the page has no typed "70" fallback left.
+- Forming-low tags (diamond / prime) use exact CT and K with the engine's EPS guard, not 1-decimal values.
+- `trades_a_year` rounded once from the unrounded rate. The dashboard's "Regime gate" row reads ON/OFF on the
+  trough date (its "on for N days" age is unchanged).
+- Chart: ladder bands show n and are captioned; the side box restates the sample for every card.
+- FEED_SPEC: the page shows the exact median rounded once (was "show the rounded fields").
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact), feed
+tests 15 + 28 + 15, worker tests, Action-environment test, gate-off replay, fire drills 58/58, page screenshots
+(live card, live chart).
 
 ---
 

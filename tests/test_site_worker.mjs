@@ -8,7 +8,7 @@ fs.writeFileSync(tmp, fs.readFileSync(path.join(ROOT, "cloudflare/ctzb-site-work
 const { _test, default: worker } = await import(pathToFileURL(tmp));
 const res = []; const check = (n, c, d = "") => { res.push(!!c); console.log(`  ${c ? "PASS" : "*** FAIL ***"}  ${n}${d ? "  -- " + d : ""}`); };
 
-const FEED = JSON.stringify({ schema_version: 5, cards: [] });
+const FEED = JSON.stringify({ schema_version: 6, cards: [] });
 const LEDGER = "asset,chart,grade\nETH,ETH 2D,A+\n";
 const CANDLES = "time,open,high,low,close\n1788393600,77307.36,82283,76929.29,81263.99\n1788480000,81263.99,81438.01,78626,79675.12\n";
 const seen = [];

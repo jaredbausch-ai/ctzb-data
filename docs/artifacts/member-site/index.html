@@ -356,7 +356,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const gone = of && (of.early_dip || []).find((b) => b.edge === "gone");
     const m = gone && String(gone.band).match(/-?\d+(\.\d+)?/);
     const red = of && (of.day10 || []).find((b) => /red/.test(b.check));
-    return { bar: of ? of.posting_bar_pct : null, dipPct: m ? +m[0] : null, redOdds: red ? (red.rose10_after_day10_pct ?? red.rose10_within60d_pct) : null };
+    return { bar: (S.feed && S.feed.posting_bar_pct) ?? (of ? of.posting_bar_pct : null), dipPct: m ? +m[0] : null, redOdds: red ? (red.rose10_after_day10_pct ?? red.rose10_within60d_pct) : null };
   }
   // This setup's own fade (Jared 11 Nov: the player, not the league): after first falling X%, the share of
   // this setup's past signals that still rose 10%. Below the 70% bar the edge is gone.
@@ -364,7 +364,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!m || !m.fallsFirst || !m.fallsFirst.length) return null;
     const rows = m.fallsFirst.map((r) => ({ fell: r.fell_pct, n: r.past_trades, v: r.still_rose10_pct, liq: r.went_on_to_fall25_pct,
       x: r.still_rose10_exact_pct ?? r.still_rose10_pct }));
-    const bar = edgeRule().bar ?? 70, base = m.fromEntry ?? m.reach10;   // same measure as the rows below it (12 Nov 2026 audit #5)
+    const bar = edgeRule().bar, base = m.fromEntry ?? m.reach10;
+    if (bar == null) return null;   // no typed fallback: without the feed's bar there is no edge read (audit #14)   // same measure as the rows below it (12 Nov 2026 audit #5)
     let edge = null;
     // the 70% bar is tested once, on the exact share; the whole-percent one is only for display (12 Nov 2026 audit #8)
     const baseX = m.fromEntryExact ?? base;
@@ -424,7 +425,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const asset = o.chart.split(" ")[0], tf = o.chart.split(" ")[1];
     // 12 Nov 2026 audit: a live setup has its own card (its own sample, ladder and edge), like a forming one
     if (o.card) return Object.assign(cardFromFeed(o.card), {
-      kind: "open", top: o.grade === "A+", grade: o.grade, signal_id: o.signal_id, entry: o.entry_close, entry_date: o.entry_date,
+      kind: "open", top: o.grade === "A+", grade: o.grade, signal_id: o.signal_id, edgeStatus: o.edge_status || null, edgeLevel: o.edge_level_pct, entry: o.entry_close, entry_date: o.entry_date,
       line: `Confirmed ${dateLong(o.entry_date)} · entry close ${money(o.entry_close)} · day ${o.days_elapsed} of 60 · best so far ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}` });
     const rows = S.ledger.filter((r) => r.asset === asset), f = (k) => rows.map((r) => +r[k]);
     const go = ((S.feed && S.feed.grade_odds) || []).find((g) => g.asset === asset && g.grade === "A+");
@@ -458,7 +459,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const best = selected();
     const m = S.preview ? cardExample() : (best ? (best._open ? cardFromOpen(best) : cardFromFeed(best)) : null);
     const below = !!m && m.kind === "forming" && !m.top;
-    frame.style.setProperty("--c", !m ? "var(--closed)" : below ? "var(--fade)" : "var(--live)");
+    const lost = !!m && m.kind === "open" && m.edgeStatus === "lost";
+    frame.style.setProperty("--c", !m ? "var(--closed)" : below || lost ? "var(--fade)" : "var(--live)");
     if (!m && S.preview) {
       box.innerHTML = `<div class="card-head"><div class="where">ETH · 2D chart · example</div><div class="state" style="--c: var(--muted)" data-state="quiet">Example unavailable</div></div>
         <div class="empty-card"><div class="big">The worked example isn't in the latest data</div><div class="small" style="max-width: 46ch">It comes back with the next good run. Live and forming setups are unaffected.</div></div>
@@ -500,12 +502,13 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>`
-          : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>` : ""}
+          : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>`
+          : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : "It has not fallen to its edge level."} The odds below are as of the entry close, not from today.</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
-          <div class="big num">${m.reach10 ?? "n/a"}%</div>
-          <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days</div>
+          <div class="big num"${lost ? ' style="opacity: 0.5"' : ""}>${m.reach10 ?? "n/a"}%</div>
+          <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days${m.kind === "open" ? " · at the entry close, not from today" : ""}</div>
           <div style="font-size: 13px; color: var(--high)">${m.surv10 ?? "n/a"}% did it without ever falling 25.3%</div>
           <div class="small">${m.fromCard ? `from ${esc(m.sample || m.n + " past signals")}` : `from all ${m.n} ${esc(m.asset)} top-grade signals`} · every figure covers the 60 days after entry</div>
         </div>
@@ -550,7 +553,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : [])
         .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : []);
       lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
-        + `<div class="fine">ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan 2026, applied to every signal from 2016 (in-sample: the tier was chosen on most of these outcomes): share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${of ? of.posting_bar_pct : 70}% the edge is gone.</div>`;
+        + `<div class="fine">ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan 2026, applied to every signal from 2016 (in-sample: the tier was chosen on most of these outcomes): share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${edgeRule().bar ?? "the posting bar"}${edgeRule().bar != null ? "%" : ""} the edge is gone.</div>`;
     }
     $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}%</span></div>`).join("");
   }
@@ -723,13 +726,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     svgEl(svg, "rect", { x: xE, y: Y(lv.high), width: x60 - xE, height: Y(entry) - Y(lv.high), fill: "var(--high)", opacity: 0.07 });
     svgEl(svg, "rect", { x: xE, y: Y(entry), width: x60 - xE, height: Y(lv.drop) - Y(entry), fill: "var(--drop)", opacity: 0.1 });
     const of = S.feed && S.feed.odds_fade;
+    let ladRight = xE;
     if (sf) {   // this setup's own ladder: odds of still rising 10% after first falling this far
-      const xL = X(E + 6 / tfd) > xE + 70 ? X(E + 6 / tfd) : xE + 70;
-      const steps = [[0, -5, sf.base, sf.baseX]].concat(sf.rows.slice(0, 3).map((r, k) => [-r.fell, -(sf.rows[k + 1] ? sf.rows[k + 1].fell : r.fell + 5), r.v, r.x]));
-      for (const [a1, b1, v, vx] of steps) {   // colour tested on the exact share (12 Nov 2026 audit #9)
+      const xL = X(E + 6 / tfd) > xE + 88 ? X(E + 6 / tfd) : xE + 88;   // wide enough for "82% · n 33"
+      ladRight = xL;
+      const steps = [[0, -5, sf.base, sf.baseX, m.n]].concat(sf.rows.slice(0, 3).map((r, k) => [-r.fell, -(sf.rows[k + 1] ? sf.rows[k + 1].fell : r.fell + 5), r.v, r.x, r.n]));
+      for (const [a1, b1, v, vx, nn] of steps) {   // colour tested on the exact share (12 Nov 2026 audit #9)
         const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100))), col = v === "" || v == null ? "var(--closed)" : (vx ?? v) >= sf.bar ? "var(--high)" : "var(--drop)";
         svgEl(svg, "rect", { x: xE, y: y1, width: xL - xE, height: y2 - y1, fill: col, opacity: 0.24 });
-        svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : v + "%");
+        svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 12, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : `${v}% · n ${nn}`);
       }
     } else if (of) {
       const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct)))], [-5, -10, "var(--fade)", ((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct))(of.early_dip[2])], [-10, -20, "var(--drop)", ((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct))(of.early_dip[3])]];
@@ -759,7 +764,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     }
     if (lv.edge) {
       svgEl(svg, "line", { x1: xE, x2: sf ? x60 : x10, y1: Y(lv.edge), y2: Y(lv.edge), stroke: "var(--fade-2)", "stroke-width": 2.5, "stroke-dasharray": sf ? "8 4" : "" });
-      svgEl(svg, "text", { x: x10 + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(edgePct, 0)}${sf ? ", before +10%" : ""})`);
+      svgEl(svg, "text", { x: Math.max(x10, ladRight) + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(edgePct, 0)}${sf ? ", before +10%" : ""})`);
     }
     const vline = (x, col, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: col, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: col, "font-size": 12, "font-weight": 600 }, label); };
     vline(xT, "var(--text)", forming && !(c && c._open) ? "Today" : "Entry");
@@ -845,7 +850,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $("#chartSide").innerHTML = `
       <div class="sidebox">
         <div class="sec-title" style="color: var(--live)">What the card says</div>
-        <div class="small">${esc(m.chart)}${forming ? ` · from ${esc(m.sample || "")}` : " · example"}</div>
+        <div class="small">${esc(m.chart)}${m.kind === "example" ? " · example" : ""}${m.sample ? ` · from ${esc(m.sample)}` : ""}${m.kind === "open" ? " · odds as of the entry close, not from today" : ""}</div>
         <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${m.reach10 ?? "n/a"}%</div>
         <div class="small">rose 10% within 60 days, from ${m.n} past signals; ${m.surv10 ?? "n/a"}% without ever falling 25.3%</div>
         <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(m.entry * (1 + m.high / 100))}</b></div>
@@ -854,6 +859,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
         <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(m.entry * (1 + d / 100)) + " (" + pct(d, 0) + ")"; })()}</b></div>
         ${forming && !(c && c._open) ? `<div class="fine">Prices use the latest price (today's bar is still open) as a stand-in for the entry.</div>` : ""}
+        ${setupFade(m) ? `<div class="fine">Bands beside the entry: this setup's own ladder. From entry, then after first falling 5%, 10% and 15%: the share of its past signals that still rose 10% before ever falling 25.3%, with the number of signals.</div>` : ""}
       </div>
       ${what}
       <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${S.trades ? "The lead trader's real entries and exits show on the chart as markers. None on this one." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown."}</div>
@@ -945,7 +951,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // The example only stands in for a quiet market, never for an outage or a failed check.
     if (!bestCard()) { if (feedHealth() === "ok" && !staleNote() && !openSignals().length) { S.preview = true; $("#previewSwitch").checked = true; } } else S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
-    { const of = S.feed && S.feed.odds_fade; if (of && of.posting_bar_pct != null) $("#howBar").textContent = of.posting_bar_pct + "% bar"; }
+    { const b = edgeRule().bar; if (b != null) $("#howBar").textContent = b + "% bar"; }
     show(location.hash.slice(1) || "now");
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitToScreen);
   }

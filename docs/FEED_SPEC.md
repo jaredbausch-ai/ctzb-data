@@ -12,7 +12,8 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 ## Rules
 
 - Fields are only ever **added**, never renamed or removed. `schema_version`
-  goes up by one whenever a field is added.
+  goes up by one whenever a field is added. (The 11-12 Nov 2026 additions were made at schema 5 and are
+  batched into **schema 6**, 12 Nov 2026; from 6 on, one step per addition again.)
 - Every card, print, open signal and grade row carries `label`: computed
   signal, not a fill, entry quality only, not a track record.
 - `cards` is empty and `cards_withheld` is true whenever `stack_status.txt`
@@ -26,11 +27,12 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 - `grade_odds` is pooled context only. Never show it as the number for a
   live setup (CONTEXT, "Never quote the pooled grade alone").
 
-## Top level (schema 5 now; schema 2 added the four card timing fields, 1 Nov 2026; schema 3 added `active_confluences`, 4 Nov 2026; 4 and 5 below)
+## Top level (schema 6 now; schema 2 added the four card timing fields, 1 Nov 2026; schema 3 added `active_confluences`, 4 Nov 2026; 4 and 5 below)
 
 | Field | Source | Meaning |
 |---|---|---|
-| `schema_version` | | 5 |
+| `schema_version` | | 6 |
+| `posting_bar_pct` | feed_live `POSTING_BAR` (= refresh `WINMIN`) | 70: below it a setup's edge is gone. Top level so a card's ladder can be read against it even when `odds_fade` is withheld |
 | `generated_at` | | UTC time the file was written |
 | `scored_as_of` | status.csv | Date of the data scored |
 | `label` | | The computed-signal label |
@@ -154,7 +156,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 ### Second audit corrections (12 Nov 2026, independent audit #3)
 
 - `cards[]` gain `typical_biggest_rise_exact_pct`, `typical_dip_before_rise_exact_pct`, `typical_deepest_dip_exact_pct`:
-  the same medians unrounded. Show the rounded fields; build prices (entry x (1 + pct/100)) from the exact ones.
+  the same medians unrounded. The member page shows the exact field rounded once (the same figure as the rounded field) and builds prices (entry x (1 + pct/100)) from the exact ones.
 - `cards[].sample` says "all N past ... signals", not "the last N ... trades": every past signal is used, and none was traded.
 - `example_card` (new, top level): the member site's worked example (ETH 2D, confirmed 2024-09-22) as a full card, same
   fields as `cards[]` plus `example: true` and `entry_close`, built by the forming-card rules from only the signals whose
@@ -239,3 +241,18 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   "signals of the top grade" / "signals of the same grade" instead of "graded C" / "grade A+"; the `grade` field
   itself is unchanged (it drives logic, it isn't shown).
 - The chart's lead-trader note says his feed is unavailable when it can't be read, instead of "None on this one".
+
+### Audit #14 corrections (12 Nov 2026, schema 6)
+
+- **Schema 6.** No field changed meaning; 6 marks everything added on 11-12 Nov. New in 6: top-level `posting_bar_pct`.
+- **Forming cards (`cards[]`, and so forming alerts) exist only on graded charts (1D, 2D, 3D, 5D) and only when
+  the regime gate is on at the low's trough date.** A gate-off low can never confirm as a signal, and 8D is not
+  graded. Before this, a forming low with the filter off (or on 8D) still produced a card and a forming alert.
+  Such lows still appear in `prints[]` with their "regime off" note.
+- A forming low's tags (`prints[].tags`, the card's confirmations) use exact CT and K with the engine's EPS guard,
+  the same test applied once it confirms; they used the 1-decimal display values.
+- `trades_a_year` / `signals_a_year` is rounded once from the unrounded rate (was the 1-decimal rate rounded again).
+- liveread.csv's "Regime gate" row reads ON / OFF on the trough date, like everything else (its "on for N days" age stays as of the entry date).
+- Member page: a live setup's card says on the card itself whether its edge is lost or on track, and that its
+  odds are "as of the entry close, not from today"; an edge-lost live card is no longer drawn in the live colour.
+  The chart's ladder bands show n and are captioned; the chart side box restates the sample for every card.
