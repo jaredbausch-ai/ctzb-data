@@ -8,7 +8,7 @@ path, so the deployed version serves the same file and proxies:
 |---|---|
 | `data/ctzb_feed.json` | `ctzb-feed` mirror: `feed/ctzb_feed.json` |
 | `data/ledger.csv` | `ctzb-feed` mirror: `datasets/ledger.csv` |
-| `data/trades.json` | `ctzb-trades`: `/trades.json` (404 until MODE=live; the page shows an empty state) |
+| `data/trades.json` | `ctzb-trades`: `/trades.json` (404 until MODE=live; the page then says the lead trader's feed is unavailable) |
 | `data/candles/<ASSET>_<TF>.json` | `ctzb-feed` mirror: `datasets/candles_<asset>_<tf>.csv`, as JSON (ETH/BTC, 1D/2D/3D/5D/8D) |
 | `data/example_ETH-2D-2024-09-22.json` | this folder (the example's chart bars, embedded in the worker) |
 

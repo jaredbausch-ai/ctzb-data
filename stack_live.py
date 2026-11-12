@@ -49,6 +49,13 @@ SPLIT = dt.date(2022, 1, 1)
 EDGE_BAR = 70   # the posting bar (WINMIN in refresh.py); Jared 11 Nov 2026: below it the edge is gone
 # members never see a grade letter (CONTEXT, member card: "the grade stays internal"; 12 Nov 2026 audit #11)
 gp = lambda g: 'the top grade' if g == 'A+' else 'the same grade'
+
+
+def next_bar_open(d, step):
+    """Open date of the bar after the one opening on d, for a chart of `step`-day bars: bars are bucketed
+    within each calendar year (fetch.py), so the next bar opens `step` days on, or on 1 January if that
+    comes first."""
+    return min(d + dt.timedelta(days=step), dt.date(d.year + 1, 1, 1))
 WIN = 10
 _HOOK = None
 
@@ -304,8 +311,12 @@ def main():
                                'regime on' if gate(s['tdate']) else 'regime off'])
             p = RF.provisional(ct, kL, zm, D, n)
             if p:
-                conf_open = D[-1] + dt.timedelta(days=step * p['need'])
-                d0f = conf_open + dt.timedelta(days=step - 1)
+                # the confirmation bar's open and close dates follow the chart's own bar rule: 2D+ bars restart
+                # on 1 January, so the last bar of a year can be short (12 Nov 2026 audit #15: a fixed step put
+                # "confirms" a day or more late across a year-end, and changed the signal id when it confirmed)
+                conf_open = D[-1]
+                for _ in range(p['need']): conf_open = next_bar_open(conf_open, step)
+                d0f = next_bar_open(conf_open, step) - dt.timedelta(days=1)
                 piv, _ = E.signals(path, regime=lambda d: True)
                 prevp = [x for x in piv if x['ti'] < p['ti']]
                 # exact CT and K with the engine's EPS guard, never the 1-decimal display values

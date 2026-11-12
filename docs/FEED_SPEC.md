@@ -70,8 +70,9 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 
 ## Not built yet
 
-- The Cloudflare backend serving keyed views (admin, Prime, Signal, delayed
-  Free). Waits on the ETHKROS Cloudflare account.
+- Keyed views per tier (admin, Prime, Signal, delayed Free). The Cloudflare backend itself was built
+  10-11 Nov 2026 (mirror `ctzb-feed`, `ctzb-site` behind a login, scheduler, dashboard, trades relay in dry
+  run; see CONTEXT); the per-tier views are what is not built.
 - The ping to Grok when a new signal lands as pending.
 - The repo going private (after the Cloudflare account, before any paid
   member sees a signal). Until then this file is public, like the datasets.
@@ -208,7 +209,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 ### Audit #8 corrections (12 Nov 2026)
 
 - `odds_fade.sample` now says what the sample is: ETH signals on the chart/tag pairs of the walk-forward tier
-  as fixed on 1 Jan 2026, applied to every signal from 2016. That is **in-sample** (the tier was chosen on the
+  as fixed on 1 January of the current year (`odds_fade.tier_fixed_on`), applied to every signal from 2016. That is **in-sample** (the tier was chosen on the
   outcomes of almost all of them). It is a general explainer and is not on any card.
 - The 70% edge bar is tested once, on the exact share, never on the whole-percent one shown: `earlydip.csv` /
   `holdcheck.csv` gain `reached10Exact`; card ladder rows and `from_entry` gain `still_rose10_exact_pct`

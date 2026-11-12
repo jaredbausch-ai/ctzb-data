@@ -8,8 +8,9 @@ same commit.
 
 ## Where a card's numbers come from
 
-One card per forming low, on every chart (ETH and BTC, 1D to 8D), rebuilt every
-pipeline run by `stack_live.py` into `datasets/cards.csv`.
+One card per forming low on a graded chart (ETH and BTC, 1D, 2D, 3D, 5D) with the regime gate on at
+its trough date, rebuilt every pipeline run by `stack_live.py` into `datasets/cards.csv` (until 12 Nov 2026:
+every chart, 1D to 8D, whatever the gate; see "The member site's card").
 
 **The sample: like for like only.** The card's past trades are chosen by the first
 rule that gives 15 or more:

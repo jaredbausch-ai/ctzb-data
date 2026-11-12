@@ -374,6 +374,38 @@ them). Not a clean run. Report: `analysis/audit14_2026-11-12/AUDIT14.md`.
 **Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact), feed
 tests 15 + 28 + 15, worker tests, Action-environment test, gate-off replay, fire drills 58/58, page screenshots
 (live card, live chart).
+**Pipeline on GitHub with the round-14 code:** dispatched run 43306525452 passed every step.
+
+## Round 15 — 12 Nov, 17:15 ET (audit #15, a new independent agent)
+
+**Found:** in the two frozen states, 67,174 comparisons and **0 disagreements** (ninth round running). This
+auditor also replayed 55 other dates and built synthetic page states, and there found **5 defects that today's
+data doesn't show**, plus 6 docs-vs-code items. Not a clean run. Report: `analysis/audit15_2026-11-12/AUDIT15.md`
+(`all_checks.csv` is gzipped).
+
+**Changed** (this round's commit):
+- **Forming lows across a year-end showed the wrong confirmation date.** 2D+ bars restart on 1 January, but the
+  date was built with a fixed bar step (replay 31 Dec 2023: ETH 2D "confirms 1 Jan 2024", really 31 Dec 2023;
+  replay 31 Dec 2024: BTC 5D "14 Jan 2025", really 10 Jan). The signal id would also have changed on
+  confirmation, reporting the forming one "vanished". It would next have shown in late December 2026. The date
+  now follows the bar rule. New test `tests/test_year_end.py` replays both dates (8/8).
+- **The quiet card printed a raw placeholder** ("about ${perYear()} times a year") — my slip in round 9. That
+  state really occurs (7, 8, 9, 15 Sep 2026: filter on, nothing live or forming). Fixed; the years are no longer
+  typed either ("2020 to last full year average; bear years, when the market filter is off, are included").
+  New test `tests/test_page_states.py` renders seven states today's data doesn't show (quiet, filter off, extras
+  withheld, no example, an empty era, feed down) and fails on any raw placeholder or page error (16/16).
+- **"Tier as fixed on 1 Jan 2026" was typed** in the feed, the page and a code comment; it would have been wrong
+  from 1 Jan 2027. Now the current year (`odds_fade.tier_fixed_on`).
+- **Live chart for a setup confirmed on a year's short last bar** said the chart data didn't reach the entry; the
+  entry bar is now found by the bar rule.
+- "n/a%" on an era with no signals → "n/a".
+- Docs: CARD_SPEC's opening (cards on graded charts with the filter on, not every chart to 8D); README (trades
+  feed 404 → "unavailable"); FEED_SPEC "Not built yet" (the Cloudflare backend is built; per-tier views are not).
+- `tests/replay_at.sh <date> <dir>` replays any past date on a copy, for tests and audits.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact), feed
+tests, worker tests, Action-environment test, gate-off replay, year-end replays, page-state test, fire drills
+58/58.
 
 ---
 

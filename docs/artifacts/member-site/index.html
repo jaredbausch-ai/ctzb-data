@@ -482,7 +482,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="quiet">No setup right now</div></div>${staleNote()}
         <div class="empty-card">
           <div class="big">Waiting for the next one</div>
-          <div class="small" style="max-width: 46ch">${on ? "The market filter is on. Nothing at the top grade is forming or confirmed today. Top-grade setups come about ${perYear()} times a year (2020 to 2025 average)." : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
+          <div class="small" style="max-width: 46ch">${on ? `The market filter is on. Nothing at the top grade is forming or confirmed today. ${perYearText()}` : "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year."}</div>
           <div class="small">You'll get a push alert the moment one confirms.</div>
         </div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
@@ -553,9 +553,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : [])
         .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : []);
       lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
-        + `<div class="fine">ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan 2026, applied to every signal from 2016 (in-sample: the tier was chosen on most of these outcomes): share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${edgeRule().bar ?? "the posting bar"}${edgeRule().bar != null ? "%" : ""} the edge is gone.</div>`;
+        + `<div class="fine">ETH signals on the chart/tag pairs in the walk-forward tier as fixed on ${of && of.tier_fixed_on ? dateLong(of.tier_fixed_on) : "1 January of this year"}, applied to every signal from 2016 (in-sample: the tier was chosen on most of these outcomes): share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${edgeRule().bar ?? "the posting bar"}${edgeRule().bar != null ? "%" : ""} the edge is gone.</div>`;
     }
-    $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}%</span></div>`).join("");
+    $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}${x.v != null && x.v !== "" ? "%" : ""}</span></div>`).join("");
   }
 
   function leadState(m) {
@@ -590,10 +590,21 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   /* ---------- Now: previous alerts ---------- */
   // Edge intact or lost, by the setup's OWN ladder (12 Nov 2026 audit #6; it used the pooled ETH table):
   // lost if its from-entry odds are under the bar, or it has fallen past its own edge before rising 10%
-  // top-grade signals a year, 2020 to 2025, counted from the ledger (12 Nov 2026 audit #9: never typed)
-  function perYear() {
-    const n = S.ledger.filter((r) => r.entry >= "2020-01-01" && r.entry <= "2025-12-31").length;
-    return n ? Math.round(n / 6) : "n/a";
+  // top-grade signals a year, counted from the ledger over the full calendar years from 2020 (the first with
+  // ETH and BTC both graded) to last year; nothing typed but that start (12 Nov 2026 audits #9, #15)
+  // open time of the bar after the one opening at t: 2D+ bars are bucketed within each calendar year and restart
+  // on 1 January, so a year's last bar can be short
+  function barNextOpen(t, tfd) {
+    if (tfd === 1) return t + 86400;
+    const y = new Date(t * 1000).getUTCFullYear(), jan1 = Date.UTC(y, 0, 1) / 1000, nextJan = Date.UTC(y + 1, 0, 1) / 1000;
+    const n = jan1 + (Math.floor((t - jan1) / 86400 / tfd) + 1) * tfd * 86400;
+    return n >= nextJan ? nextJan : n;
+  }
+  function perYearText() {
+    const y1 = (S.feed && S.feed.generated_at ? +S.feed.generated_at.slice(0, 4) : new Date().getUTCFullYear()) - 1, y0 = 2020;
+    const n = S.ledger.filter((r) => +r.entry.slice(0, 4) >= y0 && +r.entry.slice(0, 4) <= y1).length;
+    if (!n || y1 < y0) return "";
+    return `Top-grade setups come about ${Math.round(n / (y1 - y0 + 1))} times a year (${y0} to ${y1} average; bear years, when the market filter is off, are included).`;
   }
   function openStatus(o) {
     // 12 Nov 2026 audit #9: decided in the pipeline on exact prices and closed daily bars, by whichever
@@ -668,7 +679,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       if (!cd) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable for " + c.chart); return; }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
       if (c._open) {
-        const k = bars.findIndex((b) => dayOf(b.t + (tfd - 1) * 86400) === c.entry_date);
+        const k = bars.findIndex((b) => dayOf(barNextOpen(b.t, tfd) - 86400) === c.entry_date);   // short year-end bars too (audit #15)
         if (k < 0) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "This chart's data doesn't reach back to the entry"); $("#chartSide").innerHTML = ""; return; }
         E = k; entry = c.entry_close;
       }   // the bar that CLOSES on the entry date (12 Nov 2026 audit #4)
@@ -689,12 +700,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // Day counts run from the entry, which for a forming setup is the confirmation close, not today (12 Nov 2026 audit)
     // 12 Nov 2026 audit #5: every day line is placed by DATE. Future bars follow the chart's own rule
     // (2D+ bars restart on 1 January, so the last bar of a year can be short), never a fixed bar count.
-    const nextOpen = (t) => {
-      if (tfd === 1) return t + 86400;
-      const y = new Date(t * 1000).getUTCFullYear(), jan1 = Date.UTC(y, 0, 1) / 1000, nextJan = Date.UTC(y + 1, 0, 1) / 1000;
-      const n = jan1 + (Math.floor((t - jan1) / 86400 / tfd) + 1) * tfd * 86400;
-      return n >= nextJan ? nextJan : n;
-    };
+    const nextOpen = (t) => barNextOpen(t, tfd);
     const entryDay = forming && !(c && c._open) ? c.confirms_on : (c && c._open ? c.entry_date : "2024-09-22");
     const tEntry = Date.parse(entryDay + "T00:00:00Z") / 1000;
     const opens = bars.map((b) => b.t);

@@ -24,7 +24,7 @@ datasets and reports it.
    first 10 days -> rose 10%, +20% alongside) and datasets/holdcheck.csv (green / red on
    day 10) and marks each row against the 70% posting bar (WINMIN in
    refresh.py) on the exact share (reached10Exact). Jared 11 Nov: below 70% the signal's edge is
-   gone. These two datasets pool ETH signals on the walk-forward tier fixed on 1 Jan 2026, applied
+   gone. These two datasets pool ETH signals on the walk-forward tier fixed on 1 January of the current year, applied
    to every signal from 2016 (in-sample), all grades, and are labelled so.
 
 Entry quality only: there is no exit in the data, so none of this is a
@@ -143,7 +143,7 @@ def fade():
     hold = [{"check": r["check"], "n": int(r["n"]), "reached10_pct": int(r["reached10"]), "reached20_pct": int(r["reached20"]),
              "edge": "intact" if _x10(r) >= POST_BAR else "gone"}
             for r in rows("datasets/holdcheck.csv")]
-    return {"posting_bar_pct": POST_BAR, "sample": "ETH walk-forward tier as fixed on 1 Jan 2026, every signal from 2016, all grades (in-sample)", "early_dip": early, "day10": hold}
+    return {"posting_bar_pct": POST_BAR, "sample": "ETH walk-forward tier as fixed on 1 January of the current year, every signal from 2016, all grades (in-sample)", "early_dip": early, "day10": hold}
 
 
 def main():

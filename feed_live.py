@@ -330,7 +330,8 @@ def main():
     feed["odds_fade"] = {
         "label": LABEL,
         "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
-        "sample": "ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan 2026, applied to every signal from 2016 (refresh.py earlydip/holdcheck). In-sample: the tier was chosen on the outcomes of almost all of these signals. Measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
+        "tier_fixed_on": f"{now_utc().year}-01-01",
+        "sample": f"ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan {now_utc().year}, applied to every signal from 2016 (refresh.py earlydip/holdcheck). In-sample: the tier was chosen on the outcomes of almost all of these signals. Measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
         "edge_measured_on": "rose 10% after day 10 (days 11 to 60)",
         # rose10/20_after_day10_pct name the real window (days 11-60). The *_within60d_pct names are
         # kept, same values, because feed fields are never renamed or removed (FEED_SPEC); don't use them.
