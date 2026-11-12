@@ -1,13 +1,13 @@
 {
  "schema_version": 5,
- "generated_at": "2026-11-12T17:17:50Z",
+ "generated_at": "2026-11-12T17:51:18Z",
  "scored_as_of": "2026-11-12",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-12 17:17 UTC OK 23 subjects, 858 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-12",
-   "2026-11-12 17:17 UTC OK card cross-check, 24 cards match the ledger"
+   "2026-11-12 17:51 UTC OK 23 subjects, 858 reads, 36 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-12",
+   "2026-11-12 17:51 UTC OK card cross-check, 24 cards match the ledger"
   ],
   "all_passed": false,
   "steps": {
@@ -29,6 +29,7 @@
  "market_regime": "Bullish",
  "next_buy_date": "none ahead",
  "trades_a_year": "15 on average",
+ "signals_a_year": "15 on average",
  "cards": [],
  "example_card": null,
  "prints": [
@@ -618,6 +619,7 @@
    "asset": "ETH",
    "grade": "A+",
    "past_trades": 104,
+   "past_signals": 104,
    "rose10_within60d_pct": 86,
    "rose10_never_fell25_within60d_pct": 80,
    "rose20_within60d_pct": 75,
@@ -630,6 +632,7 @@
    "asset": "ETH",
    "grade": "A",
    "past_trades": 61,
+   "past_signals": 61,
    "rose10_within60d_pct": 74,
    "rose10_never_fell25_within60d_pct": 66,
    "rose20_within60d_pct": 62,
@@ -642,6 +645,7 @@
    "asset": "ETH",
    "grade": "B",
    "past_trades": 81,
+   "past_signals": 81,
    "rose10_within60d_pct": 69,
    "rose10_never_fell25_within60d_pct": 59,
    "rose20_within60d_pct": 53,
@@ -654,6 +658,7 @@
    "asset": "ETH",
    "grade": "C",
    "past_trades": 111,
+   "past_signals": 111,
    "rose10_within60d_pct": 67,
    "rose10_never_fell25_within60d_pct": 53,
    "rose20_within60d_pct": 43,
@@ -666,6 +671,7 @@
    "asset": "BTC",
    "grade": "A+",
    "past_trades": 33,
+   "past_signals": 33,
    "rose10_within60d_pct": 85,
    "rose10_never_fell25_within60d_pct": 76,
    "rose20_within60d_pct": 79,
@@ -678,6 +684,7 @@
    "asset": "BTC",
    "grade": "A",
    "past_trades": 81,
+   "past_signals": 81,
    "rose10_within60d_pct": 74,
    "rose10_never_fell25_within60d_pct": 70,
    "rose20_within60d_pct": 57,
@@ -690,6 +697,7 @@
    "asset": "BTC",
    "grade": "B",
    "past_trades": 136,
+   "past_signals": 136,
    "rose10_within60d_pct": 75,
    "rose10_never_fell25_within60d_pct": 67,
    "rose20_within60d_pct": 57,
@@ -702,6 +710,7 @@
    "asset": "BTC",
    "grade": "C",
    "past_trades": 312,
+   "past_signals": 312,
    "rose10_within60d_pct": 70,
    "rose10_never_fell25_within60d_pct": 60,
    "rose20_within60d_pct": 44,
@@ -714,6 +723,7 @@
    "asset": "ETH",
    "grade": "HTF divergence",
    "past_trades": 36,
+   "past_signals": 36,
    "rose10_within60d_pct": 78,
    "rose10_never_fell25_within60d_pct": 78,
    "rose20_within60d_pct": 72,
@@ -726,6 +736,7 @@
    "asset": "ETH",
    "grade": "no HTF divergence",
    "past_trades": 321,
+   "past_signals": 321,
    "rose10_within60d_pct": 74,
    "rose10_never_fell25_within60d_pct": 63,
    "rose20_within60d_pct": 56,
@@ -738,6 +749,7 @@
    "asset": "ETH",
    "grade": "diamond or prime dot",
    "past_trades": 135,
+   "past_signals": 135,
    "rose10_within60d_pct": 76,
    "rose10_never_fell25_within60d_pct": 69,
    "rose20_within60d_pct": 66,
@@ -750,6 +762,7 @@
    "asset": "ETH",
    "grade": "no diamond or prime dot",
    "past_trades": 222,
+   "past_signals": 222,
    "rose10_within60d_pct": 73,
    "rose10_never_fell25_within60d_pct": 62,
    "rose20_within60d_pct": 53,
@@ -759,7 +772,7 @@
   }
  ],
  "candle_check": {
-  "checked_at": "2026-11-12T17:17:27+00:00",
+  "checked_at": "2026-11-12T17:51:02+00:00",
   "cross_mode": "enforce",
   "structural_ok": true,
   "kraken": {
@@ -907,6 +920,7 @@
    {
     "band": "shallower than -2%",
     "past_trades": 34,
+    "past_signals": 34,
     "rose10_after_day10_pct": 91,
     "rose20_after_day10_pct": 85,
     "rose10_within60d_pct": 91,
@@ -916,6 +930,7 @@
    {
     "band": "-2% to -5%",
     "past_trades": 50,
+    "past_signals": 50,
     "rose10_after_day10_pct": 92,
     "rose20_after_day10_pct": 88,
     "rose10_within60d_pct": 92,
@@ -925,6 +940,7 @@
    {
     "band": "-5% to -10%",
     "past_trades": 36,
+    "past_signals": 36,
     "rose10_after_day10_pct": 89,
     "rose20_after_day10_pct": 72,
     "rose10_within60d_pct": 89,
@@ -934,6 +950,7 @@
    {
     "band": "-10% to -20%",
     "past_trades": 29,
+    "past_signals": 29,
     "rose10_after_day10_pct": 79,
     "rose20_after_day10_pct": 59,
     "rose10_within60d_pct": 79,
@@ -943,6 +960,7 @@
    {
     "band": "worse than -20%",
     "past_trades": 19,
+    "past_signals": 19,
     "rose10_after_day10_pct": 42,
     "rose20_after_day10_pct": 37,
     "rose10_within60d_pct": 42,
@@ -954,6 +972,7 @@
    {
     "check": "green on day 10",
     "past_trades": 104,
+    "past_signals": 104,
     "rose10_after_day10_pct": 96,
     "rose20_after_day10_pct": 88,
     "rose10_within60d_pct": 96,
@@ -963,6 +982,7 @@
    {
     "check": "red on day 10",
     "past_trades": 64,
+    "past_signals": 64,
     "rose10_after_day10_pct": 63,
     "rose20_after_day10_pct": 48,
     "rose10_within60d_pct": 63,
