@@ -1,3 +1,3 @@
-2026-11-13 00:14:34 26 perpetual markets selected
-2026-11-13 00:15:24 BTC: 13 markets from 2026-11-05; OI days 9, funding days 9, long/short markets 5
-2026-11-13 00:16:21 ETH: 13 markets from 2026-11-05; OI days 9, funding days 9, long/short markets 5
+2026-11-13 00:48:01 26 perpetual markets selected
+2026-11-13 00:48:51 BTC: 13 markets from 2026-11-06; OI days 8, funding days 8, long/short markets 5
+2026-11-13 00:49:48 ETH: 13 markets from 2026-11-06; OI days 8, funding days 8, long/short markets 5
