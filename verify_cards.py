@@ -156,6 +156,13 @@ def main():
         exact = r['surv10'] == 'yes'; rounded = float(r['bestMove']) >= 10 and float(r['maxDrawdown']) > LIQ
         if exact != rounded and abs(float(r['maxDrawdown']) - LIQ) > 0.05 and abs(float(r['bestMove']) - 10) > 0.05:
             bad.append(f"ledger {r['chart']} {r['entry']}: surv10 column disagrees with its own figures")
+    # every live (open) signal must have its own card: without it the feed would carry a live signal with no
+    # card (12 Nov 2026 audit #19; that happened only if cards_open.csv was missing while open.csv existed)
+    open_path = os.path.join(OUT, 'open.csv')
+    have = {(c['chart'], c['confirms']) for c in cards}
+    for o in (list(csv.DictReader(open(open_path))) if os.path.exists(open_path) else []):
+        if (o['chart'], o['entry']) not in have:
+            bad.append(f"{o['chart']} {o['entry']}: live signal has no card in cards_open.csv")
     status = os.path.join(OUT, 'stack_status.txt')
     if bad:
         open(status, 'a').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED card cross-check: ' + '; '.join(bad) + '\n')

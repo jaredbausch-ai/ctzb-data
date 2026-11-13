@@ -13,4 +13,4 @@ path, so the deployed version serves the same file and proxies:
 | `data/example_ETH-2D-2024-09-22.json` | this folder (the example's chart bars, embedded in the worker) |
 
 Deployed as the `ctzb-site` Worker (`cloudflare/ctzb-site-worker.js`, built by `cloudflare/build_site.py`;
-deploy history in `docs/SITE_CHANGES.md`). Every number on the page comes from those files; nothing is typed in.
+deploy history in `docs/SITE_CHANGES.md`). Every figure on the page comes from those files. What the page types is definitions, not figures: the +10% level, the 25.3% line (3.3x with 5% maintenance), the 60-day window, 2020 as the first year of the per-year average, and the worked example's date.

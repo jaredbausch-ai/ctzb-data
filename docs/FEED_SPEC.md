@@ -171,7 +171,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   (days 11 to 60); the day-10 rows group by the day-10 daily close. Labelled as a general explainer.
 - `past_paths`: quantiles taken on exact path values, rounded once.
 - `cards[].low_day` (12 Nov 2026, audit #4): the calendar day the low printed. `low_date` stays the trough BAR's open
-  date, which on a 2D+ chart can be a day earlier.
+  date, which on a 2D+ chart can be up to one bar length minus a day earlier (1 day on 2D, 2 on 3D, 4 on 5D).
 - The walk-forward tier (refresh.py `select_tier(upto=...)`, used by `odds_fade` and forward.csv's `tier`) counts only
   signals whose 60-day outcome had closed before 1 January of the year in question (it used to count signals dated
   before 1 January whose outcomes ended after it).

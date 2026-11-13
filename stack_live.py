@@ -22,6 +22,10 @@ Writes datasets/:
   prints.csv    every chart: last signals and anything forming, with confirm dates
   windows.csv   every confluence window open now: which print opened it, what it
                 applies to, and when it closes
+  cards.csv     one member card per forming low (graded charts, gate on at the trough, non-empty sample)
+  open.csv      every signal in its 60 days on a graded chart: day count, marks, best / worst, edge status
+  cards_open.csv     each of those signals' own card
+  cards_example.csv  the member site's worked example, from what was known at its alert
 Historical rates for entry quality only. Computed signals, never fills.
   python3 -I stack_live.py
 """

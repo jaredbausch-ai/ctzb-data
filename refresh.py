@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Rescore every CTZB dashboard dataset from the daily candle repo.
 
-Reads data/ETH_{1,2,3,5,8}D.csv and data/BTC_2D.csv as written by fetch.py,
-runs the CTZB engine over each chart, and writes the ten dataset CSVs the
-"ETH Setup Odds" dashboard reads.
+Reads data/ETH_{1,2,3,5,8}D.csv and data/BTC_2D.csv (the regime gate) as written by fetch.py, plus both
+assets' 1D candles for the forward windows, runs the CTZB engine over each chart, and writes the dataset
+CSVs the "ETH Setup Odds" dashboard and the feed read (tier, buydates, live, forward, earlydip, holdcheck,
+status and the rest; see each ds_* function).
 
 The 70%+ tier is DERIVED, not stored, so nothing has to be committed back
 and nothing drifts. --tier picks how:

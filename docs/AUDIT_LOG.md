@@ -508,6 +508,45 @@ defects, all files arriving cut short. Docs vs code: 2. Not a clean run. Report:
 exact), feed tests 15 + 28 + 15, worker tests, Action-environment test, gate-off and no-today-bar replays,
 year-end replays 8/8, page states 25/25, fetch tests 4/4, a replay of 15 Aug 2020 (no empty-sample card), fire
 drills 58/58.
+**Pipeline on GitHub with the round-18 code:** dispatched run 43356294325 passed every step.
+
+## Round 19 — 12 Nov, 22:50 ET (audit #19, a new independent agent)
+
+**Found: nothing wrong on real data.**
+
+| Scope | Comparisons | Disagreements |
+|---|---|---|
+| Both frozen states (data and rendered page) | 61,795 | 0 |
+| 60 replays of other real dates, Sep 2020 – Nov 2026 | 1,392,325 | 0, and no pipeline step failed |
+| Envelope test (clock a day ahead of the candles) | 7 | 0 (fails closed) |
+| 51 deliberately broken page states | 186 | 4 defects |
+| Docs vs code | — | 0 on any figure, threshold, window or rounding rule; 5 loose statements |
+
+The replays covered 22 filter-off runs, 12 first/last days of a filter episode, 9 year-ends, 18 with a top-grade
+forming low, 13 quiet days, 9 with a signal on day 60, 7 on day 1. The checker caught 27 of 28 planted
+single-figure errors; the 28th changes no displayed digit. Report: `analysis/audit19_2026-11-12/AUDIT19.md`.
+
+**This is the first audit with zero issues on the two frozen states AND zero on replays of real dates.** It is
+not zero on everything: the four defects are in states a working pipeline does not produce, and five doc
+sentences were loose. Whether that counts as a clean run is Jared's call (asked 12 Nov, 22:25 ET).
+
+**Changed** (commits 52a5811, 43c3570 and this round's):
+- **A live setup whose own card is missing from the feed**: the page built a stand-in card from pooled figures
+  (another table's edge on a BTC signal, "On track" for a signal the feed marks edge lost). It now shows "Card
+  unavailable" and no figures, and makes no status guess of its own. The pipeline's card check also fails the
+  run if any live signal lacks a card, so the feed never carries one.
+- **Chart file one bar behind the feed**: the last candle is labelled "Latest bar · date", not "Today".
+- **Lead trader with trades only in the other asset**: "not in", not "out".
+- **Price axis**: enough decimals at any price level (a sub-$5 asset read "$0" on every gridline; not reachable
+  for BTC or ETH).
+- Docs: refresh.py and stack_live.py docstrings list what they read and write; FEED_SPEC `low_date` (up to a bar
+  length minus a day earlier); README (the page types definitions, not figures); How to read (a signal counts if
+  the filter was on the day its low printed; the header shows the filter today).
+- `tests/test_page_states.py` now 26 checks.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), verify_cards (22
+exact; fails when cards_open.csv is removed), feed tests 15 + 28 + 15, worker tests, Action-environment test,
+gate-off and no-today-bar replays, year-end replays 8/8, page states 26/26, fetch tests 4/4, fire drills 58/58.
 
 ---
 
