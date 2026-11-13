@@ -124,10 +124,13 @@ def history(path, symbols, start, extra=None):
 
 
 def write(path, cols, rows):
-    with open(path, 'w', newline='') as f:
+    # whole file or nothing (13 Nov 2026 audit #24): a run killed part-way leaves the old file, never a cut one
+    tmp = path + '.tmp'
+    with open(tmp, 'w', newline='') as f:
         w = csv.writer(f); w.writerow(cols)
         for r in rows:
             w.writerow(r)
+    os.replace(tmp, path)
 
 
 def main():

@@ -104,11 +104,12 @@ def read_ts(path):
 
 def write_ts(path, bars):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", newline="") as f:
+    with open(path + ".tmp", "w", newline="") as f:   # whole file or nothing (13 Nov 2026 audit #24)
         w = csv.writer(f, lineterminator="\n")
         w.writerow(["time", "open", "high", "low", "close", "volume"])
         for t in sorted(bars):
             w.writerow([t, *bars[t]])
+    os.replace(path + ".tmp", path)
     last = dt.datetime.fromtimestamp(max(bars), dt.timezone.utc)
     print(f"  {os.path.basename(path):24s} {len(bars):6d} bars  through {last:%Y-%m-%d %H:%M}")
 
@@ -341,12 +342,13 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
 
 def write(path, bars):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", newline="") as f:
+    with open(path + ".tmp", "w", newline="") as f:   # whole file or nothing (13 Nov 2026 audit #24)
         w = csv.writer(f)
         w.writerow(["time", "open", "high", "low", "close", "volume"])
         for d in sorted(bars):
             ts = int(dt.datetime.combine(d, dt.time(), dt.timezone.utc).timestamp())
             w.writerow([ts, *bars[d]])
+    os.replace(path + ".tmp", path)
     print(f"  {os.path.basename(path):24s} {len(bars):5d} bars  through {max(bars)}")
 
 

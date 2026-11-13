@@ -26,11 +26,16 @@ def ok(label, cond, detail=''):
     results.append(bool(cond)); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f'  -- {detail}' if not cond and detail else ''))
 
 
+CUT = {'n': 0}   # serve chart files missing their last n bars (a file from an older run, or cut short)
+
+
 def candles(name):
     a, tf = name.split('_')
     p = f'{R}/datasets/candles_{a.lower()}_{tf.lower()}.csv'
     if not os.path.exists(p): return None
-    return json.dumps({'chart': f'{a} {tf}', 'bars': [{'t': float(r['time']), 'o': float(r['open']), 'h': float(r['high']), 'l': float(r['low']), 'c': float(r['close'])} for r in csv.DictReader(open(p))]})
+    rows = list(csv.DictReader(open(p)))
+    rows = rows[:len(rows) - CUT['n']] if CUT['n'] else rows
+    return json.dumps({'chart': f'{a} {tf}', 'bars': [{'t': float(r['time']), 'o': float(r['open']), 'h': float(r['high']), 'l': float(r['low']), 'c': float(r['close'])} for r in rows]})
 
 
 DELAY_JS = """
@@ -99,6 +104,14 @@ with sync_playwright() as pw:
         pg.clock.run_for(3500); pg.wait_for_timeout(800)
         ok('...and draws once it arrives, with no error', 'Loading' not in pg.evaluate("Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' ')") and not errs, str(errs[:1]))
         pg.close()
+    # 5. chart files from an older run (missing their last 3 bars): never drawn for a live or forming setup (audit #24)
+    if FEED['cards'] or any(o.get('grade') == 'A+' for o in FEED['open_signals']):
+        CUT['n'] = 3
+        pg, errs = page(b)
+        pg.goto('http://site.test/#chart'); pg.wait_for_timeout(1200)
+        svg = pg.evaluate("Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' ')")
+        ok('chart file from an older run (last 3 bars missing): "unavailable", not drawn', 'unavailable' in svg and '$' not in svg and not errs, svg[:140])
+        pg.close(); CUT['n'] = 0
     # 4. a page left open
     pg, errs = page(b, age_h=4.9)
     pg.goto('http://site.test/#now'); pg.wait_for_timeout(800)
