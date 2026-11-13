@@ -650,9 +650,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const f = S.feed;
     const on = f && /bull/i.test(f.market_regime || "");
     $("#filterPill").classList.toggle("off", !on);
-    $("#filterText").textContent = f ? `Market filter: ${on ? "on" : "off"}` : "Feed unavailable";
+    const known = f && typeof f.market_regime === "string" && f.market_regime !== "";   // a fail-closed feed carries no regime
+    $("#filterText").textContent = !f ? "Feed unavailable" : known ? `Market filter: ${on ? "on" : "off"}` : "Market filter: unavailable";
     $("#forming").innerHTML = "";
-    $("#rvAsof").textContent = f ? `${dateLong(f.scored_as_of)} (feed ${f.generated_at.slice(11, 16)} UTC)` : "unavailable";
+    $("#rvAsof").textContent = f ? `${f.scored_as_of ? dateLong(f.scored_as_of) : "unavailable"} (feed ${f.generated_at.slice(11, 16)} UTC)` : "unavailable";
     const closedThrough = f && f.generated_at ? new Date(Date.parse(f.generated_at) - 86400000).toISOString().slice(0, 10) : null;
     $("#feedState").textContent = f ? `Daily candles closed through ${dateLong(closedThrough)} · updated ${f.generated_at.slice(11, 16)} UTC · checks ${f.checks && f.checks.all_passed ? "passed" : "FAILED, cards held back"}` : "";
   }
@@ -673,15 +674,21 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   async function candlesFor(chart) { const k = chart.replace(" ", "_"); if (!(k in CANDLES)) CANDLES[k] = await get(`data/candles/${k}.json`); return CANDLES[k]; }
   const dayOf = (t) => new Date(t * 1000).toISOString().slice(0, 10);
 
+  // A chart that can't be drawn leaves nothing of the setup charted before it: title and subtitle are set for
+  // THIS setup, and the side box, the cloud and the view toggle are cleared (12 Nov 2026 audits #16, #17)
+  function blankChart(title, sub, msg) {
+    const svg = $("#chartSvg");
+    svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, msg);
+    $("#chTitle").textContent = title; $("#chSub").textContent = sub;
+    $("#chartSide").innerHTML = ""; $("#cloudSvg").innerHTML = ""; $("#cloudNote").textContent = ""; $("#cloudSub").textContent = ""; $(".toggle").hidden = true;
+  }
   async function renderChart() {
     const svg = $("#chartSvg"), e = edgeRule(), c = selected();
     let m, bars, E, entry, tfd, forming = false, lowIdx = null, confIdx = null;
     if (!c) {
       m = cardExample(); const ex = S.example;
       if (!ex || !m) {
-        svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable");
-        $("#chTitle").textContent = "ETH · 2-day · example"; $("#chSub").textContent = "The example's chart data couldn't be loaded.";
-        $("#chartSide").innerHTML = ""; return;
+        blankChart("ETH · 2-day · example", "The example's chart data couldn't be loaded.", "Chart data unavailable"); return;
       }
       bars = ex.bars; E = ex.entry_index; entry = ex.entry_close; tfd = 2;
       $("#chTitle").textContent = "ETH · 2-day · example: past confirmed setup";
@@ -690,15 +697,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
       if (!cd) {
-        svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable for " + c.chart);
-        $("#chTitle").textContent = c.chart.replace(" ", " · "); $("#chSub").textContent = "This chart's candles couldn't be loaded.";
-        $("#chartSide").innerHTML = ""; $("#cloudSvg").innerHTML = ""; $("#cloudNote").textContent = ""; $("#cloudSub").textContent = ""; $(".toggle").hidden = true;
-        return;
+        blankChart(c.chart.replace(" ", " · "), "This chart's candles couldn't be loaded.", "Chart data unavailable for " + c.chart); return;
       }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
       if (c._open) {
         const k = bars.findIndex((b) => dayOf(barNextOpen(b.t, tfd) - 86400) === c.entry_date);   // short year-end bars too (audit #15)
-        if (k < 0) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "This chart's data doesn't reach back to the entry"); $("#chartSide").innerHTML = ""; return; }
+        if (k < 0) { blankChart(`${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60`, `Confirmed ${dateLong(c.entry_date)} · entry close ${money(c.entry_close)}.`, "This chart's data doesn't reach back to the entry"); return; }
         E = k; entry = c.entry_close;
       }   // the bar that CLOSES on the entry date (12 Nov 2026 audit #4)
       m.entry = entry;

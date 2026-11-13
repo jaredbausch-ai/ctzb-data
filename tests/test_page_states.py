@@ -85,12 +85,15 @@ def main():
         # unknown must not read as "none" (12 Nov 2026 audit #16)
         held = copy.deepcopy(FEED); held.update(cards_withheld=True, cards=[], open_signals=[])
         t_down, _ = render(pw, None, views=("now",)); t_held, _ = render(pw, held, views=("now",)); t_led, _ = render(pw, FEED, views=("record", "now"), ledger=None)
+        fc = copy.deepcopy(held); fc.update(market_regime=None, scored_as_of=None)   # what feed_live writes when it fails closed
+        t_fc, e_fc = render(pw, fc, views=("now",))
         nomiss = copy.deepcopy(FEED)
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         t_nm, e_nm = render(pw, nomiss, views=("now",))
         for label, cond, detail in [
             ("feed down: never says there are no live setups", "No live top-grade setups" not in t_down["now"] and "No open top-grade setup" not in t_down["now"] and "Feed unavailable" in t_down["now"], ""),
             ("held back: never says there are no live setups", "No live top-grade setups" not in t_held["now"] and "No open top-grade setup" not in t_held["now"] and "Held back" in t_held["now"], ""),
+            ("fail-closed feed: the filter and the scored date read unavailable, not off", "Market filter: unavailable" in t_fc["now"] and "Market filter: off" not in t_fc["now"] and not BAD.search(t_fc["now"]) and not e_fc, t_fc["now"][:160].replace("\n", " ")),
             ("ledger missing: Past signals says unavailable, not 0 signals", "0 signals" not in t_led["record"] and "Past signals unavailable" in t_led["record"], t_led["record"][:200].replace("\n", " ")),
             ("no misses: the card says so, with no placeholder or error", "none missed" in t_nm["now"] and not BAD.search(t_nm["now"]) and not e_nm, str(e_nm[:1])),
         ]:
