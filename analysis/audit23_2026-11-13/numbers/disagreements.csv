@@ -1,0 +1,2 @@
+state,location,label,shown,yours,ok,cause,group
+replay 2026-01-01 (04:14Z),"feed next_buy_date (status.csv ""Next buy date""; not read by the member page)",date the next forming ETH tier low would confirm (FEED_SPEC),2026-01-06,"2026-01-10 (ETH 5D low of 2025-12-22 confirms at the close of the 6-10 Jan bar; its trough is also gate-off, so it cannot confirm as a signal)",NO,"refresh.ds_buy uses last bar open + step x bars needed = the confirmation bar OPEN date, fixed step (ignores 1 Jan restart), no gate check; outside the declared member-facing list",B-outside

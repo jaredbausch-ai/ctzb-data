@@ -748,6 +748,39 @@ alerts 30/30, feed extras 28/28, candle check 57/57, run seal 18/18, Action-envi
 
 ---
 
+## Round 23 — 13 Nov, 10:45–12:40 ET (audit #23: three independent agents at once)
+
+Scored on Jared's definition (real data, docs, real-life damage; hand-forged contradictions are hardening only).
+**Not clean:** the docs and damage parts both found issues.
+
+| Part | Checked | Findings |
+|---|---|---|
+| Numbers on real data | 2 frozen states + 286 replayed dates, 5,478,387 comparisons (147,495 on the page) | **0** on anything a member sees. 1 in a feed field the page does not read: `next_buy_date` was the confirmation bar's open date, not its close |
+| Real-life damage | 1,125 states (135 page, 990 pipeline) | 12 page, 18 pipeline (none changed a member figure; the pipeline ones changed the operator dashboard's reads) |
+| Docs against code | 56 documents, about 690 statements | 43 (6 wrong, 9 stale, 24 loose, 4 reading as trades); 2 of them were stale commit ids in this log and SITE_CHANGES, written before a rebase |
+
+Reports: `analysis/audit23_2026-11-13/`.
+
+**Changed** (commits 3c45354, 404d32a, cf223d9, ca2ee02, PENDING_23):
+- *Pipeline:* 4H/12H files must exist, be on their own timeframe and be their asset; the long/short, open-interest
+  and BTC put/call series are checked whole (first day, no gaps, values in range, current) and sealed; every
+  derivatives file must hold its own asset's markets; funding must start on its first day; `next_buy_date` is the
+  confirmation close date.
+- *Page:* "Loading" states for a slow feed, a slow chart file and a slow example file; a chart file arriving
+  after the member picked another setup is not drawn; a forming chart file must close at the card's latest price;
+  the stale warning appears on a page left open; a card's sample must state its size; a feed with no odds-fade
+  section no longer throws.
+- *Docs:* all 43 corrected; stale commit ids in AUDIT_LOG and SITE_CHANGES replaced (7 of them, rounds 7-22).
+  From now on a commit id is written only after the commit is pushed.
+- *Tests:* candle check 81 (was 57), new `tests/test_page_timing.py` (7).
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), feed alerts 30/30,
+feed extras 28/28, candle check 81/81, run seal 18/18, page states 44/44, page timing 7/7 on two states,
+Action-environment test, year-end replays 8/8, fetch tests 4/4, gate-off and no-today-bar replays, worker tests
+all pass, fire drills 58/58; a replay of 1 Jan 2026 gives the ETH 5D buy date 10 Jan, its confirmation day.
+
+---
+
 ## Deliberately left alone (definitional notes, not issues)
 
 - **Flash-print clamp.** A $0.06 BTC low on 15 Apr 2017 (and ETH's $0.10 GDAX wick on 21 Jun 2017)

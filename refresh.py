@@ -323,7 +323,13 @@ def ds_buy(ch, stats, dates, today, outdir):
         p = c["prov"]
         if not p:
             continue
-        conf = c["D"][-1] + dt.timedelta(days=c["step"] * p["need"])
+        # the day the confirmation bar CLOSES (13 Nov 2026 audit #23: this was the bar's open date, by a fixed
+        # step, so it ran early on 2D+ charts and across the 1 January restart). 2D+ bars restart on 1 January.
+        nxt = lambda d: min(d + dt.timedelta(days=c["step"]), dt.date(d.year + 1, 1, 1))
+        o = c["D"][-1]
+        for _ in range(p["need"]):
+            o = nxt(o)
+        conf = nxt(o) - dt.timedelta(days=1)
         best, bt = None, None
         for t in p["tags"]:
             k = (name, t)

@@ -167,7 +167,15 @@ def _row_problems(name, rows, step):
 FUNDING_FIRST = dt.date(2020, 1, 21)
 
 
-def _series_problems(path, name, col, first, lo, hi, blank_ok, today):
+def _market_columns_ok(header, asset):
+    """Per-market columns (after date, the aggregate columns and n_markets) are that asset's markets: ETH-PERP.C,
+    BTCUSDT.6, pf_xbtusd.K and so on. A file of the other asset saved under this name fails (13 Nov 2026 audit #23)."""
+    marks = {"ETH": ("ETH", "pf_eth"), "BTC": ("BTC", "XBT", "pf_xbt")}[asset]
+    mk = [h for h in header if h not in ("date", "n_markets") and not h.startswith(("funding_", "ls_ratio", "oi_usd"))]
+    return all(any(k.upper() in h.upper() for k in marks) for h in mk)
+
+
+def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None):
     """One daily series: present, starting on its first day, no day missing or repeated, every value a number in
     (lo, hi) (a blank allowed only where the source has none, e.g. put/call on a day without trades), and current."""
     if not os.path.exists(path):
@@ -182,6 +190,8 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today):
     if not days:
         return [f"{name} is empty"]
     bad = []
+    if asset and not _market_columns_ok(list(rows[0]), asset):
+        bad.append(f"{name}: its market columns are not {asset}'s: a file of another asset?")
     if days[0] != first:
         bad.append(f"{name} starts {days[0]}, expected {first}: history is missing")
     if any((days[i] - days[i - 1]).days != 1 for i in range(1, len(days))):
@@ -240,7 +250,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
         for rel, col, first, lo, hi, blank_ok in [(f"derivs/{a}_lsratio_daily.csv", "ls_ratio_mean", "2020-05-31", 0, 20, False),
                                                   (f"derivs/{a}_oi_daily.csv", "oi_usd_total", "2022-09-13", 0, 1e12, False)] + \
                 ([("options/BTC_pcr_daily.csv", "pcr_amt", "2016-11-01", 0, 1e6, True)] if a == "BTC" else []):
-            bad += _series_problems(os.path.join(data_dir, rel), rel, col, dt.date.fromisoformat(first), lo, hi, blank_ok, today)
+            bad += _series_problems(os.path.join(data_dir, rel), rel, col, dt.date.fromisoformat(first), lo, hi, blank_ok, today,
+                                    asset=a if rel.startswith("derivs/") else None)
         pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")
         if os.path.exists(pf):
             with open(pf, newline="") as f:
@@ -250,6 +261,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                 vals = [float(r["funding_mean"]) for r in fr]
             except (KeyError, TypeError, ValueError):
                 bad.append(f"{a}_funding_daily: a row has no readable date or funding_mean"); days = vals = []
+            if fr and not _market_columns_ok(list(fr[0]), a):
+                bad.append(f"{a}_funding_daily: its market columns are not {a}'s: a file of another asset?")
             if fr and days:
                 if any((days[i] - days[i - 1]).days != 1 for i in range(1, len(days))):
                     bad.append(f"{a}_funding_daily: a day is missing, repeated or out of order")

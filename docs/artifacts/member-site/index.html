@@ -240,7 +240,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     <section class="view" id="view-chart" aria-labelledby="tab-chart" hidden>
       <div class="rec-head" style="margin-bottom: 12px">
         <div style="flex: 1 1 320px; min-width: 0">
-          <div class="disp" style="font-weight: 700; color: var(--live)" id="chTitle">ETH · 2-day · past confirmed setup</div>
+          <div class="disp" style="font-weight: 700; color: var(--live)" id="chTitle">Loading…</div>
           <div class="small" id="chSub"></div>
         </div>
         <div class="toggle" role="group" aria-label="Chart view">
@@ -889,6 +889,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!c) {
       m = cardExample(); const ex = S.example;
       if (!ex || !m) {
+        if (S.loading && S.loading.example && feedHealth() === "ok") { blankChart("ETH · 2-day · example", "", "Loading the example's chart…"); return; }   // audit #23: said "couldn't be loaded" while loading
         const h = feedHealth();
         blankChart("ETH · 2-day · example", h === "down" ? "Can't reach the data right now." : h === "held" ? "A data check failed on the latest run; setups are held back." : "The example's chart data couldn't be loaded.",
           h === "down" ? "Data unavailable" : h === "held" ? "Setups held back" : "Chart data unavailable"); return;
@@ -898,6 +899,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       $("#chSub").textContent = `Confirmed ${dateLong("2024-09-22")} · entry close ${money(entry)} · a past computed signal. Its odds use only the signals whose 60 days had closed by then, as a member would have seen them.`;
     } else {
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
+      // the previous setup's chart never stays up while this one's file loads (13 Nov 2026 audit #23)
+      if (!(c.chart.replace(" ", "_") in CANDLES)) blankChart(c.chart.replace(" ", " · "), "", "Loading " + c.chart + "…");
       const cd = await candlesFor(c.chart);
       if (tok !== S.chartTok) return;   // the member picked another setup or view while this file loaded
       // too few bars, or a bar that isn't numbers, is a broken file, not a chart (audit #18)
@@ -1211,6 +1214,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     show(location.hash.slice(1) || "now");
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitToScreen);
     const redraw = () => { renderCard(); renderPrev(); if (!$("#view-chart").hidden) renderChart(); if (!$("#view-record").hidden) renderRecord(); requestAnimationFrame(fitToScreen); };
+    // a page left open: re-check the data's age every minute, so the stale warning appears without a reload
+    // (13 Nov 2026 audit #23)
+    let wasStale = !!staleNote();
+    setInterval(() => { const now = !!staleNote(); if (now !== wasStale) { wasStale = now; renderHeader(); renderCard(); requestAnimationFrame(fitToScreen); } }, 60e3);
     pTrades.then((trades) => {
       S.trades = (trades !== null && tradesProblems(trades).length === 0) ? trades : null;   // a lead-trader file that fails the check reads "unavailable"
       S.loading.trades = false; renderLead(); renderCard();

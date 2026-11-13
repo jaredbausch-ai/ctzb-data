@@ -1,0 +1,2033 @@
+[
+{
+"date": "2020-09-29",
+"clock": "2020-09-29T00:00:30Z",
+"kinds": [
+"clock 00:00:30"
+]
+},
+{
+"date": "2020-10-20",
+"clock": "2020-10-20T00:05:00Z",
+"kinds": [
+"clock 00:05:00"
+]
+},
+{
+"date": "2020-11-20",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2020-11-21",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2020-12-18",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2020-12-24",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2020-12-25",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2020-12-26",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2020-12-27",
+"clock": null,
+"kinds": [
+"day after a confirmation",
+"year-end"
+]
+},
+{
+"date": "2020-12-28",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2020-12-29",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2020-12-30",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2020-12-31",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2021-01-01",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2021-01-02",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)",
+"year-end"
+]
+},
+{
+"date": "2021-01-03",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)",
+"year-end"
+]
+},
+{
+"date": "2021-01-04",
+"clock": null,
+"kinds": [
+"day 60 in progress",
+"top-grade forming (candidate)",
+"year-end"
+]
+},
+{
+"date": "2021-01-05",
+"clock": null,
+"kinds": [
+"day after a confirmation",
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-03-19",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-03-20",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-04-02",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2021-04-03",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2021-04-07",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2021-06-06",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2021-06-07",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2021-06-08",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-09",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-10",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-11",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-12",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-13",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-14",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-15",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-16",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-17",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-06-22",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2021-06-25",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2021-06-28",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2021-07-03",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2021-07-14",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2021-08-05",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2021-08-17",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"nothing live or forming"
+]
+},
+{
+"date": "2021-08-18",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2021-08-19",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-08-20",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-08-21",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-08-22",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-08-23",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-08-24",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-08-25",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2021-09-18",
+"clock": "2021-09-18T00:20:00Z",
+"kinds": [
+"clock 00:20:00"
+]
+},
+{
+"date": "2021-09-30",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2021-10-01",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2021-10-20",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2021-10-21",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2021-10-22",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2021-12-14",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-12-15",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-12-26",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2021-12-27",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2021-12-28",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2021-12-29",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2021-12-30",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2021-12-31",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-01-01",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-01-02",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-01-03",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-01-04",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-01-07",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2022-01-08",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2022-01-20",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2022-01-21",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2022-01-25",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2022-01-26",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2022-01-27",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-01-28",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-01-29",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-01-30",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-01-31",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-01",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-02",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-03",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-04",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-05",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-06",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-07",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-08",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-09",
+"clock": null,
+"kinds": [
+"filter off",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-09",
+"clock": "2022-02-09T01:00:00Z",
+"kinds": [
+"clock 01:00:00"
+]
+},
+{
+"date": "2022-02-10",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-11",
+"clock": null,
+"kinds": [
+"filter off",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-12",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-13",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-14",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-15",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-16",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-02-16",
+"clock": "2022-02-16T03:59:59Z",
+"kinds": [
+"clock 03:59:59"
+]
+},
+{
+"date": "2022-02-17",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2022-03-04",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-03-29",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-04-26",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2022-05-11",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-05-31",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-06-12",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2022-06-14",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-06-25",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-06-30",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-07-17",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2022-08-01",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2022-08-16",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-08-17",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2022-08-31",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-09-08",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-09-26",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-10-26",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2022-11-08",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2022-11-17",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-11-18",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-11-22",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-11-28",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-12-09",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-12-26",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-12-27",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-12-28",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-12-29",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-12-30",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2022-12-31",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-01-01",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-01-02",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-01-03",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-01-04",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-01-21",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2023-01-23",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"filter off"
+]
+},
+{
+"date": "2023-01-24",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2023-01-25",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2023-01-26",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2023-01-27",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2023-01-29",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2023-02-21",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2023-02-27",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-02-28",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-03-30",
+"clock": "2023-03-30T06:30:00Z",
+"kinds": [
+"clock 06:30:00"
+]
+},
+{
+"date": "2023-04-21",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2023-04-22",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2023-05-01",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2023-05-29",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-05-30",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-06-08",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-06-09",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-06-20",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-06-21",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-09-28",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-09-29",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-10-09",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2023-11-04",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-11-05",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-11-25",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-11-26",
+"clock": null,
+"kinds": [
+"day 60 in progress",
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-11-27",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2023-11-30",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2023-12-01",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2023-12-03",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2023-12-07",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-12-08",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-12-09",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2023-12-26",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-12-27",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-12-28",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-12-29",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-12-30",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2023-12-31",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-01-01",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-01-02",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-01-03",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-01-04",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-01-09",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-01-10",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-02-06",
+"clock": null,
+"kinds": [
+"day 60 in progress",
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-02-07",
+"clock": null,
+"kinds": [
+"day after day 60 closes",
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-02-19",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-02-20",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-03-02",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-03-03",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-03-12",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-03-13",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-05-22",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-05-23",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-05-24",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2024-05-28",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2024-07-22",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-07-23",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-09-18",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-09-19",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-09-21",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-09-22",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-09-23",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2024-10-15",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-10-16",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-10-19",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-10-20",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-11-10",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-11-11",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-11-19",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-11-20",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-11-22",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-11-23",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2024-12-15",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-12-16",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-12-19",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-12-20",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-12-26",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-12-27",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-12-28",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-12-29",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-12-30",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2024-12-31",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-01-01",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-01-02",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-01-03",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-01-04",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-01-06",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2025-01-07",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2025-01-24",
+"clock": "2025-01-24T12:00:00Z",
+"kinds": [
+"clock 12:00:00"
+]
+},
+{
+"date": "2025-02-04",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2025-02-05",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2025-04-15",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2025-04-18",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2025-04-19",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2025-04-23",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2025-04-24",
+"clock": null,
+"kinds": [
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2025-05-11",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2025-06-02",
+"clock": "2025-06-02T16:13:00Z",
+"kinds": [
+"clock 16:13:00"
+]
+},
+{
+"date": "2025-07-09",
+"clock": null,
+"kinds": [
+"day 60 in progress",
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2025-07-10",
+"clock": null,
+"kinds": [
+"day after day 60 closes",
+"top-grade forming (candidate)"
+]
+},
+{
+"date": "2025-10-07",
+"clock": null,
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2025-10-28",
+"clock": "2025-10-28T20:43:00Z",
+"kinds": [
+"clock 20:43:00"
+]
+},
+{
+"date": "2025-11-08",
+"clock": "2025-11-08T23:59:00Z",
+"kinds": [
+"clock 23:59:00"
+]
+},
+{
+"date": "2025-11-27",
+"clock": null,
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2025-11-28",
+"clock": null,
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2025-12-03",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2025-12-04",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2025-12-05",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-06",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-07",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-08",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-09",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-10",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-11",
+"clock": null,
+"kinds": [
+"filter off",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-12",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-13",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-14",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-15",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-16",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-17",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2025-12-25",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2025-12-26",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-12-27",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-12-28",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-12-29",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-12-30",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2025-12-31",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2026-01-01",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2026-01-02",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2026-01-03",
+"clock": null,
+"kinds": [
+"year-end"
+]
+},
+{
+"date": "2026-01-04",
+"clock": null,
+"kinds": [
+"filter off",
+"year-end"
+]
+},
+{
+"date": "2026-02-16",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2026-02-18",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-03-04",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-03-16",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2026-03-22",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-03-29",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2026-04-28",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-05-04",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-05-17",
+"clock": null,
+"kinds": [
+"nothing live or forming"
+]
+},
+{
+"date": "2026-05-22",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-05-25",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-06-23",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-06-30",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-07-31",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-08-03",
+"clock": null,
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-08-31",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2026-09-01",
+"clock": null,
+"kinds": [
+"filter episode edge"
+]
+},
+{
+"date": "2026-09-02",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2026-09-03",
+"clock": null,
+"kinds": [
+"filter episode edge",
+"forming low across a filter flip"
+]
+},
+{
+"date": "2026-09-04",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+},
+{
+"date": "2026-09-05",
+"clock": null,
+"kinds": [
+"forming low across a filter flip"
+]
+}
+]

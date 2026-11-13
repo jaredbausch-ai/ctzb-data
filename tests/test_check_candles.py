@@ -132,6 +132,14 @@ whole(series('derivs/BTC_oi_daily.csv', lambda r: r[:-30]), 'BTC open interest w
 whole(series('derivs/ETH_oi_daily.csv', lambda r: [dict(x, oi_usd_total='-5') if i == 100 else x for i, x in enumerate(r)]), 'ETH open interest negative (audit #23)', 'not a number in range')
 whole(series('options/BTC_pcr_daily.csv', lambda r: r[:900] + r[901:]), 'BTC put/call missing a day (audit #23)', 'a day is missing')
 whole(lambda M: os.remove(f'{M}/derivs/ETH_lsratio_daily.csv'), 'ETH long/short file deleted (audit #23)', 'ETH_lsratio_daily.csv is missing')
+def swap2(kind):
+    def f(M):
+        e, b = f'{M}/derivs/ETH_{kind}_daily.csv', f'{M}/derivs/BTC_{kind}_daily.csv'
+        shutil.copy(e, e + '.x'); shutil.copy(b, e); shutil.copy(e + '.x', b); os.remove(e + '.x')
+    return f
+whole(swap2('lsratio'), 'ETH and BTC long/short files swapped (audit #23)', "market columns are not")
+whole(swap2('oi'), 'ETH and BTC open-interest files swapped (audit #23)', "market columns are not")
+whole(swap2('funding'), 'ETH and BTC funding files swapped (audit #23)', "market columns are not")
 print(f"\n{sum(results)}/{len(results)} passed")
 
 sys.exit(0 if all(results) else 1)

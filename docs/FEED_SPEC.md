@@ -41,7 +41,7 @@ refuses to publish a feed that fails the strict check.
 | `label` | | The computed-signal label |
 | `checks.passed`, `checks.lines` | stack_status.txt | Stack and card checks |
 | `cards_withheld` | | True when checks failed |
-| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: the date the next forming ETH tier low would confirm, whatever the market filter reads (a filter-off low is included though it cannot become a signal); a computed date, not a planned buy. `trades_a_year`: computed ETH tier signals per year (twin `signals_a_year`). All three are null in a held feed |
+| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: the close date of the bar on which the next forming ETH tier low would confirm (2D+ bars restart on 1 January; since 13 Nov 2026 audit #23, it was the bar's open date), whatever the market filter reads (a filter-off low is included though it cannot become a signal); a computed date, not a planned buy. `trades_a_year`: computed ETH tier signals per year (twin `signals_a_year`). All three are null in a held feed |
 | `cards[]` | cards.csv | One per FORMING setup (below). A live (open) setup's card is `open_signals[].card`; the worked example's is `example_card` |
 | `prints[]` | prints.csv | The last 3 signals per chart (lows that confirmed with the market filter on at the trough date; a low that confirms with the filter off is not a signal and is not listed) plus any forming low (listed with a "regime off" note while the filter is off); `provisional` true until it confirms. The regime note is read on the trough date (since 12 Nov 2026 audit #13; it was the confirmation date) |
 | `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
@@ -456,3 +456,20 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
     yet") instead of failing the strict check and holding the whole feed back.
 - **Known limit:** the seal and the alert-log record guard against accidents and partial runs, not against
   someone with write access to the repo, who could rewrite a file and its record together, or the code.
+
+### Audit #23 corrections (13 Nov 2026)
+
+- **More inputs checked whole** (`fetch.history_problems`, so the candle check and stack_live.py both stop on them):
+  the 4H and 12H files must exist, be on their own timeframe (99% of bars exactly one step apart) and be their
+  asset (last close within 25% of that day's daily close); the long/short ratio and open-interest series (per
+  asset) and the BTC put/call series must start on their first day, have no missing day, hold numbers in range
+  and be current; every derivatives file's market columns must be its own asset's (an ETH/BTC swap fails); the
+  funding series must start on 21 Jan 2020. All of them are in the run seal.
+- **`next_buy_date`** is now the confirmation bar's close date (it was the bar's open date, a few days early on
+  2D+ charts and across 1 January).
+- **Page timing:** the card area says "Loading the latest data…" until the feed arrives; the Chart tab says
+  "Loading <chart>…" while a chart file loads (the previous setup's chart is cleared), and a file that arrives
+  after the member picked another setup is not drawn; the example chart says "Loading" while its file loads; a
+  page left open re-checks the data's age every minute, so the stale warning appears without a reload. A chart
+  file for a forming setup must close at the card's latest price. A card's `sample` must state its size.
+  `tests/test_page_timing.py` covers these.
