@@ -530,7 +530,7 @@ single-figure errors; the 28th changes no displayed digit. Report: `analysis/aud
 not zero on everything: the four defects are in states a working pipeline does not produce, and five doc
 sentences were loose. Whether that counts as a clean run is Jared's call (asked 12 Nov, 22:25 ET).
 
-**Changed** (commits 52a5811, 43c3570 and this round's):
+**Changed** (commits 52a5811, 43c3570, 5b74bcd):
 - **A live setup whose own card is missing from the feed**: the page built a stand-in card from pooled figures
   (another table's edge on a BTC signal, "On track" for a signal the feed marks edge lost). It now shows "Card
   unavailable" and no figures, and makes no status guess of its own. The pipeline's card check also fails the
