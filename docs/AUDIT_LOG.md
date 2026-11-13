@@ -489,7 +489,7 @@ dates (2.15 million comparisons): 97 with 0 disagreements, 1 defect in one repla
 defects, all files arriving cut short. Docs vs code: 2. Not a clean run. Report:
 `analysis/audit18_2026-11-12/AUDIT18.md`.
 
-**Changed** (commits 8b07b2f and this round's):
+**Changed** (commits 8b07b2f, 994f4e5):
 - **A forming card with an empty sample** (replay of 15 Aug 2020: "all 0 past signals") printed "n/a%", "null%"
   and "Holds at every level". Cannot recur on today's data (the smallest pool is 33). Now: no card and no
   forming alert for an empty sample; the page prints "n/a" (never "n/a%") through one helper; and a setup whose
