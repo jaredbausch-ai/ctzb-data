@@ -616,7 +616,7 @@ been no clean runs yet.
 The checker caught 65 of 65 planted errors. Report: `analysis/audit21_2026-11-13/AUDIT21.md` (group B's
 per-replay check files, 26 MB, are not committed; their totals are in the report).
 
-**Changed** (commits PENDING_A, COMMIT_B):
+**Changed** (commits 0cf798f):
 
 *Wording on real dates*
 - How to read said a signal counts if the filter was on "the day its low printed". The filter is read on the
