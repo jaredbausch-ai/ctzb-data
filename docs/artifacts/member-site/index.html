@@ -585,7 +585,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!t || !t.length) return "not in";
     const open = t.filter((x) => x.asset === m.asset);
     const last = open[0];
-    return last && last.action !== "close" ? `in · ${last.direction}` : "out";
+    if (!last) return "not in";   // he has posted trades, but none on this asset (audit #19)
+    return last.action !== "close" ? `in · ${last.direction}` : "out";
   }
 
   /* ---------- Now: lead trader ---------- */
@@ -755,7 +756,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const levelYs = [lv.high, lv.t20, entry, lv.drop].map(Y);
     for (let p = Math.ceil(lo / step) * step; p <= hi; p += step) {
       svgEl(svg, "line", { x1: L, x2: R, y1: Y(p), y2: Y(p), stroke: "#1C1736" });
-      if (levelYs.every((y) => Math.abs(y - Y(p)) > 16)) svgEl(svg, "text", { x: R + 8, y: Y(p) + 5, fill: "var(--muted)", "font-size": 13 }, "$" + Math.round(p).toLocaleString("en-US"));
+      if (levelYs.every((y) => Math.abs(y - Y(p)) > 16)) svgEl(svg, "text", { x: R + 8, y: Y(p) + 5, fill: "var(--muted)", "font-size": 13 }, "$" + (hi - lo >= 200 ? Math.round(p).toLocaleString("en-US") : (+p.toPrecision(4)).toLocaleString("en-US", { maximumFractionDigits: 8 })));
     }
     const slotDate = (i) => opens[Math.min(i, opens.length - 1)];
     const every = Math.max(1, Math.round(nSlots / 8));
@@ -805,7 +806,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       svgEl(svg, "text", { x: Math.max(x10, ladRight) + 8, y: Y(lv.edge) - 6, fill: "var(--fade-2)", "font-size": 12, "font-weight": 600 }, `Edge gone below ${money(lv.edge)} (${pct(edgePct, 0)}${sf ? ", before +10%" : ""})`);
     }
     const vline = (x, col, label, dash, at) => { svgEl(svg, "line", { x1: x, x2: x, y1: T, y2: B, stroke: col, "stroke-width": 1.5, "stroke-dasharray": dash || "" }); svgEl(svg, "text", { x: x + 6, y: at || T + 12, fill: col, "font-size": 12, "font-weight": 600 }, label); };
-    vline(xT, "var(--text)", forming && !(c && c._open) ? "Today" : "Entry");
+    const lastBarDay = dayOf(bars[bars.length - 1].t + 0), feedDay = S.feed && S.feed.generated_at ? S.feed.generated_at.slice(0, 10) : null;
+    const lastBarIsToday = !feedDay || dayOf(barNextOpen(bars[bars.length - 1].t, tfd) - 86400) >= feedDay;   // the bar that holds today
+    vline(xT, "var(--text)", forming && !(c && c._open) ? (lastBarIsToday ? "Today" : `Latest bar · ${dateLong(lastBarDay)}`) : "Entry");
     if (!sf) vline(x10, "var(--fade-2)", `Day 10 · red here: ${pc(e.redOdds)} still rose 10% after day 10`, "4 5", B - 8);
     vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
     vline(x60, "var(--fade)", "Day 60", "", T + 30);
