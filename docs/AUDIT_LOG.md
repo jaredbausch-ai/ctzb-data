@@ -449,7 +449,7 @@ checker caught 5 of 5 planted errors. Not a clean run: it also replayed 173 othe
 and 30 synthetic page states, and found 2 defects on other dates, 5 in page states that only occur when
 something is broken, and 3 docs-vs-code items. Report: `analysis/audit17_2026-11-12/AUDIT17.md`.
 
-**Changed** (commits 3dddb15 and this round's):
+**Changed** (commits 3dddb15, 9d2d52b):
 - **A quiet market failed the run.** With no low forming on any chart and no signal in its 60 days, the stack
   step raised a "coverage failure" (nothing to evaluate a read against), so the feed was withheld and the page
   said "Setups held back" instead of the quiet card. By the auditor's scan that was 38 of the 271 filter-off
