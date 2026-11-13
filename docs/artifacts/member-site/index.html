@@ -909,7 +909,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       }
       // the file's last close is the card's latest price: a file of another asset, chart or run is not drawn
       // (13 Nov 2026 audit #23)
-      if (c.price_now != null && Math.abs(cd.bars[cd.bars.length - 1].c - c.price_now) > 1e-6 * c.price_now) {
+      // (a live setup's latest price is on its card: a chart file from another run is not drawn either; audit #24)
+      const pnow = c._open ? (c.card ? c.card.price_now : null) : c.price_now;
+      if (pnow != null && Math.abs(cd.bars[cd.bars.length - 1].c - pnow) > 1e-6 * pnow) {
         blankChart(c.chart.replace(" ", " · "), "This chart's candles don't match the setup's latest price.", "Chart data unavailable for " + c.chart); return;
       }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
