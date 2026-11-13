@@ -105,6 +105,10 @@ def main():
         t_c0, e_c0 = render(pw, FEED, views=("chart",), cut_candles=0); t_c3, e_c3 = render(pw, FEED, views=("chart",), cut_candles=3)
         exj = json.loads(EX); ex21 = json.dumps(dict(exj, bars=exj["bars"][:21])); ex30 = json.dumps(dict(exj, bars=exj["bars"][:30]))
         t_e21, e_e21 = render(pw, FEED, views=("chart",), ex=ex21, example_on=True); t_e30, e_e30 = render(pw, FEED, views=("chart",), ex=ex30, example_on=True)
+        # a live setup whose own card (and status) is missing from the feed: no pooled stand-in (audit #19)
+        nocard = copy.deepcopy(FEED)
+        for o in nocard["open_signals"]: o["card"] = None; o["edge_status"] = None; o["edge_level_pct"] = None
+        t_nc, e_nc = render(pw, nocard, views=("now", "chart"))
         nomiss = copy.deepcopy(FEED)
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         t_nm, e_nm = render(pw, nomiss, views=("now",))
@@ -117,6 +121,9 @@ def main():
             ("ledger cut short or header only: Past signals says unavailable, never a partial record", all("Past signals unavailable" in x["record"] for x in (t_lc, t_lh)) and not e_lc and not e_lh, t_lc["record"][:160].replace("\n", " ")),
             ("candle file with 0 or 3 bars: chart says unavailable, no error, no broken geometry", all("candles couldn't be loaded" in x["chart"] and not BAD.search(x["chart"]) for x in (t_c0, t_c3)) and not e_c0 and not e_c3, str((e_c0 + e_c3)[:1])),
             ("example chart file cut short: example chart says unavailable, no error", all("couldn't be loaded" in x["chart"] for x in (t_e21, t_e30)) and not e_e21 and not e_e30, str((e_e21 + e_e30)[:1])),
+            ("live setup with no card in the feed: 'Card unavailable', no pooled figures, status unavailable, no error",
+             "Card unavailable" in t_nc["now"] and "ETH TIER SIGNALS" not in t_nc["now"].upper() and "Status unavailable" in t_nc["now"] and "On track" not in t_nc["now"]
+             and not BAD.search(t_nc["now"]) and not BAD.search(t_nc["chart"]) and not e_nc, str(e_nc[:1])),
             ("no misses: the card says so, with no placeholder or error", "none missed" in t_nm["now"] and not BAD.search(t_nm["now"]) and not e_nm, str(e_nm[:1])),
         ]:
             n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if detail and not cond else ""))

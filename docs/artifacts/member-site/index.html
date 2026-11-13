@@ -440,19 +440,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (o.card) return Object.assign(cardFromFeed(o.card), {
       kind: "open", top: o.grade === "A+", grade: o.grade, signal_id: o.signal_id, edgeStatus: o.edge_status || null, edgeLevel: o.edge_level_pct, entry: o.entry_close, entry_date: o.entry_date,
       line: `Confirmed ${dateLong(o.entry_date)} · entry close ${money(o.entry_close)} · day ${o.days_elapsed} of 60 · best so far ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}` });
-    const rows = S.ledger.filter((r) => r.asset === asset), f = (k) => rows.map((r) => +r[k]);
-    const go = ((S.feed && S.feed.grade_odds) || []).find((g) => g.asset === asset && g.grade === "A+");
-    return {
-      kind: "open", asset, chart: o.chart, tf, signal_id: o.signal_id, top: true, grade: "A+",
-      line: `Confirmed ${dateLong(o.entry_date)} · entry close ${money(o.entry_close)} · day ${o.days_elapsed} of 60 · best so far ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}`,
-      odds: go ? go.rose20_within60d_pct : share(rows, (r) => r.reached20 === "yes"), n: go ? go.past_trades : rows.length,
-      sample: `every ${asset} top-grade signal`, high: median(f("bestMove")), drop: median(f("maxDrawdown")),
-      dipBefore: median(f("dipBeforeHigh")), highDay: r1(median(f("daysToHigh")), 0), reach10: share(rows, (r) => r.reached10 === "yes"),
-      touched30: share(rows, (r) => r.touched30 === "yes"), surv10: go ? go.rose10_never_fell25_within60d_pct : share(rows, (r) => r.surv10 === "yes"),
-      entry: o.entry_close, day60: median(f("return60d")), entry_date: o.entry_date,
-      eras: [["Before 2022", rows.filter((r) => +r.year < 2022)], ["Since 2022", rows.filter((r) => +r.year >= 2022)]].map(([t, rs]) => ({ t, n: rs.length, v: share(rs, (r) => r.surv10 === "yes"), what: "rose 10%, never fell 25.3%" })),
-      fallsFirst: [],
-    };
+    // No hand-built fallback (12 Nov 2026 audit #19): a live setup whose own card is missing from the feed shows
+    // no figures at all. The page used to build a pooled card for it, with another table's edge.
+    return { kind: "open", asset, chart: o.chart, tf, signal_id: o.signal_id, top: o.grade === "A+", grade: o.grade, n: 0, missing: true,
+      edgeStatus: o.edge_status || null, edgeLevel: o.edge_level_pct, entry: o.entry_close, entry_date: o.entry_date, eras: [], fallsFirst: [] };
   }
   function cardExample() {
     // 12 Nov 2026 audit: the example is a real card for ETH 2D confirmed 22 Sept 2024, built by the forming-card
@@ -475,8 +466,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const lost = !!m && m.kind === "open" && m.edgeStatus === "lost";
     frame.style.setProperty("--c", !m ? "var(--closed)" : below || lost ? "var(--fade)" : "var(--live)");
     if (m && !m.n) {   // a setup with no past signals at all has no odds to show (early history only; audit #18)
-      box.innerHTML = `<div class="card-head"><div class="where">${esc(m.chart || "")}</div><div class="state" style="--c: var(--muted)" data-state="quiet">No odds yet</div></div>
-        <div class="empty-card"><div class="big">No past signals like this one yet</div><div class="small" style="max-width: 46ch">This setup has no finished past signals to draw odds from, so no figures are shown for it.</div></div>
+      box.innerHTML = `<div class="card-head"><div class="where">${esc(m.chart || "")}</div><div class="state" style="--c: var(--muted)" data-state="quiet">${m.missing ? "Card unavailable" : "No odds yet"}</div></div>
+        <div class="empty-card"><div class="big">${m.missing ? "This setup's card isn't in the latest data" : "No past signals like this one yet"}</div><div class="small" style="max-width: 46ch">${m.missing ? "It comes back with the next good run. No figures are shown for it until then." : "This setup has no finished past signals to draw odds from, so no figures are shown for it."}</div></div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
@@ -631,16 +622,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function openStatus(o) {
     // 12 Nov 2026 audit #9: decided in the pipeline on exact prices and closed daily bars, by whichever
     // came first: +10%, or a fall to the setup's own edge level (low checked first within a day)
-    if (o.edge_status) return o.edge_status === "lost" ? "fading" : "intact";
-    if (o.best_so_far_pct != null && o.best_so_far_pct >= 10) return "intact";
-    const sf = setupFade(cardFromOpen(o));
-    if (!sf) return "intact";
-    if (sf.edge === 0) return "fading";
-    return sf.edge !== null && o.worst_so_far_pct != null && o.worst_so_far_pct <= sf.edge ? "fading" : "intact";
+    // No page-side guess (audit #19): without the feed's status the setup is listed with "Status unavailable".
+    return o.edge_status ? (o.edge_status === "lost" ? "fading" : "intact") : "unknown";
   }
   function renderPrev() {
     const open = ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+");
-    const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) === "fading");
+    const intact = open.filter((o) => openStatus(o) !== "fading"), fading = open.filter((o) => openStatus(o) === "fading");
     $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">${{ down: "Unavailable: the feed can't be read right now.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No open top-grade setup with its edge intact."}</div>`;
     const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
     $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + (S.ledgerOk ? "" : `<div class="none">Past signals unavailable right now.</div>`) + recent.map((r) => `
@@ -651,7 +638,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   }
   function miniOpen(o, cls) {
     return `<div class="mini ${cls}"><div><div class="name">${esc(o.chart)}</div><div class="sub num">Day ${o.days_elapsed} of 60 · best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</div></div>
-      <span class="badge ${cls ? "no" : "yes"}">${cls ? "Edge lost" : o.edge_status === "rose10" ? "Rose 10%" : "On track"}</span></div>`;
+      <span class="badge ${cls ? "no" : "yes"}">${cls ? "Edge lost" : !o.edge_status ? "Status unavailable" : o.edge_status === "rose10" ? "Rose 10%" : "On track"}</span></div>`;
   }
 
   /* ---------- header ---------- */
@@ -716,7 +703,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         E = k; entry = c.entry_close;
       }   // the bar that CLOSES on the entry date (12 Nov 2026 audit #4)
       m.entry = entry;
-      if (!m.n) { blankChart(c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · forming`, "This setup has no finished past signals to draw odds from.", "No odds to draw yet"); return; }
+      if (!m.n) { blankChart(c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · forming`, m.missing ? "This setup's card isn't in the latest data." : "This setup has no finished past signals to draw odds from.", m.missing ? "Card unavailable" : "No odds to draw yet"); return; }
       lowIdx = c.low_date ? bars.findIndex((b) => dayOf(b.t) === c.low_date) : -1;
       // the confirmation bar is the one that CLOSES on confirms_on, so it opens tfd - 1 days earlier (12 Nov 2026 audit: was one bar late on 2D+)
       $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, not top grade"}`;
