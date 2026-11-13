@@ -23,7 +23,7 @@ def candles(a, tf):
     return json.dumps({"chart": f"{a} {tf}", "bars": [{"t": float(r["time"]), "o": float(r["open"]), "h": float(r["high"]), "l": float(r["low"]), "c": float(r["close"])} for r in csv.DictReader(open(p))]})
 
 
-def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None):
+def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None, pick=None):
     out = {}
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
     errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
@@ -45,6 +45,8 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex
     if isinstance(feed, dict) and isinstance(feed.get("generated_at"), str) and feed["generated_at"][:2] == "20": pg.clock.install(time=feed["generated_at"])
     for v in views:
         pg.goto("http://site.test/#" + v); pg.wait_for_timeout(1500)
+        if pick and pg.is_visible(f'[data-sel="{pick}"]'):
+            pg.click(f'[data-sel="{pick}"]'); pg.wait_for_timeout(600)
         if example_on and not pg.is_checked("#previewSwitch"):
             pg.click("#previewSwitch"); pg.wait_for_timeout(600)
         if example_on and v == "chart" and pg.is_visible("#bHap"):
@@ -153,6 +155,12 @@ def main():
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         for g in nomiss["grade_odds"]: g.update(rose10_within60d_pct=100)   # no misses means every one rose 10% (the strict check holds them together)
         t_nm, e_nm = render(pw, nomiss, views=("now",))
+        # audit #25: a must-close-above price one bar ahead is an estimate and says so; on the open bar it is exact
+        fm = copy.deepcopy(FEED); fc_ = copy.deepcopy(FEED["example_card"] or FEED["open_signals"][0]["card"]); fc_.pop("entry_close", None)
+        nxt = (__import__('datetime').date.fromisoformat(FEED["scored_as_of"]) + __import__('datetime').timedelta(days=1)).isoformat()
+        fc_.update(confirms_on=nxt, signal_id=f"{fc_['asset']}-{fc_['timeframe']}-{nxt}", must_close_above=3000.12, bars_to_confirm=1, price_now=3100.0)
+        fm["cards"] = [fc_]; fm0 = copy.deepcopy(fm); fm0["cards"][0]["bars_to_confirm"] = 0
+        t_k1, e_k1 = render(pw, fm, views=("now",), pick=fc_["signal_id"]); t_k0, e_k0 = render(pw, fm0, views=("now",), pick=fc_["signal_id"])
         for label, cond, detail in [
             ("feed down: never says there are no live setups", "No live top-grade setups" not in t_down["now"] and "No open top-grade setup" not in t_down["now"] and "Feed unavailable" in t_down["now"], ""),
             ("held back: never says there are no live setups", "No live top-grade setups" not in t_held["now"] and "No open top-grade setup" not in t_held["now"] and "Held back" in t_held["now"], ""),
@@ -165,6 +173,8 @@ def main():
             ("live setup with no card in the feed: 'Card unavailable', no pooled figures, no error",
              "Card unavailable" in t_nc["now"] and "ETH TIER SIGNALS" not in t_nc["now"].upper()
              and not BAD.search(t_nc["now"]) and not BAD.search(t_nc["chart"]) and not e_nc, str(e_nc[:1])),
+            ("must close above, one bar ahead: shown as an estimate", "closes above about $3,000.12 (an estimate until the current bar closes)" in t_k1["now"] and not e_k1, t_k1["now"][:300].replace("\n", " ")),
+            ("must close above, on the open bar: shown exact", "closes above $3,000.12" in t_k0["now"] and "about $3,000.12" not in t_k0["now"] and not e_k0, t_k0["now"][:300].replace("\n", " ")),
             ("no misses: the card says so, with no placeholder or error", "none missed" in t_nm["now"] and not BAD.search(t_nm["now"]) and not e_nm, str(e_nm[:1])),
         ]:
             n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if detail and not cond else ""))

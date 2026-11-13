@@ -1,8 +1,9 @@
 # Member site (item 18)
 
 `index.html` is the member page. It was first published for review on 11 Nov 2026 (claude.ai/artifact/VButMskEvrwYEcxW3Ap7cm,
-with a feed snapshot); that review copy is not kept up to date. The current page is this file, and the live
-site is the `ctzb-site` Worker built from it. The page reads everything by relative path:
+with a feed snapshot); that review copy is not kept up to date. The current page is this file. The live
+site runs the `ctzb-site` Worker last deployed from an earlier build of it (656d67c3, from 9a013e3); what has
+changed since is listed as Pending in docs/SITE_CHANGES.md. The page reads everything by relative path:
 
 | Path the page reads | Live source |
 |---|---|

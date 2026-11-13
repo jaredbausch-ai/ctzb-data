@@ -18,9 +18,9 @@ refuses to publish a feed that fails the strict check.
 - Every card, print, open signal and grade row carries `label`: computed
   signal, not a fill, entry quality only, not a track record.
 - `cards`, `open_signals`, `example_card`, `prints`, `confluence_windows`, `grade_odds` and the extras are
-  empty, the status fields are null, and `cards_withheld` is true whenever `stack_status.txt` has a FAILED
-  line or any gating step (refresh, grade, stack, cards, regress) did not report success. A broken run seal,
-  a missing dataset, a damaged alert log or a feed that fails the strict check publishes the fail-closed
+  empty, the status fields are null, and `cards_withheld` is true whenever `stack_status.txt` is missing,
+  empty or has a FAILED line, or any gating step (refresh, grade, stack, cards, regress) did not report success. A broken run seal,
+  a missing dataset, a candle check that did not pass (when step outcomes are set), a damaged alert log or a feed that fails the strict check publishes the fail-closed
   feed instead (feed_live exits 1).
 - Card numbers follow `docs/CARD_SPEC.md`. A screen showing a card shows the card's sample size
   (`past_trades`) under the big number, which covers every figure from that sample; anything on a
@@ -39,9 +39,9 @@ refuses to publish a feed that fails the strict check.
 | `generated_at` | | UTC time the file was written |
 | `scored_as_of` | status.csv | Date of the data scored |
 | `label` | | The computed-signal label |
-| `checks.passed`, `checks.lines` | stack_status.txt | Stack and card checks |
+| `checks.passed`, `checks.lines` | stack_status.txt | Stack and card checks. `checks.passed`: stack_status.txt exists, is not empty and has no FAILED line |
 | `cards_withheld` | | True when checks failed |
-| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: a YYYY-MM-DD date, or the text "none ahead": the close date of the bar on which the next forming ETH tier low would confirm, today's close included (2D+ bars restart on 1 January; since 13 Nov 2026 audit #23, it was the bar's open date), whatever the market filter reads (a filter-off low is included though it cannot become a signal); a computed date, not a planned buy. `trades_a_year`: text, "N on average" (N = computed ETH tier signals per year, rounded once), "—" when there are none (twin `signals_a_year`). All three are null in a held feed |
+| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: a YYYY-MM-DD date, or the text "none ahead": the close date of the bar on which the next forming ETH tier low would confirm, today's close included (2D+ bars restart on 1 January; since 13 Nov 2026 audit #23, it was the bar's open date), whatever the market filter reads (a filter-off low is included though it cannot become a signal); a computed date, not a planned buy. `trades_a_year`: text, "N on average" (N = computed ETH tier signals per year, rounded once), "—" when the tier has fewer than 4 scored signals (with none, refresh.py stops and the feed is held) (twin `signals_a_year`). All three are null in a held feed |
 | `cards[]` | cards.csv | One per FORMING setup (below). A live (open) setup's card is `open_signals[].card`; the worked example's is `example_card` |
 | `prints[]` | prints.csv | The last 3 signals per chart (lows that confirmed with the market filter on at the trough date; a low that confirms with the filter off is not a signal and is not listed) plus any forming low (listed with a "regime off" note while the filter is off); `provisional` true until it confirms. The regime note is read on the trough date (since 12 Nov 2026 audit #13; it was the confirmation date) |
 | `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
@@ -54,7 +54,7 @@ refuses to publish a feed that fails the strict check.
 |---|---|---|
 | `chart`, `asset`, `timeframe` | chart, asset, tf | |
 | `low_date`, `confirms_on`, `bars_to_confirm` | trough, confirms, barsNeeded | |
-| `must_close_above` | killClose | Confirms at the close if price closes above this |
+| `must_close_above` | killClose | The confirmation-bar close above which the low confirms (rounded down to the cent). Exact when the confirmation bar is the bar now open; an estimate when it is the next bar (assumes the open bar closes at the latest price); empty when it is further off. See CARD_SPEC |
 | `price_now` | priceNow | |
 | `grade`, `confirmations` | grade, lenses | |
 | `sample`, `past_trades` | basis, n | The like-for-like sample and its size |
@@ -69,7 +69,7 @@ refuses to publish a feed that fails the strict check.
 | `if_it_falls_first[]` | l{5,10,15,20}{n,ok,liq} | Information for a discretionary exit, never a stop rule |
 | `typical_day_first_rose10`, `typical_day_first_rose20` (schema 2) | daysTo10, daysTo20 | Median days from entry to the first +10% / +20%, past signals that got there |
 | `typical_day_of_60d_high`, `typical_day_of_deepest_dip` (schema 2) | daysToHigh, daysToLow | Median day of the 60-day high / of the deepest dip |
-| `active_confluences[]` (schema 3) | confluences (JSON) | Every confluence cell active for this setup today, weak ones included: `after` (the confirming signal), `after_confirmed`, `window_closes`, `applies_to` (which of this chart's signals the record covers), `past_trades`, `rose20_within60d_pct`, `rose10_within60d_pct`, `fell30_within60d_pct`. Each is its own sample, never blended into the card number; rows overlap. Show `past_trades` beside each; under 15 is too few to lean on. Filled for forming cards only: on `open_signals[].card` and `example_card` it is always empty. Each item also carries `note` |
+| `active_confluences[]` (schema 3) | confluences (JSON) | Every confluence cell that will be active when this setup confirms (its confirming signal confirmed 0-10 days before `confirms_on`), weak ones included: `after` (the confirming signal), `after_confirmed`, `window_closes`, `applies_to` (which of this chart's signals the record covers), `past_trades`, `rose20_within60d_pct`, `rose10_within60d_pct`, `fell30_within60d_pct`. Each is its own sample, never blended into the card number; rows overlap. Show `past_trades` beside each; under 15 is too few to lean on. Filled for forming cards only: on `open_signals[].card` and `example_card` it is always empty. Each item also carries `note` |
 
 ## Not built yet
 
@@ -131,11 +131,13 @@ check being skipped run after run (an unreachable Kraken never fails a run on it
 
 ### Fail-closed feed (11 Nov 2026)
 
-If `feed_live.py` itself crashes, it writes a feed with every list empty, `cards_withheld`,
+If `feed_live.py` itself crashes, it writes a feed with every signal, card and figure list empty (`alert_log_carry` may still hold
+alerts the last feed sent that the log lacks), `cards_withheld`,
 `alerts_withheld` and `extras_withheld` all true, `checks.failed_steps: ["feed"]` and a
 `feed_error` naming the exception type, then exits 1. It is a withheld feed; the one thing a reader
 must handle is that `market_regime` and `scored_as_of` are empty in it, which means unknown, not "off" (the
-member page shows "Market filter: unavailable"; audit #17).
+member page shows "Market filter: unavailable"; audit #17). It has no `alerts_seeded`, `signals_a_year`,
+`odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on` (13 Nov 2026, audit #25).
 
 ### +10% switch (11 Nov 2026, additive, schema stays 5)
 
@@ -241,8 +243,8 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   like the example. 73 ledger rows' odds-on-the-day columns moved; nothing else (baseline re-approved).
 - The page types no figures: the 70% bar in How to read comes from the feed (top-level `posting_bar_pct` since audit #14; `odds_fade.posting_bar_pct` before), "about N times a year" is counted from the ledger (2020 to last year, so it rolls forward each January), and without the
   feed's `example_card` the example says "unavailable" rather than falling back to built-in numbers.
-- Every forming card says it can still vanish (top grade too), and How to read says a confirmed alert is final
-  while a forming heads-up can vanish.
+- Every forming card says it can still vanish (top grade too), and How to read says a confirmed setup is final
+  while a forming setup can vanish (wording since audits #22-#23).
 
 ### Audit #11 corrections (12 Nov 2026)
 
@@ -310,7 +312,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - The pipeline's card check (verify_cards.py) fails the run if any live signal in open.csv has no card in
   cards_open.csv, so `open_signals[].card` is never empty in a published feed.
 - Member page: a live setup with no `card` shows "Card unavailable" and no figures (it used to build a pooled
-  stand-in), and with no `edge_status` its badge reads "Status unavailable" (no page-side guess). The lead-trader
+  stand-in), and with no `edge_status` its badge reads "Status unavailable" (no page-side guess) [superseded 13 Nov 2026 audit #21: a live signal with no or an unknown `edge_status` fails the strict check, so the page reads "Data unavailable"]. The lead-trader
   line reads "not in" when he has trades but none on that asset. A chart file whose last bar is older than the
   feed labels that bar "Latest bar · date", not "Today".
 - Replays of dates before 22 Nov 2024 carry no worked example (`example_card` empty): the example signal's 60
@@ -327,7 +329,9 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   or the page says "Data unavailable". With `cards_withheld` true, `cards` and `open_signals` are ignored even
   if present. `odds_fade` is used only when both of its lists are non-empty. A price that is not a number
   prints "n/a". An `edge_status` other than lost / rose10 / intact reads "Status unavailable", and a
-  `market_regime` other than Bullish / Bearish reads "Market filter: unavailable".
+  `market_regime` other than Bullish / Bearish reads "Market filter: unavailable". [Superseded 13 Nov 2026 audit #21: each of these now fails the strict
+  check and the page drops the whole feed ("Feed unavailable" / "Data unavailable"); only a missing
+  `market_regime` reads "Market filter: unavailable".]
 - The worked example's chart file (`data/example_ETH-2D-2024-09-22.json`) ends with the bar that holds day 60
   (51 bars); it carried one later bar.
 - Definitions that were only in code:
@@ -436,7 +440,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   they come ("Loading…" meanwhile). The stale warning shows on every tab. With the feed down or held back, the
   example switch and the Chart tab say so instead of "the example's data couldn't be loaded". The example
   stands in for a quiet market only if the feed carries it.
-- **Alerts on the page:** member alerts are not switched on, and the page now says so (banner and How to read); the alert promises are gone.
+- **Alerts on the page:** member alerts are not switched on, and the page's review banner says so; the alert promises are gone.
 - **Pipeline:**
   - Every candle file is checked row by row for its whole history (prices above zero and finite, high and low
     bracketing open and close, volume not negative, on the 4H / 12H grid); ETH's daily close must be between 0.1%

@@ -53,7 +53,7 @@ the 60 days after it.
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
 | Typical day it first hit +10% / +20% (signals that got there) | Median calendar days from the entry to the first daily high at least 10% / 20% above the entry close, among the signals in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
 | Typical day of the 60-day high / of the deepest dip | Median day, counted from the entry, on which each signal made its highest high / its lowest low within the 60 days | `daysToHigh`, `daysToLow` |
-| Active confluences now (4 Nov 2026) | Every confluence cell active for this setup today, weak ones included, each with its own past signals, rose 20%, fell 30% (rose 10% is in the feed but not shown), the confirming signal and its date, and the date its window closes. Console card only: the member card does not show confluences. Its own sample, never blended into the big number; rows overlap. Nothing else is listed in this section. Under 15 signals is flagged too few to lean on | `confluences` (JSON list) |
+| Active confluences now (4 Nov 2026) | Every confluence cell active on the date this setup would confirm (its confirming signal 0-10 days before that date), weak ones included, each with its own past signals, rose 20%, fell 30% (rose 10% is in the feed but not shown), the confirming signal and its date, and the date its window closes. Console card only: the member card does not show confluences. Its own sample, never blended into the big number; rows overlap. Nothing else is listed in this section. Under 15 signals is flagged too few to lean on | `confluences` (JSON list) |
 
 ## The member site's card (12 Nov 2026)
 
@@ -76,8 +76,8 @@ trader: in / out / not in / unavailable" (from the lead trader's own posted trad
 | Big number, "rose 10% within 60 days" | As above (`reach10`) | `rose10_within60d_pct` |
 | "X% did it without ever falling 25.3%" | As above (`surv10`) | `rose10_never_fell25_within60d_pct` |
 | "from [sample]" under it | The sample rule in plain words and n, no grade letters | `sample`, `past_trades` |
-| Typical high / Typical drop from entry | Median best move / median deepest dip in the 60 days (the Chart tab also shows each as a price) | `typical_biggest_rise_pct` / `typical_deepest_dip_pct` (+ their `*_exact_pct`) |
-| Dip before the high, from entry | Median lowest point before the 60-day high, from the entry close | `typical_dip_before_rise_pct` (+ `*_exact_pct`) |
+| Typical high / Typical drop from entry | Median best move / median deepest dip in the 60 days (the Chart tab also shows each as a price) | `typical_biggest_rise_exact_pct` / `typical_deepest_dip_exact_pct`, rounded once for display |
+| Dip before the high, from entry | Median lowest point before the 60-day high, from the entry close | `typical_dip_before_rise_exact_pct`, rounded once |
 | Edge gone below | The first fall whose exact "still rose 10%" share is below the 70% bar; "below the bar from entry" when even the from-entry row is; "Holds at every level" when no row is below the bar | ladder `still_rose10_exact_pct`, `from_entry` |
 | Where the odds fade: From entry | Share of the sample that rose 10% before ever falling 25.3% (low checked first within a day) | `from_entry.still_rose10_pct` |
 | Where the odds fade: Falls X% first | Of the signals that fell X% before rising 10%, the share that then rose 10% before falling 25.3% | `if_it_falls_first[]` |
@@ -116,11 +116,12 @@ trader: in / out / not in / unavailable" (from the lead trader's own posted trad
    dip-table counts grow from one row to the next (each row is a subset of the one above, so a count can stay
    level but never rise), or the first exceeds n. These checks run on every card: forming, live and the example.
 2. `verify_cards.py` re-derives every card's sample from `datasets/ledger.csv`, which
-   `grade_live.py` builds separately, and recomputes every figure on the card: n, the big number,
+   `grade_live.py` builds separately, and recomputes every figure computed from that sample: n, the big number,
    surv10, scaled20, +20%, -30%, the rounded and exact medians, the eras, the timing, and the
    from-entry and falls-first ladder rows (from the 1D candles, written out independently). Exact,
    except the three 6-place exact medians, confirmable from the 6-place ledger to one unit in the
-   6th place (since 12 Nov 2026, audit #8). Any mismatch fails the run (red Action, `stack_status.txt` FAILED); the feed then withholds cards and alerts, and the health monitor messages Jared.
+   6th place (since 12 Nov 2026, audit #8). The card's dates and prices (low day, confirms, must close above,
+   latest price, entry close) and its confluences come from stack_live.py and are not re-derived there. Any mismatch fails the run (red Action, `stack_status.txt` FAILED); the feed then withholds cards and alerts, and the health monitor messages Jared.
    On 28 Oct this check caught a dip of -25.26% that a rounded figure turned into
    -25.3%; the cards use exact prices.
 3. The quoted-versus-actual record (ledger, "odds on the day") shows how past quotes

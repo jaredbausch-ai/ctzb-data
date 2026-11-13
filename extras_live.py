@@ -33,6 +33,7 @@ A+ signals give no usable path, a non-finite figure, empty earlydip/holdcheck, o
 candle file with a non-numeric price. An asset with no A+ signals is left out.
 
 Usage: python extras_live.py [--datasets datasets]
+(the ledger is always read from the repo's datasets/ledger.csv; only the outputs follow --datasets)
 """
 import argparse
 import csv

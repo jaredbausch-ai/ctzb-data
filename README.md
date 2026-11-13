@@ -47,8 +47,8 @@ That is expected, not a fault: 1,901 of 1,902 ETH 2D bars matched exactly, and
 the single difference was the bar in progress.
 
 Nothing downstream is affected. The engine can return a signal whose confirmation bar is the still-open last
-bar; every scoring step drops it until that bar has closed (bucket_end has no close date for the last bar), so
-it shows only as forming, which is the intended behaviour.
+bar; every scoring step drops it until that bar has closed (bucket_end has no close date for the last bar).
+live.csv's `lastPrint` can still name it, but no figure counts it, which is the intended behaviour.
 
 ## Consuming it
 
@@ -73,8 +73,9 @@ It writes `status`, `buy`, `live`, `levels`, `setups`, `tier`, `walkforward`,
 `years`, `confluence`, `invalidation`, `earlydip`, `holdcheck` and `forward` as CSVs, and prints a summary of the
 regime, what is forming on each chart, and the next buy dates.
 
-`engine.py` and `regimes.py` sit beside it. The date comes from the clock;
-`--today YYYY-MM-DD` overrides it for testing.
+`engine.py` and `regimes.py` sit beside it. The date comes from the clock
+(`CTZB_NOW` replays a past run whole); `--today YYYY-MM-DD` overrides only the tier anchor, status and
+buy/walk-forward dates, not earlydip, holdcheck or forward.
 
 `grade_live.py` runs next in the Action. It applies the conviction grade
 (defined and tested in `analysis/grade.py`, `grade2.py`, `grade3.py`; see

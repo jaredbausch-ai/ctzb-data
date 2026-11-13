@@ -112,8 +112,9 @@ CT RSI = `rsi(close, 14)`. Stoch = `sma(stoch(ct, ct, ct, 14), 3)` — the
 stochastic of the RSI series, not of price. A trough is a pivot low on `ct`
 with 3 bars either side, strictly lower on both. **Entry is the close of the
 confirmation bar, `ei = ti + 3`** — three bars after the trough, not the
-trough bar. Every row's date field is the confirmation bar's close date (its last calendar day), not the
-trough date. The trough is carried separately: `low` / `low_date` (the trough bar's open date) and `low_day`
+trough bar. Every row's date field in the ledger, cards, prints, open signals and forward record is the
+confirmation bar's close date (its last calendar day), not the trough date; refresh.py's live.csv `lastEntry`
+and its tier statistics still use the confirmation bar's open date. The trough is carried separately: `low` / `low_date` (the trough bar's open date) and `low_day`
 (the day the low printed).
 
 | tag | rule |
@@ -158,8 +159,9 @@ days *after* entry. 627 of 979 rows score higher under it than they could have
 at entry. The reach-+20% gradient across agreement levels collapses from
 44%–79% to **52%–64%** once only prior prints count. `troughs.py` carries both:
 `cf` (backward only, trade from this) and `cfs` (symmetric, kept so the sheet
-reconciles with the dashboard). The dashboard still uses the symmetric one and
-is inflated accordingly.
+reconciles with the dashboard). refresh.py's tier.csv, confluence.csv and buy.csv still use the symmetric
+count; nothing on the dashboard, the feed or the member site reads them (the AGREE lens and the confluence
+windows count only prints 0-10 days before).
 
 **The working principle (Jared, 27 Oct 2026).** Everything here is building
 better odds, not certainty. No guarantees; the market is unknowable. We measure
@@ -1390,7 +1392,7 @@ says which. Never present a superset of stronger setups as the trade's odds.
 Declared: Binance ETHUSDT perp-vs-spot basis (daily mean of hourly, and daily close)
 in place of funding, same FUND/FCOOL recipes. Grade letter matched the official on
 74% / 71% of 356 ETH signals (bar 95%, no year under 90%; worst years 62% / 52%).
-FAIL. The v16/v10 scripts keep the asterisk ETH grade. Do not re-test basis as a
+FAIL. The live scripts (indicator v15, scanner v9) keep the asterisk ETH grade. Do not re-test basis as a
 funding stand-in without a new idea.
 
 **Trade card, published 28 Oct 2026 (Jared approved: "airtight").** Every number and
@@ -1461,8 +1463,8 @@ day-ten three-state read has no written definition, so it is not computed.
 **Never quote the pooled grade alone (set 28 Oct 2026, after Jared had to correct it).**
 Any read on a live or forming signal runs the whole stack and reports the
 setup-specific record from `datasets/liveread.csv` (written by `stack_live.py`
-every pipeline run): this chart with exactly / at least these lenses, each lens
-on vs off this chart, the bucket, and the BTC 3D confirmer's own tags (diamond,
+every pipeline run): this chart with exactly / at least these lenses, each lens's
+state (ON / off) with this chart's record in that same state, the bucket, and the BTC 3D confirmer's own tags (diamond,
 prime, bucket) with this chart's record after that kind of confirmer. The pooled
 grade averages every chart and every mix; it is context, not the number for the
 trade. The same file is the source for anything client-facing. Before answering,
@@ -1483,7 +1485,7 @@ pulls the last runs and their error lines, re-runs the candle job, opens or upda
 in the same commit.** For clients: the backend should refuse to serve a feed whose
 `generated_at` is older than ~6h and show "data delayed" instead.
 
-**Confluences: list ONLY the ones active now (set 3 Nov 2026, Jared).** When he asks for stats or confluences on a signal, the confluence section lists only the cells that are ON right now (liveread rows "Confluence cell ... ON"), ALL of them, including weak ones, each with trades / +20% / -30%. No tag rows, baselines or context rows mixed into it -- those confused what is live. Tags and baselines, when asked for, go in their own clearly labelled table.
+**Confluences: list ONLY the ones active now (set 3 Nov 2026, Jared).** When he asks for stats or confluences on a signal, the confluence section lists only the cells that are ON (liveread rows "Confluence cell ... ON": for a forming low, at its confirmation date; for an open signal, at its entry), ALL of them, including weak ones, each with trades / +20% / -30%. No tag rows, baselines or context rows mixed into it -- those confused what is live. Tags and baselines, when asked for, go in their own clearly labelled table.
 
 **Quote the EXACT tag, never its parent category (set 31 Oct 2026, after a mistake).**
 For a live or forming signal, the record quoted for a tag is the record of the tag it

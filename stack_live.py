@@ -11,7 +11,7 @@ id is not evaluated.
 
 For every SUBJECT -- every forming low on all 10 charts (ETH and BTC, 1D-8D) and
 every signal confirmed in the last 60 days -- it evaluates every registry item and,
-for each one that is on, the record on that chart with it on and with it off.
+for each one, its state and the record on that chart in that state.
 Drawdown is from entry: the median dip before the 60-day high, and the median
 largest dip within 60 days. Forming lows are PROVISIONAL until they confirm;
 window reads are evaluated at the date the low would confirm.
