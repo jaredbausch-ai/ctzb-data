@@ -1,0 +1,24 @@
+2026-11-13T19:27:36Z stage 0 started: setup
+2026-11-13T19:36:46Z stage 1 done: data + feed/ledger checks on the two frozen states: 53682 comparisons, 0 disagreements (my 2016 ETH multi-day keying fixed in my code, not a finding)
+2026-11-13T19:41:14Z stage 2 done: page checks (Playwright) on the two frozen states: 5552 comparisons, 0 disagreements (2 checker fixes: same-date order, resolved CSS colour)
+2026-11-13T19:46:30Z self-test: 34 planted errors (21 ledger/feed, 8 page code, 5 feed values visible on the page) on copies of replay_0414: 34 caught
+2026-11-13T19:56:18Z replays (group B): 39 done of 393; 489309 comparisons, 138 disagreements so far
+2026-11-13T19:56:31Z replays (group B): 40 done of 393; 503988 comparisons, 143 disagreements so far
+2026-11-13T20:03:06Z replays (group B): 78 done of 393; 1020145 comparisons, 227 disagreements so far
+2026-11-13T20:03:19Z replays (group B): 80 done of 393; 1045379 comparisons, 231 disagreements so far
+2026-11-13T20:13:11Z replays (group B): 119 done of 393; 1610139 comparisons, 273 disagreements so far
+2026-11-13T20:13:20Z replays (group B): 120 done of 393; 1625539 comparisons, 274 disagreements so far
+2026-11-13T20:25:29Z replays (group B): 159 done of 393; 2237021 comparisons, 329 disagreements so far
+2026-11-13T20:25:48Z replays (group B): 160 done of 393; 2251637 comparisons, 331 disagreements so far
+2026-11-13T20:37:02Z replays (group B): 199 done of 393; 2821798 comparisons, 408 disagreements so far
+2026-11-13T20:37:10Z replays (group B): 200 done of 393; 2837238 comparisons, 409 disagreements so far
+2026-11-13T20:52:31Z replays (group B): 239 done of 393; 3549071 comparisons, 450 disagreements so far
+2026-11-13T20:52:31Z replays (group B): 240 done of 393; 3570983 comparisons, 451 disagreements so far
+2026-11-13T21:02:38Z replays (group B): 279 done of 393; 4527599 comparisons, 498 disagreements so far
+2026-11-13T21:02:44Z replays (group B): 280 done of 393; 4553899 comparisons, 499 disagreements so far
+2026-11-13T21:14:17Z replays (group B): 319 done of 393; 5653746 comparisons, 499 disagreements so far
+2026-11-13T21:14:21Z replays (group B): 320 done of 393; 5682495 comparisons, 499 disagreements so far
+2026-11-13T21:22:21Z replays (group B): 359 done of 393; 6774691 comparisons, 524 disagreements so far
+2026-11-13T21:22:23Z replays (group B): 360 done of 393; 6802387 comparisons, 525 disagreements so far
+2026-11-13T21:34:16Z replays done: 395 real-date replays (393 planned + 2 added for the 20th day-60 signal; 8 re-run after a checker crash on states with no worked example) + 3 envelope runs: 7771248 comparisons, 268 disagreements (1 distinct: wording, pre-22-Nov-2024 states only)
+2026-11-13T21:35:25Z report written: AUDIT25_NUMBERS.md; A 59234 comparisons / 0 disagreements; B 7771248 / 268 (1 distinct, wording)

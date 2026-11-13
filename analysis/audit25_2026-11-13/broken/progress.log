@@ -1,0 +1,7 @@
+2026-11-13T19:27:46Z stage 0: setup, read brief and code; states 0, disagreements 0
+2026-11-13T19:42:45Z stage C: repo tests run on a copy: test_seal 18/18, test_page_timing 8/8, test_feed_damage quick 31/31 pass (its replay state has 0 forming cards); states 0 own, disagreements 0
+2026-11-13T20:04:07Z stage A1 (page real-life HTTP/file/clock damage): 240 states, 0 disagreements (10 expectation errors corrected: damage hit non-top-grade ledger rows / CR CR LF read unavailable)
+2026-11-13T20:04:07Z stage B1 (pipeline candles 4H-8D, derivs, pcr damage): 370 states, 0 disagreements (benign cuts SAME, 8 harmless-damage runs HELD late = fail-safe)
+2026-11-13T20:52:02Z stage B2 (datasets between steps, alert log, order, kills, outcomes, clocks, grade.json/baseline/page): pipeline states 613, real disagreements 0 so far (expectation errors: identical older copies, extras-only withholds, benign truncations)
+2026-11-13T20:59:30Z stage D (pipeline->page, quiet market, replays, hardening): totals real page 295 states / 2 disagreements, pipeline 604 states / 3 disagreements; hardening 21 tried, 4 accepted contradictions
+2026-11-13T21:00:44Z report written: 899 real states, 5 disagreements (2 causes); hardening 21 tried

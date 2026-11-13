@@ -1,0 +1,9 @@
+19:33 cloudflare/README.md done: 0 findings (test counts 21/26/21/41/25/36 all reproduce; cron values not in code)
+19:33 docs/artifacts/member-site/README.md done
+19:41 docs/FEED_SPEC.md done: 10 findings
+19:41 docs/CARD_SPEC.md done: 3 findings
+19:41 docs/artifacts/member-site/index.html (page words) done: 3 findings
+19:41 README.md done: 2 findings
+19:41 CONTEXT.md current-rule sections done: 5 findings
+19:41 member-site README recount: 1 finding (entry above logged before count)
+19:43 AUDIT25_DOCS.md and findings.csv written: 24 in-scope findings (k1 2, k2 7, k3 15, k4 0), 5 outside scope

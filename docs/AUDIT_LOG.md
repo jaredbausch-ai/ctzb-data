@@ -804,6 +804,28 @@ feed extras 28/28, candle check 95/95, run seal 18/18, page states 44/44, page t
 test 15/15, year-end replays 8/8, fetch tests 4/4, gate-off and no-today-bar replays, worker tests all pass, fire
 drills 58/58; GitHub run after the push: every step success.
 
+## Round 25 — 13 Nov, 14:30–16:30 ET (audit #25: three independent agents at once)
+
+Scored on Jared's definitions (real data, real-life damage, docs people rely on). **Not clean:** all three parts
+found issues. No wrong figure in any part.
+
+| Part | Checked | Findings |
+|---|---|---|
+| Numbers on real data | 2 frozen states + 395 replayed dates, 7,830,482 comparisons | **1** (wording): with no worked example in the feed (replays before 22 Nov 2024), the example chart said its file "couldn't be loaded" |
+| Real-life damage | 899 states (295 page, 604 pipeline) | 2 causes, none changing a figure: the example the page switched on for a quiet market stayed up after the data went stale on a page left open; feed_live.py run again on its own a day later republished the last run's scoring as fresh |
+| Docs (narrower scope) | 6 documents + CONTEXT's current rules | 24 (2 wrong: active confluences are counted at the confirmation date, not today, in FEED_SPEC and CARD_SPEC; 7 stale; 15 loose), 3 of them on the page: alerts banner, "updates each close", must-close-above estimate |
+
+Reports: `analysis/audit25_2026-11-13/`.
+
+**Changed** (commits 9c20c2b, f148df8, COMMIT25): all 27 findings and 5 outside-scope doc notes, as listed in
+FEED_SPEC "Audit #25 corrections"; the run seal names its run (`started_at`) and feed_live refuses a seal more
+than 2 hours old; the page lists open signals newest first in both Previous signals groups (seen in the numbers
+part's replays, not counted by it); tests: run seal 23 (was 18), page states 48 (was 44), page timing 9 (was 8).
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), feed alerts 31/31,
+feed extras 28/28, candle check 95/95, run seal 23/23, page states 48/48, page timing 9/9, damage test 31/31,
+year-end replays 8/8, gate-off and no-today-bar replays, site Worker 25/25, fire drills 58/58.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
