@@ -23,7 +23,7 @@ def candles(a, tf):
     return json.dumps({"chart": f"{a} {tf}", "bars": [{"t": float(r["time"]), "o": float(r["open"]), "h": float(r["high"]), "l": float(r["low"]), "c": float(r["close"])} for r in csv.DictReader(open(p))]})
 
 
-def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False):
+def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None):
     out = {}
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
     errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
@@ -31,6 +31,7 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex
         u = route.request.url
         if u.endswith("/"): return route.fulfill(body=DOC, content_type="text/html")
         if u.endswith("ctzb_feed.json"): return route.fulfill(body=json.dumps(feed), content_type="application/json") if feed is not None else route.fulfill(status=503, body="x")
+        if u.endswith("trades.json") and trades is not None: return route.fulfill(body=json.dumps(trades), content_type="application/json")
         if u.endswith("ledger.csv"): return route.fulfill(body=ledger) if ledger is not None else route.fulfill(status=503, body="x")
         if "example_" in u: return route.fulfill(body=ex, content_type="application/json")
         if "/candles/" in u:
@@ -41,7 +42,7 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex
         if "fonts" in u: return route.abort()
         return route.fulfill(status=404, body="x")
     pg.route("**/*", h)
-    if feed is not None: pg.clock.install(time=feed["generated_at"])
+    if isinstance(feed, dict) and isinstance(feed.get("generated_at"), str) and feed["generated_at"][:2] == "20": pg.clock.install(time=feed["generated_at"])
     for v in views:
         pg.goto("http://site.test/#" + v); pg.wait_for_timeout(1500)
         if example_on and not pg.is_checked("#previewSwitch"):
@@ -109,6 +110,31 @@ def main():
         nocard = copy.deepcopy(FEED)
         for o in nocard["open_signals"]: o["card"] = None; o["edge_status"] = None; o["edge_level_pct"] = None
         t_nc, e_nc = render(pw, nocard, views=("now", "chart"))
+        # hand-broken feeds (13 Nov 2026 audit #20): each must read as unavailable, never as a figure or a blank page
+        def mut(fn):
+            f = copy.deepcopy(FEED); fn(f); return f
+        def first_card(f): return next(o["card"] for o in f["open_signals"] if o.get("card") and o["grade"] == "A+")
+        broken = {
+            "withheld flag set but cards left in": (mut(lambda f: f.update(cards_withheld=True)), lambda x: "Held back" in x["now"] and "rose 10% within 60 days" not in x["now"]),
+            "no posting bar anywhere and odds_fade empty": (mut(lambda f: (f.pop("posting_bar_pct", None), f.update(odds_fade={}))), lambda x: True),
+            "odds_fade missing": (mut(lambda f: (f.pop("posting_bar_pct", None), f.pop("odds_fade", None))), lambda x: True),
+            "price_now not a number": (mut(lambda f: first_card(f).update(price_now="abc")), lambda x: "$NaN" not in x["now"] + x["chart"]),
+            "typical day of the high missing": (mut(lambda f: first_card(f).update(typical_day_of_60d_high=None)), lambda x: "day null" not in x["chart"] and "Day null" not in x["now"]),
+            "unknown edge_status": (mut(lambda f: [o.update(edge_status="weird") for o in f["open_signals"]]), lambda x: "On track" not in x["now"] and "Status unavailable" in x["now"]),
+            "unknown market_regime": (mut(lambda f: f.update(market_regime="Sideways")), lambda x: "Market filter: unavailable" in x["now"]),
+            "generated_at missing": (mut(lambda f: f.pop("generated_at")), lambda x: "Feed unavailable" in x["now"]),
+            "generated_at not a date": (mut(lambda f: f.update(generated_at="soon")), lambda x: "Feed unavailable" in x["now"]),
+            "feed is a list": ([1, 2, 3], lambda x: "Feed unavailable" in x["now"]),
+        }
+        for name, (feed, cond) in broken.items():
+            tx, ex_ = render(pw, feed, views=("now", "chart", "record", "read"))
+            good = cond(tx) and not ex_ and not any(BAD.search(v) for v in tx.values())
+            n += 1; ok += bool(good)
+            print(f"  {'PASS' if good else '*** FAIL ***'}  broken feed, {name}: reads as unavailable, no error, no placeholder" + ("" if good else f"  -- {str(ex_[:1])} {[m.group(0) for v in tx.values() for m in BAD.finditer(v)][:3]}"))
+        tr = {"trades": [{"asset": "BTC", "direction": None, "action": None, "price": None, "time": None}]}
+        t_tr, e_tr = render(pw, FEED, views=("now", "chart"), trades=tr)
+        good = "in · null" not in t_tr["now"] and not e_tr and not BAD.search(t_tr["now"])
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader trade with empty fields: no 'in · null', no error" + ("" if good else f"  -- {e_tr[:1]}"))
         nomiss = copy.deepcopy(FEED)
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         t_nm, e_nm = render(pw, nomiss, views=("now",))

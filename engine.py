@@ -1,4 +1,5 @@
-"""CTZB engine - mirrors ct_zone_bounce_v8.pine exactly.
+"""CTZB engine - mirrors the CT Zone Bounce Pine indicator exactly (first rebuilt from
+ct_zone_bounce_v8.pine; the live indicator is pine/ct_zone_bounce_v15.pine, see CONTEXT).
 Rebuilt from Pine source, not from memory."""
 import csv, math, os, datetime as dt
 

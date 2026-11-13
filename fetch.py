@@ -130,6 +130,56 @@ def resample(bars, tf):
     return out
 
 
+# The exchange's history starts here; a daily file that starts later has lost history (daily() stops paging
+# on an empty response, so a hiccup mid-fetch would otherwise pass as a short but "fresh" file).
+FIRST_DAY = {"ETH": dt.date(2016, 5, 18), "BTC": dt.date(2016, 1, 1)}
+# Days the exchange itself has no candle for. Any other missing day inside a daily file is a fault.
+KNOWN_MISSING = {"ETH": {dt.date(2016, 5, 21), dt.date(2016, 5, 22)}, "BTC": set()}
+
+
+def history_problems(data_dir, assets=("ETH", "BTC"), upto=None):
+    """Whole-history checks on the candle files (13 Nov 2026 audit #20): each daily file starts on the
+    exchange's first day and has no missing day after it (bar the two the exchange never had), and every
+    2D-8D file is exactly the daily candles bucketed by resample(). Returns a
+    list of problems, empty when the files are whole. `upto` (a date) ignores the first-day rule for replays
+    that are cut on purpose; the bucket rule always applies."""
+    bad = []
+    for a in assets:
+        p1 = os.path.join(data_dir, f"{a}_1D.csv")
+        with open(p1) as f:
+            rows = list(csv.DictReader(f))
+        daily = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
+                 tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in rows}
+        if not daily:
+            bad.append(f"{a}_1D is empty"); continue
+        if min(daily) > FIRST_DAY[a]:
+            bad.append(f"{a}_1D starts {min(daily)}, expected {FIRST_DAY[a]}: history is missing")
+        d, holes = min(daily), []
+        while d < max(daily):
+            if d not in daily and d not in KNOWN_MISSING[a]:
+                holes.append(d)
+            d += dt.timedelta(days=1)
+        if holes:
+            bad.append(f"{a}_1D has {len(holes)} missing day(s) (first {holes[0]})")
+        for tf in TIMEFRAMES:
+            p = os.path.join(data_dir, f"{a}_{tf}D.csv")
+            if not os.path.exists(p):
+                bad.append(f"{a}_{tf}D is missing"); continue
+            with open(p) as f:
+                got = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
+                       tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in csv.DictReader(f)}
+            want = {d: v[:4] for d, v in resample({d: v + (0.0,) for d, v in daily.items()}, tf).items()}
+            if set(got) != set(want):
+                miss = sorted(set(want) - set(got)); extra = sorted(set(got) - set(want))
+                bad.append(f"{a}_{tf}D bars differ from the daily candles: {len(miss)} missing"
+                           + (f" (first {miss[0]})" if miss else "") + f", {len(extra)} extra")
+            else:
+                diff = [d for d in want if any(abs(x - y) > 1e-9 for x, y in zip(got[d], want[d]))]
+                if diff:
+                    bad.append(f"{a}_{tf}D: {len(diff)} bar(s) are not their daily candles bucketed (first {min(diff)})")
+    return bad
+
+
 def write(path, bars):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", newline="") as f:

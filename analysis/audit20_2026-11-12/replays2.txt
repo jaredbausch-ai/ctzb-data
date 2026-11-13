@@ -1,0 +1,15 @@
+2020-09-01 - first in-scope day (rerun after checker fix)
+2020-12-28 - top-grade forming before a year-end (ETH 2D A+ 29 Dec 2020)
+2021-04-09 - top-grade forming (ETH 1D/5D A+ 10 Apr 2021)
+2021-02-08 - top-grade forming (ETH 5D A+ 9 Feb, 1D 10 Feb 2021)
+2023-10-26 - top-grade forming (ETH 5D A+ 27 Oct 2023)
+2024-02-29 - leap day
+2024-03-01 - day after leap day
+2024-05-28 - top-grade forming (ETH 5D A+ 29 May 2024)
+2025-08-23 - top-grade forming (ETH 2D A+ 24 Aug 2025)
+2025-10-05 - top-grade forming (ETH 3D A+ 6 Oct 2025)
+2026-11-10 - near today
+2026-11-11 - near today
+2021-08-26 2021-08-26T20:13:00Z nothing live or forming (filter on), other clock time
+2024-11-22 2024-11-22T00:01:00Z example appears, just after midnight
+2025-01-01 2025-01-01T00:03:00Z new year, just after midnight

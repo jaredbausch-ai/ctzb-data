@@ -1,0 +1,96 @@
+# date clock category
+2020-09-01 - first in-scope day
+2020-09-15 - early history
+2020-10-10 - early history
+2020-10-21 - top-grade forming? (ETH 5D/2D A+ confirm 21-22 Oct 2020)
+2020-11-06 - day after confirmation (A+ 5 Nov 2020)
+2020-12-30 - year-end
+2020-12-31 - year-end
+2021-01-01 - year-end
+2021-01-02 - year-end
+2021-01-03 - top-grade forming (ETH 1D A+ 4 Jan 2021, ETH 3D A+ 3 Jan)
+2021-03-15 - ordinary
+2021-05-20 - crash
+2021-06-07 - last day of filter episode (on)
+2021-06-08 - first day filter off
+2021-06-20 - filter off, signals still open
+2021-07-15 - filter off
+2021-08-17 - nothing live or forming (filter off)
+2021-08-18 - last day filter off
+2021-08-19 - first day filter on
+2021-08-26 - nothing live or forming (filter on)
+2021-10-02 - day after confirmation (A+ 1 Oct 2021)
+2021-10-04 - top-grade forming (BTC/ETH 2D A+ 5 Oct 2021)
+2021-11-10 - cycle top
+2021-12-31 - year-end
+2022-01-01 - year-end
+2022-01-07 - 60th day closes (A+ 8 Nov 2021 + 60)
+2022-01-08 - day after 60th day closes
+2022-01-26 - last day filter on
+2022-01-27 - first day filter off
+2022-03-10 - filter off
+2022-06-13 - nothing live or forming (filter off)
+2022-11-09 - nothing live or forming (filter off)
+2022-12-31 - year-end, filter off
+2023-01-01 - year-end, filter off
+2023-01-24 - last day filter off
+2023-01-25 - first day filter on
+2023-01-28 - nothing live or forming (filter on)
+2023-01-30 - nothing live or forming (filter on)
+2023-03-12 - ordinary
+2023-06-20 - top-grade forming (BTC 2D A+ 21 Jun 2023)
+2023-06-22 - day after confirmation
+2023-08-18 - ordinary
+2023-09-29 - top-grade forming / confirmation day (BTC 1D A+ 29 Sep 2023)
+2023-12-01 - top-grade forming (ETH 5D A+ 6 Dec, ETH 1D 2 Dec)
+2023-12-31 - year-end (ETH 5D A+ forming across it)
+2024-01-01 - year-end
+2024-01-02 - year-end
+2024-02-06 - top-grade forming (ETH/BTC 1D A+ 7 Feb 2024)
+2024-03-06 - ordinary
+2024-08-06 - ordinary
+2024-09-21 - example signal forming
+2024-09-22 - example signal's confirmation day
+2024-09-23 - day after the example confirmed
+2024-10-15 - top-grade forming (ETH/BTC 2D A+ 16 Oct 2024)
+2024-11-06 - top-grade forming (ETH/BTC 1D A+ 7 Nov 2024)
+2024-11-08 - day after confirmation
+2024-11-21 - example's day 60 in progress (no example yet)
+2024-11-22 - example's 60th day closed (example appears)
+2024-12-30 - year-end
+2024-12-31 - year-end
+2025-01-01 - year-end
+2025-01-19 - top-grade forming (ETH 2D A+ 20 Jan 2025)
+2025-02-04 - ordinary
+2025-04-13 - top-grade forming (BTC 2D A+ 14 Apr 2025)
+2025-04-28 - top-grade forming (ETH 3D A+ 30 Apr 2025)
+2025-06-13 - 60th day in progress (BTC 2D A+ 14 Apr 2025 + 60)
+2025-06-14 - day after 60th day closes
+2025-07-09 - top-grade forming (BTC 1D A+ 10 Jul 2025)
+2025-07-11 - day after confirmation
+2025-07-11 2025-07-11T00:02:00Z clock just after midnight
+2025-07-11 2025-07-11T12:30:00Z clock midday
+2025-07-11 2025-07-11T23:58:00Z clock just before midnight
+2025-10-11 - ordinary (10 Oct 2025 flush)
+2025-12-03 - top-grade forming (ETH/BTC 1D A+ 4 Dec 2025)
+2025-12-04 - last day filter on
+2025-12-05 - first day filter off
+2025-12-31 - year-end, filter off
+2026-01-01 - year-end, filter off
+2026-01-15 - filter off, signals still open
+2026-02-02 - 60th day in progress (A+ 4 Dec 2025 + 60)
+2026-02-03 - day after 60th day closes
+2026-03-17 - nothing live or forming (filter off)
+2026-06-04 - nothing live or forming (filter off)
+2026-08-01 - nothing live or forming (filter off)
+2026-09-01 - last day filter off
+2026-09-02 - first day filter on
+2026-09-10 - filter on, first forming lows
+2026-09-20 - top-grade forming (BTC 2D A+ 21 Sep 2026)
+2026-09-22 - day after confirmation (live A+)
+2026-10-01 - ordinary
+2026-11-01 - ordinary
+2026-11-12 2026-11-12T16:13:00Z other clock time
+2026-11-12 2026-11-12T00:00:30Z clock 30 s after midnight
+2024-03-10 2024-03-10T20:13:00Z other clock time
+2022-06-13 2022-06-13T08:43:00Z nothing live, other clock time

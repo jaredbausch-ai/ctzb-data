@@ -335,7 +335,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // toLocaleString's own rounding breaks ties differently (12 Nov 2026 audit #16)
   // a whole-percent share, or "n/a" with no stray % sign when there is none (12 Nov 2026 audit #18)
   const pc = (v) => (v == null || v === "") ? "n/a" : v + "%";
-  const money = (v) => v == null ? "n/a" : "$" + (+(+v).toFixed(2)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const money = (v) => (v == null || v === "" || !Number.isFinite(+v)) ? "n/a" : "$" + (+(+v).toFixed(2)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const median = (a) => { const s = a.filter((x) => Number.isFinite(x)).sort((x, y) => x - y); if (!s.length) return null; const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
   const r1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(+v)) ? null : +(+v).toFixed(d); // half away from zero, like the feed
   const share = (rows, f) => rows.length ? Math.round(100 * rows.filter(f).length / rows.length) : null;
@@ -389,9 +389,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const misses = (asset, grade = "A+") => ((S.feed && S.feed.if_it_misses) || []).find((m) => m.asset === asset && (m.grade || "A+") === grade) || null;
 
   /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
-  function liveCards() { return ((S.feed && S.feed.cards) || []).filter((c) => c.grade === "A+"); }
+  // A feed flagged as withheld shows no card and no live signal, even if it still carries some (13 Nov 2026 audit #20)
+  const feedCards = () => (S.feed && !S.feed.cards_withheld && Array.isArray(S.feed.cards)) ? S.feed.cards : [];
+  const feedOpen = () => (S.feed && !S.feed.cards_withheld && Array.isArray(S.feed.open_signals)) ? S.feed.open_signals : [];
+  function liveCards() { return feedCards().filter((c) => c.grade === "A+"); }
   // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +10% odds.
-  function formingCards() { return ((S.feed && S.feed.cards) || []).slice().sort((a, b) => (b.rose10_within60d_pct ?? -1) - (a.rose10_within60d_pct ?? -1)); }
+  function formingCards() { return feedCards().slice().sort((a, b) => (b.rose10_within60d_pct ?? -1) - (a.rose10_within60d_pct ?? -1)); }
   function bestCard() { return liveCards()[0] || formingCards()[0] || null; }
   // Fire drills, 11 Nov 2026: an outage, a failed check or an old feed must never read as
   // "nothing is happening". The pipeline rewrites the feed every 4 hours; 5 hours means a
@@ -433,7 +436,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       fromEntryExact: c.from_entry ? (c.from_entry.still_rose10_exact_pct ?? c.from_entry.still_rose10_pct) : null,
     };
   }
-  function openSignals() { return ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+"); }
+  function openSignals() { return feedOpen().filter((o) => o.grade === "A+"); }
   function cardFromOpen(o) {
     const asset = o.chart.split(" ")[0], tf = o.chart.split(" ")[1];
     // 12 Nov 2026 audit: a live setup has its own card (its own sample, ladder and edge), like a forming one
@@ -515,6 +518,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>`
           : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>`
+          : m.kind === "open" && !["lost", "rose10", "intact"].includes(m.edgeStatus) ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)"><b>Status unavailable.</b> The odds below are as of the entry close, not from today.</div>`
           : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before falling to its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`)} The odds below are as of the entry close, not from today.</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
@@ -536,11 +540,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="sec-title">The detail</div>
         <div class="tiles num">
           <div class="tile"><div class="t">Dip before the high, from entry</div><div class="v lo">${pct(m.dipBefore)}</div></div>
-          <div class="tile"><div class="t">High lands around</div><div class="v hi">Day ${m.highDay ?? "n/a"}</div></div>
+          <div class="tile"><div class="t">High lands around</div><div class="v hi">${m.highDay != null ? "Day " + m.highDay : "n/a"}</div></div>
           <div class="tile"><div class="t">Reached +20% within 60 days · n ${m.n}</div><div class="v hi">${pc(m.odds)}</div></div>
           <div class="tile"><div class="t">Touched ${MINUS}30% within 60 days · n ${m.n}</div><div class="v lo">${pc(m.touched30)}</div></div>
           <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
-          ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">Day ${m.lowDay ?? "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${pc(e.redOdds)}</div></div>`}
+          ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">${m.lowDay != null ? "Day " + m.lowDay : "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${pc(e.redOdds)}</div></div>`}
           <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
           <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
         </div>
@@ -577,7 +581,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const open = t.filter((x) => x.asset === m.asset);
     const last = open[0];
     if (!last) return "not in";   // he has posted trades, but none on this asset (audit #19)
-    return last.action !== "close" ? `in · ${last.direction}` : "out";
+    if (!last.action) return "unavailable";   // a trade row with no action says nothing (audit #20)
+    return last.action !== "close" ? (last.direction ? `in · ${last.direction}` : "in") : "out";
   }
 
   /* ---------- Now: lead trader ---------- */
@@ -623,10 +628,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // 12 Nov 2026 audit #9: decided in the pipeline on exact prices and closed daily bars, by whichever
     // came first: +10%, or a fall to the setup's own edge level (low checked first within a day)
     // No page-side guess (audit #19): without the feed's status the setup is listed with "Status unavailable".
-    return o.edge_status ? (o.edge_status === "lost" ? "fading" : "intact") : "unknown";
+    return o.edge_status === "lost" ? "fading" : (o.edge_status === "intact" || o.edge_status === "rose10") ? "intact" : "unknown";
   }
   function renderPrev() {
-    const open = ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+");
+    const open = openSignals();
     const intact = open.filter((o) => openStatus(o) !== "fading"), fading = open.filter((o) => openStatus(o) === "fading");
     $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">${{ down: "Unavailable: the feed can't be read right now.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No open top-grade setup with its edge intact."}</div>`;
     const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
@@ -638,7 +643,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   }
   function miniOpen(o, cls) {
     return `<div class="mini ${cls}"><div><div class="name">${esc(o.chart)}</div><div class="sub num">Day ${o.days_elapsed} of 60 · best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</div></div>
-      <span class="badge ${cls ? "no" : "yes"}">${cls ? "Edge lost" : !o.edge_status ? "Status unavailable" : o.edge_status === "rose10" ? "Rose 10%" : "On track"}</span></div>`;
+      <span class="badge ${cls ? "no" : "yes"}">${cls ? "Edge lost" : o.edge_status === "rose10" ? "Rose 10%" : o.edge_status === "intact" ? "On track" : "Status unavailable"}</span></div>`;
   }
 
   /* ---------- header ---------- */
@@ -646,7 +651,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const f = S.feed;
     const on = f && /bull/i.test(f.market_regime || "");
     $("#filterPill").classList.toggle("off", !on);
-    const known = f && typeof f.market_regime === "string" && f.market_regime !== "";   // a fail-closed feed carries no regime
+    const known = f && typeof f.market_regime === "string" && /^(bullish|bearish)$/i.test(f.market_regime.trim());   // anything else, or nothing, is unknown
     $("#filterText").textContent = !f ? "Feed unavailable" : known ? `Market filter: ${on ? "on" : "off"}` : "Market filter: unavailable";
     $("#forming").innerHTML = "";
     $("#rvAsof").textContent = f ? `${f.scored_as_of ? dateLong(f.scored_as_of) : "unavailable"} (feed ${f.generated_at.slice(11, 16)} UTC)` : "unavailable";
@@ -797,7 +802,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const lastBarIsToday = !feedDay || dayOf(barNextOpen(bars[bars.length - 1].t, tfd) - 86400) >= feedDay;   // the bar that holds today
     vline(xT, "var(--text)", forming && !(c && c._open) ? (lastBarIsToday ? "Today" : `Latest bar · ${dateLong(lastBarDay)}`) : "Entry");
     if (!sf) vline(x10, "var(--fade-2)", `Day 10 · red here: ${pc(e.redOdds)} still rose 10% after day 10`, "4 5", B - 8);
-    vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
+    if (m.highDay != null && Number.isFinite(+m.highDay)) vline(xHigh, "var(--high)", `High usually ~day ${m.highDay}`, "4 5");
     vline(x60, "var(--fade)", "Day 60", "", T + 30);
     if (forming && !(c && c._open) && A > E) vline(X(A), "var(--live)", `Confirms ${dateLong(c.confirms_on)} · entry, day 0`, "2 4", T + 48);
     const upto = forming ? bars.length : (happened ? bars.length : E + 1);
@@ -977,7 +982,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   async function boot() {
     const [feed, ledgerText, trades, example] = await Promise.all([
       get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
-    S.feed = feed; S.trades = trades;
+    // A feed that isn't an object with a real timestamp is no feed (13 Nov 2026 audit #20: a list, or a missing
+    // or malformed generated_at, threw and left the card area blank instead of "Data unavailable")
+    const feedOk = feed && typeof feed === "object" && !Array.isArray(feed) && typeof feed.generated_at === "string" && Number.isFinite(Date.parse(feed.generated_at));
+    // the general odds-fade table is used only when it is whole: both lists present and non-empty
+    if (feedOk && !(feed.odds_fade && Array.isArray(feed.odds_fade.early_dip) && feed.odds_fade.early_dip.length && Array.isArray(feed.odds_fade.day10) && feed.odds_fade.day10.length)) feed.odds_fade = null;
+    S.feed = feedOk ? feed : null; S.trades = (trades && typeof trades === "object" && !Array.isArray(trades)) ? trades : null;
     // A file cut short in transit must read as unavailable, never as the whole record (12 Nov 2026 audit #18).
     // The example's chart file is whole only if it reaches 60 days past its entry bar.
     const exOk = example && Array.isArray(example.bars) && Number.isInteger(example.entry_index) && example.bars[example.entry_index]

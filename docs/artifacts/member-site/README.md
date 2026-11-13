@@ -1,8 +1,8 @@
-# Member site (item 18), review build 11 Nov 2026
+# Member site (item 18)
 
-Published for review at claude.ai/artifact/VButMskEvrwYEcxW3Ap7cm with a snapshot of the
-feed (11 Nov 18:24 UTC) and `datasets/ledger.csv`. The page reads everything by relative
-path, so the deployed version serves the same file and proxies:
+`index.html` is the member page. It was first published for review on 11 Nov 2026 (claude.ai/artifact/VButMskEvrwYEcxW3Ap7cm,
+with a feed snapshot); that review copy is not kept up to date. The current page is this file, and the live
+site is the `ctzb-site` Worker built from it. The page reads everything by relative path:
 
 | Path the page reads | Live source |
 |---|---|

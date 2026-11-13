@@ -46,7 +46,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
 | Typical lowest point vs the buy price, before it made its 60-day high (wording fixed 4 Nov 2026; was "Typical dip before the 60-day high", which read as a pullback from profit) | Median, across the past trades, of each trade's lowest low from the day after the buy up to the day of its 60-day high, as a percentage of the BUY PRICE. Negative = it was under the buy price at some point before topping. It is not a pullback from a profit | `dipBeforeHigh` |
 | Typical deepest dip below the buy price | Median of each trade's lowest price in 60 days, as a percentage of the buy price | `maxDip60` |
 | Fell 30% or more at some point | Share whose lowest price in 60 days was 30% or more below the buy price | `touched30` |
-| Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility) | `scaled20` |
+| Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility). Signals with no full year of volatility before entry (BTC before 2017) are left out of both the count and the denominator | `scaled20` |
 | Before 2022 / since 2022 (N signals) | "Rose 10% and never fell 25.3%" (surv10, the line under the big number) split by entry date, with each half's count. The two counts must add up to the card's n | `surv10Old`, `nOld`, `surv10New`, `nNew` |
 | If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that then rose 10% BEFORE falling 25.3% (12 Nov 2026 wording: "before", which is what the code measures), and the share that went on to fall 25.3%. Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
 | Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown rounded DOWN to the cent (since 12 Nov 2026 audit #16), so every close above the shown price confirms and a close at it does not. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
@@ -97,8 +97,9 @@ below is defined here; anything not listed is in the table above.
 - The sample size is always visible, small, under the big number. Anything on a different sample
   shows its own n: each ladder row, each era, and the misses (their count and the pool, named on the
   "If it misses" row itself and on the miss tiles, on every card).
-- The card always ends with: these are past signals, not real trades, and past
-  results don't promise future ones. Entry quality only.
+- The card always ends by saying these are past signals, not real trades, and that this is entry quality
+  only. The dashboard console uses the sentence above; the member card's foot reads "Statistics from past
+  signal history. Entry quality only: no exit, not a trade or a track record." Either wording meets the rule.
 - A forming low is labelled "Setup forming" with "It can still vanish before it confirms" until it
   confirms.
 

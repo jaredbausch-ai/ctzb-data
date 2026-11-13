@@ -8,7 +8,9 @@ re-choose lenses. The lens list is read from analysis/grade.json.
   ETH lenses: GAP (CT > Signal by 5+), HIGH (entry above the previous signal),
   AGREE (2+ other ETH charts confirmed 0-10 days before), BTC3 (BTC 3D
   confirmed 0-10 days before; ETH 1D/2D), FUND (funding at or above its 90-day
-  median). BTC lenses: GAP, UP8 (8D CT rising). 8D signals are not graded.
+  median), FCOOL (funding not cooling), BTCX (an ETH 2D signal in the 10 days
+  before). BTC lenses: GAP, UP8 (8D CT rising), FASTCT (CT recovering fast from
+  the low). analysis/grade.json is the authority. 8D signals are not graded.
 
 Writes / changes, in datasets/:
   dipdist.csv    every graded signal's largest dip from entry within 60 days, so

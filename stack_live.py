@@ -203,6 +203,12 @@ def main():
     # The last daily bar must be today's open bar: everything below (closed / open, forming lows, day counts)
     # assumes it. The workflow's freshness check guarantees it for a real run; this fails closed anywhere else
     # (12 Nov 2026 audit #17: a run just after midnight on yesterday's bar mixed two days).
+    import fetch
+    hist = fetch.history_problems('data')
+    if hist:   # a candle file cut short, or a 2D-8D file that isn't its daily candles bucketed (audit #20)
+        msg = 'candle files are not whole: ' + '; '.join(hist)
+        open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED {msg}\n')
+        raise SystemExit('stack_live: ' + msg)
     for a_ in ASSETS:
         if max(DAY[a_]['date']) != today:
             msg = f"{a_} daily candles end {max(DAY[a_]['date'])} but the clock says {today}: today's bar is missing"

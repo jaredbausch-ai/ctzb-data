@@ -62,7 +62,7 @@ signals, bars = E.signals("data/ETH_3D.csv", regime=reg)
 
 ## Rescoring the dashboard
 
-`refresh.py` turns the candles into the ten datasets behind the ETH Setup
+`refresh.py` turns the candles into the 13 datasets behind the ETH Setup
 Odds dashboard:
 
 ```

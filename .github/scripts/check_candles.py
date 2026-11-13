@@ -126,6 +126,13 @@ def main(argv=None, kraken=kraken_closes, today=None):
               "cross_mode": a.cross, "max_close_gap_pct": a.max_close_gap,
               "structural_ok": True, "structural_problems": [], "cross": {}}
     fail = []
+    # whole-history checks (13 Nov 2026 audit #20): no lost history, and every 2D-8D file is its daily candles
+    # bucketed. A daily file cut short, or a multi-day file that doesn't match it, fails the run here.
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    import fetch
+    hist = fetch.history_problems(a.data)
+    report["structural_problems"] += hist
+    fail += hist
     for asset in ("ETH", "BTC"):
         d1 = load(os.path.join(a.data, f"{asset}_1D.csv"))
         h4 = load(os.path.join(a.data, f"{asset}_4H.csv"))

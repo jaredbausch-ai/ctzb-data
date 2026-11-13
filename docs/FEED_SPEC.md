@@ -152,7 +152,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 
 - `grade_odds[].sample` is that grade's own first and last signal ("2020-04-18 to 2025-12-04"),
   not the asset's whole range.
-- Every rounded figure is rounded half away from zero (62.5 -> 63), once, from the unrounded value.
+- Every rounded figure is rounded half away from zero (62.5 -> 63), once, from the unrounded value. Precisely (13 Nov 2026 audit #20): `rounding.rnd` rounds the stored number's binary float, as Python's `Decimal(float)` and JavaScript's `toFixed` both do, so a value that reads as an exact tie at the display digit in decimal (2.675) is decided by the float (2.67). No such tie exists in the data; the pipeline and the page use the same rule, so they cannot disagree.
 - A signal appears in the ledger, and in every figure built from it, only once its 60th day has closed.
 
 ### Second audit corrections (12 Nov 2026, independent audit #3)
@@ -217,7 +217,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   (cards.csv `l0okExact`, `l5okExact` ... `l20okExact`). The page tests the bar on those.
 - **Rounding, stated precisely.** Each signal's measures are stored to 6 decimal places (the ledger); that is
   the "exact" value. Card medians and shares are computed on full-precision measures and stored to 6 places
-  (`*_exact_pct`); every displayed figure is rounded once, from that value, half away from zero.
+  (`*_exact_pct`); every displayed figure is rounded once, from that value, half away from zero (on the float's binary value; see "Audit corrections").
 - `verify_cards.py` now re-derives every figure on a card (see CARD_SPEC "What keeps it airtight" #2).
 
 ### Audit #9 corrections (12 Nov 2026)
@@ -233,7 +233,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - One "known by then" rule: a past signal counts once its 60th day (entry + 60) has closed by the moment in
   question. The ledger's odds-on-the-day columns used entry + 61 (one day stricter); they now use entry + 60,
   like the example. 73 ledger rows' odds-on-the-day columns moved; nothing else (baseline re-approved).
-- The page types no figures: the 70% bar in How to read comes from the feed (top-level `posting_bar_pct` since audit #14; `odds_fade.posting_bar_pct` before), "about N times a year" is counted from the ledger (2020-2025), and without the
+- The page types no figures: the 70% bar in How to read comes from the feed (top-level `posting_bar_pct` since audit #14; `odds_fade.posting_bar_pct` before), "about N times a year" is counted from the ledger (2020 to last year, so it rolls forward each January), and without the
   feed's `example_card` the example says "unavailable" rather than falling back to built-in numbers.
 - Every forming card says it can still vanish (top grade too), and How to read says a confirmed alert is final
   while a forming heads-up can vanish.
@@ -308,3 +308,30 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   feed labels that bar "Latest bar · date", not "Today".
 - Replays of dates before 22 Nov 2024 carry no worked example (`example_card` empty): the example signal's 60
   days had not closed yet. The page then says "Example unavailable".
+
+### Audit #20 corrections (13 Nov 2026)
+
+- Candle files are checked whole before anything is scored (`fetch.history_problems`, called by
+  `.github/scripts/check_candles.py` and again by `stack_live.py`, which fails closed): each daily file must
+  start on the exchange's first day (ETH 2016-05-18, BTC 2016-01-01) and have no missing day after it
+  (ETH 21 and 22 May 2016 excepted: the exchange has no candle for them), and every 2D-8D file must be exactly its
+  daily candles bucketed. A file cut short used to pass every step.
+- The member page checks the feed before using it: it must be a JSON object with a readable `generated_at`,
+  or the page says "Data unavailable". With `cards_withheld` true, `cards` and `open_signals` are ignored even
+  if present. `odds_fade` is used only when both of its lists are non-empty. A price that is not a number
+  prints "n/a". An `edge_status` other than lost / rose10 / intact reads "Status unavailable", and a
+  `market_regime` other than Bullish / Bearish reads "Market filter: unavailable".
+- The worked example's chart file (`data/example_ETH-2D-2024-09-22.json`) ends with the bar that holds day 60
+  (51 bars); it carried one later bar.
+- Definitions that were only in code:
+  - Ledger odds-on-the-day columns (`dayReach10`, `dayReach20`, `dayReach30`, `dayTouched30`, `daySurv10`,
+    `dayScaled20`, `dayN`): from signals of the same asset whose 60th day (entry + 60) had closed by this
+    entry's date. `dayN` is how many of those had the same grade; the columns are blank until `dayN` is 10.
+    Each rate is (hits among the same grade + 5 x the rate among all those prior signals) / (same-grade count
+    + 5), rounded once: the grade's rate pulled toward the asset's base rate with a weight of 5 signals.
+    `dayScaled20` leaves out signals with no full year of volatility before entry, in both the grade and the base.
+  - `trades_a_year` / `signals_a_year`: signals in the 70%+ tier (one per chart per date) divided by the years
+    from the tier's first signal to the last date a signal could have completed its 60 days (data end minus 60
+    days), rounded once.
+  - `past_paths` / `example_past_paths` quartiles and medians: linear interpolation between the two nearest
+    ranked values (position (n - 1) x q), on the exact path values, rounded once.

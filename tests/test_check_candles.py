@@ -8,7 +8,7 @@ import check_candles as C
 import tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = tempfile.mkdtemp()
-for f in ('ETH_1D','BTC_1D','ETH_4H','BTC_4H'): shutil.copy(f'{ROOT}/data/{f}.csv', T)
+for f in [f'{a_}_{tf}' for a_ in ('ETH','BTC') for tf in ('1D','2D','3D','5D','8D','4H')]: shutil.copy(f'{ROOT}/data/{f}.csv', T)
 today = dt.datetime.now(dt.timezone.utc).date()
 def cb(asset, path=T):
     return {dt.datetime.fromtimestamp(t, dt.timezone.utc).date(): v for t, v in C.load(f'{path}/{asset}_1D.csv').items()}
@@ -63,6 +63,19 @@ mutate(lambda rows: rows.pop(-10), 'missing day')
 mutate(lambda rows: rows[-5].update(low=str(float(rows[-5]['high'])*1.01)), 'low above high')
 mutate(lambda rows: rows[-7].update(close='0'), 'zero close')
 mutate(lambda rows: rows[-3].update(volume='0'), 'zero volume on a closed day')
+print('--- 6. whole-history faults (13 Nov 2026 audit #20) ---')
+def cut(name, keep, label, want):
+    M = f'{T}/m'; shutil.rmtree(M, ignore_errors=True); shutil.copytree(T, M, ignore=shutil.ignore_patterns('m','*.py','*.json'))
+    with open(f'{M}/{name}.csv') as fh: lines = fh.read().split('\n')
+    body = [x for x in lines[1:] if x]
+    with open(f'{M}/{name}.csv','w') as fh: fh.write('\n'.join([lines[0]] + keep(body)) + '\n')
+    r = run(label, 1, [], fake(), data=M)
+    ok = any(want in p for p in r['structural_problems']); results.append(ok)
+    print(f"  {'PASS' if ok else '*** FAIL ***'}  ... and the report names it: {[p for p in r['structural_problems'] if want in p][:1]}")
+cut('BTC_1D', lambda b: b[-40:], 'BTC daily file cut to its last 40 bars', 'history is missing')
+cut('ETH_2D', lambda b: b[:len(b)//2], 'ETH 2D file cut to its first half', 'ETH_2D bars differ from the daily candles')
+cut('ETH_5D', lambda b: b[:-1], 'ETH 5D file missing its last bar', 'ETH_5D bars differ from the daily candles')
+cut('ETH_1D', lambda b: b[:1500] + b[1501:], 'ETH daily file missing one day years back', 'ETH_1D has 1 missing day')
 print(f"\n{sum(results)}/{len(results)} passed")
 
 sys.exit(0 if all(results) else 1)

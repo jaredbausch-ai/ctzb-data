@@ -550,6 +550,54 @@ gate-off and no-today-bar replays, year-end replays 8/8, page states 26/26, fetc
 
 ---
 
+## Round 20 — 13 Nov, 00:40 ET (audit #20, a new independent agent)
+
+**Found: nothing wrong on any figure a working pipeline publishes.**
+
+| Scope | Comparisons | Disagreements |
+|---|---|---|
+| (A) Both frozen states (data and rendered page) | 60,174 | 0 |
+| (B) 110 replays of other real dates, Sep 2020 – Nov 2026 | 2,357,666 | 1 figure: the worked example's chart file carried one candle after day 60 (a static file the replay does not cut; no card figure affected) |
+| (C) 150 deliberately broken or synthetic states | 711 | 9 causes |
+| (C) 5 tampered-candle states the pipeline published, re-audited in full | 138,427 | 0 (self-consistent) |
+| Docs vs code | — | 1 rounding wording (no instance in the data), 11 loose or stale sentences |
+
+The replays covered 23 filter-off runs, 12 first/last days of a filter episode, 19 year-end days and the 2024
+leap day, 35 with a top-grade forming card, 11 with nothing live or forming, 23 quiet cards, 9 around a
+signal's day 60, 10 the day after a confirmation, 10 at clocks other than 04:14. The checker caught 20 of 20
+planted errors. Report: `analysis/audit20_2026-11-12/AUDIT20.md`.
+
+**Changed** (commits 7a52463, COMMIT_B):
+- **Example chart file**: trimmed to 51 bars, ending with the bar that holds day 60.
+- **Candle files cut short passed every step** (BTC daily cut to 40 bars, ETH 2D cut in half): a new
+  whole-history check (`fetch.history_problems`) requires each daily file to start on the exchange's first day
+  with no missing day after it, and every 2D–8D file to be exactly its daily candles bucketed. The candle check
+  fails the run on it, and stack_live.py fails closed on it as well.
+- **Member page, damaged or hand-edited feeds** (none of these is produced by the pipeline):
+  - feed that is not a JSON object, or has no readable `generated_at`: "Data unavailable" (was a JavaScript
+    error and a blank card area);
+  - `cards_withheld` true with cards left in: the cards and live signals are ignored;
+  - no posting bar and an empty `odds_fade`: the Chart tab says unavailable (was a JavaScript error);
+  - a price that is not a number: "n/a" (was "$NaN");
+  - no typical day of the high: the label is left off (was "day null");
+  - unknown `edge_status`: "Status unavailable" (was "On track");
+  - unknown `market_regime`: "Market filter: unavailable" (was "off");
+  - lead-trader row with empty fields: no "null" placeholder.
+- **Docs**: rounding rule worded exactly (half away from zero on the stored float, as Python and the browser
+  both do); CONTEXT confirmation lag (3 / 7 / 11 / 19 / 31 days from low date to confirmation date) and the
+  regime episode's last day (26 Jan 2022); engine.py, grade_live.py, refresh.py, measures.py docstrings; README
+  (13 datasets); member-site README header; CARD_SPEC ("beat a normal move" denominator, the card's closing
+  line); FEED_SPEC now defines the ledger's odds-on-the-day columns, `trades_a_year` and the past-path
+  quartiles, and "2020 to last year".
+- `tests/test_page_states.py` now 37 checks; `tests/test_check_candles.py` now 23.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), verify_cards, feed
+tests 15 + 28, candle check 23/23, Action-environment test, year-end replays 8/8, fetch tests 4/4, page states
+37/37, gate-off and no-today-bar replays, a replay of 15 Sep 2020, worker tests 21 / 26 / 36 / 21 / 24 / 41,
+fire drills 58/58.
+
+---
+
 ## Deliberately left alone (definitional notes, not issues)
 
 - **Flash-print clamp.** A $0.06 BTC low on 15 Apr 2017 (and ETH's $0.10 GDAX wick on 21 Jun 2017)
