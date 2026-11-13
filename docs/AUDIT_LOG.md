@@ -761,7 +761,7 @@ Scored on Jared's definition (real data, docs, real-life damage; hand-forged con
 
 Reports: `analysis/audit23_2026-11-13/`.
 
-**Changed** (commits 3c45354, 404d32a, cf223d9, ca2ee02, PENDING_23):
+**Changed** (commits 3c45354, 404d32a, cf223d9, ca2ee02, 3bb8041):
 - *Pipeline:* 4H/12H files must exist, be on their own timeframe and be their asset; the long/short, open-interest
   and BTC put/call series are checked whole (first day, no gaps, values in range, current) and sealed; every
   derivatives file must hold its own asset's markets; funding must start on its first day; `next_buy_date` is the
