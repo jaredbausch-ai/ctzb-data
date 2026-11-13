@@ -297,3 +297,14 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   n 0 carried no figure. Early history only (a replay of Aug 2020); samples only grow.
 - Member page: a share with no value prints "n/a", never "n/a%"; a setup whose card has no past signals shows
   "No odds yet" instead of a card of blanks.
+
+### Audit #19 corrections (12 Nov 2026)
+
+- The pipeline's card check (verify_cards.py) fails the run if any live signal in open.csv has no card in
+  cards_open.csv, so `open_signals[].card` is never empty in a published feed.
+- Member page: a live setup with no `card` shows "Card unavailable" and no figures (it used to build a pooled
+  stand-in), and with no `edge_status` its badge reads "Status unavailable" (no page-side guess). The lead-trader
+  line reads "not in" when he has trades but none on that asset. A chart file whose last bar is older than the
+  feed labels that bar "Latest bar · date", not "Today".
+- Replays of dates before 22 Nov 2024 carry no worked example (`example_card` empty): the example signal's 60
+  days had not closed yet. The page then says "Example unavailable".
