@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Rescore every CTZB dashboard dataset from the daily candle repo.
 
-Reads data/ETH_{1,2,3,5,8}D.csv and data/BTC_2D.csv (the regime gate) as written by fetch.py, plus both
-assets' 1D candles for the forward windows, runs the CTZB engine over each chart, and writes the dataset
+Reads data/ETH_{1,2,3,5,8}D.csv and data/BTC_2D.csv (the regime gate) as written by fetch.py, plus
+data/ETH_1D.csv for the forward windows (BTC_1D.csv is loaded but not used), runs the CTZB engine over each chart, and writes the dataset
 CSVs the "ETH Setup Odds" dashboard and the feed read (tier, buy, live, forward, earlydip, holdcheck,
 status and the rest; see each ds_* function).
 
@@ -54,8 +54,8 @@ NMIN = 8            # minimum past instances for a tag to qualify
 WINMIN = 70         # minimum win rate for the tier
 AGREE_DAYS = 10     # a chart "agrees" if it printed within this many days
 WF_FROM = 2019      # first walk-forward year
-# The live forward record starts here: every tier signal from this date on,
-# each scored against the tier as it stood in January of its own year, so
+# The live forward record starts here: every signal from this date on, with a
+# column saying whether it was in the tier as it stood in January of its own year, so
 # nothing in it was chosen with hindsight. It accumulates, it is rebuilt from
 # candles every run, and it needs no alerts.
 FORWARD_FROM = dt.date(2026, 1, 1)
@@ -105,7 +105,7 @@ def zser(ct):
 def fw(C, Hi, Lo, D, i, days=HOR):
     """(close change, best high, worst low) as % of entry, over `days`.
 
-    None unless the whole horizon has elapsed. A trade opened three weeks
+    None unless the whole horizon has elapsed. A signal from three weeks
     ago has no 60-day verdict yet, and scoring it on the days available
     would count it as a win or a loss according to whatever the market
     has just done.
@@ -277,7 +277,7 @@ def select_tier(rows, upto=None):
 
 
 def dedupe(rows):
-    """One trade per chart per date."""
+    """One signal per chart per date."""
     seen, out = set(), []
     for r in sorted(rows, key=lambda x: x["d"]):
         k = (r["chart"], r["d"])
@@ -375,10 +375,10 @@ def ds_tier(ch, rows_all, keep, outdir, scoreable_to):
     T = dedupe(sel)
     if not T:
         raise SystemExit("tier is empty - no setups qualify")
-    # Measure frequency against all the time a trade could have been scored
-    # in, not just first trade to last. Ending the span at the last trade
+    # Measure frequency against all the time a signal could have been scored
+    # in, not just first signal to last. Ending the span at the last signal
     # would drop a quiet recent stretch out of the denominator and inflate
-    # trades per year.
+    # signals per year.
     span = max(0.25, (scoreable_to - min(r["d"] for r in T)).days / 365.25)
     out = []
 
@@ -482,7 +482,7 @@ def ds_invalidation(ch, outdir):
         C, H, L, D, n = c["C"], c["Hi"], c["Lo"], c["D"], c["n"]
         for s in c["sg"]:
             ei = s["ei"]
-            # a trade still in flight has no final peak or dip to bin
+            # a signal still inside its 60 days has no final peak or dip to bin
             if D[-1] < D[ei] + dt.timedelta(days=HOR):
                 continue
             e = C[ei]
@@ -572,7 +572,7 @@ def ds_earlydip(ch, keep, outdir, data_dir):
 
     Grouped by the worst dip in the first EARLY days only, then scored on what happened
     AFTER day EARLY (days 11 to 60). Splitting the window this way is what keeps it honest:
-    grouping a trade by its eventual worst dip and then reporting its eventual outcome is
+    grouping a signal by its eventual worst dip and then reporting its eventual outcome is
     partly circular, because a deep dip and a bad result are the same fact measured twice.
     """
     pool = []
@@ -603,7 +603,7 @@ def ds_holdcheck(ch, keep, outdir, data_dir):
     Green = the daily close on day 10 at or above the entry close. The outcome columns
     (reached20, reached10, medRun) count what happened AFTER the day-10 close (days 11 to 60),
     because that is what the check is asked to predict; medDip and deepDips are the whole
-    60-day window. A good trade dips early and peaks around day 40, a bad one peaks in the
+    60-day window. A good signal dips early and peaks around day 40, a bad one peaks in the
     first week and bleeds for two months.
     """
     rows = []
@@ -725,7 +725,7 @@ def main():
     ap.add_argument("--today", default=None, help="override today, YYYY-MM-DD")
     ap.add_argument("--tier", default="walkforward",
                     choices=["walkforward", "current", "frozen"],
-                    help="how the traded tier is chosen (default walkforward)")
+                    help="how the tier is chosen (default walkforward)")
     a = ap.parse_args()
 
     from clock import now_utc  # CTZB_NOW replays a past run (tests)
@@ -760,7 +760,7 @@ def main():
     if not keep:
         raise SystemExit(f"no setups qualify ({a.tier})")
 
-    # the last date a trade could already have been scored over the horizon
+    # the last date a signal could already have been scored over the horizon
     data_end = max(c["D"][-1] for c in ch.values())
     scoreable_to = data_end - dt.timedelta(days=HOR)
 
@@ -784,7 +784,7 @@ def main():
         print(f"  {nm:7s} data->{c['D'][-1]}  CT {c['ct'][-1]:5.1f}  "
               f"forming: {'+'.join(t for t in p['tags'] if t != 'any trough') if p else '-'}")
     print(f"\n  tier ({a.tier}, {tier_note}): {len(keep)} setups, "
-          f"{len(T)} trades, {per_year}/yr   walk-forward baseline {allbase}%")
+          f"{len(T)} signals, {per_year}/yr   walk-forward baseline {allbase}%")
     for c, t in sorted(keep):
         print(f"      {c:7s} {t}")
     print(f"  invalidation pool {n_inval} setups")

@@ -7,7 +7,7 @@ by hand (item 17b):
   missstats.csv  Signals that did not rise 10% within 60 days (since 11 Nov 2026), per asset and grade (all
                  grades since 11 Nov 2026, so a below-bar forming card has them too): how many,
                  how many went above entry at some point, median / mean best price within the 60
-                 days, median worst drop and day-60 return. Jared 11 Nov 2026: the card shows
+                 days, median worst drop and day-60 change (close vs entry close). Jared 11 Nov 2026: the card shows
                  the MEDIAN best.
   missstats_example.csv  The worked example's "if it misses" figures: ETH A+ signals whose 60th day
                  had closed by 22 Sep 2024 only.

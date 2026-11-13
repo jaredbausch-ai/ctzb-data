@@ -176,7 +176,7 @@ fire drills 58/58.
 count and chart position matched, in both states. 32 rows from 9 issues, all wording (6) or docs (3).
 Report: `analysis/audit7_2026-11-12/AUDIT7.md`.
 
-**Changed** (commit 4ea4528):
+**Changed** (commit e6d8e48):
 - **"If it misses: up first"** read as "above entry before ever being below it", but it counts misses
   whose best price in the 60 days was above entry. Now reads "went above entry"; How to read, FEED_SPEC
   and the code comments say the same. (The figure is unchanged, e.g. 94 of 95.)
@@ -202,7 +202,7 @@ screenshot with the replay data.
 11 rows, 9 items: one label (the odds-fade sample) and the rest docs that didn't match the code.
 Report: `analysis/audit8_2026-11-12/AUDIT8.md` (the auditor's caches and page dumps left out).
 
-**Changed** (commit d4f2e4b):
+**Changed** (commit 1dd9514):
 - **Odds-fade sample label.** It said "walk-forward tier, 2016 on", but the tier fixed on 1 Jan 2026 is
   applied to every signal back to 2016, so 167 of 168 are the signals it was chosen on. The feed's
   `sample` and the page's fine print now say so: in-sample, a general explainer. (Not shown on any card
@@ -235,7 +235,7 @@ feed/candle tests 15 + 27 + 15, worker tests, fire drills 58/58, page screenshot
 code disagree, one of them a real page gap, plus label notes. All fixed. Report:
 `analysis/audit9_2026-11-12/AUDIT9.md`.
 
-**Changed** (commit bf2d4b6):
+**Changed** (commit eb12637):
 - **A top-grade forming card had no "can still vanish" warning** (only below-grade ones did), and How to
   read said "by the time you get an alert, the signal is final" although forming heads-ups exist. Every
   forming card now says it can still vanish; How to read says a confirmed alert is final and a forming
@@ -270,7 +270,7 @@ verify_cards (24 exact), feed tests 15 + 27, all worker tests including dashboar
 disagreement in a ledger column the page never shows, and 5 docs-vs-code items. Not a clean run. Report:
 `analysis/audit10_2026-11-12/AUDIT10.md`.
 
-**Changed** (commit 7eaf540):
+**Changed** (commit bb32a0a):
 - **Ledger `dayScaled20` (odds on the day of "beat a normal move")** counted BTC signals from before 2017,
   which have no year of volatility to compare against, as misses; the card's own figure leaves them out.
   Now the same rule as the card. 499 BTC rows moved (16 now blank instead of 0; the rest were understated by
@@ -383,7 +383,7 @@ auditor also replayed 55 other dates and built synthetic page states, and there 
 data doesn't show**, plus 6 docs-vs-code items. Not a clean run. Report: `analysis/audit15_2026-11-12/AUDIT15.md`
 (`all_checks.csv` is gzipped).
 
-**Changed** (commit b8269c3):
+**Changed** (commit 6bb13bc):
 - **Forming lows across a year-end showed the wrong confirmation date.** 2D+ bars restart on 1 January, but the
   date was built with a fixed bar step (replay 31 Dec 2023: ETH 2D "confirms 1 Jan 2024", really 31 Dec 2023;
   replay 31 Dec 2024: BTC 5D "14 Jan 2025", really 10 Jan). The signal id would also have changed on
@@ -616,7 +616,7 @@ been no clean runs yet.
 The checker caught 65 of 65 planted errors. Report: `analysis/audit21_2026-11-13/AUDIT21.md` (group B's
 per-replay check files, 26 MB, are not committed; their totals are in the report).
 
-**Changed** (commits 0cf798f):
+**Changed** (commits f385105):
 
 *Wording on real dates*
 - How to read said a signal counts if the filter was on "the day its low printed". The filter is read on the
@@ -693,7 +693,7 @@ Jared's private Telegram.
 
 Reports: `analysis/audit22_2026-11-13/` (AUDIT22_NUMBERS.md, AUDIT22_BROKEN.md, AUDIT22_DOCS.md).
 
-**Changed** (commits 6859741):
+**Changed** (commits b6aac76):
 
 *Real damage that got through, now stopped:*
 - Every ETH candle file replaced by BTC's passed the candle checks. ETH's daily close must now be 0.1% to 50%
@@ -730,8 +730,7 @@ Reports: `analysis/audit22_2026-11-13/` (AUDIT22_NUMBERS.md, AUDIT22_BROKEN.md, 
 - Alerts: the page no longer promises member alerts; it says they aren't switched on yet. Member alerts are on
   the to-do list (SITE_CHANGES R3).
 
-*Numbers:* a live card with no past signals yet is now published with no figures ("No odds yet"), and a band
-of the general odds table with no past signals is left out (both early 2020 only). Checked: 51 replayed real
+*Numbers:* a live card with no past signals yet is now published with no figures ("No odds yet"), and a band of the general odds table with fewer than 5 past signals is left out (both early 2020 only). Checked: 51 replayed real
 feeds and ledgers, Sep 2020 to today, all accepted by the page with no errors.
 
 *Docs:* all 57 findings corrected (FEED_SPEC "Audit #22 corrections" lists the fields that were undescribed and

@@ -8,7 +8,7 @@ datasets and reports it.
    has its own): signals that did NOT rise 10% within 60 days of entry (+20% until 11 Nov 2026):
    how many went above entry at some point in the 60 days, and how far (median and mean of the best
    move above entry inside the 60 days). Also their median worst drop and
-   median day-60 return. Source: datasets/ledger.csv (bestMove, maxDrawdown,
+   median day-60 change (the day-60 close vs the entry close). Source: datasets/ledger.csv (bestMove, maxDrawdown,
    return60d). Jared 11 Nov: the card shows the MEDIAN peak.
 
 2. Where the past signals went. Every A+ signal's 60-day path from entry on
@@ -21,7 +21,7 @@ datasets and reports it.
    counted.
 
 3. Where the odds fade. Re-reads datasets/earlydip.csv (deepest dip in the
-   first 10 days -> rose 10%, +20% alongside) and datasets/holdcheck.csv (green / red on
+   first 10 days -> rose 10% / +20% after day 10, days 11 to 60) and datasets/holdcheck.csv (green / red on
    day 10) and marks each row against the 70% posting bar (WINMIN in
    refresh.py) on the exact share (reached10Exact). Jared 11 Nov: below 70% the signal's edge is
    gone. These two datasets pool ETH signals on the walk-forward tier fixed on 1 January of the current year, applied

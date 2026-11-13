@@ -10,7 +10,9 @@ big number (rose 10%), surv10, scaled20, +20%, -30%, the rounded and exact media
 the timing medians, and the from-entry row and every falls-first ladder row (shown and exact
 shares) from the 1D candles. There are no 8D cards since 12 Nov 2026 (audit #14: stack_live only
 builds cards on graded charts); the 8D skip below is a guard, and it fails the run if one appears.
-(Extended 12 Nov 2026, audit #8: it used to check 10 of these.)
+(Extended 12 Nov 2026, audit #8: it used to check 10 of these.) It checks every card the site shows: cards.csv,
+cards_open.csv and cards_example.csv; fails the run if a live signal in open.csv has no card; and checks the
+ledger's surv10 column against its own figures.
   python3 -I verify_cards.py
 """
 import csv, os, sys, statistics as st, datetime as dt

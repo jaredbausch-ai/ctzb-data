@@ -6,8 +6,9 @@ Action (every 4 hours: the `ctzb-scheduler` Worker triggers it 13 minutes after 
 the "one feed" in the live-feed plan agreed with Joe on 31 Oct 2026
 (`docs/joe/2026-10-28_live_feed_proposal_SENT.md`, `docs/joe/2026-10-31_feed_open_items_SENT.md`).
 
-It repackages the datasets written earlier in the same run. It computes
-nothing of its own, so it cannot disagree with the dashboard or the cards.
+It repackages the datasets written earlier in the same run. It computes no figure of its own (so it cannot
+disagree with the dashboard or the cards): it decides which alerts are new against `feed/alert_log.csv`, and it
+refuses to publish a feed that fails the strict check.
 
 ## Rules
 
@@ -40,12 +41,12 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `label` | | The computed-signal label |
 | `checks.passed`, `checks.lines` | stack_status.txt | Stack and card checks |
 | `cards_withheld` | | True when checks failed |
-| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: the date the next forming ETH tier low would confirm (a computed signal, not a planned buy). `trades_a_year`: computed ETH tier signals per year (twin `signals_a_year`). All three are null in a held feed |
+| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: the date the next forming ETH tier low would confirm, whatever the market filter reads (a filter-off low is included though it cannot become a signal); a computed date, not a planned buy. `trades_a_year`: computed ETH tier signals per year (twin `signals_a_year`). All three are null in a held feed |
 | `cards[]` | cards.csv | One per FORMING setup (below). A live (open) setup's card is `open_signals[].card`; the worked example's is `example_card` |
 | `prints[]` | prints.csv | The last 3 signals per chart (lows that confirmed with the market filter on at the trough date; a low that confirms with the filter off is not a signal and is not listed) plus any forming low (listed with a "regime off" note while the filter is off); `provisional` true until it confirms. The regime note is read on the trough date (since 12 Nov 2026 audit #13; it was the confirmation date) |
 | `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
 | `confluence_windows[]` | windows.csv | Every confluence window open now and when it closes |
-| `grade_odds[]` | grades.csv | Pooled grade record per asset |
+| `grade_odds[]` | grades.csv | Pooled record per asset and grade (A+, A, B, C), plus four ETH flag rows whose `grade` is "HTF divergence" / "no HTF divergence" / "diamond or prime dot" / "no diamond or prime dot". Each: `past_trades`, `rose10_within60d_pct`, `rose10_never_fell25_within60d_pct`, `rose20_within60d_pct`, `median_deepest_dip_pct`, `sample`, `note`. Empty in a held feed |
 
 ## Card fields
 
@@ -68,7 +69,7 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `if_it_falls_first[]` | l{5,10,15,20}{n,ok,liq} | Information for a discretionary exit, never a stop rule |
 | `typical_day_first_rose10`, `typical_day_first_rose20` (schema 2) | daysTo10, daysTo20 | Median days from entry to the first +10% / +20%, past signals that got there |
 | `typical_day_of_60d_high`, `typical_day_of_deepest_dip` (schema 2) | daysToHigh, daysToLow | Median day of the 60-day high / of the deepest dip |
-| `active_confluences[]` (schema 3) | confluences (JSON) | Every confluence cell active for this setup today, weak ones included: `after` (the confirming signal), `after_confirmed`, `window_closes`, `applies_to` (which of this chart's signals the record covers), `past_trades`, `rose20_within60d_pct`, `rose10_within60d_pct`, `fell30_within60d_pct`. Each is its own sample, never blended into the card number; rows overlap. Show `past_trades` beside each; under 15 is too few to lean on |
+| `active_confluences[]` (schema 3) | confluences (JSON) | Every confluence cell active for this setup today, weak ones included: `after` (the confirming signal), `after_confirmed`, `window_closes`, `applies_to` (which of this chart's signals the record covers), `past_trades`, `rose20_within60d_pct`, `rose10_within60d_pct`, `fell30_within60d_pct`. Each is its own sample, never blended into the card number; rows overlap. Show `past_trades` beside each; under 15 is too few to lean on. Filled for forming cards only: on `open_signals[].card` and `example_card` it is always empty. Each item also carries `note` |
 
 ## Not built yet
 
@@ -90,7 +91,7 @@ Fields added; nothing renamed or removed.
 | `alerts[].event` | | `forming` (a card appeared), `confirmed` (it became a signal), `vanished` (an alerted forming card is gone and never confirmed — the trough slid, or the setup no longer qualifies). |
 | `alerts[].alert_id` | | `{signal_id}:{event}`. Fixed for that event, forever. |
 | `alerts_withheld` | top level | True when any scoring check failed this run. `alerts` is then empty. |
-| `alerts_seeded` | top level | True only on the very first run, which records what was already live without alerting on it. |
+| `alerts_seeded` | top level | True only on a run made with `CTZB_SEED_ALERT_LOG=1`, which starts a new alert log on purpose and records what is already live without alerting on it. |
 | `checks.all_passed`, `checks.steps`, `checks.failed_steps` | `checks` | `steps`: every step outcome the workflow passed (refresh, grade, extras, stack, cards, regress; extras does not gate). `failed_steps`: the gating steps that did not report success. `all_passed`: no FAILED line and no failed gating step. `checks.passed` keeps its old meaning: no FAILED line in stack_status.txt, i.e. the stack check and the card cross-check (verify_cards.py appends to that file). |
 | `cards_withheld` | top level | Unchanged meaning, wider trigger: now true when ANY gating step failed, not only the stack check. |
 
@@ -110,10 +111,10 @@ run's `datasets/ledger.csv`, `earlydip.csv` and `holdcheck.csv` (arithmetic in
 
 | Field | Where | Meaning |
 |---|---|---|
-| `extras_withheld` | top level | True when the extras step did not report success, the run was held back, or one of its files (missstats, pastpaths, oddsfade) is missing. The lists in `if_it_misses`, `past_paths` and `odds_fade` are then empty and `example_if_it_misses` / `example_past_paths` are null, so a stale copy is never served. |
-| `if_it_misses[]` | top level | Per asset and grade (A+, A, B, C; all grades from 11 Nov 2026): `signals`, `misses` (did not rise 10% within 60 days; +20% until 11 Nov 2026), `up_first` (of those, how many went above entry at some point in the 60 days, i.e. best price above entry; the name is kept, fields are never renamed), `median_peak_pct` (**the card shows this**, Jared 11 Nov), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`. |
+| `extras_withheld` | top level | True when the extras step was reported as anything but success (an extras outcome that is absent counts as success), the run was held back, or one of its files (missstats, pastpaths, oddsfade) is missing. The lists in `if_it_misses`, `past_paths` and `odds_fade` are then empty and `example_if_it_misses` / `example_past_paths` are null, so a stale copy is never served. |
+| `if_it_misses[]` | top level | Per asset and grade (A+, A, B, C; all grades from 11 Nov 2026): `signals`, `misses` (did not rise 10% within 60 days; +20% until 11 Nov 2026), `up_first` (of those, how many went above entry at some point in the 60 days, i.e. best price above entry; the name is kept, fields are never renamed), `median_peak_pct` (**the card shows this**, Jared 11 Nov), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`, `note` (the sample in plain words). |
 | `odds_fade` | top level | `posting_bar_pct` (70; below it the edge is gone, Jared 11 Nov), `early_dip[]` (deepest dip in the first 10 days → `past_trades`, `rose10_after_day10_pct`, `rose20_after_day10_pct`, `edge` intact/gone on the +10% share) and `day10[]` (green / red on the day-10 close, same fields). ETH walk-forward tier signals only, every chart (see the 12 Nov sections). The `*_within60d_pct` fields carry the same values under their original names, kept because fields are never renamed; their window is also days 11 to 60. |
-| `past_paths[]` | top level | Per asset, grade A+: `signals` and `days[]` (day 0-60: `q25_pct`, `median_pct`, `q75_pct`, percent from entry on daily closes, every past signal lined up at entry). The chart view's "where the past signals went". |
+| `past_paths[]` | top level | Per asset, grade A+: `signals` and `days[]` (day 0-60: `q25_pct`, `median_pct`, `q75_pct`, percent from entry on daily closes, every past signal lined up at entry). `note` (the sample in plain words). The chart view's "where the past signals went". |
 
 ### `candle_check` (added 11 Nov 2026, additive, schema stays 5)
 
@@ -161,7 +162,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 
 - `cards[]` gain `typical_biggest_rise_exact_pct`, `typical_dip_before_rise_exact_pct`, `typical_deepest_dip_exact_pct`:
   the same medians unrounded. The member page shows the exact field rounded once (the same figure as the rounded field) and builds prices (entry x (1 + pct/100)) from the exact ones.
-- `cards[].sample` says "all N past ... signals", not "the last N ... trades": every past signal is used, and none was traded.
+- `cards[].sample` says "all N past ... signals", not "the last N ... trades": every past signal in the sample's rule is used (ETH from 2020, when funding data begins; BTC from 2016), and none was traded.
 - `example_card` (new, top level): the member site's worked example (ETH 2D, confirmed 2024-09-22) as a full card, same
   fields as `cards[]` plus `example: true` and `entry_close`, built by the forming-card rules from only the signals whose
   60th day had closed by 2024-09-22. `null` when withheld.
@@ -201,7 +202,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - `open_signals[].day60_pct` is always empty: a signal leaves the list the day its 60th daily bar closes. Kept
   because fields are never removed.
 - `example_past_paths` (new, top level): the worked example's cloud, built only from ETH top-grade signals whose
-  60th day had closed by 2024-09-22 (the same sample as `example_card`). Same shape as one `past_paths[]` entry.
+  60th day had closed by 2024-09-22 (the same sample as `example_card`). Same shape as one `past_paths[]` entry, `note` included.
 - Every 60-day window (ladder, from-entry row, paths) counts 60 CALENDAR days after the entry date, not 60 bars.
 
 ### Audit #7 corrections (12 Nov 2026)
@@ -226,14 +227,15 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 
 ### Audit #9 corrections (12 Nov 2026)
 
-- `open_signals[]` gain `edge_level_pct` (the setup's own edge level from its card's ladder, exact shares: 0 if
-  even the from-entry share is below 70%, else the first fall whose share is below 70%, else empty) and
+- `open_signals[]` gain `edge_level_pct` (the setup's own edge level from its card's ladder, exact shares, as a
+  negative percent from the entry close: 0 if even the from-entry share is below 70%, else minus the first fall
+  whose share is below 70% (e.g. -5), else empty) and
   `edge_status`: on closed daily bars after entry, whichever came first, a low at or below
   the edge level (low checked first within a day) gives "lost", a high at +10% gives "rose10" (since 12 Nov 2026
   audit #16; it was reported as "intact"), neither yet gives "intact"; "lost" from the start when the edge level
   is 0. The page's Previous signals badges read it.
 - `example_if_it_misses` (new, top level): the worked example's "if it misses" figures, ETH top-grade signals
-  whose 60th day had closed by 2024-09-22 (same sample as `example_card`). The page used to compute these itself.
+  whose 60th day had closed by 2024-09-22 (same sample as `example_card`), with a `note`. The page used to compute these itself.
 - One "known by then" rule: a past signal counts once its 60th day (entry + 60) has closed by the moment in
   question. The ledger's odds-on-the-day columns used entry + 61 (one day stricter); they now use entry + 60,
   like the example. 73 ledger rows' odds-on-the-day columns moved; nothing else (baseline re-approved).
@@ -399,13 +401,14 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
     date), `confirms_on`, `entry_close` (the confirmation close; for a forming low, the latest price, not an entry),
     `tags`, `note` ("regime on" or "regime off", plus "N bar(s) to confirm" while forming).
   - `open_signals[]`: `entry_date` (the confirmation close date), `entry_close`, `grade`, `tags`, `confirmations`
-    (the grade lenses in plain words), `days_elapsed` (days since the entry date; the day in progress),
+    (the grade lens codes joined by " + ", e.g. "GAP + FASTCT"; `card.confirmations` gives the same lenses in plain words), `days_elapsed` (days since the entry date; the day in progress),
     `day10_pct` / `day30_pct` / `day60_pct` (the close of that day vs the entry close, once that daily bar has
     closed; null before), `best_so_far_pct` / `worst_so_far_pct` (highest daily high / lowest daily low of the
     closed daily bars since entry, vs the entry close), `edge_level_pct`, `edge_status`, `card`.
   - `alerts[]`: `alert_id` (signal id plus event), `event` (forming / confirmed / vanished), `signal_id`, `chart`,
-    `emitted_at`. Every grade and every chart, 8D included: alerts go to the operator's private Telegram through
-    the dashboard Worker; no member alert channel exists yet.
+    `emitted_at`. Every grade. Confirmed alerts cover every chart, 8D included; forming (and so vanished) alerts
+    exist only where a forming card exists: graded charts 1D-5D with the market filter on at the trough. Alerts go
+    to the operator's private Telegram through the dashboard Worker; no member alert channel exists yet.
   - `alert_log`: `sha256` and `rows` of `feed/alert_log.csv` as this run left it. The next run checks the log
     against it (below).
   - `candle_check`: the candle check's time, mode, `structural_ok` and each asset's second-exchange status.
@@ -418,7 +421,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   them; a live signal's day count and closed-day figures follow from its entry date, its figures sit between its
   best and worst, its status agrees with its best, worst and edge level, and its card is its own (chart, date,
   grade, entry close); the miss counts and past paths describe the same samples as `grade_odds`; the example
-  card is the worked example; `odds_fade` rows are the fixed bands and checks in order (a band with no past
+  card is the worked example; `odds_fade` rows are the fixed bands and checks in order (a band or check with fewer than 5 past
   signals is left out), each edge mark agrees with its share, and the tier date is stated.
 - **The page checks its other files against the feed:** the ledger's top-grade rows must match `grade_odds`
   per asset (count and rose-10% share), each row must agree with itself (yes/no columns with the best move,
@@ -432,7 +435,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   they come ("Loading…" meanwhile). The stale warning shows on every tab. With the feed down or held back, the
   example switch and the Chart tab say so instead of "the example's data couldn't be loaded". The example
   stands in for a quiet market only if the feed carries it.
-- **Alerts on the page:** member alerts are not switched on, and the page now says so; the alert promises are gone.
+- **Alerts on the page:** member alerts are not switched on, and the page now says so (banner and How to read); the alert promises are gone.
 - **Pipeline:**
   - Every candle file is checked row by row for its whole history (prices above zero and finite, high and low
     bracketing open and close, volume not negative, on the 4H / 12H grid); ETH's daily close must be between 0.1%

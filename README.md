@@ -29,9 +29,9 @@ exports: 68 of 68 open/high/low/close values identical to the cent.
 
 ## Rate limits
 
-The public endpoint returns at most 300 candles per request, so the first run
-pages backwards to 2016 and takes a few minutes. Later runs touch only recent
-days. There is a 0.25s pause between requests and a retry with backoff.
+The public endpoint returns at most 300 candles per request. Every run pages the daily history back to
+2016 (about a dozen requests); only the 4H/12H files, built from hourly candles, are incremental, and the first
+of those runs takes a few minutes. There is a 0.25s pause between requests and a retry with backoff.
 
 ## Schedule
 
@@ -62,8 +62,8 @@ signals, bars = E.signals("data/ETH_3D.csv", regime=reg)
 
 ## Rescoring the dashboard
 
-`refresh.py` turns the candles into the 13 datasets behind the ETH Setup
-Odds dashboard:
+`refresh.py` turns the candles into 13 of the datasets behind the dashboard
+(ETH Setup Standard) and the member feed:
 
 ```
 python refresh.py --data data --out datasets
@@ -81,20 +81,20 @@ regime, what is forming on each chart, and the next buy dates.
 docs/PRETRADE.md; the lenses also come from `grade6.py`) and writes `datasets/grades.csv`, `ledger.csv` and
 `dipdist.csv`, plus grade and flag columns
 on `forward.csv` and `live.csv` and the latest close on `live.csv`. The
-dashboard page (copy in `docs/artifacts/eth-setup-standard.html`) reads
-`status`, `live`, `grades` and `forward`.
+dashboard page (`docs/artifacts/eth-setup-standard.html`, served by the ctzb-dashboard Worker) reads
+`status`, `live`, `grades`, `forward`, `dipdist`, `cards`, `liveread`, `prints` and `windows`.
 
 `fetch_pcr.py` runs every 3 hours in its own workflow (`.github/workflows/pcr.yml`), dispatched by the ctzb-scheduler Worker at :25:
 daily options put/call for BTC and ETH from Deribit's free trade history into
 `data/options/`, plus a daily open-interest snapshot.
 
-### The traded tier is derived, not stored
+### The tier is derived, not stored
 
 Everything below counts computed signals, not trades: none was taken, and "win" means the chart closed above
 the entry within 60 days. There is no exit in the data, so this is entry quality only, not a strategy return or
 a track record.
 
-`--tier` decides which chart-and-tag combinations get traded. Nothing is
+`--tier` decides which chart-and-tag combinations are in the tier. Nothing is
 written back to the repo and nothing drifts between runs.
 
 | mode | the tier is | |
@@ -105,7 +105,7 @@ written back to the repo and nothing drifts between runs.
 
 `walkforward` is the default because it is the rule the walk-forward test
 actually measures: pick the tier in January from data available by then, then
-trade it blind for the year. It needs no maintenance and rolls over on its
+score it blind for the year. It needs no maintenance and rolls over on its
 own. `current` is the better estimate of today's odds, but it can change
 mid-year and it is not what was validated.
 
@@ -116,24 +116,24 @@ the one to trust, since mid-year you could not have known.
 `keep.json` is kept only for `--tier frozen`, and its twelve setups are now
 out of date — it was written before the horizon fix below.
 
-### Only completed trades are scored
+### Only completed windows are scored
 
 `fw()` returns nothing unless the full 60-day horizon has elapsed. Without
-that rule a trade opened three weeks ago was scored on the days available, so
+that rule a signal from three weeks ago was scored on the days available, so
 it counted as a win or a loss according to whatever the market had just done.
-Ten of 593 trades sat on windows as short as one day, all reading as losses
+Ten of 593 signals sat on windows as short as one day, all reading as losses
 because ETH was falling.
 
-The bias was not cosmetic. ETH 1D hollow stood at 76% on 21 completed trades
+The bias was not cosmetic. ETH 1D hollow stood at 76% on 21 completed signals
 and was being dragged under the 70% cut by two 2026 entries with 41 and 28
 days elapsed, which is the only reason the two tier modes ever disagreed.
 
-The invalidation pool skips trades still in flight for the same reason: they
+The invalidation pool skips signals still inside their 60 days for the same reason: they
 have no final peak or dip to put in a band.
 
-Trades per year divides by the span from the first trade to the last date a
-trade could have been scored, not to the last trade taken. Ending it at the
-last trade drops a quiet recent stretch out of the denominator and overstates
+Signals per year divides by the span from the first signal to the last date a
+signal could have been scored, not to the last signal. Ending it at the
+last signal drops a quiet recent stretch out of the denominator and overstates
 the frequency.
 
 ### Candidate tags
@@ -141,7 +141,7 @@ the frequency.
 Tier selection and the walk-forward choose from the same eleven candidate
 tags, `diamond+dot` included. Two earlier scripts disagreed on this — the
 walk-forward omitted that tag — which is why the pooled "All 70%+ setups" row
-reads 90 trades at 66% rather than 88 at 67%. The confluence rows, 77% at 3+
+reads 90 signals at 66% rather than 88 at 67%. The confluence rows, 77% at 3+
 charts agreeing and 75% at 4+, are unaffected.
 
 ## Figures as of 16 October 2026
@@ -151,12 +151,12 @@ Regenerate with `python refresh.py --data data --out datasets` to confirm.
 | | |
 |---|---|
 | Troughs scored across the five ETH charts | 583 |
-| Traded tier | 13 setups |
-| Tier trades | 150, 15.0 a year |
-| Tier win rate | 75% |
-| With 3+ other charts agreeing | 98 trades, 81% |
-| Walk-forward, all setups | 90 trades, 66% |
-| Walk-forward, 3+ agreeing | 47 trades, 77% |
+| Tier | 13 setups |
+| Tier signals | 150, 15.0 a year |
+| Tier share closing above entry within 60 days | 75% |
+| With 3+ other charts agreeing | 98 signals, 81% |
+| Walk-forward, all setups | 90 signals, 66% |
+| Walk-forward, 3+ agreeing | 47 signals, 77% |
 | Walk-forward baseline | 59% |
 | Invalidation pool | 559 setups |
 

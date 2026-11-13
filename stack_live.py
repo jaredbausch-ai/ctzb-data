@@ -470,7 +470,7 @@ def main():
 
     def timing(G):
         # card timing (1 Nov 2026, Jared: "how long do I stay in the tree?"): medians, in days from entry,
-        # all within the 60 days. Days to +10% / +20% count only the trades that got there.
+        # all within the 60 days. Days to +10% / +20% count only the signals that got there.
         med = lambda xs: round(st.median(xs)) if xs else ''
         t10 = [x for x in (MS.days_to(s0['a'], s0['d0'], s0['entry'], 10) for s0 in G) if x is not None]
         t20 = [x for x in (MS.days_to(s0['a'], s0['d0'], s0['entry'], 20) for s0 in G) if x is not None]
@@ -537,7 +537,7 @@ def main():
         out.append([subj, 'This chart with exactly these lenses', 'record'] + rec([s for s in Cf if set(have) == sets(s)]) + ['from 2020' if a == 'ETH' else 'full history'])
         out.append([subj, 'This chart, every signal', 'record'] + rec(Cr) + ['full history'])
         # The record the console shows (set 28 Oct 2026 after the "at least" record
-        # overstated a trade): like for like only. Exactly these lenses when 15+
+        # overstated a setup): like for like only. Exactly these lenses when 15+
         # past setups exist; else this chart at the same grade; else the same grade
         # across this asset's charts. Never a superset of stronger setups.
         gof = lambda c: 'C' if c <= 1 else 'B' if c == 2 else 'A' if c == 3 else 'A+'
@@ -697,7 +697,7 @@ def main():
                     if lv > now:
                         name = 'fractal high' if f == 1.0 else str(f)
                         if use:
-                            # the level's rise from TODAY's price, applied to each past trade's close on the same day
+                            # the level's rise from TODAY's price, applied to each past signal's close on the same day
                             parts.append(f'{name} ${lv:,.0f} (+{100 * (lv / now - 1):.1f}% from now): '
                                          f'{round(100 * sum(b >= lv / now * c_ for _, c_, b in use) / len(use))}%')
                         else:

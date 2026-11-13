@@ -17,7 +17,7 @@ rule that gives 15 or more:
 
 1. Same chart, exactly the same confirmations (lenses) on.
 2. Same chart, same grade (any mix of confirmations that adds up to that grade).
-3. Same grade across all of that asset's charts.
+3. Same grade across that asset's graded charts (1D, 2D, 3D, 5D).
 
 Rule 3 is the last resort and is used whatever its size, including under 15 (the card shows the n). Since
 12 Nov 2026 (audit #18) a forming low whose sample is empty gets no card at all; that only happened in early
@@ -53,7 +53,7 @@ the 60 days after it.
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
 | Typical day it first hit +10% / +20% (signals that got there) | Median calendar days from the entry to the first daily high at least 10% / 20% above the entry close, among the signals in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
 | Typical day of the 60-day high / of the deepest dip | Median day, counted from the entry, on which each signal made its highest high / its lowest low within the 60 days | `daysToHigh`, `daysToLow` |
-| Active confluences now (4 Nov 2026) | Every confluence cell active for this setup today, weak ones included, each with its own past signals, rose 10%, rose 20%, fell 30%, the confirming signal and its date, and the date its window closes. Its own sample, never blended into the big number; rows overlap. Nothing else is listed in this section. Under 15 signals is flagged too few to lean on | `confluences` (JSON list) |
+| Active confluences now (4 Nov 2026) | Every confluence cell active for this setup today, weak ones included, each with its own past signals, rose 20%, fell 30% (rose 10% is in the feed but not shown), the confirming signal and its date, and the date its window closes. Console card only: the member card does not show confluences. Its own sample, never blended into the big number; rows overlap. Nothing else is listed in this section. Under 15 signals is flagged too few to lean on | `confluences` (JSON list) |
 
 ## The member site's card (12 Nov 2026)
 
@@ -66,7 +66,10 @@ odds are "as of the entry close, not from today", and an edge-lost card is dimme
 colour. No from-today odds are computed for members.
 
 The member site (`docs/artifacts/member-site/index.html`) shows the same card in its own words. Each label
-below is defined here; anything not listed is in the table above.
+below is defined here; anything not listed is in the table above. Also on the member page: "Red on day 10, rose
+10% after" (`odds_fade.day10`, the red row's `rose10_after_day10_pct`, days 11 to 60; shown only when a card has
+no ladder), "Where the odds fade · ETH tier signals" (`odds_fade.early_dip` bands, a general explainer) and "Lead
+trader: in / out / not in / unavailable" (from the lead trader's own posted trades, newest first).
 
 | On the member card | Definition | Feed field |
 |---|---|---|

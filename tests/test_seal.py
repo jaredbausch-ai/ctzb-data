@@ -1,8 +1,8 @@
 """Tests for the run seal (seal.py, 13 Nov 2026): nothing in datasets/ may change between pipeline steps.
 
 Part 1 works on a small folder of stand-in files (fast). Part 2 runs the real pipeline in a copy of the repo:
-a clean run, an extras step that fails part-way (cards must still publish), and a dataset replaced by an older
-run's copy between two steps (the run must be withheld).
+a clean run, an extras step that fails part-way (cards must still publish), a dataset cut between two steps (the next step
+refuses to run) and a dataset changed after the last step (the feed is withheld).
     python3 tests/test_seal.py
 """
 import os, shutil, subprocess, sys, tempfile, json

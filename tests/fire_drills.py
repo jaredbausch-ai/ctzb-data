@@ -9,7 +9,7 @@ retry and hold back, rather than publish something wrong as if it were fine?
   A  before the commit   stale candles, missing files, corrupt candles, a second
                          exchange disagreeing, Coinbase unreachable. These must fail
                          the run (so it retries) and must not change the committed data.
-  B  scoring steps       each step crashing, plus four realistic faults. Cards AND
+  B  scoring steps       each step crashing, plus five realistic faults. Cards AND
                          alerts must be withheld (extras: only the member-card figures).
   C  alerts              never sent twice; a held-back alert goes out on the next clean run.
   D  workflow wiring     every scoring step reaches both the gate and the red-run check.

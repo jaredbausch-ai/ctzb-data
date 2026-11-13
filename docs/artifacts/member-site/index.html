@@ -284,7 +284,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="sidebox">
           <div class="sec-title" style="color: var(--live)">How the signals work</div>
           <p>Our indicator watches Bitcoin and Ethereum on the daily and multi-day charts. It looks for one specific moment: when selling pressure has run its course and buyers start taking back control.</p>
-          <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. A confirmed alert is final and can't vanish. A forming heads-up can: it is sent before the confirming close.</p>
+          <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. A confirmed setup is final and can't vanish. A forming setup can: it is shown before the confirming close.</p>
           <p>A signal only counts if our market filter said the broader trend was on your side on the day the bar that made its low opened (on a 2D, 3D or 5D chart that can be a few days before the low itself). In a downtrend the system stays quiet, sometimes for a year. The header shows the filter as it is today, so a setup whose low came just before the filter turned off can still appear while the header reads off.</p>
           <p>Every confirmed setup is checked against several independent confirmations. Only the ones where the most line up reach the top grade.</p>
           <p>The odds on each card come from how past signals with the same profile behaved over the next 60 days. They measure the quality of the entry, not a trading result.</p>
@@ -479,7 +479,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // their fixed order, each row's edge mark agreeing with its share against the bar, and the tier date stated
     if (!nil(f.odds_fade)) {
       const of = f.odds_fade, filled = of.early_dip.length > 0 || of.day10.length > 0;
-      // rows come from the fixed bands and checks, in order, each at most once (a band with no past signals is left out)
+      // rows come from the fixed bands and checks, in order, each at most once (a band with fewer than 5 past signals is left out)
       const inOrder = (got, fixed) => got.every((x, i) => fixed.includes(x) && (i === 0 || fixed.indexOf(x) > fixed.indexOf(got[i - 1])));
       if (!inOrder(of.early_dip.map((b) => b.band), ODDS_BANDS) || !inOrder(of.day10.map((b) => b.check), ODDS_CHECKS)) out.push("feed.odds_fade: rows are not the fixed bands and checks in order");
       if (filled && nil(of.tier_fixed_on)) out.push("feed.odds_fade.tier_fixed_on: missing");
@@ -970,7 +970,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 12, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : `${v}% · n ${nn}`);
       }
     } else if (of) {
-      // each zone from its own band, looked up by name (a band with no past signals is left out of the feed and
+      // each zone from its own band, looked up by name (a band with fewer than 5 past signals is left out of the feed and
       // its zone is not drawn; 13 Nov 2026 audit #22)
       const share = (...names) => { const v = of.early_dip.filter((b) => names.includes(b.band)).map((b) => b.rose10_after_day10_pct); return v.length ? Math.max(...v) : null; };
       const bands = [[0, -5, "var(--high)", share("shallower than -2%", "-2% to -5%")], [-5, -10, "var(--fade)", share("-5% to -10%")], [-10, -20, "var(--drop)", share("-10% to -20%")]].filter((b) => b[3] !== null);
@@ -1194,7 +1194,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const feedOk = feedBad.length === 0;
     if (!feedOk && feed !== null && window.console) console.warn("feed rejected: " + feedBad.slice(0, 5).join("; "));
     // the general odds-fade table is used only when it is whole: both lists present and non-empty
-    if (feedOk && !(feed.odds_fade.early_dip.length && feed.odds_fade.day10.length)) feed.odds_fade = null;
+    if (feedOk && !(feed.odds_fade && feed.odds_fade.early_dip.length && feed.odds_fade.day10.length)) feed.odds_fade = null;
     S.feed = feedOk ? feed : null;
     S.loading = { ledger: true, trades: true, example: true };
     if (bestCard()) S.sel = bestCard().signal_id;

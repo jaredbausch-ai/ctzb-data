@@ -1382,7 +1382,7 @@ adopted. Do not re-propose per-trade fitted odds without new data.
 **Console record = like for like only (28 Oct 2026).** The console once showed
 the "at least these lenses" record, which for the ETH 1D trade was 17 stronger A+
 setups (82%) when none matched exactly; Jared caught it. `stack_live.py` now writes a
-`CONSOLE RECORD` row per forming low: exactly these lenses if 15+ past setups, else
+`CONSOLE RECORD` row per forming low and per signal still in its 60 days: exactly these lenses if 15+ past setups, else
 this chart at the same grade, else the same grade across the asset's charts, and
 says which. Never present a superset of stronger setups as the trade's odds.
 
@@ -1404,8 +1404,9 @@ and the kill close. `stack_live.py` writes `datasets/cards.csv` and refuses to i
 any internal check fails; `verify_cards.py` (Action step after it) re-derives every
 figure on every card computed from its sample (since 12 Nov 2026 audit #8; before that 10 of them) from `datasets/ledger.csv` and the 1D candles;
 the card's own dates and prices (low day, confirms, must close above, latest price, entry close) are not re-derived there,
-only by the independent audits and fails the run on any mismatch. Client screens
-(Joe's side) must read `cards.csv` and follow CARD_SPEC, nothing else.
+only the independent audits check them. verify_cards.py fails the run on any mismatch. Client screens
+(Joe's side) must read the feed (`feed/ctzb_feed.json`, docs/FEED_SPEC.md, built from `cards.csv`) and follow
+CARD_SPEC, nothing else.
 **Live feed (built 31 Oct 2026):** `feed_live.py` writes `feed/ctzb_feed.json` every
 Action run, repackaging this run's datasets (cards withheld if checks failed). It is
 the one feed of the plan agreed with Joe; spec in `docs/FEED_SPEC.md`. **Cloudflare
@@ -1444,8 +1445,8 @@ writes `datasets/liveread.csv` (each read, ON/off, its record on that chart),
 the run (red Action + `datasets/stack_status.txt` FAILED) if a PRETRADE heading in
 Tier 1 / Promising / In-trade is not mapped in DOC_MAP or a registry id is not
 evaluated. **Adding any finding to PRETRADE means adding its REGISTRY entry and
-DOC_MAP line in the same commit.** The dashboard refresh task copies the outputs
-every 4 hours and notifies on new, confirmed or vanished prints. Drawdown in
+DOC_MAP line in the same commit.** The ctzb-dashboard Worker reads these outputs live through the mirror,
+and sends each feed alert (forming, confirmed, vanished) once to Jared's Telegram. Drawdown in
 every table is from entry (dip before the 60-day high, largest dip in 60 days);
 the worst-case median is no longer shown (Jared, 28 Oct). The position console now SIZES against the grade's
 median drawdown from entry (median largest dip within 60 days, grades.csv
@@ -1472,7 +1473,7 @@ job ran green for 19 hours without pushing: stack_live rewrites `analysis/regist
 committed copy was stale after the 31 Oct registry edits, so `git pull --rebase` refused every
 time and the commit step still exited 0. Fixed: registry.json committed and staged by the
 workflow, `--autostash`, and the step now FAILS if the push never lands. Added
-`.github/workflows/watchdog.yml` (hourly): if the last "candles through" commit is 6h+ old it
+[superseded 10 Nov 2026: the scheduler dispatches the watchdog 95 minutes after each 4-hour close; it re-runs the candle job when no candle commit has landed since that close and alerts at 90 minutes] `.github/workflows/watchdog.yml` (hourly): if the last "candles through" commit is 6h+ old it
 pulls the last runs and their error lines, re-runs the candle job, opens or updates a
 `pipeline-alert` issue (GitHub emails the owner) and goes red; it closes the issue when fresh.
 **Rule: any change to stack_live.py's REGISTRY must commit the regenerated analysis/registry.json

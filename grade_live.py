@@ -21,7 +21,7 @@ Writes / changes, in datasets/:
   ledger.csv     every graded signal, one row: chart, dates, entry, tags, grade,
                  lenses, the grade's odds (whole-sample, so hindsight for past
                  rows) and what happened (reached +20%, touched -30%, best move,
-                 largest dip from entry, dip before the high, 60-day return).
+                 largest dip from entry, dip before the high, day-60 change: the day-60 close vs the entry close).
   grades.csv     the record of each grade (worstTenthMedian = the median dip
                  among the worst 10% of that grade's signals: shown, not used
                  for sizing; the dashboard sizes against medDip since 28 Oct):
@@ -34,7 +34,7 @@ Writes / changes, in datasets/:
   forward.csv    adds `grade` and `lenses` to every row (matched by chart and
                  entry bar).
   (liveread.csv, prints.csv and windows.csv come from stack_live.py, which
-   runs next and checks every documented read.)
+   runs after extras_live.py and checks every documented read.)
   live.csv       adds `formingGrade` and `formingLenses`: the grade a forming
                  low would carry if it confirmed now. PROVISIONAL: CT vs its
                  Signal line, price vs the last entry and funding all move
