@@ -163,7 +163,10 @@ def check_log(log_path, prev_feed_path):
         return cur
     if have and have["sha256"] == want["sha256"]:
         return cur
-    rebuilt = cur + [{k: x.get(k) for k in ALERT_LOG_FIELDS} for x in (prev.get("alerts") or [])]
+    # alerts a published feed carried that never reached the log: its own, plus any carried forward through
+    # fail-closed feeds since (13 Nov 2026 audit #24: one crashed run in between used to lock every later run)
+    unlogged = (prev.get("alert_log_carry") or []) + (prev.get("alerts") or [])
+    rebuilt = cur + [{k: x.get(k) for k in ALERT_LOG_FIELDS} for x in unlogged]
     if sha(log_bytes(rebuilt)) == want["sha256"]:
         write_log(log_path, rebuilt)   # the last run died between publishing the feed and writing the log
         return rebuilt
@@ -509,6 +512,21 @@ def prev_log_record(feed_path):
         return None
 
 
+def unlogged_alerts(feed_path, log_path):
+    try:
+        with open(feed_path) as f:
+            prev = json.load(f)
+        rec = prev.get("alert_log")
+    except (OSError, ValueError, AttributeError):
+        return []
+    if not (isinstance(rec, dict) and rec.get("sha256")):
+        return []
+    have = log_state(log_path) if log_path else None
+    if have and have["sha256"] == rec["sha256"]:
+        return []
+    return (prev.get("alert_log_carry") or []) + (prev.get("alerts") or [])
+
+
 def fail_closed(out_path, err, log_path=None):
     """Fire drills, 11 Nov 2026: when this script itself crashes (a missing column after an
     upstream step failed, say), the PREVIOUS feed used to stay published, cards and all, as
@@ -526,7 +544,10 @@ def fail_closed(out_path, err, log_path=None):
             "market_regime": None, "next_buy_date": None, "trades_a_year": None,
             # a failed run never writes the log, so what the log must be is unchanged: carry the last published
             # feed's record forward (a log damaged before this run must still be caught by the next one)
-            "alert_log": prev_log_record(out_path) or (log_state(log_path) if log_path else None)}
+            "alert_log": prev_log_record(out_path) or (log_state(log_path) if log_path else None),
+            # alerts the last published feed sent that the log does not hold yet (it died before writing the log):
+            # carried so the next run can still rebuild the log, and never sent again
+            "alert_log_carry": unlogged_alerts(out_path, log_path)}
     atomic_write(out_path, (json.dumps(feed, indent=1) + "\n").encode())
     return
 

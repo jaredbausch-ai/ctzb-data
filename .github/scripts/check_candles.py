@@ -138,8 +138,14 @@ def main(argv=None, kraken=kraken_closes, today=None):
     report["structural_problems"] += hist
     fail += hist
     for asset in ("ETH", "BTC"):
-        d1 = load(os.path.join(a.data, f"{asset}_1D.csv"))
-        h4 = load(os.path.join(a.data, f"{asset}_4H.csv"))
+        try:
+            d1 = load(os.path.join(a.data, f"{asset}_1D.csv"))
+            h4 = load(os.path.join(a.data, f"{asset}_4H.csv"))
+        except (OSError, KeyError, TypeError, ValueError) as e:
+            # a file the whole-history check above has already reported: stop cleanly instead of crashing
+            msg = f"{asset}: candle files unreadable ({type(e).__name__}); see the whole-history problems"
+            report["structural_problems"].append(msg); fail.append(msg)
+            continue
         probs = structural(asset, d1, h4, today)
         report["structural_problems"] += probs
         fail += probs

@@ -140,6 +140,32 @@ def swap2(kind):
 whole(swap2('lsratio'), 'ETH and BTC long/short files swapped (audit #23)', "market columns are not")
 whole(swap2('oi'), 'ETH and BTC open-interest files swapped (audit #23)', "market columns are not")
 whole(swap2('funding'), 'ETH and BTC funding files swapped (audit #23)', "market columns are not")
+def cutline(rel, keep):
+    def f(M):
+        t = open(f'{M}/{rel}').read().rstrip('\n'); head, last = t.rsplit('\n', 1)
+        open(f'{M}/{rel}', 'w').write(head + '\n' + last[:keep] + '\n')
+    return f
+whole(cutline('derivs/ETH_lsratio_daily.csv', 14), 'ETH long/short cut inside its last line (audit #24)', "header's cells")
+whole(cutline('derivs/ETH_funding_daily.csv', 20), 'ETH funding cut inside its last line (audit #24)', "header's cells")
+whole(cutline('options/BTC_pcr_daily.csv', 14), 'BTC put/call cut inside its last line (audit #24)', "header's cells")
+def dropvol(name):
+    def f(M):
+        rows = list(csv.DictReader(open(f'{M}/{name}.csv')))
+        with open(f'{M}/{name}.csv', 'w', newline='') as fh:
+            w = csv.DictWriter(fh, fieldnames=['time', 'open', 'high', 'low', 'close']); w.writeheader(); w.writerows({k: r[k] for k in ('time', 'open', 'high', 'low', 'close')} for r in rows)
+    return f
+whole(dropvol('ETH_2D'), 'ETH 2D file without its volume column (audit #24)', 'no volume column')
+whole(cutline('ETH_1D.csv', 30), 'ETH daily cut inside its last line (audit #24)', "header's cells")
+def shift_last(M):
+    rows = list(csv.DictReader(open(f'{M}/ETH_1D.csv'))); rows[-1]['time'] = str(int(float(rows[-1]['time'])) + 3600)
+    with open(f'{M}/ETH_1D.csv', 'w', newline='') as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+whole(shift_last, 'ETH daily bar stamped 01:00 (audit #24)', 'not on the 24-hour grid')
+def vol2d(M):
+    rows = list(csv.DictReader(open(f'{M}/BTC_3D.csv'))); rows[100]['volume'] = str(float(rows[100]['volume']) * 2 + 1)
+    with open(f'{M}/BTC_3D.csv', 'w', newline='') as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+whole(vol2d, 'BTC 3D bar whose volume is not its days summed (audit #24)', 'not their daily candles bucketed')
 print(f"\n{sum(results)}/{len(results)} passed")
 
 sys.exit(0 if all(results) else 1)

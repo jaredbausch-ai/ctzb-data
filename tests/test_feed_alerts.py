@@ -173,6 +173,14 @@ open(LOG, "wb").write(good_log)   # the run published its feed, then died before
 f = run(); rows_ = [r["alert_id"] for r in csv.DictReader(open(LOG))]
 check("feed published but the log not written: the next run rebuilds the log from the feed, nothing re-sent",
       sent == [f"ETH-3D-{D4}:forming"] and f["alerts"] == [] and sent[0] in rows_, str((sent, f["alerts"])))
+# the same, with a crashed run in between (audit #24: the crash used to lock every later run)
+set_cards([]); run(); good_log = open(LOG, "rb").read()
+set_cards([("BTC 3D", D4)]); f = run(); sent = [a_["alert_id"] for a_ in f["alerts"]]
+open(LOG, "wb").write(good_log)   # died before writing the log
+shutil.move(f"{DS}/open.csv", f"{DS}/open.csv.gone"); rc, f, err = run_fail(); shutil.move(f"{DS}/open.csv.gone", f"{DS}/open.csv")
+f = run(); rows_ = [r["alert_id"] for r in csv.DictReader(open(LOG))]
+check("...and with a crashed run in between: the log is still rebuilt, nothing re-sent, no lock-up",
+      rc == 1 and sent == [f"BTC-3D-{D4}:forming"] and f["alerts"] == [] and sent[0] in rows_ and not f["cards_withheld"], str((rc, sent, f["alerts"])))
 set_cards([]); f = run()
 cc = json.load(open(f"{DS}/candle_check.json")); json.dump(dict(cc, structural_ok=False), open(f"{DS}/candle_check.json", "w")); reseal(DS)
 rc, f, err = run_fail()

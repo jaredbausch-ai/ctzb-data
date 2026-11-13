@@ -142,7 +142,11 @@ def _row_problems(name, rows, step):
     """Every row of one candle file: a readable time on the bar grid, strictly ascending; open, high, low and
     close finite and above zero, the high and low bracketing the open and close; volume finite and not negative."""
     bad, prev = [], None
+    if rows and "volume" not in rows[0]:
+        return [f"{name}: no volume column"]
     for i, r in enumerate(rows, 2):
+        if None in r or None in r.values():
+            return [f"{name}: row {i} does not have exactly the header's cells (a line cut short or run together)"]
         try:
             t = float(r["time"]); o, h, l, c = (float(r[k]) for k in ("open", "high", "low", "close"))
             v = float(r["volume"]) if r.get("volume") not in (None, "") else 0.0
@@ -154,8 +158,8 @@ def _row_problems(name, rows, step):
             return [f"{name}: row {i} has a price at or below zero, or a negative volume"]
         if h < max(o, c) or l > min(o, c):
             return [f"{name}: row {i} has a high below, or a low above, its open or close"]
-        if step and t % step:
-            return [f"{name}: row {i} is not on the {step // 3600}-hour grid"]
+        if t % (step or 86400):
+            return [f"{name}: row {i} is not on the {(step or 86400) // 3600}-hour grid"]
         if prev is not None and not t > prev:
             bad.append(f"{name}: row(s) repeated or out of order (first at row {i})"); break
         prev = t
@@ -182,6 +186,8 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None
         return [f"{name} is missing"]
     with open(path, newline="") as f:
         rows = list(csv.DictReader(f))
+    if any(None in r or None in r.values() for r in rows):
+        return [f"{name}: a row does not have exactly the header's cells (a line cut short or run together)"]
     try:
         days = [dt.date.fromisoformat(r["date"]) for r in rows]
         vals = [r[col] for r in rows]
@@ -257,10 +263,12 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
             with open(pf, newline="") as f:
                 fr = list(csv.DictReader(f))
             try:
+                if any(None in r or None in r.values() for r in fr):
+                    raise ValueError("a row does not have exactly the header's cells")
                 days = [dt.date.fromisoformat(r["date"]) for r in fr]
                 vals = [float(r["funding_mean"]) for r in fr]
             except (KeyError, TypeError, ValueError):
-                bad.append(f"{a}_funding_daily: a row has no readable date or funding_mean"); days = vals = []
+                bad.append(f"{a}_funding_daily: a row has no readable date or funding_mean, or not exactly the header's cells"); days = vals = []
             if fr and not _market_columns_ok(list(fr[0]), a):
                 bad.append(f"{a}_funding_daily: its market columns are not {a}'s: a file of another asset?")
             if fr and days:
@@ -283,7 +291,7 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
             rows = list(csv.DictReader(f))
         try:
             daily = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
-                     tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in rows}
+                     tuple(float(r[k]) for k in ("open", "high", "low", "close", "volume")) for r in rows}
         except (KeyError, TypeError, ValueError):
             continue   # already reported above
         if not daily:
@@ -305,16 +313,16 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
             try:
                 with open(p) as f:
                     got = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
-                           tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in csv.DictReader(f)}
+                           tuple(float(r[k]) for k in ("open", "high", "low", "close", "volume")) for r in csv.DictReader(f)}
             except (KeyError, TypeError, ValueError):
                 continue   # already reported above
-            want = {d: v[:4] for d, v in resample({d: v + (0.0,) for d, v in daily.items()}, tf).items()}
+            want = resample(daily, tf)
             if set(got) != set(want):
                 miss = sorted(set(want) - set(got)); extra = sorted(set(got) - set(want))
                 bad.append(f"{a}_{tf}D bars differ from the daily candles: {len(miss)} missing"
                            + (f" (first {miss[0]})" if miss else "") + f", {len(extra)} extra")
             else:
-                diff = [d for d in want if any(abs(x - y) > 1e-9 for x, y in zip(got[d], want[d]))]
+                diff = [d for d in want if any(abs(x - y) > 1e-9 * max(1.0, abs(y)) for x, y in zip(got[d], want[d]))]
                 if diff:
                     bad.append(f"{a}_{tf}D: {len(diff)} bar(s) are not their daily candles bucketed (first {min(diff)})")
     # the 4H and 12H files are the same asset as its daily file: their last close is within 25% of the daily close
