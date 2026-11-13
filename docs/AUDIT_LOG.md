@@ -817,7 +817,7 @@ found issues. No wrong figure in any part.
 
 Reports: `analysis/audit25_2026-11-13/`.
 
-**Changed** (commits 9c20c2b, f148df8, 2fdfb1a): all 27 findings and 5 outside-scope doc notes, as listed in
+**Changed** (commits 9c20c2b, f148df8): all 27 findings and 5 outside-scope doc notes, as listed in
 FEED_SPEC "Audit #25 corrections"; the run seal names its run (`started_at`) and feed_live refuses a seal more
 than 2 hours old; the page lists open signals newest first in both Previous signals groups (seen in the numbers
 part's replays, not counted by it); tests: run seal 23 (was 18), page states 48 (was 44), page timing 9 (was 8).
