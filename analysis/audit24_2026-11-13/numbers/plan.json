@@ -1,0 +1,2643 @@
+[
+{
+"date": "2020-10-05",
+"clock": "2020-10-05T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2020-10-22",
+"clock": "2020-10-22T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2020-11-02",
+"clock": "2020-11-02T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2020-11-05",
+"clock": "2020-11-05T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2020-11-10",
+"clock": "2020-11-10T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2020-11-19",
+"clock": "2020-11-19T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2020-11-21",
+"clock": "2020-11-21T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2020-11-22",
+"clock": "2020-11-22T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2020-12-17",
+"clock": "2020-12-17T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2020-12-25",
+"clock": "2020-12-25T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2020-12-26",
+"clock": "2020-12-26T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2020-12-27",
+"clock": "2020-12-27T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2020-12-28",
+"clock": "2020-12-28T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2020-12-29",
+"clock": "2020-12-29T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)",
+"year end"
+]
+},
+{
+"date": "2020-12-30",
+"clock": "2020-12-30T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2020-12-31",
+"clock": "2020-12-31T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-01-01",
+"clock": "2021-01-01T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-01-02",
+"clock": "2021-01-02T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-01-03",
+"clock": "2021-01-03T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)",
+"year end"
+]
+},
+{
+"date": "2021-01-04",
+"clock": "2021-01-04T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)",
+"year end"
+]
+},
+{
+"date": "2021-01-19",
+"clock": "2021-01-19T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2021-01-20",
+"clock": "2021-01-20T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-01-21",
+"clock": "2021-01-21T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-02-01",
+"clock": "2021-02-01T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2021-02-09",
+"clock": "2021-02-09T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-02-24",
+"clock": "2021-02-24T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-02-25",
+"clock": "2021-02-25T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-04-03",
+"clock": "2021-04-03T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-04-05",
+"clock": "2021-04-05T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2021-04-11",
+"clock": "2021-04-11T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-04-12",
+"clock": "2021-04-12T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-04-14",
+"clock": "2021-04-14T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-05-05",
+"clock": "2021-05-05T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2021-05-07",
+"clock": "2021-05-07T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-05-18",
+"clock": "2021-05-18T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2021-06-06",
+"clock": "2021-06-06T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"random date",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-07",
+"clock": "2021-06-07T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-08",
+"clock": "2021-06-08T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-09",
+"clock": "2021-06-09T04:14:00Z",
+"kinds": [
+"day 60 in progress",
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-10",
+"clock": "2021-06-10T04:14:00Z",
+"kinds": [
+"day after day 60 closes",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-11",
+"clock": "2021-06-11T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-12",
+"clock": "2021-06-12T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-13",
+"clock": "2021-06-13T04:14:00Z",
+"kinds": [
+"day 60 in progress",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-14",
+"clock": "2021-06-14T04:14:00Z",
+"kinds": [
+"day after day 60 closes",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-15",
+"clock": "2021-06-15T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-16",
+"clock": "2021-06-16T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-17",
+"clock": "2021-06-17T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-18",
+"clock": "2021-06-18T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-19",
+"clock": "2021-06-19T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-20",
+"clock": "2021-06-20T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-21",
+"clock": "2021-06-21T04:14:00Z",
+"kinds": [
+"filter off",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-22",
+"clock": "2021-06-22T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-23",
+"clock": "2021-06-23T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-24",
+"clock": "2021-06-24T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-25",
+"clock": "2021-06-25T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-26",
+"clock": "2021-06-26T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-27",
+"clock": "2021-06-27T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-06-28",
+"clock": "2021-06-28T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-07-06",
+"clock": "2021-07-06T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2021-07-09",
+"clock": "2021-07-09T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-07-10",
+"clock": "2021-07-10T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-07-30",
+"clock": "2021-07-30T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2021-07-31",
+"clock": "2021-07-31T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2021-08-17",
+"clock": "2021-08-17T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-18",
+"clock": "2021-08-18T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-19",
+"clock": "2021-08-19T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-20",
+"clock": "2021-08-20T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-21",
+"clock": "2021-08-21T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-22",
+"clock": "2021-08-22T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-23",
+"clock": "2021-08-23T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-24",
+"clock": "2021-08-24T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-25",
+"clock": "2021-08-25T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-26",
+"clock": "2021-08-26T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-27",
+"clock": "2021-08-27T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-28",
+"clock": "2021-08-28T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-29",
+"clock": "2021-08-29T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-30",
+"clock": "2021-08-30T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-08-31",
+"clock": "2021-08-31T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-01",
+"clock": "2021-09-01T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-02",
+"clock": "2021-09-02T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-03",
+"clock": "2021-09-03T04:14:00Z",
+"kinds": [
+"random date",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-04",
+"clock": "2021-09-04T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-05",
+"clock": "2021-09-05T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-06",
+"clock": "2021-09-06T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-07",
+"clock": "2021-09-07T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-09-08",
+"clock": "2021-09-08T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2021-10-01",
+"clock": "2021-10-01T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-10-05",
+"clock": "2021-10-05T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-10-15",
+"clock": "2021-10-15T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-10-21",
+"clock": "2021-10-21T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-11-08",
+"clock": "2021-11-08T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2021-11-09",
+"clock": "2021-11-09T03:59:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2021-12-14",
+"clock": "2021-12-14T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-12-15",
+"clock": "2021-12-15T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-12-20",
+"clock": "2021-12-20T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2021-12-21",
+"clock": "2021-12-21T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2021-12-26",
+"clock": "2021-12-26T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-12-27",
+"clock": "2021-12-27T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-12-28",
+"clock": "2021-12-28T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-12-29",
+"clock": "2021-12-29T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-12-30",
+"clock": "2021-12-30T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2021-12-31",
+"clock": "2021-12-31T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-01-01",
+"clock": "2022-01-01T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-01-02",
+"clock": "2022-01-02T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-01-03",
+"clock": "2022-01-03T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-01-04",
+"clock": "2022-01-04T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-01-15",
+"clock": "2022-01-15T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2022-01-25",
+"clock": "2022-01-25T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-01-26",
+"clock": "2022-01-26T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-01-27",
+"clock": "2022-01-27T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-01-28",
+"clock": "2022-01-28T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-01-29",
+"clock": "2022-01-29T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-01-30",
+"clock": "2022-01-30T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-01-31",
+"clock": "2022-01-31T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-01",
+"clock": "2022-02-01T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-02",
+"clock": "2022-02-02T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-03",
+"clock": "2022-02-03T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-04",
+"clock": "2022-02-04T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-05",
+"clock": "2022-02-05T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-06",
+"clock": "2022-02-06T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-07",
+"clock": "2022-02-07T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-08",
+"clock": "2022-02-08T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-09",
+"clock": "2022-02-09T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-10",
+"clock": "2022-02-10T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-11",
+"clock": "2022-02-11T04:14:00Z",
+"kinds": [
+"filter off",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-12",
+"clock": "2022-02-12T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-13",
+"clock": "2022-02-13T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-14",
+"clock": "2022-02-14T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-15",
+"clock": "2022-02-15T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-16",
+"clock": "2022-02-16T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2022-02-17",
+"clock": "2022-02-17T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-03-14",
+"clock": "2022-03-14T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-04-19",
+"clock": "2022-04-19T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-04-21",
+"clock": "2022-04-21T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2022-05-06",
+"clock": "2022-05-06T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-05-07",
+"clock": "2022-05-07T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-05-08",
+"clock": "2022-05-08T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-05-21",
+"clock": "2022-05-21T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-06-02",
+"clock": "2022-06-02T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-06-27",
+"clock": "2022-06-27T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-07-20",
+"clock": "2022-07-20T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2022-07-23",
+"clock": "2022-07-23T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2022-08-25",
+"clock": "2022-08-25T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2022-09-02",
+"clock": "2022-09-02T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-09-23",
+"clock": "2022-09-23T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-09-30",
+"clock": "2022-09-30T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2022-10-28",
+"clock": "2022-10-28T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2022-11-25",
+"clock": "2022-11-25T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2022-12-13",
+"clock": "2022-12-13T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2022-12-15",
+"clock": "2022-12-15T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2022-12-26",
+"clock": "2022-12-26T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-12-27",
+"clock": "2022-12-27T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-12-28",
+"clock": "2022-12-28T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-12-29",
+"clock": "2022-12-29T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-12-30",
+"clock": "2022-12-30T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2022-12-31",
+"clock": "2022-12-31T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-01-01",
+"clock": "2023-01-01T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-01-02",
+"clock": "2023-01-02T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-01-03",
+"clock": "2023-01-03T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-01-04",
+"clock": "2023-01-04T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-01-23",
+"clock": "2023-01-23T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-24",
+"clock": "2023-01-24T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-25",
+"clock": "2023-01-25T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-26",
+"clock": "2023-01-26T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-27",
+"clock": "2023-01-27T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-28",
+"clock": "2023-01-28T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-29",
+"clock": "2023-01-29T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-30",
+"clock": "2023-01-30T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-01-31",
+"clock": "2023-01-31T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-01",
+"clock": "2023-02-01T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-02",
+"clock": "2023-02-02T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-03",
+"clock": "2023-02-03T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-04",
+"clock": "2023-02-04T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-05",
+"clock": "2023-02-05T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-06",
+"clock": "2023-02-06T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-07",
+"clock": "2023-02-07T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-08",
+"clock": "2023-02-08T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-09",
+"clock": "2023-02-09T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-10",
+"clock": "2023-02-10T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-11",
+"clock": "2023-02-11T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-12",
+"clock": "2023-02-12T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-13",
+"clock": "2023-02-13T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-14",
+"clock": "2023-02-14T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2023-02-20",
+"clock": "2023-02-20T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2023-02-22",
+"clock": "2023-02-22T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2023-04-07",
+"clock": "2023-04-07T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2023-04-30",
+"clock": "2023-04-30T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2023-06-09",
+"clock": "2023-06-09T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2023-06-15",
+"clock": "2023-06-15T08:13:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2023-06-15",
+"clock": "2023-06-15T12:13:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2023-06-15",
+"clock": "2023-06-15T16:13:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2023-06-15",
+"clock": "2023-06-15T20:13:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2023-08-11",
+"clock": "2023-08-11T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2023-08-20",
+"clock": "2023-08-20T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2023-08-21",
+"clock": "2023-08-21T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2023-09-01",
+"clock": "2023-09-01T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2023-10-29",
+"clock": "2023-10-29T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2023-10-30",
+"clock": "2023-10-30T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2023-11-05",
+"clock": "2023-11-05T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2023-11-06",
+"clock": "2023-11-06T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2023-11-26",
+"clock": "2023-11-26T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2023-12-01",
+"clock": "2023-12-01T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2023-12-02",
+"clock": "2023-12-02T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)",
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2023-12-07",
+"clock": "2023-12-07T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2023-12-18",
+"clock": "2023-12-18T04:14:00Z",
+"kinds": [
+"day 60 in progress",
+"random date"
+]
+},
+{
+"date": "2023-12-19",
+"clock": "2023-12-19T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2023-12-26",
+"clock": "2023-12-26T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-12-27",
+"clock": "2023-12-27T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-12-28",
+"clock": "2023-12-28T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-12-29",
+"clock": "2023-12-29T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-12-30",
+"clock": "2023-12-30T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2023-12-31",
+"clock": "2023-12-31T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-01-01",
+"clock": "2024-01-01T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-01-02",
+"clock": "2024-01-02T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-01-03",
+"clock": "2024-01-03T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-01-04",
+"clock": "2024-01-04T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-01-09",
+"clock": "2024-01-09T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2024-01-10",
+"clock": "2024-01-10T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-01-11",
+"clock": "2024-01-11T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2024-01-25",
+"clock": "2024-01-25T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2024-02-07",
+"clock": "2024-02-07T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-02-26",
+"clock": "2024-02-26T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-03-10",
+"clock": "2024-03-10T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-03-11",
+"clock": "2024-03-11T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-03-28",
+"clock": "2024-03-28T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2024-03-29",
+"clock": "2024-03-29T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2024-04-29",
+"clock": "2024-04-29T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-05-06",
+"clock": "2024-05-06T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2024-05-16",
+"clock": "2024-05-16T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2024-05-23",
+"clock": "2024-05-23T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-06-08",
+"clock": "2024-06-08T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2024-07-28",
+"clock": "2024-07-28T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-07-29",
+"clock": "2024-07-29T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-08-05",
+"clock": "2024-08-05T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-08-06",
+"clock": "2024-08-06T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-08-22",
+"clock": "2024-08-22T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2024-08-31",
+"clock": "2024-08-31T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2024-09-19",
+"clock": "2024-09-19T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-09-20",
+"clock": "2024-09-20T04:14:00Z",
+"kinds": [
+"day after a confirmation",
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2024-09-22",
+"clock": "2024-09-22T04:14:00Z",
+"kinds": [
+"day after a confirmation",
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-09-22",
+"clock": "2024-09-22T12:13:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2024-09-28",
+"clock": "2024-09-28T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-10-12",
+"clock": "2024-10-12T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-10-22",
+"clock": "2024-10-22T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-10-23",
+"clock": "2024-10-23T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-10-31",
+"clock": "2024-10-31T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2024-11-02",
+"clock": "2024-11-02T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2024-11-07",
+"clock": "2024-11-07T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-11-08",
+"clock": "2024-11-08T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-11-09",
+"clock": "2024-11-09T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-11-11",
+"clock": "2024-11-11T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-11-15",
+"clock": "2024-11-15T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2024-11-18",
+"clock": "2024-11-18T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2024-11-19",
+"clock": "2024-11-19T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2024-11-20",
+"clock": "2024-11-20T04:14:00Z",
+"kinds": [
+"random date",
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2024-11-25",
+"clock": "2024-11-25T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2024-11-28",
+"clock": "2024-11-28T04:14:00Z",
+"kinds": [
+"top-grade forming low (bar before)"
+]
+},
+{
+"date": "2024-12-13",
+"clock": "2024-12-13T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2024-12-26",
+"clock": "2024-12-26T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-12-27",
+"clock": "2024-12-27T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-12-28",
+"clock": "2024-12-28T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-12-29",
+"clock": "2024-12-29T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-12-30",
+"clock": "2024-12-30T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-12-31",
+"clock": "2024-12-31T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2024-12-31",
+"clock": "2024-12-31T00:00:30Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2024-12-31",
+"clock": "2024-12-31T23:59:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2024-12-31",
+"clock": "2025-01-01T00:00:30Z",
+"kinds": [
+"envelope: clock next day"
+]
+},
+{
+"date": "2025-01-01",
+"clock": "2025-01-01T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-01-02",
+"clock": "2025-01-02T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-01-03",
+"clock": "2025-01-03T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-01-04",
+"clock": "2025-01-04T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-01-27",
+"clock": "2025-01-27T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-01-28",
+"clock": "2025-01-28T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2025-01-29",
+"clock": "2025-01-29T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2025-02-09",
+"clock": "2025-02-09T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-02-13",
+"clock": "2025-02-13T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-02-26",
+"clock": "2025-02-26T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-03-10",
+"clock": "2025-03-10T00:00:30Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2025-03-10",
+"clock": "2025-03-10T23:59:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2025-03-10",
+"clock": "2025-03-11T00:00:30Z",
+"kinds": [
+"envelope: clock next day"
+]
+},
+{
+"date": "2025-03-17",
+"clock": "2025-03-17T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2025-03-18",
+"clock": "2025-03-18T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2025-04-03",
+"clock": "2025-04-03T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-04-05",
+"clock": "2025-04-05T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-04-30",
+"clock": "2025-04-30T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2025-05-15",
+"clock": "2025-05-15T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-07-04",
+"clock": "2025-07-04T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2025-07-07",
+"clock": "2025-07-07T04:14:00Z",
+"kinds": [
+"top-grade forming low (confirmation day)"
+]
+},
+{
+"date": "2025-07-10",
+"clock": "2025-07-10T04:14:00Z",
+"kinds": [
+"day after a confirmation"
+]
+},
+{
+"date": "2025-09-20",
+"clock": "2025-09-20T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-10-04",
+"clock": "2025-10-04T04:14:00Z",
+"kinds": [
+"day 60 in progress"
+]
+},
+{
+"date": "2025-10-05",
+"clock": "2025-10-05T04:14:00Z",
+"kinds": [
+"day after day 60 closes"
+]
+},
+{
+"date": "2025-11-08",
+"clock": "2025-11-08T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2025-12-03",
+"clock": "2025-12-03T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-04",
+"clock": "2025-12-04T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"top-grade forming low (confirmation day)",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-05",
+"clock": "2025-12-05T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-05",
+"clock": "2025-12-05T20:13:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2025-12-06",
+"clock": "2025-12-06T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-07",
+"clock": "2025-12-07T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-08",
+"clock": "2025-12-08T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-09",
+"clock": "2025-12-09T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-10",
+"clock": "2025-12-10T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-11",
+"clock": "2025-12-11T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-12",
+"clock": "2025-12-12T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-13",
+"clock": "2025-12-13T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-14",
+"clock": "2025-12-14T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-15",
+"clock": "2025-12-15T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-16",
+"clock": "2025-12-16T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-17",
+"clock": "2025-12-17T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-18",
+"clock": "2025-12-18T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-19",
+"clock": "2025-12-19T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-20",
+"clock": "2025-12-20T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-21",
+"clock": "2025-12-21T04:14:00Z",
+"kinds": [
+"filter off",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-22",
+"clock": "2025-12-22T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-23",
+"clock": "2025-12-23T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-24",
+"clock": "2025-12-24T04:14:00Z",
+"kinds": [
+"filter off",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-25",
+"clock": "2025-12-25T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2025-12-26",
+"clock": "2025-12-26T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-12-27",
+"clock": "2025-12-27T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-12-28",
+"clock": "2025-12-28T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-12-29",
+"clock": "2025-12-29T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-12-30",
+"clock": "2025-12-30T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2025-12-31",
+"clock": "2025-12-31T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2026-01-01",
+"clock": "2026-01-01T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2026-01-01",
+"clock": "2026-01-01T00:00:30Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2026-01-02",
+"clock": "2026-01-02T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2026-01-03",
+"clock": "2026-01-03T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2026-01-04",
+"clock": "2026-01-04T04:14:00Z",
+"kinds": [
+"year end"
+]
+},
+{
+"date": "2026-01-17",
+"clock": "2026-01-17T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-01-24",
+"clock": "2026-01-24T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2026-02-11",
+"clock": "2026-02-11T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-02-19",
+"clock": "2026-02-19T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-03-09",
+"clock": "2026-03-09T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-03-10",
+"clock": "2026-03-10T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2026-03-30",
+"clock": "2026-03-30T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2026-04-15",
+"clock": "2026-04-15T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2026-05-15",
+"clock": "2026-05-15T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-05-20",
+"clock": "2026-05-20T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2026-06-25",
+"clock": "2026-06-25T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2026-07-08",
+"clock": "2026-07-08T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-07-19",
+"clock": "2026-07-19T04:14:00Z",
+"kinds": [
+"random date"
+]
+},
+{
+"date": "2026-07-28",
+"clock": "2026-07-28T04:14:00Z",
+"kinds": [
+"candidate: nothing live or forming"
+]
+},
+{
+"date": "2026-08-13",
+"clock": "2026-08-13T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-08-25",
+"clock": "2026-08-25T04:14:00Z",
+"kinds": [
+"filter off"
+]
+},
+{
+"date": "2026-08-31",
+"clock": "2026-08-31T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-01",
+"clock": "2026-09-01T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-02",
+"clock": "2026-09-02T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-03",
+"clock": "2026-09-03T04:14:00Z",
+"kinds": [
+"filter episode edge",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-04",
+"clock": "2026-09-04T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-05",
+"clock": "2026-09-05T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-06",
+"clock": "2026-09-06T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-07",
+"clock": "2026-09-07T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-08",
+"clock": "2026-09-08T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-09",
+"clock": "2026-09-09T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-10",
+"clock": "2026-09-10T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-11",
+"clock": "2026-09-11T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-12",
+"clock": "2026-09-12T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-13",
+"clock": "2026-09-13T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-14",
+"clock": "2026-09-14T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-15",
+"clock": "2026-09-15T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-16",
+"clock": "2026-09-16T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-17",
+"clock": "2026-09-17T04:14:00Z",
+"kinds": [
+"random date",
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-18",
+"clock": "2026-09-18T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-19",
+"clock": "2026-09-19T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-20",
+"clock": "2026-09-20T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-21",
+"clock": "2026-09-21T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-21",
+"clock": "2026-09-21T23:59:00Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2026-09-21",
+"clock": "2026-09-22T00:00:30Z",
+"kinds": [
+"envelope: clock next day"
+]
+},
+{
+"date": "2026-09-22",
+"clock": "2026-09-22T04:14:00Z",
+"kinds": [
+"within a forming low of a filter flip"
+]
+},
+{
+"date": "2026-09-22",
+"clock": "2026-09-22T00:00:30Z",
+"kinds": [
+"clock time of day"
+]
+},
+{
+"date": "2026-10-05",
+"clock": "2026-10-05T04:14:00Z",
+"kinds": [
+"random date"
+]
+}
+]

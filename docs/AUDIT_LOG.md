@@ -781,6 +781,31 @@ all pass, fire drills 58/58; a replay of 1 Jan 2026 gives the ETH 5D buy date 10
 
 ---
 
+## Round 24 — 13 Nov, 12:55–14:30 ET (audit #24: three independent agents at once)
+
+Scored on Jared's definitions: real data, real-life damage, and (from this round, Jared 12:56 ET) docs counted
+only in what people rely on. **Not clean:** the docs and damage parts found issues. **Numbers: clean.**
+
+| Part | Checked | Findings |
+|---|---|---|
+| Numbers on real data | 2 frozen states + 371 replayed dates, 7,558,712 comparisons | **0.** 8 checker artefacts: the worked example's fixed chart file against dates replayed before its 60 days were over (definitional note (ab)) |
+| Real-life damage | 743 states (281 page, 462 pipeline) | 5 causes, none changing a member figure: a live setup's chart file from another run or cut short was drawn; the extras step failing left the previous run's chart files published; a series cut inside its last line was scored; 2D-8D files without a volume column, or a daily bar not at midnight, passed; a run killed between feed and log plus one crash locked every later run |
+| Docs (narrower scope) | 6 documents + CONTEXT's current rules, about 490 statements | 15 (1 wrong: next_buy_date skipped a low confirming at today's close; 1 stale; 13 loose) |
+
+Reports: `analysis/audit24_2026-11-13/`.
+
+**Changed** (commits 628160c, 8483047, 311da2e, dbeb7b7, PENDING_24): all 20 findings, as listed in FEED_SPEC
+"Audit #24 corrections"; the site Worker refuses a candle file with a non-numeric row; stale preview candle
+files removed; candle and derivatives files written atomically; tests: candle check 95 (was 81), alerts 31,
+page timing 8, site Worker 25.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), feed alerts 31/31,
+feed extras 28/28, candle check 95/95, run seal 18/18, page states 44/44, page timing 8/8 on two states, damage
+test 15/15, year-end replays 8/8, fetch tests 4/4, gate-off and no-today-bar replays, worker tests all pass, fire
+drills 58/58; GitHub run after the push: every step success.
+
+---
+
 ## Deliberately left alone (definitional notes, not issues)
 
 - **Flash-print clamp.** A $0.06 BTC low on 15 Apr 2017 (and ETH's $0.10 GDAX wick on 21 Jun 2017)

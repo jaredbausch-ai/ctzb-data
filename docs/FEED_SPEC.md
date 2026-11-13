@@ -486,3 +486,15 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   check made unreachable); it reads the exact ones.
 - The site Worker refuses a candle file with any row that is not numbers ("Candles unreadable"), instead of
   dropping that row, so the page never sees a file with rows removed.
+- **Candle and series files, whole rows:** every candle file must have a volume column and every row exactly the
+  header's cells (a line cut short or run together fails); daily and multi-day bars must be stamped at midnight
+  UTC; each 2D-8D bar's volume must be its days' volume summed; the funding, long/short, open-interest and put/call
+  series must have whole rows too. fetch.py and fetch_derivs.py write each file whole or not at all.
+- **The extras step clears its own outputs first** (the miss and path figures, the odds table and the chart
+  files), so when it fails the previous run's chart files are not published beside this run's feed; the page
+  then says the chart is unavailable.
+- **The alert log through a crash:** a fail-closed feed carries forward any alerts the last published feed sent
+  that the log does not hold yet (`alert_log_carry`), so a run killed between the feed and the log, followed by
+  a crashed run, no longer holds every later run back.
+- **Page:** a live setup's chart file must close at its card's latest price, like a forming setup's (a file from
+  another run, or cut short, is not drawn).
