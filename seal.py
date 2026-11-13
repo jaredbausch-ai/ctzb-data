@@ -8,8 +8,8 @@ for an older copy between steps, a step that never finished, or steps run out of
 closed instead of being published. refresh.py is the first scoring step and starts a new seal, so the
 outputs of an earlier run can never carry this run's seal.
 
-The seal also covers the scoring inputs: the candle files in data/ and the funding series in data/derivs/
-(since 13 Nov 2026). It guards against accidents and partial runs, not against someone with write access to
+The seal also covers the scoring inputs (since 13 Nov 2026): the candle files in data/, the funding, long/short and
+open-interest series in data/derivs/ and the BTC put/call series in data/options/. It guards against accidents and partial runs, not against someone with write access to
 the repo: anyone who can rewrite a dataset can rewrite the manifest beside it, or the code itself.
 
 The seal is datasets/manifest.json: {"steps": [...], "files": {name: sha256}}. Standard library only
@@ -35,7 +35,8 @@ def _sha(path):
 
 def _files(out):
     """Every file in datasets/, plus the inputs the steps score from (13 Nov 2026 audit #22): the candle files
-    in data/ and the funding series in data/derivs/, keyed "data/<name>". data/ is the folder beside datasets/."""
+    in data/, the funding, long/short and open-interest series in data/derivs/ and the BTC put/call series in
+    data/options/, keyed "data/<path>". data/ is the folder beside datasets/."""
     got = {n: _sha(os.path.join(out, n)) for n in sorted(os.listdir(out))
            if n != NAME and os.path.isfile(os.path.join(out, n))}
     data = os.path.join(os.path.dirname(os.path.abspath(out)), 'data')
@@ -46,8 +47,11 @@ def _files(out):
         der = os.path.join(data, 'derivs')
         if os.path.isdir(der):
             for n in sorted(os.listdir(der)):
-                if n.endswith('_funding_daily.csv'):
+                if n.endswith(('_funding_daily.csv', '_lsratio_daily.csv', '_oi_daily.csv')):
                     got['data/derivs/' + n] = _sha(os.path.join(der, n))
+        pcr = os.path.join(data, 'options', 'BTC_pcr_daily.csv')
+        if os.path.exists(pcr):
+            got['data/options/BTC_pcr_daily.csv'] = _sha(pcr)
     return got
 
 

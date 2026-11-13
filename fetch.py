@@ -164,6 +164,43 @@ def _row_problems(name, rows, step):
     return bad
 
 
+FUNDING_FIRST = dt.date(2020, 1, 21)
+
+
+def _series_problems(path, name, col, first, lo, hi, blank_ok, today):
+    """One daily series: present, starting on its first day, no day missing or repeated, every value a number in
+    (lo, hi) (a blank allowed only where the source has none, e.g. put/call on a day without trades), and current."""
+    if not os.path.exists(path):
+        return [f"{name} is missing"]
+    with open(path, newline="") as f:
+        rows = list(csv.DictReader(f))
+    try:
+        days = [dt.date.fromisoformat(r["date"]) for r in rows]
+        vals = [r[col] for r in rows]
+    except (KeyError, TypeError, ValueError):
+        return [f"{name}: a row has no readable date or {col}"]
+    if not days:
+        return [f"{name} is empty"]
+    bad = []
+    if days[0] != first:
+        bad.append(f"{name} starts {days[0]}, expected {first}: history is missing")
+    if any((days[i] - days[i - 1]).days != 1 for i in range(1, len(days))):
+        bad.append(f"{name}: a day is missing, repeated or out of order")
+    def ok(v):
+        if v in ("", None):
+            return blank_ok
+        try:
+            x = float(v)
+        except ValueError:
+            return False
+        return math.isfinite(x) and lo < x < hi if not blank_ok else math.isfinite(x) and lo <= x < hi
+    if not all(ok(v) for v in vals):
+        bad.append(f"{name}: a {col} value is not a number in range")
+    if days[-1] < today - dt.timedelta(days=3):
+        bad.append(f"{name} ends {days[-1]}: more than 3 days before {today}")
+    return bad
+
+
 def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
     """Whole-history checks (13 Nov 2026, audits #20 to #22). Returns a list of problems, empty when whole.
     - Every candle file (1D to 8D, 4H, 12H), every row: see _row_problems (structure, not price levels).
@@ -176,7 +213,9 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
       (the series has stayed within -0.5 and 0.3), and the last day no more than 3 days before `today`
       (default: the clock's UTC date). The derivatives fetch runs after the feed, so the series ends a day
       behind the candles in a normal run.
-    4H and 12H files can have exchange gaps, so they are checked for structure and grid only."""
+    - The other daily series the scoring steps read (long/short ratio and open interest per asset, BTC put/call):
+      present, starting on their first day, no day missing, values in range, current.
+    4H and 12H files can have exchange gaps, so they are checked for structure, grid, timeframe and asset."""
     from clock import now_utc
     today = today or now_utc().date()
     bad, closes, intraday = [], {}, {}
@@ -197,6 +236,11 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                 if on < 0.99 * (len(ts) - 1):
                     bad.append(f"{name}: only {on} of {len(ts) - 1} bars are one {step // 3600}-hour step apart: not a {name.split('_')[1]} file")
                 intraday[name] = (ts[-1], float(frows[-1]["close"]))
+        # the other daily series the scoring steps read (stack_live.py: long/short ratio, open interest; BTC put/call)
+        for rel, col, first, lo, hi, blank_ok in [(f"derivs/{a}_lsratio_daily.csv", "ls_ratio_mean", "2020-05-31", 0, 20, False),
+                                                  (f"derivs/{a}_oi_daily.csv", "oi_usd_total", "2022-09-13", 0, 1e12, False)] + \
+                ([("options/BTC_pcr_daily.csv", "pcr_amt", "2016-11-01", 0, 1e6, True)] if a == "BTC" else []):
+            bad += _series_problems(os.path.join(data_dir, rel), rel, col, dt.date.fromisoformat(first), lo, hi, blank_ok, today)
         pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")
         if os.path.exists(pf):
             with open(pf, newline="") as f:
@@ -213,6 +257,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                     bad.append(f"{a}_funding_daily: a funding value is not a number between -1 and 1")
                 if days[-1] < today - dt.timedelta(days=3):
                     bad.append(f"{a}_funding_daily ends {days[-1]}: more than 3 days before {today}")
+                if days[0] != FUNDING_FIRST:
+                    bad.append(f"{a}_funding_daily starts {days[0]}, expected {FUNDING_FIRST}: history is missing")
             elif not fr:
                 bad.append(f"{a}_funding_daily is empty")
         else:

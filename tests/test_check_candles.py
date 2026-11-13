@@ -9,7 +9,8 @@ import tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = tempfile.mkdtemp()
 for f in [f'{a_}_{tf}' for a_ in ('ETH','BTC') for tf in ('1D','2D','3D','5D','8D','4H','12H')]: shutil.copy(f'{ROOT}/data/{f}.csv', T)
-shutil.copytree(f'{ROOT}/data/derivs', f'{T}/derivs', ignore=lambda d, names: [n for n in names if 'funding_daily' not in n])   # the funding series is checked whole too (13 Nov 2026)
+shutil.copytree(f'{ROOT}/data/derivs', f'{T}/derivs', ignore=lambda d, names: [n for n in names if not n.endswith(('_funding_daily.csv', '_lsratio_daily.csv', '_oi_daily.csv'))])   # the daily series the steps read are checked whole too (13 Nov 2026)
+os.makedirs(f'{T}/options'); shutil.copy(f'{ROOT}/data/options/BTC_pcr_daily.csv', f'{T}/options/')
 today = dt.datetime.now(dt.timezone.utc).date()
 def cb(asset, path=T):
     return {dt.datetime.fromtimestamp(t, dt.timezone.utc).date(): v for t, v in C.load(f'{path}/{asset}_1D.csv').items()}
@@ -119,6 +120,18 @@ whole(lambda M: os.remove(f'{M}/derivs/BTC_funding_daily.csv'), 'BTC funding fil
 whole(lambda M: shutil.copy(f'{M}/ETH_12H.csv', f'{M}/ETH_4H.csv'), 'ETH 4H file holding 12H bars (audit #23)', 'not a 4H file')
 whole(lambda M: shutil.copy(f'{M}/BTC_4H.csv', f'{M}/ETH_4H.csv'), "ETH 4H file replaced by BTC's (audit #23)", 'a file of another asset')
 whole(lambda M: os.remove(f'{M}/ETH_12H.csv'), 'ETH 12H file missing (audit #23)', 'ETH_12H is missing')
+def series(rel, edit):
+    def f(M):
+        pth = f'{M}/{rel}'; rows = list(csv.DictReader(open(pth))); rows = edit(rows)
+        with open(pth, 'w', newline='') as fh:
+            w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+    return f
+whole(series('derivs/BTC_funding_daily.csv', lambda r: r[30:]), 'BTC funding with its first 30 days cut (audit #23)', 'BTC_funding_daily starts')
+whole(series('derivs/ETH_lsratio_daily.csv', lambda r: [dict(x, ls_ratio_mean='nan') if i == 500 else x for i, x in enumerate(r)]), 'ETH long/short ratio with a nan (audit #23)', 'not a number in range')
+whole(series('derivs/BTC_oi_daily.csv', lambda r: r[:-30]), 'BTC open interest with its last 30 days cut (audit #23)', 'more than 3 days before')
+whole(series('derivs/ETH_oi_daily.csv', lambda r: [dict(x, oi_usd_total='-5') if i == 100 else x for i, x in enumerate(r)]), 'ETH open interest negative (audit #23)', 'not a number in range')
+whole(series('options/BTC_pcr_daily.csv', lambda r: r[:900] + r[901:]), 'BTC put/call missing a day (audit #23)', 'a day is missing')
+whole(lambda M: os.remove(f'{M}/derivs/ETH_lsratio_daily.csv'), 'ETH long/short file deleted (audit #23)', 'ETH_lsratio_daily.csv is missing')
 print(f"\n{sum(results)}/{len(results)} passed")
 
 sys.exit(0 if all(results) else 1)
