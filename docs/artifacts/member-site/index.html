@@ -197,7 +197,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
   <header class="top">
     <div class="logo">ETHKROS</div>
-    <div class="pill" id="filterPill"><span class="dot"></span><span id="filterText">Market filter …</span></div>
+    <div class="pill" id="filterPill"><span class="dot"></span><span id="filterText">Loading…</span></div>
     <div class="forming" id="forming" aria-hidden="true"></div>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-now" aria-selected="true" data-view="now">Now</button>
@@ -216,14 +216,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
               <div class="sec-title">Lead trader</div>
               <div class="small" style="color: var(--lead-soft)">Real trades, posted automatically when they fill (once his feed is live)</div>
             </div>
-            <div id="leadBody"></div>
+            <div id="leadBody"><div class="lead-empty">Loading the lead trader's feed…</div></div>
             <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before an alert, sometimes after, sometimes not at all. Once his feed is live, every trade is posted automatically. Entry, exit, leverage and size as a share of the account; never dollar amounts.</div>
           </div>
         </section>
 
         <div class="center">
           <div class="picker" id="picker" role="group" aria-label="Setups"></div>
-          <section class="frame" id="cardFrame" aria-label="Live setup"><div class="in" id="card"></div></section>
+          <section class="frame" id="cardFrame" aria-label="Live setup"><div class="in" id="card"><div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="loading">Loading</div></div><div class="empty-card"><div class="big">Loading the latest data…</div></div></div></section>
         </div>
 
         <section class="prev" aria-label="Previous signals">
@@ -882,6 +882,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $("#chartSide").innerHTML = ""; $("#cloudSvg").innerHTML = ""; $("#cloudNote").textContent = ""; $("#cloudSub").textContent = ""; $(".toggle").hidden = true;
   }
   async function renderChart() {
+    const tok = (S.chartTok = (S.chartTok || 0) + 1);   // only the latest request draws (13 Nov 2026 audit #23: a slow file drew another setup)
     const svg = $("#chartSvg"), e = edgeRule(), c = selected();
     let m, bars, E, entry, tfd, forming = false, lowIdx = null, confIdx = null;
     if (!c) {
@@ -897,10 +898,16 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     } else {
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
+      if (tok !== S.chartTok) return;   // the member picked another setup or view while this file loaded
       // too few bars, or a bar that isn't numbers, is a broken file, not a chart (audit #18)
       if (!cd || typeof cd !== "object" || cd.chart !== c.chart || !barsOk(cd.bars, 10) || !stepsOk(cd.bars, tfd)
           || cd.bars[cd.bars.length - 1].t > Date.parse(S.feed.generated_at) / 1000) {
         blankChart(c.chart.replace(" ", " · "), "This chart's candles couldn't be loaded.", "Chart data unavailable for " + c.chart); return;
+      }
+      // the file's last close is the card's latest price: a file of another asset, chart or run is not drawn
+      // (13 Nov 2026 audit #23)
+      if (c.price_now != null && Math.abs(cd.bars[cd.bars.length - 1].c - c.price_now) > 1e-6 * c.price_now) {
+        blankChart(c.chart.replace(" ", " · "), "This chart's candles don't match the setup's latest price.", "Chart data unavailable for " + c.chart); return;
       }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
       if (c._open) {
