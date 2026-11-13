@@ -794,7 +794,7 @@ only in what people rely on. **Not clean:** the docs and damage parts found issu
 
 Reports: `analysis/audit24_2026-11-13/`.
 
-**Changed** (commits 628160c, 8483047, 311da2e, dbeb7b7, PENDING_24): all 20 findings, as listed in FEED_SPEC
+**Changed** (commits 628160c, 8483047, 311da2e, dbeb7b7, e4ec632): all 20 findings, as listed in FEED_SPEC
 "Audit #24 corrections"; the site Worker refuses a candle file with a non-numeric row; stale preview candle
 files removed; candle and derivatives files written atomically; tests: candle check 95 (was 81), alerts 31,
 page timing 8, site Worker 25.
