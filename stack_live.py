@@ -25,7 +25,7 @@ Writes datasets/:
 Historical rates for entry quality only. Computed signals, never fills.
   python3 -I stack_live.py
 """
-import bisect, csv, json, os, re, sys, datetime as dt, statistics as st
+import bisect, csv, json, math, os, re, sys, datetime as dt, statistics as st
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, 'analysis'))
@@ -359,7 +359,10 @@ def main():
                         mid = (lo + hi) / 2
                         if E.rsi(base + [mid], 14)[-1] <= ct[p['ti']]: lo = mid
                         else: hi = mid
-                    r['_kill'] = round(lo, 2)
+                    # shown rounded DOWN to the cent: every close above the shown price then confirms, and a close
+                    # at it does not. Rounding to nearest could show a price a cent above the threshold, so a
+                    # close exactly at the shown price would have confirmed (12 Nov 2026 audit #16).
+                    r['_kill'] = math.floor(lo * 100 + 1e-9) / 100
                 subjects.append(('forming (provisional)', r, tags))
             for s in sig:
                 if 0 <= (today - s['d0']).days <= 60:
@@ -433,11 +436,11 @@ def main():
         if x('l0okExact') is not None and x('l0okExact') < EDGE_BAR:
             return [0, 'lost']
         lvl = next((-th for th in (5, 10, 15, 20) if x(f'l{th}okExact') is not None and x(f'l{th}okExact') < EDGE_BAR), '')
-        if lvl == '':
-            return ['', 'intact']
+        # 'rose10' (12 Nov 2026 audit #16): it rose 10% before reaching its edge level (it may have fallen
+        # past that level afterwards), so the card must not say it "has not fallen to its edge level"
         for k in win:
-            if DAY[a]['low'][k] <= e0 * (1 + lvl / 100): return [lvl, 'lost']
-            if DAY[a]['high'][k] >= e0 * 1.10: return [lvl, 'intact']
+            if lvl != '' and DAY[a]['low'][k] <= e0 * (1 + lvl / 100): return [lvl, 'lost']
+            if DAY[a]['high'][k] >= e0 * 1.10: return [lvl, 'rose10']
         return [lvl, 'intact']
 
     def timing(G):

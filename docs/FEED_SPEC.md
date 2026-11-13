@@ -223,8 +223,9 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 
 - `open_signals[]` gain `edge_level_pct` (the setup's own edge level from its card's ladder, exact shares: 0 if
   even the from-entry share is below 70%, else the first fall whose share is below 70%, else empty) and
-  `edge_status` ("intact" / "lost"): on closed daily bars after entry, whichever came first, a low at or below
-  the edge level (low checked first within a day) or a high at +10%; "lost" from the start when the edge level
+  `edge_status`: on closed daily bars after entry, whichever came first, a low at or below
+  the edge level (low checked first within a day) gives "lost", a high at +10% gives "rose10" (since 12 Nov 2026
+  audit #16; it was reported as "intact"), neither yet gives "intact"; "lost" from the start when the edge level
   is 0. The page's Previous signals badges read it.
 - `example_if_it_misses` (new, top level): the worked example's "if it misses" figures, ETH top-grade signals
   whose 60th day had closed by 2024-09-22 (same sample as `example_card`). The page used to compute these itself.

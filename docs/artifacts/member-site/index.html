@@ -322,6 +322,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const MINUS = "−";
   const fmt = (v, d = 1) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : (+(+v).toFixed(d) === 0 ? (0).toFixed(d) : (+v).toFixed(d).replace("-", MINUS));
   const pct = (v, d = 1, sign = true) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : ((sign && +(+v).toFixed(d) > 0 ? "+" : "") + fmt(v, d) + "%");
+  // A price a percentage away from the entry, to the cent, half away from zero ON THE EXACT DECIMAL PRODUCT
+  // (12 Nov 2026 audit #16): in floating point 3359.90 x 0.95 = 3191.90499..., which printed $3,191.90 for a
+  // level that is exactly $3,191.905. Integer arithmetic on cents and millionths of a percent has no such edge.
+  const pxAt = (entry, p) => {
+    if (entry == null || p == null || !Number.isFinite(+entry) || !Number.isFinite(+p)) return null;
+    const c = BigInt(Math.round(+entry * 100)), k = 100000000n + BigInt(Math.round(+p * 1e6)), den = 100000000n;
+    const num = c * k, neg = num < 0n, a = neg ? -num : num, q = (2n * a + den) / (2n * den);
+    return Number(neg ? -q : q) / 100;
+  };
   const money = (v) => v == null ? "n/a" : "$" + (+v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const median = (a) => { const s = a.filter((x) => Number.isFinite(x)).sort((x, y) => x - y); if (!s.length) return null; const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
   const r1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(+v)) ? null : +(+v).toFixed(d); // half away from zero, like the feed
@@ -492,7 +501,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const pool = below && mi ? `<div class="fine" style="text-align: right">all ${mi.signals} ${esc(m.asset)} signals of this grade</div>` : "";
     const stateTxt = m.kind === "forming" ? "Setup forming" : m.kind === "open" ? "Live setup" : "Confirmed setup";
     const sf = setupFade(m);
-    const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(m.entry * (1 + e.dipPct / 100))}` : "";
+    const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(pxAt(m.entry, e.dipPct))}` : "";
     const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
       : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
     const missTxt = mi ? `${mi.up_first} of ${mi.misses}` + ` · median best ${pct(mi.median_peak_pct)}` : "n/a";
@@ -503,7 +512,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>`
           : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>`
-          : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : "It has not fallen to its edge level."} The odds below are as of the entry close, not from today.</div>` : ""}
+          : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before falling to its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`)} The odds below are as of the entry close, not from today.</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
@@ -712,7 +721,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const slot = (R - L) / nSlots, X = (i) => L + slot * i + slot / 2;
     const sf = setupFade(m);
     const edgePct = sf ? (sf.edge ? sf.edge : null) : e.dipPct;
-    const lv = { high: entry * (1 + m.high / 100), t20: entry * 1.1, drop: entry * (1 + m.drop / 100), edge: edgePct !== null ? entry * (1 + edgePct / 100) : null };
+    const lv = { high: pxAt(entry, m.high), t20: pxAt(entry, 10), drop: pxAt(entry, m.drop), edge: edgePct !== null ? pxAt(entry, edgePct) : null };
     // "At the alert" on the example is scaled only by what was known then (12 Nov 2026 audit #5)
     const shown = !forming && !happened ? bars.slice(0, E + 1) : bars;
     const lo = Math.min(...shown.map((b) => b.l), lv.drop, entry * 0.8) * 0.95, hi = Math.max(...shown.map((b) => b.h), lv.high) * 1.07;
@@ -859,11 +868,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="small">${esc(m.chart)}${m.kind === "example" ? " · example" : ""}${m.sample ? ` · from ${esc(m.sample)}` : ""}${m.kind === "open" ? " · odds as of the entry close, not from today" : ""}</div>
         <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${m.reach10 ?? "n/a"}%</div>
         <div class="small">rose 10% within 60 days, from ${m.n} past signals; ${m.surv10 ?? "n/a"}% without ever falling 25.3%</div>
-        <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(m.entry * (1 + m.high / 100))}</b></div>
-        <div class="kv num"><span class="small">+10% level</span><b>${money(m.entry * 1.1)}</b></div>
+        <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(pxAt(m.entry, m.high))}</b></div>
+        <div class="kv num"><span class="small">+10% level</span><b>${money(pxAt(m.entry, 10))}</b></div>
         <div class="kv num"><span class="small">Reached +20% within 60 days</span><b>${m.odds ?? "n/a"}%</b></div>
-        <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(m.entry * (1 + m.drop / 100))}</b></div>
-        <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(m.entry * (1 + d / 100)) + " (" + pct(d, 0) + ")"; })()}</b></div>
+        <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(pxAt(m.entry, m.drop))}</b></div>
+        <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(pxAt(m.entry, d)) + " (" + pct(d, 0) + ")"; })()}</b></div>
         ${forming && !(c && c._open) ? `<div class="fine">Prices use the latest price (today's bar is still open) as a stand-in for the entry.</div>` : ""}
         ${setupFade(m) ? `<div class="fine">Bands beside the entry: this setup's own ladder. From entry, then after first falling 5%, 10% and 15%: the share of its past signals that still rose 10% before ever falling 25.3%, with the number of signals.</div>` : ""}
       </div>
