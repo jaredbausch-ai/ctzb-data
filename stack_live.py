@@ -546,7 +546,9 @@ def main():
         # graded and verify_cards cannot re-derive it) and only when the regime gate is on at its trough date:
         # a gate-off low can never confirm as a signal, and its odds would come from gate-on signals
         # (12 Nov 2026 audit #14). It still shows in prints.csv / liveread.csv with its "regime off" note.
-        made_card = state.startswith('forming') and tf in ('1D', '2D', '3D', '5D') and gate(r['_trough'])
+        # ...and only when it has at least one past signal to draw odds from (12 Nov 2026 audit #18: a replay of
+        # Aug 2020 built a card, and a forming alert, with n 0 and no figure on it)
+        made_card = state.startswith('forming') and tf in ('1D', '2D', '3D', '5D') and gate(r['_trough']) and len(G_) > 0
         if made_card:
             cards.append(card(r, g, have, basis, G_))
         elif state.startswith('open') and tf in ('1D', '2D', '3D', '5D'):   # graded charts only

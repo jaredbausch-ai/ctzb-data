@@ -290,3 +290,10 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - No `-0.0` in the feed.
 - Member page: a chart that can't be drawn clears everything from the setup charted before; the chart note no
   longer claims lead-trader markers (none are drawn; his trades are listed on the Now tab).
+
+### Audit #18 corrections (12 Nov 2026)
+
+- A forming low gets a card (and a forming alert) only when its sample has at least one past signal; a card with
+  n 0 carried no figure. Early history only (a replay of Aug 2020); samples only grow.
+- Member page: a share with no value prints "n/a", never "n/a%"; a setup whose card has no past signals shows
+  "No odds yet" instead of a card of blanks.

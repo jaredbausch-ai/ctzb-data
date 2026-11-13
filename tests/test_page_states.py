@@ -23,7 +23,7 @@ def candles(a, tf):
     return json.dumps({"chart": f"{a} {tf}", "bars": [{"t": float(r["time"]), "o": float(r["open"]), "h": float(r["high"]), "l": float(r["low"]), "c": float(r["close"])} for r in csv.DictReader(open(p))]})
 
 
-def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER):
+def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False):
     out = {}
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
     errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
@@ -32,9 +32,11 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER):
         if u.endswith("/"): return route.fulfill(body=DOC, content_type="text/html")
         if u.endswith("ctzb_feed.json"): return route.fulfill(body=json.dumps(feed), content_type="application/json") if feed is not None else route.fulfill(status=503, body="x")
         if u.endswith("ledger.csv"): return route.fulfill(body=ledger) if ledger is not None else route.fulfill(status=503, body="x")
-        if "example_" in u: return route.fulfill(body=EX, content_type="application/json")
+        if "example_" in u: return route.fulfill(body=ex, content_type="application/json")
         if "/candles/" in u:
             a, tf = u.rsplit("/", 1)[1][:-5].split("_"); c = candles(a, tf)
+            if c and cut_candles is not None:
+                j = json.loads(c); j["bars"] = j["bars"][:cut_candles]; c = json.dumps(j)
             return route.fulfill(body=c, content_type="application/json") if c else route.fulfill(status=404, body="x")
         if "fonts" in u: return route.abort()
         return route.fulfill(status=404, body="x")
@@ -42,6 +44,10 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER):
     if feed is not None: pg.clock.install(time=feed["generated_at"])
     for v in views:
         pg.goto("http://site.test/#" + v); pg.wait_for_timeout(1500)
+        if example_on and not pg.is_checked("#previewSwitch"):
+            pg.click("#previewSwitch"); pg.wait_for_timeout(600)
+        if example_on and v == "chart" and pg.is_visible("#bHap"):
+            pg.click("#bHap"); pg.wait_for_timeout(600)
         out[v] = pg.inner_text("body")
     b.close()
     return out, errs
@@ -93,6 +99,12 @@ def main():
             if o.get("card"):
                 o["card"].update(past_trades=0, past_signals=0, rose10_within60d_pct=None, rose10_never_fell25_within60d_pct=None, rose20_within60d_pct=None, fell30_within60d_pct=None)
         t_em, e_em = render(pw, empty, views=("now", "chart"))
+        # files cut short in transit (12 Nov 2026 audit #18)
+        led_cut = "\n".join(LEDGER.split("\n")[:400]); led_head = LEDGER.split("\n")[0] + "\n"
+        t_lc, e_lc = render(pw, FEED, views=("record", "now"), ledger=led_cut); t_lh, e_lh = render(pw, FEED, views=("record",), ledger=led_head)
+        t_c0, e_c0 = render(pw, FEED, views=("chart",), cut_candles=0); t_c3, e_c3 = render(pw, FEED, views=("chart",), cut_candles=3)
+        exj = json.loads(EX); ex21 = json.dumps(dict(exj, bars=exj["bars"][:21])); ex30 = json.dumps(dict(exj, bars=exj["bars"][:30]))
+        t_e21, e_e21 = render(pw, FEED, views=("chart",), ex=ex21, example_on=True); t_e30, e_e30 = render(pw, FEED, views=("chart",), ex=ex30, example_on=True)
         nomiss = copy.deepcopy(FEED)
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         t_nm, e_nm = render(pw, nomiss, views=("now",))
@@ -101,7 +113,10 @@ def main():
             ("held back: never says there are no live setups", "No live top-grade setups" not in t_held["now"] and "No open top-grade setup" not in t_held["now"] and "Held back" in t_held["now"], ""),
             ("fail-closed feed: the filter and the scored date read unavailable, not off", "Market filter: unavailable" in t_fc["now"] and "Market filter: off" not in t_fc["now"] and not BAD.search(t_fc["now"]) and not e_fc, t_fc["now"][:160].replace("\n", " ")),
             ("ledger missing: Past signals says unavailable, not 0 signals", "0 signals" not in t_led["record"] and "Past signals unavailable" in t_led["record"], t_led["record"][:200].replace("\n", " ")),
-            ("a card with no past signals: n/a without a stray % sign, no error", not BAD.search(t_em["now"]) and not BAD.search(t_em["chart"]) and not e_em, str(e_em[:1]) + str([m.group(0) for m in BAD.finditer(t_em["now"] + t_em["chart"])][:3])),
+            ("a card with no past signals: says 'No odds yet', no blanks, no stray % sign, no error", "No odds yet" in t_em["now"] and "Day n/a" not in t_em["now"] and not BAD.search(t_em["now"]) and not BAD.search(t_em["chart"]) and not e_em, str(e_em[:1]) + str([m.group(0) for m in BAD.finditer(t_em["now"] + t_em["chart"])][:3])),
+            ("ledger cut short or header only: Past signals says unavailable, never a partial record", all("Past signals unavailable" in x["record"] for x in (t_lc, t_lh)) and not e_lc and not e_lh, t_lc["record"][:160].replace("\n", " ")),
+            ("candle file with 0 or 3 bars: chart says unavailable, no error, no broken geometry", all("candles couldn't be loaded" in x["chart"] and not BAD.search(x["chart"]) for x in (t_c0, t_c3)) and not e_c0 and not e_c3, str((e_c0 + e_c3)[:1])),
+            ("example chart file cut short: example chart says unavailable, no error", all("couldn't be loaded" in x["chart"] for x in (t_e21, t_e30)) and not e_e21 and not e_e30, str((e_e21 + e_e30)[:1])),
             ("no misses: the card says so, with no placeholder or error", "none missed" in t_nm["now"] and not BAD.search(t_nm["now"]) and not e_nm, str(e_nm[:1])),
         ]:
             n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if detail and not cond else ""))

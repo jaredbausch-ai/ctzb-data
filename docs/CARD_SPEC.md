@@ -9,7 +9,7 @@ same commit.
 ## Where a card's numbers come from
 
 One card per forming low on a graded chart (ETH and BTC, 1D, 2D, 3D, 5D) with the regime gate on at
-its trough date, rebuilt every pipeline run by `stack_live.py` into `datasets/cards.csv` (until 12 Nov 2026:
+its trough date, rebuilt every pipeline run by `stack_live.py` into `datasets/cards.csv`, provided its sample has at least one past signal (until 12 Nov 2026:
 every chart, 1D to 8D, whatever the gate; see "The member site's card").
 
 **The sample: like for like only.** The card's past trades are chosen by the first
@@ -18,6 +18,10 @@ rule that gives 15 or more:
 1. Same chart, exactly the same confirmations (lenses) on.
 2. Same chart, same grade (any mix of confirmations that adds up to that grade).
 3. Same grade across all of that asset's charts.
+
+Rule 3 is the last resort and is used whatever its size, including under 15 (the card shows the n). Since
+12 Nov 2026 (audit #18) a forming low whose sample is empty gets no card at all; that only happened in early
+history, and today the smallest rule-3 pool is 33.
 
 The card always says which rule it used, in plain words, under the big number (and again on the
 chart view), and states the sample size there. Never use a
@@ -54,7 +58,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
 ## The member site's card (12 Nov 2026)
 
 Which lows get a card: a forming low only on a graded chart (1D, 2D, 3D, 5D) with the regime gate on at its
-trough date; a live (open) setup on a graded chart; the worked example. There are no 8D cards.
+trough date and at least one past signal in its sample; a live (open) setup on a graded chart; the worked example. There are no 8D cards.
 
 A live setup's card is the card as issued at its entry close. Because a from-entry figure beside an open signal
 can read as today's chance (CONTEXT, 31 Oct 2026), the card itself says "Edge lost", "Rose 10%" (it rose 10% before reaching its edge level) or "On track", says the

@@ -478,6 +478,36 @@ something is broken, and 3 docs-vs-code items. Report: `analysis/audit17_2026-11
 exact), feed tests 15 + 28 + 15, worker tests, Action-environment test, gate-off replay, no-today-bar replay,
 year-end replays 8/8, page states 21/21, fetch tests 4/4, replay of 15 Mar 2026, fire drills 58/58, chart
 screenshot.
+**Pipeline on GitHub with the round-17 code** (new fetch fallback and stricter freshness check): dispatched run
+43349219267 passed every step.
+
+## Round 18 — 12 Nov, 22:15 ET (audit #18, a new independent agent)
+
+**Found: both frozen states clean again** — 58,409 comparisons, 0 disagreements; and the same two pages under
+four browser settings (time zone, locale, phone, large screen), 25,484 comparisons, 0. It replayed 98 other
+dates (2.15 million comparisons): 97 with 0 disagreements, 1 defect in one replay. Synthetic page states: 3
+defects, all files arriving cut short. Docs vs code: 2. Not a clean run. Report:
+`analysis/audit18_2026-11-12/AUDIT18.md`.
+
+**Changed** (commits 8b07b2f and this round's):
+- **A forming card with an empty sample** (replay of 15 Aug 2020: "all 0 past signals") printed "n/a%", "null%"
+  and "Holds at every level". Cannot recur on today's data (the smallest pool is 33). Now: no card and no
+  forming alert for an empty sample; the page prints "n/a" (never "n/a%") through one helper; and a setup whose
+  card has no past signals shows "No odds yet".
+- **A ledger that arrives cut short** was listed as the whole record ("105 signals" beside summary boxes saying
+  137). The page now accepts the ledger only if it holds exactly the top-grade signals the feed counts, per
+  asset; otherwise "Past signals unavailable".
+- **A candle file with no bars** threw a script error or drew a chart with broken coordinates; **an example chart
+  file that stops before day 60** threw an error and drew a best price from the partial window. Both now read
+  as unavailable (a chart file needs at least 10 numeric bars; the example file must reach 60 days past its entry).
+- Docs: CARD_SPEC says rule 3 (same grade across the asset's charts) is used whatever its size, and that an
+  empty sample gets no card.
+- `tests/test_page_states.py` now 25 checks (empty-sample card, cut ledger, short candle files, cut example file).
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), verify_cards (22
+exact), feed tests 15 + 28 + 15, worker tests, Action-environment test, gate-off and no-today-bar replays,
+year-end replays 8/8, page states 25/25, fetch tests 4/4, a replay of 15 Aug 2020 (no empty-sample card), fire
+drills 58/58.
 
 ---
 

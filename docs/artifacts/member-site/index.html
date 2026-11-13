@@ -474,6 +474,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const below = !!m && m.kind === "forming" && !m.top;
     const lost = !!m && m.kind === "open" && m.edgeStatus === "lost";
     frame.style.setProperty("--c", !m ? "var(--closed)" : below || lost ? "var(--fade)" : "var(--live)");
+    if (m && !m.n) {   // a setup with no past signals at all has no odds to show (early history only; audit #18)
+      box.innerHTML = `<div class="card-head"><div class="where">${esc(m.chart || "")}</div><div class="state" style="--c: var(--muted)" data-state="quiet">No odds yet</div></div>
+        <div class="empty-card"><div class="big">No past signals like this one yet</div><div class="small" style="max-width: 46ch">This setup has no finished past signals to draw odds from, so no figures are shown for it.</div></div>
+        <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+      return;
+    }
     if (!m && S.preview) {
       box.innerHTML = `<div class="card-head"><div class="where">ETH · 2D chart · example</div><div class="state" style="--c: var(--muted)" data-state="quiet">Example unavailable</div></div>
         <div class="empty-card"><div class="big">The worked example isn't in the latest data</div><div class="small" style="max-width: 46ch">It comes back with the next good run. Live and forming setups are unaffected.</div></div>
@@ -698,7 +704,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     } else {
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
-      if (!cd) {
+      // too few bars, or a bar that isn't numbers, is a broken file, not a chart (audit #18)
+      if (!cd || !Array.isArray(cd.bars) || cd.bars.length < 10 || !cd.bars.every((b) => [b.t, b.o, b.h, b.l, b.c].every(Number.isFinite))) {
         blankChart(c.chart.replace(" ", " · "), "This chart's candles couldn't be loaded.", "Chart data unavailable for " + c.chart); return;
       }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
@@ -708,6 +715,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         E = k; entry = c.entry_close;
       }   // the bar that CLOSES on the entry date (12 Nov 2026 audit #4)
       m.entry = entry;
+      if (!m.n) { blankChart(c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · forming`, "This setup has no finished past signals to draw odds from.", "No odds to draw yet"); return; }
       lowIdx = c.low_date ? bars.findIndex((b) => dayOf(b.t) === c.low_date) : -1;
       // the confirmation bar is the one that CLOSES on confirms_on, so it opens tfd - 1 days earlier (12 Nov 2026 audit: was one bar late on 2D+)
       $("#chTitle").textContent = c._open ? `${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60` : `${c.asset} · ${c.timeframe} · ${c.grade === "A+" ? "setup forming" : "forming, not top grade"}`;
@@ -979,9 +987,20 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   async function boot() {
     const [feed, ledgerText, trades, example] = await Promise.all([
       get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
-    S.feed = feed; S.trades = trades; S.example = example;
+    S.feed = feed; S.trades = trades;
+    // A file cut short in transit must read as unavailable, never as the whole record (12 Nov 2026 audit #18).
+    // The example's chart file is whole only if it reaches 60 days past its entry bar.
+    const exOk = example && Array.isArray(example.bars) && Number.isInteger(example.entry_index) && example.bars[example.entry_index]
+      && example.bars.every((b) => [b.t, b.o, b.h, b.l, b.c].every(Number.isFinite))
+      && example.bars[example.bars.length - 1].t >= example.bars[example.entry_index].t + 60 * 86400;
+    S.example = exOk ? example : null;
     S.ledger = ledgerText ? parseCSV(ledgerText).filter((r) => r.grade === "A+") : [];
     S.ledgerOk = !!ledgerText;   // a missing ledger must read as unavailable, not as an empty record (audit #16)
+    // The ledger is whole only if it holds exactly the top-grade signals the feed counts, per asset.
+    const want = ((feed && feed.grade_odds) || []).filter((g) => g.grade === "A+" && g.past_trades != null);
+    if (S.ledgerOk && want.length && want.some((g) => S.ledger.filter((r) => r.asset === g.asset).length !== g.past_trades || S.ledger.some((r) => !r.entry || !r.chart))) {
+      S.ledger = []; S.ledgerOk = false;
+    }
     // The example only stands in for a quiet market, never for an outage or a failed check.
     if (!bestCard()) { if (feedHealth() === "ok" && !staleNote() && !openSignals().length) { S.preview = true; $("#previewSwitch").checked = true; } } else S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
