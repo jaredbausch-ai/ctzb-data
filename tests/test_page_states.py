@@ -99,7 +99,7 @@ def main():
         for o in empty["open_signals"]:
             if o.get("card"):   # as the pipeline publishes one (1-11 Sep 2020): no past signals, so no figures at all
                 c = o["card"]
-                c.update(past_trades=0, past_signals=0, rose10_within60d_pct=None, rose10_never_fell25_within60d_pct=None, rose20_within60d_pct=None, fell30_within60d_pct=None,
+                c.update(sample="all 0 past signals of the same grade across all ETH charts", past_trades=0, past_signals=0, rose10_within60d_pct=None, rose10_never_fell25_within60d_pct=None, rose20_within60d_pct=None, fell30_within60d_pct=None,
                          typical_biggest_rise_exact_pct=None, typical_dip_before_rise_exact_pct=None, typical_deepest_dip_exact_pct=None,
                          typical_day_of_60d_high=None, typical_day_of_deepest_dip=None)
                 c["from_entry"].update(still_rose10_pct=None, still_rose10_exact_pct=None)

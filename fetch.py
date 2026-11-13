@@ -179,16 +179,24 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
     4H and 12H files can have exchange gaps, so they are checked for structure and grid only."""
     from clock import now_utc
     today = today or now_utc().date()
-    bad, closes = [], {}
+    bad, closes, intraday = [], {}, {}
     for a in assets:
         for name, step in [(f"{a}_{tf}D", 0) for tf in (1,) + tuple(TIMEFRAMES)] + [(f"{a}_4H", 4 * 3600), (f"{a}_12H", 12 * 3600)]:
             pth = os.path.join(data_dir, name + ".csv")
             if not os.path.exists(pth):
-                if name.endswith(("4H", "12H")):
-                    continue
                 bad.append(f"{name} is missing"); continue
             with open(pth, newline="") as f:
-                bad += _row_problems(name, list(csv.DictReader(f)), step)
+                frows = list(csv.DictReader(f))
+            rp = _row_problems(name, frows, step)
+            bad += rp
+            if step and len(frows) > 1 and not rp:
+                # the right timeframe: nearly every bar follows the last by exactly one step (the exchange has a few
+                # gaps; a 12H file saved as 4H has none on the 4-hour step)
+                ts = [float(r["time"]) for r in frows]
+                on = sum(1 for i in range(1, len(ts)) if ts[i] - ts[i - 1] == step)
+                if on < 0.99 * (len(ts) - 1):
+                    bad.append(f"{name}: only {on} of {len(ts) - 1} bars are one {step // 3600}-hour step apart: not a {name.split('_')[1]} file")
+                intraday[name] = (ts[-1], float(frows[-1]["close"]))
         pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")
         if os.path.exists(pf):
             with open(pf, newline="") as f:
@@ -250,6 +258,13 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                 diff = [d for d in want if any(abs(x - y) > 1e-9 for x, y in zip(got[d], want[d]))]
                 if diff:
                     bad.append(f"{a}_{tf}D: {len(diff)} bar(s) are not their daily candles bucketed (first {min(diff)})")
+    # the 4H and 12H files are the same asset as its daily file: their last close is within 25% of the daily close
+    # of the day that bar falls on
+    for name, (t, c) in intraday.items():
+        a = name.split("_")[0]
+        d = dt.datetime.fromtimestamp(t, dt.timezone.utc).date()
+        if a in closes and d in closes[a] and not 0.75 <= c / closes[a][d] <= 1.25:
+            bad.append(f"{name}: its last close is not {a}'s price that day: a file of another asset?")
     if "ETH" in closes and "BTC" in closes:
         odd = [d for d in closes["ETH"] if d in closes["BTC"] and not 0.001 <= closes["ETH"][d] / closes["BTC"][d] <= 0.5]
         if odd:

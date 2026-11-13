@@ -18,7 +18,7 @@ bad date, list emptied / cut / doubled / reversed, sign flipped, ...), and check
 Env: RENDER_LIMIT (accepted kinds rendered per state, default all), REJECT_LIMIT (default 40).
 Needs playwright + chromium. Entry quality only: computed signals, not fills.
 """
-import copy, csv, json, os, random, re, subprocess, sys, tempfile
+import copy, csv, datetime as dt, json, os, random, re, subprocess, sys, tempfile
 from playwright.sync_api import sync_playwright
 
 R0 = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -275,15 +275,19 @@ def main():
             S.feed = fc; seen_ = S.render(full=True); good, why = S.clean(seen_)
             ok(f'{name}: the fail-closed feed reads "Setups held back", "Market filter: unavailable", no candle date', good and has(seen_['now'], 'Setups held back') and has(seen_['now'], 'Market filter: unavailable') and not has(seen_['now'], 'closed through'), str(why))
             # 5. every field the page reads is in the schema
-            S.pg.close(); S = Site(b, R, record=True); S.trades = TRADES; S.render(full=True)
+            # the lead-trader fixture, dated just before this state's feed (the page's clock is the feed's time)
+            g0 = dt.datetime.strptime(base['generated_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
+            TR = copy.deepcopy(TRADES)
+            for k, x in enumerate(TR['trades']): x['time'] = (g0 - dt.timedelta(days=2 + 20 * k)).strftime('%Y-%m-%dT%H:%M:%SZ')
+            S.pg.close(); S = Site(b, R, record=True); S.trades = TR; S.render(full=True)
             read = set(S.pg.evaluate('window.__paths'))
             extra = sorted(p for p in read if p not in FP and p not in TP and not p.endswith(('.then', '._open')))
             ok(f'{name}: every feed and lead-trader field the page reads ({len(read)}) is in the schema', not extra, str(extra[:8]))
             # 6a. lead-trader file
-            ok(f'{name}: a well-formed lead-trader file passes', not feedcheck.trades_problems(TRADES, schema))
-            TOPS = list(ops_for(TRADES, 'trades', TP)); tb = copy.deepcopy(TRADES)
-            py = [verdict(tb, op, lambda t: feedcheck.trades_problems(t, schema)) for _, _, op in TOPS]
-            S.pg.evaluate("(t) => { window.__base = { trades: t }; }", TRADES)
+            ok(f'{name}: a well-formed lead-trader file passes', not feedcheck.trades_problems(TR, schema, now=g0))
+            TOPS = list(ops_for(TR, 'trades', TP)); tb = copy.deepcopy(TR)
+            py = [verdict(tb, op, lambda t: feedcheck.trades_problems(t, schema, now=g0)) for _, _, op in TOPS]
+            S.pg.evaluate("(t) => { window.__base = { trades: t }; }", TR)
             js = S.pg.evaluate(JS_APPLY, [dict(op, base='trades', fn='__tradesProblems') for _, _, op in TOPS])
             diff = [(TOPS[i][0], TOPS[i][1]) for i in range(len(TOPS)) if py[i] != js[i]]
             ok(f'{name}: page and pipeline agree on all {len(TOPS)} damaged lead-trader files ({sum(py)} rejected)', not diff, str(diff[:6]))
@@ -292,7 +296,7 @@ def main():
                 if (gen, kind, py[i]) in seen: continue
                 seen.add((gen, kind, py[i]))
                 if py[i] and len([1 for g, k, p in seen if p]) > 60: continue
-                S.trades = applied(TRADES, op); seen_ = S.render(); good, why = S.clean({'now': seen_['now']})
+                S.trades = applied(TR, op); seen_ = S.render(); good, why = S.clean({'now': seen_['now']})
                 if not good or (py[i] and not has(seen_['now'], 'feed is unavailable')): bad.append((gen, kind, py[i], why))
             ok(f'{name}: damaged lead-trader files render clean; rejected ones read "unavailable"', not bad, f'{len(bad)} bad, e.g. {bad[:3]}')
             S.trades = None

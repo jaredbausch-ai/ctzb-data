@@ -116,6 +116,9 @@ whole(fund(lambda r: [dict(x, funding_mean='-100') if i >= len(r) - 10 else x fo
 whole(fund(lambda r: r[:500] + r[501:]), 'ETH funding missing one day', 'a day is missing')
 whole(fund(lambda r: [dict(x, funding_mean='') if i == 700 else x for i, x in enumerate(r)]), 'ETH funding with one blank value', 'no readable')
 whole(lambda M: os.remove(f'{M}/derivs/BTC_funding_daily.csv'), 'BTC funding file deleted', 'BTC_funding_daily is missing')
+whole(lambda M: shutil.copy(f'{M}/ETH_12H.csv', f'{M}/ETH_4H.csv'), 'ETH 4H file holding 12H bars (audit #23)', 'not a 4H file')
+whole(lambda M: shutil.copy(f'{M}/BTC_4H.csv', f'{M}/ETH_4H.csv'), "ETH 4H file replaced by BTC's (audit #23)", 'a file of another asset')
+whole(lambda M: os.remove(f'{M}/ETH_12H.csv'), 'ETH 12H file missing (audit #23)', 'ETH_12H is missing')
 print(f"\n{sum(results)}/{len(results)} passed")
 
 sys.exit(0 if all(results) else 1)

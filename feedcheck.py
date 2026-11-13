@@ -115,6 +115,7 @@ def cross(f, out):
             if r['past_trades'] > 0 and None not in (r.get('still_rose10_pct'), r.get('still_rose10_exact_pct'), r.get('went_on_to_fall25_pct')) and (
                     abs(r['still_rose10_pct'] - r['still_rose10_exact_pct']) > 0.5 or r['still_rose10_pct'] + r['went_on_to_fall25_pct'] > 101):
                 out.append(f'{p}.if_it_falls_first[{i}]: shares disagree')
+        if str(c['past_trades']) not in c['sample']: out.append(f'{p}.sample: does not state the sample size')
         figs = [c.get(k) for k in CARD_FIGS] + [c['from_entry'].get('still_rose10_pct'), c['from_entry'].get('still_rose10_exact_pct')]
         if any((x is None) != (c['past_trades'] == 0) for x in figs): out.append(f'{p}: figures and sample size disagree')
         if not (c['low_date'] <= c['low_day'] <= c['confirms_on']): out.append(f'{p}: low and confirmation dates out of order')
@@ -223,14 +224,15 @@ def problems(feed, schema=None):
     return out
 
 
-def trades_problems(trades, schema=None):
+def trades_problems(trades, schema=None, now=None):
+    """`now`: the viewer's clock (default the real clock); a trade after it is in the future."""
     schema = schema or load_schema()
     out = []
     check(trades, schema['trades'], schema['defs'], 'trades', out)
     if out:
         return out
     t = lambda x: dt.datetime.strptime(x[:19], '%Y-%m-%dT%H:%M:%S').replace(tzinfo=dt.timezone.utc)
-    now = dt.datetime.now(dt.timezone.utc) + dt.timedelta(minutes=5)
+    now = (now or dt.datetime.now(dt.timezone.utc)) + dt.timedelta(minutes=5)
     for i, x in enumerate(trades['trades']):
         if i and t(x['time']) > t(trades['trades'][i - 1]['time']): out.append(f'trades[{i}]: not newest first')
         if t(x['time']) > now: out.append(f'trades[{i}]: in the future')

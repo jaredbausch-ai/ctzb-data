@@ -420,6 +420,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         if ([r.still_rose10_pct, r.still_rose10_exact_pct, r.went_on_to_fall25_pct].some((x) => nil(x) !== (r.past_trades === 0))) out.push(p + ".if_it_falls_first[" + i + "]: count and shares disagree");
         if (r.past_trades > c.past_trades) out.push(p + ".if_it_falls_first[" + i + "]: more signals than the sample");
       });
+      if (!c.sample.includes(String(c.past_trades))) out.push(p + ".sample: does not state the sample size");
       // a card with no past signals yet (early history) has no figures; any other card has all of them
       if ([...CARD_FIGS.map((k) => c[k]), c.from_entry.still_rose10_pct, c.from_entry.still_rose10_exact_pct].some((x) => nil(x) !== (c.past_trades === 0))) out.push(p + ": figures and sample size disagree");
       if (c.past_trades > 0) {
