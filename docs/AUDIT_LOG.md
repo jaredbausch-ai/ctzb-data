@@ -693,7 +693,7 @@ Jared's private Telegram.
 
 Reports: `analysis/audit22_2026-11-13/` (AUDIT22_NUMBERS.md, AUDIT22_BROKEN.md, AUDIT22_DOCS.md).
 
-**Changed** (commits PENDING_A):
+**Changed** (commits 6859741):
 
 *Real damage that got through, now stopped:*
 - Every ETH candle file replaced by BTC's passed the candle checks. ETH's daily close must now be 0.1% to 50%
