@@ -90,8 +90,8 @@ daily options put/call for BTC and ETH from Deribit's free trade history into
 
 ### The tier is derived, not stored
 
-Everything below counts computed signals, not trades: none was taken, and "win" means the chart closed above
-the entry within 60 days. There is no exit in the data, so this is entry quality only, not a strategy return or
+Everything below counts computed signals, not trades: none was taken, and "win" means the chart's last close in the
+60 days after the confirmation bar opened was above the entry. There is no exit in the data, so this is entry quality only, not a strategy return or
 a track record.
 
 `--tier` decides which chart-and-tag combinations are in the tier. Nothing is

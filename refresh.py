@@ -342,7 +342,7 @@ def ds_buy(ch, stats, dates, today, outdir):
                      any(abs((d - conf).days) <= AGREE_DAYS for d in dates[o])})
         rows.append(dict(
             chart=name, buyDate=str(conf),
-            status="Needs fresh data" if conf <= today else "Upcoming",
+            status="Needs fresh data" if conf < today else "Upcoming",   # today's bar is still open (13 Nov 2026 audit #24)
             setup=PLAIN.get(bt, bt), tagName=bt, win=best["win"],
             reach20=best["p20"], n=best["n"], medRun=best["medRun"],
             medDD=best["medDD"], level=round(c["Lo"][p["ti"]], 2), agree=agree))

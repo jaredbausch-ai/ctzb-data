@@ -73,7 +73,7 @@ candles from the mirror's `datasets/candles_<asset>_<tf>.csv` (written by `extra
 each run), trades from `ctzb-trades` (404 until it goes live, which the page shows as "the lead
 trader's feed is unavailable"). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
 `access` (`ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`) or `password` (`SITE_PASSWORD`), unset =
-refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (24).
+refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (25).
 
 **Health monitor (11 Nov 2026).** `ctzb-scheduler` v3 also watches everything that can fail
 quietly -- its own GitHub dispatches, the mirror's sync, the nightly backup, the feed's age,

@@ -127,8 +127,10 @@ function csvToBars(text) {
   const col = (k) => head.indexOf(k);
   const [it, io, ih, il, ic] = ["time", "open", "high", "low", "close"].map(col);
   if ([it, io, ih, il, ic].some((i) => i < 0)) throw new Error("bad candle header");
-  return lines.map((l) => { const c = l.split(","); return { t: +c[it], o: +c[io], h: +c[ih], l: +c[il], c: +c[ic] }; })
-    .filter((b) => [b.t, b.o, b.h, b.l, b.c].every(Number.isFinite));
+  const bars = lines.map((l) => { const c = l.split(","); return { t: +c[it], o: +c[io], h: +c[ih], l: +c[il], c: +c[ic] }; });
+  // a row that isn't numbers makes the whole file unreadable: never drop rows silently (13 Nov 2026 audit #24)
+  if (!bars.every((b) => [b.t, b.o, b.h, b.l, b.c].every(Number.isFinite))) throw new Error("a candle row is not numbers");
+  return bars;
 }
 async function upstream(env, from, path) {
   const svc = env[from];

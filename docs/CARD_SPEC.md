@@ -68,7 +68,7 @@ colour. No from-today odds are computed for members.
 The member site (`docs/artifacts/member-site/index.html`) shows the same card in its own words. Each label
 below is defined here; anything not listed is in the table above. Also on the member page: "Red on day 10, rose
 10% after" (`odds_fade.day10`, the red row's `rose10_after_day10_pct`, days 11 to 60; shown only when a card has
-no ladder), "Where the odds fade · ETH tier signals" (`odds_fade.early_dip` bands, a general explainer) and "Lead
+no ladder), "Where the odds fade · ETH tier signals" (`odds_fade.early_dip` bands and the `odds_fade.day10` green/red rows, a general explainer; shown only when a card has no ladder) and "Lead
 trader: in / out / not in / unavailable" (from the lead trader's own posted trades, newest first).
 
 | On the member card | Definition | Feed field |
@@ -78,7 +78,7 @@ trader: in / out / not in / unavailable" (from the lead trader's own posted trad
 | "from [sample]" under it | The sample rule in plain words and n, no grade letters | `sample`, `past_trades` |
 | Typical high / Typical drop from entry | Median best move / median deepest dip in the 60 days (the Chart tab also shows each as a price) | `typical_biggest_rise_pct` / `typical_deepest_dip_pct` (+ their `*_exact_pct`) |
 | Dip before the high, from entry | Median lowest point before the 60-day high, from the entry close | `typical_dip_before_rise_pct` (+ `*_exact_pct`) |
-| Edge gone below | The first fall whose exact "still rose 10%" share is below the 70% bar; "below the bar from entry" when even the from-entry row is | ladder `still_rose10_exact_pct`, `from_entry` |
+| Edge gone below | The first fall whose exact "still rose 10%" share is below the 70% bar; "below the bar from entry" when even the from-entry row is; "Holds at every level" when no row is below the bar | ladder `still_rose10_exact_pct`, `from_entry` |
 | Where the odds fade: From entry | Share of the sample that rose 10% before ever falling 25.3% (low checked first within a day) | `from_entry.still_rose10_pct` |
 | Where the odds fade: Falls X% first | Of the signals that fell X% before rising 10%, the share that then rose 10% before falling 25.3% | `if_it_falls_first[]` |
 | If it misses: went above entry | Of the asset/grade's signals that did not rise 10% in 60 days, how many had a best price above entry, and the median best price of all those misses | `if_it_misses[]` (`up_first`, `median_peak_pct`) |
@@ -95,7 +95,7 @@ trader: in / out / not in / unavailable" (from the lead trader's own posted trad
 - Plain words only. No internal names (lens codes, "headline", "surv10", "basis",
   "bucket") on a card, and no grade letters: the grade stays internal, so a card says "the top grade" or
   "the same grade" (12 Nov 2026 audit #11; the sample line, e.g. "all 37 past BTC 1D signals of the same
-  grade", and the miss tiles, e.g. "95 misses of all 312 BTC same-grade signals").
+  grade", and the miss tiles, e.g. "95 misses of all 313 BTC same-grade signals" (illustrative; the figure moves as signals close)).
 - The card says once, under the big number, that every figure covers the 60 days after entry ("rose 10%
   within 60 days" ... "every figure covers the 60 days after entry"). A figure on a different window
   names its window (e.g. "after day 10", "by day 60").

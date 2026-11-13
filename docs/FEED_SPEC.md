@@ -35,13 +35,13 @@ refuses to publish a feed that fails the strict check.
 | Field | Source | Meaning |
 |---|---|---|
 | `schema_version` | | 6 |
-| `posting_bar_pct` | feed_live `POSTING_BAR` | 70: the bar below which a card's "still rose 10%" share means the edge is gone. Top level so a card's ladder can be read against it even when `odds_fade` is withheld. It is the same number as refresh.py's `WINMIN`, which chooses the ETH walk-forward tier on a different measure (chart/tag pairs whose past signals, 8 or more, closed above entry on the chart's last bar within 60 days at least 70% of the time); `trades_a_year` and `next_buy_date` come from that ETH tier |
+| `posting_bar_pct` | feed_live `POSTING_BAR` | 70: the bar below which a card's "still rose 10%" share means the edge is gone. Top level so a card's ladder can be read against it even when `odds_fade` is withheld. It is the same number as refresh.py's `WINMIN`, which chooses the ETH walk-forward tier on a different measure (chart/tag pairs whose past signals, 8 or more, closed above entry on the chart's last bar within 60 days of the confirmation bar's open date at least 70% of the time; measured on the chart's own bars, not the daily 60-day window); `trades_a_year` and `next_buy_date` come from that ETH tier |
 | `generated_at` | | UTC time the file was written |
 | `scored_as_of` | status.csv | Date of the data scored |
 | `label` | | The computed-signal label |
 | `checks.passed`, `checks.lines` | stack_status.txt | Stack and card checks |
 | `cards_withheld` | | True when checks failed |
-| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: the close date of the bar on which the next forming ETH tier low would confirm (2D+ bars restart on 1 January; since 13 Nov 2026 audit #23, it was the bar's open date), whatever the market filter reads (a filter-off low is included though it cannot become a signal); a computed date, not a planned buy. `trades_a_year`: computed ETH tier signals per year (twin `signals_a_year`). All three are null in a held feed |
+| `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | `market_regime`: the market filter on today's date, Bullish or Bearish. `next_buy_date`: a YYYY-MM-DD date, or the text "none ahead": the close date of the bar on which the next forming ETH tier low would confirm, today's close included (2D+ bars restart on 1 January; since 13 Nov 2026 audit #23, it was the bar's open date), whatever the market filter reads (a filter-off low is included though it cannot become a signal); a computed date, not a planned buy. `trades_a_year`: text, "N on average" (N = computed ETH tier signals per year, rounded once), "—" when there are none (twin `signals_a_year`). All three are null in a held feed |
 | `cards[]` | cards.csv | One per FORMING setup (below). A live (open) setup's card is `open_signals[].card`; the worked example's is `example_card` |
 | `prints[]` | prints.csv | The last 3 signals per chart (lows that confirmed with the market filter on at the trough date; a low that confirms with the filter off is not a signal and is not listed) plus any forming low (listed with a "regime off" note while the filter is off); `provisional` true until it confirms. The regime note is read on the trough date (since 12 Nov 2026 audit #13; it was the confirmation date) |
 | `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
@@ -113,7 +113,7 @@ run's `datasets/ledger.csv`, `earlydip.csv` and `holdcheck.csv` (arithmetic in
 |---|---|---|
 | `extras_withheld` | top level | True when the extras step was reported as anything but success (an extras outcome that is absent counts as success), the run was held back, or one of its files (missstats, pastpaths, oddsfade) is missing. The lists in `if_it_misses`, `past_paths` and `odds_fade` are then empty and `example_if_it_misses` / `example_past_paths` are null, so a stale copy is never served. |
 | `if_it_misses[]` | top level | Per asset and grade (A+, A, B, C; all grades from 11 Nov 2026): `signals`, `misses` (did not rise 10% within 60 days; +20% until 11 Nov 2026), `up_first` (of those, how many went above entry at some point in the 60 days, i.e. best price above entry; the name is kept, fields are never renamed), `median_peak_pct` (**the card shows this**, Jared 11 Nov), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`, `note` (the sample in plain words). |
-| `odds_fade` | top level | `posting_bar_pct` (70; below it the edge is gone, Jared 11 Nov), `early_dip[]` (deepest dip in the first 10 days → `past_trades`, `rose10_after_day10_pct`, `rose20_after_day10_pct`, `edge` intact/gone on the +10% share) and `day10[]` (green / red on the day-10 close, same fields). ETH walk-forward tier signals only, every chart (see the 12 Nov sections). The `*_within60d_pct` fields carry the same values under their original names, kept because fields are never renamed; their window is also days 11 to 60. |
+| `odds_fade` | top level | `posting_bar_pct` (70; below it the edge is gone, Jared 11 Nov), `early_dip[]` (deepest dip in the first 10 days → `past_trades`, `rose10_after_day10_pct`, `rose20_after_day10_pct`, `edge` intact/gone on the +10% share) and `day10[]` (green / red on the day-10 close, same fields). ETH signals on the chart/tag pairs of the walk-forward tier as fixed on 1 January of the current year (`tier_fixed_on`), applied to every signal from 2016, every chart: in-sample (see audit #8). The `*_within60d_pct` fields carry the same values under their original names, kept because fields are never renamed; their window is also days 11 to 60. |
 | `past_paths[]` | top level | Per asset, grade A+: `signals` and `days[]` (day 0-60: `q25_pct`, `median_pct`, `q75_pct`, percent from entry on daily closes, every past signal lined up at entry). `note` (the sample in plain words). The chart view's "where the past signals went". |
 
 ### `candle_check` (added 11 Nov 2026, additive, schema stays 5)
@@ -362,8 +362,8 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - **The pipeline never publishes a feed the page would reject.** `feedcheck.py` reads the same schema block;
   `feed_live.py` runs it on the feed it has built and, on any failure, publishes the withheld (fail-closed) feed
   and exits 1. The alert log is written only after the feed has passed.
-- **The run seal (`seal.py`, `datasets/manifest.json`).** refresh.py starts a new seal; each scoring step
-  (refresh, grade, extras, stack, cards) checks as it starts that the steps before it finished in order and
+- **The run seal (`seal.py`, `datasets/manifest.json`).** refresh.py starts a new seal; each later scoring step
+  (grade, extras, stack, cards) checks as it starts that the steps before it finished in order and
   that no file in `datasets/` has changed since, and records its name and a SHA-256 of every file as it
   finishes. feed_live.py checks the same before publishing. A file deleted, emptied, cut, edited or replaced by
   an older copy between steps, a step that never finished, or steps out of order fail the run closed. The
@@ -473,3 +473,16 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   page left open re-checks the data's age every minute, so the stale warning appears without a reload. A chart
   file for a forming setup must close at the card's latest price. A card's `sample` must state its size.
   `tests/test_page_timing.py` covers these.
+
+### Audit #24 corrections (13 Nov 2026)
+
+- **Fields not described above:** `cards[].if_it_falls_first[].fell_pct` (5, 10, 15 or 20: the fall that row
+  starts from); `odds_fade.early_dip[].band` (the deepest-dip band in days 1-10, e.g. "-5% to -10%");
+  `odds_fade.day10[].check` ("green on day 10" / "red on day 10"); `odds_fade.label` (the computed-signal label);
+  `past_paths[].grade` and `example_past_paths.grade` (always "A+").
+- `next_buy_date` now includes a tier low that confirms at today's close (today's bar is still open; it used to
+  be skipped as "needs fresh data").
+- The member page no longer reads the rounded `typical_*_pct` card fields at all (they were fallbacks the strict
+  check made unreachable); it reads the exact ones.
+- The site Worker refuses a candle file with any row that is not numbers ("Candles unreadable"), instead of
+  dropping that row, so the page never sees a file with rows removed.
