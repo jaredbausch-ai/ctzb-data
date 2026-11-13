@@ -415,7 +415,7 @@ close above" price one cent too high for its words). It also replayed 64 other d
 and 17 synthetic page renders: 3 causes on other dates, 1 in a "clock ahead of candles" state, 3 page defects in
 unavailable states, 7 docs-vs-code items. Not a clean run. Report: `analysis/audit16_2026-11-12/AUDIT16.md`.
 
-**Changed** (commits a6ec91a and this round's):
+**Changed** (commits a6ec91a, 92fa64e):
 - **"Confirms if it closes above $X"** was rounded to the nearest cent, so about half the time X was a cent above
   the real threshold and a close exactly at X would also have confirmed. X is now rounded down to the cent.
 - **Live card "On track. It has not fallen to its edge level"** was false for a setup that rose 10% first and
