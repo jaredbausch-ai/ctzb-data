@@ -1,13 +1,13 @@
 # CTZB price pipeline
 
 Pulls daily candles from Coinbase's public market-data API and rebuilds the
-multi-day bars the CTZB engine reads. Runs itself once a day; no exports and
+multi-day bars the CTZB engine reads. Runs itself every 4 hours; no exports and
 no API key.
 
 ## What it writes
 
 `data/ETH_1D.csv`, `ETH_2D`, `ETH_3D`, `ETH_5D`, `ETH_8D`, and the same for
-`BTC`. Columns are `time,open,high,low,close`, one row per bar, oldest first.
+`BTC`. Columns are `time,open,high,low,close,volume`, one row per bar, oldest first. `ETH_4H`, `ETH_12H` and the BTC equivalents are rebuilt from Coinbase's hourly candles.
 `BTC_2D.csv` is what the regime filter runs on.
 
 ## Why it rebuilds rather than downloads
@@ -35,8 +35,8 @@ days. There is a 0.25s pause between requests and a retry with backoff.
 
 ## Schedule
 
-01:20 UTC daily, after the day's candle has closed. Also runnable by hand from
-the Actions tab.
+13 minutes after each 4-hour close (00, 04, 08, 12, 16, 20 UTC), started by the ctzb-scheduler Cloudflare
+Worker, with a backup at :43 that skips when the candle is already in. Also runnable by hand from the Actions tab.
 
 ## The last bar
 
@@ -46,9 +46,9 @@ different moment will therefore show exactly one differing bar, the last one.
 That is expected, not a fault: 1,901 of 1,902 ETH 2D bars matched exactly, and
 the single difference was the bar in progress.
 
-Nothing downstream is affected. A trough needs three confirmed bars to its
-right before the engine will call it, so an unfinished final bar can never
-produce a signal — only a provisional one, which is the intended behaviour.
+Nothing downstream is affected. The engine can return a signal whose confirmation bar is the still-open last
+bar; every scoring step drops it until that bar has closed (bucket_end has no close date for the last bar), so
+it shows only as forming, which is the intended behaviour.
 
 ## Consuming it
 
@@ -70,7 +70,7 @@ python refresh.py --data data --out datasets
 ```
 
 It writes `status`, `buy`, `live`, `levels`, `setups`, `tier`, `walkforward`,
-`years`, `confluence` and `invalidation` as CSVs, and prints a summary of the
+`years`, `confluence`, `invalidation`, `earlydip`, `holdcheck` and `forward` as CSVs, and prints a summary of the
 regime, what is forming on each chart, and the next buy dates.
 
 `engine.py` and `regimes.py` sit beside it. The date comes from the clock;
@@ -78,16 +78,21 @@ regime, what is forming on each chart, and the next buy dates.
 
 `grade_live.py` runs next in the Action. It applies the conviction grade
 (defined and tested in `analysis/grade.py`, `grade2.py`, `grade3.py`; see
-docs/PRETRADE.md) and writes `datasets/grades.csv`, plus grade and flag columns
+docs/PRETRADE.md; the lenses also come from `grade6.py`) and writes `datasets/grades.csv`, `ledger.csv` and
+`dipdist.csv`, plus grade and flag columns
 on `forward.csv` and `live.csv` and the latest close on `live.csv`. The
 dashboard page (copy in `docs/artifacts/eth-setup-standard.html`) reads
 `status`, `live`, `grades` and `forward`.
 
-`fetch_pcr.py` runs hourly in its own workflow (`.github/workflows/pcr.yml`):
+`fetch_pcr.py` runs every 3 hours in its own workflow (`.github/workflows/pcr.yml`), dispatched by the ctzb-scheduler Worker at :25:
 daily options put/call for BTC and ETH from Deribit's free trade history into
 `data/options/`, plus a daily open-interest snapshot.
 
 ### The traded tier is derived, not stored
+
+Everything below counts computed signals, not trades: none was taken, and "win" means the chart closed above
+the entry within 60 days. There is no exit in the data, so this is entry quality only, not a strategy return or
+a track record.
 
 `--tier` decides which chart-and-tag combinations get traded. Nothing is
 written back to the repo and nothing drifts between runs.

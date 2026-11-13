@@ -8,6 +8,10 @@ for an older copy between steps, a step that never finished, or steps run out of
 closed instead of being published. refresh.py is the first scoring step and starts a new seal, so the
 outputs of an earlier run can never carry this run's seal.
 
+The seal also covers the scoring inputs: the candle files in data/ and the funding series in data/derivs/
+(since 13 Nov 2026). It guards against accidents and partial runs, not against someone with write access to
+the repo: anyone who can rewrite a dataset can rewrite the manifest beside it, or the code itself.
+
 The seal is datasets/manifest.json: {"steps": [...], "files": {name: sha256}}. Standard library only
 (refresh.py must run before numpy is installed).
 """
@@ -30,8 +34,21 @@ def _sha(path):
 
 
 def _files(out):
-    return {n: _sha(os.path.join(out, n)) for n in sorted(os.listdir(out))
-            if n != NAME and os.path.isfile(os.path.join(out, n))}
+    """Every file in datasets/, plus the inputs the steps score from (13 Nov 2026 audit #22): the candle files
+    in data/ and the funding series in data/derivs/, keyed "data/<name>". data/ is the folder beside datasets/."""
+    got = {n: _sha(os.path.join(out, n)) for n in sorted(os.listdir(out))
+           if n != NAME and os.path.isfile(os.path.join(out, n))}
+    data = os.path.join(os.path.dirname(os.path.abspath(out)), 'data')
+    if os.path.isdir(data):
+        for n in sorted(os.listdir(data)):
+            if n.endswith('.csv') and os.path.isfile(os.path.join(data, n)):
+                got['data/' + n] = _sha(os.path.join(data, n))
+        der = os.path.join(data, 'derivs')
+        if os.path.isdir(der):
+            for n in sorted(os.listdir(der)):
+                if n.endswith('_funding_daily.csv'):
+                    got['data/derivs/' + n] = _sha(os.path.join(der, n))
+    return got
 
 
 def _read(out):

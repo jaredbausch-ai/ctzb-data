@@ -1,6 +1,6 @@
 # Cloudflare Workers
 
-Source for the two Workers on the ETHKROS Cloudflare account. This folder is the
+Source for the five Workers on the ETHKROS Cloudflare account. This folder is the
 record; the dashboard editor is where they are deployed.
 
 | Worker | File | Token it holds | Public |
@@ -14,8 +14,8 @@ record; the dashboard editor is where they are deployed.
 They are separate on purpose. The public mirror must never hold a credential that
 can trigger CI.
 
-Neither file contains a secret. Both tokens live in Cloudflare's secret store and
-are read from `env` at runtime.
+No file contains a secret. Every token, key and password lives in Cloudflare's secret store and is read
+from `env` at runtime.
 
 **ctzb-feed** — KV binding `FEED`, cron `*/15 * * * *`. Serves `feed/ctzb_feed.json`,
 `datasets/*.csv`, `keep.json`, `odds.json`, `troughs.json` byte-for-byte, so a
@@ -50,7 +50,7 @@ each `alert_id` once, recorded in KV `NOTIFY`. A failed send is not recorded and
 on the next tick. `POST /alerts/test` (gated, once per 10 minutes) checks the path.
 Bindings: `NOTIFY` (KV), secret `TELEGRAM_BOT_TOKEN`, var `TELEGRAM_CHAT_ID`.
 
-Tests: `node tests/test_dashboard_gate.mjs` (26), `node tests/test_dashboard_alerts.mjs` (18).
+Tests: `node tests/test_dashboard_gate.mjs` (26), `node tests/test_dashboard_alerts.mjs` (21).
 
 **ctzb-trades** (11 Nov 2026, item 13a) — the lead trader's real trades, relayed from
 Coinbase. KV binding `TRADES`, cron `* * * * *`. Reads futures fills, positions and the
@@ -70,8 +70,8 @@ Tests: `node tests/test_trades_relay.mjs` (41).
 chart example into `site_worker_template.js`. The page reads `data/...` by relative path;
 the Worker answers from fixed tables only: the feed and `ledger.csv` from the mirror,
 candles from the mirror's `datasets/candles_<asset>_<tf>.csv` (written by `extras_live.py`
-each run), trades from `ctzb-trades` (404 until it goes live, which the page shows as an
-empty state). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
+each run), trades from `ctzb-trades` (404 until it goes live, which the page shows as "the lead
+trader's feed is unavailable"). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
 `access` (`ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`) or `password` (`SITE_PASSWORD`), unset =
 refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (24).
 

@@ -10,6 +10,10 @@ check_fresh.py: a bad fetch is retried, never committed as if it were good).
   - 1D, last 90 closed days: no missing day
   - 1D and 4H, last 90 days / 540 bars: low <= open,close <= high; every price > 0
   - 1D, last 90 closed days: volume > 0
+  - whole history (fetch.history_problems): every row of every candle file well formed (prices finite and
+    above zero, high and low bracketing open and close, volume not negative, 4H/12H on their grid, rows
+    strictly ascending); each daily file starts on the exchange's first day with no missing day; every 2D-8D
+    file is its daily candles bucketed; ETH is ETH and BTC is BTC; the funding series is whole and current.
 
 CROSS-SOURCE -- compares Coinbase daily closes with Kraken's for the same UTC day.
   --cross report    (default) measures and records the gap, never fails the run.

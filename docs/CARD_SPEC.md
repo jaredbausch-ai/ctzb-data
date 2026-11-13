@@ -1,4 +1,4 @@
-# Trade card specification
+# Card specification
 
 Approved by Jared 28 Oct 2026. This is the single definition of every number and
 every word on a trade card: the console's card now, and the client screens later
@@ -12,7 +12,7 @@ One card per forming low on a graded chart (ETH and BTC, 1D, 2D, 3D, 5D) with th
 its trough date, rebuilt every pipeline run by `stack_live.py` into `datasets/cards.csv`, provided its sample has at least one past signal (until 12 Nov 2026:
 every chart, 1D to 8D, whatever the gate; see "The member site's card").
 
-**The sample: like for like only.** The card's past trades are chosen by the first
+**The sample: like for like only.** The card's past signals are chosen by the first
 rule that gives 15 or more:
 
 1. Same chart, exactly the same confirmations (lenses) on.
@@ -25,35 +25,35 @@ history, and today the smallest rule-3 pool is 33.
 
 The card always says which rule it used, in plain words, under the big number (and again on the
 chart view), and states the sample size there. Never use a
-group of stronger setups ("at least these confirmations") as a trade's odds: on
-28 Oct that showed 82% for a trade whose like-for-like record was 60%.
+group of stronger setups ("at least these confirmations") as a setup's odds: on
+28 Oct that showed 82% for a setup whose like-for-like record was 60%.
 
 ETH samples start once funding data and its 90-day median exist (the first graded ETH signal is ETH 3D, 21 Mar 2020, grade C; the first ETH top grade is 18 Apr 2020); BTC samples start in 2016.
 Only signals whose 60 days are complete are counted.
 
 ## Every number on the card
 
-All are measured from the buy price (the close of the confirmation bar) and within
-60 days of buying.
+All are measured from the entry close (the close of the confirmation bar) and within
+the 60 days after it.
 
 | On the card | Definition | Field |
 |---|---|---|
 | Corner: N past signals | Size of the sample above | `n` |
 | Big number (since 11 Nov 2026): Rose 10% within 60 days of the entry close | Share of the sample whose highest daily high in the 60 days was at least 10% above the entry close | `reach10` |
 | Line under it: did it without ever falling 25.3% | Share of the sample that rose 10% AND whose lowest daily low in the 60 days never reached 25.3% below the entry close (where 3.3x with 5% maintenance margin liquidates). Exact prices, not rounded figures (until 11 Nov 2026 this was the big number) | `surv10` |
-| Rose 20% or more | Share whose highest price in 60 days was at least 20% above the buy price | `reach20` |
-| Typical biggest rise | Median of each trade's highest price in 60 days vs the buy price | `bestMove` |
-| Typical lowest point vs the buy price, before it made its 60-day high (wording fixed 4 Nov 2026; was "Typical dip before the 60-day high", which read as a pullback from profit) | Median, across the past trades, of each trade's lowest low from the day after the buy up to the day of its 60-day high, as a percentage of the BUY PRICE. Negative = it was under the buy price at some point before topping. It is not a pullback from a profit | `dipBeforeHigh` |
-| Typical deepest dip below the buy price | Median of each trade's lowest price in 60 days, as a percentage of the buy price | `maxDip60` |
-| Fell 30% or more at some point | Share whose lowest price in 60 days was 30% or more below the buy price | `touched30` |
+| Rose 20% or more | Share whose highest price in 60 days was at least 20% above the entry close | `reach20` |
+| Typical biggest rise | Median of each signal's highest price in 60 days vs the entry close | `bestMove` |
+| Typical lowest point vs the entry close, before it made its 60-day high (wording fixed 4 Nov 2026; was "Typical dip before the 60-day high", which read as a pullback from profit) | Median, across the past signals, of each signal's lowest low from the day after the entry up to the day of its 60-day high, as a percentage of the ENTRY CLOSE. Negative = it was under the entry close at some point before topping. It is not a pullback from a profit | `dipBeforeHigh` |
+| Typical deepest dip below the entry close | Median of each signal's lowest price in 60 days, as a percentage of the entry close | `maxDip60` |
+| Fell 30% or more at some point | Share whose lowest price in 60 days was 30% or more below the entry close | `touched30` |
 | Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility). Signals with no full year of volatility before entry (BTC before 2017) are left out of both the count and the denominator | `scaled20` |
 | Before 2022 / since 2022 (N signals) | "Rose 10% and never fell 25.3%" (surv10, the line under the big number) split by entry date, with each half's count. The two counts must add up to the card's n | `surv10Old`, `nOld`, `surv10New`, `nNew` |
-| If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that then rose 10% BEFORE falling 25.3% (12 Nov 2026 wording: "before", which is what the code measures), and the share that fell 25.3% BEFORE rising 10% (a trade that rose 10% first and fell 25.3% later is not in this share; 13 Nov 2026 audit #21 wording). Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
-| Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown rounded DOWN to the cent (since 12 Nov 2026 audit #16), so every close above the shown price confirms and a close at it does not. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
+| If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the signals that fell that far below the entry close before ever rising 10%: how many there were, the share that then rose 10% BEFORE falling 25.3% (12 Nov 2026 wording: "before", which is what the code measures), and the share that fell 25.3% BEFORE rising 10% (a signal that rose 10% first and fell 25.3% later is not in this share; 13 Nov 2026 audit #21 wording). Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
+| Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown rounded DOWN to the cent (since 12 Nov 2026 audit #16), so every close above the shown price confirms and a close at it does not. Shown when the confirmation bar is the bar now open (exact) or the next one (an estimate: it assumes the bar now open closes at the latest price, and that bar must also close with CT above the trough) (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
-| Typical day it first hit +10% / +20% (trades that got there) | Median calendar days from the buy to the first daily high at least 10% / 20% above the buy price, among the trades in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
-| Typical day of the 60-day high / of the deepest dip | Median day, counted from the buy, on which each trade made its highest high / its lowest low within the 60 days | `daysToHigh`, `daysToLow` |
-| Active confluences now (4 Nov 2026) | Every confluence cell active for this setup today, weak ones included, each with its own past trades, rose 20%, fell 30% and the date its window closes. Its own sample, never blended into the big number; rows overlap. Nothing else is listed in this section. Under 15 trades is flagged too few to lean on | `confluences` (JSON list) |
+| Typical day it first hit +10% / +20% (signals that got there) | Median calendar days from the entry to the first daily high at least 10% / 20% above the entry close, among the signals in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
+| Typical day of the 60-day high / of the deepest dip | Median day, counted from the entry, on which each signal made its highest high / its lowest low within the 60 days | `daysToHigh`, `daysToLow` |
+| Active confluences now (4 Nov 2026) | Every confluence cell active for this setup today, weak ones included, each with its own past signals, rose 10%, rose 20%, fell 30%, the confirming signal and its date, and the date its window closes. Its own sample, never blended into the big number; rows overlap. Nothing else is listed in this section. Under 15 signals is flagged too few to lean on | `confluences` (JSON list) |
 
 ## The member site's card (12 Nov 2026)
 
@@ -83,7 +83,9 @@ below is defined here; anything not listed is in the table above.
 | Reached +20% / Touched −30% within 60 days | As above (`reach20`, `touched30`) | `rose20_within60d_pct`, `fell30_within60d_pct` |
 | High lands around / Deepest dip lands around | Median day of the 60-day high / deepest dip | `typical_day_of_60d_high`, `typical_day_of_deepest_dip` |
 | By era | surv10 before 2022 / since 2022 with each n | `before_2022`, `since_2022` |
-| +10% level | Entry close x 1.10 (a measuring level, not an exit) | computed from the entry |
+| +10% level | Entry close x 1.10; for a forming setup, the latest price x 1.10 as a stand-in until the entry close exists (a measuring level, not an exit) | computed from the entry |
+| Day N of 60 · best so far · worst (live setups) | Days since the entry close (the day in progress); highest daily high and lowest daily low of the closed daily bars since entry, vs the entry close | `open_signals` `days_elapsed`, `best_so_far_pct`, `worst_so_far_pct` |
+| Day 10 (Chart tab, live setups) | The day-10 daily close vs the entry close, once that bar has closed | `open_signals` `day10_pct` |
 
 ## Wording rules
 
@@ -107,7 +109,7 @@ below is defined here; anything not listed is in the table above.
 
 1. `stack_live.py` refuses to write the cards (and fails the run) if a card's two
    period counts don't add up to its sample, its source line doesn't state the
-   sample size, any share is outside 0-100, the line under the big number (surv10) exceeds the big number ("rose 10%"), or the
+   sample size, any of the card's headline shares (rose 10%, the line under it, +20%, -30%, beat a normal move, each era) is outside 0-100, the line under the big number (surv10) exceeds the big number ("rose 10%"), or the
    dip-table counts grow from one row to the next (each row is a subset of the one above, so a count can stay
    level but never rise), or the first exceeds n. These checks run on every card: forming, live and the example.
 2. `verify_cards.py` re-derives every card's sample from `datasets/ledger.csv`, which
@@ -115,7 +117,7 @@ below is defined here; anything not listed is in the table above.
    surv10, scaled20, +20%, -30%, the rounded and exact medians, the eras, the timing, and the
    from-entry and falls-first ladder rows (from the 1D candles, written out independently). Exact,
    except the three 6-place exact medians, confirmable from the 6-place ledger to one unit in the
-   6th place (since 12 Nov 2026, audit #8). Any mismatch fails the run (red Action, `stack_status.txt` FAILED). The dashboard refresh reports it.
+   6th place (since 12 Nov 2026, audit #8). Any mismatch fails the run (red Action, `stack_status.txt` FAILED); the feed then withholds cards and alerts, and the health monitor messages Jared.
    On 28 Oct this check caught a dip of -25.26% that a rounded figure turned into
    -25.3%; the cards use exact prices.
 3. The quoted-versus-actual record (ledger, "odds on the day") shows how past quotes

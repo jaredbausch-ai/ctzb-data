@@ -8,9 +8,10 @@ re-choose lenses. The lens list is read from analysis/grade.json.
   ETH lenses: GAP (CT > Signal by 5+), HIGH (entry above the previous signal),
   AGREE (2+ other ETH charts confirmed 0-10 days before), BTC3 (BTC 3D
   confirmed 0-10 days before; ETH 1D/2D), FUND (funding at or above its 90-day
-  median), FCOOL (funding not cooling), BTCX (an ETH 2D signal in the 10 days
-  before). BTC lenses: GAP, UP8 (8D CT rising), FASTCT (CT recovering fast from
-  the low). analysis/grade.json is the authority. 8D signals are not graded.
+  median), FCOOL (funding not cooling). BTC lenses: GAP, UP8 (8D CT rising),
+  BTCX (an ETH 2D signal in the 10 days before; BTC 1D/2D), FASTCT (CT
+  recovering fast from the low). The lens lists come from analysis/grade.json,
+  grade2.json, grade3.json and grade6.json. 8D signals are not graded.
 
 Writes / changes, in datasets/:
   dipdist.csv    every graded signal's largest dip from entry within 60 days, so
@@ -22,8 +23,8 @@ Writes / changes, in datasets/:
                  rows) and what happened (reached +20%, touched -30%, best move,
                  largest dip from entry, dip before the high, 60-day return).
   grades.csv     the record of each grade (worstTenthMedian = the median dip
-                 among the worst 10% of that grade's signals, the "worst-case
-                 median" the dashboard sizes against, at Jared's request 28 Oct):
+                 among the worst 10% of that grade's signals: shown, not used
+                 for sizing; the dashboard sizes against medDip since 28 Oct):
                  signals per year, +20% in 60 days
                  with its worst plausible rate, touched -30% / -20%, median dip
                  in 60 days, median dip before the high, the 1-in-4 and 1-in-10

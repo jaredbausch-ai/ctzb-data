@@ -14,8 +14,9 @@ Three classes of column:
 
   ALWAYS    derived from the signal itself and the grade rules. Frozen from the
             moment the signal confirms. A change here is a lens or grade bug.
-  SETTLED   the 60-day outcome. Still filling in while the window is open, so
-            only checked once entry + 60 days has passed.
+  SETTLED   the 60-day outcome and the odds-on-the-day columns; checked once
+            more than 60 days have passed since entry (local date). A missing
+            baseline fails; re-baseline only with --approve.
   SKIP      cohort aggregates (gradeReach20 and friends). They legitimately move
             as new signals land in the same grade. Not checked.
 
@@ -75,7 +76,12 @@ def main():
         sys.exit(f'FAIL  {LEDGER} missing -- did refresh.py run?')
     cur = read_ledger(LEDGER)
 
-    if a.approve or not os.path.exists(BASE):
+    if not a.approve and not os.path.exists(BASE):
+        # 13 Nov 2026 audit #22: a missing baseline used to be rebuilt from this run's ledger and pass, so any
+        # change at all went through. Re-baselining is a deliberate act only.
+        sys.exit(f'FAIL  {os.path.relpath(BASE, ROOT)} is missing: nothing to compare against. '
+                 'Restore it, or re-baseline on purpose with --approve after an intended change.')
+    if a.approve:
         os.makedirs(os.path.dirname(BASE), exist_ok=True)
         keep = ALWAYS + SETTLED
         snap = {k: {c: v[c] for c in keep if c in v} for k, v in cur.items()}

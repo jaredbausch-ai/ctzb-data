@@ -17,8 +17,8 @@ largest dip within 60 days. Forming lows are PROVISIONAL until they confirm;
 window reads are evaluated at the date the low would confirm.
 
 Writes datasets/:
-  liveread.csv  subject, item, status, record (n, +20%, touched -30%, dip before
-                high, largest dip in 60d), sample
+  liveread.csv  subject, read, status, record (n, +20%, touched -30%, dip before
+                high, largest dip in 60d, +10%, +30%, median best move), sample
   prints.csv    every chart: last signals and anything forming, with confirm dates
   windows.csv   every confluence window open now: which print opened it, what it
                 applies to, and when it closes
@@ -599,7 +599,7 @@ def main():
         out.append([subj, f'Exact diamond type on this chart: {dk} [tag, exact]', 'ON'] + rec([s for s in Cr if same_d(s)]) + ['full history'])
         ex_t = [s for s in Cr if s['bk'] == r['bk'] and same_d(s) and bool(s['prime']) == bool(r['prime'])]
         out.append([subj, f'Exact tags on this chart: {r["bk"]} + {dk} + {"prime dot" if r["prime"] else "no prime dot"} [tag, exact]', 'ON']
-                   + rec(ex_t) + ['full history' + (' (under 15 trades: too few to quote alone)' if len(ex_t) < 15 else '')])
+                   + rec(ex_t) + ['full history' + (' (under 15 signals: too few to quote alone)' if len(ex_t) < 15 else '')])
         # ON / OFF is read on the trough date, like the gate everywhere else (12 Nov 2026 audit #14; it was
         # the entry date). The age stays as of the entry date (or today for a forming low), as before.
         ra = regime_age(d0 if d0 <= today else today)
@@ -671,8 +671,8 @@ def main():
             fj = next((j for j in range(ti - K, K - 1, -1)
                        if all(hh[j] > hh[x] for x in range(j - K, j)) and all(hh[j] > hh[x] for x in range(j + 1, j + K + 1))), None)
             lowp = bb['low'][ti]; now = DAY[a]['close'][-1]
-            # ODDS FROM HERE (31 Oct, Jared: odds from entry read as "this trade has a 72% chance"
-            # even when the trade is already under its low). Sample = past graded trades of the same
+            # ODDS FROM HERE (31 Oct, Jared: odds from entry read as "this setup has a 72% chance"
+            # even when it is already under its low). Sample = past graded signals of the same
             # asset (same grade if 30+, else all grades) that were in the SAME STATE on the same day
             # after entry: close above entry / between low and entry / under the signal low. Odds =
             # share whose high reached the level between that day and day 60.
@@ -703,7 +703,7 @@ def main():
                         else:
                             parts.append(f'{name} ${lv:,.0f}: no record')
                 head = (f'day {age_d}, {st_now} | entry ${r["entry"]:,.0f} | now ${now:,.0f} ({100 * (now / r["entry"] - 1):+.1f}%) | low ${lowp:,.0f} | '
-                        f'odds FROM HERE = of {len(use)} past {who} trades that were also {st_now} on day {age_d}, share that rose that far from that day\'s close by day 60 | ')
+                        f'odds FROM HERE = of {len(use)} past {who} signals that were also {st_now} on day {age_d}, share that rose that far from that day\'s close by day 60 | ')
                 out.append([subj, f'Drop retrace odds, fractal high {bb["date"][fj]} ${H:,.0f} to low ${lowp:,.0f} [in-trade, information]',
                             head + ((' · '.join(parts)) if parts else 'price above every level of the drop'),
                             '', '', '', '', '', '', '', '', 'odds from today\'s state, not from entry; exits stay discretionary'])

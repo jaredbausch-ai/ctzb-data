@@ -327,7 +327,9 @@ def drills_e():
     ledger = open(os.path.join(CONTROL, "datasets", "ledger.csv")).read()
     now = dt.datetime.now(dt.timezone.utc)
 
-    def scenario(feed_status, feed_obj):
+    def scenario(feed_status, feed_obj, age_h=0.1):
+        # the viewer's clock is set from the feed's own time: the feed itself is never re-dated, because the
+        # strict check (13 Nov 2026) ties its day counts to generated_at
         def handler(route):
             u = route.request.url
             if u.endswith("/"):
@@ -342,6 +344,8 @@ def drills_e():
             return route.fulfill(status=404, body="Not available")
         pg = br.new_page(viewport={"width": 1400, "height": 1000})
         pg.route("**/*", handler)
+        base = dt.datetime.strptime((feed_obj or good)["generated_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.timezone.utc)
+        pg.clock.install(time=base + dt.timedelta(hours=age_h))
         pg.goto("http://site.test/"); pg.wait_for_timeout(800)
         card = pg.inner_text("#card"); picker = pg.inner_text("#picker")
         state = pg.eval_on_selector("#card .state", "e => e.dataset.state || ''")
@@ -350,7 +354,7 @@ def drills_e():
         pg.close()
         return card, picker, state, stale, example
 
-    fresh_feed = dict(good, generated_at=now.strftime("%Y-%m-%dT%H:%M:%SZ"))
+    fresh_feed = good
     with sync_playwright() as p:
         br = p.chromium.launch()
         card, picker, state, stale, ex = scenario(200, fresh_feed)
@@ -362,11 +366,11 @@ def drills_e():
                     checks=dict(fresh_feed.get("checks") or {}, all_passed=False))   # as feed_live writes a held feed
         card, picker, state, stale, ex = scenario(200, held)
         record(g, "checks failed: page says setups are held back", state == "held" and "Held back" in picker and not ex, card.split("\n")[1] if "\n" in card else card)
-        old = dict(fresh_feed, generated_at=(now - dt.timedelta(hours=11)).strftime("%Y-%m-%dT%H:%M:%SZ"))
-        card, picker, state, stale, ex = scenario(200, old)
+        old = fresh_feed
+        card, picker, state, stale, ex = scenario(200, old, age_h=11.2)
         record(g, "feed 11 hours old: page warns the data is out of date", stale and "11 hours old" in card)
         quiet = dict(old, cards=[], open_signals=[])
-        card, picker, state, stale, ex = scenario(200, quiet)
+        card, picker, state, stale, ex = scenario(200, quiet, age_h=11.2)
         record(g, "old feed and nothing forming: warning still shown", stale)
         br.close()
 

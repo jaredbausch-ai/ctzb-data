@@ -28,8 +28,9 @@ The arithmetic is analysis/carddesign.py's, imported, so the analysis write-up a
 feed can never disagree. Descriptive only: entry quality, no exit in the data, computed
 signals and never fills.
 
-Fails (exit 1) rather than write a half result: no A+ signals, an asset with no
-usable path, or a non-finite figure.
+Fails (exit 1) rather than write a half result: no A+ signals at all, an asset whose
+A+ signals give no usable path, a non-finite figure, empty earlydip/holdcheck, or a
+candle file with a non-numeric price. An asset with no A+ signals is left out.
 
 Usage: python extras_live.py [--datasets datasets]
 """

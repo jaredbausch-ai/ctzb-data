@@ -668,6 +668,87 @@ strict check.
 
 ---
 
+## Round 22 — 13 Nov, 08:00–11:00 ET (audit #22: three independent agents at once)
+
+**The new method's first round.** Three agents ran in parallel, each knowing nothing of earlier audits: numbers
+on real data, broken files, and docs against code.
+
+**Jared's definition, settled during this round (13 Nov 10:23 ET):** a clean run is zero on real data, zero in
+the docs, and zero under damage that can really happen (outages, bad exchange data, partial or killed runs,
+lost, cut, stale or duplicated files, wrong clocks, slow files). Hand-forged files whose fields are each valid
+but contradict each other are hardening: listed and fixed where cheap, not counted against a run. Two clean
+runs in a row before launch. No clean run yet.
+
+**Found:**
+
+| Part | Checked | Findings |
+|---|---|---|
+| Numbers on real data | 2 frozen states + 302 replayed dates, 6,011,866 comparisons | 1: on 1–11 Sep 2020 a live ETH grade-A card had no past signals yet; the strict check rejected it and the whole feed was held back on good data |
+| Broken files | 639 damaged states (399 page, 240 pipeline) | 165 rows, 103 distinct cases: 68 hand-forged contradictions on the page; 35 in the pipeline (real damage) |
+| Docs against code | 60 documents, about 1,050 statements | 57 (8 wrong, 14 stale, 29 loose, 6 reading as a trade or track record) |
+
+The most serious docs finding: the page promised members push alerts ("Alerts go out for top-grade setups
+only… You'll get a push alert"), but no member alert channel exists; every alert, any grade, goes only to
+Jared's private Telegram.
+
+Reports: `analysis/audit22_2026-11-13/` (AUDIT22_NUMBERS.md, AUDIT22_BROKEN.md, AUDIT22_DOCS.md).
+
+**Changed** (commits PENDING_A):
+
+*Real damage that got through, now stopped:*
+- Every ETH candle file replaced by BTC's passed the candle checks. ETH's daily close must now be 0.1% to 50%
+  of BTC's on every day.
+- Old candle rows with a zero, negative or "nan" price, a high below the open and close, damaged 4H/12H files:
+  every row of every candle file is now checked for its whole history.
+- A funding file cut short, holding "nan" or -100: the funding series must now be whole, in range and current.
+- The run seal now covers the candle files and the funding series as well as `datasets/`.
+- `candle_check.json` saying the candles failed no longer lets a later step publish.
+- A deleted alert log started a new one and lost the pending alert; a cut, emptied or older log re-sent alerts.
+  The feed now records the log's exact state and the next run checks it; a new log only on purpose
+  (`CTZB_SEED_ALERT_LOG=1`).
+- The feed was written after the log and not atomically. Now the feed is written whole first, then the log;
+  if a run dies between them, the next run rebuilds the log from the feed's alerts.
+- A held feed still carried grade figures, the extras and the old market filter reading; now it carries none.
+  A refresh reported as anything but "success" clears the status fields too.
+- `tests/regression.py` re-baselined and passed when its baseline was missing; now it fails.
+- feedcheck.py and the page disagreed on three unusual-character cases; they now trim and match digits the same way.
+
+*Page:*
+- A slow ledger, trade or example file left the card area blank: the card now draws as soon as the feed
+  arrives, the rest fill in ("Loading…").
+- An example file with 2-day bars thinned out threw a script error; one with no entry close drew NaN. The
+  example file must now run on 2-day steps, its entry bar must be 22 Sep 2024, and its entry close the card's.
+- With the feed held or down, the example switch and the Chart tab now say so; the stale warning shows on every
+  tab; a quiet feed with no example no longer shows "Example unavailable".
+- Chart files must name the chart asked for, run on its own steps, end no later than the feed, and close the
+  live setup's entry bar at its entry close. The ledger must match the feed's counts and rose-10% share per
+  asset, each row must agree with itself, every signal's 60 days must have closed, and it is not shown when the
+  feed is down or held. The lead-trader file must be newest first with nothing in the future.
+- Hardening (hand-forged contradictions): every number now has a range; cards' shares nest; a live signal's
+  day count, closed-day figures, best/worst and status must agree with its dates and edge level; misses, past
+  paths and the example must match their samples; odds-fade rows in fixed order with marks matching shares.
+- Alerts: the page no longer promises member alerts; it says they aren't switched on yet. Member alerts are on
+  the to-do list (SITE_CHANGES R3).
+
+*Numbers:* a live card with no past signals yet is now published with no figures ("No odds yet"), and a band
+of the general odds table with no past signals is left out (both early 2020 only). Checked: 51 replayed real
+feeds and ledgers, Sep 2020 to today, all accepted by the page with no errors.
+
+*Docs:* all 57 findings corrected (FEED_SPEC "Audit #22 corrections" lists the fields that were undescribed and
+every new rule; CARD_SPEC reworded from trades to signals; README, CONTEXT, PRETRADE, worker comments and
+docstrings).
+
+*Tests:* alerts 30 (was 23), candle check 57 (was 29), page states 44, damage test extended to the Sep 2020
+state, fire drill E now ages the feed by the viewer's clock.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), verify_cards, feed
+alerts 30/30, feed extras 28/28, candle check 57/57, run seal 18/18, Action-environment test, year-end replays
+8/8, fetch tests 4/4, page states 44/44, gate-off and no-today-bar replays, worker tests 21 / 26 / 36 / 21 / 24 /
+41, fire drills 58/58; page and pipeline gave the same verdict on 31,200 damaged feeds across three states
+(12 Nov, today, 5 Sep 2020); 51 replayed real feeds and ledgers accepted by the page with no errors.
+
+---
+
 ## Deliberately left alone (definitional notes, not issues)
 
 - **Flash-print clamp.** A $0.06 BTC low on 15 Apr 2017 (and ETH's $0.10 GDAX wick on 21 Jun 2017)

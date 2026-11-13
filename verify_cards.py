@@ -1,4 +1,4 @@
-"""Independent check of every trade card (28 Oct 2026, "the odds on the cards must be
+"""Independent check of every card against the signal ledger (28 Oct 2026, "the odds on the cards must be
 airtight"). Runs in the Action after stack_live.py.
 
 datasets/cards.csv is built by stack_live.py. datasets/ledger.csv is built separately by

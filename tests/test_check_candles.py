@@ -8,7 +8,8 @@ import check_candles as C
 import tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 T = tempfile.mkdtemp()
-for f in [f'{a_}_{tf}' for a_ in ('ETH','BTC') for tf in ('1D','2D','3D','5D','8D','4H')]: shutil.copy(f'{ROOT}/data/{f}.csv', T)
+for f in [f'{a_}_{tf}' for a_ in ('ETH','BTC') for tf in ('1D','2D','3D','5D','8D','4H','12H')]: shutil.copy(f'{ROOT}/data/{f}.csv', T)
+shutil.copytree(f'{ROOT}/data/derivs', f'{T}/derivs', ignore=lambda d, names: [n for n in names if 'funding_daily' not in n])   # the funding series is checked whole too (13 Nov 2026)
 today = dt.datetime.now(dt.timezone.utc).date()
 def cb(asset, path=T):
     return {dt.datetime.fromtimestamp(t, dt.timezone.utc).date(): v for t, v in C.load(f'{path}/{asset}_1D.csv').items()}
@@ -76,9 +77,45 @@ cut('BTC_1D', lambda b: b[-40:], 'BTC daily file cut to its last 40 bars', 'hist
 cut('ETH_2D', lambda b: b[:len(b)//2], 'ETH 2D file cut to its first half', 'ETH_2D bars differ from the daily candles')
 cut('ETH_5D', lambda b: b[:-1], 'ETH 5D file missing its last bar', 'ETH_5D bars differ from the daily candles')
 cut('ETH_1D', lambda b: b[:1500] + b[1501:], 'ETH daily file missing one day years back', 'ETH_1D has 1 missing day')
-cut('BTC_1D', lambda b: b + [b[-1]], 'BTC daily file with its last row twice (audit #21)', 'BTC_1D: 1 row(s) repeated or out of order')
+cut('BTC_1D', lambda b: b + [b[-1]], 'BTC daily file with its last row twice (audit #21)', 'BTC_1D: row(s) repeated or out of order')
 cut('BTC_1D', lambda b: b[::-1], 'BTC daily file with its rows reversed (audit #21)', 'BTC_1D:')
-cut('ETH_3D', lambda b: b[:200] + [b[199]] + b[200:], 'ETH 3D file with one row twice', 'ETH_3D: 1 row(s) repeated or out of order')
+cut('ETH_3D', lambda b: b[:200] + [b[199]] + b[200:], 'ETH 3D file with one row twice', 'ETH_3D: row(s) repeated or out of order')
+print('--- 7. every row, the asset itself, the funding series (13 Nov 2026 audit #22) ---')
+def cell(i, col, val):
+    def f(b):
+        hdr = 'time,open,high,low,close,volume'.split(','); c = b[i].split(','); c[hdr.index(col)] = val; b[i] = ','.join(c); return b
+    return f
+cut('ETH_1D', cell(1200, 'open', '0'), 'ETH daily, a 2019 open of 0', 'ETH_1D: row 1202 has a price at or below zero')
+cut('ETH_1D', cell(1200, 'open', '-150'), 'ETH daily, a 2019 open of -150', 'at or below zero')
+cut('ETH_1D', cell(1200, 'close', 'nan'), 'ETH daily, a 2019 close of nan', 'non-finite')
+cut('BTC_1D', cell(900, 'volume', '-5000'), 'BTC daily, an old negative volume', 'negative volume')
+def hi_low(b):
+    c = b[1000].split(','); c[2] = str(min(float(c[1]), float(c[4])) * 0.99); b[1000] = ','.join(c); return b
+cut('ETH_1D', hi_low, 'ETH daily, an old high below its open and close', 'high below')
+cut('ETH_4H', cell(3000, 'open', '0'), 'ETH 4H, an old row at zero', 'ETH_4H: row')
+def off_grid(b):
+    c = b[500].split(','); c[0] = str(int(float(c[0])) + 3600); b[500] = ','.join(c); return b
+cut('ETH_12H', off_grid, 'ETH 12H, a bar off the 12-hour grid', 'not on the 12-hour grid')
+def swap(M):
+    for tf in ('1D', '2D', '3D', '5D', '8D'): shutil.copy(f'{M}/BTC_{tf}.csv', f'{M}/ETH_{tf}.csv')
+def whole(change, label, want):
+    M = f'{T}/m'; shutil.rmtree(M, ignore_errors=True); shutil.copytree(T, M, ignore=shutil.ignore_patterns('m','*.py','*.json'))
+    change(M); r = run(label, 1, [], fake(), data=M)
+    ok = any(want in p for p in r['structural_problems']); results.append(ok)
+    print(f"  {'PASS' if ok else '*** FAIL ***'}  ... and the report names it: {[p for p in r['structural_problems'] if want in p][:1]}")
+whole(swap, "every ETH candle file replaced by BTC's", 'not ETH and BTC')
+def fund(edit):
+    def f(M):
+        pth = f'{M}/derivs/ETH_funding_daily.csv'; rows = list(csv.DictReader(open(pth))); rows = edit(rows)
+        with open(pth, 'w', newline='') as fh:
+            w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+    return f
+whole(fund(lambda r: r[:-60]), 'ETH funding with its last 60 days cut', 'more than 3 days before')
+whole(fund(lambda r: [dict(x, funding_mean='nan') if i >= len(r) - 40 else x for i, x in enumerate(r)]), 'ETH funding, last 40 days nan', 'not a number between -1 and 1')
+whole(fund(lambda r: [dict(x, funding_mean='-100') if i >= len(r) - 10 else x for i, x in enumerate(r)]), 'ETH funding, last 10 days -100', 'not a number between -1 and 1')
+whole(fund(lambda r: r[:500] + r[501:]), 'ETH funding missing one day', 'a day is missing')
+whole(fund(lambda r: [dict(x, funding_mean='') if i == 700 else x for i, x in enumerate(r)]), 'ETH funding with one blank value', 'no readable')
+whole(lambda M: os.remove(f'{M}/derivs/BTC_funding_daily.csv'), 'BTC funding file deleted', 'BTC_funding_daily is missing')
 print(f"\n{sum(results)}/{len(results)} passed")
 
 sys.exit(0 if all(results) else 1)

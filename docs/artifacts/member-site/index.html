@@ -191,7 +191,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
 
 <div class="app">
   <div class="review" id="review">
-    <span><b>Review build.</b> Real pipeline data, scored <span id="rvAsof" class="num">…</span>. Alerts go out for top-grade setups only; below-grade forming setups are shown for context. The lead trader's feed is in dry run.</span>
+    <span><b>Review build.</b> Real pipeline data, scored <span id="rvAsof" class="num">…</span>. Member alerts aren't switched on yet; when they are, they will cover top-grade setups only. Below-grade forming setups are shown for context. The lead trader's feed is in dry run.</span>
     <label class="switch" for="previewSwitch"><input type="checkbox" id="previewSwitch"> Show the example card</label>
   </div>
 
@@ -214,10 +214,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="in lead-in">
             <div>
               <div class="sec-title">Lead trader</div>
-              <div class="small" style="color: var(--lead-soft)">Real trades, posted when they fill</div>
+              <div class="small" style="color: var(--lead-soft)">Real trades, posted automatically when they fill (once his feed is live)</div>
             </div>
             <div id="leadBody"></div>
-            <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before an alert, sometimes after, sometimes not at all. Every trade is posted live. Entry, exit, leverage and size as a share of the account; never dollar amounts.</div>
+            <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before an alert, sometimes after, sometimes not at all. Once his feed is live, every trade is posted automatically. Entry, exit, leverage and size as a share of the account; never dollar amounts.</div>
           </div>
         </section>
 
@@ -286,7 +286,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <p>Our indicator watches Bitcoin and Ethereum on the daily and multi-day charts. It looks for one specific moment: when selling pressure has run its course and buyers start taking back control.</p>
           <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. A confirmed alert is final and can't vanish. A forming heads-up can: it is sent before the confirming close.</p>
           <p>A signal only counts if our market filter said the broader trend was on your side on the day the bar that made its low opened (on a 2D, 3D or 5D chart that can be a few days before the low itself). In a downtrend the system stays quiet, sometimes for a year. The header shows the filter as it is today, so a setup whose low came just before the filter turned off can still appear while the header reads off.</p>
-          <p>Every confirmed setup is checked against several independent confirmations. Only the ones where the most line up reach members.</p>
+          <p>Every confirmed setup is checked against several independent confirmations. Only the ones where the most line up reach the top grade.</p>
           <p>The odds on each card come from how past signals with the same profile behaved over the next 60 days. They measure the quality of the entry, not a trading result.</p>
         </div>
         <div class="sidebox">
@@ -369,17 +369,22 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
      One definition of a well-formed feed, read by this page and by the pipeline (feedcheck.py reads the block
      between the two markers, and feed_live.py refuses to publish a feed that fails it). A feed that fails ANY
      rule is not used at all: the page says "Data unavailable". Nothing is guessed or patched.
-     Types: pct 0..100, num any finite number, n whole number >= 0, day whole number 0..60, px number > 0,
+     Types: pct 0..100, pcti a whole number 0..100, num a finite number under a million either way, n whole
+     number >= 0, day whole number 0..60, px a price above 0 and under 10^9, dip a change -100..0, rise a change
+     0..100,000, chg a change above -100 and up to 100,000, share 0 (exclusive)..100, lev above 0 up to 100,
      date YYYY-MM-DD, ts ISO time (UTC, "Z"), str non-empty text, text any text, bool, "=a|b" one of these words.
      A key ending in "?" may be null or missing. "@name" refers to defs. A list is [item, min length, max length]. */
-  const FEED_SCHEMA = /*FEED_SCHEMA*/{"defs":{"asset":"=ETH|BTC","tf":"=1D|2D|3D|5D","chart":"=ETH 1D|ETH 2D|ETH 3D|ETH 5D|BTC 1D|BTC 2D|BTC 3D|BTC 5D","grade":"=A+|A|B|C","era":{"past_trades":"n","rose10_never_fell25_within60d_pct?":"pct"},"rung":{"fell_pct":"n","past_trades":"n","still_rose10_pct?":"pct","still_rose10_exact_pct?":"pct","went_on_to_fall25_pct?":"pct"},"card":{"signal_id":"str","chart":"@chart","asset":"@asset","timeframe":"@tf","grade":"@grade","low_date":"date","low_day":"date","confirms_on":"date","must_close_above?":"px","price_now?":"px","entry_close?":"px","sample":"str","past_trades":"n","rose10_within60d_pct":"pct","rose10_never_fell25_within60d_pct":"pct","rose20_within60d_pct":"pct","fell30_within60d_pct":"pct","typical_biggest_rise_exact_pct":"num","typical_dip_before_rise_exact_pct":"num","typical_deepest_dip_exact_pct":"num","typical_day_of_60d_high":"day","typical_day_of_deepest_dip":"day","before_2022":"@era","since_2022":"@era","from_entry":{"still_rose10_pct":"pct","still_rose10_exact_pct":"pct"},"if_it_falls_first":["@rung",4,4]},"open":{"signal_id":"str","chart":"@chart","entry_date":"date","entry_close":"px","grade":"@grade","tags":"text","confirmations":"text","label":"str","days_elapsed":"day","day10_pct?":"num","day30_pct?":"num","day60_pct?":"num","best_so_far_pct?":"num","worst_so_far_pct?":"num","edge_level_pct?":"num","edge_status":"=lost|rose10|intact","card?":"@card"},"miss":{"signals":"n","misses":"n","up_first":"n","median_peak_pct?":"num","median_worst_drop_pct?":"num","median_day60_pct?":"num"},"path":{"signals":"n","days":[{"day":"day","median_pct":"num","q25_pct":"num","q75_pct":"num"},61,61]}},"feed":{"generated_at":"ts","cards_withheld":"bool","checks":{"all_passed":"bool"},"posting_bar_pct?":"pct","scored_as_of?":"date","market_regime?":"=Bullish|Bearish","cards":["@card",0],"open_signals":["@open",0],"example_card?":"@card","grade_odds":[{"asset":"@asset","grade":"str","past_trades":"n","rose10_within60d_pct":"pct","rose10_never_fell25_within60d_pct":"pct","rose20_within60d_pct":"pct","median_deepest_dip_pct":"num"},0],"if_it_misses":[{"asset":"@asset","grade":"@grade","signals":"n","misses":"n","up_first":"n","median_peak_pct?":"num","median_worst_drop_pct?":"num","median_day60_pct?":"num"},0],"example_if_it_misses?":"@miss","past_paths":[{"asset":"@asset","signals":"n","days":[{"day":"day","median_pct":"num","q25_pct":"num","q75_pct":"num"},61,61]},0],"example_past_paths?":"@path","odds_fade?":{"early_dip":[{"band":"str","edge":"=intact|gone"},0],"day10":[{"check":"str","rose10_after_day10_pct":"pct"},0]}},"trades":{"trades":[{"asset":"@asset","direction":"=long|short","action":"=open|add|reduce|close","time":"ts","price":"px","leverage?":"px","size_pct?":"num","move_pct?":"num","account_pct?":"num"},0]}}/*END_FEED_SCHEMA*/;
+  const FEED_SCHEMA = /*FEED_SCHEMA*/{"defs":{"asset":"=ETH|BTC","tf":"=1D|2D|3D|5D","chart":"=ETH 1D|ETH 2D|ETH 3D|ETH 5D|BTC 1D|BTC 2D|BTC 3D|BTC 5D","grade":"=A+|A|B|C","era":{"past_trades":"n","rose10_never_fell25_within60d_pct?":"pcti"},"rung":{"fell_pct":"n","past_trades":"n","still_rose10_pct?":"pcti","still_rose10_exact_pct?":"pct","went_on_to_fall25_pct?":"pcti"},"card":{"signal_id":"str","chart":"@chart","asset":"@asset","timeframe":"@tf","grade":"@grade","low_date":"date","low_day":"date","confirms_on":"date","must_close_above?":"px","price_now?":"px","entry_close?":"px","sample":"str","past_trades":"n","rose10_within60d_pct?":"pcti","rose10_never_fell25_within60d_pct?":"pcti","rose20_within60d_pct?":"pcti","fell30_within60d_pct?":"pcti","typical_biggest_rise_exact_pct?":"rise","typical_dip_before_rise_exact_pct?":"dip","typical_deepest_dip_exact_pct?":"dip","typical_day_of_60d_high?":"day","typical_day_of_deepest_dip?":"day","before_2022":"@era","since_2022":"@era","from_entry":{"still_rose10_pct?":"pcti","still_rose10_exact_pct?":"pct"},"if_it_falls_first":["@rung",4,4]},"open":{"signal_id":"str","chart":"@chart","entry_date":"date","entry_close":"px","grade":"@grade","tags":"text","confirmations":"text","label":"str","days_elapsed":"day","day10_pct?":"chg","day30_pct?":"chg","day60_pct?":"chg","best_so_far_pct?":"chg","worst_so_far_pct?":"chg","edge_level_pct?":"dip","edge_status":"=lost|rose10|intact","card?":"@card"},"miss":{"signals":"n","misses":"n","up_first":"n","median_peak_pct?":"rise","median_worst_drop_pct?":"dip","median_day60_pct?":"chg"},"path":{"signals":"n","days":[{"day":"day","median_pct":"chg","q25_pct":"chg","q75_pct":"chg"},61,61]}},"feed":{"generated_at":"ts","cards_withheld":"bool","checks":{"all_passed":"bool"},"posting_bar_pct?":"pcti","scored_as_of?":"date","market_regime?":"=Bullish|Bearish","cards":["@card",0],"open_signals":["@open",0],"example_card?":"@card","grade_odds":[{"asset":"@asset","grade":"str","past_trades":"n","rose10_within60d_pct?":"pcti","rose10_never_fell25_within60d_pct?":"pcti","rose20_within60d_pct?":"pcti","median_deepest_dip_pct?":"dip"},0],"if_it_misses":[{"asset":"@asset","grade":"@grade","signals":"n","misses":"n","up_first":"n","median_peak_pct?":"rise","median_worst_drop_pct?":"dip","median_day60_pct?":"chg"},0],"example_if_it_misses?":"@miss","past_paths":[{"asset":"@asset","signals":"n","days":[{"day":"day","median_pct":"chg","q25_pct":"chg","q75_pct":"chg"},61,61]},0],"example_past_paths?":"@path","odds_fade?":{"posting_bar_pct":"pcti","tier_fixed_on?":"date","early_dip":[{"band":"str","rose10_after_day10_pct":"pcti","edge":"=intact|gone"},0],"day10":[{"check":"str","rose10_after_day10_pct":"pcti","edge":"=intact|gone"},0]}},"trades":{"trades":[{"asset":"@asset","direction":"=long|short","action":"=open|add|reduce|close","time":"ts","price":"px","leverage?":"lev","size_pct?":"share","move_pct?":"chg","account_pct?":"chg"},0]}}/*END_FEED_SCHEMA*/;
   const isNum = (v) => typeof v === "number" && Number.isFinite(v);
   const ymdOk = (y, m, d) => { const t = new Date(Date.UTC(+y, +m - 1, +d)); return t.getUTCFullYear() === +y && t.getUTCMonth() === +m - 1 && t.getUTCDate() === +d; };
   const isDate = (v) => { const m = typeof v === "string" && /^(20\d{2})-(\d{2})-(\d{2})$/.exec(v); return !!m && ymdOk(m[1], m[2], m[3]); };
   const isTs = (v) => { const m = typeof v === "string" && /^(20\d{2})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(\.\d+)?Z$/.exec(v); return !!m && ymdOk(m[1], m[2], m[3]) && +m[4] < 24 && +m[5] < 60 && +m[6] < 60; };
   const PRIM = {
-    pct: (v) => isNum(v) && v >= 0 && v <= 100, num: isNum, n: (v) => isNum(v) && Number.isInteger(v) && v >= 0,
-    day: (v) => isNum(v) && Number.isInteger(v) && v >= 0 && v <= 60, px: (v) => isNum(v) && v > 0, date: isDate, ts: isTs,
+    pct: (v) => isNum(v) && v >= 0 && v <= 100, pcti: (v) => isNum(v) && Number.isInteger(v) && v >= 0 && v <= 100,
+    num: (v) => isNum(v) && Math.abs(v) < 1e6, n: (v) => isNum(v) && Number.isInteger(v) && v >= 0 && v < 1e6,
+    day: (v) => isNum(v) && Number.isInteger(v) && v >= 0 && v <= 60, px: (v) => isNum(v) && v > 0 && v < 1e9,
+    dip: (v) => isNum(v) && v >= -100 && v <= 0, rise: (v) => isNum(v) && v >= 0 && v <= 1e5, chg: (v) => isNum(v) && v > -100 && v <= 1e5,
+    share: (v) => isNum(v) && v > 0 && v <= 100, lev: (v) => isNum(v) && v > 0 && v <= 100, date: isDate, ts: isTs,
     str: (v) => typeof v === "string" && v.trim() !== "", text: (v) => typeof v === "string", bool: (v) => typeof v === "boolean",
   };
   function shapeCheck(v, spec, defs, path, out) {
@@ -415,6 +420,18 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         if ([r.still_rose10_pct, r.still_rose10_exact_pct, r.went_on_to_fall25_pct].some((x) => nil(x) !== (r.past_trades === 0))) out.push(p + ".if_it_falls_first[" + i + "]: count and shares disagree");
         if (r.past_trades > c.past_trades) out.push(p + ".if_it_falls_first[" + i + "]: more signals than the sample");
       });
+      // a card with no past signals yet (early history) has no figures; any other card has all of them
+      if ([...CARD_FIGS.map((k) => c[k]), c.from_entry.still_rose10_pct, c.from_entry.still_rose10_exact_pct].some((x) => nil(x) !== (c.past_trades === 0))) out.push(p + ": figures and sample size disagree");
+      if (c.past_trades > 0) {
+        if (c.rose10_never_fell25_within60d_pct > c.rose10_within60d_pct || c.rose20_within60d_pct > c.rose10_within60d_pct) out.push(p + ": a share is above the rose-10% share it is part of");
+        if (!(c.typical_deepest_dip_exact_pct <= c.typical_dip_before_rise_exact_pct)) out.push(p + ": the dip before the high is deeper than the deepest dip");
+        if (Math.abs(c.from_entry.still_rose10_pct - c.from_entry.still_rose10_exact_pct) > 0.5) out.push(p + ".from_entry: rounded and exact shares disagree");
+        if (c.from_entry.still_rose10_exact_pct > c.rose10_within60d_pct + 0.5 || c.rose10_never_fell25_within60d_pct > c.from_entry.still_rose10_exact_pct + 0.5) out.push(p + ".from_entry: out of line with the shares it sits between");
+      }
+      c.if_it_falls_first.forEach((r, i) => {
+        if (i && r.past_trades > c.if_it_falls_first[i - 1].past_trades) out.push(p + ".if_it_falls_first[" + i + "]: more signals than the shallower row");
+        if (r.past_trades > 0 && (Math.abs(r.still_rose10_pct - r.still_rose10_exact_pct) > 0.5 || r.still_rose10_pct + r.went_on_to_fall25_pct > 101)) out.push(p + ".if_it_falls_first[" + i + "]: shares disagree");
+      });
       if (!(c.low_date <= c.low_day && c.low_day <= c.confirms_on)) out.push(p + ": low and confirmation dates out of order");
     };
     const miss = (m, p) => {
@@ -437,24 +454,84 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       const p = "feed.open_signals[" + i + "]";
       if (o.signal_id !== o.chart.replace(" ", "-") + "-" + o.entry_date) out.push(p + ": signal_id does not match its chart and date");
       if (o.entry_date > day) out.push(p + ": entry after generated_at");
-      if (!nil(o.card)) { card(o.card, p + ".card"); if (o.card.chart !== o.chart || o.card.confirms_on !== o.entry_date) out.push(p + ": card belongs to another signal"); }
+      if (!nil(o.card)) {
+        card(o.card, p + ".card");
+        if (o.card.chart !== o.chart || o.card.confirms_on !== o.entry_date || o.card.grade !== o.grade || o.card.entry_close !== o.entry_close) out.push(p + ": card belongs to another signal");
+      }
+      // the day count and the closed-day figures follow from the entry date and the feed's own date
+      const el = Math.round((Date.parse(day + "T00:00:00Z") - Date.parse(o.entry_date + "T00:00:00Z")) / 864e5);
+      if (o.days_elapsed !== el) out.push(p + ".days_elapsed: not the days since entry");
+      for (const [k, d] of [["day10_pct", 10], ["day30_pct", 30], ["day60_pct", 60]]) if (nil(o[k]) !== (o.days_elapsed <= d)) out.push(p + "." + k + ": present before its day closed, or missing after");
+      const mv = [o.day10_pct, o.day30_pct, o.day60_pct].filter((x) => !nil(x));
+      if (!nil(o.best_so_far_pct) && !nil(o.worst_so_far_pct) && mv.concat([o.worst_so_far_pct]).some((x) => x > o.best_so_far_pct || x < o.worst_so_far_pct)) out.push(p + ": a figure is outside the best and worst so far");
+      if (o.edge_status === "rose10" && !(o.best_so_far_pct >= 9.95)) out.push(p + ": marked rose 10% but best so far is under 10%");
+      if (o.edge_status === "intact" && !nil(o.best_so_far_pct) && o.best_so_far_pct > 10.05) out.push(p + ": marked on track but best so far is over 10%");
+      if (!nil(o.edge_level_pct) && !nil(o.worst_so_far_pct)) {
+        if (o.edge_status === "lost" && o.worst_so_far_pct > o.edge_level_pct + 0.05) out.push(p + ": marked lost but never fell to its edge level");
+        if (o.edge_status === "intact" && o.worst_so_far_pct < o.edge_level_pct - 0.05) out.push(p + ": marked on track but fell past its edge level");
+      }
     });
     f.if_it_misses.forEach((m, i) => miss(m, "feed.if_it_misses[" + i + "]"));
     if (!nil(f.example_if_it_misses)) miss(f.example_if_it_misses, "feed.example_if_it_misses");
     f.past_paths.forEach((pp, i) => pathOk(pp, "feed.past_paths[" + i + "]"));
     if (!nil(f.example_past_paths)) pathOk(f.example_past_paths, "feed.example_past_paths");
+    // odds_fade: both lists empty (the extras step was withheld), or the five dip bands and the two day-10 checks in
+    // their fixed order, each row's edge mark agreeing with its share against the bar, and the tier date stated
+    if (!nil(f.odds_fade)) {
+      const of = f.odds_fade, filled = of.early_dip.length > 0 || of.day10.length > 0;
+      // rows come from the fixed bands and checks, in order, each at most once (a band with no past signals is left out)
+      const inOrder = (got, fixed) => got.every((x, i) => fixed.includes(x) && (i === 0 || fixed.indexOf(x) > fixed.indexOf(got[i - 1])));
+      if (!inOrder(of.early_dip.map((b) => b.band), ODDS_BANDS) || !inOrder(of.day10.map((b) => b.check), ODDS_CHECKS)) out.push("feed.odds_fade: rows are not the fixed bands and checks in order");
+      if (filled && nil(of.tier_fixed_on)) out.push("feed.odds_fade.tier_fixed_on: missing");
+      // the mark is decided on the exact share, the share shown is rounded: they can differ only at the bar itself
+      if (of.early_dip.concat(of.day10).some((b) => b.edge === "intact" ? b.rose10_after_day10_pct < of.posting_bar_pct - 0.5 : b.rose10_after_day10_pct > of.posting_bar_pct + 0.5)) out.push("feed.odds_fade: an edge mark disagrees with its share");
+    }
+    f.grade_odds.forEach((g, i) => {
+      if (GRADE_FIGS.some((k) => nil(g[k]) !== (g.past_trades === 0))) out.push("feed.grade_odds[" + i + "]: figures and sample size disagree");
+      if (g.past_trades > 0 && (g.rose10_never_fell25_within60d_pct > g.rose10_within60d_pct || g.rose20_within60d_pct > g.rose10_within60d_pct)) out.push("feed.grade_odds[" + i + "]: a share is above the rose-10% share it is part of");
+    });
+    // the miss counts, the past paths and the example all describe the same samples as grade_odds
+    const go = (a, g) => f.grade_odds.find((x) => x.asset === a && x.grade === g);
+    f.if_it_misses.forEach((mm, i) => {
+      const g = go(mm.asset, mm.grade);
+      if (!g || g.past_trades !== mm.signals || (mm.signals > 0 && Math.abs(100 * (mm.signals - mm.misses) / mm.signals - g.rose10_within60d_pct) > 0.5)) out.push("feed.if_it_misses[" + i + "]: does not match grade_odds");
+    });
+    f.past_paths.forEach((pp, i) => { const g = go(pp.asset, "A+"); if (!g || g.past_trades !== pp.signals) out.push("feed.past_paths[" + i + "]: does not match grade_odds"); });
+    if (!nil(f.example_card)) {
+      if (f.example_card.signal_id !== EXAMPLE_ID) out.push("feed.example_card: not the worked example");
+      if (!nil(f.example_past_paths) && f.example_past_paths.signals !== f.example_card.past_trades) out.push("feed.example_past_paths: not the example's sample");
+      if (!nil(f.example_if_it_misses) && f.example_if_it_misses.signals !== f.example_card.past_trades) out.push("feed.example_if_it_misses: not the example's sample");
+    }
     for (const k of ["grade_odds", "if_it_misses"]) { const keys = f[k].map((x) => x.asset + "|" + x.grade); if (new Set(keys).size !== keys.length) out.push("feed." + k + ": an asset and grade appear twice"); }
     { const a = f.past_paths.map((x) => x.asset); if (new Set(a).size !== a.length) out.push("feed.past_paths: an asset appears twice"); }
   }
+  const EXAMPLE_ID = "ETH-2D-2024-09-22";
+  const GRADE_FIGS = ["rose10_within60d_pct", "rose10_never_fell25_within60d_pct", "rose20_within60d_pct", "median_deepest_dip_pct"];
+  const CARD_FIGS = ["rose10_within60d_pct", "rose10_never_fell25_within60d_pct", "rose20_within60d_pct", "fell30_within60d_pct", "typical_biggest_rise_exact_pct", "typical_dip_before_rise_exact_pct", "typical_deepest_dip_exact_pct", "typical_day_of_60d_high", "typical_day_of_deepest_dip"];
+  const ODDS_BANDS = ["shallower than -2%", "-2% to -5%", "-5% to -10%", "-10% to -20%", "worse than -20%"];
+  const ODDS_CHECKS = ["green on day 10", "red on day 10"];
   function feedProblems(feed) {
     const out = [];
     shapeCheck(feed, FEED_SCHEMA.feed, FEED_SCHEMA.defs, "feed", out);
     if (!out.length) crossCheck(feed, out);
     return out;
   }
-  function tradesProblems(t) { const out = []; shapeCheck(t, FEED_SCHEMA.trades, FEED_SCHEMA.defs, "trades", out); return out; }
+  function tradesProblems(t) {
+    const out = []; shapeCheck(t, FEED_SCHEMA.trades, FEED_SCHEMA.defs, "trades", out);
+    if (out.length) return out;
+    // newest first (the relay prepends), none in the future
+    t.trades.forEach((x, i) => {
+      if (i && Date.parse(x.time) > Date.parse(t.trades[i - 1].time)) out.push("trades[" + i + "]: not newest first");
+      if (Date.parse(x.time) > Date.now() + 5 * 60e3) out.push("trades[" + i + "]: in the future");
+    });
+    return out;
+  }
   // a candle file is a list of at least `min` bars: numbers, prices above zero, the high and low bracketing the
   // open and close, times strictly ascending
+  // bars on the chart's own steps: tfd days apart, or a shorter bar that ends on 31 December (2D+ bars restart
+  // on 1 January)
+  const stepsOk = (bars, tfd) => bars.every((b, i) => !i || b.t - bars[i - 1].t === tfd * 86400
+    || (tfd > 1 && b.t - bars[i - 1].t < tfd * 86400 && new Date(b.t * 1000).toISOString().slice(5, 10) === "01-01"));
   const barsOk = (bars, min) => Array.isArray(bars) && bars.length >= min && bars.every((b, i) => b !== null && typeof b === "object"
     && [b.t, b.o, b.h, b.l, b.c].every(isNum) && b.l > 0 && b.h >= Math.max(b.o, b.c) && b.l <= Math.min(b.o, b.c) && (i === 0 || b.t > bars[i - 1].t));
   // a ledger row the page will show: known chart, real date, numbers where numbers are read
@@ -463,7 +540,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const ledgerRowOk = (r) => (r.asset === "ETH" || r.asset === "BTC") && LEDGER_CHARTS.includes(r.chart) && r.chart.startsWith(r.asset + " ") && isDate(r.entry)
     && numText(r.entryPrice) && +r.entryPrice > 0 && (r.reached10 === "yes" || r.reached10 === "no") && (r.reached20 === "yes" || r.reached20 === "no")
     && !(r.reached20 === "yes" && r.reached10 !== "yes") && numText(r.bestMove) && numText(r.maxDrawdown) && numText(r.return60d)
-    && /^\d+$/.test(r.daysToHigh || "") && +r.daysToHigh <= 60;
+    && /^\d+$/.test(r.daysToHigh || "") && +r.daysToHigh <= 60
+    && (r.reached10 === "yes") === (+r.bestMove >= 10) && (r.reached20 === "yes") === (+r.bestMove >= 20)
+    && +r.maxDrawdown <= +r.dipBeforeHigh && +r.dipBeforeHigh <= 0 && +r.bestMove >= 0 && +r.maxDrawdown >= -100
+    && +r.maxDrawdown <= +r.return60d && +r.return60d <= +r.bestMove;
   window.__feedProblems = feedProblems; window.__tradesProblems = tradesProblems;   // for the tests: the page's own verdicts
 
   /* ---------- the edge rule, from the feed ---------- */
@@ -472,7 +552,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const gone = of && (of.early_dip || []).find((b) => b.edge === "gone");
     const m = gone && String(gone.band).match(/-?\d+(\.\d+)?/);
     const red = of && (of.day10 || []).find((b) => /red/.test(b.check));
-    return { bar: (S.feed && S.feed.posting_bar_pct) ?? (of ? of.posting_bar_pct : null), dipPct: m ? +m[0] : null, redOdds: red ? (red.rose10_after_day10_pct ?? red.rose10_within60d_pct) : null };
+    return { bar: (S.feed && S.feed.posting_bar_pct) ?? (of ? of.posting_bar_pct : null), dipPct: m ? +m[0] : null, redOdds: red ? red.rose10_after_day10_pct : null };
   }
   // This setup's own fade (Jared 11 Nov: the player, not the league): after first falling X%, the share of
   // this setup's past signals that still rose 10%. Below the 70% bar the edge is gone.
@@ -510,6 +590,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function staleNote() {
     const a = feedAgeH();
     return a !== null && a > STALE_AFTER_H ? `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old. The update pipeline has not refreshed it on schedule, so treat everything below as out of date until it does.</div>` : "";
+  }
+  // the stale warning on the other tabs too (13 Nov 2026 audit #22: it was on the Now card only)
+  function staleBars() {
+    for (const x of ["chart", "record", "read"]) {
+      const v = $("#view-" + x); if (!v) continue;
+      let b = v.querySelector(":scope > .stale-bar");
+      if (!b) { b = document.createElement("div"); b.className = "stale-bar"; v.prepend(b); }
+      b.innerHTML = staleNote();
+    }
   }
   function selectable() {
     const top = liveCards();
@@ -579,12 +668,6 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
-    if (!m && S.preview) {
-      box.innerHTML = `<div class="card-head"><div class="where">ETH · 2D chart · example</div><div class="state" style="--c: var(--muted)" data-state="quiet">Example unavailable</div></div>
-        <div class="empty-card"><div class="big">The worked example isn't in the latest data</div><div class="small" style="max-width: 46ch">It comes back with the next good run. Live and forming setups are unaffected.</div></div>
-        <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
-      return;
-    }
     if (!m && feedHealth() !== "ok") {
       const down = feedHealth() === "down";
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--drop)" data-state="${down ? "down" : "held"}">${down ? "Data unavailable" : "Setups held back"}</div></div>${staleNote()}
@@ -595,13 +678,18 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
     }
+    if (!m && S.preview) {
+      box.innerHTML = `<div class="card-head"><div class="where">ETH · 2D chart · example</div><div class="state" style="--c: var(--muted)" data-state="quiet">Example unavailable</div></div>
+        <div class="empty-card"><div class="big">The worked example isn't in the latest data</div><div class="small" style="max-width: 46ch">It comes back with the next good run. Live and forming setups are unaffected.</div></div>
+        <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+      return;
+    }
     if (!m) {
       const on = regime() === "on", off = regime() === "off";
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="quiet">No setup right now</div></div>${staleNote()}
         <div class="empty-card">
           <div class="big">Waiting for the next one</div>
           <div class="small" style="max-width: 46ch">${on ? `The market filter is on. Nothing at the top grade is forming or confirmed today. ${perYearText()}` : off ? "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year." : "Nothing at the top grade is forming or confirmed today. The market filter's reading is unavailable right now."}</div>
-          <div class="small">You'll get a push alert the moment one confirms.</div>
         </div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
@@ -621,7 +709,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
-        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade, so no alert goes out for it. It can still vanish before it confirms.</div>`
+        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade. It can still vanish before it confirms.</div>`
           : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>`
           : m.kind === "open" && !["lost", "rose10", "intact"].includes(m.edgeStatus) ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)"><b>Status unavailable.</b> The odds below are as of the entry close, not from today.</div>`
           : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before falling to its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`)} The odds below are as of the entry close, not from today.</div>` : ""}
@@ -671,16 +759,17 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         + `<div class="fine">Share of this setup's past signals that, after first falling that far, still rose 10% before ever falling 25.3%. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
     } else {
       const of = S.feed && S.feed.odds_fade;
-      const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : [])
-        .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: (b.rose10_after_day10_pct ?? b.rose10_within60d_pct), gone: b.edge === "gone" })) : []);
+      const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: b.rose10_after_day10_pct, gone: b.edge === "gone" })) : [])
+        .concat(of ? of.day10.map((b) => ({ t: b.check.replace(" on day 10", " day 10").replace(/^./, (c) => c.toUpperCase()), v: b.rose10_after_day10_pct, gone: b.edge === "gone" })) : []);
       lad.innerHTML = bars.map((b) => row(b.t, b.v, b.gone)).join("")
-        + `<div class="fine">ETH signals on the chart/tag pairs in the walk-forward tier as fixed on ${of && of.tier_fixed_on ? dateLong(of.tier_fixed_on) : "1 January of this year"}, applied to every signal from 2016 (in-sample: the tier was chosen on most of these outcomes): share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${edgeRule().bar ?? "the posting bar"}${edgeRule().bar != null ? "%" : ""} the edge is gone.</div>`;
+        + `<div class="fine">ETH signals on the chart/tag pairs in the walk-forward tier as fixed on ${dateLong(of.tier_fixed_on)}, applied to every signal from 2016 (in-sample: the tier was chosen on most of these outcomes): share that rose 10% after day 10 (days 11 to 60), by the deepest dip in the first 10 days. Below ${edgeRule().bar ?? "the posting bar"}${edgeRule().bar != null ? "%" : ""} the edge is gone.</div>`;
     }
     $("#eras").innerHTML = m.eras.map((x) => `<div class="bar"><span>${x.t} <span class="small">n ${x.n}</span></span><div class="t"><div class="f" style="width: ${x.v ?? 0}%"></div></div><span class="num">${x.v ?? "n/a"}${x.v != null && x.v !== "" ? "%" : ""}</span></div>`).join("");
   }
 
   function leadState(m) {
     const t = S.trades && S.trades.trades;
+    if (S.loading && S.loading.trades) return "loading";
     if (!S.trades) return "unavailable";
     if (!t || !t.length) return "not in";
     const open = t.filter((x) => x.asset === m.asset);
@@ -694,6 +783,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderLead() {
     const b = $("#leadBody");
     const t = S.trades && S.trades.trades;
+    if (S.loading && S.loading.trades) { b.innerHTML = `<div class="lead-empty">Loading the lead trader's feed…</div>`; return; }
     if (!S.trades) {
       b.innerHTML = `<div class="lead-empty">The lead trader's feed is unavailable right now. His real entries and exits appear here the moment they fill.</div>`;
       return;
@@ -732,16 +822,16 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function openStatus(o) {
     // 12 Nov 2026 audit #9: decided in the pipeline on exact prices and closed daily bars, by whichever
     // came first: +10%, or a fall to the setup's own edge level (low checked first within a day)
-    // No page-side guess (audit #19): without the feed's status the setup is listed with "Status unavailable".
-    return o.edge_status === "lost" ? "fading" : (o.edge_status === "intact" || o.edge_status === "rose10") ? "intact" : "unknown";
+    // No page-side guess: the strict check guarantees edge_status is lost, rose10 or intact (13 Nov 2026).
+    return o.edge_status === "lost" ? "fading" : "intact";
   }
   function renderPrev() {
     const open = openSignals();
     // first group: on track, or already rose 10% (whatever it did afterwards); second: edge lost, then closed signals
-    const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) !== "intact");
+    const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) === "fading");
     $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">${{ down: "Unavailable: the feed can't be read right now.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No open top-grade setup on track or up 10%."}</div>`;
     const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
-    $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, openStatus(o) === "fading" ? "fading" : "unknown")).join("") + (S.ledgerOk ? "" : `<div class="none">Past signals unavailable right now.</div>`) + recent.map((r) => `
+    $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + (S.loading && S.loading.ledger ? `<div class="none">Loading past signals…</div>` : S.ledgerOk ? "" : `<div class="none">Past signals unavailable right now.</div>`) + recent.map((r) => `
       <div class="mini closed">
         <div><div class="name">${esc(r.chart)}</div><div class="sub num">${dateLong(r.entry)} · best ${pct(+r.bestMove)} · worst ${pct(+r.maxDrawdown)}</div></div>
         <span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Reached +20%" : r.reached10 === "yes" ? "Rose 10%" : "Missed"}</span>
@@ -749,12 +839,13 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   }
   function miniOpen(o, cls) {
     return `<div class="mini ${cls}"><div><div class="name">${esc(o.chart)}</div><div class="sub num">Day ${o.days_elapsed} of 60 · best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</div></div>
-      <span class="badge ${cls ? "no" : "yes"}">${cls === "fading" ? "Edge lost" : o.edge_status === "rose10" ? "Rose 10%" : o.edge_status === "intact" ? "On track" : "Status unavailable"}</span></div>`;
+      <span class="badge ${cls ? "no" : "yes"}">${cls === "fading" ? "Edge lost" : o.edge_status === "rose10" ? "Rose 10%" : "On track"}</span></div>`;
   }
 
   /* ---------- header ---------- */
   function renderHeader() {
     const f = S.feed;
+    staleBars();
     const on = regime() === "on";
     $("#filterPill").classList.toggle("off", !on);
     $("#filterText").textContent = !f ? "Feed unavailable" : regime() ? `Market filter: ${regime()}` : "Market filter: unavailable";
@@ -796,7 +887,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!c) {
       m = cardExample(); const ex = S.example;
       if (!ex || !m) {
-        blankChart("ETH · 2-day · example", "The example's chart data couldn't be loaded.", "Chart data unavailable"); return;
+        const h = feedHealth();
+        blankChart("ETH · 2-day · example", h === "down" ? "Can't reach the data right now." : h === "held" ? "A data check failed on the latest run; setups are held back." : "The example's chart data couldn't be loaded.",
+          h === "down" ? "Data unavailable" : h === "held" ? "Setups held back" : "Chart data unavailable"); return;
       }
       bars = ex.bars; E = ex.entry_index; entry = ex.entry_close; tfd = 2;
       $("#chTitle").textContent = "ETH · 2-day · example: past confirmed setup";
@@ -805,13 +898,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
       // too few bars, or a bar that isn't numbers, is a broken file, not a chart (audit #18)
-      if (!cd || typeof cd !== "object" || !barsOk(cd.bars, 10)) {
+      if (!cd || typeof cd !== "object" || cd.chart !== c.chart || !barsOk(cd.bars, 10) || !stepsOk(cd.bars, tfd)
+          || cd.bars[cd.bars.length - 1].t > Date.parse(S.feed.generated_at) / 1000) {
         blankChart(c.chart.replace(" ", " · "), "This chart's candles couldn't be loaded.", "Chart data unavailable for " + c.chart); return;
       }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
       if (c._open) {
         const k = bars.findIndex((b) => dayOf(barNextOpen(b.t, tfd) - 86400) === c.entry_date);   // short year-end bars too (audit #15)
         if (k < 0) { blankChart(`${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60`, `Confirmed ${dateLong(c.entry_date)} · entry close ${money(c.entry_close)}.`, "This chart's data doesn't reach back to the entry"); return; }
+        if (Math.abs(bars[k].c - c.entry_close) > 1e-6 * c.entry_close) { blankChart(c.chart.replace(" ", " · "), "This chart's candles don't match the setup's entry close.", "Chart data unavailable for " + c.chart); return; }
         E = k; entry = c.entry_close;
       }   // the bar that CLOSES on the entry date (12 Nov 2026 audit #4)
       m.entry = entry;
@@ -875,7 +970,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         svgEl(svg, "text", { x: (xE + xL) / 2, y: (y1 + y2) / 2 + 5, fill: "var(--text)", "font-size": 12, "font-weight": 700, "text-anchor": "middle" }, v === "" || v == null ? "n/a" : `${v}% · n ${nn}`);
       }
     } else if (of) {
-      const bands = [[0, -5, "var(--high)", Math.max(...of.early_dip.slice(0, 2).map((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct)))], [-5, -10, "var(--fade)", ((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct))(of.early_dip[2])], [-10, -20, "var(--drop)", ((b) => (b.rose10_after_day10_pct ?? b.rose10_within60d_pct))(of.early_dip[3])]];
+      // each zone from its own band, looked up by name (a band with no past signals is left out of the feed and
+      // its zone is not drawn; 13 Nov 2026 audit #22)
+      const share = (...names) => { const v = of.early_dip.filter((b) => names.includes(b.band)).map((b) => b.rose10_after_day10_pct); return v.length ? Math.max(...v) : null; };
+      const bands = [[0, -5, "var(--high)", share("shallower than -2%", "-2% to -5%")], [-5, -10, "var(--fade)", share("-5% to -10%")], [-10, -20, "var(--drop)", share("-10% to -20%")]].filter((b) => b[3] !== null);
       for (const [a1, b1, col, v] of bands) {
         const y1 = Y(entry * (1 + a1 / 100)), y2 = Math.min(B, Y(entry * (1 + b1 / 100)));
         svgEl(svg, "rect", { x: xE, y: y1, width: x10 - xE, height: y2 - y1, fill: col, opacity: 0.24 });
@@ -976,7 +1074,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span>Day 10</span><b>${c.day10_pct == null ? "not yet" : pct(c.day10_pct)}</b></div>
       </div>`;
     } else if (forming) {
-      what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">Still forming. It confirms only if it holds through ${dateLong(c.confirms_on)}, and it can vanish before then. ${c.grade === "A+" ? "" : `It isn't top grade, so no alert goes out for it.`}</div>`;
+      what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">Still forming. It confirms only if it holds through ${dateLong(c.confirms_on)}, and it can vanish before then. ${c.grade === "A+" ? "" : `It isn't top grade.`}</div>`;
     } else if (happened && ex) {
       const E = ex.entry_index, win = ex.bars.slice(E + 1, E + 31), en = ex.entry_close;
       const hiB = win.reduce((a, b) => (b.h > a.h ? b : a)), loB = win.reduce((a, b) => (b.l < a.l ? b : a)), d10 = ex.bars[E + 5];
@@ -989,7 +1087,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span>Day 10 check</span><b class="${d10.c < en ? "lo" : "hi"}">${d10.c < en ? "Red" : "Green"}, ${pct((d10.c / en - 1) * 100)}</b></div>
         <div class="kv num"><span>Price on day 60</span><b>${pct((ex.bars[E + 30].c / en - 1) * 100)}</b></div>
       </div>`;
-    } else what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">This is all a member had at the alert: the zones, the +10% level and the timing. Press <b style="color: #7FF0FF">What happened</b> to see the real path.</div>`;
+    } else what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">This is all that was known at the confirmation: the zones, the +10% level and the timing. Press <b style="color: #7FF0FF">What happened</b> to see the real path.</div>`;
     $("#chartSide").innerHTML = `
       <div class="sidebox">
         <div class="sec-title" style="color: var(--live)">What the card says</div>
@@ -1013,7 +1111,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderRecord() {
     const rows = S.ledger.filter((r) => S.asset === "all" || r.asset === S.asset).sort((a, b) => b.entry.localeCompare(a.entry));
     $$(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.asset === S.asset)));
-    $("#recCount").textContent = S.ledgerOk ? `${rows.length} signals · ${rows.filter((r) => r.reached10 !== "yes").length} missed +10%` : "Past signals unavailable right now";
+    $("#recCount").textContent = S.loading && S.loading.ledger ? "Loading past signals…" : S.ledgerOk ? `${rows.length} signals · ${rows.filter((r) => r.reached10 !== "yes").length} missed +10%` : "Past signals unavailable right now";
     $("#recBody").innerHTML = rows.map((r) => `<tr>
       <td>${dateLong(r.entry)}</td><td>${esc(r.chart)}</td><td>${money(+r.entryPrice)}</td>
       <td><span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached10 === "yes" ? "Yes" : "No"}</span></td>
@@ -1087,39 +1185,62 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   window.addEventListener("hashchange", () => show(location.hash.slice(1)));
 
   async function boot() {
-    const [feed, ledgerText, trades, example] = await Promise.all([
-      get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
-    // A feed that isn't an object with a real timestamp is no feed (13 Nov 2026 audit #20: a list, or a missing
-    // or malformed generated_at, threw and left the card area blank instead of "Data unavailable")
-    // 13 Nov 2026: the feed is used only if it passes the strict check above, whole. Anything else is no feed.
+    // 13 Nov 2026 audit #22: the card used to wait for all four files, so a slow ledger, trade or example file
+    // left the card area blank. The feed is drawn as soon as it arrives; the others fill in as they come.
+    const pLedger = get("data/ledger.csv", "text"), pTrades = get("data/trades.json"), pExample = get("data/example_ETH-2D-2024-09-22.json");
+    const feed = await get("data/ctzb_feed.json");
+    // the feed is used only if it passes the strict check above, whole. Anything else is no feed.
     const feedBad = feedProblems(feed);
     const feedOk = feedBad.length === 0;
     if (!feedOk && feed !== null && window.console) console.warn("feed rejected: " + feedBad.slice(0, 5).join("; "));
     // the general odds-fade table is used only when it is whole: both lists present and non-empty
-    if (feedOk && !(feed.odds_fade && Array.isArray(feed.odds_fade.early_dip) && feed.odds_fade.early_dip.length && Array.isArray(feed.odds_fade.day10) && feed.odds_fade.day10.length)) feed.odds_fade = null;
-    S.feed = feedOk ? feed : null; S.trades = (trades !== null && tradesProblems(trades).length === 0) ? trades : null;   // a lead-trader feed that fails the check reads "unavailable"
-    // A file cut short in transit must read as unavailable, never as the whole record (12 Nov 2026 audit #18).
-    // The example's chart file is whole only if it reaches 60 days past its entry bar.
-    const exOk = example && typeof example === "object" && barsOk(example.bars, 10) && Number.isInteger(example.entry_index) && example.entry_index >= 0 && example.bars[example.entry_index]
-      && example.bars[example.bars.length - 1].t >= example.bars[example.entry_index].t + 60 * 86400;
-    S.example = exOk ? example : null;
-    const ledgerAll = ledgerText ? parseCSV(ledgerText) : [];
-    S.ledger = ledgerAll.filter((r) => r.grade === "A+");
-    S.ledgerOk = !!ledgerText;   // a missing ledger must read as unavailable, not as an empty record (audit #16)
-    // 13 Nov 2026: every row must have the right number of cells, every top-grade row must be well formed, and
-    // no signal may appear twice. Otherwise the record is unavailable, never partly shown.
-    if (S.ledgerOk && (ledgerAll.dropped || !S.ledger.every(ledgerRowOk) || new Set(S.ledger.map((r) => r.chart + "|" + r.entry)).size !== S.ledger.length)) { S.ledger = []; S.ledgerOk = false; }
-    // The ledger is whole only if it holds exactly the top-grade signals the feed counts, per asset.
-    const want = ((S.feed && S.feed.grade_odds) || []).filter((g) => g.grade === "A+");
-    if (S.ledgerOk && want.length && want.some((g) => S.ledger.filter((r) => r.asset === g.asset).length !== g.past_trades || S.ledger.some((r) => !r.entry || !r.chart))) {
-      S.ledger = []; S.ledgerOk = false;
-    }
-    // The example only stands in for a quiet market, never for an outage or a failed check.
-    if (!bestCard()) { if (feedHealth() === "ok" && !staleNote() && !openSignals().length) { S.preview = true; $("#previewSwitch").checked = true; } } else S.sel = bestCard().signal_id;
+    if (feedOk && !(feed.odds_fade.early_dip.length && feed.odds_fade.day10.length)) feed.odds_fade = null;
+    S.feed = feedOk ? feed : null;
+    S.loading = { ledger: true, trades: true, example: true };
+    if (bestCard()) S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
     { const b = edgeRule().bar; if (b != null) $("#howBar").textContent = b + "% bar"; }
     show(location.hash.slice(1) || "now");
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitToScreen);
+    const redraw = () => { renderCard(); renderPrev(); if (!$("#view-chart").hidden) renderChart(); if (!$("#view-record").hidden) renderRecord(); requestAnimationFrame(fitToScreen); };
+    pTrades.then((trades) => {
+      S.trades = (trades !== null && tradesProblems(trades).length === 0) ? trades : null;   // a lead-trader file that fails the check reads "unavailable"
+      S.loading.trades = false; renderLead(); renderCard();
+    });
+    pLedger.then((ledgerText) => {
+      // A file cut short in transit must read as unavailable, never as the whole record (12 Nov 2026 audit #18).
+      const ledgerAll = ledgerText ? parseCSV(ledgerText) : [];
+      S.ledger = ledgerAll.filter((r) => r.grade === "A+");
+      S.ledgerOk = !!ledgerText;   // a missing ledger must read as unavailable, not as an empty record (audit #16)
+      // every row must have the right number of cells, every top-grade row must be well formed and consistent
+      // with itself, and no signal may appear twice. Otherwise the record is unavailable, never partly shown.
+      if (S.ledgerOk && (ledgerAll.dropped || !S.ledger.every(ledgerRowOk) || new Set(S.ledger.map((r) => r.chart + "|" + r.entry)).size !== S.ledger.length)) { S.ledger = []; S.ledgerOk = false; }
+    // The ledger is whole only if it holds exactly the top-grade signals the feed counts, per asset, with the
+    // same rose-10% share, and every signal's 60 days closed by the feed's date. With no usable feed (down or
+    // held back) it cannot be checked, so it is not shown (13 Nov 2026 audit #22).
+    const want = ((S.feed && S.feed.grade_odds) || []).filter((g) => g.grade === "A+");
+    const shareOk = (g) => { const rs = S.ledger.filter((r) => r.asset === g.asset); return rs.length === g.past_trades && (!rs.length || Math.abs(100 * rs.filter((r) => r.reached10 === "yes").length / rs.length - g.rose10_within60d_pct) <= 0.5); };
+    const closedBy = S.feed && S.feed.scored_as_of ? Date.parse(S.feed.scored_as_of + "T00:00:00Z") : null;
+    if (S.ledgerOk && (!want.length || closedBy === null || !want.every(shareOk) || S.ledger.some((r) => !["ETH", "BTC"].includes(r.asset) || !want.some((g) => g.asset === r.asset))
+        || S.ledger.some((r) => Date.parse(r.entry + "T00:00:00Z") + 60 * 864e5 > closedBy))) {
+      S.ledger = []; S.ledgerOk = false;
+    }
+      S.loading.ledger = false; redraw();
+    });
+    pExample.then((example) => {
+      // The example's chart file is whole only if it reaches 60 days past its entry bar, on the chart's own steps,
+      // and its entry close is the example card's.
+    const exOk = example && typeof example === "object" && barsOk(example.bars, 10) && stepsOk(example.bars, 2) && Number.isInteger(example.entry_index) && example.entry_index >= 0 && example.bars[example.entry_index]
+      && example.bars[example.bars.length - 1].t >= example.bars[example.entry_index].t + 60 * 86400
+      && isNum(example.entry_close) && example.entry_close === example.bars[example.entry_index].c
+      && new Date((example.bars[example.entry_index].t + 86400) * 1000).toISOString().slice(0, 10) === "2024-09-22"
+      && (!S.feed || !S.feed.example_card || S.feed.example_card.entry_close === example.entry_close);
+    S.example = exOk ? example : null;
+      S.loading.example = false;
+      // The example only stands in for a quiet market, never for an outage, a failed check or a missing example.
+      if (!bestCard() && feedHealth() === "ok" && !staleNote() && !openSignals().length && cardExample()) { S.preview = true; $("#previewSwitch").checked = true; }
+      redraw();
+    });
   }
   boot();
 })();

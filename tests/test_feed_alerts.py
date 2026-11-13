@@ -38,9 +38,12 @@ def add_print(chart, confirms):
     reseal(DS)
 
 
-def run(outcomes="refresh=success,grade=success,stack=success,cards=success,regress=success"):
+def run(outcomes="refresh=success,grade=success,stack=success,cards=success,regress=success", seed=False):
     env = dict(os.environ)
     env.pop("CTZB_STEP_OUTCOMES", None)
+    env.pop("CTZB_SEED_ALERT_LOG", None)
+    if seed:
+        env["CTZB_SEED_ALERT_LOG"] = "1"   # a new log only on purpose (13 Nov 2026 audit #22)
     if outcomes is not None:
         env["CTZB_STEP_OUTCOMES"] = outcomes
     p = subprocess.run([sys.executable, "-I", f"{ROOT}/feed_live.py", "--datasets", DS, "--out", FEED,
@@ -59,8 +62,11 @@ def check(name, cond, detail=""):
 
 
 set_cards([])
-f = run()
-check("first run seeds the log and sends nothing", f["alerts_seeded"] and f["alerts"] == [] and log_n() > 0,
+p0 = subprocess.run([sys.executable, "-I", f"{ROOT}/feed_live.py", "--datasets", DS, "--out", FEED, "--alert-log", LOG],
+                    env=dict(os.environ, CTZB_STEP_OUTCOMES="refresh=success,grade=success,stack=success,cards=success,regress=success"), capture_output=True, text=True)
+check("no log and no published feed: the run fails closed instead of starting a new log", p0.returncode == 1 and "CTZB_SEED_ALERT_LOG" in p0.stderr and not os.path.exists(LOG), p0.stderr[-160:])
+f = run(seed=True)
+check("first run (seeding on purpose) seeds the log and sends nothing", f["alerts_seeded"] and f["alerts"] == [] and log_n() > 0,
       f"seeded {log_n()} existing signals")
 check("schema version is 6", f["schema_version"] == 6)
 check("every print and open signal carries a signal_id",
@@ -147,6 +153,31 @@ check("refresh failed -> the last good run's market filter reading and dates are
       f["cards_withheld"] and f["market_regime"] is None and f["scored_as_of"] is None and f["trades_a_year"] is None)
 f = run()
 check("...and they return on the next clean run", f["market_regime"] in ("Bullish", "Bearish") and f["scored_as_of"])
+
+# ---- 13 Nov 2026 (audit #22): the alert log must be the one the last published feed recorded ----
+good_log = open(LOG, "rb").read()
+open(LOG, "wb").write(good_log[:good_log.rindex(b"\n", 0, len(good_log) - 1) + 1])   # last row cut
+rc, f, err = run_fail()
+check("alert log with its last row cut -> withheld, nothing re-sent", rc == 1 and f["cards_withheld"] and f["alerts"] == [] and "alert log" in err, err[-160:])
+open(LOG, "wb").write(good_log.split(b"\n", 1)[0] + b"\n")   # emptied to its header
+rc, f, err = run_fail()
+check("alert log emptied -> withheld, nothing re-sent", rc == 1 and f["alerts"] == [], err[-160:])
+os.remove(LOG); rc, f, err = run_fail()
+check("alert log deleted -> withheld, no new log started", rc == 1 and not os.path.exists(LOG), err[-160:])
+open(LOG, "wb").write(good_log)
+f = run()
+check("...the right log back -> runs clean again, nothing re-sent", f["alerts"] == [] and not f["cards_withheld"])
+set_cards([("ETH 3D", D4)])
+f = run(); sent = [a_["alert_id"] for a_ in f["alerts"]]
+open(LOG, "wb").write(good_log)   # the run published its feed, then died before writing the log
+f = run(); rows_ = [r["alert_id"] for r in csv.DictReader(open(LOG))]
+check("feed published but the log not written: the next run rebuilds the log from the feed, nothing re-sent",
+      sent == [f"ETH-3D-{D4}:forming"] and f["alerts"] == [] and sent[0] in rows_, str((sent, f["alerts"])))
+set_cards([]); f = run()
+cc = json.load(open(f"{DS}/candle_check.json")); json.dump(dict(cc, structural_ok=False), open(f"{DS}/candle_check.json", "w")); reseal(DS)
+rc, f, err = run_fail()
+check("candle check says the candles failed -> withheld", rc == 1 and f["cards_withheld"] and "candle_check" in err, err[-160:])
+json.dump(cc, open(f"{DS}/candle_check.json", "w")); reseal(DS); run()
 
 ids = [r["alert_id"] for r in csv.DictReader(open(LOG))]
 check("alert log holds no duplicate alert_id", len(ids) == len(set(ids)), f"{len(ids)} rows")

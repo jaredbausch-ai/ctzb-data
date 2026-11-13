@@ -9,6 +9,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W = tempfile.mkdtemp()
 DS, FEED, LOG = f"{W}/datasets", f"{W}/feed/ctzb_feed.json", f"{W}/feed/alert_log.csv"
 shutil.copytree(f"{ROOT}/datasets", DS)
+# the alert log and the feed that records it travel together (13 Nov 2026: the log is checked against the feed)
+os.makedirs(os.path.dirname(FEED), exist_ok=True)
+shutil.copy(f"{ROOT}/feed/alert_log.csv", LOG); shutil.copy(f"{ROOT}/feed/ctzb_feed.json", FEED)
 # Independent of today's live stack status: these cases test the extras, not the stack check.
 open(f"{DS}/stack_status.txt", "w").write("2026-11-11 00:00 UTC OK stack\n")
 results = []
@@ -71,6 +74,7 @@ check("odds-fade marks each row against 70%",
 reseal(DS)   # ... and after the stack and card steps
 p = run("feed_live.py", "--datasets", DS, "--out", FEED, "--alert-log", LOG, env_extra={"CTZB_STEP_OUTCOMES": OK + ",extras=success"})
 f = json.load(open(FEED))
+print("     feed_live:", (p.stdout + p.stderr).strip()[-300:])
 check("feed is schema 6", f["schema_version"] == 6)
 import re as _re
 _const = lambda path, name: int(_re.search(rf"^{name}\s*=\s*(\d+)", open(os.path.join(ROOT, path)).read(), _re.M).group(1))

@@ -1,9 +1,9 @@
 /**
  * CTZB read-only mirror.
  *
- * Serves a fixed, allowlisted set of files from the private GitHub repo
- * jaredbausch-ai/ctzb-data, so that consumers which read the public repo today
- * can keep working after it is made private by changing only their base URL.
+ * Serves a fixed, allowlisted set of files from the GitHub repo
+ * jaredbausch-ai/ctzb-data (public today), so that consumers which read the repo
+ * directly can keep working after it is made private by changing only their base URL.
  *
  * Bindings required:
  *   FEED           KV namespace (binding name must be exactly FEED)

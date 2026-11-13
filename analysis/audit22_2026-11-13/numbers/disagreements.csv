@@ -1,0 +1,13 @@
+group,state,location,label,shown,yours,ok,cause
+B,B:2020-09-03,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-03_20200903T201300Z,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-01,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-02,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-04,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-05,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-06,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-07,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-08,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-09,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-10,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data
+B,B:2020-09-11,replay pipeline,run outcome on real data,withheld: RuntimeError,published,NO,pipeline fails closed on real data

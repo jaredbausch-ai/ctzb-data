@@ -92,8 +92,10 @@ jobs:
 
       # Item 17(a), 10 Nov 2026: are the candles RIGHT, not just current? Every chart is
       # built from Coinbase 1D, so one bad daily candle corrupts every signal on it.
-      # Structural faults (a missing day, low above high, a zero price or volume) fail
-      # here, before the commit, so a bad fetch is retried and never committed.
+      # Structural faults (a missing day, low above high, a zero price or volume, history cut
+      # short, a 2D-8D file that isn't its daily candles bucketed, rows out of order, a file of
+      # the wrong asset, damaged funding) fail here, before the commit, so a bad fetch is
+      # retried and never committed.
       # Kraken cross-check ENFORCED from 11 Nov 2026 (fire drills): any of the last 30
       # closed days more than 0.5% from Kraken's close fails the run. Threshold from
       # 720 days measured in report mode: median gap 0.013%, p99 0.09% (ETH) / 0.08%
@@ -110,7 +112,7 @@ jobs:
         run: timeout 10m python refresh.py --data data --out datasets
 
       # Conviction grade (analysis/grade.py defines it; this applies it):
-      # writes datasets/grades.csv and adds grade columns to forward.csv and
+      # writes grades.csv, ledger.csv and dipdist.csv and adds grade columns to forward.csv and
       # live.csv. Must never block the candle commit; a failure turns the run red
       # at the end, which triggers the automatic re-run.
       - name: Grade signals
@@ -137,9 +139,9 @@ jobs:
         continue-on-error: true
         run: timeout 15m python stack_live.py
 
-      # Independent cross-check of every trade card against the trade ledger
+      # Independent cross-check of every card against the signal ledger
       # (verify_cards.py, 28 Oct 2026).
-      - name: Cross-check the trade cards
+      - name: Cross-check the cards
         id: cards
         continue-on-error: true
         run: timeout 10m python verify_cards.py
@@ -157,8 +159,8 @@ jobs:
         run: timeout 5m python tests/regression.py
 
       # The live feed (feed_live.py, 31 Oct 2026): one versioned JSON that
-      # repackages this run's datasets for Joe's side. Cards are withheld if the
-      # stack or card check failed.
+      # repackages this run's datasets for Joe's side. Cards, live signals, alerts and
+      # figures are withheld if any gating step or the stack or card check failed.
       - name: Write the live feed
         id: feed
         continue-on-error: true

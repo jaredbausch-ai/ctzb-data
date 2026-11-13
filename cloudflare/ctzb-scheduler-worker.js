@@ -6,8 +6,8 @@
  * first 15.5 hours, v1 fired 32 of 32 ticks.
  *
  * ONE cron trigger fires at 13, 25, 35 and 43 past every hour. The table below
- * decides what, if anything, each tick dispatches. Ticks that match nothing do
- * nothing and write nothing.
+ * decides what, if anything, each tick dispatches. Ticks that match no job
+ * dispatch nothing, but every tick runs the health monitor.
  *
  *   daily.yml     :13 and :43 after each 4-hour close (00,04,08,12,16,20 UTC)
  *                 sent with scheduled=true so the workflow's gate skips the :43
@@ -16,7 +16,8 @@
  *                 when a still-missing candle means everything else failed.  6/day
  *   pcr.yml       :25 every 3 hours. The watchdog calls put/call stale at 9h.  8/day
  *
- * KV: one write per dispatch, about 26 a day.
+ * KV: one write per dispatch (about 26 a day), plus the monitor's status record
+ * every tick (96 a day) and a record per problem while it lasts.
  *
  * Bindings required:
  *   SCHED                  KV namespace (binding name must be exactly SCHED)

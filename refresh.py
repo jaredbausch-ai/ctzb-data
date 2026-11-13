@@ -59,7 +59,7 @@ WF_FROM = 2019      # first walk-forward year
 # nothing in it was chosen with hindsight. It accumulates, it is rebuilt from
 # candles every run, and it needs no alerts.
 FORWARD_FROM = dt.date(2026, 1, 1)
-MARKS = (10, 30, 60)   # day marks reported for each forward trade
+MARKS = (10, 30, 60)   # day marks reported for each forward signal
 
 TAGS = ["any trough", "A", "B", "C", "D", "diamond", "filled", "hollow",
         "prime dot", "diamond+dot", "zone-exit B"]
@@ -389,7 +389,7 @@ def ds_tier(ch, rows_all, keep, outdir, scoreable_to):
                     round(E.med([r["up"] for r in sub]), 1),
                     round(E.med([r["mae"] for r in sub]), 1)])
 
-    rep(T, "all 70%+ trades")
+    rep(T, "all 70%+ signals")
     for k in (1, 2, 3, 4):
         rep([r for r in T if r["agree"] >= k], f"with {k}+ other charts agreeing")
     write_csv(os.path.join(outdir, "tier.csv"),
@@ -401,7 +401,7 @@ def ds_tier(ch, rows_all, keep, outdir, scoreable_to):
 
 
 def ds_walkforward(ch, rows_all, today, outdir):
-    """walkforward.csv and years.csv - tier refit each January, traded blind."""
+    """walkforward.csv and years.csv - tier refit each January, scored blind (computed signals, no fills)."""
     base = []
     for nm, c in ch.items():
         for i in range(60, c["n"]):
@@ -634,13 +634,13 @@ def ds_holdcheck(ch, keep, outdir, data_dir):
 
 
 def ds_forward(ch, rows_all, outdir, data_dir):
-    """forward.csv - the live out-of-sample record, rebuilt from candles.
+    """forward.csv - the forward signal record (computed signals, no fills), rebuilt from candles.
 
     EVERY signal entered on or after FORWARD_FROM, with a `tier` column
-    saying whether it was in the traded set as that set stood in January of
+    saying whether it was in the tier as that tier stood in January of
     the signal's own year. The complete enumeration is the point: a log of
-    only the traded ones cannot be distinguished from a log that quietly
-    drops its losers. A trade stays "open" until its 60th day has closed; no
+    only the tier ones cannot be distinguished from a log that quietly
+    drops its losers. A signal stays "open" until its 60th day has closed; no
     alert, no email, no manual entry, and a missing row cannot be mistaken for
     a quiet market because the whole file is derived each run.
 

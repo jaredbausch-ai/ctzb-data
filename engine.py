@@ -106,9 +106,9 @@ def load(path):
 # records but untradeable: BTC 2017-04-15 printed $0.06 against a $1,173
 # open, and ETH 2017-06-21 printed $0.10 against $325 (the GDAX cascade,
 # much of which the exchange later reversed). Left in, any position open on
-# those dates measures as a -100% drawdown. We clamp a low only when it is
-# below half the bar's own min(open, close), which in this dataset is one
-# bar per chart, and record every clamp so the adjustment is auditable.
+# those dates measures as a -100% drawdown. We clamp a low below half the
+# bar's own min(open, close), and a high above twice its max(open, close),
+# and record every clamp so the adjustment is auditable.
 FLASH_FRAC = 0.5
 
 def _declamp(dates, o, h, l, c):
@@ -136,7 +136,8 @@ def cycday(d):
 
 def signals(path, rsiLen=14, stLen=14, smK=3, smD=3, pvL=3, pvR=3,
             rxLen=10, zBear=40, bSpl=55, dSpl=65, zMid=50, regime=None, ungated=True):
-    """Return confirmed signals, mirroring v8.
+    """Return signals, mirroring v8. The last one can sit on the still-open bar (not yet
+    confirmed); the scoring steps drop it until that bar closes (bucket_end).
     regime: callable(date)->bool. Defaults to the user's hindsight bull windows."""
     inreg = regime if regime is not None else bull
     b=load(path)

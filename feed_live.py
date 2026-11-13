@@ -10,8 +10,10 @@ Rules (docs/FEED_SPEC.md):
   - fields are only ever added, never renamed or removed; schema_version goes
     up by one whenever a field is added
   - every record carries the computed-signal label
-  - cards are withheld (empty list, cards_withheld true) whenever the stack
-    check or the card cross-check failed, the same gate the dashboard uses
+  - cards, live signals, the example and every figure from the run's datasets are withheld
+    (cards_withheld true) whenever the stack check, the card cross-check or any gating step
+    failed; a broken seal, a damaged alert log or a failed strict check publishes the
+    fail-closed feed
   - it only repackages datasets/*.csv written earlier in the same run; it
     computes no figure of its own (it stamps the time, the schema version, the posting bar constant
     and the aliases, and words the labels)
@@ -39,6 +41,8 @@ import json
 import os
 import sys
 from datetime import datetime, timezone
+import hashlib
+import io
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import feedcheck  # noqa: E402
@@ -100,12 +104,71 @@ def read_log(path):
     return rows(path)
 
 
-def write_log(path, all_rows):
+def log_bytes(all_rows):
+    """The alert log's exact bytes for these rows (what write_log writes)."""
+    buf = io.StringIO(newline="")
+    w = csv.DictWriter(buf, fieldnames=ALERT_LOG_FIELDS, extrasaction="ignore")
+    w.writeheader()
+    w.writerows(all_rows)
+    return buf.getvalue().encode()
+
+
+def sha(b):
+    return hashlib.sha256(b).hexdigest()
+
+
+def atomic_write(path, data):
+    """Write the whole file or nothing: a crash part-way leaves the old file in place (13 Nov 2026 audit #22)."""
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-    with open(path, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=ALERT_LOG_FIELDS)
-        w.writeheader()
-        w.writerows(all_rows)
+    tmp = path + ".tmp"
+    with open(tmp, "wb") as f:
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+
+
+def write_log(path, all_rows):
+    atomic_write(path, log_bytes(all_rows))
+
+
+def log_state(path):
+    """sha256 and row count of the alert log as it is on disk (None when there is no log)."""
+    if not os.path.exists(path):
+        return None
+    b = open(path, "rb").read()
+    return {"sha256": sha(b), "rows": max(0, b.count(b"\n") - 1)}
+
+
+def check_log(log_path, prev_feed_path):
+    """13 Nov 2026 audit #22: the alert log must be exactly the one the last published feed left behind.
+    A log that was deleted, cut, emptied or replaced by an older copy would lose an alert or send one twice.
+    Returns the log's rows. If the last run published its feed but died before writing the log, the log is
+    rebuilt from that feed's own alerts (the feed went out, so they were sent). Anything else raises, which
+    publishes the withheld feed."""
+    prev = None
+    try:
+        with open(prev_feed_path) as f:
+            prev = json.load(f)
+    except (OSError, ValueError):
+        prev = None
+    want = (prev or {}).get("alert_log") if isinstance(prev, dict) else None
+    have = log_state(log_path)
+    cur = read_log(log_path) if have else []
+    if not want:
+        # no record to check against: the first run under this rule, or no previous feed
+        if have is None:
+            raise RuntimeError("the alert log is missing and no published feed records it; to start a new log on "
+                               "purpose, run once with CTZB_SEED_ALERT_LOG=1")
+        return cur
+    if have and have["sha256"] == want["sha256"]:
+        return cur
+    rebuilt = cur + [{k: x.get(k) for k in ALERT_LOG_FIELDS} for x in (prev.get("alerts") or [])]
+    if sha(log_bytes(rebuilt)) == want["sha256"]:
+        write_log(log_path, rebuilt)   # the last run died between publishing the feed and writing the log
+        return rebuilt
+    raise RuntimeError("the alert log is not the one the last published feed left "
+                       f"({(have or {}).get('rows', 'no')} rows on disk, {want.get('rows')} expected)")
 
 
 def pending_alerts(forming, confirmed, log_rows):
@@ -225,6 +288,15 @@ def main():
     # 13 Nov 2026 audit #21: a clean run always writes these (stack_live.py). If one is gone after the checks
     # passed, the feed must not read as a quiet market: crash here, which publishes the withheld feed.
     if all_ok:
+        # the candle check's own verdict (13 Nov 2026 audit #22): a run whose candles failed the structural check
+        # must not publish, whatever the later steps did
+        try:
+            with open(d("candle_check.json")) as f:
+                cc0 = json.load(f)
+        except (OSError, ValueError):
+            cc0 = None
+        if os.environ.get("CTZB_STEP_OUTCOMES", "").strip() and not (isinstance(cc0, dict) and cc0.get("structural_ok") is True):
+            raise RuntimeError("candle_check.json does not say the candles passed the structural check")
         gone = [f for f in ("cards.csv", "open.csv", "cards_open.csv", "cards_example.csv", "prints.csv") if not os.path.exists(d(f))]
         if gone:
             raise RuntimeError("missing after a clean run: " + ", ".join(gone))
@@ -238,8 +310,8 @@ def main():
             raise RuntimeError("the run seal is broken: " + "; ".join(broken[:5]))
     # status.csv is refresh.py's. If refresh failed this run, the file is the last good run's, and its market
     # filter reading and dates are not today's (audit #21: a held feed repeated "on" after the filter turned off).
-    if steps.get("refresh") == "failure":
-        status = {}
+    if not all_ok:
+        status = {}   # 13 Nov 2026 audit #22: also when refresh was reported as anything but "success"
     cards = [card(r) for r in rows(d("cards.csv"))] if all_ok else []
     # the member site's worked example, as a real card from what was known at its alert (12 Nov 2026)
     ex_rows = rows(d("cards_example.csv")) if os.path.exists(d("cards_example.csv")) else []
@@ -251,14 +323,16 @@ def main():
     forming = {sid(r["chart"], r["confirms"]): r["chart"] for r in rows(d("cards.csv")) if r.get("confirms")}
     confirmed = {sid(r["chart"], r["confirms"]): r["chart"] for r in rows(d("prints.csv")) if r["state"] == "confirmed"}
     confirmed.update({sid(r["chart"], r["entry"]): r["chart"] for r in rows(d("forward.csv"))})
-    log_rows = read_log(a.alert_log)
+    seed = os.environ.get("CTZB_SEED_ALERT_LOG") == "1"
+    log_rows = read_log(a.alert_log) if seed and os.path.exists(a.alert_log) else ([] if seed else check_log(a.alert_log, a.out))
     alerts, seeded = [], False
     log_dirty = False   # the alert log is written only once the feed has passed its strict check (13 Nov 2026)
     if not all_ok:
         pass  # withheld: nothing emitted, nothing logged -- the next clean run sends it
-    elif not os.path.exists(a.alert_log):
-        # First run: record what is already live without alerting on it, or day one
-        # would announce every signal currently on the books.
+    elif seed:
+        # A new log, on purpose only (CTZB_SEED_ALERT_LOG=1): record what is already live without alerting on
+        # it, or day one would announce every signal currently on the books. A log that is simply missing is
+        # not a reason to start over (13 Nov 2026 audit #22): check_log fails the run instead.
         seeded = True
         log_rows = [{"alert_id": f"{s_}:forming", "event": "forming", "signal_id": s_, "chart": ch, "emitted_at": "seeded"}
                     for s_, ch in sorted(forming.items())] + \
@@ -300,7 +374,7 @@ def main():
              "low_date": r["trough"], "confirms_on": r["confirms"],
              "entry_close": num(r["entry"]), "tags": r["tags"], "note": r["note"]}
             for r in rows(d("prints.csv"))
-        ],
+        ] if all_ok else [],
         # every signal inside its 60 days, ETH and BTC, from stack_live's open.csv (12 Nov 2026 audit);
         # each carries its own card (sample, ladder, edge). Dated by the confirmation close.
         "open_signals": [
@@ -319,7 +393,7 @@ def main():
             {"opened_by": r["openedBy"], "confirmed": r["confirmed"],
              "closes": r["closes"], "applies_to": r["appliesTo"]}
             for r in rows(d("windows.csv"))
-        ],
+        ] if all_ok else [],
         "grade_odds": [
             {"label": LABEL, "asset": r["asset"], "grade": r["grade"], "past_trades": num(r["n"]),
              "rose10_within60d_pct": num(r["reach10"]),
@@ -328,7 +402,7 @@ def main():
              "median_deepest_dip_pct": num(r["medDip"]), "sample": r["sample"],
              "note": "Pooled across every chart and mix for this asset. Context only: the card is the number for a live setup."}
             for r in rows(d("grades.csv"))
-        ],
+        ] if all_ok else [],   # a held run publishes no figures from its datasets (13 Nov 2026 audit #22)
     }
     # ---- the second-exchange check (11 Nov 2026): lets the health monitor see Kraken
     # being skipped run after run, which on its own never fails anything ----
@@ -344,7 +418,7 @@ def main():
         "kraken": {a: (v or {}).get("status") for a, v in (cc.get("cross") or {}).items()},
     } if cc else None
     # ---- schema 5: member card figures (extras_live.py) ----
-    extras_ok = steps.get("extras") != "failure" and all(
+    extras_ok = all_ok and steps.get("extras", "success") == "success" and all(
         os.path.exists(d(f)) for f in ("missstats.csv", "pastpaths.csv", "oddsfade.csv"))
     feed["extras_withheld"] = not extras_ok
     feed["if_it_misses"] = [
@@ -361,7 +435,7 @@ def main():
     tier_day = f"{int(_tf[8:10])} {datetime.strptime(_tf, '%Y-%m-%d'):%b %Y}" if _tf else "1 January of the current year"
     feed["odds_fade"] = {
         "label": LABEL,
-        "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
+        "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else POSTING_BAR,
         "tier_fixed_on": status.get("Tier fixed on"),   # refresh.py's own anchor, from status.csv
         "sample": f"ETH signals on the chart/tag pairs in the walk-forward tier as fixed on {tier_day}, applied to every signal from 2016 (refresh.py earlydip/holdcheck). In-sample: the tier was chosen on the outcomes of almost all of these signals. Measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
         "edge_measured_on": "rose 10% after day 10 (days 11 to 60)",
@@ -407,12 +481,18 @@ def main():
     bad = feedcheck.problems(json.loads(json.dumps(feed)))
     if bad:
         raise RuntimeError("feed fails the strict check: " + "; ".join(bad[:5]))
+    # what the alert log must be when the next run starts (check_log). The feed is written first, whole or not
+    # at all, then the log; if the run dies in between, the next run rebuilds the log from this feed's alerts.
+    final_log = log_bytes(log_rows) if log_dirty else (open(a.alert_log, "rb").read() if os.path.exists(a.alert_log) else None)
+    feed["alert_log"] = {"sha256": sha(final_log), "rows": max(0, final_log.count(b"\n") - 1)} if final_log is not None else None
+    atomic_write(a.out, (json.dumps(feed, indent=1) + "\n").encode())
     if log_dirty:
-        write_log(a.alert_log, log_rows)
-    os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
-    with open(a.out, "w") as f:
-        json.dump(feed, f, indent=1)
-        f.write("\n")
+        try:
+            write_log(a.alert_log, log_rows)
+        except OSError as e:
+            # the feed is out and its alerts with it; leave it published (no fail-closed overwrite) so the next
+            # run can rebuild the log from it (check_log), and turn this run red
+            raise SystemExit(f"feed published, but the alert log could not be written ({e}); the next run rebuilds it from the feed")
     print(f"alerts: {len(alerts)} new" + (" (WITHHELD: " + ", ".join(failed_steps or ["stack"]) + " failed)" if not all_ok else "")
           + (" (log SEEDED with what is already live; nothing sent)" if seeded else ""))
     print(f"feed: {len(cards)} cards{' (WITHHELD: checks failed)' if not all_ok else ''}, "
@@ -420,7 +500,16 @@ def main():
           f"{len(feed['confluence_windows'])} windows -> {a.out}")
 
 
-def fail_closed(out_path, err):
+def prev_log_record(feed_path):
+    try:
+        with open(feed_path) as f:
+            r = json.load(f).get("alert_log")
+        return r if isinstance(r, dict) and r.get("sha256") else None
+    except (OSError, ValueError, AttributeError):
+        return None
+
+
+def fail_closed(out_path, err, log_path=None):
     """Fire drills, 11 Nov 2026: when this script itself crashes (a missing column after an
     upstream step failed, say), the PREVIOUS feed used to stay published, cards and all, as
     if the run were clean. Overwrite it with an empty, withheld feed instead, so every reader
@@ -433,10 +522,13 @@ def fail_closed(out_path, err):
             "cards_withheld": True, "alerts_withheld": True, "extras_withheld": True,
             "alerts": [], "cards": [], "prints": [], "open_signals": [], "confluence_windows": [],
             "grade_odds": [], "if_it_misses": [], "past_paths": [], "candle_check": None, "example_card": None, "example_past_paths": None, "example_if_it_misses": None,
-            "odds_fade": {"label": LABEL, "posting_bar_pct": None, "sample": None, "early_dip": [], "day10": []}}
-    os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
-    with open(out_path, "w") as f:
-        json.dump(feed, f, indent=1)
+            "odds_fade": {"label": LABEL, "posting_bar_pct": POSTING_BAR, "sample": None, "early_dip": [], "day10": []},
+            "market_regime": None, "next_buy_date": None, "trades_a_year": None,
+            # a failed run never writes the log, so what the log must be is unchanged: carry the last published
+            # feed's record forward (a log damaged before this run must still be caught by the next one)
+            "alert_log": prev_log_record(out_path) or (log_state(log_path) if log_path else None)}
+    atomic_write(out_path, (json.dumps(feed, indent=1) + "\n").encode())
+    return
 
 
 if __name__ == "__main__":
@@ -448,6 +540,9 @@ if __name__ == "__main__":
         out = "feed/ctzb_feed.json"
         if "--out" in sys.argv[1:-1]:
             out = sys.argv[sys.argv.index("--out") + 1]
-        fail_closed(out, e)
+        log = "feed/alert_log.csv"
+        if "--alert-log" in sys.argv[1:-1]:
+            log = sys.argv[sys.argv.index("--alert-log") + 1]
+        fail_closed(out, e, log)
         print(f"FEED BUILD FAILED ({type(e).__name__}: {e}); wrote a withheld feed to {out}", file=sys.stderr)
         sys.exit(1)

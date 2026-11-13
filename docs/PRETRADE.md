@@ -335,7 +335,7 @@ Tier 1.
 documented read), all declared, with placebo checks on the added lenses.*
 Not a filter: every signal is still a signal; the grade says how much history
 supports it, for sizing. Grade = count of independent lenses present, equal
-weights: C = 0-1, B = 2, A = 3, A+ = 4+. Applied daily by `grade_live.py`;
+weights: C = 0-1, B = 2, A = 3, A+ = 4+. Applied every pipeline run (every 4 hours) by `grade_live.py`;
 shown on the dashboard.
 
 **ETH lenses (6):** CT > Signal by 5+; entry above the previous signal; 2+
@@ -435,10 +435,10 @@ Any new section here under Tier 1, Promising or In-trade must get a REGISTRY ent
 and a DOC_MAP line in `stack_live.py`, or the pipeline run fails.
 
 **Grade of every signal, and of anything forming:** `python3 -I grade_live.py`
-(runs in the daily Action). It writes `datasets/grades.csv` (each grade's
-record) and adds `grade` / `lenses` to `datasets/forward.csv` and
-`formingGrade` / `formingLenses` to `datasets/live.csv`. The dashboard's
-"Conviction grade" section reads those three files. A forming grade is
+(runs every pipeline run). It writes `datasets/grades.csv` (each grade's
+record), `ledger.csv` and `dipdist.csv`, and adds `grade` / `lenses` to `datasets/forward.csv` and
+`formingGrade` / `formingLenses` to `datasets/live.csv`. The dashboard reads the grade table and sizing from
+grades.csv. A forming grade is
 provisional until the low confirms.
 
 ```

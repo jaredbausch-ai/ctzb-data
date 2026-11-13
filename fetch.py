@@ -6,7 +6,8 @@ days within each calendar year, restarting the count on 1 January. That rule
 was verified against TradingView exports: 100% bar match and 297 of 297
 signals identical across ETH 2D, 3D, 5D and 8D.
 """
-import csv, datetime as dt, json, os, time, urllib.request
+import csv
+import math, datetime as dt, json, os, time, urllib.request
 
 API = "https://api.exchange.coinbase.com/products/{p}/candles"
 PRODUCTS = ["ETH-USD", "BTC-USD"]
@@ -137,43 +138,90 @@ FIRST_DAY = {"ETH": dt.date(2016, 5, 18), "BTC": dt.date(2016, 1, 1)}
 KNOWN_MISSING = {"ETH": {dt.date(2016, 5, 21), dt.date(2016, 5, 22)}, "BTC": set()}
 
 
-def history_problems(data_dir, assets=("ETH", "BTC"), upto=None):
-    """Whole-history checks on the candle files (13 Nov 2026 audit #20): each daily file starts on the
-    exchange's first day and has no missing day after it (bar the two the exchange never had), every
-    2D-8D file is exactly the daily candles bucketed by resample(), and every file's rows run in strictly
-    ascending time (no row twice, none out of order). Returns a
-    list of problems, empty when the files are whole. `upto` (a date) ignores the first-day rule for replays
-    that are cut on purpose; the bucket rule always applies."""
-    bad = []
+def _row_problems(name, rows, step):
+    """Every row of one candle file: a readable time on the bar grid, strictly ascending; open, high, low and
+    close finite and above zero, the high and low bracketing the open and close; volume finite and not negative."""
+    bad, prev = [], None
+    for i, r in enumerate(rows, 2):
+        try:
+            t = float(r["time"]); o, h, l, c = (float(r[k]) for k in ("open", "high", "low", "close"))
+            v = float(r["volume"]) if r.get("volume") not in (None, "") else 0.0
+        except (KeyError, TypeError, ValueError):
+            return [f"{name}: row {i} has a missing or unreadable cell"]
+        if not all(math.isfinite(x) for x in (t, o, h, l, c, v)):
+            return [f"{name}: row {i} holds a non-finite number"]
+        if min(o, h, l, c) <= 0 or v < 0:
+            return [f"{name}: row {i} has a price at or below zero, or a negative volume"]
+        if h < max(o, c) or l > min(o, c):
+            return [f"{name}: row {i} has a high below, or a low above, its open or close"]
+        if step and t % step:
+            return [f"{name}: row {i} is not on the {step // 3600}-hour grid"]
+        if prev is not None and not t > prev:
+            bad.append(f"{name}: row(s) repeated or out of order (first at row {i})"); break
+        prev = t
+    if not rows:
+        bad.append(f"{name} is empty")
+    return bad
+
+
+def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
+    """Whole-history checks (13 Nov 2026, audits #20 to #22). Returns a list of problems, empty when whole.
+    - Every candle file (1D to 8D, 4H, 12H), every row: see _row_problems (structure, not price levels).
+    - Each daily file starts on the exchange's first day and has no missing day after it (bar the two the
+      exchange never had); every 2D-8D file is exactly the daily candles bucketed by resample().
+    - ETH is ETH and BTC is BTC: on every day both have, ETH's close is between 0.1% and 50% of BTC's (it has
+      been 0.8% to 15%). A file of one asset saved under the other's name fails here.
+    - The funding series the grade reads (data/derivs/<asset>_funding_daily.csv, column funding_mean): days
+      strictly ascending from its first day with none missing, every value a finite number between -1 and 1
+      (the series has stayed within -0.5 and 0.3), and the last day no more than 3 days before `today`
+      (default: the clock's UTC date). The derivatives fetch runs after the feed, so the series ends a day
+      behind the candles in a normal run.
+    4H and 12H files can have exchange gaps, so they are checked for structure and grid only."""
+    from clock import now_utc
+    today = today or now_utc().date()
+    bad, closes = [], {}
     for a in assets:
-        # every candle file, read as the list of rows the engine reads: times strictly ascending, so no row
-        # twice and none out of order (13 Nov 2026 audit #21: a duplicated or reversed file passed, because the
-        # checks below key rows by date)
-        for name in [f"{a}_{tf}D" for tf in (1,) + tuple(TIMEFRAMES)] + [f"{a}_4H", f"{a}_12H"]:
+        for name, step in [(f"{a}_{tf}D", 0) for tf in (1,) + tuple(TIMEFRAMES)] + [(f"{a}_4H", 4 * 3600), (f"{a}_12H", 12 * 3600)]:
             pth = os.path.join(data_dir, name + ".csv")
             if not os.path.exists(pth):
-                continue
-            with open(pth) as f:
-                try:
-                    ts = [float(r["time"]) for r in csv.DictReader(f)]
-                except (KeyError, TypeError, ValueError):
-                    bad.append(f"{name}: a row has no readable time"); continue
-            wrong = [i for i in range(1, len(ts)) if not ts[i] > ts[i - 1]]
-            if wrong:
-                bad.append(f"{name}: {len(wrong)} row(s) repeated or out of order (first at row {wrong[0] + 1})")
-        pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")   # the funding series the grade reads
+                if name.endswith(("4H", "12H")):
+                    continue
+                bad.append(f"{name} is missing"); continue
+            with open(pth, newline="") as f:
+                bad += _row_problems(name, list(csv.DictReader(f)), step)
+        pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")
         if os.path.exists(pf):
-            with open(pf) as f:
-                days = [r[0] for r in list(csv.reader(f))[1:] if r]
-            if any(not days[i] > days[i - 1] for i in range(1, len(days))):
-                bad.append(f"{a}_funding_daily: a day is repeated or out of order")
+            with open(pf, newline="") as f:
+                fr = list(csv.DictReader(f))
+            try:
+                days = [dt.date.fromisoformat(r["date"]) for r in fr]
+                vals = [float(r["funding_mean"]) for r in fr]
+            except (KeyError, TypeError, ValueError):
+                bad.append(f"{a}_funding_daily: a row has no readable date or funding_mean"); days = vals = []
+            if fr and days:
+                if any((days[i] - days[i - 1]).days != 1 for i in range(1, len(days))):
+                    bad.append(f"{a}_funding_daily: a day is missing, repeated or out of order")
+                if not all(math.isfinite(v) and -1 < v < 1 for v in vals):
+                    bad.append(f"{a}_funding_daily: a funding value is not a number between -1 and 1")
+                if days[-1] < today - dt.timedelta(days=3):
+                    bad.append(f"{a}_funding_daily ends {days[-1]}: more than 3 days before {today}")
+            elif not fr:
+                bad.append(f"{a}_funding_daily is empty")
+        else:
+            bad.append(f"{a}_funding_daily is missing")
         p1 = os.path.join(data_dir, f"{a}_1D.csv")
+        if not os.path.exists(p1):
+            continue
         with open(p1) as f:
             rows = list(csv.DictReader(f))
-        daily = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
-                 tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in rows}
+        try:
+            daily = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
+                     tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in rows}
+        except (KeyError, TypeError, ValueError):
+            continue   # already reported above
         if not daily:
-            bad.append(f"{a}_1D is empty"); continue
+            continue
+        closes[a] = {d: v[3] for d, v in daily.items()}
         if min(daily) > FIRST_DAY[a]:
             bad.append(f"{a}_1D starts {min(daily)}, expected {FIRST_DAY[a]}: history is missing")
         d, holes = min(daily), []
@@ -186,10 +234,13 @@ def history_problems(data_dir, assets=("ETH", "BTC"), upto=None):
         for tf in TIMEFRAMES:
             p = os.path.join(data_dir, f"{a}_{tf}D.csv")
             if not os.path.exists(p):
-                bad.append(f"{a}_{tf}D is missing"); continue
-            with open(p) as f:
-                got = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
-                       tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in csv.DictReader(f)}
+                continue   # already reported above
+            try:
+                with open(p) as f:
+                    got = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
+                           tuple(float(r[k]) for k in ("open", "high", "low", "close")) for r in csv.DictReader(f)}
+            except (KeyError, TypeError, ValueError):
+                continue   # already reported above
             want = {d: v[:4] for d, v in resample({d: v + (0.0,) for d, v in daily.items()}, tf).items()}
             if set(got) != set(want):
                 miss = sorted(set(want) - set(got)); extra = sorted(set(got) - set(want))
@@ -199,6 +250,10 @@ def history_problems(data_dir, assets=("ETH", "BTC"), upto=None):
                 diff = [d for d in want if any(abs(x - y) > 1e-9 for x, y in zip(got[d], want[d]))]
                 if diff:
                     bad.append(f"{a}_{tf}D: {len(diff)} bar(s) are not their daily candles bucketed (first {min(diff)})")
+    if "ETH" in closes and "BTC" in closes:
+        odd = [d for d in closes["ETH"] if d in closes["BTC"] and not 0.001 <= closes["ETH"][d] / closes["BTC"][d] <= 0.5]
+        if odd:
+            bad.append(f"ETH and BTC daily closes are not ETH and BTC on {len(odd)} day(s) (first {min(odd)}): a file of one asset under the other's name?")
     return bad
 
 
