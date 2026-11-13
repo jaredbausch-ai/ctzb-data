@@ -567,7 +567,7 @@ leap day, 35 with a top-grade forming card, 11 with nothing live or forming, 23 
 signal's day 60, 10 the day after a confirmation, 10 at clocks other than 04:14. The checker caught 20 of 20
 planted errors. Report: `analysis/audit20_2026-11-12/AUDIT20.md`.
 
-**Changed** (commits 7a52463, COMMIT_B):
+**Changed** (commits 7a52463, f01fbb3):
 - **Example chart file**: trimmed to 51 bars, ending with the bar that holds day 60.
 - **Candle files cut short passed every step** (BTC daily cut to 40 bars, ETH 2D cut in half): a new
   whole-history check (`fetch.history_problems`) requires each daily file to start on the exchange's first day
