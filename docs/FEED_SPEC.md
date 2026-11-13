@@ -338,7 +338,8 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
     + 5), rounded once: the grade's rate pulled toward the asset's base rate with a weight of 5 signals.
     `dayScaled20` leaves out signals with no full year of volatility before entry, in both the grade and the base.
   - `trades_a_year` / `signals_a_year`: signals in the 70%+ tier (one per chart per date) divided by the years
-    from the tier's first signal to the last date a signal could have completed its 60 days (data end minus 60
+    from the first tier signal's confirmation bar OPEN date (refresh.py's own dating; every other signal date in
+    the feed is the confirmation close) to the last date a signal could have completed its 60 days (data end minus 60
     days), rounded once.
   - `past_paths` / `example_past_paths` quartiles and medians: linear interpolation between the two nearest
     ranked values (position (n - 1) x q), on the exact path values, rounded once.
