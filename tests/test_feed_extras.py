@@ -25,6 +25,9 @@ def run(script, *args, env_extra=None):
 
 
 OK = "refresh=success,grade=success,stack=success,cards=success,regress=success"
+sys.path.insert(0, os.path.join(ROOT, "tests"))
+from reseal import reseal  # noqa: E402
+reseal(DS, steps=("refresh", "grade"))   # the run seal as it stands when the extras step starts
 p = run("extras_live.py", "--datasets", DS)
 check("extras_live runs clean", p.returncode == 0, p.stderr[-300:])
 
@@ -65,6 +68,7 @@ fade = list(csv.DictReader(open(f"{DS}/oddsfade.csv")))
 check("odds-fade marks each row against 70%",
       fade and all((int(r["reached10_pct"]) >= 70) == (r["edge"] == "intact") and r["posting_bar_pct"] == "70" for r in fade))
 
+reseal(DS)   # ... and after the stack and card steps
 p = run("feed_live.py", "--datasets", DS, "--out", FEED, "--alert-log", LOG, env_extra={"CTZB_STEP_OUTCOMES": OK + ",extras=success"})
 f = json.load(open(FEED))
 check("feed is schema 6", f["schema_version"] == 6)

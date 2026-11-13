@@ -172,4 +172,8 @@ def main():
 
 
 if __name__ == '__main__':
+    import seal
+    _OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'datasets')
+    seal.check(_OUT, 'cards')   # the steps before this one finished and their files are untouched (seal.py)
     main()
+    seal.done(_OUT, 'cards')

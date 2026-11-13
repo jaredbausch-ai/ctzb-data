@@ -90,9 +90,9 @@ def main():
                                     ("quiet card: no raw placeholder", not BAD.search(t), t[:200])]:
             n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if not cond else ""))
         # unknown must not read as "none" (12 Nov 2026 audit #16)
-        held = copy.deepcopy(FEED); held.update(cards_withheld=True, cards=[], open_signals=[])
+        held = copy.deepcopy(FEED); held.update(cards_withheld=True, cards=[], open_signals=[], example_card=None); held["checks"]["all_passed"] = False   # as feed_live writes it
         t_down, _ = render(pw, None, views=("now",)); t_held, _ = render(pw, held, views=("now",)); t_led, _ = render(pw, FEED, views=("record", "now"), ledger=None)
-        fc = copy.deepcopy(held); fc.update(market_regime=None, scored_as_of=None)   # what feed_live writes when it fails closed
+        fc = copy.deepcopy(held); fc.update(market_regime=None, scored_as_of=None)   # what feed_live writes when it fails closed, or when refresh failed
         t_fc, e_fc = render(pw, fc, views=("now",))
         # a card with no past signals at all (early history only): "n/a", never "n/a%" or "null%"
         empty = copy.deepcopy(FEED)
@@ -108,20 +108,27 @@ def main():
         t_e21, e_e21 = render(pw, FEED, views=("chart",), ex=ex21, example_on=True); t_e30, e_e30 = render(pw, FEED, views=("chart",), ex=ex30, example_on=True)
         # a live setup whose own card (and status) is missing from the feed: no pooled stand-in (audit #19)
         nocard = copy.deepcopy(FEED)
-        for o in nocard["open_signals"]: o["card"] = None; o["edge_status"] = None; o["edge_level_pct"] = None
+        for o in nocard["open_signals"]: o["card"] = None; o["edge_level_pct"] = None
         t_nc, e_nc = render(pw, nocard, views=("now", "chart"))
         # hand-broken feeds (13 Nov 2026 audit #20): each must read as unavailable, never as a figure or a blank page
         def mut(fn):
             f = copy.deepcopy(FEED); fn(f); return f
         def first_card(f): return next(o["card"] for o in f["open_signals"] if o.get("card") and o["grade"] == "A+")
         broken = {
-            "withheld flag set but cards left in": (mut(lambda f: f.update(cards_withheld=True)), lambda x: "Held back" in x["now"] and "rose 10% within 60 days" not in x["now"]),
+            # 13 Nov 2026 (audit #21): a feed that contradicts itself or carries an unknown word is not used at all
+            "withheld flag set but cards left in": (mut(lambda f: f.update(cards_withheld=True)), lambda x: "Feed unavailable" in x["now"] and "rose 10% within 60 days" not in x["now"]),
             "no posting bar anywhere and odds_fade empty": (mut(lambda f: (f.pop("posting_bar_pct", None), f.update(odds_fade={}))), lambda x: True),
             "odds_fade missing": (mut(lambda f: (f.pop("posting_bar_pct", None), f.pop("odds_fade", None))), lambda x: True),
             "price_now not a number": (mut(lambda f: first_card(f).update(price_now="abc")), lambda x: "$NaN" not in x["now"] + x["chart"]),
             "typical day of the high missing": (mut(lambda f: first_card(f).update(typical_day_of_60d_high=None)), lambda x: "day null" not in x["chart"] and "Day null" not in x["now"]),
-            "unknown edge_status": (mut(lambda f: [o.update(edge_status="weird") for o in f["open_signals"]]), lambda x: "On track" not in x["now"] and "Status unavailable" in x["now"]),
-            "unknown market_regime": (mut(lambda f: f.update(market_regime="Sideways")), lambda x: "Market filter: unavailable" in x["now"]),
+            "unknown edge_status": (mut(lambda f: [o.update(edge_status="weird") for o in f["open_signals"]]), lambda x: "Feed unavailable" in x["now"] and "On track" not in x["now"]),
+            "unknown market_regime": (mut(lambda f: f.update(market_regime="Sideways")), lambda x: "Feed unavailable" in x["now"] and "Market filter: o" not in x["now"]),
+            "a null entry in cards": (mut(lambda f: f["cards"].append(None)), lambda x: "Feed unavailable" in x["now"]),
+            "a null entry in grade_odds": (mut(lambda f: f["grade_odds"].append(None)), lambda x: "Feed unavailable" in x["now"]),
+            "a card ladder that is not a list": (mut(lambda f: first_card(f).update(if_it_falls_first="x")), lambda x: "Feed unavailable" in x["now"]),
+            "a past_paths entry without days": (mut(lambda f: f["past_paths"][0].pop("days")), lambda x: "Feed unavailable" in x["now"]),
+            "a live signal without days_elapsed": (mut(lambda f: f["open_signals"][0].pop("days_elapsed")), lambda x: "Feed unavailable" in x["now"] and "day null" not in x["now"]),
+            "withheld but checks say passed": (mut(lambda f: f.update(cards_withheld=True, cards=[], open_signals=[], example_card=None)), lambda x: "Feed unavailable" in x["now"] and "checks passed" not in x["now"]),
             "generated_at missing": (mut(lambda f: f.pop("generated_at")), lambda x: "Feed unavailable" in x["now"]),
             "generated_at not a date": (mut(lambda f: f.update(generated_at="soon")), lambda x: "Feed unavailable" in x["now"]),
             "feed is a list": ([1, 2, 3], lambda x: "Feed unavailable" in x["now"]),
@@ -131,24 +138,25 @@ def main():
             good = cond(tx) and not ex_ and not any(BAD.search(v) for v in tx.values())
             n += 1; ok += bool(good)
             print(f"  {'PASS' if good else '*** FAIL ***'}  broken feed, {name}: reads as unavailable, no error, no placeholder" + ("" if good else f"  -- {str(ex_[:1])} {[m.group(0) for v in tx.values() for m in BAD.finditer(v)][:3]}"))
-        tr = {"trades": [{"asset": "BTC", "direction": None, "action": None, "price": None, "time": None}]}
-        t_tr, e_tr = render(pw, FEED, views=("now", "chart"), trades=tr)
-        good = "in · null" not in t_tr["now"] and not e_tr and not BAD.search(t_tr["now"])
-        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader trade with empty fields: no 'in · null', no error" + ("" if good else f"  -- {e_tr[:1]}"))
+        for label_, tr in (("empty fields", {"trades": [{"asset": "BTC", "direction": None, "action": None, "price": None, "time": None}]}),
+                           ("leverage and size not numbers (audit #21)", {"trades": [{"asset": "BTC", "direction": "long", "action": "open", "price": 100000, "time": "2026-11-10T12:00:00Z", "leverage": "x", "size_pct": "y"}]})):
+            t_tr, e_tr = render(pw, FEED, views=("now", "chart"), trades=tr)
+            good = "in · null" not in t_tr["now"] and "n/ax" not in t_tr["now"] and "n/a% of acct" not in t_tr["now"] and "feed is unavailable" in t_tr["now"] and not e_tr and not BAD.search(t_tr["now"])
+            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with {label_}: reads unavailable, no placeholder, no error" + ("" if good else f"  -- {e_tr[:1]}"))
         nomiss = copy.deepcopy(FEED)
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         t_nm, e_nm = render(pw, nomiss, views=("now",))
         for label, cond, detail in [
             ("feed down: never says there are no live setups", "No live top-grade setups" not in t_down["now"] and "No open top-grade setup" not in t_down["now"] and "Feed unavailable" in t_down["now"], ""),
             ("held back: never says there are no live setups", "No live top-grade setups" not in t_held["now"] and "No open top-grade setup" not in t_held["now"] and "Held back" in t_held["now"], ""),
-            ("fail-closed feed: the filter and the scored date read unavailable, not off", "Market filter: unavailable" in t_fc["now"] and "Market filter: off" not in t_fc["now"] and not BAD.search(t_fc["now"]) and not e_fc, t_fc["now"][:160].replace("\n", " ")),
+            ("fail-closed feed: the filter and the scored date read unavailable, not off, and no candle date is claimed", "Market filter: unavailable" in t_fc["now"] and "Market filter: off" not in t_fc["now"] and "closed through" not in t_fc["now"] and not BAD.search(t_fc["now"]) and not e_fc, t_fc["now"][:160].replace("\n", " ")),
             ("ledger missing: Past signals says unavailable, not 0 signals", "0 signals" not in t_led["record"] and "Past signals unavailable" in t_led["record"], t_led["record"][:200].replace("\n", " ")),
-            ("a card with no past signals: says 'No odds yet', no blanks, no stray % sign, no error", "No odds yet" in t_em["now"] and "Day n/a" not in t_em["now"] and not BAD.search(t_em["now"]) and not BAD.search(t_em["chart"]) and not e_em, str(e_em[:1]) + str([m.group(0) for m in BAD.finditer(t_em["now"] + t_em["chart"])][:3])),
+            ("a card with no past signals and blank shares (not a card the pipeline can publish): the feed is not used, no error", "Feed unavailable" in t_em["now"] and not BAD.search(t_em["now"]) and not BAD.search(t_em["chart"]) and not e_em, str(e_em[:1]) + str([m.group(0) for m in BAD.finditer(t_em["now"] + t_em["chart"])][:3])),
             ("ledger cut short or header only: Past signals says unavailable, never a partial record", all("Past signals unavailable" in x["record"] for x in (t_lc, t_lh)) and not e_lc and not e_lh, t_lc["record"][:160].replace("\n", " ")),
             ("candle file with 0 or 3 bars: chart says unavailable, no error, no broken geometry", all("candles couldn't be loaded" in x["chart"] and not BAD.search(x["chart"]) for x in (t_c0, t_c3)) and not e_c0 and not e_c3, str((e_c0 + e_c3)[:1])),
             ("example chart file cut short: example chart says unavailable, no error", all("couldn't be loaded" in x["chart"] for x in (t_e21, t_e30)) and not e_e21 and not e_e30, str((e_e21 + e_e30)[:1])),
-            ("live setup with no card in the feed: 'Card unavailable', no pooled figures, status unavailable, no error",
-             "Card unavailable" in t_nc["now"] and "ETH TIER SIGNALS" not in t_nc["now"].upper() and "Status unavailable" in t_nc["now"] and "On track" not in t_nc["now"]
+            ("live setup with no card in the feed: 'Card unavailable', no pooled figures, no error",
+             "Card unavailable" in t_nc["now"] and "ETH TIER SIGNALS" not in t_nc["now"].upper()
              and not BAD.search(t_nc["now"]) and not BAD.search(t_nc["chart"]) and not e_nc, str(e_nc[:1])),
             ("no misses: the card says so, with no placeholder or error", "none missed" in t_nm["now"] and not BAD.search(t_nm["now"]) and not e_nm, str(e_nm[:1])),
         ]:

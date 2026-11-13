@@ -26,6 +26,8 @@ import csv, datetime as dt, hashlib, json, os, re, shutil, subprocess, sys, temp
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, ".github", "scripts"))
 import check_candles as CC  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "tests"))
+from reseal import reseal  # noqa: E402 -- fixtures stand in for scoring steps, so they re-record the run seal (seal.py)
 
 PY = sys.executable
 RESULTS = []
@@ -279,9 +281,10 @@ def drills_c():
     record(g, "same data twice: second run sends nothing", feed()["alerts"] == [] and logn() == n0)
 
     p = os.path.join(d, "datasets", "cards.csv"); rows = list(csv.DictReader(open(p)))
-    new = dict(rows[0], chart="BTC 5D", asset="BTC", tf="5D", trough="2099-01-01", confirms="2099-01-04")
+    new = dict(rows[0], chart="BTC 5D", asset="BTC", tf="5D", trough="2099-01-01", lowDay="2099-01-02", confirms="2099-01-04")   # dates in order: the feed must pass the strict check
     with open(p, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows + [new])
+    reseal(os.path.join(d, "datasets"))   # the fixture stands in for a scoring run, so it re-records the run seal
     run(d, "feed_live.py", [], bad_env)
     record(g, "new setup while a check is failing: no alert, nothing logged", feed()["alerts"] == [] and logn() == n0)
     run(d, "feed_live.py", [], ok_env); a = feed()["alerts"]
@@ -290,6 +293,7 @@ def drills_c():
     record(g, "and not again on the run after", feed()["alerts"] == [])
     with open(p, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+    reseal(os.path.join(d, "datasets"))
     run(d, "feed_live.py", [], ok_env); a = feed()["alerts"]
     record(g, "setup disappears: one 'vanished' alert", [x["alert_id"] for x in a] == ["BTC-5D-2099-01-04:vanished"], str([x["alert_id"] for x in a]))
     run(d, "feed_live.py", [], ok_env)
@@ -354,7 +358,8 @@ def drills_e():
         card, picker, state, stale, ex = scenario(502, None)
         record(g, "mirror down: page says 'Data unavailable', not a quiet market",
                state == "down" and "Waiting for the next one" not in card and "filter is off" not in card.lower() and not ex, card.split("\n")[1] if "\n" in card else card)
-        held = dict(fresh_feed, cards=[], cards_withheld=True, alerts_withheld=True, open_signals=[])
+        held = dict(fresh_feed, cards=[], cards_withheld=True, alerts_withheld=True, open_signals=[], example_card=None,
+                    checks=dict(fresh_feed.get("checks") or {}, all_passed=False))   # as feed_live writes a held feed
         card, picker, state, stale, ex = scenario(200, held)
         record(g, "checks failed: page says setups are held back", state == "held" and "Held back" in picker and not ex, card.split("\n")[1] if "\n" in card else card)
         old = dict(fresh_feed, generated_at=(now - dt.timedelta(hours=11)).strftime("%Y-%m-%dT%H:%M:%SZ"))

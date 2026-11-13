@@ -31,6 +31,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine as E          # noqa: E402
+import seal                  # noqa: E402 -- the run seal: datasets/ must not change between steps
 
 
 def bucket_end(bdates, j):
@@ -730,6 +731,7 @@ def main():
     from clock import now_utc  # CTZB_NOW replays a past run (tests)
     today = (dt.date.fromisoformat(a.today) if a.today else now_utc().date())
     os.makedirs(a.out, exist_ok=True)
+    seal.start(a.out)   # a new run: nothing in datasets/ may change between steps from here on (seal.py)
     keep_path = a.keep or os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                        "keep.json")
 
@@ -811,6 +813,7 @@ def main():
         print("\n  nothing forming")
     written = sorted(f for f in os.listdir(a.out) if f.endswith(".csv"))
     print(f"\n  {len(written)} datasets written to {os.path.abspath(a.out)}")
+    seal.done(a.out, "refresh")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,189 @@
+state,clock,why chosen,filter,forming cards,top-grade forming,live signals,live top grade,worked example,comparisons,disagreements
+replay 2020-09-01,2020-09-01T04:14:00Z,early history (September 2020 on),Bullish,3,0,28,4,False,11629,0
+replay 2020-09-02,2020-09-02T04:14:00Z,early history (September 2020 on),Bullish,3,0,28,4,False,11605,0
+replay 2020-09-07,2020-09-07T04:14:00Z,many lows forming at once,Bullish,7,0,24,3,False,12217,0
+replay 2020-09-12,2020-09-12T04:14:00Z,many lows forming at once,Bullish,6,0,24,3,False,12040,0
+replay 2020-09-14,2020-09-14T04:14:00Z,confirms at today's close on a 3D chart,Bullish,7,0,23,3,False,12212,0
+replay 2020-09-15,2020-09-15T04:14:00Z,early history (September 2020 on),Bullish,3,0,26,3,False,11513,0
+replay 2020-09-17,2020-09-17T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,5,0,25,3,False,11944,0
+replay 2020-09-25,2020-09-25T04:14:00Z,many lows forming at once,Bullish,7,0,22,1,False,12032,0
+replay 2020-10-01,2020-10-01T04:14:00Z,early history (September 2020 on),Bullish,3,0,25,0,False,11233,0
+replay 2020-10-20,2020-10-20T04:14:00Z,early history (September 2020 on),Bullish,3,1,27,3,False,12037,0
+replay 2020-11-04,2020-11-04T04:14:00Z,top-grade forming candidate,Bullish,3,0,26,7,False,12718,0
+replay 2020-12-13,2020-12-13T04:14:00Z,many lows forming at once,Bullish,8,0,23,10,False,14656,0
+replay 2020-12-16,2020-12-16T04:14:00Z,top-grade forming candidate,Bullish,6,0,25,10,False,14344,0
+replay 2020-12-26,2020-12-26T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,4,3,25,9,False,13985,0
+replay 2020-12-28,2020-12-28T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,2,2,27,11,False,13983,0
+replay 2020-12-30,2020-12-30T04:14:00Z,year-end,Bullish,1,1,28,12,False,13994,0
+replay 2020-12-31,2020-12-31T04:14:00Z,year-end,Bullish,1,1,27,12,False,13936,0
+replay 2021-01-01,2021-01-01T04:14:00Z,year-end,Bullish,1,0,27,12,False,13947,0
+replay 2021-01-02,2021-01-02T04:14:00Z,year-end,Bullish,2,2,27,12,False,14184,0
+replay 2021-03-15,2021-03-15T04:14:00Z,other real date,Bullish,2,0,26,5,False,14056,0
+replay 2021-03-17,2021-03-17T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,6,0,25,5,False,14975,0
+replay 2021-04-08,2021-04-08T04:14:00Z,top-grade forming candidate,Bullish,5,0,26,4,False,14994,0
+replay 2021-05-19,2021-05-19T04:14:00Z,other real date,Bullish,0,0,30,7,False,15041,0
+replay 2021-06-07,2021-06-07T04:14:00Z,last day filter on (episode end),Bullish,2,0,29,5,False,15454,0
+replay 2021-06-08,2021-06-08T04:14:00Z,first day filter off,Bearish,2,0,29,5,False,15456,0
+replay 2021-06-08 @00:13,2021-06-08T00:13:00Z,other clock time,Bearish,2,0,29,5,False,15449,0
+replay 2021-06-09,2021-06-09T04:14:00Z,filter off,Bearish,5,0,30,5,False,16278,1
+replay 2021-06-10,2021-06-10T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,4,0,26,3,False,15522,1
+replay 2021-06-13,2021-06-13T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,4,0,25,3,False,15489,1
+replay 2021-07-10,2021-07-10T04:14:00Z,filter off,Bearish,0,0,15,0,False,13658,0
+replay 2021-08-17,2021-08-17T04:14:00Z,nothing live or forming on any chart,Bearish,0,0,0,0,False,12763,0
+replay 2021-08-18,2021-08-18T04:14:00Z,last day filter off,Bearish,0,0,0,0,False,12783,0
+replay 2021-08-19,2021-08-19T04:14:00Z,first day filter on,Bullish,0,0,0,0,False,12823,0
+replay 2021-08-20,2021-08-20T04:14:00Z,"filter on, early",Bullish,0,0,0,0,False,12823,0
+replay 2021-08-21,2021-08-21T04:14:00Z,"filter on today, forming low with the gate off at its trough",Bullish,0,0,0,0,False,12803,0
+replay 2021-08-22,2021-08-22T04:14:00Z,"nothing live candidate, filter on",Bullish,0,0,0,0,False,12803,0
+replay 2021-08-23,2021-08-23T04:14:00Z,"filter on today, forming low with the gate off at its trough",Bullish,0,0,0,0,False,12803,0
+replay 2021-08-24,2021-08-24T04:14:00Z,"filter on today, forming low with the gate off at its trough",Bullish,0,0,0,0,False,12793,0
+replay 2021-08-25,2021-08-25T04:14:00Z,"nothing live candidate, filter on",Bullish,2,0,0,0,False,13251,0
+replay 2021-08-26,2021-08-26T04:14:00Z,nothing live or forming on any chart,Bullish,0,0,0,0,False,12763,0
+replay 2021-08-26 @00:13,2021-08-26T00:13:00Z,"other clock time, nothing live or forming, filter on",Bullish,0,0,0,0,False,12763,0
+replay 2021-10-02,2021-10-02T04:14:00Z,day after a top-grade confirmation,Bullish,4,0,17,2,False,15456,0
+replay 2021-10-14,2021-10-14T04:14:00Z,top-grade forming candidate,Bullish,1,0,22,5,False,15624,0
+replay 2021-11-07,2021-11-07T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,4,0,26,6,False,16937,0
+replay 2021-11-10,2021-11-10T04:14:00Z,other real date,Bullish,2,0,28,8,False,16941,0
+replay 2021-12-30,2021-12-30T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,3,0,28,2,False,16948,0
+replay 2021-12-31,2021-12-31T04:14:00Z,year-end,Bullish,3,0,28,2,False,16943,0
+replay 2022-01-01,2022-01-01T04:14:00Z,year-end,Bullish,8,0,28,2,False,18147,0
+replay 2022-01-02,2022-01-02T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,6,0,28,2,False,17719,0
+replay 2022-01-03,2022-01-03T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,6,0,27,2,False,17659,0
+replay 2022-01-26,2022-01-26T04:14:00Z,last day filter on,Bullish,5,0,25,0,False,17251,0
+replay 2022-01-27,2022-01-27T04:14:00Z,first day filter off,Bearish,4,0,25,0,False,16999,0
+replay 2022-01-27 @20:13,2022-01-27T20:13:00Z,other clock time,Bearish,4,0,25,0,False,16991,0
+replay 2022-01-28,2022-01-28T04:14:00Z,filter off,Bearish,6,0,25,0,False,17487,1
+replay 2022-01-29,2022-01-29T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,4,0,25,0,False,17039,1
+replay 2022-02-01,2022-02-01T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,3,0,24,0,False,16769,1
+replay 2022-02-05,2022-02-05T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,3,0,23,0,False,16725,1
+replay 2022-02-09,2022-02-09T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,2,0,22,0,False,16444,0
+replay 2022-02-20,2022-02-20T04:14:00Z,filter off,Bearish,0,0,19,0,False,15854,0
+replay 2022-03-25,2022-03-25T04:14:00Z,filter off,Bearish,0,0,8,0,False,15247,0
+replay 2022-04-10,2022-04-10T04:14:00Z,"filter off, last open",Bearish,0,0,2,0,False,14915,0
+replay 2022-04-11,2022-04-11T04:14:00Z,nothing live candidate,Bearish,0,0,0,0,False,14771,0
+replay 2022-05-12,2022-05-12T04:14:00Z,other real date,Bearish,0,0,0,0,False,14781,0
+replay 2022-06-15,2022-06-15T04:14:00Z,nothing live or forming candidate,Bearish,0,0,0,0,False,14851,0
+replay 2022-07-18,2022-07-18T04:14:00Z,nothing live or forming on any chart,Bearish,0,0,0,0,False,14771,0
+replay 2022-10-28,2022-10-28T04:14:00Z,nothing live or forming on any chart,Bearish,0,0,0,0,False,14771,0
+replay 2022-11-21,2022-11-21T04:14:00Z,nothing live candidate,Bearish,0,0,0,0,False,14771,0
+replay 2022-12-31,2022-12-31T04:14:00Z,year-end,Bearish,0,0,0,0,False,14831,0
+replay 2023-01-01,2023-01-01T04:14:00Z,year-end,Bearish,0,0,0,0,False,14821,0
+replay 2023-01-24,2023-01-24T04:14:00Z,last day filter off,Bearish,0,0,0,0,False,14781,0
+replay 2023-01-25,2023-01-25T04:14:00Z,first day filter on,Bullish,0,0,0,0,False,14811,0
+replay 2023-01-26,2023-01-26T04:14:00Z,"filter on, early",Bullish,0,0,0,0,False,14811,0
+replay 2023-01-27,2023-01-27T04:14:00Z,"filter on today, forming low with the gate off at its trough",Bullish,0,0,0,0,False,14811,0
+replay 2023-01-28,2023-01-28T04:14:00Z,nothing live or forming on any chart,Bullish,0,0,0,0,False,14771,0
+replay 2023-01-30,2023-01-30T04:14:00Z,"filter on today, forming low with the gate off at its trough",Bullish,0,0,0,0,False,14771,0
+replay 2023-02-01,2023-02-01T04:14:00Z,"nothing live candidate, filter on",Bullish,7,0,0,0,False,16429,0
+replay 2023-02-02,2023-02-02T04:14:00Z,"filter on, first signals",Bullish,7,0,0,0,False,16430,0
+replay 2023-03-11,2023-03-11T04:14:00Z,other real date,Bullish,6,0,13,2,False,17564,0
+replay 2023-04-18,2023-04-18T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,3,1,25,3,False,18180,0
+replay 2023-04-30,2023-04-30T04:14:00Z,confirms at today's close on a 3D chart,Bullish,6,0,20,1,False,18387,0
+replay 2023-06-15,2023-06-15T04:14:00Z,other real date,Bullish,6,0,27,4,False,19921,0
+replay 2023-08-17,2023-08-17T04:14:00Z,other real date,Bullish,0,0,21,3,False,18676,0
+replay 2023-09-30,2023-09-30T04:14:00Z,top-grade forming candidate,Bullish,3,1,30,2,False,20437,0
+replay 2023-12-03,2023-12-03T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,4,3,24,7,False,21871,0
+replay 2023-12-04,2023-12-04T04:14:00Z,top-grade forming candidate,Bullish,4,3,24,7,False,21867,0
+replay 2023-12-08,2023-12-08T04:14:00Z,confirms at today's close on a 3D chart,Bullish,3,2,25,8,False,21952,0
+replay 2023-12-27,2023-12-27T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,8,2,24,8,False,23289,0
+replay 2023-12-28,2023-12-28T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,7,1,24,8,False,23051,0
+replay 2023-12-29,2023-12-29T04:14:00Z,year-end,Bullish,4,1,24,8,False,22333,0
+replay 2023-12-30,2023-12-30T04:14:00Z,year-end,Bullish,5,1,24,8,False,22597,0
+replay 2023-12-31,2023-12-31T04:14:00Z,year-end,Bullish,6,1,23,7,False,22637,0
+replay 2023-12-31 @23:59,2023-12-31T23:59:59Z,other clock time,Bullish,6,1,23,7,False,22624,0
+replay 2024-01-01,2024-01-01T04:14:00Z,year-end,Bullish,7,1,24,7,False,22973,0
+replay 2024-01-01 @00:00,2024-01-01T00:00:01Z,other clock time,Bullish,7,1,24,7,False,22959,0
+replay 2024-01-02,2024-01-02T04:14:00Z,year-end,Bullish,6,1,25,7,False,22815,0
+replay 2024-01-04,2024-01-04T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,6,0,25,7,False,22814,0
+replay 2024-01-08,2024-01-08T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,6,0,26,6,False,22823,0
+replay 2024-02-06,2024-02-06T04:14:00Z,top-grade forming candidate,Bullish,5,1,26,4,False,22702,0
+replay 2024-03-13,2024-03-13T04:14:00Z,other real date,Bullish,1,0,23,6,False,22289,0
+replay 2024-04-19,2024-04-19T04:14:00Z,other real date,Bullish,6,0,22,4,False,23480,1
+replay 2024-07-20,2024-07-20T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,3,0,23,3,False,23871,0
+replay 2024-08-05,2024-08-05T04:14:00Z,other real date,Bullish,0,0,21,1,False,22889,0
+replay 2024-08-15,2024-08-15T04:14:00Z,confirms at today's close on a 3D chart,Bullish,4,0,24,1,False,24173,0
+replay 2024-11-06,2024-11-06T04:14:00Z,top-grade forming candidate,Bullish,7,4,30,9,False,27632,1
+replay 2024-11-07,2024-11-07T04:14:00Z,top-grade forming candidate,Bullish,7,4,30,9,False,27633,1
+replay 2024-11-07 @08:13,2024-11-07T08:13:00Z,other clock time,Bullish,7,4,30,9,False,27610,1
+replay 2024-11-08,2024-11-08T04:14:00Z,top-grade forming candidate,Bullish,5,2,32,11,False,27639,1
+replay 2024-11-17,2024-11-17T04:14:00Z,top-grade forming candidate,Bullish,1,1,30,14,False,27154,1
+replay 2024-11-21,2024-11-21T04:14:00Z,day 60 of the worked example open,Bullish,4,3,28,13,False,27655,0
+replay 2024-11-22,2024-11-22T04:14:00Z,worked example appears,Bullish,4,3,27,12,True,27770,0
+replay 2024-11-22 @00:13,2024-11-22T00:13:00Z,other clock time,Bullish,4,3,27,12,True,27770,0
+replay 2024-12-28,2024-12-28T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,5,0,27,12,True,28496,2
+replay 2024-12-29,2024-12-29T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,3,0,27,12,True,28019,2
+replay 2024-12-30,2024-12-30T04:14:00Z,year-end,Bullish,3,0,27,12,True,28036,2
+replay 2024-12-31,2024-12-31T04:14:00Z,year-end,Bullish,4,0,28,12,True,28354,2
+replay 2024-12-31 @23:50,2024-12-31T23:50:00Z,other clock time,Bullish,4,0,28,12,True,28332,2
+replay 2025-01-01,2025-01-01T04:14:00Z,year-end,Bullish,7,0,26,11,True,28869,2
+replay 2025-01-01 @00:13,2025-01-01T00:13:00Z,other clock time,Bullish,7,0,26,11,True,28842,2
+replay 2025-01-02,2025-01-02T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,7,0,26,11,True,28852,2
+replay 2025-01-04,2025-01-04T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bullish,4,0,29,11,True,28392,2
+replay 2025-01-06,2025-01-06T04:14:00Z,day 60 open (BTC 1D 2024-11-07),Bullish,4,0,29,11,True,28384,2
+replay 2025-01-07,2025-01-07T04:14:00Z,day after day 60,Bullish,2,0,28,9,True,27606,2
+replay 2025-01-23,2025-01-23T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,3,1,29,4,True,27491,2
+replay 2025-02-03,2025-02-03T04:14:00Z,other real date,Bullish,5,0,27,2,True,27614,0
+replay 2025-03-22,2025-03-22T04:14:00Z,confirms at today's close on a 3D chart,Bullish,3,0,21,0,True,26962,0
+replay 2025-03-22 @20:13,2025-03-22T20:13:00Z,other clock time,Bullish,3,0,21,0,True,26962,0
+replay 2025-04-07,2025-04-07T04:14:00Z,other real date,Bullish,3,0,22,0,True,27161,0
+replay 2025-04-12,2025-04-12T04:14:00Z,top-grade forming candidate,Bullish,6,0,23,0,True,28005,0
+replay 2025-05-22,2025-05-22T04:14:00Z,other real date,Bullish,1,1,24,5,True,28082,0
+replay 2025-06-13,2025-06-13T04:14:00Z,day 60 open (BTC 2D 2025-04-14),Bullish,4,1,25,5,True,29075,0
+replay 2025-06-14,2025-06-14T04:14:00Z,day after day 60,Bullish,2,0,23,4,True,28341,0
+replay 2025-07-07,2025-07-07T04:14:00Z,top-grade forming candidate,Bullish,3,1,23,2,True,28633,0
+replay 2025-07-09,2025-07-09T04:14:00Z,top-grade forming candidate,Bullish,2,1,25,3,True,28715,0
+replay 2025-07-10,2025-07-10T04:14:00Z,day after a top-grade confirmation,Bullish,1,1,24,3,True,28450,0
+replay 2025-07-10 @00:01,2025-07-10T00:01:00Z,other clock time,Bullish,1,1,24,3,True,28450,0
+replay 2025-07-10 @16:13,2025-07-10T16:13:00Z,other clock time,Bullish,1,1,24,3,True,28450,0
+replay 2025-07-11,2025-07-11T04:14:00Z,day after a top-grade confirmation,Bullish,0,0,25,4,True,28453,0
+replay 2025-08-08,2025-08-08T04:14:00Z,top-grade forming candidate,Bullish,6,0,21,4,True,29729,0
+replay 2025-08-11,2025-08-11T04:14:00Z,day after a top-grade confirmation,Bullish,2,1,23,5,True,29165,0
+replay 2025-08-14,2025-08-14T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,2,1,21,5,True,29055,0
+replay 2025-08-14 @00:00,2025-08-14T00:00:00Z,other clock time,Bullish,2,1,21,5,True,29055,0
+replay 2025-08-14 @23:59,2025-08-14T23:59:59Z,other clock time,Bullish,2,1,21,5,True,29055,0
+replay 2025-09-01,2025-09-01T04:14:00Z,other real date,Bullish,3,0,21,6,True,29594,0
+replay 2025-10-05,2025-10-05T04:14:00Z,top-grade forming candidate,Bullish,4,0,23,2,True,29742,0
+replay 2025-10-10,2025-10-10T04:14:00Z,other real date,Bullish,1,0,21,2,True,28969,0
+replay 2025-11-21,2025-11-21T04:14:00Z,other real date,Bullish,0,0,24,1,True,29204,0
+replay 2025-12-03,2025-12-03T04:14:00Z,top-grade forming candidate,Bullish,4,2,25,1,True,30404,0
+replay 2025-12-04,2025-12-04T04:14:00Z,last day filter on,Bullish,4,2,25,1,True,30400,0
+replay 2025-12-05,2025-12-05T04:14:00Z,first day filter off; day 60 of ETH 3D 2025-10-06,Bearish,2,0,27,3,True,30401,0
+replay 2025-12-06,2025-12-06T04:14:00Z,filter off; day after day 60,Bearish,2,0,25,2,True,30148,0
+replay 2025-12-12,2025-12-12T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,1,0,26,2,True,30023,1
+replay 2025-12-14,2025-12-14T04:14:00Z,"filter off today, forming low with the gate on at its trough",Bearish,1,0,24,2,True,29902,1
+replay 2025-12-20,2025-12-20T04:14:00Z,filter off with a live top-grade setup,Bearish,0,0,22,2,True,29638,0
+replay 2025-12-29,2025-12-29T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bearish,0,0,18,2,True,29378,0
+replay 2025-12-30,2025-12-30T04:14:00Z,forming low whose confirmation crosses 1 January / year-end,Bearish,0,0,18,2,True,29408,0
+replay 2025-12-31,2025-12-31T04:14:00Z,year-end,Bearish,0,0,18,2,True,29412,0
+replay 2026-01-01,2026-01-01T04:14:00Z,year-end,Bearish,0,0,17,2,True,29333,0
+replay 2026-02-02,2026-02-02T04:14:00Z,day 60 open of BTC 1D 2025-12-04,Bearish,0,0,5,2,True,28649,0
+replay 2026-02-03,2026-02-03T04:14:00Z,day after day 60 closes,Bearish,0,0,3,0,True,28217,0
+replay 2026-02-03 @00:20,2026-02-03T00:20:00Z,other clock time,Bearish,0,0,3,0,True,28215,0
+replay 2026-02-12,2026-02-12T04:14:00Z,"filter off, last open",Bearish,0,0,1,0,True,28113,0
+replay 2026-02-13,2026-02-13T04:14:00Z,nothing live candidate,Bearish,0,0,0,0,True,28066,0
+replay 2026-02-16,2026-02-16T04:14:00Z,nothing live or forming on any chart,Bearish,0,0,0,0,True,28024,0
+replay 2026-03-15,2026-03-15T04:14:00Z,nothing live or forming candidate,Bearish,0,0,0,0,True,28026,0
+replay 2026-03-15 @12:13,2026-03-15T12:13:00Z,other clock time,Bearish,0,0,0,0,True,28024,0
+replay 2026-05-01,2026-05-01T04:14:00Z,other real date,Bearish,0,0,0,0,True,28094,0
+replay 2026-06-24,2026-06-24T04:14:00Z,nothing live or forming candidate,Bearish,0,0,0,0,True,28066,0
+replay 2026-07-04,2026-07-04T04:14:00Z,other real date,Bearish,0,0,0,0,True,28064,0
+replay 2026-07-24,2026-07-24T04:14:00Z,nothing live or forming on any chart,Bearish,0,0,0,0,True,28024,0
+replay 2026-08-01,2026-08-01T04:14:00Z,nothing live or forming on any chart,Bearish,0,0,0,0,True,28024,0
+replay 2026-09-01,2026-09-01T04:14:00Z,last day filter off,Bearish,0,0,0,0,True,28046,0
+replay 2026-09-02,2026-09-02T04:14:00Z,first day filter on,Bullish,0,0,0,0,True,28036,0
+replay 2026-09-02 @16:13,2026-09-02T16:13:00Z,other clock time,Bullish,0,0,0,0,True,28034,0
+replay 2026-09-03,2026-09-03T04:14:00Z,"filter on, early",Bullish,2,0,0,0,True,28524,0
+replay 2026-09-04,2026-09-04T04:14:00Z,"filter on, early",Bullish,2,0,0,0,True,28503,0
+replay 2026-09-05,2026-09-05T04:14:00Z,"filter on, first signal",Bullish,2,0,0,0,True,28514,0
+replay 2026-09-06,2026-09-06T04:14:00Z,"filter on today, forming low with the gate off at its trough",Bullish,1,0,2,0,True,28422,0
+replay 2026-09-08,2026-09-08T04:14:00Z,"filter on today, forming low with the gate off at its trough",Bullish,0,0,2,0,True,28190,0
+replay 2026-09-22,2026-09-22T04:14:00Z,day after a top-grade confirmation,Bullish,4,1,8,1,True,29792,0
+replay 2026-09-22 @00:05,2026-09-22T00:05:00Z,other clock time,Bullish,4,1,8,1,True,29792,0
+replay 2026-09-22 @23:59,2026-09-22T23:59:00Z,other clock time,Bullish,4,1,8,1,True,29792,0
+replay 2026-10-01,2026-10-01T04:14:00Z,other real date,Bullish,8,0,11,1,True,30974,0
+replay 2026-10-02,2026-10-02T04:14:00Z,confirmation bar open now on a 5D chart,Bullish,4,0,12,1,True,30120,0
+replay 2026-10-10,2026-10-10T04:14:00Z,other real date,Bullish,6,0,16,1,True,30916,0
+replay 2026-11-01,2026-11-01T04:14:00Z,other real date,Bullish,6,0,22,1,True,31432,0
+replay 2026-11-11,2026-11-11T04:14:00Z,other real date,Bullish,4,0,23,1,True,31086,0
+replay 2026-11-12,2026-11-12T04:14:00Z,"the day of the frozen replay state, replayed",Bullish,0,0,23,1,True,30142,0
+replay 2026-11-13,2026-11-13T04:14:00Z,"the day of the frozen current state, replayed",Bullish,0,0,21,1,True,30029,0

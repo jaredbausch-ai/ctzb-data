@@ -40,7 +40,7 @@ nothing of its own, so it cannot disagree with the dashboard or the cards.
 | `cards_withheld` | | True when checks failed |
 | `market_regime`, `next_buy_date`, `trades_a_year` | status.csv | As on the dashboard |
 | `cards[]` | cards.csv | One per FORMING setup (below). A live (open) setup's card is `open_signals[].card`; the worked example's is `example_card` |
-| `prints[]` | prints.csv | The last 3 confirmed lows per chart plus any forming low; `provisional` true until it confirms. The regime note is read on the trough date (since 12 Nov 2026 audit #13; it was the confirmation date) |
+| `prints[]` | prints.csv | The last 3 signals per chart (lows that confirmed with the market filter on at the trough date; a low that confirms with the filter off is not a signal and is not listed) plus any forming low (listed with a "regime off" note while the filter is off); `provisional` true until it confirms. The regime note is read on the trough date (since 12 Nov 2026 audit #13; it was the confirmation date) |
 | `open_signals[]` | open.csv (stack_live.py; forward.csv until 12 Nov 2026) | Signals inside their 60 days, ETH and BTC, with day 10/30/60 and best/worst so far and their own `card` (computed, not fills) |
 | `confluence_windows[]` | windows.csv | Every confluence window open now and when it closes |
 | `grade_odds[]` | grades.csv | Pooled grade record per asset |
@@ -179,7 +179,9 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 ### Audit #5 corrections (12 Nov 2026)
 
 - `cards[].from_entry` (also on `example_card` and `open_signals[].card`): `past_trades`, `still_rose10_pct` (the
-  share of the sample that rose 10% before ever falling 25.3%) and `went_on_to_fall25_pct`. It is the ladder's first
+  share of the sample that rose 10% before ever falling 25.3%) and `went_on_to_fall25_pct` (the share that fell
+  25.3% BEFORE rising 10%; one that rose 10% first and fell 25.3% later is not counted. The same holds on every
+  `if_it_falls_first` row; 13 Nov 2026 audit #21 wording). It is the ladder's first
   row, measured exactly like the `if_it_falls_first` rows under it. The big number stays `rose10_within60d_pct`.
 - The ladder checks a day's low before its high in every step (the cautious reading; a daily bar doesn't say which
   came first).
@@ -251,7 +253,8 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - **Forming cards (`cards[]`, and so forming alerts) exist only on graded charts (1D, 2D, 3D, 5D) and only when
   the regime gate is on at the low's trough date.** A gate-off low can never confirm as a signal, and 8D is not
   graded. Before this, a forming low with the filter off (or on 8D) still produced a card and a forming alert.
-  Such lows still appear in `prints[]` with their "regime off" note.
+  While still forming, such lows appear in `prints[]` with their "regime off" note; once confirmed with the filter
+  off they are not signals and drop out of `prints[]` (13 Nov 2026 audit #21 wording).
 - A forming low's tags (`prints[].tags`, the card's confirmations) use exact CT and K with the engine's EPS guard,
   the same test applied once it confirms; they used the 1-decimal display values.
 - `trades_a_year` / `signals_a_year` is rounded once from the unrounded rate (was the 1-decimal rate rounded again).
@@ -335,3 +338,54 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
     days), rounded once.
   - `past_paths` / `example_past_paths` quartiles and medians: linear interpolation between the two nearest
     ranked values (position (n - 1) x q), on the exact path values, rounded once.
+
+### Audit #21 corrections (13 Nov 2026): the strict check
+
+- **One definition of a well-formed feed.** The member page holds a schema (`FEED_SCHEMA` in
+  `docs/artifacts/member-site/index.html`, between the `/*FEED_SCHEMA*/` markers) covering every feed field the
+  page reads: its type (percentage 0-100, whole count, day 0-60, price above zero, date, UTC time, one of a fixed
+  set of words), whether it may be empty, and list lengths. Rules across fields follow: a card's two eras add up
+  to its sample; a count of zero goes with an empty share and nothing else does; ladder rows are 5, 10, 15, 20;
+  a signal's id matches its chart and date; a live signal's card is its own; dates are in order; no signal,
+  asset or grade appears twice; quartiles are in order and days run 0 to 60; `cards_withheld` is the opposite of
+  `checks.all_passed`; a withheld feed carries no cards, live signals or example; a feed that is not withheld
+  states the market filter, the scored date and the posting bar.
+- **The page uses a feed only if it passes, whole.** Any failure and the page reads "Data unavailable": no
+  field is patched, skipped or guessed. The lead-trader file is checked against the schema's `trades` part (a
+  failure reads "unavailable"), the ledger row by row (right number of cells, known chart, real date, numbers
+  where numbers are read, no signal twice; a failure reads "Past signals unavailable"), and each chart file bar
+  by bar (numbers, prices above zero, high and low bracketing open and close, times ascending, at least 10 bars).
+- **The pipeline never publishes a feed the page would reject.** `feedcheck.py` reads the same schema block;
+  `feed_live.py` runs it on the feed it has built and, on any failure, publishes the withheld (fail-closed) feed
+  and exits 1. The alert log is written only after the feed has passed.
+- **The run seal (`seal.py`, `datasets/manifest.json`).** refresh.py starts a new seal; each scoring step
+  (refresh, grade, extras, stack, cards) checks as it starts that the steps before it finished in order and
+  that no file in `datasets/` has changed since, and records its name and a SHA-256 of every file as it
+  finishes. feed_live.py checks the same before publishing. A file deleted, emptied, cut, edited or replaced by
+  an older copy between steps, a step that never finished, or steps out of order fail the run closed. The
+  extras step is not gating: if it fails part-way its files are left out of the later checks and only the
+  extras fields are withheld.
+- **Step outcomes are read strictly.** When `CTZB_STEP_OUTCOMES` is set, a gating step reported as anything
+  but "success" (failure, skipped, cancelled, missing) withholds the cards and alerts. Only a hand run with no
+  `CTZB_STEP_OUTCOMES` at all is judged on the checks alone.
+- `feed_live.py` also crashes into the fail-closed feed if `cards.csv`, `open.csv`, `cards_open.csv`,
+  `cards_example.csv` or `prints.csv` is missing after every check passed (a missing `open.csv` used to read as
+  "no live signals", a quiet market).
+- When the refresh step failed this run, `market_regime`, `scored_as_of`, `next_buy_date`, `trades_a_year` and
+  `odds_fade.tier_fixed_on` are empty: `status.csv` is then the last good run's, and a held feed used to repeat
+  its market filter reading. The page shows "Market filter: unavailable".
+- The page footer's "Daily candles closed through" date is the day before `scored_as_of` (the data's own date),
+  not worked out from the feed's timestamp, and is left off when `scored_as_of` is empty. Its "checks passed /
+  FAILED" reads `cards_withheld`, the same flag the card area uses.
+- Candle files: `fetch.history_problems` also requires every candle file's rows (1D to 8D, 4H, 12H) and the
+  funding series to run in strictly ascending time. A file with a row twice, or rows out of order, used to pass
+  because the other checks key rows by date while the engine reads them as a list.
+- Member wording: Previous signals' first group is headed "On track or rose 10%" (was "Edge intact": a setup
+  that rose 10% and later fell past its edge level sat under it). How to read says the market filter is read on
+  the day the bar that made the low opened, which on a 2D, 3D or 5D chart can be a few days before the low.
+  With no market filter reading and nothing live or forming, the quiet card no longer says the filter is off.
+- `tests/test_feed_damage.py`: damages every field the page reads in about 35 ways each (missing, empty, wrong
+  type, out of range, unknown word, impossible date, lists emptied, cut, doubled or reversed) and checks that
+  the page and the pipeline give the same verdict on every one, that every accepted one renders with no script
+  error or raw placeholder, that rejected ones read "Data unavailable", and that every field the page reads is
+  in the schema.

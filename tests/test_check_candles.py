@@ -76,6 +76,9 @@ cut('BTC_1D', lambda b: b[-40:], 'BTC daily file cut to its last 40 bars', 'hist
 cut('ETH_2D', lambda b: b[:len(b)//2], 'ETH 2D file cut to its first half', 'ETH_2D bars differ from the daily candles')
 cut('ETH_5D', lambda b: b[:-1], 'ETH 5D file missing its last bar', 'ETH_5D bars differ from the daily candles')
 cut('ETH_1D', lambda b: b[:1500] + b[1501:], 'ETH daily file missing one day years back', 'ETH_1D has 1 missing day')
+cut('BTC_1D', lambda b: b + [b[-1]], 'BTC daily file with its last row twice (audit #21)', 'BTC_1D: 1 row(s) repeated or out of order')
+cut('BTC_1D', lambda b: b[::-1], 'BTC daily file with its rows reversed (audit #21)', 'BTC_1D:')
+cut('ETH_3D', lambda b: b[:200] + [b[199]] + b[200:], 'ETH 3D file with one row twice', 'ETH_3D: 1 row(s) repeated or out of order')
 print(f"\n{sum(results)}/{len(results)} passed")
 
 sys.exit(0 if all(results) else 1)

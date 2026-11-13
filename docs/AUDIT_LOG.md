@@ -598,6 +598,76 @@ fire drills 58/58.
 
 ---
 
+## Round 21 — 13 Nov, 03:30 ET (audit #21, a new independent agent; then the audit method changed)
+
+**Jared's definition from here (13 Nov, 01:34 ET):** a clean run is zero of anything, including deliberately
+broken states and doc wording. Two clean runs in a row before the site ships. On that definition there have
+been no clean runs yet.
+
+**Found:**
+
+| Scope | Comparisons | Disagreement rows | Distinct causes | Wrong figure? |
+|---|---|---|---|---|
+| (A) Both frozen states | 61,125 | 0 | 0 | — |
+| (B) 188 replays of real dates, Sep 2020 – Nov 2026 | 4,136,858 | 39 | 2 | No, both wording |
+| (C) 133 deliberately broken states | 484 | 21 | 11 | 4 |
+| Docs vs code | about 70 statements | 3 | 3 | No |
+
+The checker caught 65 of 65 planted errors. Report: `analysis/audit21_2026-11-13/AUDIT21.md` (group B's
+per-replay check files, 26 MB, are not committed; their totals are in the report).
+
+**Changed** (commits PENDING_A, COMMIT_B):
+
+*Wording on real dates*
+- How to read said a signal counts if the filter was on "the day its low printed". The filter is read on the
+  day the bar that made the low opened, which on a 2D, 3D or 5D chart can be a few days earlier (3 setups in
+  six years fall in that gap, none top grade). The sentence now says so.
+- Previous signals' first group was headed "Edge intact" but also held setups that rose 10% and later fell to
+  their edge level. Now headed "On track or rose 10%".
+
+*Broken states with a wrong figure*
+- A candle file with a row twice, or rows reversed, passed every check and was scored (the checks key rows by
+  date; the engine reads them as a list). `fetch.history_problems` now requires every candle file (1D–8D, 4H,
+  12H) and the funding series to run in strictly ascending time.
+- A pipeline file lost after the checks passed made the page read as a quiet market. feed_live now fails closed.
+- A failed refresh republished the last good run's market filter reading. It is now left empty (header:
+  "Market filter: unavailable").
+- In that state the footer's candle date came from the clock. It now comes from the data's own date, and is
+  left off when there is none.
+
+*The other seven broken-state causes, and the change of method.* Seven of the eleven causes were the page
+reacting badly to hand-damaged feeds, as in every round since #16. Instead of patching each one:
+- **One strict check.** The page holds one definition of a well-formed feed (`FEED_SCHEMA`: every field's
+  type, range, allowed words and list lengths, plus rules across fields). A feed that fails anything is not
+  used at all: "Data unavailable". The lead-trader file, the ledger and the chart files get the same treatment.
+  `feedcheck.py` reads the same block, and `feed_live.py` will not publish a feed that fails it.
+- **The run seal (`seal.py`).** Every scoring step checks, as it starts, that the steps before it finished in
+  order and that no file in `datasets/` has changed since; feed_live checks the same before publishing. A file
+  deleted, cut, edited or swapped for an older copy between steps, a step that never finished, or steps run
+  out of order now fail the run closed. An extras failure part-way still lets the cards publish.
+- **Step outcomes read strictly.** A gating step reported as anything but "success" (skipped, cancelled,
+  missing) now withholds.
+- **`tests/test_feed_damage.py`.** Damages every field the page reads in about 35 ways each. On the two test
+  states: 21,436 damaged feeds, page and pipeline gave the same verdict on every one; all 1,834 accepted kinds
+  rendered with no script error or placeholder; rejected ones read "Data unavailable"; 1,390 damaged
+  lead-trader files, 22 damaged ledgers and 20 damaged chart files read "unavailable". 30/30.
+- **Audits from round 22 run as three independent agents at once:** numbers on real data, broken states, docs.
+
+*Docs:* `went_on_to_fall25_pct` defined as falling 25.3% before rising 10%; `prints[]` holds the last 3
+signals per chart; the member-site README's list of fixed wording completed; FEED_SPEC "Audit #21
+corrections"; CONTEXT "The strict check, and how audits are counted".
+
+*Tests:* page states 44 (was 37), candle check 29 (was 23), alerts 23 (was 15), run seal 18 (new), feed damage
+30 (new).
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), verify_cards, feed
+alerts 23/23, feed extras 28/28, candle check 29/29, run seal 18/18, feed damage 30/30, Action-environment
+test, year-end replays 8/8, fetch tests 4/4, page states 44/44, gate-off and no-today-bar replays, worker tests
+21 / 26 / 36 / 21 / 24 / 41, fire drills 58/58. All 91 real feeds built from replays (2020 to today) pass the
+strict check.
+
+---
+
 ## Deliberately left alone (definitional notes, not issues)
 
 - **Flash-print clamp.** A $0.06 BTC low on 15 Apr 2017 (and ETH's $0.10 GDAX wick on 21 Jun 2017)

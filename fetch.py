@@ -139,12 +139,34 @@ KNOWN_MISSING = {"ETH": {dt.date(2016, 5, 21), dt.date(2016, 5, 22)}, "BTC": set
 
 def history_problems(data_dir, assets=("ETH", "BTC"), upto=None):
     """Whole-history checks on the candle files (13 Nov 2026 audit #20): each daily file starts on the
-    exchange's first day and has no missing day after it (bar the two the exchange never had), and every
-    2D-8D file is exactly the daily candles bucketed by resample(). Returns a
+    exchange's first day and has no missing day after it (bar the two the exchange never had), every
+    2D-8D file is exactly the daily candles bucketed by resample(), and every file's rows run in strictly
+    ascending time (no row twice, none out of order). Returns a
     list of problems, empty when the files are whole. `upto` (a date) ignores the first-day rule for replays
     that are cut on purpose; the bucket rule always applies."""
     bad = []
     for a in assets:
+        # every candle file, read as the list of rows the engine reads: times strictly ascending, so no row
+        # twice and none out of order (13 Nov 2026 audit #21: a duplicated or reversed file passed, because the
+        # checks below key rows by date)
+        for name in [f"{a}_{tf}D" for tf in (1,) + tuple(TIMEFRAMES)] + [f"{a}_4H", f"{a}_12H"]:
+            pth = os.path.join(data_dir, name + ".csv")
+            if not os.path.exists(pth):
+                continue
+            with open(pth) as f:
+                try:
+                    ts = [float(r["time"]) for r in csv.DictReader(f)]
+                except (KeyError, TypeError, ValueError):
+                    bad.append(f"{name}: a row has no readable time"); continue
+            wrong = [i for i in range(1, len(ts)) if not ts[i] > ts[i - 1]]
+            if wrong:
+                bad.append(f"{name}: {len(wrong)} row(s) repeated or out of order (first at row {wrong[0] + 1})")
+        pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")   # the funding series the grade reads
+        if os.path.exists(pf):
+            with open(pf) as f:
+                days = [r[0] for r in list(csv.reader(f))[1:] if r]
+            if any(not days[i] > days[i - 1] for i in range(1, len(days))):
+                bad.append(f"{a}_funding_daily: a day is repeated or out of order")
         p1 = os.path.join(data_dir, f"{a}_1D.csv")
         with open(p1) as f:
             rows = list(csv.DictReader(f))

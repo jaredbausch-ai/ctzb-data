@@ -1,0 +1,250 @@
+{
+ "A": {
+  "states": 2,
+  "comparisons": 61125,
+  "diffs": 0,
+  "items": [
+   [
+    1,
+    47846
+   ],
+   [
+    2,
+    204
+   ],
+   [
+    3,
+    230
+   ],
+   [
+    4,
+    126
+   ],
+   [
+    5,
+    3374
+   ],
+   [
+    6,
+    1368
+   ],
+   [
+    7,
+    1494
+   ],
+   [
+    8,
+    5919
+   ],
+   [
+    9,
+    530
+   ],
+   [
+    10,
+    34
+   ]
+  ],
+  "by_state": {
+   "replay_0414": [
+    31095,
+    3554
+   ],
+   "current": [
+    30030,
+    2929
+   ]
+  }
+ },
+ "B": {
+  "replays": 188,
+  "comparisons": 4136858,
+  "diffs": 39,
+  "items": [
+   [
+    0,
+    188
+   ],
+   [
+    1,
+    3043708
+   ],
+   [
+    2,
+    19176
+   ],
+   [
+    3,
+    21581
+   ],
+   [
+    4,
+    11428
+   ],
+   [
+    5,
+    267848
+   ],
+   [
+    6,
+    120306
+   ],
+   [
+    7,
+    140436
+   ],
+   [
+    8,
+    432977
+   ],
+   [
+    9,
+    74608
+   ],
+   [
+    10,
+    4602
+   ]
+  ],
+  "coverage": {
+   "replays": 188,
+   "filter_off": 50,
+   "filter_off_with_cards_or_live_top": 22,
+   "top_grade_forming": 46,
+   "forming_cards": 131,
+   "no_card_no_live_top": 44,
+   "nothing_live_or_forming_any_chart": 14,
+   "day60_in_progress": 32,
+   "live_with_no_closed_bar": 43,
+   "other_clock": 19,
+   "no_worked_example": 109,
+   "year_end": 36,
+   "live_top_statuses": {
+    "rose10": 415,
+    "lost": 104,
+    "intact": 136
+   },
+   "failed": 0,
+   "audit_errors": 0,
+   "first": "2020-09-01",
+   "last": "2026-11-13"
+  },
+  "lowday": [
+   [
+    "replay 2021-06-09",
+    "card forming BTC-3D-2021-06-17"
+   ],
+   [
+    "replay 2021-06-10",
+    "card forming BTC-3D-2021-06-17"
+   ],
+   [
+    "replay 2021-06-13",
+    "card forming BTC-3D-2021-06-17"
+   ],
+   [
+    "replay 2022-01-28",
+    "card forming ETH-3D-2022-02-05"
+   ],
+   [
+    "replay 2022-01-29",
+    "card forming ETH-3D-2022-02-05"
+   ],
+   [
+    "replay 2022-02-01",
+    "card forming ETH-3D-2022-02-05"
+   ],
+   [
+    "replay 2022-02-05",
+    "card forming ETH-3D-2022-02-05"
+   ],
+   [
+    "replay 2025-12-12",
+    "card forming BTC-3D-2025-12-14"
+   ],
+   [
+    "replay 2025-12-14",
+    "card forming BTC-3D-2025-12-14"
+   ]
+  ],
+  "heading": 30,
+  "heading_states": 18,
+  "other": []
+ },
+ "C": {
+  "states": 133,
+  "comparisons": 484,
+  "diffs": 21,
+  "by_state": [
+   [
+    "C BTC_1D.csv last row duplicated",
+    3
+   ],
+   [
+    "C BTC_1D.csv rows in reverse order",
+    2
+   ],
+   [
+    "C edge_status ''",
+    1
+   ],
+   [
+    "C edge_status 'LOST'",
+    1
+   ],
+   [
+    "C edge_status 'banana'",
+    1
+   ],
+   [
+    "C edge_status 5",
+    1
+   ],
+   [
+    "C edge_status None",
+    1
+   ],
+   [
+    "C hand-edited feed: a null entry in cards",
+    1
+   ],
+   [
+    "C hand-edited feed: a null entry in grade_odds",
+    1
+   ],
+   [
+    "C hand-edited feed: card ladder not a list",
+    1
+   ],
+   [
+    "C hand-edited feed: past_paths entry without days",
+    1
+   ],
+   [
+    "C held flag true but checks.all_passed true (hand-edited)",
+    1
+   ],
+   [
+    "C lead feed: non-numeric leverage and size",
+    1
+   ],
+   [
+    "C open signal with empty progress fields",
+    1
+   ],
+   [
+    "C open.csv deleted before the feed step (after every check passed)",
+    1
+   ],
+   [
+    "C quiet with an unknown regime",
+    1
+   ],
+   [
+    "C refresh fails three days after the last good run, the filter having turned off since",
+    2
+   ]
+  ],
+  "files": {}
+ }
+}

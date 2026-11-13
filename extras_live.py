@@ -70,6 +70,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--datasets", default=os.path.join(ROOT, "datasets"))
     a = ap.parse_args()
+    import seal
+    seal.check(a.datasets, "extras")   # the steps before this one finished and their files are untouched (seal.py)
     full = cd.rows("datasets/ledger.csv")
     led = [r for r in full if r["grade"] == "A+"]
     if not led:
@@ -137,6 +139,7 @@ def main():
     for m in (x for x in miss_rows if x["grade"] == "A+"):
         print(f"extras_live: {m['asset']} A+ {m['aplus_signals']}, missed +10% {m['misses']}, "
               f"up first {m['up_first']}, median peak {m['median_peak_pct'] if m['misses'] else 'n/a'}%")
+    seal.done(a.datasets, "extras")
     print(f"extras_live: paths {', '.join(f'{r} n {n}' for r, n in sorted({(x['asset'], x['n']) for x in path_rows}))}; "
           f"odds-fade rows {len(fade_rows)}; candle files {n_candles}")
 

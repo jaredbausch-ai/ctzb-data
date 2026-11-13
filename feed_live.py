@@ -40,6 +40,12 @@ import os
 import sys
 from datetime import datetime, timezone
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import feedcheck  # noqa: E402
+import seal  # noqa: E402
+
+EXTRAS_FILES = seal.EXTRAS_FILES   # what extras_live.py writes
+
 
 def now_utc():
     """Real time, or CTZB_NOW (ISO 8601) when a test replays a past run; same rule as clock.py,
@@ -212,8 +218,28 @@ def main():
     status = {r["item"]: r["value"] for r in rows(d("status.csv"))}
     ok, check_lines = stack_check(d("stack_status.txt"))
     steps = step_outcomes()
-    failed_steps = [k for k in GATING_STEPS if steps.get(k) == "failure"]
+    # A real run names every gating step. Anything but "success" (failure, skipped, cancelled, missing, a typo)
+    # withholds; only a hand run with no CTZB_STEP_OUTCOMES at all is taken on the checks below alone.
+    failed_steps = [k for k in GATING_STEPS if steps.get(k) != "success"] if os.environ.get("CTZB_STEP_OUTCOMES", "").strip() else []
     all_ok = ok and not failed_steps
+    # 13 Nov 2026 audit #21: a clean run always writes these (stack_live.py). If one is gone after the checks
+    # passed, the feed must not read as a quiet market: crash here, which publishes the withheld feed.
+    if all_ok:
+        gone = [f for f in ("cards.csv", "open.csv", "cards_open.csv", "cards_example.csv", "prints.csv") if not os.path.exists(d(f))]
+        if gone:
+            raise RuntimeError("missing after a clean run: " + ", ".join(gone))
+        # the run seal (seal.py): every scoring step finished, in order, and no file in datasets/ has changed
+        # since the step that wrote it. The member-card extras are not a gating step: when that step failed its
+        # files are withheld below, so their state is not held against the cards.
+        extras_failed = steps.get("extras") == "failure"
+        broken = seal.problems(a.datasets, need=("refresh", "grade", "stack", "cards") + (() if extras_failed else ("extras",)),
+                               ignore=EXTRAS_FILES if extras_failed else ())
+        if broken:
+            raise RuntimeError("the run seal is broken: " + "; ".join(broken[:5]))
+    # status.csv is refresh.py's. If refresh failed this run, the file is the last good run's, and its market
+    # filter reading and dates are not today's (audit #21: a held feed repeated "on" after the filter turned off).
+    if steps.get("refresh") == "failure":
+        status = {}
     cards = [card(r) for r in rows(d("cards.csv"))] if all_ok else []
     # the member site's worked example, as a real card from what was known at its alert (12 Nov 2026)
     ex_rows = rows(d("cards_example.csv")) if os.path.exists(d("cards_example.csv")) else []
@@ -227,6 +253,7 @@ def main():
     confirmed.update({sid(r["chart"], r["entry"]): r["chart"] for r in rows(d("forward.csv"))})
     log_rows = read_log(a.alert_log)
     alerts, seeded = [], False
+    log_dirty = False   # the alert log is written only once the feed has passed its strict check (13 Nov 2026)
     if not all_ok:
         pass  # withheld: nothing emitted, nothing logged -- the next clean run sends it
     elif not os.path.exists(a.alert_log):
@@ -237,7 +264,7 @@ def main():
                     for s_, ch in sorted(forming.items())] + \
                    [{"alert_id": f"{s_}:confirmed", "event": "confirmed", "signal_id": s_, "chart": ch, "emitted_at": "seeded"}
                     for s_, ch in sorted(confirmed.items())]
-        write_log(a.alert_log, log_rows)
+        log_dirty = True
     else:
         new_events = pending_alerts(forming, confirmed, log_rows)
         for ev, s_, ch in new_events:
@@ -246,7 +273,7 @@ def main():
                            "emitted_at": now, "label": LABEL})
             log_rows.append({"alert_id": aid, "event": ev, "signal_id": s_, "chart": ch, "emitted_at": now})
         if new_events:
-            write_log(a.alert_log, log_rows)
+            log_dirty = True
 
     feed = {
         "schema_version": SCHEMA_VERSION,
@@ -374,6 +401,14 @@ def main():
                   "q75_pct": num(r["q75_pct"])} for r in pe]} if pe else None
 
     feed = signal_aliases(feed)
+    # 13 Nov 2026: the member page uses a feed only if it passes its strict check (the schema inside the page;
+    # feedcheck.py reads the same block). Never publish one it would reject: crash, which publishes the
+    # withheld feed and turns the run red.
+    bad = feedcheck.problems(json.loads(json.dumps(feed)))
+    if bad:
+        raise RuntimeError("feed fails the strict check: " + "; ".join(bad[:5]))
+    if log_dirty:
+        write_log(a.alert_log, log_rows)
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     with open(a.out, "w") as f:
         json.dump(feed, f, indent=1)
