@@ -295,7 +295,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>The big number</dt><dd>The share of past signals like this one that rose 10% within 60 days of the entry close. The line under it: the share that did that without ever falling 25.3% below the entry close, where 3.3x leverage with 5% maintenance margin liquidates.</dd>
             <dt>Typical high</dt><dd>The median best price within 60 days, from the entry close.</dd>
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
-            <dt>Where the odds fade</dt><dd>This setup's own record: after it first falls 5%, 10%, 15% or 20%, the share of its past signals that still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
+            <dt>Where the odds fade</dt><dd>This setup's own record: of its past signals that fell 5%, 10%, 15% or 20% before rising 10%, the share that then still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our <span id="howBar">posting bar</span>.</dd>
             <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median best price of all those misses within the 60 days.</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
@@ -756,7 +756,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (sf) {
       lad.innerHTML = row("From entry", sf.base, sf.baseX != null && sf.baseX < sf.bar, `n ${m.n}`)
         + sf.rows.map((r) => row(`Falls ${r.fell}% first`, r.v === "" ? null : r.v, r.x !== "" && r.x != null && r.x < sf.bar, `n ${r.n}`)).join("")
-        + `<div class="fine">Share of this setup's past signals that, after first falling that far, still rose 10% before ever falling 25.3%. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
+        + `<div class="fine">Of this setup's past signals that fell that far before rising 10%, the share that then still rose 10% before ever falling 25.3%. Below ${sf.bar}% the edge is gone. Small samples: read the n.</div>`;
     } else {
       const of = S.feed && S.feed.odds_fade;
       const bars = (of ? of.early_dip.map((b) => ({ t: "Dip " + b.band.replace("shallower than -2%", "0 to −2%").replace("worse than", "past"), v: b.rose10_after_day10_pct, gone: b.edge === "gone" })) : [])
@@ -1113,7 +1113,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span class="small">Typical drop</span><b class="lo">${pct(m.drop)} · ${money(pxAt(m.entry, m.drop))}</b></div>
         <div class="kv num"><span class="small">Edge gone below</span><b class="ed">${(() => { const sf = setupFade(m); if (sf && sf.edge === 0) return "below the bar already"; const d = sf ? sf.edge : e.dipPct; return d == null ? "holds at every level" : money(pxAt(m.entry, d)) + " (" + pct(d, 0) + ")"; })()}</b></div>
         ${forming && !(c && c._open) ? `<div class="fine">Prices use the latest price (today's bar is still open) as a stand-in for the entry.</div>` : ""}
-        ${setupFade(m) ? `<div class="fine">Bands beside the entry: this setup's own ladder. From entry, then after first falling 5%, 10% and 15%: the share of its past signals that still rose 10% before ever falling 25.3%, with the number of signals.</div>` : ""}
+        ${setupFade(m) ? `<div class="fine">Bands beside the entry: this setup's own ladder. From entry, then of the signals that fell 5%, 10% and 15% before rising 10%: the share that still rose 10% before ever falling 25.3%, with the number of signals.</div>` : ""}
       </div>
       ${what}
       <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${S.trades ? "The lead trader's real entries and exits are listed on the Now tab; they are not drawn on this chart." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown."}</div>

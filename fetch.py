@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pull Coinbase daily candles and rebuild the multi-day bars CTZB runs on.
 
-Coinbase serves only 1D natively. TradingView builds 2D/3D/5D/8D by bucketing
+Coinbase serves nothing longer than 1D natively. TradingView builds 2D/3D/5D/8D by bucketing
 days within each calendar year, restarting the count on 1 January. That rule
 was verified against TradingView exports: 100% bar match and 297 of 297
 signals identical across ETH 2D, 3D, 5D and 8D.

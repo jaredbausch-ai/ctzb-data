@@ -1,6 +1,6 @@
 """The run seal (13 Nov 2026, after audit #21): nothing in datasets/ may change between pipeline steps.
 
-Each scoring step (refresh, grade, extras, stack, cards) checks, as it starts, that every file the previous
+refresh.py starts a new seal; each later scoring step (grade, extras, stack, cards) checks, as it starts, that every file the previous
 step left in datasets/ is exactly as that step left it, and records, as it finishes, its own name and a
 SHA-256 of every file. feed_live.py checks the seal before it builds the feed: every required step must
 have finished, in order, and every file must still match. A file deleted, emptied, cut, edited or swapped

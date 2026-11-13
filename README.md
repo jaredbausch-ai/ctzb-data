@@ -48,7 +48,9 @@ the single difference was the bar in progress.
 
 Nothing downstream is affected. The engine can return a signal whose confirmation bar is the still-open last
 bar; every scoring step drops it until that bar has closed (bucket_end has no close date for the last bar).
-live.csv's `lastPrint` can still name it, but no figure counts it, which is the intended behaviour.
+live.csv's `lastPrint`, `lastEntry`, `lastTag` and `daysSince` can still describe it, and buy.csv's agreement
+count can count it (nothing on the dashboard, the feed or the member site reads that count); no scored figure
+counts it, which is the intended behaviour.
 
 ## Consuming it
 

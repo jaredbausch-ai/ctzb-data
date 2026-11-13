@@ -13,8 +13,9 @@ refuses to publish a feed that fails the strict check.
 ## Rules
 
 - Fields are only ever **added**, never renamed or removed. `schema_version`
-  goes up by one whenever a field is added. (The 11-12 Nov 2026 additions were made at schema 5 and are
-  batched into **schema 6**, 12 Nov 2026; from 6 on, one step per addition again.)
+  is 6: the 11-12 Nov 2026 additions were batched into **schema 6** (12 Nov 2026), and two fields added on
+  13 Nov 2026 were also added at schema 6 without a bump: top-level `alert_log` (audit #22) and
+  `alert_log_carry` (fail-closed feed only, audit #24).
 - Every card, print, open signal and grade row carries `label`: computed
   signal, not a fill, entry quality only, not a track record.
 - `cards`, `open_signals`, `example_card`, `prints`, `confluence_windows`, `grade_odds` and the extras are
@@ -92,7 +93,7 @@ Fields added; nothing renamed or removed.
 | `alerts[].alert_id` | | `{signal_id}:{event}`. Fixed for that event, forever. |
 | `alerts_withheld` | top level | True when any scoring check failed this run. `alerts` is then empty. |
 | `alerts_seeded` | top level | True only on a run made with `CTZB_SEED_ALERT_LOG=1`, which starts a new alert log on purpose and records what is already live without alerting on it. |
-| `checks.all_passed`, `checks.steps`, `checks.failed_steps` | `checks` | `steps`: every step outcome the workflow passed (refresh, grade, extras, stack, cards, regress; extras does not gate). `failed_steps`: the gating steps that did not report success. `all_passed`: no FAILED line and no failed gating step. `checks.passed` keeps its old meaning: no FAILED line in stack_status.txt, i.e. the stack check and the card cross-check (verify_cards.py appends to that file). |
+| `checks.all_passed`, `checks.steps`, `checks.failed_steps` | `checks` | `steps`: every step outcome the workflow passed (refresh, grade, extras, stack, cards, regress; extras does not gate). `failed_steps`: the gating steps that did not report success. `all_passed`: stack_status.txt exists, is not empty and has no FAILED line, and no gating step failed. `checks.passed` keeps its old meaning: stack_status.txt exists, is not empty and has no FAILED line, i.e. the stack check and the card cross-check (verify_cards.py appends to that file). |
 | `cards_withheld` | top level | Unchanged meaning, wider trigger: now true when ANY gating step failed, not only the stack check. |
 
 **The one rule for anything that sends alerts:** record every `alert_id` you send and
@@ -264,7 +265,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - A forming low's tags (`prints[].tags`, the card's confirmations) use exact CT and K with the engine's EPS guard,
   the same test applied once it confirms; they used the 1-decimal display values.
 - `trades_a_year` / `signals_a_year` is rounded once from the unrounded rate (was the 1-decimal rate rounded again).
-- liveread.csv's "Regime gate" row reads ON / OFF on the trough date, like everything else (its "on for N days" age stays as of the entry date).
+- liveread.csv's "Regime gate" row reads ON / OFF on the trough date, like everything else (its "on for N days" age stays as of the entry date, or today for a forming low).
 - Member page: a live setup's card says on the card itself whether its edge is lost or on track, and that its
   odds are "as of the entry close, not from today"; an edge-lost live card is no longer drawn in the live colour.
   The chart's ladder bands show n and are captioned; the chart side box restates the sample for every card.

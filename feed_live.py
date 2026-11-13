@@ -7,8 +7,8 @@ file instead of emailed copies. The Cloudflare backend that serves views per
 audience will read it too, once the ETHKROS Cloudflare account exists.
 
 Rules (docs/FEED_SPEC.md):
-  - fields are only ever added, never renamed or removed; schema_version goes
-    up by one whenever a field is added
+  - fields are only ever added, never renamed or removed; schema_version is 6
+    (the 13 Nov 2026 additions alert_log and alert_log_carry were made at 6 without a bump)
   - every record carries the computed-signal label
   - cards, live signals, the example and every figure from the run's datasets are withheld
     (cards_withheld true) whenever the stack check, the card cross-check or any gating step
