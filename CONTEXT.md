@@ -1424,8 +1424,11 @@ anything that can happen in real life: no wrong figure on real data, no doc sent
 code, and no defect under damage that can really occur (outages, bad exchange data, partial or killed runs,
 lost, cut, stale or duplicated files, wrong clocks, slow files). Files hand-forged so that each field is valid
 but they contradict each other are hardening only: found cases are listed and fixed where cheap, but they do
-not stop a run counting as clean (Jared, 13 Nov 10:23 ET, after audit #22). Two clean runs in a row are
-required before the site ships. To get there without one audit per handful
+not stop a run counting as clean (Jared, 13 Nov 10:23 ET, after audit #22). The docs part counts only what
+people rely on: the member page's own words, docs/FEED_SPEC.md, docs/CARD_SPEC.md, the three READMEs and the
+CONTEXT sections that state current rules; the dated history, PRETRADE, SITE_CHANGES, AUDIT_LOG, code comments
+and test headers were checked in full once (audits #22 and #23, 100 findings fixed) and are not re-counted
+(Jared, 13 Nov 12:56 ET). Two clean runs in a row are required before the site ships. To get there without one audit per handful
 of findings: (1) the member page uses a file only if it passes one strict check (the schema inside the page,
 `FEED_SCHEMA`; `feedcheck.py` reads the same block, and `feed_live.py` will not publish a feed that fails
 it), so a damaged feed reads "Data unavailable" instead of being patched case by case; (2)
