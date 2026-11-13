@@ -28,6 +28,7 @@ Live right now: version **656d67c3** (11 Nov 2026).
 | # | Change | Requested |
 |---|---|---|
 | R1 | Previous signals column ("Edge intact" and "Edge lost or closed"): clicking a past signal's mini card opens its full card in the middle panel, the same card a member sees for a live setup. | 12 Nov (Jared) |
+| R2 | Chart tab, right-hand column: show the card for the setup being charted (Jared saw it blank on the live site for the live BTC 2D setup). **Cause of the blank column:** the live version (656d67c3) crashes on the Chart tab when the feed carries a live setup it wasn't built for ("Reduce of empty array" — it also blanks "Where the past signals went" and draws the entry on today instead of 21 Sep). The pending build already fixes the crash and fills the column with a short summary of the card (big number, typical high, +10% level, +20%, typical drop, edge) plus the live day-count box. **Still to build:** put the full card there (ladder, eras, timing, if-it-misses), the same card as on the Now tab. | 12 Nov (Jared) |
 
 ## Deployed
 
