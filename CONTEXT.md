@@ -1476,7 +1476,7 @@ from-entry figure next to an open trade reads as that trade's chance, and most r
 look at the picture, not the caveat. Use the from-here read (same state, same day after
 entry). Any visual must be readable without its caption: if the picture alone can be
 misread, it is wrong. [Member site, 12 Nov 2026 audit #14: a live setup's member card is the card as issued at
-its entry close; no from-today figure exists for members. The card itself now says "Edge lost" / "On track" and
+its entry close; no from-today figure exists for members. The card itself now says "Edge lost" / "Rose 10%" / "On track" and
 "as of the entry close, not from today", and an edge-lost card is dimmed. Whether members should get a
 from-today figure instead is an open decision for Jared.]
 

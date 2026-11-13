@@ -141,6 +141,24 @@ def write(path, bars):
     print(f"  {os.path.basename(path):24s} {len(bars):5d} bars  through {max(bars)}")
 
 
+def today_from_hourly(product, today):
+    """Today's (UTC) daily bar built from today's hourly candles: (o, h, l, c, v), or None if there are none.
+
+    12 Nov 2026 audit #17. Every later step treats the last daily bar as today's open bar. In the first minutes
+    after 00:00 UTC the daily endpoint may not have opened the new bar yet; until this date the pipeline then ran
+    on yesterday's bar as if it were still open. The hourly endpoint has the day's trades as soon as there are
+    any, so the bar is built from it. Real candles, replaced by the exchange's own daily bar on the next run.
+    """
+    iso = "%Y-%m-%dT%H:%M:%SZ"
+    start = dt.datetime.combine(today, dt.time(), dt.timezone.utc)
+    now = dt.datetime.now(dt.timezone.utc)
+    rows = get(f"{API.format(p=product)}?granularity=3600&start={start.strftime(iso)}&end={now.strftime(iso)}") or []
+    rows = sorted(r for r in rows if dt.datetime.fromtimestamp(r[0], dt.timezone.utc).date() == today)
+    if not rows:
+        return None
+    return (rows[0][3], max(r[2] for r in rows), min(r[1] for r in rows), rows[-1][4], sum(r[5] for r in rows))  # API order t,l,h,o,c,v
+
+
 def main():
     for product in PRODUCTS:
         sym = product.split("-")[0]
@@ -148,6 +166,12 @@ def main():
         bars = daily(product)
         if not bars:
             raise SystemExit(f"no candles returned for {product}")
+        today = dt.datetime.now(dt.timezone.utc).date()
+        if today not in bars:
+            tb = today_from_hourly(product, today)
+            if tb:
+                bars[today] = tb
+                print(f"  the daily endpoint has not opened {today} yet: today's bar built from the hourly candles")
         write(os.path.join(OUT, f"{sym}_1D.csv"), bars)
         for tf in TIMEFRAMES:
             write(os.path.join(OUT, f"{sym}_{tf}D.csv"), resample(bars, tf))

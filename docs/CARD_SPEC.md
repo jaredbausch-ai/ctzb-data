@@ -57,7 +57,7 @@ Which lows get a card: a forming low only on a graded chart (1D, 2D, 3D, 5D) wit
 trough date; a live (open) setup on a graded chart; the worked example. There are no 8D cards.
 
 A live setup's card is the card as issued at its entry close. Because a from-entry figure beside an open signal
-can read as today's chance (CONTEXT, 31 Oct 2026), the card itself says "Edge lost" or "On track", says the
+can read as today's chance (CONTEXT, 31 Oct 2026), the card itself says "Edge lost", "Rose 10%" (it rose 10% before reaching its edge level) or "On track", says the
 odds are "as of the entry close, not from today", and an edge-lost card is dimmed and not drawn in the live
 colour. No from-today odds are computed for members.
 

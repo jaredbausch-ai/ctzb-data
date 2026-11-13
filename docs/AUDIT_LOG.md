@@ -440,6 +440,44 @@ unavailable states, 7 docs-vs-code items. Not a clean run. Report: `analysis/aud
 60th day closed), verify_cards (22 exact), feed tests 15 + 28 + 15, worker tests, Action-environment test,
 gate-off replay, year-end replays 8/8, page states 20/20, a replay of 15 Mar 2021 (used to crash), fire drills
 58/58.
+**Pipeline on GitHub with the round-16 code:** dispatched run 43339771405 passed every step.
+
+## Round 17 — 12 Nov, 20:55 ET (audit #17, a new independent agent)
+
+**Found: both frozen states clean** — 60,015 comparisons, 0 disagreements (data and rendered page), and the
+checker caught 5 of 5 planted errors. Not a clean run: it also replayed 173 other dates (3.7 million comparisons)
+and 30 synthetic page states, and found 2 defects on other dates, 5 in page states that only occur when
+something is broken, and 3 docs-vs-code items. Report: `analysis/audit17_2026-11-12/AUDIT17.md`.
+
+**Changed** (commits 3dddb15 and this round's):
+- **A quiet market failed the run.** With no low forming on any chart and no signal in its 60 days, the stack
+  step raised a "coverage failure" (nothing to evaluate a read against), so the feed was withheld and the page
+  said "Setups held back" instead of the quiet card. By the auditor's scan that was 38 of the 271 filter-off
+  days between 5 Dec 2025 and 1 Sep 2026. The check now needs a subject before it requires every read; a replay
+  of 15 Mar 2026 publishes normally.
+- **A run just after midnight UTC, before the new day's candle existed**, showed a setup whose confirmation bar
+  had already closed as "forming … can still vanish" (and left it out of open signals) until the next run. The
+  pipeline assumed the last daily bar is today's open bar, but the freshness check accepted yesterday's bar for
+  the first 20 minutes of the day. Now: fetch.py builds today's bar from the hourly candles when the daily
+  endpoint is slow; the freshness check no longer accepts yesterday's bar (such a run is retried like any stale
+  fetch); and the stack step fails closed if today's bar is missing. (At 00:13 UTC on 13 Nov the exchange already
+  had the new daily candle, so this was not live today.)
+- **Fail-closed feed**: the header said "Market filter: off" and the scored date was blank; both now read
+  "unavailable".
+- **A chart that can't be drawn** (example file missing, candle file missing or too short) kept the previous
+  setup's title, subtitle or cloud. One exit path now clears everything.
+- **Chart note claimed lead-trader markers** that are never drawn. It now says his trades are listed on the Now
+  tab.
+- Chart labels are drawn above the candles (the auditor's legibility remark; Jared, 11 Nov). No `-0.0` in the feed.
+- Docs: FEED_SPEC (fail-closed feed, audit #17 section), CARD_SPEC and CONTEXT (three live-card statuses).
+- New tests: `tests/test_no_today_bar.sh` (a run without today's candle withholds cards), `tests/test_fetch_today.py`
+  (hourly fallback, stricter freshness check, 4/4), `tests/test_page_states.py` now 21 checks; `tests/replay_at.sh`
+  takes a clock and a keep-going flag.
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new), verify_cards (22
+exact), feed tests 15 + 28 + 15, worker tests, Action-environment test, gate-off replay, no-today-bar replay,
+year-end replays 8/8, page states 21/21, fetch tests 4/4, replay of 15 Mar 2026, fire drills 58/58, chart
+screenshot.
 
 ---
 

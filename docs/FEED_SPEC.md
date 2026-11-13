@@ -130,8 +130,9 @@ check being skipped run after run (an unreachable Kraken never fails a run on it
 
 If `feed_live.py` itself crashes, it writes a feed with every list empty, `cards_withheld`,
 `alerts_withheld` and `extras_withheld` all true, `checks.failed_steps: ["feed"]` and a
-`feed_error` naming the exception type, then exits 1. Readers need no special case: it is a
-withheld feed.
+`feed_error` naming the exception type, then exits 1. It is a withheld feed; the one thing a reader
+must handle is that `market_regime` and `scored_as_of` are empty in it, which means unknown, not "off" (the
+member page shows "Market filter: unavailable"; audit #17).
 
 ### +10% switch (11 Nov 2026, additive, schema stays 5)
 
@@ -274,3 +275,18 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - Member page: prices built from a percentage use exact decimal arithmetic; the "If it misses" row names its pool
   on every card; a feed that is down or held back, a missing ledger and a missing chart file each read as
   unavailable, not as "none" / "0 signals" / the previous setup's figures.
+
+### Audit #17 corrections (12 Nov 2026)
+
+- **A quiet market is not a failure.** With no low forming on any chart and no signal in its 60 days,
+  stack_live.py raised COVERAGE FAILURE (no subject, so no read was evaluated) and the feed was withheld: the
+  page said "held back" instead of the quiet card. By the auditor's scan that was 38 of the 271 filter-off days
+  from 5 Dec 2025 to 1 Sep 2026. The coverage check now needs a subject before it requires every read.
+- **The last daily bar is always today's open bar.** fetch.py builds today's bar from the hourly candles when
+  the daily endpoint has not opened it yet; check_fresh.py no longer accepts yesterday's bar in the first 20
+  minutes after midnight; stack_live.py fails closed if the last daily bar isn't today's. Before, such a run
+  showed a setup whose confirmation bar had already closed as "forming ... can still vanish".
+- A fail-closed feed has no `market_regime` or `scored_as_of`: the page shows "unavailable", never "off".
+- No `-0.0` in the feed.
+- Member page: a chart that can't be drawn clears everything from the setup charted before; the chart note no
+  longer claims lead-trader markers (none are drawn; his trades are listed on the Now tab).

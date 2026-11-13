@@ -9,7 +9,10 @@ retried, never committed as if it were fresh.
     accepting the previous bar let an hourly feed frozen before the close pass, and the
     gate then marked the window done). If the exchange is merely slow to open the new
     bar, the 1-minute re-run covers it.
-  - in the first 20 minutes after 00:00 UTC, yesterday's 1D bar is accepted
+  - (until 12 Nov 2026 yesterday's 1D bar was accepted in the first 20 minutes after 00:00 UTC. Audit #17:
+    every later step treats the last daily bar as today's open bar, so a run on yesterday's bar mixed two days.
+    fetch.py now builds today's bar from the hourly candles when the daily endpoint is slow; if even that is
+    missing the run is stale and is retried, like any other stale fetch.)
 """
 import csv, os, sys, time, datetime as dt
 
@@ -24,8 +27,7 @@ for a in ("ETH", "BTC"):
             rows = list(csv.reader(f))
         return int(float(rows[-1][0]))
     d1 = dt.datetime.fromtimestamp(last(f"{a}_1D.csv"), dt.timezone.utc).date()
-    early = dt.datetime.now(dt.timezone.utc).hour == 0 and dt.datetime.now(dt.timezone.utc).minute < 20
-    if d1 != today and not (early and d1 == today - dt.timedelta(days=1)):
+    if d1 != today:
         bad.append(f"{a}_1D last bar {d1}, expected {today}")
     h4 = last(f"{a}_4H.csv")
     if h4 < b4:

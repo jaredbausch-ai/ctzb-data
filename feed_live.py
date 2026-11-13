@@ -69,6 +69,8 @@ def num(v):
         return None
     try:
         x = float(v)
+        if x == 0:
+            x = 0.0   # never -0.0 in the feed (audit #17)
         return int(x) if x.is_integer() and "." not in str(v) else x
     except ValueError:
         return v

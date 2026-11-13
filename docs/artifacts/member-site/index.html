@@ -821,6 +821,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         svgEl(svg, "text", { x: X(i) + (below ? 12 : -14), y: Y(p) + 5, fill: "var(--text)", "font-size": 13, "font-weight": 700, "text-anchor": below ? "start" : "end" }, `This one: ${money(p)} · ${pct((p / entry - 1) * 100)} · ${dTxt}`);
       }
     }
+    // Every label is moved above the candles (each already has a dark outline, see svgEl), so a candle never
+    // covers a figure (12 Nov 2026 audit #17 remark; Jared, 11 Nov: no writing drawn over)
+    svg.querySelectorAll("text").forEach((t) => svg.appendChild(t));
     renderCloud(happened, m.asset, c);
     renderChartSide(m, happened, forming, c);
   }
@@ -890,7 +893,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         ${setupFade(m) ? `<div class="fine">Bands beside the entry: this setup's own ladder. From entry, then after first falling 5%, 10% and 15%: the share of its past signals that still rose 10% before ever falling 25.3%, with the number of signals.</div>` : ""}
       </div>
       ${what}
-      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${S.trades ? "The lead trader's real entries and exits show on the chart as markers. None on this one." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown."}</div>
+      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${S.trades ? "The lead trader's real entries and exits are listed on the Now tab; they are not drawn on this chart." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown."}</div>
       <div class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. Past results don't guarantee future results.</div>`;
   }
 

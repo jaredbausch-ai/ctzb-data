@@ -130,13 +130,16 @@ WATCH_NOTE = ('CT RSI day-ten three-state read (CONTEXT open items): the definit
               '"both agree" is not written in the repo, so it cannot be computed yet.')
 
 
-def check_coverage(evaluated):
+def check_coverage(evaluated, n_subjects=1):
     txt = open(os.path.join(HERE, 'docs', 'PRETRADE.md')).read()
     sec = txt.split('## Tier 1')[1].split('## Positioning read')[0]
     heads = [h.strip() for h in re.findall(r'^### (.+)$', sec, re.M)]
     missing = [h for h in heads if h not in DOC_MAP]
     unknown = [i for ids in DOC_MAP.values() for i in ids if i not in REG_IDS]
-    unevaluated = [i for i in REG_IDS if i not in evaluated]
+    # with no subject at all (nothing forming on any chart, no signal in its 60 days) there is nothing to
+    # evaluate a read against: that is a quiet market, not a coverage failure (12 Nov 2026 audit #17: the
+    # replay of 15 Mar 2026 failed here and would have held the feed back)
+    unevaluated = [i for i in REG_IDS if i not in evaluated] if n_subjects else []
     if missing or unknown or unevaluated:
         msg = ('COVERAGE FAILURE -- ' + '; '.join(missing + unknown + unevaluated))
         open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED {msg}\n')
@@ -193,6 +196,14 @@ def main():
     # every open signal's days one short)
     today = now_utc().date()
     data_to = max(DAY['ETH']['date'])
+    # The last daily bar must be today's open bar: everything below (closed / open, forming lows, day counts)
+    # assumes it. The workflow's freshness check guarantees it for a real run; this fails closed anywhere else
+    # (12 Nov 2026 audit #17: a run just after midnight on yesterday's bar mixed two days).
+    for a_ in ASSETS:
+        if max(DAY[a_]['date']) != today:
+            msg = f"{a_} daily candles end {max(DAY[a_]['date'])} but the clock says {today}: today's bar is missing"
+            open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED {msg}\n')
+            raise SystemExit('stack_live: ' + msg)
 
     # regime age
     def regime_age(d):
@@ -685,7 +696,7 @@ def main():
                             head + ((' · '.join(parts)) if parts else 'price above every level of the drop'),
                             '', '', '', '', '', '', '', '', 'odds from today\'s state, not from entry; exits stay discretionary'])
     out.append(['(all)', WATCH_NOTE, 'not computed', '', '', '', '', '', '', '', '', ''])
-    heads = check_coverage(evaluated)
+    heads = check_coverage(evaluated, len(subjects))
 
     # ------------------------------------------------ windows open now
     wins = []
