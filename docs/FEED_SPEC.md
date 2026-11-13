@@ -164,7 +164,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   60th day had closed by 2024-09-22. `null` when withheld.
 - `open_signals[]` now cover ETH and BTC on 1D/2D/3D/5D (they were ETH only), come from `datasets/open.csv`
   (stack_live.py), are dated by the confirmation CLOSE date (same id as the print and the card), count `days_elapsed` in
-  calendar days since that close, and take day-10/30/60 and best/worst from closed daily candles. Each carries `card`:
+  calendar days since that close (today is the clock's UTC date, not the last candle's; audit #16), and take day-10/30/60 and best/worst from closed daily candles. Each carries `card`:
   its own full card (sample, ladder, edge). Withheld (empty) when checks fail.
 - `odds_fade`: measured on daily candles from the entry close; every row's +10%/+20% share counts highs after day 10
   (days 11 to 60); the day-10 rows group by the day-10 daily close. Labelled as a general explainer.
@@ -232,7 +232,7 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - One "known by then" rule: a past signal counts once its 60th day (entry + 60) has closed by the moment in
   question. The ledger's odds-on-the-day columns used entry + 61 (one day stricter); they now use entry + 60,
   like the example. 73 ledger rows' odds-on-the-day columns moved; nothing else (baseline re-approved).
-- The page types no figures: the 70% bar in How to read comes from the feed (`odds_fade.posting_bar_pct`), "about N times a year" is counted from the ledger (2020-2025), and without the
+- The page types no figures: the 70% bar in How to read comes from the feed (top-level `posting_bar_pct` since audit #14; `odds_fade.posting_bar_pct` before), "about N times a year" is counted from the ledger (2020-2025), and without the
   feed's `example_card` the example says "unavailable" rather than falling back to built-in numbers.
 - Every forming card says it can still vanish (top grade too), and How to read says a confirmed alert is final
   while a forming heads-up can vanish.
@@ -258,3 +258,19 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
 - Member page: a live setup's card says on the card itself whether its edge is lost or on track, and that its
   odds are "as of the entry close, not from today"; an edge-lost live card is no longer drawn in the live colour.
   The chart's ladder bands show n and are captioned; the chart side box restates the sample for every card.
+
+### Audit #16 corrections (12 Nov 2026)
+
+- `must_close_above` is rounded DOWN to the cent: every close above the shown price confirms, a close at it does
+  not (rounding to nearest could show a price a cent above the real threshold).
+- `open_signals[].edge_status` has a third value, "rose10": the setup rose 10% before reaching its edge level.
+  "intact" now means neither has happened yet.
+- `odds_fade.tier_fixed_on` and the sample sentence quote refresh.py's own tier anchor (status.csv "Tier fixed
+  on"); feed_live derives nothing from its clock.
+- `if_it_misses[]` rows with no misses carry empty medians (an asset/grade with signals but no miss used to crash
+  extras_live.py).
+- stack_live.py takes "today" from the clock's UTC date, like refresh.py: day counts were one short on a run just
+  after midnight UTC, before the new day's candle existed.
+- Member page: prices built from a percentage use exact decimal arithmetic; the "If it misses" row names its pool
+  on every card; a feed that is down or held back, a missing ledger and a missing chart file each read as
+  unavailable, not as "none" / "0 signals" / the previous setup's figures.

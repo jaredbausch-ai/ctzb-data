@@ -699,7 +699,7 @@ def ds_forward(ch, rows_all, outdir, data_dir):
     return out, len(closed), len(won)
 
 
-def ds_status(reg, today, buy, per_year, outdir):
+def ds_status(reg, today, buy, per_year, outdir, tier_fixed_on=None):
     """status.csv - regime, next buy, frequency, when this was scored."""
     up = [r for r in buy if r["status"] == "Upcoming"]
     rows = [["Market regime", "Bullish" if reg(today) else "Bearish"],
@@ -707,6 +707,8 @@ def ds_status(reg, today, buy, per_year, outdir):
             ["Trades a year", f"{round(per_year)} on average" if per_year else "—"],   # one rounding rule (audit #14)
             ["Scored as of", str(today)],
             ["Updated (UTC)", __import__("clock").now_utc().strftime("%Y-%m-%d %H:%M UTC")]]
+    if tier_fixed_on:   # the walk-forward tier's anchor, so the feed quotes this file and derives nothing (audit #16)
+        rows.append(["Tier fixed on", str(tier_fixed_on)])
     write_csv(os.path.join(outdir, "status.csv"), ["item", "value"], rows)
     return rows
 
@@ -769,7 +771,7 @@ def main():
     early = ds_earlydip(ch, keep, a.out, a.data)
     hold = ds_holdcheck(ch, keep, a.out, a.data)
     fwd, fwd_closed, fwd_won = ds_forward(ch, rows_all, a.out, a.data)
-    status = ds_status(reg, today, buy, per_year, a.out)
+    status = ds_status(reg, today, buy, per_year, a.out, tier_fixed_on=anchor if a.tier == "walkforward" else None)
 
     # ------------------------------------------------------------ summary
     print(f"\nscored {today}   regime {status[0][1]}   "

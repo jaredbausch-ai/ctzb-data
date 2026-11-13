@@ -136,7 +136,7 @@ def main():
     write(os.path.join(a.datasets, "oddsfade.csv"), FADE_FIELDS, fade_rows)
     for m in (x for x in miss_rows if x["grade"] == "A+"):
         print(f"extras_live: {m['asset']} A+ {m['aplus_signals']}, missed +10% {m['misses']}, "
-              f"up first {m['up_first']}, median peak {m['median_peak_pct']:+.1f}%")
+              f"up first {m['up_first']}, median peak {m['median_peak_pct'] if m['misses'] else 'n/a'}%")
     print(f"extras_live: paths {', '.join(f'{r} n {n}' for r, n in sorted({(x['asset'], x['n']) for x in path_rows}))}; "
           f"odds-fade rows {len(fade_rows)}; candle files {n_candles}")
 

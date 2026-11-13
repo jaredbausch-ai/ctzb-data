@@ -188,7 +188,11 @@ def main():
             obv.append(obv[-1] + (v if b['close'][i] > b['close'][i - 1] else -v if b['close'][i] < b['close'][i - 1] else 0))
         VOL[a] = (b['date'], obv, E.sma(obv, 20))
     D0S = {k: [x['d0'] for x in v] for k, v in allsig.items()}
-    today = max(DAY['ETH']['date'])
+    # today is the clock's UTC date, as in refresh.py and tagstats.py (12 Nov 2026 audit #16: it was the last
+    # ETH daily candle's date, so a run just after midnight UTC, before the new day's candle existed, counted
+    # every open signal's days one short)
+    today = now_utc().date()
+    data_to = max(DAY['ETH']['date'])
 
     # regime age
     def regime_age(d):
@@ -759,7 +763,7 @@ def main():
               open(os.path.join(HERE, 'analysis', 'registry.json'), 'w'), indent=1)
     open(os.path.join(OUT, 'stack_status.txt'), 'w').write(
         f'{now_utc():%Y-%m-%d %H:%M} UTC OK {len(subjects)} subjects, {len(out)} reads, {len(wins)} open windows, '
-        f'{len(REG_IDS)} registry ids, {len(cells)} confluence cells, data to {today}\n')
+        f'{len(REG_IDS)} registry ids, {len(cells)} confluence cells, data to {data_to}\n')
     print(f'stack_live: {len(subjects)} subjects, {len(out)} reads, {len(wins)} open windows, '
           f'{len(heads)} PRETRADE headings covered, {len(REG_IDS)} registry ids, {len(cells)} confluence cells')
 

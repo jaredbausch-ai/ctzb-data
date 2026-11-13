@@ -23,7 +23,7 @@ def candles(a, tf):
     return json.dumps({"chart": f"{a} {tf}", "bars": [{"t": float(r["time"]), "o": float(r["open"]), "h": float(r["high"]), "l": float(r["low"]), "c": float(r["close"])} for r in csv.DictReader(open(p))]})
 
 
-def render(pw, feed, views=("now", "chart", "record", "read")):
+def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER):
     out = {}
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
     errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
@@ -31,7 +31,7 @@ def render(pw, feed, views=("now", "chart", "record", "read")):
         u = route.request.url
         if u.endswith("/"): return route.fulfill(body=DOC, content_type="text/html")
         if u.endswith("ctzb_feed.json"): return route.fulfill(body=json.dumps(feed), content_type="application/json") if feed is not None else route.fulfill(status=503, body="x")
-        if u.endswith("ledger.csv"): return route.fulfill(body=LEDGER)
+        if u.endswith("ledger.csv"): return route.fulfill(body=ledger) if ledger is not None else route.fulfill(status=503, body="x")
         if "example_" in u: return route.fulfill(body=EX, content_type="application/json")
         if "/candles/" in u:
             a, tf = u.rsplit("/", 1)[1][:-5].split("_"); c = candles(a, tf)
@@ -82,6 +82,19 @@ def main():
         for label, cond, detail in [("quiet card: prints the per-year count from the ledger", f"about {want} times a year (2020 to {y1} average" in t, t[:300].replace("\n", " ")),
                                     ("quiet card: no raw placeholder", not BAD.search(t), t[:200])]:
             n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if not cond else ""))
+        # unknown must not read as "none" (12 Nov 2026 audit #16)
+        held = copy.deepcopy(FEED); held.update(cards_withheld=True, cards=[], open_signals=[])
+        t_down, _ = render(pw, None, views=("now",)); t_held, _ = render(pw, held, views=("now",)); t_led, _ = render(pw, FEED, views=("record", "now"), ledger=None)
+        nomiss = copy.deepcopy(FEED)
+        for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
+        t_nm, e_nm = render(pw, nomiss, views=("now",))
+        for label, cond, detail in [
+            ("feed down: never says there are no live setups", "No live top-grade setups" not in t_down["now"] and "No open top-grade setup" not in t_down["now"] and "Feed unavailable" in t_down["now"], ""),
+            ("held back: never says there are no live setups", "No live top-grade setups" not in t_held["now"] and "No open top-grade setup" not in t_held["now"] and "Held back" in t_held["now"], ""),
+            ("ledger missing: Past signals says unavailable, not 0 signals", "0 signals" not in t_led["record"] and "Past signals unavailable" in t_led["record"], t_led["record"][:200].replace("\n", " ")),
+            ("no misses: the card says so, with no placeholder or error", "none missed" in t_nm["now"] and not BAD.search(t_nm["now"]) and not e_nm, str(e_nm[:1])),
+        ]:
+            n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if detail and not cond else ""))
     print(f"\n{ok}/{n} passed"); sys.exit(0 if ok == n else 1)
 
 

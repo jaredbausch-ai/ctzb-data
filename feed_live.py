@@ -13,7 +13,8 @@ Rules (docs/FEED_SPEC.md):
   - cards are withheld (empty list, cards_withheld true) whenever the stack
     check or the card cross-check failed, the same gate the dashboard uses
   - it only repackages datasets/*.csv written earlier in the same run; it
-    computes nothing of its own
+    computes no figure of its own (it stamps the time, the schema version, the posting bar constant
+    and the aliases, and words the labels)
   - (schema 4, 10 Nov 2026, item 17d) every card, print and open signal carries
     a signal_id = chart + confirmation date, which is the same at every stage of
     a signal's life. "alerts" lists the events NEW in this generation --
@@ -327,11 +328,13 @@ def main():
          "note": "Signals of this asset and grade that did not rise 10% within 60 days (the card's headline). Show the median peak."}
         for r in rows(d("missstats.csv"))] if extras_ok else []
     fade = rows(d("oddsfade.csv")) if extras_ok else []
+    _tf = status.get("Tier fixed on")
+    tier_day = f"{int(_tf[8:10])} {datetime.strptime(_tf, '%Y-%m-%d'):%b %Y}" if _tf else "1 January of the current year"
     feed["odds_fade"] = {
         "label": LABEL,
         "posting_bar_pct": num(fade[0]["posting_bar_pct"]) if fade else None,
-        "tier_fixed_on": f"{now_utc().year}-01-01",
-        "sample": f"ETH signals on the chart/tag pairs in the walk-forward tier as fixed on 1 Jan {now_utc().year}, applied to every signal from 2016 (refresh.py earlydip/holdcheck). In-sample: the tier was chosen on the outcomes of almost all of these signals. Measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
+        "tier_fixed_on": status.get("Tier fixed on"),   # refresh.py's own anchor, from status.csv
+        "sample": f"ETH signals on the chart/tag pairs in the walk-forward tier as fixed on {tier_day}, applied to every signal from 2016 (refresh.py earlydip/holdcheck). In-sample: the tier was chosen on the outcomes of almost all of these signals. Measured on daily candles from the entry close. Each row is grouped by what was known at the day-10 close (the deepest dip in days 1-10, or the day-10 close vs entry) and its +10%/+20% shares count highs AFTER day 10 (days 11 to 60). General explainer only: a card uses its own ladder. Below the posting bar the edge is gone.",
         "edge_measured_on": "rose 10% after day 10 (days 11 to 60)",
         # rose10/20_after_day10_pct name the real window (days 11-60). The *_within60d_pct names are
         # kept, same values, because feed fields are never renamed or removed (FEED_SPEC); don't use them.

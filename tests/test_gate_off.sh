@@ -5,21 +5,8 @@
 # Usage: tests/test_gate_off.sh [work dir]      (exit 1 on failure)
 set -euo pipefail
 SRC="$(cd "$(dirname "$0")/.." && pwd)"; D="${1:-$(mktemp -d)/gateoff}"; rm -rf "${D:?}"; mkdir -p "$D"
-(cd "$SRC" && tar --exclude=.git --exclude='analysis/audit*' -cf - .) | tar -xf - -C "$D"
-python3 - "$D" <<'PY'
-import csv, sys, glob, datetime as dt
-cut = dt.datetime(2026,6,12,tzinfo=dt.timezone.utc).timestamp()
-for p in glob.glob(sys.argv[1]+'/data/*_*.csv'):
-    rows=list(csv.reader(open(p))); h=rows[0]; ti=h.index('time')
-    keep=[r for r in rows[1:] if float(r[ti]) < cut]
-    csv.writer(open(p,'w',newline='')).writerows([h]+keep)
-PY
-export CTZB_NOW=2026-06-11T04:14:00Z
+bash "$SRC/tests/replay_at.sh" 2026-06-11 "$D" > /dev/null || { echo "*** FAIL *** replay did not run"; exit 1; }
 cd "$D"
-for s in "refresh.py --data data --out datasets" grade_live.py extras_live.py stack_live.py verify_cards.py; do
-  python3 $s > /dev/null 2>&1 || { echo "FAIL: $s"; python3 $s 2>&1 | tail -3; exit 1; }
-done
-CTZB_STEP_OUTCOMES="refresh=success,grade=success,extras=success,stack=success,cards=success,regress=success" python3 feed_live.py | tail -1
 python3 -c "
 import json,csv;f=json.load(open('feed/ctzb_feed.json'))
 fa=sum(1 for a in f['alerts'] if a.get('event')=='forming')

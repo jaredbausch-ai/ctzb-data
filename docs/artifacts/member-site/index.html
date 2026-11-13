@@ -331,7 +331,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const num = c * k, neg = num < 0n, a = neg ? -num : num, q = (2n * a + den) / (2n * den);
     return Number(neg ? -q : q) / 100;
   };
-  const money = (v) => v == null ? "n/a" : "$" + (+v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  // rounded by toFixed (half away from zero on the binary value, the same rule as rounding.py), then grouped;
+  // toLocaleString's own rounding breaks ties differently (12 Nov 2026 audit #16)
+  const money = (v) => v == null ? "n/a" : "$" + (+(+v).toFixed(2)).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const median = (a) => { const s = a.filter((x) => Number.isFinite(x)).sort((x, y) => x - y); if (!s.length) return null; const m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
   const r1 = (v, d = 1) => (v === null || v === undefined || !Number.isFinite(+v)) ? null : +(+v).toFixed(d); // half away from zero, like the feed
   const share = (rows, f) => rows.length ? Math.round(100 * rows.filter(f).length / rows.length) : null;
@@ -409,7 +411,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const live = openSignals(), forming = selectable().filter((c) => !c._open);
     const liveBtns = live.length ? live.map((o) => `<button class="pick top" data-sel="${esc(o.signal_id)}" aria-pressed="${on(o.signal_id)}">
         ${esc(o.chart)} <b>Day ${o.days_elapsed}</b><span class="small">best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</span></button>`).join("")
-      : `<span class="pnone">No live top-grade setups right now.</span>`;
+      : `<span class="pnone">${{ down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No live top-grade setups right now."}</span>`;
     const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
         ${esc(c.chart)} <b>${c.rose10_within60d_pct ?? "n/a"}%</b><span class="small">rose 10% in 60 days · n ${c.past_trades ?? "n/a"} · ${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
       : `<span class="pnone">${{ down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "Nothing forming today."}</span>`;
@@ -498,13 +500,15 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       return;
     }
     const e = edgeRule(), mi = m.kind === "example" ? ((S.feed && S.feed.example_if_it_misses) || null) : misses(m.asset, m.grade || "A+");
-    const pool = below && mi ? `<div class="fine" style="text-align: right">all ${mi.signals} ${esc(m.asset)} signals of this grade</div>` : "";
+    // the misses come from the whole asset/grade pool, which can be wider than the card's own sample: name it
+    // on the row for every card (12 Nov 2026 audit #16; only below-grade cards did)
+    const pool = mi && mi.signals ? `<div class="fine" style="text-align: right">${m.kind === "example" ? "of the" : "of all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}</div>` : "";
     const stateTxt = m.kind === "forming" ? "Setup forming" : m.kind === "open" ? "Live setup" : "Confirmed setup";
     const sf = setupFade(m);
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(pxAt(m.entry, e.dipPct))}` : "";
     const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
       : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
-    const missTxt = mi ? `${mi.up_first} of ${mi.misses}` + ` · median best ${pct(mi.median_peak_pct)}` : "n/a";
+    const missTxt = !mi ? "n/a" : !mi.misses ? "none missed" : `${mi.up_first} of ${mi.misses}` + ` · median best ${pct(mi.median_peak_pct)}`;
     box.innerHTML = `
       <div class="card-head">
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
@@ -628,9 +632,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderPrev() {
     const open = ((S.feed && S.feed.open_signals) || []).filter((o) => o.grade === "A+");
     const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) === "fading");
-    $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">No open top-grade setup with its edge intact.</div>`;
+    $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">${{ down: "Unavailable: the feed can't be read right now.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No open top-grade setup with its edge intact."}</div>`;
     const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
-    $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + recent.map((r) => `
+    $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + (S.ledgerOk ? "" : `<div class="none">Past signals unavailable right now.</div>`) + recent.map((r) => `
       <div class="mini closed">
         <div><div class="name">${esc(r.chart)}</div><div class="sub num">${dateLong(r.entry)} · best ${pct(+r.bestMove)} · worst ${pct(+r.maxDrawdown)}</div></div>
         <span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Reached +20%" : r.reached10 === "yes" ? "Rose 10%" : "Missed"}</span>
@@ -638,7 +642,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   }
   function miniOpen(o, cls) {
     return `<div class="mini ${cls}"><div><div class="name">${esc(o.chart)}</div><div class="sub num">Day ${o.days_elapsed} of 60 · best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</div></div>
-      <span class="badge ${cls ? "no" : "yes"}">${cls ? "Edge lost" : "On track"}</span></div>`;
+      <span class="badge ${cls ? "no" : "yes"}">${cls ? "Edge lost" : o.edge_status === "rose10" ? "Rose 10%" : "On track"}</span></div>`;
   }
 
   /* ---------- header ---------- */
@@ -685,7 +689,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     } else {
       m = c._open ? cardFromOpen(c) : cardFromFeed(c); forming = true; tfd = TF_DAYS[c._open ? c.chart.split(" ")[1] : c.timeframe] || 1;
       const cd = await candlesFor(c.chart);
-      if (!cd) { svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable for " + c.chart); return; }
+      if (!cd) {
+        svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, "Chart data unavailable for " + c.chart);
+        $("#chTitle").textContent = c.chart.replace(" ", " · "); $("#chSub").textContent = "This chart's candles couldn't be loaded.";
+        $("#chartSide").innerHTML = ""; $("#cloudSvg").innerHTML = ""; $("#cloudNote").textContent = ""; $("#cloudSub").textContent = ""; $(".toggle").hidden = true;
+        return;
+      }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
       if (c._open) {
         const k = bars.findIndex((b) => dayOf(barNextOpen(b.t, tfd) - 86400) === c.entry_date);   // short year-end bars too (audit #15)
@@ -885,7 +894,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function renderRecord() {
     const rows = S.ledger.filter((r) => S.asset === "all" || r.asset === S.asset).sort((a, b) => b.entry.localeCompare(a.entry));
     $$(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.asset === S.asset)));
-    $("#recCount").textContent = `${rows.length} signals · ${rows.filter((r) => r.reached10 !== "yes").length} missed +10%`;
+    $("#recCount").textContent = S.ledgerOk ? `${rows.length} signals · ${rows.filter((r) => r.reached10 !== "yes").length} missed +10%` : "Past signals unavailable right now";
     $("#recBody").innerHTML = rows.map((r) => `<tr>
       <td>${dateLong(r.entry)}</td><td>${esc(r.chart)}</td><td>${money(+r.entryPrice)}</td>
       <td><span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached10 === "yes" ? "Yes" : "No"}</span></td>
@@ -963,6 +972,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       get("data/ctzb_feed.json"), get("data/ledger.csv", "text"), get("data/trades.json"), get("data/example_ETH-2D-2024-09-22.json")]);
     S.feed = feed; S.trades = trades; S.example = example;
     S.ledger = ledgerText ? parseCSV(ledgerText).filter((r) => r.grade === "A+") : [];
+    S.ledgerOk = !!ledgerText;   // a missing ledger must read as unavailable, not as an empty record (audit #16)
     // The example only stands in for a quiet market, never for an outage or a failed check.
     if (!bestCard()) { if (feedHealth() === "ok" && !staleNote() && !openSignals().length) { S.preview = true; $("#previewSwitch").checked = true; } } else S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();

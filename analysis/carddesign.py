@@ -71,15 +71,16 @@ def misses(led, asset):
     a = [r for r in led if r["asset"] == asset]
     m = [r for r in a if r["reached10"] == "no"]
     best = [float(r["bestMove"]) for r in m]
+    med = lambda xs: round(st.median(xs), 1) if xs else ""   # no misses: no median (12 Nov 2026 audit #16: this crashed)
     return {
         "asset": asset, "aplus_signals": len(a), "misses": len(m),
         "up_first": sum(b > 0 for b in best),
-        "median_peak_pct": round(st.median(best), 1),
-        "mean_peak_pct": round(st.mean(best), 1),
+        "median_peak_pct": med(best),
+        "mean_peak_pct": round(st.mean(best), 1) if best else "",
         "peaked_5_or_more": sum(b >= 5 for b in best),
         "peaked_10_or_more": sum(b >= 10 for b in best),
-        "median_worst_drop_pct": round(st.median(float(r["maxDrawdown"]) for r in m), 1),
-        "median_day60_pct": round(st.median(float(r["return60d"]) for r in m), 1),
+        "median_worst_drop_pct": med([float(r["maxDrawdown"]) for r in m]),
+        "median_day60_pct": med([float(r["return60d"]) for r in m]),
     }
 
 

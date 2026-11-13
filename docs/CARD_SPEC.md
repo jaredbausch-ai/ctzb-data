@@ -45,7 +45,7 @@ All are measured from the buy price (the close of the confirmation bar) and with
 | Beat a normal move for the market at the time | Share whose highest rise reached 20% x (365-day daily volatility at entry / the asset's 2016-21 median volatility) | `scaled20` |
 | Before 2022 / since 2022 (N signals) | "Rose 10% and never fell 25.3%" (surv10, the line under the big number) split by entry date, with each half's count. The two counts must add up to the card's n | `surv10Old`, `nOld`, `surv10New`, `nNew` |
 | If it falls before it rises 10%: rows 5, 10, 15, 20% | Of the trades that fell that far below the buy price before ever rising 10%: how many there were, the share that then rose 10% BEFORE falling 25.3% (12 Nov 2026 wording: "before", which is what the code measures), and the share that went on to fall 25.3%. Information for a discretionary exit, never a stop rule (five mechanical exits lost to holding) | `l{5,10,15,20}{n,ok,liq}` |
-| Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
+| Confirms at the [day] close, if [asset] closes above X | The close on the confirmation bar below which CT would not stay above the trough, so the low would not confirm. Shown rounded DOWN to the cent (since 12 Nov 2026 audit #16), so every close above the shown price confirms and a close at it does not. Shown when the confirmation bar is the bar now open or the next one (fixed 29 Oct: it was blank on the confirmation day itself) | `killClose` |
 | Confirmations | The confirmations (grade lenses) on now, in plain words | `lenses` |
 | Typical day it first hit +10% / +20% (trades that got there) | Median calendar days from the buy to the first daily high at least 10% / 20% above the buy price, among the trades in the sample that got there within 60 days (added 1 Nov 2026, Jared: "how long do I stay in the tree?") | `daysTo10`, `daysTo20` |
 | Typical day of the 60-day high / of the deepest dip | Median day, counted from the buy, on which each trade made its highest high / its lowest low within the 60 days | `daysToHigh`, `daysToLow` |
@@ -91,7 +91,8 @@ below is defined here; anything not listed is in the table above.
   within 60 days" ... "every figure covers the 60 days after entry"). A figure on a different window
   names its window (e.g. "after day 10", "by day 60").
 - The sample size is always visible, small, under the big number. Anything on a different sample
-  shows its own n: each ladder row, each era, and the misses (their count and the pool).
+  shows its own n: each ladder row, each era, and the misses (their count and the pool, named on the
+  "If it misses" row itself and on the miss tiles, on every card).
 - The card always ends with: these are past signals, not real trades, and past
   results don't promise future ones. Entry quality only.
 - A forming low is labelled "Setup forming" with "It can still vanish before it confirms" until it

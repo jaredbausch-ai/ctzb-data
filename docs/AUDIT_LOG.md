@@ -406,6 +406,40 @@ data doesn't show**, plus 6 docs-vs-code items. Not a clean run. Report: `analys
 **Re-checked after the changes:** every pipeline step, regression (919 unchanged), verify_cards (24 exact), feed
 tests, worker tests, Action-environment test, gate-off replay, year-end replays, page-state test, fire drills
 58/58.
+**Pipeline on GitHub with the round-15 code:** dispatched run 43316862036 passed every step.
+
+## Round 16 — 12 Nov, 19:40 ET (audit #16, a new independent agent; interrupted by the usage limit and resumed)
+
+**Found:** frozen states 86,425 comparisons: **0 disagreements in today's state, 1 in the replay state** (a "must
+close above" price one cent too high for its words). It also replayed 64 other dates (1.9 million comparisons)
+and 17 synthetic page renders: 3 causes on other dates, 1 in a "clock ahead of candles" state, 3 page defects in
+unavailable states, 7 docs-vs-code items. Not a clean run. Report: `analysis/audit16_2026-11-12/AUDIT16.md`.
+
+**Changed** (commits a6ec91a and this round's):
+- **"Confirms if it closes above $X"** was rounded to the nearest cent, so about half the time X was a cent above
+  the real threshold and a close exactly at X would also have confirmed. X is now rounded down to the cent.
+- **Live card "On track. It has not fallen to its edge level"** was false for a setup that rose 10% first and
+  later fell through that level. New status "rose10": the card and the Previous-signals badge say "Rose 10%".
+- **Half-cent prices.** −5% of $3,359.90 is exactly $3,191.905; binary multiplication printed $3,191.90. Prices a
+  percentage away from the entry now use exact decimal arithmetic (`pxAt`), and `money()` rounds by the one rule.
+- **Crash when an asset/grade has signals but no miss** (`carddesign.misses` took a median of nothing; 5 replay
+  dates in 2020–21 could not run). Now empty medians, and the card says "none missed".
+- **Day counts one short just after midnight UTC**: stack_live took "today" from the last daily candle; now from
+  the clock, like the other steps.
+- **"If it misses" row** names its pool on every card (top-grade cards named it only in the tiles).
+- **Unavailable read as "none"**: with the feed down or held back, the Live row and Previous signals said "No
+  live top-grade setups"; with the ledger missing, Past signals said "0 signals"; with a chart file missing, the
+  Chart tab kept the previous setup's heading and figures. Each now says unavailable / held back and clears.
+- **Test harness**: `tests/replay_at.sh` kept the open 2D–8D bar whole (later days leaked into a replay). It now
+  rebuilds those bars from the cut daily candles with fetch.py's own rule; the gate-off test uses it.
+- `odds_fade.tier_fixed_on` quotes refresh.py's own anchor (new status.csv row "Tier fixed on") instead of
+  feed_live's clock. Docs: CONTEXT (rounding), CARD_SPEC (rounded-down threshold, miss pool), FEED_SPEC.
+- `tests/test_page_states.py` grew to 20 checks (feed down, held back, ledger missing, no misses).
+
+**Re-checked after the changes:** every pipeline step, regression (919 unchanged, 2 new: the 13 Sep signals'
+60th day closed), verify_cards (22 exact), feed tests 15 + 28 + 15, worker tests, Action-environment test,
+gate-off replay, year-end replays 8/8, page states 20/20, a replay of 15 Mar 2021 (used to crash), fire drills
+58/58.
 
 ---
 
