@@ -4,7 +4,8 @@
   2. a slow example file: the example chart says "Loading", not "couldn't be loaded";
   3. a slow chart file: the previous setup's chart is cleared at once ("Loading <chart>"), and a file that
      arrives after the member picked another setup is not drawn over it;
-  4. a page left open past 5 hours: the stale warning appears without a reload.
+  4. a page left open past 5 hours: the stale warning appears without a reload, and the worked example the page
+     switched on for a quiet market goes off (audit #25).
 
     python3 tests/test_page_timing.py [state dir]     # default: this repo
 Needs playwright + chromium. Entry quality only: computed signals, not fills.
@@ -50,7 +51,7 @@ DELAY_JS = """
 """
 
 
-def page(b, delay=None, age_h=0.1):
+def page(b, delay=None, age_h=0.1, feed=None):
     """delay: {'feed': ms, 'example': ms, 'candles': ms}: the page's own request waits that long on its (fake) clock,
     released by pg.clock.run_for."""
     delay = delay or {}
@@ -60,7 +61,7 @@ def page(b, delay=None, age_h=0.1):
         u = route.request.url
         if u.endswith('/'): return route.fulfill(body=DOC, content_type='text/html')
         key = u.rsplit('/', 1)[1][:-5] if '/candles/' in u else None
-        if u.endswith('ctzb_feed.json'): return route.fulfill(body=json.dumps(FEED), content_type='application/json')
+        if u.endswith('ctzb_feed.json'): return route.fulfill(body=json.dumps(feed or FEED), content_type='application/json')
         if u.endswith('ledger.csv'): return route.fulfill(body=LEDGER)
         if 'example_' in u: return route.fulfill(body=EX, content_type='application/json')
         if '/candles/' in u:
@@ -121,6 +122,15 @@ with sync_playwright() as pw:
     ok('page left open past 5 hours: the stale warning appears without a reload', not before and after, f'before {before}, after {after}')
     pg.goto('http://site.test/#record'); pg.wait_for_timeout(300)
     ok('...on the other tabs too', 'hours old' in pg.inner_text('#view-record'))
+    pg.close()
+    # 4b. quiet market, page left open: the example the page switched on itself goes off once the data is stale (audit #25)
+    quiet = json.loads(json.dumps(FEED)); quiet.update(cards=[], open_signals=[], market_regime='Bullish')
+    pg, errs = page(b, age_h=4.9, feed=quiet)
+    pg.goto('http://site.test/#now'); pg.wait_for_timeout(1500)
+    on_before = pg.is_checked('#previewSwitch')
+    pg.clock.run_for(20 * 60 * 1000); pg.wait_for_timeout(500)
+    txt = pg.inner_text('#card')
+    ok('quiet market left open past 5 hours: the example goes off, the stale warning shows', on_before and not pg.is_checked('#previewSwitch') and 'No setup right now' in txt and pg.query_selector('#card .stale-note') is not None and not errs, f'before {on_before}, {txt[:120]!r}, {errs[:1]}')
     pg.close()
     b.close()
 print(f'\n{sum(results)}/{len(results)} passed'); sys.exit(0 if all(results) else 1)

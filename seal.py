@@ -12,10 +12,18 @@ The seal also covers the scoring inputs (since 13 Nov 2026): the candle files in
 open-interest series in data/derivs/ and the BTC put/call series in data/options/. It guards against accidents and partial runs, not against someone with write access to
 the repo: anyone who can rewrite a dataset can rewrite the manifest beside it, or the code itself.
 
-The seal is datasets/manifest.json: {"steps": [...], "files": {name: sha256}}. Standard library only
+The seal also names its run (13 Nov 2026, audit #25): `started_at`, the time refresh.py started it. feed_live.py
+refuses a seal started more than MAX_RUN_HOURS before it runs, or after it: running feed_live.py again on its own
+later must not publish the last run's scoring as fresh.
+
+The seal is datasets/manifest.json: {"steps": [...], "files": {name: sha256}, "started_at": ISO time}. Standard library only
 (refresh.py must run before numpy is installed).
 """
-import hashlib, json, os
+import datetime as dt, hashlib, json, os
+
+from clock import now_utc  # CTZB_NOW replays a past run (tests)
+
+MAX_RUN_HOURS = 2   # a whole run takes about 3 minutes
 
 NAME = 'manifest.json'
 ORDER = ('refresh', 'grade', 'extras', 'stack', 'cards')
@@ -76,7 +84,23 @@ def _write(out, m):
 def start(out):
     """A new run: the first scoring step calls this before it writes anything."""
     os.makedirs(out, exist_ok=True)
-    _write(out, {'steps': [], 'files': {}})
+    _write(out, {'steps': [], 'files': {}, 'started_at': now_utc().strftime('%Y-%m-%dT%H:%M:%SZ')})
+
+
+def age_problem(out, now=None):
+    """None if the seal was started by a run at most MAX_RUN_HOURS before `now` (default: the clock), else why not."""
+    m = _read(out)
+    s = m.get('started_at') if m else None
+    try:
+        t = dt.datetime.strptime(s, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
+    except (TypeError, ValueError):
+        return 'the seal does not say when its run started'
+    now = now or now_utc()
+    if t > now:
+        return f'the seal was started in the future ({s})'
+    if now - t > dt.timedelta(hours=MAX_RUN_HOURS):
+        return f'the seal is from an earlier run (started {s}, more than {MAX_RUN_HOURS} h ago)'
+    return None
 
 
 def problems(out, need=(), ignore=()):

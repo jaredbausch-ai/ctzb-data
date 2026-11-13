@@ -373,7 +373,9 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   finishes. feed_live.py checks the same before publishing. A file deleted, emptied, cut, edited or replaced by
   an older copy between steps, a step that never finished, or steps out of order fail the run closed. The
   extras step is not gating: if it fails part-way its files are left out of the later checks and only the
-  extras fields are withheld.
+  extras fields are withheld. The seal names its run (`started_at`, since audit #25): feed_live.py refuses a
+  seal started more than 2 hours before it runs, or after it, so running feed_live.py again on its own later
+  cannot publish the last run's scoring as fresh.
 - **Step outcomes are read strictly.** When `CTZB_STEP_OUTCOMES` is set, a gating step reported as anything
   but "success" (failure, skipped, cancelled, missing) withholds the cards and alerts. Only a hand run with no
   `CTZB_STEP_OUTCOMES` at all is judged on the checks alone.
@@ -503,3 +505,18 @@ The grading itself (which setups are A+, `WINMIN` in refresh.py) is unchanged.
   a crashed run, no longer holds every later run back.
 - **Page:** a live setup's chart file must close at its card's latest price, like a forming setup's (a file from
   another run, or cut short, is not drawn).
+
+### Audit #25 corrections (13 Nov 2026)
+
+- **Run identity:** the run seal records when its run started (`started_at`); feed_live.py fails closed when the
+  seal was started more than 2 hours before it runs, or after it. Running feed_live.py alone a day later in a
+  quiet market used to publish the last run's scoring as a fresh feed (a feed with live or forming setups was
+  already held by the day-count and confirmation-date rules).
+- **Page:** the worked example the page switches on by itself for a quiet market goes off when the data goes stale
+  on a page left open (it used to stay up beside the stale note; a reload already showed "No setup right now").
+  An example the member switched on stays.
+- **Page wording:** a forming card's "must close above" price, when the confirmation bar is the next bar, reads
+  "about $X (an estimate until the current bar closes)"; the review banner no longer says which setups member
+  alerts will cover (undecided); Previous signals reads "as of the latest data · reload for each 4-hour update".
+  The page's strict check now also types `bars_to_confirm` (optional, a whole number).
+- Docs: the corrections listed in docs/AUDIT_LOG.md round 25.

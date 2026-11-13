@@ -309,6 +309,9 @@ def main():
         extras_failed = steps.get("extras") == "failure"
         broken = seal.problems(a.datasets, need=("refresh", "grade", "stack", "cards") + (() if extras_failed else ("extras",)),
                                ignore=EXTRAS_FILES if extras_failed else ())
+        old = seal.age_problem(a.datasets)   # a hand run of this step alone, later, is not this run (audit #25)
+        if old:
+            broken = broken + [old]
         if broken:
             raise RuntimeError("the run seal is broken: " + "; ".join(broken[:5]))
     # status.csv is refresh.py's. If refresh failed this run, the file is the last good run's, and its market

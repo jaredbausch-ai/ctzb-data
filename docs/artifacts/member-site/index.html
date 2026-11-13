@@ -826,7 +826,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     return o.edge_status === "lost" ? "fading" : "intact";
   }
   function renderPrev() {
-    const open = openSignals();
+    // newest first in both groups (13 Nov 2026 audit #25: the edge-lost group kept the feed's order)
+    const open = openSignals().slice().sort((a, b) => a.days_elapsed - b.days_elapsed);
     // first group: on track, or already rose 10% (whatever it did afterwards); second: edge lost, then closed signals
     const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) === "fading");
     $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">${{ down: "Unavailable: the feed can't be read right now.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No open top-grade setup on track or up 10%."}</div>`;
@@ -890,8 +891,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       if (!ex || !m) {
         if (S.loading && S.loading.example && feedHealth() === "ok") { blankChart("ETH · 2-day · example", "", "Loading the example's chart…"); return; }   // audit #23: said "couldn't be loaded" while loading
         const h = feedHealth();
-        blankChart("ETH · 2-day · example", h === "down" ? "Can't reach the data right now." : h === "held" ? "A data check failed on the latest run; setups are held back." : "The example's chart data couldn't be loaded.",
-          h === "down" ? "Data unavailable" : h === "held" ? "Setups held back" : "Chart data unavailable"); return;
+        blankChart("ETH · 2-day · example", h === "down" ? "Can't reach the data right now." : h === "held" ? "A data check failed on the latest run; setups are held back." : !m ? "The worked example isn't in the latest data." : "The example's chart data couldn't be loaded.",
+          h === "down" ? "Data unavailable" : h === "held" ? "Setups held back" : !m ? "Example unavailable" : "Chart data unavailable"); return;   // audit #25: no example in the feed is not a failed file
       }
       bars = ex.bars; E = ex.entry_index; entry = ex.entry_close; tfd = 2;
       $("#chTitle").textContent = "ETH · 2-day · example: past confirmed setup";
@@ -1183,7 +1184,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const t = ev.target.closest("[data-view],[data-go],[data-asset],[data-sel]");
     if (!t) return;
     if (t.dataset.sel) {
-      S.preview = t.dataset.sel === "example"; if (!S.preview) S.sel = t.dataset.sel;
+      S.preview = t.dataset.sel === "example"; S.autoPreview = false; if (!S.preview) S.sel = t.dataset.sel;
       $("#previewSwitch").checked = S.preview; S.chartMode = "alert"; renderCard(); requestAnimationFrame(fitToScreen);
       if (!$("#view-chart").hidden) renderChart();
     }
@@ -1193,7 +1194,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   });
   $("#bAlert").addEventListener("click", () => { S.chartMode = "alert"; renderChart(); });
   $("#bHap").addEventListener("click", () => { S.chartMode = "happened"; renderChart(); });
-  $("#previewSwitch").addEventListener("change", (e) => { S.preview = e.target.checked; renderCard(); requestAnimationFrame(fitToScreen); if (!$("#view-chart").hidden) renderChart(); });
+  $("#previewSwitch").addEventListener("change", (e) => { S.preview = e.target.checked; S.autoPreview = false; renderCard(); requestAnimationFrame(fitToScreen); if (!$("#view-chart").hidden) renderChart(); });
   window.addEventListener("hashchange", () => show(location.hash.slice(1)));
 
   async function boot() {
@@ -1218,7 +1219,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // a page left open: re-check the data's age every minute, so the stale warning appears without a reload
     // (13 Nov 2026 audit #23)
     let wasStale = !!staleNote();
-    setInterval(() => { const now = !!staleNote(); if (now !== wasStale) { wasStale = now; renderHeader(); renderCard(); requestAnimationFrame(fitToScreen); } }, 60e3);
+    // The example the page switched on itself for a quiet market goes off once the data goes stale: it must not stand in
+    // for an outage on a page left open (13 Nov 2026 audit #25). One the member switched on stays.
+    setInterval(() => { const now = !!staleNote(); if (now !== wasStale) { wasStale = now;
+      if (now && S.autoPreview) { S.preview = false; S.autoPreview = false; $("#previewSwitch").checked = false; }
+      renderHeader(); redraw(); } }, 60e3);
     pTrades.then((trades) => {
       S.trades = (trades !== null && tradesProblems(trades).length === 0) ? trades : null;   // a lead-trader file that fails the check reads "unavailable"
       S.loading.trades = false; renderLead(); renderCard();
@@ -1254,7 +1259,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     S.example = exOk ? example : null;
       S.loading.example = false;
       // The example only stands in for a quiet market, never for an outage, a failed check or a missing example.
-      if (!bestCard() && feedHealth() === "ok" && !staleNote() && !openSignals().length && cardExample()) { S.preview = true; $("#previewSwitch").checked = true; }
+      if (!bestCard() && feedHealth() === "ok" && !staleNote() && !openSignals().length && cardExample()) { S.preview = true; S.autoPreview = true; $("#previewSwitch").checked = true; }
       redraw();
     });
   }

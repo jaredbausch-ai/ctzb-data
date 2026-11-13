@@ -160,6 +160,14 @@ def main():
         nxt = (__import__('datetime').date.fromisoformat(FEED["scored_as_of"]) + __import__('datetime').timedelta(days=1)).isoformat()
         fc_.update(confirms_on=nxt, signal_id=f"{fc_['asset']}-{fc_['timeframe']}-{nxt}", must_close_above=3000.12, bars_to_confirm=1, price_now=3100.0)
         fm["cards"] = [fc_]; fm0 = copy.deepcopy(fm); fm0["cards"][0]["bars_to_confirm"] = 0
+        # audit #25: a feed with no worked example (dates before 22 Nov 2024) says so on the chart, not "couldn't be loaded"
+        noex = copy.deepcopy(FEED); noex.update(cards=[], open_signals=[], market_regime="Bullish", example_card=None)
+        t_nx, e_nx = render(pw, noex, views=("chart",), example_on=True)
+        # audit #25: Previous signals lists open signals newest first in both groups, whatever the feed's order
+        rev = copy.deepcopy(FEED); rev["open_signals"] = sorted(rev["open_signals"], key=lambda o: -o["days_elapsed"])
+        for o in rev["open_signals"][:6]: o["grade"] = "A+"; o["card"]["grade"] = "A+"   # several top-grade, so the order shows
+        t_rv, e_rv = render(pw, rev, views=("now",))
+        days_in = lambda t: [int(x) for x in re.findall(r"Day (\d+) of 60", t)]
         t_k1, e_k1 = render(pw, fm, views=("now",), pick=fc_["signal_id"]); t_k0, e_k0 = render(pw, fm0, views=("now",), pick=fc_["signal_id"])
         for label, cond, detail in [
             ("feed down: never says there are no live setups", "No live top-grade setups" not in t_down["now"] and "No open top-grade setup" not in t_down["now"] and "Feed unavailable" in t_down["now"], ""),
@@ -175,6 +183,9 @@ def main():
              and not BAD.search(t_nc["now"]) and not BAD.search(t_nc["chart"]) and not e_nc, str(e_nc[:1])),
             ("must close above, one bar ahead: shown as an estimate", "closes above about $3,000.12 (an estimate until the current bar closes)" in t_k1["now"] and not e_k1, t_k1["now"][:300].replace("\n", " ")),
             ("must close above, on the open bar: shown exact", "closes above $3,000.12" in t_k0["now"] and "about $3,000.12" not in t_k0["now"] and not e_k0, t_k0["now"][:300].replace("\n", " ")),
+            ("no worked example in the feed: the example chart says so, not that its file failed", "isn't in the latest data" in t_nx["chart"] and "couldn't be loaded" not in t_nx["chart"] and not e_nx, t_nx["chart"][:200].replace("\n", " ")),
+            ("open signals in reverse feed order: Previous signals still lists each group newest first", bool(days_in(t_rv["now"])) and not e_rv and all(
+                days_in(seg) == sorted(days_in(seg)) for seg in re.split(r"(?i)edge lost or closed", re.split(r"(?i)previous signals", t_rv["now"])[-1])), str(days_in(re.split(r"(?i)previous signals", t_rv["now"])[-1]))),
             ("no misses: the card says so, with no placeholder or error", "none missed" in t_nm["now"] and not BAD.search(t_nm["now"]) and not e_nm, str(e_nm[:1])),
         ]:
             n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if detail and not cond else ""))
