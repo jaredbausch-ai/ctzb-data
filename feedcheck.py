@@ -256,7 +256,7 @@ def _ts_ms(v):
     return int(s.timestamp()) * 1000 + int(((m.group(2) or '') + '000')[:3])
 
 
-def _num(x):
+def _js_num(x):
     """A JSON number as JavaScript reads it: the nearest double, past its range infinite."""
     try:
         return float(x)
@@ -276,7 +276,7 @@ def _same_val(x, y, k=None):
     if isinstance(x, bool) or isinstance(y, bool):
         return isinstance(x, bool) and isinstance(y, bool) and x == y
     if isinstance(x, (int, float)) and isinstance(y, (int, float)):
-        return _num(x) == _num(y)
+        return _js_num(x) == _js_num(y)
     return isinstance(x, str) and isinstance(y, str) and x == y
 
 
