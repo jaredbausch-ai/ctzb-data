@@ -74,7 +74,7 @@ def page(b, delay=None, age_h=0.1, feed=None, at=None, trades=None):
         if 'fonts' in u: return route.abort()
         return route.fulfill(status=404, body='x')
     pg.route('**/*', h)
-    g = dt.datetime.strptime(FEED['generated_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
+    g = dt.datetime.strptime((feed or FEED)['generated_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
     pg.clock.install(time=at or g + dt.timedelta(hours=age_h))
     pg.add_init_script("window.__delay = " + json.dumps(delay) + ";" + DELAY_JS)
     return pg, errs
@@ -143,8 +143,10 @@ with sync_playwright() as pw:
         svg = pg.evaluate("Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' ')")
         ok('chart file from an older run (last 3 bars missing): "unavailable", not drawn', 'unavailable' in svg and '$' not in svg and not errs, svg[:140])
         pg.close(); CUT['n'] = 0
-    # 4. a page left open
-    pg, errs = page(b, age_h=4.9)
+    # 4. a page left open. The feed is dated 12:14 UTC of its own day, so 5 hours on is still that day (the repo's feed
+    # can be written late in the day, when the daily-close note would already show before the 5 hours are up)
+    MIDDAY = dict(FEED, generated_at=FEED['generated_at'][:10] + 'T12:14:00Z')
+    pg, errs = page(b, age_h=4.9, feed=MIDDAY)
     pg.goto('http://site.test/#now'); pg.wait_for_timeout(800)
     before = pg.query_selector('#card .stale-note') is not None
     pg.clock.run_for(20 * 60 * 1000); pg.wait_for_timeout(300)
@@ -178,7 +180,7 @@ with sync_playwright() as pw:
     ok('daily close passed since the data was written: the note says so within a minute, before 5 hours', before is None and after is not None and '00:00 UTC' in txt and not errs, f'{before} {txt[:160]!r} {errs[:1]}')
     pg.close()
     # 4b. quiet market, page left open: the example the page switched on itself goes off once the data is stale (audit #25)
-    quiet = json.loads(json.dumps(FEED)); quiet.update(cards=[], open_signals=[], market_regime='Bullish')
+    quiet = json.loads(json.dumps(MIDDAY)); quiet.update(cards=[], open_signals=[], market_regime='Bullish')
     pg, errs = page(b, age_h=4.9, feed=quiet)
     pg.goto('http://site.test/#now'); pg.wait_for_timeout(1500)
     on_before = pg.is_checked('#previewSwitch')
