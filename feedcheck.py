@@ -239,7 +239,24 @@ def trades_problems(trades, schema=None, now=None):
     for i, x in enumerate(trades['trades']):
         if i and t(x['time']) > t(trades['trades'][i - 1]['time']): out.append(f'trades[{i}]: not newest first')
         if t(x['time']) > now: out.append(f'trades[{i}]: in the future')
+        # 14 Nov 2026 audit #33: one fill listed twice read as two trades; an event that repeats an earlier one (the
+        # same id, or every field the same, compared as the page compares them) means the file is damaged
+        if any(_same_event(x, y) for y in trades['trades'][:i]): out.append(f'trades[{i}]: repeats an earlier event')
     return out
+
+
+def _js_eq(a, b):
+    """JavaScript ===, for values parsed from JSON: objects and lists are never equal, true is not 1."""
+    if isinstance(a, (dict, list)) or isinstance(b, (dict, list)) or isinstance(a, bool) != isinstance(b, bool):
+        return False
+    if isinstance(a, str) != isinstance(b, str) or (a is None) != (b is None):
+        return False
+    return a == b
+
+
+def _same_event(a, b):
+    return (isinstance(a.get('id'), str) and a.get('id') == b.get('id')) or (
+        len(a) == len(b) and all(k in b and _js_eq(a[k], b[k]) for k in a))
 
 
 if __name__ == '__main__':

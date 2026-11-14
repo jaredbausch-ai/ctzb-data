@@ -14,6 +14,7 @@ DOC = "<!doctype html><html><head><meta charset=utf-8></head><body>" + PAGE + "<
 FEED = json.load(open(f"{R}/feed/ctzb_feed.json"))
 LEDGER = open(f"{R}/datasets/ledger.csv").read()
 EX = open(f"{R}/docs/artifacts/member-site/data/example_ETH-2D-2024-09-22.json").read()
+FILL = {"asset": "ETH", "direction": "long", "action": "open", "time": "2026-11-10T12:00:00Z", "price": 2050.5, "leverage": 3, "size_pct": 25}   # a valid lead-trader event (audit #33 cases)
 BAD = re.compile(r"\$\{|undefined|NaN|null%|n/a%|\[object")
 
 
@@ -170,10 +171,17 @@ def main():
             n += 1; ok += bool(good)
             print(f"  {'PASS' if good else '*** FAIL ***'}  broken feed, {name}: reads as unavailable, no error, no placeholder" + ("" if good else f"  -- {str(ex_[:1])} {[m.group(0) for v in tx.values() for m in BAD.finditer(v)][:3]}"))
         for label_, tr in (("empty fields", {"trades": [{"asset": "BTC", "direction": None, "action": None, "price": None, "time": None}]}),
-                           ("leverage and size not numbers (audit #21)", {"trades": [{"asset": "BTC", "direction": "long", "action": "open", "price": 100000, "time": "2026-11-10T12:00:00Z", "leverage": "x", "size_pct": "y"}]})):
+                           ("leverage and size not numbers (audit #21)", {"trades": [{"asset": "BTC", "direction": "long", "action": "open", "price": 100000, "time": "2026-11-10T12:00:00Z", "leverage": "x", "size_pct": "y"}]}),
+                           # 14 Nov 2026 audit #33: one fill listed twice read as two trades
+                           ("one fill listed twice (the same id)", {"trades": [dict(FILL, id="o1:open"), dict(FILL, id="o1:open", price=2051.5)]}),
+                           ("one fill listed twice (no id, every field the same)", {"trades": [dict(FILL), dict(FILL)]})):
             t_tr, e_tr = render(pw, FEED, views=("now", "chart"), trades=tr)
             good = "in · null" not in t_tr["now"] and "n/ax" not in t_tr["now"] and "n/a% of acct" not in t_tr["now"] and "feed is unavailable" in t_tr["now"] and not e_tr and not BAD.search(t_tr["now"])
             n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with {label_}: reads unavailable, no placeholder, no error" + ("" if good else f"  -- {e_tr[:1]}"))
+        # ...and two different fills in the same second (different ids) are two trades, shown
+        t_tw, e_tw = render(pw, FEED, views=("now",), trades={"trades": [dict(FILL, id="o2:add", action="add"), dict(FILL, id="o1:open")]})
+        good = "feed is unavailable" not in t_tw["now"] and t_tw["now"].count("ETH long") >= 2 and not e_tw
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with two different fills in the same second: both shown" + ("" if good else f"  -- {t_tw['now'][:200]!r}"))
         nomiss = copy.deepcopy(FEED)
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         for g in nomiss["grade_odds"]: g.update(rose10_within60d_pct=100)   # no misses means every one rose 10% (the strict check holds them together)

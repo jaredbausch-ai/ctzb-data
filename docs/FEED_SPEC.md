@@ -522,7 +522,8 @@ Worker, uncached.
   if its bars are well formed on 2-day steps, its entry bar closes on 22 Sep 2024 at `entry_close`, it reaches 60 days
   past the entry bar, and its entry close equals the example card's.
 - **Lead-trader file.** Served from the `ctzb-trades` relay, which the review banner says is in dry run. Checked
-  against the schema's lead-trader part (key `trades`), newest first and none in the future; a failure reads
+  against the schema's lead-trader part (key `trades`), newest first, none in the future, and no event repeating an
+  earlier one (the same `id`, or every field the same: one fill listed twice); a failure reads
   "unavailable". It never changes the odds. The card's lead-trader line reads "not in" when he has posted entries but
   none on that asset. The chart's note says "Loading" while his file loads and is updated in place when it arrives,
   says his feed is unavailable when it cannot be read and that he has posted no trades when the file holds none, and

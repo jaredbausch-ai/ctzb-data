@@ -527,6 +527,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!out.length) crossCheck(feed, out);
     return out;
   }
+  const sameEvent = (a, b) => (typeof a.id === "string" && a.id === b.id)
+    || (Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && a[k] === b[k]));
   function tradesProblems(t) {
     const out = []; shapeCheck(t, FEED_SCHEMA.trades, FEED_SCHEMA.defs, "trades", out);
     if (out.length) return out;
@@ -534,6 +536,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     t.trades.forEach((x, i) => {
       if (i && Date.parse(x.time) > Date.parse(t.trades[i - 1].time)) out.push("trades[" + i + "]: not newest first");
       if (Date.parse(x.time) > Date.now() + 5 * 60e3) out.push("trades[" + i + "]: in the future");
+      // 14 Nov 2026 audit #33: one fill listed twice read as two trades. An event that repeats an earlier one (the
+      // same id, or every field the same) means the file is damaged
+      if (t.trades.slice(0, i).some((y) => sameEvent(x, y))) out.push("trades[" + i + "]: repeats an earlier event");
     });
     return out;
   }

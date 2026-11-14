@@ -1,0 +1,7 @@
+stage A1 page battery started
+19:13 stage A1 done: page battery 1, 318 cases, 8 flagged (all harness CRLF expectation bugs, re-tested in batch 2); disagreements so far 0
+19:18 boundary replays built (6 dates, all published clean); pipeline battery 224/812 running, page batch 2 41/~170; disagreements so far 0
+19:36 page batches 2-4 done (~210 cases); pipeline battery 1 at ~550/812; candidate disagreements so far: 1 (duplicated lead-trader fill shown twice)
+20:05 pipeline batteries 1-4 + alert sequences done (~1000 runs); candidate disagreements: 1 (dup lead-trader fill); rest fail-safe or harness artifacts
+20:20 stage C done (repo tests 31/31, 29/29, 20/20); fuzz 2000/0; final: 1 counted disagreement (2 states), 1 design note, 0 hardening through
+20:21 report written: 1 real-life disagreement (lead-trader duplicate fill, 2 states), 0 hardening through
