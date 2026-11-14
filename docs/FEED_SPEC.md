@@ -39,8 +39,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
   strict check does not); two tests assert it is 6. It changes
   only when the constant is edited; `alert_log`, `alert_log_carry` and `alerts_held` are schema 6 fields that came without a bump.
 - **It computes no figure.** It repackages the datasets the same run wrote. Its own work is: the time stamp, the
-  schema version, the posting bar constant, the aliases, the label and note texts, which alerts are new, and the alert
-  log record.
+  schema version, the posting bar constant, the aliases, the label and note texts, which alerts are new, which
+  earlier alerts are carried, and the alert log record.
 - **Every card, print, live signal, grade row, alert and extras block carries `label`**: computed signal, not a fill,
   entry quality only, not a strategy return or a track record.
 - **Dates** are YYYY-MM-DD (UTC calendar days); times are ISO 8601 UTC ending in `Z`, except `candle_check.checked_at`,
@@ -94,7 +94,7 @@ strict check does not read the field.
 | `alerts_withheld` | | Same value as `cards_withheld` |
 | `alerts_seeded` | | True only on a run made with `CTZB_SEED_ALERT_LOG=1` that passed every check |
 | `alerts[]` | | Alerts in their delivery window: new in this generation, or emitted earlier and carried (Alerts, below) |
-| `alerts_held[]` | | On a held feed, the alerts it would have carried; empty on a clean feed (Alerts, below) |
+| `alerts_held[]` | | On a held or fail-closed feed, the alerts kept for the next clean feed; empty on a clean feed (Alerts, below) |
 | `market_regime` | Bullish or Bearish? | status.csv: the regime gate `rsi_regime(BTC_2D, 8, 13, 60, 41)` on the scored date |
 | `next_buy_date` | | status.csv: a YYYY-MM-DD date or the text "none ahead". The earliest confirmation close date, today included, of a forming low on an ETH chart that carries a walk-forward tier tag, whatever the regime gate reads. A computed date, not a planned buy |
 | `trades_a_year` (`signals_a_year`) | | status.csv: text "N on average", N = ETH tier signals per year rounded once, or "—" when the tier has fewer than 4 scored signals |
@@ -298,16 +298,21 @@ runs that are carried. Each: `alert_id` (`{signal_id}:{event}`, fixed for that e
   (the trough slid, or the setup stopped qualifying).
 
 Every grade alerts. `feed/alert_log.csv` (`alert_id`, `event`, `signal_id`, `chart`, `emitted_at`) records every alert
-ever emitted and is committed with the feed, so each event is emitted once. An emitted alert is carried in `alerts`
-for at least 24 hours after `emitted_at`, and after that until a clean feed carrying it has stood an hour
-(`ALERT_HOLD_HOURS`, `ALERT_STAND_MINUTES`). The sender reads the feed from the mirror, which pulls every 15 minutes, so
-a feed replaced sooner (a red run's 1-minute retry) is never read; the window means some feed it reads carries every
-alert. Only alerts the log records are carried, rebuilt from the log's rows. **A sender records every `alert_id` it
-sends and never sends one twice.**
+ever emitted and is committed with the feed, so each event is emitted once. The sender reads the feed from the
+mirror, which pulls every 15 minutes, so a feed replaced sooner (a red run's 1-minute retry) may never be read. So
+every clean feed carries, taken from the log itself, every alert emitted in the last 24 hours (`ALERT_HOLD_HOURS`); an
+older alert stays while the previous feed carried it and that feed was held or had stood less than an hour
+(`ALERT_STAND_MINUTES`). When the previous feed cannot be read, or its list is not a list of alerts, what was delivered
+is unknown, and every alert of the last 7 days is carried (`ALERT_RECOVER_DAYS`). A mirror that pulls at least once a
+day therefore sees every alert (short of a hold of more than 7 days followed by an unreadable feed). Only alerts the log records are carried, rebuilt from the log's rows; a previous feed
+whose `alert_log` record matches the log plus its own alerts is trusted to have written them (below). **A sender
+records every `alert_id` it sends and never sends one twice.**
 
 - **Withheld is not dropped.** When the run is held back, `alerts` is empty and nothing is logged; the next run that
   passes every check emits what is pending. Alerts already emitted are kept in `alerts_held` (held and fail-closed
-  feeds alike) and the next clean feed carries them again, however long the run was held.
+  feeds alike) and the next clean feed carries them again, however long the run was held. A fail-closed feed whose
+  alert log cannot be read keeps the last feed's own list unchecked; the next clean run carries only what the log
+  records.
 - **Seeding.** A new log starts only on a run with `CTZB_SEED_ALERT_LOG=1`: it records every forming and confirmed
   signal with `emitted_at` "seeded", alerts on none of them and sets `alerts_seeded`.
 - **The log must be the one the last feed left.** On every run that is not seeding, `feed_live.py` compares the log's
@@ -358,7 +363,7 @@ Any exception in `feed_live.py` (these, or a crash) overwrites the feed with the
 only `label`, `posting_bar_pct`, a null `sample` and empty lists. It has no `alerts_seeded`, `signals_a_year`,
 `odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record,
 or the log's own state if there is none), `alert_log_carry` (alerts the last published feed sent that the log does
-not hold) and `alerts_held` (the alerts the last feed was carrying). A null `market_regime` or `scored_as_of` means unknown, never "off".
+not hold) and `alerts_held` (the alerts kept for the next clean feed, as above). A null `market_regime` or `scored_as_of` means unknown, never "off".
 
 ## The run seal
 

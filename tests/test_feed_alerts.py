@@ -236,6 +236,28 @@ fk["alerts"].append(dict(fk["alerts"][0], alert_id="ETH-9D-2030-01-01:forming", 
 json.dump(fk, open(FEED, "w"))
 at(21); f = run()
 check("an alert the log does not record is never carried or logged", "ETH-9D-2030-01-01:forming" not in ids_(f) and log_n() == n_)
+# fix check #28: the window must not depend on the previous feed alone
+D5, D6 = DAY(5), DAY(6)   # signals no earlier case used
+Z2, Z3 = f"ETH-2D-{D5}:forming", f"ETH-3D-{D6}:forming"
+base3 = [("BTC 5D", D4), ("ETH 1D", D4)]
+at(30); set_cards(base3 + [("ETH 2D", D5)]); f = run(seen=False); assert Z2 in ids_(f)
+good = open(LOG, "rb").read()
+open(LOG, "wb").write(good.replace(b"alert_id,", b"alert_idx,", 1))   # the log's header damaged: unreadable
+at(31); rc, f, err = run_fail()
+check("a fail-closed run while the alert log cannot be read still keeps the alert in alerts_held",
+      rc == 1 and Z2 in [a_["alert_id"] for a_ in f["alerts_held"]], err[-120:])
+open(LOG, "wb").write(good)
+at(32); f = run()
+check("...and once the log is back the next clean feed carries it and it is sent", [a_["alert_id"] for a_ in f["_sent"]] == [Z2], str([a_["alert_id"] for a_ in f["_sent"]]))
+at(33); set_cards(base3 + [("ETH 2D", D5), ("ETH 3D", D6)]); f = run(seen=False); assert Z3 in ids_(f)
+raw = open(FEED).read(); open(FEED, "w").write(raw[:len(raw) // 2])   # the previous feed cut short
+at(34); f = run()
+check("a cut previous feed: the next clean feed carries the alert from the log, and it is sent",
+      Z3 in [a_["alert_id"] for a_ in f["_sent"]], str([a_["alert_id"] for a_ in f["_sent"]]))
+fk = json.load(open(FEED)); fk["alerts"] = 7; json.dump(fk, open(FEED, "w"))
+at(35); f = run()
+check("a previous feed whose alerts list is not a list: no crash, the log's recent alerts are carried, nothing re-sent",
+      Z3 in ids_(f) and f["_sent"] == [] and not f["cards_withheld"], str(ids_(f)))
 # the window itself, on feed_live.carried_alerts (the scored datasets tie the feed to its day, so hours are not replayed)
 sys.path.insert(0, ROOT); import feed_live as FL  # noqa: E402
 E = dt.datetime(2026, 11, 14, 4, 14, tzinfo=dt.timezone.utc)
@@ -250,6 +272,12 @@ check("window: kept past 24 hours while the last feed carrying it has stood unde
 check("window: kept however old while the last feed was held (nothing was being sent)", carry(heldf, 72) == ["A:forming"])
 check("window: a held run keeps everything", carry(clean(23), 25, keep_all=True) == ["A:forming"])
 check("window: a seeded log row is never carried", FL.carried_alerts(clean(0), [dict(LOGR[0], emitted_at="seeded")], E) == [])
+check("window: an alert under 24 hours old is carried from the log even when the last feed did not list it",
+      carry({"alerts_withheld": False, "generated_at": ts(4), "alerts": []}, 23) == ["A:forming"])
+check("window: previous feed unreadable: alerts of the last 7 days are carried, older ones not",
+      carry(None, 6 * 24) == ["A:forming"] and carry(None, 8 * 24) == [])
+check("window: previous feed's list not a list of alerts: treated as unreadable",
+      carry({"alerts_withheld": True, "generated_at": ts(1), "alerts": [], "alerts_held": "x"}, 30) == ["A:forming"])
 
 ids = [r["alert_id"] for r in csv.DictReader(open(LOG))]
 check("alert log holds no duplicate alert_id", len(ids) == len(set(ids)), f"{len(ids)} rows")

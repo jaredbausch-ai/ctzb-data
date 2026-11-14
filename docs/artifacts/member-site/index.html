@@ -902,7 +902,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const svg = $("#chartSvg");
     svg.innerHTML = ""; svgEl(svg, "text", { x: 550, y: 260, fill: "var(--muted)", "font-size": 15, "text-anchor": "middle" }, msg);
     $("#chTitle").textContent = title; $("#chSub").textContent = sub;
-    $("#chartSide").innerHTML = ""; $("#cloudSvg").innerHTML = ""; $("#cloudNote").textContent = ""; $("#cloudSub").textContent = ""; $(".toggle").hidden = true;
+    // the side panel and the past-signals cloud say the chart's own state, never blank (14 Nov 2026 fix check #28)
+    $("#chartSide").innerHTML = `<div class="small">${esc(msg)}</div>`; $("#cloudSvg").innerHTML = ""; $("#cloudNote").textContent = msg; $("#cloudSub").textContent = ""; $(".toggle").hidden = true;
   }
   async function renderChart() {
     const tok = (S.chartTok = (S.chartTok || 0) + 1);   // only the latest request draws (13 Nov 2026 audit #23: a slow file drew another setup)

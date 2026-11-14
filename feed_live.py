@@ -19,8 +19,9 @@ Rules (docs/FEED_SPEC.md):
     and the aliases, and words the labels)
   - (schema 4, 10 Nov 2026, item 17d) every card, print and open signal carries
     a signal_id = chart + confirmation date, which is the same at every stage of
-    a signal's life. "alerts" lists the events of the last day --
-    forming, confirmed, vanished -- each with a fixed alert_id. feed/alert_log.csv
+    a signal's life. "alerts" lists the events in their delivery window
+    (at least 24 hours; carried_alerts) -- forming, confirmed, vanished --
+    each with a fixed alert_id; it is empty on held feeds. feed/alert_log.csv
     is an append-only record of every alert_id ever emitted, committed with the
     feed, so each event is emitted once however many runs happen. An emitted
     alert stays in "alerts" for its delivery window (carried_alerts, 14 Nov 2026),
@@ -61,12 +62,15 @@ SCHEMA_VERSION = 6   # 6 (12 Nov 2026): every field added on 11-12 Nov (the +10%
 POSTING_BAR = 70     # WINMIN in refresh.py / EDGE_BAR in stack_live.py (tests/test_feed_extras.py checks they agree)
 ALERT_LOG_FIELDS = ["alert_id", "event", "signal_id", "chart", "emitted_at"]
 # The delivery window (14 Nov 2026 audit #28). The sender reads the feed from the mirror, which pulls every 15
-# minutes; a feed replaced sooner (a red run's 1-minute retry) was never seen, and its alerts were lost while the
-# log marked them sent. So an emitted alert stays in `alerts` on every clean feed for at least ALERT_HOLD_HOURS
-# after it was emitted, and after that until a clean feed carrying it has stood ALERT_STAND_MINUTES. Held and
-# fail-closed feeds send nothing; they keep the alerts in `alerts_held` so the next clean feed carries them on.
+# minutes; a feed replaced sooner (a red run's 1-minute retry) may never be seen, and its alerts were lost while the
+# log marked them sent. So every clean feed carries, from the alert log itself, every alert emitted in the last
+# ALERT_HOLD_HOURS; an older one stays while the previous feed carried it and that feed was held or had stood less
+# than ALERT_STAND_MINUTES. Held and fail-closed feeds send nothing; they keep the alerts in `alerts_held` so the
+# next clean feed carries them on. When the previous feed cannot be read (or its list is not a list of alerts), what
+# was delivered is unknown, so every alert of the last ALERT_RECOVER_DAYS is carried (the sender sends each once).
 ALERT_HOLD_HOURS = 24
 ALERT_STAND_MINUTES = 60
+ALERT_RECOVER_DAYS = 7
 # Steps whose failure withholds cards and alerts. Passed in by daily.yml as
 # CTZB_STEP_OUTCOMES="refresh=success,grade=success,...". Absent = run by hand.
 GATING_STEPS = ("refresh", "grade", "stack", "cards", "regress")
@@ -193,33 +197,48 @@ def _ts(v):
 
 
 def prev_carry(prev):
-    """The alerts the previous feed was carrying: its `alerts` when it was clean, its `alerts_held` when not."""
+    """The alerts the previous feed was carrying: its `alerts` when it was clean, its `alerts_held` when not. None
+    when that feed cannot be read or the list is not a list of alerts: the chain is broken."""
     if not isinstance(prev, dict):
-        return []
-    src = prev.get("alerts_held") if prev.get("alerts_withheld") else prev.get("alerts")
-    return [x for x in (src or []) if isinstance(x, dict) and isinstance(x.get("alert_id"), str)]
+        return None
+    src = prev.get("alerts_held") if prev.get("alerts_withheld") is True else prev.get("alerts")
+    if not isinstance(src, list) or not all(isinstance(x, dict) and isinstance(x.get("alert_id"), str) for x in src):
+        return None
+    return src
+
+
+def log_ok(log_rows):
+    """Every row has exactly the log's columns (an alert log with a renamed or missing column cannot be read)."""
+    return all(isinstance(r, dict) and list(r) == ALERT_LOG_FIELDS for r in log_rows)
 
 
 def carried_alerts(prev, log_rows, now, keep_all=False):
-    """Alerts an earlier run emitted that stay in this feed (the delivery window above). Only ids the alert log
-    records as emitted are carried, rebuilt from the log's own rows, so a damaged feed cannot add one. keep_all
-    (a held run): nothing leaves while nothing is being sent."""
-    logged = {r["alert_id"]: r for r in log_rows if r.get("emitted_at") != "seeded"}
+    """Alerts an earlier run emitted that stay in this feed (the delivery window above), in log order. Only alerts
+    the alert log records are carried, rebuilt from the log's own rows (a previous feed whose alert_log record
+    matches the log plus its own alerts is trusted to have written them, as for a run that died before the log).
+    keep_all (a held run): nothing leaves while nothing is being sent."""
+    chain = prev_carry(prev)
+    ids = {x["alert_id"] for x in chain} if chain is not None else set()
     stood = None
-    if isinstance(prev, dict) and not prev.get("alerts_withheld"):
+    if chain is not None and prev.get("alerts_withheld") is not True:
         g = _ts(prev.get("generated_at"))
         stood = (now - g).total_seconds() / 60 if g else None
     out, seen = [], set()
-    for x in prev_carry(prev):
-        r = logged.get(x["alert_id"])
-        if r is None or x["alert_id"] in seen:
+    for r in log_rows:
+        aid = r.get("alert_id")
+        if r.get("emitted_at") == "seeded" or not isinstance(aid, str) or aid in seen:
             continue
-        e = _ts(r["emitted_at"])
-        young = e is not None and (now - e).total_seconds() < ALERT_HOLD_HOURS * 3600
-        if keep_all or young or stood is None or stood < ALERT_STAND_MINUTES:
-            seen.add(x["alert_id"])
-            out.append({"alert_id": r["alert_id"], "event": r["event"], "signal_id": r["signal_id"],
-                        "chart": r["chart"], "emitted_at": r["emitted_at"], "label": LABEL})
+        e = _ts(r.get("emitted_at"))
+        age_h = (now - e).total_seconds() / 3600 if e else None
+        if chain is None:
+            keep = age_h is not None and age_h < ALERT_RECOVER_DAYS * 24
+        else:
+            keep = (age_h is not None and age_h < ALERT_HOLD_HOURS) or \
+                   (aid in ids and (keep_all or stood is None or stood < ALERT_STAND_MINUTES))
+        if keep:
+            seen.add(aid)
+            out.append({"alert_id": aid, "event": r.get("event"), "signal_id": r.get("signal_id"),
+                        "chart": r.get("chart"), "emitted_at": r.get("emitted_at"), "label": LABEL})
     return out
 
 
@@ -598,11 +617,21 @@ def held_alerts(feed_path, log_path):
     try:
         with open(feed_path) as f:
             prev = json.load(f)
+    except Exception:  # noqa: BLE001
+        prev = None
+    try:
         rows_ = read_log(log_path) if log_path and os.path.exists(log_path) else []
+        if not log_ok(rows_):
+            raise ValueError("alert log unreadable")
         rows_ += [{k: x.get(k) for k in ALERT_LOG_FIELDS} for x in unlogged_alerts(feed_path, log_path)]
         return carried_alerts(prev, rows_, now_utc(), keep_all=True)
     except Exception:  # noqa: BLE001 -- the fail-closed feed must always be written
-        return []
+        # the log cannot be read: keep the last feed's own list as it was; the next clean run carries only what
+        # the (repaired) log records
+        try:
+            return [dict({k: x.get(k) for k in ALERT_LOG_FIELDS}, label=LABEL) for x in (prev_carry(prev) or [])]
+        except Exception:  # noqa: BLE001
+            return []
 
 
 def fail_closed(out_path, err, log_path=None):

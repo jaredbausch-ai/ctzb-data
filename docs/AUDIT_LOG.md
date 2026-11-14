@@ -960,8 +960,24 @@ but valid regression baseline turning the guard off (listed in the report).
 leaves out), page states 48/48, feed alerts 45/45, dashboard sender 21/21, run seal 23/23, feed extras 28/28, damage
 test 31/31 (quick pass), site Worker 25/25, per-year test, page timing 15/15, fire drills 58/58. Two test fixes on the
 way: the fire drills' alert checks now count what is new to the log, as `test_feed_alerts` does; and the health
-monitor test read the real clock for `/health` against its own fixed clock, which ends 04:30 UTC on 14 Nov, so it
-failed from then on with no change in the code; it now pins the clock for that call.
+monitor test read the real clock for `/health` against its own fixed clock, which ends 03:50 UTC on 14 Nov, so
+`/health` read stale from 04:30 UTC and the test failed from then on with no change in the code; it now pins the clock
+for that call.
+
+**Fix check** (independent agent, `analysis/audit28_2026-11-14/fixcheck/`): 1 of 3 fixed at the family level, 2
+incomplete, 0 wrong, 17 sentences.
+- **Alert window, incomplete:** it was carried only from the previous feed, so a fail-closed run while the alert log
+  could not be read (it kept nothing), a cut previous feed, or one whose list was not a list (one run failed closed)
+  ended it early. Now every clean feed carries every alert of the last 24 hours from the log itself; a previous feed
+  that cannot be read means every alert of the last 7 days is carried; a fail-closed run with an unreadable log keeps
+  the last feed's list. New cases in `test_feed_alerts` (52/52; the new ones fail on the round-28 code).
+- **Blank areas, incomplete:** on the Chart tab, the side panel and the "Where the past signals went" panel were
+  blank while the feed or a chart file loaded. They now say the chart's own state. `test_page_timing` checks both.
+- **Sentences:** 17 corrected (FEED_SPEC 6, feed_live.py 3, DAMAGE_LIST 2, AUDIT_LOG 3, the Cloudflare README 1, the
+  page comment 1, and the dashboard Worker comment, which had been changed only in the built file; the source
+  template now says the same).
+- Hardening (not counted): a forged previous feed whose `alert_log` hash matches the log plus a forged row is trusted
+  by the existing rebuild rule, and under the window the row is now sent.
 
 ---
 

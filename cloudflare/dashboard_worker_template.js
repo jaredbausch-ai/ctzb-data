@@ -203,7 +203,7 @@ async function notify(env, fetchImpl = fetch) {
     try { status = await telegramSend(env, alertText(a, feed), fetchImpl); } catch (_) { status = 0; }
     lastStatus = status;
     if (status === 200) {
-      // Remember for a year. The feed shows an alert for ~4 hours, so this is ample.
+      // Remember for a year. The feed carries an alert for at least 24 hours (feed_live.py ALERT_HOLD_HOURS), so this is ample.
       await env.NOTIFY.put("sent:" + a.alert_id, String(Date.now()), { expirationTtl: 365 * 86400 });
       sent++;
     } else failed++;   // not recorded: the next tick retries it

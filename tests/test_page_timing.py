@@ -99,11 +99,12 @@ with sync_playwright() as pw:
                 const rd = document.querySelector('#view-read');   // the explainer names the word "unavailable" itself
                 return { body: document.body.innerText.replace(rd ? rd.innerText : '', '') + ' ' + Array.from(document.querySelectorAll('svg text')).map(t => t.textContent).join(' '),
                          picker: v('#picker'), intact: v('#prevIntact'), closed: v('#prevClosed'), card: v('#card'),
-                         chart: Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' '), rec: v('#recCount') }; }""")
+                         chart: Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' '), rec: v('#recCount'),
+                         cloud: v('#cloudNote'), side: v('#chartSide') }; }""")
         pg.click('#previewSwitch'); pg.wait_for_timeout(150)
         sw = pg.inner_text('#card')
         s = seen['now']
-        areas = {k: s[k] for k in ('picker', 'intact', 'closed', 'card')} | {'chart': seen['chart']['chart'], 'rec': seen['record']['rec']}
+        areas = {k: s[k] for k in ('picker', 'intact', 'closed', 'card')} | {k: seen['chart'][k] for k in ('chart', 'cloud', 'side')} | {'rec': seen['record']['rec']}
         bad = [t for t, x in seen.items() if 'unavailable' in x['body'].lower() or "can't reach" in x['body'].lower()]
         empty = [k for k, v in areas.items() if not v or 'Loading' not in v]
         ok(f'slow feed, opened on #{start}: every area says Loading on every tab, nothing says unavailable',
@@ -126,6 +127,8 @@ with sync_playwright() as pw:
         pg.goto('http://site.test/#chart'); pg.wait_for_timeout(600)
         svg = pg.evaluate("Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' ')")
         ok('slow chart file: the chart says loading while it loads, nothing else drawn', svg.startswith('Loading') and '$' not in svg, svg[:120])
+        cl = pg.inner_text('#cloudNote'); sd = pg.inner_text('#chartSide')
+        ok('...and the side panel and the past-signals cloud say Loading, not blank (fix check #28)', 'Loading' in cl and 'Loading' in sd, f'{cl!r} {sd!r}')
         pg.clock.run_for(3500); pg.wait_for_timeout(800)
         ok('...and draws once it arrives, with no error', 'Loading' not in pg.evaluate("Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' ')") and not errs, str(errs[:1]))
         pg.close()
