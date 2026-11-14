@@ -321,15 +321,17 @@ records every `alert_id` it sends and never sends one twice.**
   SHA-256 with the previous feed's `alert_log`. A match passes. Otherwise it appends the previous feed's
   `alert_log_carry` and `alerts` whose `alert_id` the log lacks; if that matches, the last run died between the feed
   and the log (or the log lost rows the feed still carries), and the log is rebuilt.
-- **The second copy.** Every run that publishes a clean or held feed also keeps `feed/alert_log_backup.csv`, byte for
-  byte the log that feed records (a fail-closed run writes neither). When the previous feed cannot be read or has no
-  record, the copy is the record. A log that matches neither the record nor the rebuild is restored from the copy
+- **The second copy.** Every run that publishes a clean or held feed also keeps `feed/alert_log_backup.csv`: byte for
+  byte the log that feed records, then one line `#end sha256=<the log's hash> rows=<its rows>` (a fail-closed run
+  writes neither). A copy that is missing, unreadable, empty, cut short, without that line, or whose line does not
+  match the bytes before it is lost. When the previous feed cannot be read or has no record, the copy is the record. A log that matches neither the record nor the rebuild is restored from the copy
   when the copy is exactly what the record says, repeats no `alert_id`, and either begins with the whole log or holds
   every row of the log exactly (the log was cut, emptied, deleted or lost or repeated rows). Anything else fails
   closed: when the copy is the record, a copy that lacks a row of the log, holds it altered, or repeats an alert is
-  the damaged file. With no previous record and no copy there is nothing to check the log against, so the run fails
-  closed whether the log is there or not, until the feed or the copy is put back from the last commit (a new log is
-  started only by seeding).
+  the damaged file. With no record in the previous feed and no usable copy there is nothing to check the log against,
+  so the run fails closed whether the log is there or not. It stays closed until the copy is put back from the last
+  commit of a clean run (a withheld run commits its own feed, which has no record, and no copy), or the feed is put
+  back with a log that matches its record or can be rebuilt to it; a new log is started only by seeding.
 - **Order.** The feed is written only after it passes the strict check, then the copy, then the log. If the copy or
   the log cannot be written, the feed stays published and the run exits non-zero; the next run rebuilds or restores
   the log.
@@ -373,8 +375,8 @@ Any exception in `feed_live.py` (these, or a crash) overwrites the feed with the
 `example_past_paths`, `scored_as_of`, `market_regime`, `next_buy_date` and `trades_a_year` null, and `odds_fade` with
 only `label`, `posting_bar_pct`, a null `sample` and empty lists. It has no `alerts_seeded`, `signals_a_year`,
 `odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record; if there is none, null, so the next run checks against the
-copy as it then is, and with no copy stays held until the feed or the copy is put back; never the log's own state,
-which would make a log damaged in that window the record), `alert_log_carry` (alerts the last published feed sent that the log does
+copy as it then is, and with no usable copy stays held until the copy is put back; never the log's own state, which
+would make a log damaged in that window the record), `alert_log_carry` (alerts the last published feed sent that the log does
 not hold) and `alerts_held` (the alerts kept for the next clean feed, as above). A null `market_regime` or `scored_as_of` means unknown, never "off".
 
 ## The run seal

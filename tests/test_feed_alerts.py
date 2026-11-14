@@ -12,6 +12,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 from reseal import reseal  # noqa: E402 -- fixtures stand in for the scoring steps, so they re-record the run seal
 import dataclock; dataclock.pin()  # noqa: E402 -- the repo data's own day, not the wall clock
+sys.path.insert(0, ROOT)
+import feed_live as FL  # noqa: E402 -- the second copy's format (copy_bytes / copy_log)
+CP = FL.copy_bytes
 W = tempfile.mkdtemp()
 DS, FEED, LOG = f"{W}/datasets", f"{W}/feed/ctzb_feed.json", f"{W}/feed/alert_log.csv"
 shutil.copytree(f"{ROOT}/datasets", DS)
@@ -175,7 +178,7 @@ check("...and they return on the next clean run", f["market_regime"] in ("Bullis
 # the copy gone too)
 BK = LOG[:-4] + "_backup.csv"
 good_log = open(LOG, "rb").read()
-check("every run leaves the log's second copy equal to the log", open(BK, "rb").read() == good_log)
+check("every run leaves a second copy that holds the log exactly", FL.copy_log(open(BK, "rb").read()) == good_log)
 lines_ = good_log.splitlines(keepends=True)
 for what, dmg in [("a row cut", b"".join(lines_[:1] + lines_[2:])), ("emptied to its header", lines_[0]), ("deleted", None)]:
     os.remove(LOG) if dmg is None else open(LOG, "wb").write(dmg)
@@ -188,7 +191,7 @@ open(LOG, "wb").write(b"".join(lines_[:1] + lines_[2:]))   # its first row (a se
 rc, f, err = run_fail()
 check("alert log with a row cut and no copy -> withheld, nothing re-sent", rc == 1 and f["cards_withheld"] and f["_sent"] == [] and "alert log" in err, err[-160:])
 open(LOG, "wb").write(good_log); run()
-check("...the right log back -> clean, and the copy is written again", open(BK, "rb").read() == open(LOG, "rb").read())
+check("...the right log back -> clean, and the copy is written again", FL.copy_log(open(BK, "rb").read()) == open(LOG, "rb").read())
 good_log = open(LOG, "rb").read()
 open(LOG, "wb").write(good_log[:good_log.rindex(b"\n", 0, len(good_log) - 1) + 1])   # last row cut
 rc, f, err = run_fail()
@@ -216,27 +219,27 @@ for what, dmg in [("its last row cut", full[:full.rindex(b"\n", 0, len(full) - 1
 # the copy is the damaged one (an older copy) and the feed is lost: the log holds an alert the copy lacks -> held,
 # nothing dropped or sent again, and it stays held (never accepted on the next run) until the copy is put right
 old = full[:full.rindex(b"\n", 0, len(full) - 1) + 1]
-os.remove(FEED); open(BK, "wb").write(old)
+os.remove(FEED); open(BK, "wb").write(CP(old))
 rc, f, err = run_fail(); rc2, f2, err2 = run_fail()
 check("feed lost and the copy older than the log -> withheld twice running, log untouched, nothing re-sent",
       rc == 1 and rc2 == 1 and f2["cards_withheld"] and open(LOG, "rb").read() == full and f["_sent"] == [] and f2["_sent"] == [], err[-160:])
-open(BK, "wb").write(full); f = run()
+open(BK, "wb").write(CP(full)); f = run()
 check("...the copy put right -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
 # 14 Nov 2026 fix check: a copy damaged but holding every alert_id (a row altered, or repeated) never overwrites a
 # good log when the feed is lost
 ls_ = full.splitlines(keepends=True)
 for what, bad_copy in [("one row's emitted_at altered", b"".join(ls_[:-1] + [ls_[-1].replace(b"T", b"T0", 1).replace(b"T00", b"T01", 1) if b"T00" in ls_[-1] else ls_[-1].replace(b"Z", b"0Z", 1)])),
                        ("a row repeated", full + ls_[-1])]:
-    os.remove(FEED); open(BK, "wb").write(bad_copy)
+    os.remove(FEED); open(BK, "wb").write(CP(bad_copy))   # a whole copy of a damaged log, end line and all
     rc, f, err = run_fail()
     check(f"feed lost and the copy damaged ({what}) -> withheld, the good log untouched, nothing re-sent",
           bad_copy != full and rc == 1 and open(LOG, "rb").read() == full and f["_sent"] == [], err[-160:])
-    open(BK, "wb").write(full); f = run()
+    open(BK, "wb").write(CP(full)); f = run()
 check("...the copy put right -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
 # 14 Nov 2026 audit #32: the feed lost, the copy lost AND the log cut in the same window. With no record left the
 # log on disk was accepted as it was, and the alert whose row was cut was emitted again. Now the run is withheld
-# until the feed or the copy is put back, and a whole log with no record is not trusted either. Twice running: the
-# withheld feed must not record the log on disk as the record, or the next run accepts the damaged log
+# until the copy is put back, and a whole log with no record is not trusted either. Twice running: the withheld feed
+# must not record the log on disk as the record, or the next run accepts the damaged log
 cut = full[:full.rindex(b"\n", 0, len(full) - 1) + 1]
 for what, dmg in [("the log cut", cut), ("the log whole", full)]:
     os.remove(FEED); os.remove(BK); open(LOG, "wb").write(dmg)
@@ -245,8 +248,32 @@ for what, dmg in [("the log cut", cut), ("the log whole", full)]:
           rc == 1 and rc2 == 1 and f2["cards_withheld"] and f["_sent"] == [] and f2["_sent"] == [] and open(LOG, "rb").read() == dmg
           and "cannot be checked" in err and "cannot be checked" in err2,
           str((rc, rc2, [a_["alert_id"] for a_ in f2["_sent"]], err2[-160:])))
-    open(LOG, "wb").write(full); open(BK, "wb").write(full); f = run()
+    open(LOG, "wb").write(full); open(BK, "wb").write(CP(full)); f = run()
     check("...the copy put back -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
+# 14 Nov 2026 audit #32 fix check: the copy was the log's bytes alone, so a copy emptied, or cut at a row, read as the
+# record of a shorter log; with the feed lost too, the log was restored from it (or matched it) and alerts were
+# emitted again. The copy now ends with a line naming its hash and row count: emptied, cut or without that line, it
+# is lost, and with the feed lost too the run is withheld
+bkf = CP(full); last_row = full[:full.rindex(b"\n", 0, len(full) - 1) + 1]
+for cw, cbytes in [("emptied", b""), ("cut at a row", CP(full)[:len(last_row)]), ("cut mid-row", CP(full)[:len(full) - 9]),
+                   ("without its end line (the old format)", full)]:
+    for lw, lbytes in [("deleted", None), ("emptied to its header", full.split(b"\n", 1)[0] + b"\n"), ("cut alike", cbytes or None)]:
+        os.remove(FEED); open(BK, "wb").write(cbytes)
+        os.remove(LOG) if lbytes is None else open(LOG, "wb").write(lbytes)
+        rc, f, err = run_fail(); rc2, f2, err2 = run_fail()
+        on_disk = open(LOG, "rb").read() if os.path.exists(LOG) else None
+        check(f"feed lost, copy {cw}, log {lw} -> withheld twice running, log untouched, no alert emitted",
+              rc == 1 and rc2 == 1 and f2["cards_withheld"] and f["alerts"] == [] and f2["alerts"] == [] and on_disk == lbytes
+              and ("cannot be checked" in err2 or "log is missing" in err2), str((rc, rc2, err2[-160:])))
+        open(LOG, "wb").write(full); open(BK, "wb").write(bkf); f = run()
+        if not (not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full):
+            check(f"...copy {cw}, log {lw}: the copy put back -> clean, nothing re-sent", False)
+check("...each time, the copy put back -> clean, nothing re-sent, the log as it was", not f["cards_withheld"] and open(LOG, "rb").read() == full)
+# a copy in the old format (no end line) with the feed readable: the feed is the record, the run is clean and the copy
+# is written again in the new format
+open(BK, "wb").write(full); f = run()
+check("copy without its end line, feed readable -> clean, nothing re-sent, the copy rewritten with its end line",
+      not f["cards_withheld"] and f["_sent"] == [] and open(BK, "rb").read() == CP(full))
 set_cards([]); run()
 set_cards([("ETH 3D", D4)])
 f = run(); sent = [a_["alert_id"] for a_ in f["_sent"]]

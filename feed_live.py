@@ -156,10 +156,34 @@ def backup_path(log_path):
     return log_path[:-4] + "_backup.csv" if log_path.endswith(".csv") else log_path + ".backup"
 
 
+COPY_END = b"#end "
+
+
+def copy_bytes(log_b):
+    """The second copy's bytes: the log's bytes, then one line naming their sha256 and row count. 14 Nov 2026 audit
+    #32 fix check: a copy that was the log's bytes alone could be emptied or cut at a row and still read as a record
+    of a shorter log; with this line, a copy cut short, emptied or edited reads as lost."""
+    rows_ = max(0, log_b.count(b"\n") - 1)
+    return log_b + COPY_END + f"sha256={sha(log_b)} rows={rows_}\n".encode()
+
+
+def copy_log(raw):
+    """The log a copy holds, or None when the copy is damaged: no end line, an end line that does not match the bytes
+    before it, or no header line (an empty file, a cut one, or one in the format before its end line)."""
+    if not raw or not raw.endswith(b"\n"):
+        return None
+    i = raw.rfind(b"\n", 0, len(raw) - 1) + 1
+    body = raw[:i]
+    if raw != copy_bytes(body) or not body.startswith(log_bytes([])):
+        return None
+    return body
+
+
 def backup_bytes(log_path):
+    """The log the second copy holds; None when the copy is missing, unreadable or damaged (all count as lost)."""
     try:
         with open(backup_path(log_path), "rb") as f:
-            return f.read()
+            return copy_log(f.read())
     except OSError:
         return None
 
@@ -189,15 +213,16 @@ def check_log(log_path, prev_feed_path):
     have = log_state(log_path)
     cur = read_log(log_path) if have else []
     if not want:
-        # no record to check against: no readable previous feed and no second copy. 14 Nov 2026 audit #32: a log on
-        # disk used to be accepted as it was here, so a log cut in the same window as both losses emitted its lost
-        # alerts again with a new emitted_at. Every run leaves a copy (and the Action commits feed/), so a lost
-        # record is damage: the run fails closed until the feed or the copy is restored
+        # no record to check against: no record in the previous feed (lost, unreadable, or a withheld feed that
+        # records none) and no usable second copy. 14 Nov 2026 audit #32: a log on disk used to be accepted as it was
+        # here, so a log cut in the same window as both losses emitted its lost alerts again with a new emitted_at.
+        # Every run leaves a copy, so a lost record is damage: the run fails closed until the copy, or a feed whose
+        # record the log matches or can be rebuilt to, is put back
         if have is None:
             raise RuntimeError("the alert log is missing and no published feed records it; to start a new log on "
                                "purpose, run once with CTZB_SEED_ALERT_LOG=1")
-        raise RuntimeError("the alert log cannot be checked: the last feed and the log's second copy are both lost or "
-                           "unreadable; restore feed/ctzb_feed.json or feed/alert_log_backup.csv from the last commit")
+        raise RuntimeError("the alert log cannot be checked: the last feed has no record of it and its second copy is "
+                           "lost or damaged; restore feed/alert_log_backup.csv from the last commit of a clean run")
     if have and have["sha256"] == want["sha256"]:
         return cur
     # alerts a published feed carried that never reached the log: its own, plus any carried forward through
@@ -616,7 +641,7 @@ def main():
     # the log the feed records, and the next run restores the log from it (check_log)
     if final_log is not None and backup_bytes(a.alert_log) != final_log:
         try:
-            atomic_write(backup_path(a.alert_log), final_log)
+            atomic_write(backup_path(a.alert_log), copy_bytes(final_log))
         except OSError as e:
             raise SystemExit(f"feed published, but the alert log's second copy could not be written ({e})")
     if log_dirty:
@@ -715,8 +740,8 @@ def fail_closed(out_path, err, log_path=None):
             # a failed run never writes the log, so what the log must be is unchanged: carry the last published
             # feed's record forward (a log damaged before this run must still be caught by the next one)
             # (with no readable last feed, no record is written: the next run checks the log against the copy as it
-            # then is, so putting a damaged copy right ends the hold, audit #29; with no copy either it stays held
-            # until the feed or the copy is put back. 14 Nov 2026 audit #32 fix: it used to record the log on disk
+            # then is, so putting a damaged copy right ends the hold, audit #29; with no usable copy either it stays
+            # held until the copy is put back. 14 Nov 2026 audit #32 fix: it used to record the log on disk
             # here, which made a log damaged in that window the record the next run accepted)
             "alert_log": prev_log_record(out_path),
             # alerts the last published feed sent that the log does not hold yet (it died before writing the log):

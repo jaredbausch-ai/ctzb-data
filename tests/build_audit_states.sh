@@ -16,8 +16,9 @@ done
 rm -rf "${OUT:?}/replay_0414/data" "${OUT:?}/replay_0414/datasets" "${OUT:?}/replay_0414/feed"
 (cd "$ROOT" && git archive 4aa1208 data datasets feed) | tar -x -C "$OUT/replay_0414"
 # that feed predates the alert log's record and second copy; a log with neither fails closed (audit #32), so give it
-# the copy every run now leaves
-cp "$OUT/replay_0414/feed/alert_log.csv" "$OUT/replay_0414/feed/alert_log_backup.csv"
+# the copy every run now leaves (the log as it is there, with the copy's end line)
+python3 -c "import sys; sys.path.insert(0, sys.argv[1]); import feed_live as F; f = sys.argv[2] + '/feed/alert_log'
+open(f + '_backup.csv', 'wb').write(F.copy_bytes(open(f + '.csv', 'rb').read()))" "$ROOT" "$OUT/replay_0414"
 for N in replay_0414 current; do
   D="$OUT/$N"
   if [ "$N" = replay_0414 ]; then export CTZB_NOW=2026-11-12T04:14:00Z; else unset CTZB_NOW; fi

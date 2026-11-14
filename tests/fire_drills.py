@@ -401,8 +401,11 @@ def main():
     arc = subprocess.run(["git", "-C", ROOT, "archive", FIXTURE_COMMIT, "data", "datasets", "feed"], capture_output=True, check=True).stdout
     subprocess.run(["tar", "-x", "-C", BASE_FIX], input=arc, check=True)
     # the fixture's feed predates the alert log's record and its second copy; since 14 Nov 2026 (audit #32) a log with
-    # neither is not trusted, so give it the copy every run now leaves (the log as the fixture has it)
-    shutil.copy(os.path.join(BASE_FIX, "feed", "alert_log.csv"), os.path.join(BASE_FIX, "feed", "alert_log_backup.csv"))
+    # neither is not trusted, so give it the copy every run now leaves (the log as the fixture has it, with the copy's
+    # end line)
+    sys.path.insert(0, ROOT); import feed_live
+    lb = open(os.path.join(BASE_FIX, "feed", "alert_log.csv"), "rb").read()
+    open(os.path.join(BASE_FIX, "feed", "alert_log_backup.csv"), "wb").write(feed_live.copy_bytes(lb))
     START_TS = time.time() - 1
     t0 = time.time()
     global START
