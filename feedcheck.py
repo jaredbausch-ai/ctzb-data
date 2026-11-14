@@ -127,6 +127,9 @@ def cross(f, out):
             if f.get(k) is None: out.append(f'feed.{k}: missing in a feed that is not withheld')
     day = f['generated_at'][:10]
     if f.get('scored_as_of') is not None and f['scored_as_of'] > day: out.append('feed.scored_as_of: after generated_at')
+    # 14 Nov 2026 audit #31: scoring before 00:00 UTC, the feed written after it
+    if not f['cards_withheld'] and f.get('scored_as_of') is not None and f['scored_as_of'] < day:
+        out.append("feed.scored_as_of: before generated_at's day in a feed that is not withheld")
     for name in ('cards', 'open_signals'):
         ids = [x['signal_id'] for x in f[name]]
         if len(set(ids)) != len(ids): out.append(f'feed.{name}: a signal_id appears twice')

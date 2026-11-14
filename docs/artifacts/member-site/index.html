@@ -455,6 +455,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!f.cards_withheld) for (const k of ["market_regime", "scored_as_of", "posting_bar_pct"]) if (nil(f[k])) out.push("feed." + k + ": missing in a feed that is not withheld");
     const day = f.generated_at.slice(0, 10);
     if (!nil(f.scored_as_of) && f.scored_as_of > day) out.push("feed.scored_as_of: after generated_at");
+    // a feed written after a daily close from data scored before it describes a bar that has closed: it is not
+    // published as clean (14 Nov 2026 audit #31: scoring finished before 00:00 UTC, the feed was written after)
+    if (!f.cards_withheld && !nil(f.scored_as_of) && f.scored_as_of < day) out.push("feed.scored_as_of: before generated_at's day in a feed that is not withheld");
     for (const name of ["cards", "open_signals"]) { const ids = f[name].map((x) => x.signal_id); if (new Set(ids).size !== ids.length) out.push("feed." + name + ": a signal_id appears twice"); }
     f.cards.forEach((c, i) => { card(c, "feed.cards[" + i + "]"); if (c.confirms_on < day) out.push("feed.cards[" + i + "]: confirms before today"); });
     if (!nil(f.example_card)) card(f.example_card, "feed.example_card");
@@ -1146,8 +1149,16 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         ${setupFade(m) ? `<div class="fine">Bands beside the entry: this setup's own ladder. From entry, then of the signals that fell 5%, 10% and 15% before rising 10%: the share that still rose 10% before ever falling 25.3%, with the number of signals.</div>` : ""}
       </div>
       ${what}
-      <div class="sidebox" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${S.trades ? "The lead trader's real entries and exits are listed on the Now tab; they are not drawn on this chart." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown."}</div>
+      <div class="sidebox" id="chLead" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${chartLeadText()}</div>
       <div class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. Past results don't guarantee future results.</div>`;
+  }
+
+  // The Chart tab's lead-trader note follows the file like the Now tab does: "Loading" until it arrives, never
+  // "unavailable" while it loads, and updated in place when it arrives (14 Nov 2026 audit #31: it read
+  // "unavailable" during loading and kept saying so after a valid file arrived)
+  function chartLeadText() {
+    if (S.loading && S.loading.trades) return "Loading the lead trader's feed…";
+    return S.trades ? "The lead trader's real entries and exits are listed on the Now tab; they are not drawn on this chart." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown.";
   }
 
   /* ---------- Record ---------- */
@@ -1267,6 +1278,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     pTrades.then((trades) => {
       S.trades = (trades !== null && tradesProblems(trades).length === 0) ? trades : null;   // a lead-trader file that fails the check reads "unavailable"
       S.loading.trades = false; renderLead(); renderCard();
+      const cl = $("#chLead"); if (cl) cl.textContent = chartLeadText();
     });
     pLedger.then((ledgerText) => {
       // A file cut short in transit must read as unavailable, never as the whole record (12 Nov 2026 audit #18).

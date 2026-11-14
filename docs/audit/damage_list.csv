@@ -3110,3 +3110,35 @@ first_round,level,family,kind,case,expected
 30,pipeline,MALFORMED,real life,"datasets/candles_eth_5d.csv: a figure altered, after the grade step","fails closed: a later step refuses the seal, feed held or fail-closed"
 30,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv: read column lost,stops at the candle check or the cards are held
 30,pipeline,MALFORMED,real life,"datasets/candles_btc_1d.csv: one middle bar's high raised 25%, after the grade step (repro; page then served this run's files)","fails closed (seal), or the chart says unavailable"
+31,page,DELIVERY,real life,slow file(s): data/trades.json,"'Loading' while the file loads, then the chart note points to the Now tab once a valid file arrives"
+31,page,DELIVERY,real life,slow file(s): data/trades.json,"'Loading' while the file loads, then the chart note points to the Now tab once a valid file arrives"
+31,page,DELIVERY,real life,"valid lead-trader file 3.5 s late, member on the Chart tab","'Loading' while the file loads, then the chart note points to the Now tab once a valid file arrives"
+31,pipeline,TIMING,real life,"scoring 23:59:40, feed_live 00:00:05 (quiet market)","not published as clean (fails closed), or the daily-close note shown"
+31,page,HARDENING,hand-forged,feed: rose10 100 but median high under 10,rejected or flagged
+31,page,HARDENING,hand-forged,feed: fell30 100 but median dip 1,rejected or flagged
+31,page,HARDENING,hand-forged,feed: sample text 50 for n5,rejected or flagged
+31,page,HARDENING,hand-forged,feed: eras shares both 0 overall 90,rejected or flagged
+31,page,HARDENING,hand-forged,feed: two posting bars,rejected or flagged
+31,page,HARDENING,hand-forged,feed: pastpath day0 not 0,rejected or flagged
+31,page,HARDENING,hand-forged,feed: ladder row n above from entry share,rejected or flagged
+31,page,HARDENING,hand-forged,feed: live card sample other chart,rejected or flagged
+31,page,HARDENING,hand-forged,feed: live day figures out of time order,rejected or flagged
+31,page,HARDENING,hand-forged,feed: card low day after today,rejected or flagged
+31,page,HARDENING,hand-forged,feed: card confirms 2027,rejected or flagged
+31,page,HARDENING,hand-forged,feed: card must close above below price,rejected or flagged
+31,page,HARDENING,hand-forged,feed: example entry close not file,rejected or flagged
+31,page,HARDENING,hand-forged,feed: regime bearish with topgrade live,rejected or flagged
+31,page,HARDENING,hand-forged,feed: scored two days before generated,rejected or flagged
+31,page,HARDENING,hand-forged,feed: grade odds share vs ledger off by 0.4,rejected or flagged
+31,page,HARDENING,hand-forged,feed: misses median peak above 10,rejected or flagged
+31,page,HARDENING,hand-forged,feed: misses worst drop above peak,rejected or flagged
+31,page,HARDENING,hand-forged,feed: odds fade day10 green below red,rejected or flagged
+31,page,HARDENING,hand-forged,feed: live rose10 and lost both plausible,rejected or flagged
+31,page,HARDENING,hand-forged,feed: card price now cents off chart,rejected or flagged
+31,page,HARDENING,hand-forged,feed: html script in sample,rejected or flagged
+31,page,HARDENING,hand-forged,feed: unicode long sample,rejected or flagged
+31,page,HARDENING,hand-forged,feed: dup keys and junk,rejected or flagged
+31,page,HARDENING,hand-forged,feed: exponent forms,rejected or flagged
+31,page,HARDENING,hand-forged,feed: edge exactly 70 and 69.999999,rejected or flagged
+31,page,HARDENING,hand-forged,feed: boundary shares 0 and 100,rejected or flagged
+31,page,HARDENING,hand-forged,feed: price 0.01 and 1e9,rejected or flagged

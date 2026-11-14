@@ -8,6 +8,8 @@
      arrives after the member picked another setup is not drawn over it;
   4. a page left open past 5 hours: the stale warning appears without a reload, and the worked example the page
      switched on for a quiet market goes off (audit #25).
+  6. a slow lead-trader file, member on the Chart tab (14 Nov 2026 audit #31): the side panel says "Loading", never
+     "unavailable", while it loads, and points to the Now tab once a valid file arrives, without leaving the tab.
 
     python3 tests/test_page_timing.py [state dir]     # default: this repo
 Needs playwright + chromium. Entry quality only: computed signals, not fills.
@@ -45,7 +47,7 @@ DELAY_JS = """
 (() => {
   const of = window.fetch.bind(window);
   window.fetch = (u, o) => {
-    const s = String(u), k = s.includes('ctzb_feed') ? 'feed' : s.includes('example_') ? 'example' : s.includes('/candles/') ? 'candles' : null;
+    const s = String(u), k = s.includes('ctzb_feed') ? 'feed' : s.includes('example_') ? 'example' : s.includes('/candles/') ? 'candles' : s.includes('trades.json') ? 'trades' : null;
     const d = (window.__delay || {})[k];
     return d ? new Promise((r) => setTimeout(r, d)).then(() => of(u, o)) : of(u, o);
   };
@@ -53,9 +55,9 @@ DELAY_JS = """
 """
 
 
-def page(b, delay=None, age_h=0.1, feed=None, at=None):
-    """delay: {'feed': ms, 'example': ms, 'candles': ms}: the page's own request waits that long on its (fake) clock,
-    released by pg.clock.run_for."""
+def page(b, delay=None, age_h=0.1, feed=None, at=None, trades=None):
+    """delay: {'feed': ms, 'example': ms, 'candles': ms, 'trades': ms}: the page's own request waits that long on its
+    (fake) clock, released by pg.clock.run_for. trades: a lead-trader file to serve (default: none, 404)."""
     delay = delay or {}
     pg = b.new_page(viewport={'width': 1440, 'height': 900}); errs = []
     pg.on('pageerror', lambda e: errs.append(str(e)))
@@ -65,6 +67,7 @@ def page(b, delay=None, age_h=0.1, feed=None, at=None):
         key = u.rsplit('/', 1)[1][:-5] if '/candles/' in u else None
         if u.endswith('ctzb_feed.json'): return route.fulfill(body=json.dumps(feed or FEED), content_type='application/json')
         if u.endswith('ledger.csv'): return route.fulfill(body=LEDGER)
+        if u.endswith('trades.json') and trades is not None: return route.fulfill(body=json.dumps(trades), content_type='application/json')
         if 'example_' in u: return route.fulfill(body=EX, content_type='application/json')
         if '/candles/' in u:
             c = candles(key); return route.fulfill(body=c, content_type='application/json') if c else route.fulfill(status=404, body='x')
@@ -182,6 +185,24 @@ with sync_playwright() as pw:
     pg.clock.run_for(20 * 60 * 1000); pg.wait_for_timeout(500)
     txt = pg.inner_text('#card')
     ok('quiet market left open past 5 hours: the example goes off, the stale warning shows', on_before and not pg.is_checked('#previewSwitch') and 'No setup right now' in txt and pg.query_selector('#card .stale-note') is not None and not errs, f'before {on_before}, {txt[:120]!r}, {errs[:1]}')
+    pg.close()
+    # 6. slow lead-trader file, member on the Chart tab (audit #31: "unavailable" while loading, and still after a
+    # valid file arrived). A made-up trade, an hour before the feed, only to have a valid file.
+    g0 = dt.datetime.strptime(FEED['generated_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
+    tr = {'trades': [{'asset': 'ETH', 'direction': 'long', 'action': 'open', 'price': 1000, 'time': (g0 - dt.timedelta(hours=1)).strftime('%Y-%m-%dT%H:%M:%SZ')}]}
+    pg, errs = page(b, delay={'trades': 4000}, trades=tr)
+    pg.goto('http://site.test/#chart'); pg.wait_for_timeout(1500)
+    side = pg.inner_text('#chartSide')
+    ok('slow lead-trader file on the Chart tab: the side panel says Loading, not unavailable', "Loading the lead trader" in side and 'feed is unavailable' not in side, side[-200:])
+    pg.clock.run_for(4500); pg.wait_for_timeout(800)
+    side = pg.inner_text('#chartSide')
+    ok('...and once a valid file arrives, points to the Now tab without leaving the Chart tab', 'listed on the Now tab' in side and 'Loading the lead' not in side and 'unavailable' not in side and not errs, f'{side[-200:]!r} {errs[:1]}')
+    pg.close()
+    pg, errs = page(b, delay={'trades': 4000})   # the file never arrives (404): unavailable once it has failed
+    pg.goto('http://site.test/#chart'); pg.wait_for_timeout(1500)
+    pg.clock.run_for(4500); pg.wait_for_timeout(800)
+    side = pg.inner_text('#chartSide')
+    ok('...and a lead-trader file that fails to load reads unavailable after loading', 'feed is unavailable' in side and 'Loading the lead' not in side and not errs, f'{side[-200:]!r} {errs[:1]}')
     pg.close()
     b.close()
 print(f'\n{sum(results)}/{len(results)} passed'); sys.exit(0 if all(results) else 1)

@@ -1,0 +1,5 @@
+2026-11-14T13:39:34Z stage0 setup: states 0, disagreements 0
+2026-11-14T13:55:26Z stage C repo tests: test_seal 29/29, test_page_timing 16/16, test_feed_damage(quick) 31/31 pass; states 0 judged, disagreements 0
+2026-11-14T14:33:44Z stage A page level: 264 real-life cases + 28 hand-forged on 13 states; disagreements 1 (D1, slow lead-trader file, chart note)
+2026-11-14T14:33:44Z stage B pipeline level: 486 cases (incl. 14 alert-log sequences) on 2 frozen states + replays; disagreements 1 more (D2, run straddling 00:00 UTC); total 2
+2026-11-14T14:34:35Z report written: states 13 page / 2 frozen + replays pipeline; disagreements 2 (D1 page fam 6, D2 pipeline fam 5)

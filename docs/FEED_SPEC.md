@@ -452,7 +452,8 @@ applies the same rules, trimming text and matching digits as JavaScript does.
   `low_day` <= `confirms_on`; a forming card does not confirm before the feed's date.
 - **Feed:** `cards_withheld` is the opposite of `checks.all_passed`; a withheld feed has no cards, live signals or
   example card; a feed that is not withheld states `market_regime`, `scored_as_of` and `posting_bar_pct`;
-  `scored_as_of` is not after `generated_at`; no signal id, asset/grade pair or past-paths asset appears twice.
+  `scored_as_of` is not after `generated_at`, and in a feed that is not withheld it is `generated_at`'s own day (a
+  feed written after a daily close from data scored before it is not published as clean: audit #31); no signal id, asset/grade pair or past-paths asset appears twice.
 - **Live signals:** id matches chart and entry date; entry not after the feed's date; `days_elapsed` equals the days
   from entry to `generated_at`'s date; each day-10/30/60 figure present exactly when that day has passed; figures
   within best and worst; `edge_status` agrees with best, worst and edge level; the card is its own (chart, date,
@@ -518,8 +519,8 @@ Worker, uncached.
 - **Lead-trader file.** Served from the `ctzb-trades` relay, which the review banner says is in dry run. Checked
   against the schema's lead-trader part (key `trades`), newest first and none in the future; a failure reads
   "unavailable". It never changes the odds. The card's lead-trader line reads "not in" when he has posted entries but
-  none on that asset. The chart's note says his feed is unavailable when it cannot be read, and that his entries and
-  exits are not drawn on the chart.
+  none on that asset. The chart's note says "Loading" while his file loads and is updated in place when it arrives,
+  says his feed is unavailable when it cannot be read, and says that his entries and exits are not drawn on the chart.
 - **Loading.** The card is drawn as soon as the feed arrives ("Loading the latest data…" until then); the ledger,
   lead-trader and example files are added as they arrive. A chart whose file is loading says "Loading", and the
   previous setup's chart is cleared.
