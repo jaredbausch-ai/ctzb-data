@@ -1075,6 +1075,47 @@ After the corrections: input files 61/61, feed alerts 65/65, page states 52/52, 
 run seal 23/23, fire drills 58/58, page timing 16/16, per-year test, cut files 495/495, damage test 31/31 (quick
 pass).
 
+## Round 30 — 14 Nov (audit #30: damage part only, counted on the frozen list)
+
+**Not clean:** 2 causes got through a family's rule, both real-life damage on the pipeline side, both Malformed. The
+page had none.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page (19 states, 340 cases) | 40 / 0 | 98 / 0 | 27 / 0 | 3 / 0 | 42 / 0 | 92 / 0 |
+| Pipeline (2,184 cases) | 285 / 0 | 1,567 / **4** | 105 / 0 | 183 / 0 | 31 / 0 | 12 / 0 |
+
+(cases tried / got through; the 4 rows are 2 causes). Hardening, not counted: 22 tried, 11 accepted. Report:
+`analysis/audit30_2026-11-14/broken/`.
+
+The two causes, each fixed at its family's rule:
+- **A chart file changed between the grade and extras steps was served.** extras checked the run seal before
+  deleting its own outputs, so a chart file altered after grade (the last run's, still in `datasets/`) made extras
+  refuse and exit with the file still there. The later steps leave the extras files out of the seal when extras
+  failed, so the cards published beside it, and the page, which matches only the chart's last close to the card,
+  drew the altered bar (a BTC 1D high raised 25%). The same path left the last run's chart files beside a fresh feed
+  whenever extras' seal check failed. Rule now: extras deletes its files before its seal check and does not hold them
+  against the run, then writes them again from this run's ledger and candles; when it fails, none of its files is
+  left. Test: `test_seal` (a chart bar altered after grade: written again, the altered bar gone, the run clean; the
+  seal broken before extras: no chart or extras file left; the next run clean).
+- **A funding file that had lost `funding_oi_weighted` passed.** The column the FUND read takes first was checked
+  only where filled, so a file with the column emptied or removed was scored on `funding_mean` every day. Rule now:
+  `funding_oi_weighted` is blank before open interest began (2022-09-13) and filled on every day open interest has a
+  total, as `fetch_derivs.py` writes it; the one day open interest has not yet reached may be blank. In the last 80
+  committed versions of both files the column was always filled from 2022-09-13 on. Test: `test_series_cells`
+  (emptied, removed, blank on one day, blank on the last day, filled before 2022-09-13: each fails in the candle check
+  and the stack step; blank on the day open interest has not reached: passes).
+
+Every new failing case fails on the round-29 code (series cells 42 of 58 then; run seal 24 of 27). Hardening (not
+counted) left as it is: forming-card dates and prices far from the others, inconsistent past-signal shares, a
+`scored_as_of` a month old. Not counted: `docs/PRETRADE.md` cut in half weakens the stack step's coverage check
+without changing a figure; the documented three-file limit of the alert log also showed. The 11 cases of round 30
+(3 got through, 8 hardening) were added to `docs/audit/damage_list.csv`.
+
+**Re-checked after the changes:** run seal 27/27, series cells 62/62, input files 61/61, numbers check 13 dates
+unchanged, candle check 95/95, feed extras 28/28, feed alerts 65/65, year end 8/8, gate off, no today bar, fetch today
+4/4, cut files 495/495, per-year test, damage test 31/31 (quick pass).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
