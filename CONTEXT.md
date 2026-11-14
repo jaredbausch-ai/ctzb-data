@@ -1430,13 +1430,18 @@ not stop a run counting as clean (Jared, 13 Nov 10:23 ET, after audit #22). The 
 people rely on: the member page's own words, docs/FEED_SPEC.md, docs/CARD_SPEC.md, the three READMEs and the
 CONTEXT sections that state current rules; the dated history, PRETRADE, SITE_CHANGES, AUDIT_LOG, code comments
 and test headers were checked in full once (audits #22 and #23, 100 findings fixed) and are not re-counted
-(Jared, 13 Nov 12:56 ET). Two clean runs in a row are required before the site ships. To get there without one audit per handful
-of findings: (1) the member page uses a file only if it passes one strict check (the schema inside the page,
-`FEED_SCHEMA`; `feedcheck.py` reads the same block, and `feed_live.py` will not publish a feed that fails
-it), so a damaged feed reads "Data unavailable" instead of being patched case by case; (2)
-`tests/test_feed_damage.py` damages every field the page reads in every way and checks that; (3) each audit
-round is three independent agents at once: numbers on real data, broken states, and docs against code. Details:
-docs/FEED_SPEC.md "Audit #21 corrections", docs/AUDIT_LOG.md from Round 21. Entry quality only, as everywhere.
+(Jared, 13 Nov 12:56 ET). Two clean runs in a row are required before the site ships. The member page uses a file
+only if it passes one strict check (the schema inside the page, `FEED_SCHEMA`; `feedcheck.py` reads the same block,
+and `feed_live.py` will not publish a feed that fails it), so a damaged feed reads "Data unavailable".
+**How rounds run (13 Nov 2026, Jared, after audit #26):** the numbers part runs as `tests/numbers_check.py` after
+every change (13 fixed replay dates, every dataset, feed and page figure against a baseline) and as a full
+independent audit only in the two final clean runs; the damage part is counted against the frozen damage list
+(`docs/audit/DAMAGE_LIST.md`: six families, each guarded by one general rule; a case that gets through a rule
+counts, a case outside the families is added but not counted; Jared, 20:23 ET); every fix is made to the family's
+rule with a family test; an independent fix check (`docs/audit/FIX_CHECK_BRIEF.md`) checks each round's fixes before
+the next audit; specs state current rules only (history in docs/history/); order: damage until clean, then docs
+against the frozen code, then two full three-part clean runs. Record: docs/AUDIT_LOG.md. Entry quality only, as
+everywhere.
 
 **The whole stack runs every time (procedure set 28 Oct 2026, after a missed confluence).**
 `stack_live.py` holds REGISTRY, the single indexed list of every documented read
