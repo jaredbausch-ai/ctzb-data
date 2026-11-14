@@ -198,6 +198,12 @@ with sync_playwright() as pw:
     side = pg.inner_text('#chartSide')
     ok('...and once a valid file arrives, points to the Now tab without leaving the Chart tab', 'listed on the Now tab' in side and 'Loading the lead' not in side and 'unavailable' not in side and not errs, f'{side[-200:]!r} {errs[:1]}')
     pg.close()
+    pg, errs = page(b, delay={'trades': 4000}, trades={'trades': []})   # a valid file with no trades (fix check #31)
+    pg.goto('http://site.test/#chart'); pg.wait_for_timeout(1500)
+    pg.clock.run_for(4500); pg.wait_for_timeout(800)
+    side = pg.inner_text('#chartSide')
+    ok('...and a valid lead-trader file with no trades says none are posted, not that they are listed', 'posted no trades yet' in side and 'listed on the Now tab' not in side and not errs, f'{side[-200:]!r} {errs[:1]}')
+    pg.close()
     pg, errs = page(b, delay={'trades': 4000})   # the file never arrives (404): unavailable once it has failed
     pg.goto('http://site.test/#chart'); pg.wait_for_timeout(1500)
     pg.clock.run_for(4500); pg.wait_for_timeout(800)

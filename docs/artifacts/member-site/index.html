@@ -1158,6 +1158,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // "unavailable" during loading and kept saying so after a valid file arrived)
   function chartLeadText() {
     if (S.loading && S.loading.trades) return "Loading the lead trader's feed…";
+    // a valid file with no trades says so, as the Now tab does (fix check #31: it said they were listed there)
+    if (S.trades && !(S.trades.trades || []).length) return "The lead trader has posted no trades yet; they are not drawn on this chart.";
     return S.trades ? "The lead trader's real entries and exits are listed on the Now tab; they are not drawn on this chart." : "The lead trader's feed is unavailable right now, so his entries and exits can't be shown.";
   }
 

@@ -1157,13 +1157,14 @@ The two causes, each fixed at its family's rule:
   `test_page_timing` (slow file on the Chart tab: Loading; valid file arrives: points to the Now tab without leaving
   the tab; file fails to load: unavailable).
 - **Timing: a run whose scoring finished before 00:00 UTC and whose feed was written after it published clean** in a
-  quiet market, with no "daily close has passed" note, since the page judges the close from the feed's write time.
+  quiet market or one with only forming cards confirming after the scored day, with no "daily close has passed" note, since the page judges the close from the feed's write time.
   (With open signals the run already failed closed.) Rule now: the strict check, which the page and `feedcheck.py`
   share, refuses a feed that is not withheld whose `scored_as_of` is not its own day, so `feed_live.py` fails closed;
   the next run publishes clean. Test: `test_midnight` (new: the same quiet data written at 23:59:55 publishes clean,
   at 00:00:05 fails closed; the strict check on both).
 
-Every new failing case fails on the round-30 code (page timing 17 of 19 then; midnight 2 of 5). The 32 cases of round
+Every new case that targets a finding fails on the round-30 code (page timing 17 of 19 then; midnight 2 of 5); the
+others are controls that pass on both. The 32 cases of round
 31 (4 got through, 28 hardening) were added to `docs/audit/damage_list.csv`. Not counted: a hand run with no step
 outcomes is judged on `stack_status.txt` alone, as specified; a skipped extras step withholds the whole feed (over-safe);
 a last feed replaced by an older run's copy keeps later runs failing closed until fixed by hand (safe).
