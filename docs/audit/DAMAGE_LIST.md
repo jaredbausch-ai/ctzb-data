@@ -25,7 +25,7 @@ real-life, 103 hand-forged), each with its level (page or pipeline), its family,
 expected result. The family column was assigned by keyword from each case's description; 204 cases did not match a
 keyword and are marked UNSORTED (they are still on the list). From round 27 on, every case that got through (and every
 hardening case) is appended with its round: 44 from rounds 27 to 29 (added 14 Nov 2026, after round 29; rounds 27 and
-28 had not been added when they ran), 11 from round 30, 32 from round 31, 56 from round 32 and 36 from round 33.
+28 had not been added when they ran), 11 from round 30, 32 from round 31, 56 from round 32, 36 from round 33 and 59 from round 34.
 
 ## How the damage part is counted (from round 27)
 

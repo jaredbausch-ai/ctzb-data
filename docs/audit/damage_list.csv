@@ -3234,3 +3234,62 @@ first_round,level,family,kind,case,expected
 33,page,HARDENING,hand-forged,"boundary: from-entry share 69.999999 (shows 70%, below the bar) [hardening]",rejected: 'Data unavailable' (or that area unavailable)
 33,page,HARDENING,hand-forged,boundary: price_now 0.01 (chart then refused) [hardening],rejected: 'Data unavailable' (or that area unavailable)
 33,page,HARDENING,hand-forged,boundary: typical day of high 0 and of deepest dip 60 [hardening],rejected: 'Data unavailable' (or that area unavailable)
+34,page,HARDENING,hand-forged,lead-trader file: time 10 min in the future,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: not newest first,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: same id twice,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,"lead-trader file: same event twice, no ids",feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,"lead-trader file: same event, one id missing, time written differently",feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: direction LONG,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: action buy,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: price 0,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: price as text,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: leverage 0,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: size_pct 150,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: asset SOL,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: time without Z,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: trades not a list,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: trades null,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: id empty string,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,lead-trader file: move_pct -100,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,"feed text with a duplicate cards_withheld key (true, then the real false)",feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,"duplicate cards_withheld key (the real false, then true): JSON's last value wins -> withheld but cards present -> refused",feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,every whole-number share written as 8.4e1 style,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,whole-number shares written as 84.0,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,an unknown field nested 5000 deep,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,an unknown field holding 1e308 and -0,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,a card's past_trades 1e300,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,HTML and script markup in every card's sample text,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,"markup in tags, confirmations, labels, grade_odds grade names",feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,"a 20,000-character unicode sample text",feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,boundary: all shares 100,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,boundary: all shares 0,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,boundary: from-entry share exactly 70.0,feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,boundary: from-entry share 69.999999 (shown 70),feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,boundary: price_now 0.01 (charts must refuse the mismatch),"feed=ok; ledger=ok; trades=unavail; example_chart=ok; charts={'ETH-1D-2026-11-13': 'unavail', 'ETH-2D-2026-11-16': 'unavail', 'BTC-1D-2026-11-13': 'unavail', 'BTC-2D-2026-11-16': 'unavail'}"
+34,page,HARDENING,hand-forged,"boundary: entry close 999,999,999.99",feed=ok; ledger=ok; trades=unavail; example_chart=ok; charts={'BTC_2D': 'unavail'}
+34,page,HARDENING,hand-forged,boundary: live signal on day 0 (confirmed today),feed=ok; ledger=ok; trades=unavail; example_chart=ok; charts={'BTC_2D': 'ok_or_unavail'}
+34,page,HARDENING,hand-forged,forged: live card of another chart,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: rose20 above rose10,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: eras do not add up,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: ladder count rising,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: low_day after confirms_on,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: two cards with one id,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: days_elapsed off by one,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: if_it_misses count not grade_odds',feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: scored_as_of a day before generated_at,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: live card's entry close differs,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: fell30 share 100 while median deepest dip is -2%,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: 90% rose 10% but median best move 2%,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: odds_fade bar 50 vs top-level 70,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: market filter Bearish with forming cards,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: not withheld but failed_steps lists grade,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: past path day-0 median 12%,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: forming card bars_to_confirm 0 but confirms in 5 days,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: rose10 with best 9.96 (rounds to 10.0),feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,forged: grade_odds A+ count 1 more than the ledger,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: example card not dated 2024-09-22 but same id,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: open signal list reversed (order is not meaningful),feed=ok; ledger=ok; trades=unavail; example_chart=ok
+34,page,HARDENING,hand-forged,forged: card's typical high day 0 with a 50% median rise,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,forged: live signal grade A+ but its card graded C,feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,"forged: checks.passed false, all_passed true",feed=down; ledger=unavail; trades=unavail
+34,page,HARDENING,hand-forged,ledger with CR-only line ends (old Mac),

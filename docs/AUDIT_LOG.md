@@ -1320,6 +1320,28 @@ After the corrections: numbers check 13 dates unchanged, midnight 7/7, run seal 
 83/83, page states 56/56, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20, per-year test,
 site worker 26/26, damage test 33/33 (quick pass), trades relay 45/45.
 
+## Round 34 — 14 Nov (audit #34: damage part only, counted on the frozen list)
+
+**Damage part clean:** 0 causes got through a family's rule, on the page or in the pipeline. 568 counted cases, all
+five categories zero at both levels; no alert lost or sent twice in 23 alert-log sequences.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page | 37 / 0 | 109 / 0 | 36 / 0 | 8 / 0 | 25 / 0 | 57 / 0 |
+| Pipeline | 7 / 0 | 91 / 0 | 19 / 0 | 160 / 0 | 11 / 0 | n/a |
+
+(cases tried / got through; pipeline timing also 3 real replays: 1 Jan 00:20, 31 Dec 23:50, 29 Feb, all clean).
+Hardening, not counted: 59 tried, 9 accepted (contradictory but valid forged feeds, each shown with its own values).
+States: a replay of 11 Nov 04:14 UTC (four forming setups) and the data of 14 Nov. Report:
+`analysis/audit34_2026-11-14/broken/`. The 59 hardening cases were added to `docs/audit/damage_list.csv`.
+
+Noted by the auditor, not counted (damage that gets through with nothing wrong shown): a duplicated lower-grade ledger
+row or repeated header row is accepted (only top-grade rows are read); `tests/regression.py` passes with its baseline
+emptied; a feed replaced by an older copy keeps later runs failing closed until repaired by hand; the mirror keeps
+serving a dataset the repo deleted (the page's own price and time check refuses such a chart file).
+
+Next, as agreed: a docs audit against this frozen code, then two full clean runs (numbers, damage, docs).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
