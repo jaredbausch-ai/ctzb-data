@@ -3,8 +3,9 @@
 1. Malformed: a blank line anywhere in any file the history check reads (every candle file, 1D to 8D, 4H and 12H,
    and every daily series) fails. csv.DictReader skips blank lines, so a blank line in the funding series passed.
 2. Malformed: no bar missing in a 4H or 12H file. Deleting bars from one asset's file fails (199 recent ETH 4H bars
-   passed the 99% timeframe test); the same bar missing from both assets' files at once is an exchange outage and
-   passes; the committed data, with the exchange's own gaps, passes.
+   passed the 99% timeframe test), at the start, at the end, or to match the other asset's own one-asset gap (fix
+   check); the same bar missing from both assets' files at once is an exchange outage and passes; the committed
+   data, with the exchange's own gaps, passes.
 3. Timing: a daily series row dated after the run's day fails, in the candle check and in the stack step's check.
 
     python3 tests/test_input_files.py      # exit 1 on failure
@@ -60,6 +61,17 @@ def main():
         for rel in ("ETH_4H.csv", "BTC_4H.csv", "ETH_12H.csv", "BTC_12H.csv"):
             probs = with_text(rel, drop(rel, lambda i, n: i != n // 2), lambda: fetch.history_problems(D, today=today))
             ok(f"{rel}: one bar deleted in the middle fails", any(rel[:-4] in x and "gap" in x for x in probs), str(probs[:2]))
+        # 14 Nov 2026 fix check: bars cut from the start, from the end of one asset's file, or deleted to match the
+        # other asset's own one-asset gap
+        for rel in ("ETH_4H.csv", "BTC_12H.csv"):
+            probs = with_text(rel, drop(rel, lambda i, n: not (1 <= i <= 3)), lambda: fetch.history_problems(D, today=today))
+            ok(f"{rel}: its first 3 bars deleted fails", any(rel[:-4] in x and "start" in x for x in probs), str(probs[:2]))
+            probs = with_text(rel, drop(rel, lambda i, n: i < n - 1), lambda: fetch.history_problems(D, today=today))
+            ok(f"{rel}: its last bar deleted fails", any(rel[:-4] in x and "end" in x for x in probs), str(probs[:2]))
+        g0 = 1533859200   # BTC 4H's own gap, 10 Aug 2018: 4 steps to the next bar
+        probs = with_text("ETH_4H.csv", lambda t: "".join(l for l in t.splitlines(keepends=True) if not (l[:1].isdigit() and g0 < float(l.split(",", 1)[0]) < g0 + 4 * 14400)),
+                          lambda: fetch.history_problems(D, today=today))
+        ok("ETH_4H: bars deleted to match BTC 4H's own one-asset gap fails", any("ETH_4H" in x and "gap" in x for x in probs), str(probs[:2]))
         # the same bar gone from both assets' files: an exchange outage
         t0 = list(csv.DictReader(open(f"{D}/ETH_4H.csv")))[-300]["time"]
         def both():

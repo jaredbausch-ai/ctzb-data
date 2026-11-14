@@ -172,9 +172,9 @@ def check_log(log_path, prev_feed_path):
     publishes the withheld feed.
     14 Nov 2026 audit #29: every run also keeps a second copy of the log (backup_path), written after the feed and
     before the log. When the previous feed cannot be read, the copy is the record; a log that differs from the
-    record is restored from the copy when the copy is exactly what the record says and restoring drops no alert the
-    log holds (a lost feed and a cut log used to let the next run accept the cut log and send its lost alert
-    again)."""
+    record is restored from the copy when the copy is exactly what the record says and restoring changes no row the
+    log holds (a lost feed and a cut log used to let the next run accept the cut log and emit its lost alert again
+    with a new emitted_at; the sender's alert_id check kept it from being sent twice)."""
     prev = None
     try:
         with open(prev_feed_path) as f:
@@ -210,14 +210,16 @@ def check_log(log_path, prev_feed_path):
         return rebuilt
     if bk is not None and sha(bk) == want["sha256"]:
         # the log was cut, lost or damaged, and the second copy is exactly the log the record expects. Restored only
-        # when that drops nothing the log holds (the log is a cut copy, or every alert in it is in the copy); a log
-        # holding an alert the copy lacks means the copy is the damaged one, and the run fails closed
+        # when that changes nothing the log holds: the copy repeats no alert, and the log is the copy cut short or
+        # every whole row of the log is in the copy exactly (14 Nov 2026 fix check: comparing alert_ids alone let a copy with
+        # an altered row overwrite a good log). Otherwise the copy may be the damaged file, and the run fails closed
         lb = open(log_path, "rb").read() if have else b""
         try:
-            bids = {r.get("alert_id") for r in csv.DictReader(io.StringIO(bk.decode()))}
+            brows = [tuple(r.get(k) for k in ALERT_LOG_FIELDS) for r in csv.DictReader(io.StringIO(bk.decode()))]
         except (UnicodeDecodeError, csv.Error):
-            bids = None
-        if bk.startswith(lb) or (bids is not None and {r.get("alert_id") for r in cur} <= bids):
+            brows = None
+        unique = brows is not None and len({r[0] for r in brows}) == len(brows)
+        if unique and (bk.startswith(lb) or all(tuple(r.get(k) for k in ALERT_LOG_FIELDS) in set(brows) for r in cur)):
             atomic_write(log_path, bk)
             return read_log(log_path)
     raise RuntimeError("the alert log is not the one the last published feed left "

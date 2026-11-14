@@ -106,7 +106,7 @@ strict check does not read the field.
 | `grade_odds[]` | list | Below |
 | `candle_check` | | Below |
 | `extras_withheld`, `if_it_misses[]`, `odds_fade`, `past_paths[]`, `example_if_it_misses`, `example_past_paths` | (not read), list, object?, list, miss?, path? | Member-card extras, below |
-| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log, and on a held-back feed with no last record and a second copy of the log (below) |
+| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log, and on a fail-closed feed when the last feed has no record and the log has a second copy (below) |
 | `feed_error`, `alert_log_carry` | | Fail-closed feed only (below) |
 
 `next_buy_date` and `trades_a_year` come from refresh.py's ETH walk-forward tier: the ETH chart/tag pairs with at
@@ -319,12 +319,13 @@ records every `alert_id` it sends and never sends one twice.**
   SHA-256 with the previous feed's `alert_log`. A match passes. Otherwise it appends the previous feed's
   `alert_log_carry` and `alerts` whose `alert_id` the log lacks; if that matches, the last run died between the feed
   and the log (or the log lost rows the feed still carries), and the log is rebuilt.
-- **The second copy.** Every run also keeps `feed/alert_log_backup.csv`, byte for byte the log the feed records. When
-  the previous feed cannot be read or has no record, the copy is the record. A log that matches neither the record
-  nor the rebuild is restored from the copy when the copy is exactly what the record says and restoring drops no
-  alert the log holds (the log was cut, emptied, deleted or lost rows). Anything else fails closed, including a log
-  holding an alert the copy lacks when the copy is the record (the copy is then the damaged file). With no previous
-  record and no copy, a missing log fails closed and an existing one is accepted.
+- **The second copy.** Every run that publishes a clean or held feed also keeps `feed/alert_log_backup.csv`, byte for
+  byte the log that feed records (a fail-closed run writes neither). When the previous feed cannot be read or has no
+  record, the copy is the record. A log that matches neither the record nor the rebuild is restored from the copy
+  when the copy is exactly what the record says, repeats no `alert_id`, and either begins with the whole log or holds
+  every row of the log exactly (the log was cut, emptied, deleted or lost or repeated rows). Anything else fails
+  closed: when the copy is the record, a copy that lacks a row of the log, holds it altered, or repeats an alert is
+  the damaged file. With no previous record and no copy, a missing log fails closed and an existing one is accepted.
 - **Order.** The feed is written only after it passes the strict check, then the copy, then the log. If the copy or
   the log cannot be written, the feed stays published and the run exits non-zero; the next run rebuilds or restores
   the log.
@@ -401,16 +402,17 @@ enforce mode, when any of the last 30 closed days differs from Kraken's close by
 - each daily file starting on the exchange's first day (ETH 2016-05-18, BTC 2016-01-01) with no missing day after it
   (ETH 2016-05-21 and 2016-05-22 excepted), and every 2D-8D file exactly its daily candles bucketed, volume included;
 - 4H and 12H files on their own timeframe (99% of bars one step apart) and their own asset (last close within 25% of
-  that day's daily close), with no bar missing: every gap is one of the exchange's own that only one asset has
-  (`fetch.OWN_GAPS`: ETH's first week of trading in May 2016, a BTC 4H gap on 10 Aug 2018) or appears at the same time
-  in the other asset's file (an exchange outage; 28 Feb 2017 and 25 Oct 2025 so far); ETH's daily close between 0.1%
-  and 50% of BTC's every day;
+  that day's daily close), with no bar missing: each starts on the asset's first bar (`fetch.FIRST_BAR`); the ETH and
+  BTC files of a timeframe end on the same bar, on the day of the asset's last daily bar; and every gap is one of the
+  exchange's own that only one asset has (`fetch.OWN_GAPS`: ETH's first week of trading in May 2016, a BTC 4H gap on
+  10 Aug 2018) or appears at the same time in the other asset's file and is not that file's own (an exchange outage;
+  28 Feb 2017 and 25 Oct 2025 so far); ETH's daily close between 0.1% and 50% of BTC's every day;
 - the funding series from 2020-01-21, the long/short ratio from 2020-05-31 and open interest from 2022-09-13 (per
   asset), and BTC put/call from 2016-11-01: no missing or repeated day; the columns the scorer reads in range (funding:
   `funding_mean` on every row and `funding_oi_weighted` where filled, both between -1 and 1; the FUND read takes
   `funding_oi_weighted` first, the FCOOL read `funding_mean`); every other cell blank or a finite number; whole rows;
-  derivatives columns of their own asset; no row dated after today (the run's UTC date); a series is not read on a
-  day before its first day. stack_live.py alone also requires each series' read column to be filled up
+  derivatives columns of their own asset; no row dated after today (the run's UTC date). A series whose first day is
+  after the run's day did not exist yet and is not checked (only a replay of an early date gets there). stack_live.py alone also requires each series' read column to be filled up
   to no more than 1 day before today (put/call: 2 days, it writes completed days only): the funding reads take the
   last known day as today's and the long/short and put/call reads go blank when their day is missing, so a series
   further behind can change the forming cards. A series behind that lag holds the run's cards back but does not stop

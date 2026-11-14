@@ -1006,7 +1006,8 @@ The five causes, each fixed at its family's rule:
   by the page for the ledger. Tests: `test_page_states` (4 cents off: not drawn; under half a cent: drawn; a ledger
   missing its last line end: unavailable), `test_site_worker` (a cut candle file refused).
 - **Malformed (pipeline): 199 bars deleted from ETH 4H passed.** The 4H/12H rule only asked that 99% of bars be one
-  step apart. Rule now: no bar missing from a 4H or 12H file. A gap must be one of the exchange's own that only one
+  step apart. Rule now: no bar missing from a 4H or 12H file (the start and end were added after the fix check,
+  below). A gap must be one of the exchange's own that only one
   asset has (`fetch.OWN_GAPS`: ETH's first week in May 2016, BTC 4H on 10 Aug 2018) or appear at the same time in the
   other asset's file (an exchange outage hits both; 28 Feb 2017 and 25 Oct 2025 so far). Test: `test_input_files`.
 - **Malformed (pipeline): a blank line inside the funding series passed.** The check read with `csv.DictReader`,
@@ -1028,7 +1029,8 @@ The five causes, each fixed at its family's rule:
 
 Every new test fails on the round-28 code. Hardening (not counted), fixed because it was cheap: a hand-built held
 feed that still carried `grade_odds` and `market_regime` showed the past-signals record and "Market filter: on". The
-page now reads neither from a held feed (`test_page_states`).
+page no longer reads the regime or the record's counts from a held feed (`test_page_states`; the per-asset summary
+was added after the fix check).
 
 Replays now cut the daily series at the replay day too (`tests/replay_at.sh`), since a row after the clock's day is
 now rejected; a series is not read on a day before its first day (only an early replay gets there). Before this, the

@@ -577,7 +577,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     else { const g = rows.find((r) => r.x != null && r.x !== "" && r.x < bar); edge = g ? -g.fell : null; }
     return { rows, base, baseX, edge, bar };
   }
-  const misses = (asset, grade = "A+") => ((S.feed && S.feed.if_it_misses) || []).find((m) => m.asset === asset && (m.grade || "A+") === grade) || null;
+  const misses = (asset, grade = "A+") => ((S.feed && !S.feed.cards_withheld && S.feed.if_it_misses) || []).find((m) => m.asset === asset && (m.grade || "A+") === grade) || null;
 
   /* ---------- the card model: a live top-grade card from the feed, or the example ---------- */
   // A feed flagged as withheld shows no card and no live signal, even if it still carries some (13 Nov 2026 audit #20)
@@ -1160,7 +1160,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       <td><span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached10 === "yes" ? "Yes" : "No"}</span></td>
       <td><span class="badge ${r.reached20 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Yes" : "No"}</span></td>
       <td class="hi">${pct(+r.bestMove)}</td><td class="lo">${pct(+r.maxDrawdown)}</td><td>${pct(+r.return60d)}</td><td>${r.daysToHigh}</td></tr>`).join("");
-    const go = ((S.feed && S.feed.grade_odds) || []).filter((g) => g.grade === "A+" && (S.asset === "all" || g.asset === S.asset));
+    const go = ((S.feed && !S.feed.cards_withheld && S.feed.grade_odds) || []).filter((g) => g.grade === "A+" && (S.asset === "all" || g.asset === S.asset));
     $("#recSum").innerHTML = go.map((g) => {
       const mi = misses(g.asset);
       return `<div class="sidebox"><div class="kv"><b>${g.asset}</b><span class="small">${g.past_trades} signals</span></div>

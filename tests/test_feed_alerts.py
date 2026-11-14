@@ -222,6 +222,17 @@ check("feed lost and the copy older than the log -> withheld twice running, log 
       rc == 1 and rc2 == 1 and f2["cards_withheld"] and open(LOG, "rb").read() == full and f["_sent"] == [] and f2["_sent"] == [], err[-160:])
 open(BK, "wb").write(full); f = run()
 check("...the copy put right -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
+# 14 Nov 2026 fix check: a copy damaged but holding every alert_id (a row altered, or repeated) never overwrites a
+# good log when the feed is lost
+ls_ = full.splitlines(keepends=True)
+for what, bad_copy in [("one row's emitted_at altered", b"".join(ls_[:-1] + [ls_[-1].replace(b"T", b"T0", 1).replace(b"T00", b"T01", 1) if b"T00" in ls_[-1] else ls_[-1].replace(b"Z", b"0Z", 1)])),
+                       ("a row repeated", full + ls_[-1])]:
+    os.remove(FEED); open(BK, "wb").write(bad_copy)
+    rc, f, err = run_fail()
+    check(f"feed lost and the copy damaged ({what}) -> withheld, the good log untouched, nothing re-sent",
+          bad_copy != full and rc == 1 and open(LOG, "rb").read() == full and f["_sent"] == [], err[-160:])
+    open(BK, "wb").write(full); f = run()
+check("...the copy put right -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
 set_cards([]); run()
 set_cards([("ETH 3D", D4)])
 f = run(); sent = [a_["alert_id"] for a_ in f["_sent"]]

@@ -213,6 +213,9 @@ def _file_problem(path, name):
 # 10 Aug 2018. The shared ones (28 Feb 2017, 25 Oct 2025) need no entry.
 OWN_GAPS = {"ETH_4H": {1463529600, 1463616000, 1463644800, 1463702400, 1463774400, 1464004800, 1464062400},
             "BTC_4H": {1533859200}, "ETH_12H": {1463745600}, "BTC_12H": set()}
+# ...and each intraday file's first bar (the exchange's first hour of trading, midnight UTC): bars cut from the start
+# are missing bars too (14 Nov 2026 fix check of audit #29)
+FIRST_BAR = {"ETH": 1463529600, "BTC": 1451606400}
 
 
 # How far behind today a daily series may end in a normal run. The funding reads take the last known day as today's
@@ -308,14 +311,16 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
     - With lag=True (stack_live.py only): each series' read column filled up to no more than MAX_LAG_DAYS before
       `today` (default: the clock's UTC date): 1 day for funding, long/short and open interest, 2 for put/call.
     - No series has a row dated after `today` (14 Nov 2026 audit #29). A series whose first day is after `today` did not
-      exist yet and is not read (only a replay of an early date gets there; a clock set back that far fails the
+      exist yet and is not checked (only a replay of an early date gets there; a clock set back that far fails the
       freshness checks).
     - Every file ends with a whole line and holds no blank line (_file_problem).
     4H and 12H files are checked for structure, grid, timeframe and asset, and for missing bars: a gap must be one of
-    the exchange's own (OWN_GAPS) or appear at the same time in the other asset's file."""
+    the exchange's own (OWN_GAPS) or appear at the same time in the other asset's file (and not as that file's own
+    one-asset gap); each starts on its first bar (FIRST_BAR); the two assets' files of a timeframe end on the same bar,
+    on the day of the asset's last daily bar."""
     from clock import now_utc
     today = today or now_utc().date()
-    bad, closes, intraday, gaps = [], {}, {}, {}
+    bad, closes, intraday, gaps, ends = [], {}, {}, {}, {}
     for a in assets:
         for name, step in [(f"{a}_{tf}D", 0) for tf in (1,) + tuple(TIMEFRAMES)] + [(f"{a}_4H", 4 * 3600), (f"{a}_12H", 12 * 3600)]:
             pth = os.path.join(data_dir, name + ".csv")
@@ -337,6 +342,7 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
                     bad.append(f"{name}: only {on} of {len(ts) - 1} bars are one {step // 3600}-hour step apart: not a {name.split('_')[1]} file")
                 intraday[name] = (ts[-1], float(frows[-1]["close"]))
                 gaps[name] = {(int(ts[i - 1]), int(ts[i])) for i in range(1, len(ts)) if ts[i] - ts[i - 1] != step}
+                ends[name] = (int(ts[0]), int(ts[-1]))
         # the other daily series the scoring steps read (stack_live.py: long/short ratio, open interest; BTC put/call)
         for rel, col, first, lo, hi, blank_ok, lag_ in [(f"derivs/{a}_lsratio_daily.csv", "ls_ratio_mean", "2020-05-31", 0, 20, False, MAX_LAG_DAYS["lsratio"]),
                                                        (f"derivs/{a}_oi_daily.csv", "oi_usd_total", "2022-09-13", 0, 1e12, False, MAX_LAG_DAYS["oi"])] + \
@@ -434,13 +440,25 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
             bad.append(f"{name}: its last close is not {a}'s price that day: a file of another asset?")
     # no bar missing in a 4H or 12H file: every gap is one of the exchange's own (OWN_GAPS) or the other asset's file
     # has it at the same time (14 Nov 2026 audit #29: 199 bars deleted from ETH 4H passed the 99% timeframe test)
+    # (a gap the other file has only counts when it is not that file's own one-asset gap, so bars deleted from one
+    # asset to match the other's own gap still fail); each file starts on its first bar, and the two assets' files of
+    # a timeframe end on the same bar, on the day of the asset's last daily bar (bars cut from either end are missing)
     for name, gs in gaps.items():
         a, tf = name.split("_")
-        other = gaps.get(f"{'BTC' if a == 'ETH' else 'ETH'}_{tf}", set())
+        oname = f"{'BTC' if a == 'ETH' else 'ETH'}_{tf}"
+        other = {g for g in gaps.get(oname, set()) if g[0] not in OWN_GAPS.get(oname, set())}
         odd = sorted(g for g in gs if g[0] not in OWN_GAPS.get(name, set()) and g not in other)
         if odd:
             first = dt.datetime.fromtimestamp(odd[0][0], dt.timezone.utc).strftime("%Y-%m-%d %H:%M")
             bad.append(f"{name}: {len(odd)} gap(s) the exchange did not have (first after the bar of {first} UTC): bars are missing")
+        t0, t1 = ends[name]
+        if t0 != FIRST_BAR[a]:
+            bad.append(f"{name} starts after its first bar: bars are missing from the start")
+        if oname in ends and t1 != ends[oname][1]:
+            bad.append(f"{name} and {oname} end on different bars: bars are missing from the end of one")
+        last_day = max(closes[a]) if a in closes and closes[a] else None
+        if last_day is not None and dt.datetime.fromtimestamp(t1, dt.timezone.utc).date() != last_day:
+            bad.append(f"{name} ends on another day than {a}_1D: bars are missing from its end")
     if "ETH" in closes and "BTC" in closes:
         odd = [d for d in closes["ETH"] if d in closes["BTC"] and not 0.001 <= closes["ETH"][d] / closes["BTC"][d] <= 0.5]
         if odd:
