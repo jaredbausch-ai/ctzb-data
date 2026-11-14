@@ -1,0 +1,5 @@
+2026-11-14T16:04:06Z stage0 start: states 0, disagreements 0
+2026-11-14T16:20:22Z stage C (repo tests) done: test_feed_damage quick 31/31, test_seal 29/29, test_page_timing 20/20; states 0, disagreements 0
+2026-11-14T16:58:18Z stage A page level done (both states): 427 damage cases + 95 hardening + 32 timing flows; 1 disagreement (ledger dipBeforeHigh blank accepted), harness false positives re-run clean
+2026-11-14T16:58:18Z stage B pipeline current done: 1053 cases, page view of 20 outcome kinds; disagreements so far 2 (ledger dipBeforeHigh; alert re-emitted after log cut + previous feed + backup all lost)
+2026-11-14T17:20:44Z stage B pipeline replay_1111 done (727 cases) and report written: 2 distinct real-life disagreements (6 rows), 1 hardening (2 rows); 2375 checks

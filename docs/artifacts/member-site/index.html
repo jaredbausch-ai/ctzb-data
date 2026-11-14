@@ -551,6 +551,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const ledgerRowOk = (r) => (r.asset === "ETH" || r.asset === "BTC") && LEDGER_CHARTS.includes(r.chart) && r.chart.startsWith(r.asset + " ") && isDate(r.entry)
     && numText(r.entryPrice) && +r.entryPrice > 0 && (r.reached10 === "yes" || r.reached10 === "no") && (r.reached20 === "yes" || r.reached20 === "no")
     && !(r.reached20 === "yes" && r.reached10 !== "yes") && numText(r.bestMove) && numText(r.maxDrawdown) && numText(r.return60d)
+    && numText(r.dipBeforeHigh)   // 14 Nov 2026 audit #32: read only through + below, where a blank or a space reads as 0
     && /^\d+$/.test(r.daysToHigh || "") && +r.daysToHigh <= 60
     && (r.reached10 === "yes") === (+r.bestMove >= 10) && (r.reached20 === "yes") === (+r.bestMove >= 20)
     && +r.maxDrawdown <= +r.dipBeforeHigh && +r.dipBeforeHigh <= 0 && +r.bestMove >= 0 && +r.maxDrawdown >= -100

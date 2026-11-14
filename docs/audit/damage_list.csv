@@ -3142,3 +3142,59 @@ first_round,level,family,kind,case,expected
 31,page,HARDENING,hand-forged,feed: edge exactly 70 and 69.999999,rejected or flagged
 31,page,HARDENING,hand-forged,feed: boundary shares 0 and 100,rejected or flagged
 31,page,HARDENING,hand-forged,feed: price 0.01 and 1e9,rejected or flagged
+32,page,MALFORMED,real life,ledger top-grade row cell dipBeforeHigh='','Past signals unavailable' (every top-grade row well formed)
+32,page,MALFORMED,real life,ledger top-grade row cell dipBeforeHigh=' ','Past signals unavailable' (every top-grade row well formed)
+32,pipeline,PARTIAL RUN,real life,"feed/alert_log.csv cut, previous feed lost, backup lost","fails closed, no alert emitted twice"
+32,page,HARDENING,hand-forged,H live signal edge intact though past its edge level,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H live signal days_elapsed off by one,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H live signal card of another signal,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H live signal best below worst,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H live signal day10 missing after day 10,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H live signal edge lost with no edge level (no rule),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H live signal card removed (Card unavailable),"feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok', 'BTC-2D-2026-09-21': 'unavail'}; example_chart=ok"
+32,page,HARDENING,hand-forged,H live signal entry_close off by a cent vs its card,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H grade_odds A+ count off vs if_it_misses,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H grade_odds A+ rose10 off by 2 (ledger mismatch),feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H if_it_misses misses above signals,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H example_card replaced by another card,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H example_card entry_close off a cent (file disagrees),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=unavail
+32,page,HARDENING,hand-forged,H scored_as_of after generated_at,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H scored_as_of the day before generated_at (clean feed),feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H withheld flag false but checks failed,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H withheld feed still carrying live signals,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H past_paths median outside quartiles,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H odds_fade edge mark disagrees,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H open_signals from the other run,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H grade_odds from the other run,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H cards from the other run,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H market regime Bearish with a top-grade live signal (no rule),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H posting bar 0 (bound),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H posting bar 100 (bound),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card eras do not add up,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card +20% share above +10% share,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card ladder count rises,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card sample text without its n,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card low after confirmation,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card confirms before the feed day,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card signal_id for another chart,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card dip before high deeper than deepest dip,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card from_entry exact share far from rounded,feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,page,HARDENING,hand-forged,H card bars_to_confirm 1 but confirms in 5 days (no rule),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card price_now far from the chart (no rule; chart refuses),"feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok', 'ETH-1D-2026-11-13': 'unavail'}; example_chart=ok"
+32,page,HARDENING,hand-forged,H two cards on one chart (no rule),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card with HTML in sample,feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card with a 200 kB sample text,feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card with unicode sample,feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card typical rise 100000% (bound),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card deepest dip -100% (bound),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card days 0 and 60 (bound),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card shares 0 and 100 (bound),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card ladder share exactly 70 / 69.999999 on the bar,feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card past_trades 999999 (bound),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card past_trades 0 with no figures,feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card price 0.01 (bound),feed=ok; ledger=ok; trades=unavail; example_chart=ok
+32,page,HARDENING,hand-forged,H card price 999999999 (bound),feed=ok; ledger=ok; trades=unavail; example_chart=ok
+32,page,HARDENING,hand-forged,H card confirms 2027-01-01 (first day of a year),feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card confirms 2028-02-29,feed=ok; ledger=ok; trades=unavail; charts={'*': 'ok'}; example_chart=ok
+32,page,HARDENING,hand-forged,H card confirms 2027-02-29 (no such day),feed=down; ledger=unavail; trades=unavail; example_chart=unavail
+32,pipeline,HARDENING,hand-forged,datasets/candle_check.json from the other run (before refresh),"not published, or published with this run's own status"

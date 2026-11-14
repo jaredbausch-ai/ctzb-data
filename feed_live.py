@@ -189,11 +189,15 @@ def check_log(log_path, prev_feed_path):
     have = log_state(log_path)
     cur = read_log(log_path) if have else []
     if not want:
-        # no record to check against: the first run under this rule, or no previous feed and no second copy
+        # no record to check against: no readable previous feed and no second copy. 14 Nov 2026 audit #32: a log on
+        # disk used to be accepted as it was here, so a log cut in the same window as both losses emitted its lost
+        # alerts again with a new emitted_at. Every run leaves a copy (and the Action commits feed/), so a lost
+        # record is damage: the run fails closed until the feed or the copy is restored
         if have is None:
             raise RuntimeError("the alert log is missing and no published feed records it; to start a new log on "
                                "purpose, run once with CTZB_SEED_ALERT_LOG=1")
-        return cur
+        raise RuntimeError("the alert log cannot be checked: the last feed and the log's second copy are both lost or "
+                           "unreadable; restore feed/ctzb_feed.json or feed/alert_log_backup.csv from the last commit")
     if have and have["sha256"] == want["sha256"]:
         return cur
     # alerts a published feed carried that never reached the log: its own, plus any carried forward through

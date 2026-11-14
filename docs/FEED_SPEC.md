@@ -327,7 +327,9 @@ records every `alert_id` it sends and never sends one twice.**
   when the copy is exactly what the record says, repeats no `alert_id`, and either begins with the whole log or holds
   every row of the log exactly (the log was cut, emptied, deleted or lost or repeated rows). Anything else fails
   closed: when the copy is the record, a copy that lacks a row of the log, holds it altered, or repeats an alert is
-  the damaged file. With no previous record and no copy, a missing log fails closed and an existing one is accepted.
+  the damaged file. With no previous record and no copy there is nothing to check the log against, so the run fails
+  closed whether the log is there or not, until the feed or the copy is put back from the last commit (a new log is
+  started only by seeding).
 - **Order.** The feed is written only after it passes the strict check, then the copy, then the log. If the copy or
   the log cannot be written, the feed stays published and the run exits non-zero; the next run rebuilds or restores
   the log.

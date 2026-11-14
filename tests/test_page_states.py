@@ -5,7 +5,7 @@ card printed "${perYear()}"). Needs playwright + chromium. Reads datasets/ and f
 
     python3 tests/test_page_states.py
 """
-import copy, csv, json, os, re, sys
+import copy, csv, io, json, os, re, sys
 from playwright.sync_api import sync_playwright
 
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -127,6 +127,13 @@ def main():
         t_s4, e_s4 = render(pw, FEED, views=("chart",), pick=LIVE_TOP, edit_candles=shift(0.04))
         t_s0, e_s0 = render(pw, FEED, views=("chart",), pick=LIVE_TOP, edit_candles=shift(0.004))
         t_le, e_le = render(pw, FEED, views=("record",), ledger=LEDGER.rstrip("\r\n"))
+        # 14 Nov 2026 audit #32: a top-grade row whose dipBeforeHigh cell is blank or a space (read only through +,
+        # where either is 0) is malformed, as any other cell would be
+        def blank_dip(v):
+            rows = list(csv.reader(io.StringIO(LEDGER))); h = rows[0]; k = h.index("dipBeforeHigh")
+            i = next(j for j, r in enumerate(rows) if j and r[h.index("grade")] == "A+"); rows[i][k] = v
+            b = io.StringIO(); csv.writer(b, lineterminator="\n").writerows(rows); return b.getvalue()
+        t_db = [render(pw, FEED, views=("record",), ledger=blank_dip(v)) for v in ("", " ")]
         # hardening: a held feed that still carries the record's counts and the regime shows neither
         heldfull = copy.deepcopy(FEED); heldfull.update(cards_withheld=True, cards=[], open_signals=[], example_card=None); heldfull["checks"]["all_passed"] = False
         t_hf, e_hf = render(pw, heldfull, views=("now", "record"))
@@ -200,6 +207,7 @@ def main():
             ("chart file whose last close is 4 cents off the card's price (a cut digit): not drawn, no error", "don't match the setup's latest price" in t_s4["chart"] and not e_s4, t_s4["chart"][:200].replace("\n", " ")),
             ("... and under half a cent off: the same price, drawn", "don't match" not in t_s0["chart"] and "Chart data unavailable" not in t_s0["chart"] and "live setup, day" in t_s0["chart"].lower() and not e_s0, t_s0["chart"][:200].replace("\n", " ")),
             ("ledger whose last line has no line end: Past signals says unavailable", "Past signals unavailable" in t_le["record"] and not e_le, t_le["record"][:160].replace("\n", " ")),
+            ("ledger with one top-grade row's dip-before-high cell blank or a space: Past signals says unavailable", all("Past signals unavailable" in t["record"] and not e for t, e in t_db), t_db[0][0]["record"][:160].replace("\n", " ")),
             ("held feed still carrying the record's counts and regime: neither shown, nor the per-asset summary", "Past signals unavailable" in t_hf["record"] and "Market filter: on" not in t_hf["now"] + t_hf["record"] and not re.search(r"\b\d+ signals\b", t_hf["record"]) and not e_hf, t_hf["record"][:160].replace("\n", " ")),
             ("must close above, one bar ahead: shown as an estimate", "closes above about $3,000.12 (an estimate until the current bar closes)" in t_k1["now"] and not e_k1, t_k1["now"][:300].replace("\n", " ")),
             ("must close above, on the open bar: shown exact", "closes above $3,000.12" in t_k0["now"] and "about $3,000.12" not in t_k0["now"] and not e_k0, t_k0["now"][:300].replace("\n", " ")),
