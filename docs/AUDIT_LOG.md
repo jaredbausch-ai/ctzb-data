@@ -1212,8 +1212,8 @@ The two causes, each fixed at its family's rule:
 - **Partial run: with the previous feed lost, the alert log's second copy lost and the log cut, the log on disk was
   accepted and the alerts whose rows were cut were emitted again** (same `alert_id`, new `emitted_at`). With no record
   left, `check_log` took the log as it was. Rule now: with neither the previous feed nor the copy there is nothing to
-  check the log against, so the run fails closed whether the log is whole or not, until the feed or the copy is put
-  back from the last commit. The withheld feed no longer records the log on disk as the record (that would have made
+  check the log against, so the run fails closed whether the log is whole or not, until the copy is put back from the
+  last commit of a clean run (or the feed, with a log it can be checked or rebuilt against). The withheld feed no longer records the log on disk as the record (that would have made
   the damaged log the record the next run accepted). Test: `test_feed_alerts` (log cut and log whole, each withheld
   twice running, log untouched, nothing re-sent; the copy put back runs clean).
 
@@ -1230,6 +1230,30 @@ every run leaves (the log as the fixture has it); nothing else in it changes.
 **Re-checked after the changes:** numbers check 13 dates unchanged, midnight 7/7, run seal 29/29, feed extras 28/28,
 feed alerts 69/69, page states 53/53, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20,
 per-year test, site worker 26/26, damage test 31/31 (quick pass), audit states build (replay 4 cards, current clean).
+
+**Fix check** (independent agent, `analysis/audit32_2026-11-14/fixcheck/`): the ledger fix is complete (204 damaged
+cells across every column the page reads, each refused in a top-grade row and still shown in a grade-C row). The
+alert-log fix was **incomplete**: a second copy emptied to 0 bytes read as the record of an empty log, so with the
+feed lost and the log deleted or emptied the run was clean and 36 alerts were emitted again (2 rows dropped); with
+the feed lost and the copy and the log cut alike, a `vanished` alert was emitted again. Both are the same on the
+round-31 code. No legitimate state fails closed (clean, held, fail-closed then clean, killed after publishing, and
+the committed `feed/` of all 23 commits since the copy was introduced); the fixture change hides no drill check.
+- **Completed:** the copy now ends with a line naming the log's hash and row count, so a copy emptied, cut short,
+  without that line or edited reads as lost. Test: `test_feed_alerts` (the feed lost, the copy emptied, cut at a row,
+  cut mid-row or without its end line, with the log deleted, emptied or cut alike, each withheld twice running with
+  no alert emitted; the copy put back runs clean; an old-format copy with the feed readable is rewritten). The new
+  cases fail on the code before this change. The fixtures write the copy in the new format.
+- **Sentences:** 9 corrected (FEED_SPEC 2, DAMAGE_LIST 2, AUDIT_LOG 1, `feed_live.py` 3, `test_feed_alerts` 1): an
+  emptied copy is lost; putting the feed back alone ends the hold only with a log it can be checked or rebuilt
+  against; in the pipeline the last commit after a withheld run holds that run's feed and no copy, so the copy comes
+  from the last commit of a clean run; and the damage list's limit is stated again (a rollback of `feed/` with the
+  previous feed lost).
+
+After the corrections: numbers check 13 dates unchanged, midnight 7/7, run seal 29/29, feed extras 28/28, feed alerts
+83/83, page states 53/53, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20, per-year test,
+site worker 26/26, damage test 31/31 (quick pass), audit states build (replay 4 cards, current clean); the live alert
+log passes the check. The live copy is in the old format until the next run rewrites it (the feed is its record
+until then).
 
 ---
 
