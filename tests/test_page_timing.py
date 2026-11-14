@@ -123,6 +123,17 @@ with sync_playwright() as pw:
     pg.goto('http://site.test/#record'); pg.wait_for_timeout(300)
     ok('...on the other tabs too', 'hours old' in pg.inner_text('#view-record'))
     pg.close()
+    # 4c. the hour count keeps up with a page left open a day (audit #26: it stayed at "5 hours old")
+    pg, errs = page(b, age_h=4.9)
+    pg.goto('http://site.test/#now'); pg.wait_for_timeout(800)
+    pg.clock.run_for(24 * 3600 * 1000); pg.wait_for_timeout(300)
+    import re as _re
+    seen = {}
+    for v in ('now', 'chart', 'record', 'read'):
+        pg.evaluate(f"location.hash = '#{v}'"); pg.wait_for_timeout(300)
+        seen[v] = sorted(set(_re.findall(r'This data is (\d+) hours old', pg.inner_text('#view-' + v))))
+    ok('page left open a day: every tab says 28 hours old, not the first hour shown', all(s == ['28'] for s in seen.values()) and not errs, f'{seen} {errs[:1]}')
+    pg.close()
     # 4b. quiet market, page left open: the example the page switched on itself goes off once the data is stale (audit #25)
     quiet = json.loads(json.dumps(FEED)); quiet.update(cards=[], open_signals=[], market_regime='Bullish')
     pg, errs = page(b, age_h=4.9, feed=quiet)

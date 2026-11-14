@@ -25,7 +25,9 @@ def _vol(a):
         d = E.load(os.path.join(HERE, 'data', f'{a}_1D.csv')); c = d['close']
         lr = [0.0] + [math.log(c[i] / c[i - 1]) for i in range(1, len(c))]
         vol = {d['date'][i]: st.pstdev(lr[i - 364:i + 1]) for i in range(365, len(c))}
-        med = st.median(v for k, v in vol.items() if k.year <= 2021)
+        # the median uses closed bars only: the file's last row is today's open bar (13 Nov 2026 audit #26: a
+        # replay dated in 2016-21 counted it, which moved scaled20; today's runs are unaffected, the open bar is 2026)
+        med = st.median(v for k, v in vol.items() if k.year <= 2021 and k < d['date'][-1])
         _C[a] = (vol, med)
     return _C[a]
 

@@ -1,0 +1,5 @@
+21:58 stage 0: setup, base copies made; states 0, disagreements 0
+22:43 stage A (page, both states, 2x~80 cases + 8 replays + hardening) done; B1 candles near done; disagreements so far: page 1 (frozen stale age), pipeline: blank-volume / cut-after-comma family
+23:03 stage B1 (candles 758 + cut/series 180) done; counted disagreements so far: cut-after-comma/blank-volume family ~32, page stale-age 6
+23:28 stage B2 replay (163 cases) and B3 alerts (11 sequences) done; 0 new counted; B2 current running
+23:51 final: 1348 real-life states (page 192, pipeline 1156) + 48 hardening; disagreements 40 (page 6, pipeline 34) from 2 causes; report written

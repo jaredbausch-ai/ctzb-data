@@ -10,9 +10,9 @@ import seal  # noqa: E402
 
 
 def reseal(out, steps=seal.ORDER, started_at=None):
-    """started_at: the run's start time to record; default the one already in the seal, else now (CTZB_NOW honoured)."""
-    old = seal._read(out) or {}
-    s = started_at or old.get('started_at') or seal.now_utc().strftime('%Y-%m-%dT%H:%M:%SZ')
+    """started_at: the run's start time to record; default now (CTZB_NOW honoured): the fixture stands in for a run
+    happening now. (It used to keep the seal's old start time, which tied tests to the hour the repo data was sealed.)"""
+    s = started_at or seal.now_utc().strftime('%Y-%m-%dT%H:%M:%SZ')
     seal._write(out, {'steps': list(steps), 'files': seal._files(out), 'started_at': s})
 
 

@@ -8,6 +8,7 @@ import csv, datetime as dt, json, os, shutil, subprocess, sys, tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 from reseal import reseal  # noqa: E402 -- fixtures stand in for the scoring steps, so they re-record the run seal
+import dataclock; dataclock.pin()  # noqa: E402 -- the repo data's own day, not the wall clock
 W = tempfile.mkdtemp()
 DS, FEED, LOG = f"{W}/datasets", f"{W}/feed/ctzb_feed.json", f"{W}/feed/alert_log.csv"
 shutil.copytree(f"{ROOT}/datasets", DS)

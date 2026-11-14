@@ -30,6 +30,7 @@ def run(script, *args, env_extra=None):
 OK = "refresh=success,grade=success,stack=success,cards=success,regress=success"
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 from reseal import reseal  # noqa: E402
+import dataclock; dataclock.pin()  # noqa: E402 -- the repo data's own day, not the wall clock
 reseal(DS, steps=("refresh", "grade"))   # the run seal as it stands when the extras step starts
 p = run("extras_live.py", "--datasets", DS)
 check("extras_live runs clean", p.returncode == 0, p.stderr[-300:])

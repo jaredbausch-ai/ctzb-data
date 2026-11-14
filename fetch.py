@@ -141,7 +141,9 @@ KNOWN_MISSING = {"ETH": {dt.date(2016, 5, 21), dt.date(2016, 5, 22)}, "BTC": set
 
 def _row_problems(name, rows, step):
     """Every row of one candle file: a readable time on the bar grid, strictly ascending; open, high, low and
-    close finite and above zero, the high and low bracketing the open and close; volume finite and not negative."""
+    close finite and above zero, the high and low bracketing the open and close; volume finite and not negative.
+    Every cell must be present and readable: a blank cell, volume included, is a damaged row, never a zero
+    (13 Nov 2026 audit #26: a file cut just after a row's last comma read its blank volume as 0 and passed)."""
     bad, prev = [], None
     if rows and "volume" not in rows[0]:
         return [f"{name}: no volume column"]
@@ -150,7 +152,7 @@ def _row_problems(name, rows, step):
             return [f"{name}: row {i} does not have exactly the header's cells (a line cut short or run together)"]
         try:
             t = float(r["time"]); o, h, l, c = (float(r[k]) for k in ("open", "high", "low", "close"))
-            v = float(r["volume"]) if r.get("volume") not in (None, "") else 0.0
+            v = float(r["volume"])
         except (KeyError, TypeError, ValueError):
             return [f"{name}: row {i} has a missing or unreadable cell"]
         if not all(math.isfinite(x) for x in (t, o, h, l, c, v)):
@@ -180,11 +182,24 @@ def _market_columns_ok(header, asset):
     return all(any(k.upper() in h.upper() for k in marks) for h in mk)
 
 
+def _cut_short(path):
+    """True when a file does not end with a whole line. Every writer here ends its last line with a newline and
+    writes the file whole (a temp file, then a rename), so a file whose last line has no newline was cut short:
+    its last cell can look like a valid but shorter number (13 Nov 2026 audit #26)."""
+    with open(path, "rb") as f:
+        f.seek(0, 2)
+        if f.tell() == 0: return False
+        f.seek(-1, 2)
+        return f.read(1) != b"\n"
+
+
 def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None):
     """One daily series: present, starting on its first day, no day missing or repeated, every value a number in
     (lo, hi) (a blank allowed only where the source has none, e.g. put/call on a day without trades), and current."""
     if not os.path.exists(path):
         return [f"{name} is missing"]
+    if _cut_short(path):
+        return [f"{name}: its last line has no line end: the file was cut short"]
     with open(path, newline="") as f:
         rows = list(csv.DictReader(f))
     if any(None in r or None in r.values() for r in rows):
@@ -241,6 +256,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
             pth = os.path.join(data_dir, name + ".csv")
             if not os.path.exists(pth):
                 bad.append(f"{name} is missing"); continue
+            if _cut_short(pth):
+                bad.append(f"{name}: its last line has no line end: the file was cut short")
             with open(pth, newline="") as f:
                 frows = list(csv.DictReader(f))
             rp = _row_problems(name, frows, step)
@@ -261,6 +278,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                                     asset=a if rel.startswith("derivs/") else None)
         pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")
         if os.path.exists(pf):
+            if _cut_short(pf):
+                bad.append(f"{a}_funding_daily: its last line has no line end: the file was cut short")
             with open(pf, newline="") as f:
                 fr = list(csv.DictReader(f))
             try:
@@ -294,7 +313,9 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
             daily = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
                      tuple(float(r[k]) for k in ("open", "high", "low", "close", "volume")) for r in rows}
         except (KeyError, TypeError, ValueError):
-            continue   # already reported above
+            # never skip a check on the assumption that another one reported the file: a check that cannot run
+            # is itself a failure (13 Nov 2026 audit #26)
+            bad.append(f"{a}_1D could not be read whole, so its history was not checked"); continue
         if not daily:
             continue
         closes[a] = {d: v[3] for d, v in daily.items()}
@@ -310,13 +331,13 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
         for tf in TIMEFRAMES:
             p = os.path.join(data_dir, f"{a}_{tf}D.csv")
             if not os.path.exists(p):
-                continue   # already reported above
+                bad.append(f"{a}_{tf}D is missing, so it was not checked against the daily candles"); continue
             try:
                 with open(p) as f:
                     got = {dt.datetime.fromtimestamp(float(r["time"]), dt.timezone.utc).date():
                            tuple(float(r[k]) for k in ("open", "high", "low", "close", "volume")) for r in csv.DictReader(f)}
             except (KeyError, TypeError, ValueError):
-                continue   # already reported above
+                bad.append(f"{a}_{tf}D could not be read whole, so it was not checked against the daily candles"); continue
             want = resample(daily, tf)
             if set(got) != set(want):
                 miss = sorted(set(want) - set(got)); extra = sorted(set(got) - set(want))

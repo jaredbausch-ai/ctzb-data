@@ -1,0 +1,10 @@
+2026-11-13 copy made at audit26d/repo; pipeline rebuilt in the copy (refresh..feed), feed passes strict check, 22 cards match ledger, regression PASS
+2026-11-13 docs/FEED_SPEC.md done (all tables and correction sections vs feed_live/stack_live/extras_live/refresh/feedcheck/seal and the rebuilt feed; every feed key described): 3 findings
+2026-11-13 docs/CARD_SPEC.md done (vs stack_live, verify_cards, carddesign, member page): 1 finding
+2026-11-13 docs/artifacts/member-site/index.html words done (How to read, labels, banners, footer, FEED_SCHEMA comment): 1 finding (3 lines)
+2026-11-13 README.md done (13 datasets, 11 tags, keep.json 12, --today scope, last-bar note): 1 finding
+2026-11-13 docs/artifacts/member-site/README.md done (51 bars, paths, typed-values list): 0 findings
+2026-11-13 cloudflare/README.md done (5 Workers, crons, 26 dispatches, test counts 21/26/21/41/25/36 all re-run and matched, built workers in sync): 0 findings
+2026-11-13 CONTEXT.md current-rule sections done (setup, gate, traps, where things live, open items, standing instructions, dated notes checked for markers): 7 findings (2 loose, 5 trade wording)
+2026-11-13 outside scope done: code docstrings/comments, daily.yml, watchdog.yml, .github/scripts, tests headers (gate-off replay: 10 forming confirmed; 4aa1208: 4 forming confirmed), BRIEF_*, PRETRADE code statements, SITE_CHANGES Pending/Requested: 11 noted, not counted
+2026-11-13 report written: AUDIT26_DOCS.md, findings.csv (13 counted, 11 outside scope)

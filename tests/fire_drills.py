@@ -28,6 +28,7 @@ sys.path.insert(0, os.path.join(ROOT, ".github", "scripts"))
 import check_candles as CC  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 from reseal import reseal  # noqa: E402 -- fixtures stand in for scoring steps, so they re-record the run seal (seal.py)
+import dataclock; dataclock.pin()  # noqa: E402 -- the repo data's own day, not the wall clock
 
 PY = sys.executable
 RESULTS = []

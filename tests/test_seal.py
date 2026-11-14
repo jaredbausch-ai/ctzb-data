@@ -9,6 +9,8 @@ import os, shutil, subprocess, sys, tempfile, json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
+sys.path.insert(0, os.path.join(ROOT, 'tests'))
+import dataclock; NOW = dataclock.pin()   # noqa: E402 -- the repo data's own day, not the wall clock
 import seal  # noqa: E402
 
 results = []
@@ -103,7 +105,7 @@ rc_s, out_s = step('stack_live.py')
 ok("a dataset cut between two steps: the next step refuses to run", rc_s != 0 and 'seal' in out_s, out_s[-200:])
 open(lp, 'wb').write(led)
 step('stack_live.py'); step('verify_cards.py')
-later = (dt.datetime.now(dt.timezone.utc) + dt.timedelta(days=1)).strftime('%Y-%m-%dT%H:%M:%SZ')
+later = (dt.datetime.strptime(NOW, '%Y-%m-%dT%H:%M:%SZ') + dt.timedelta(days=1)).strftime('%Y-%m-%dT%H:%M:%SZ')
 p = subprocess.run([sys.executable, 'feed_live.py'], cwd=R, capture_output=True, text=True, env={k: v for k, v in dict(os.environ, CTZB_NOW=later).items() if k != 'CTZB_STEP_OUTCOMES'})
 f = json.load(open(os.path.join(R, 'feed', 'ctzb_feed.json')))
 ok('feed_live run again on its own a day later: the last run is not published as fresh (audit #25)', p.returncode == 1 and f['cards_withheld'] and 'earlier run' in p.stdout + p.stderr, (p.stdout + p.stderr)[-200:])

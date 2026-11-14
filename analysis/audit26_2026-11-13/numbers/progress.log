@@ -1,0 +1,5 @@
+2026-11-13T22:13:34Z stage 1 data checks + stage 2 page checks done on group A: replay_0414 29882 comparisons 0 disagreements; current 29165 comparisons 0 disagreements
+2026-11-13T22:21:06Z extended page checks (axes, ladder band colours/positions, cloud paths) added; group A rerun: replay_0414 30004 comparisons 0 disagreements; current 29220 comparisons 0 disagreements; replays before #22 ran without the extended chart checks
+2026-11-13T22:24:23Z stage 3 replays running: candle-count/no-outcome chart checks added after replay #34; first replays to be re-run with the final checker
+2026-11-13T22:36:48Z replays: first disagreement found 2021-06-25 (72 rows): BTC 2D 2018-06-19 scaled20 flips because the 2016-21 volatility median includes today's unclosed daily bar; confirmed (0 disagreements when my median includes the open bar)
+2026-11-13T23:46:11Z main replay run done: 293 replays, 1 with disagreements (2021-06-25, 72 rows). Re-running the first 34 with the final checker and 14 quiet-candidate dates

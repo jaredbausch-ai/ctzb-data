@@ -1218,12 +1218,18 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const redraw = () => { renderCard(); renderPrev(); if (!$("#view-chart").hidden) renderChart(); if (!$("#view-record").hidden) renderRecord(); requestAnimationFrame(fitToScreen); };
     // a page left open: re-check the data's age every minute, so the stale warning appears without a reload
     // (13 Nov 2026 audit #23)
-    let wasStale = !!staleNote();
+    let lastNote = staleNote();
     // The example the page switched on itself for a quiet market goes off once the data goes stale: it must not stand in
     // for an outage on a page left open (13 Nov 2026 audit #25). One the member switched on stays.
-    setInterval(() => { const now = !!staleNote(); if (now !== wasStale) { wasStale = now;
-      if (now && S.autoPreview) { S.preview = false; S.autoPreview = false; $("#previewSwitch").checked = false; }
-      renderHeader(); redraw(); } }, 60e3);
+    // Every note on screen follows the data's age as it grows: the hour count kept the first value it showed
+    // (13 Nov 2026 audit #26). It is the only text on the page that depends on the viewer's clock.
+    setInterval(() => { const note = staleNote(); if (note === lastNote) return;
+      const flipped = !!note !== !!lastNote; lastNote = note;
+      if (flipped) {
+        if (note && S.autoPreview) { S.preview = false; S.autoPreview = false; $("#previewSwitch").checked = false; }
+        renderHeader(); redraw();
+      } else document.querySelectorAll(".stale-note").forEach((el) => { el.outerHTML = note; });
+    }, 60e3);
     pTrades.then((trades) => {
       S.trades = (trades !== null && tradesProblems(trades).length === 0) ? trades : null;   // a lead-trader file that fails the check reads "unavailable"
       S.loading.trades = false; renderLead(); renderCard();
