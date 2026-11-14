@@ -956,6 +956,13 @@ The three causes, each fixed at its family's rule:
 Both tests fail on the old code. Hardening (not counted): 6 hand-forged feeds the strict check accepts, and an empty
 but valid regression baseline turning the guard off (listed in the report).
 
+**Re-checked after the changes:** numbers check 13 dates unchanged (`alerts_held` added to the run bookkeeping it
+leaves out), page states 48/48, feed alerts 45/45, dashboard sender 21/21, run seal 23/23, feed extras 28/28, damage
+test 31/31 (quick pass), site Worker 25/25, per-year test, page timing 15/15, fire drills 58/58. Two test fixes on the
+way: the fire drills' alert checks now count what is new to the log, as `test_feed_alerts` does; and the health
+monitor test read the real clock for `/health` against its own fixed clock, which ends 04:30 UTC on 14 Nov, so it
+failed from then on with no change in the code; it now pins the clock for that call.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

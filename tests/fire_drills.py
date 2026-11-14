@@ -275,10 +275,14 @@ def drills_c():
     bad_env = {"CTZB_STEP_OUTCOMES": ok_env["CTZB_STEP_OUTCOMES"].replace("grade=success", "grade=failure")}
     feed = lambda: json.load(open(os.path.join(d, "feed", "ctzb_feed.json")))
     logn = lambda: len(read_rows(os.path.join(d, "feed", "alert_log.csv")))
+    logids = lambda: {r[0] for r in read_rows(os.path.join(d, "feed", "alert_log.csv"))[1:]}
+    # an alert stays in the feed for its delivery window (14 Nov 2026, audit #28), so "sent" is what is new to the log
+    def run_new(env):
+        before = logids(); run(d, "feed_live.py", [], env)
+        return [x for x in feed()["alerts"] if x["alert_id"] not in before]
 
     run(d, "feed_live.py", [], ok_env); n0 = logn()
-    run(d, "feed_live.py", [], ok_env)
-    record(g, "same data twice: second run sends nothing", feed()["alerts"] == [] and logn() == n0)
+    record(g, "same data twice: second run sends nothing", run_new(ok_env) == [] and logn() == n0)
 
     p = os.path.join(d, "datasets", "cards.csv"); rows = list(csv.DictReader(open(p)))
     new = dict(rows[0], chart="BTC 5D", asset="BTC", tf="5D", trough="2099-01-01", lowDay="2099-01-02", confirms="2099-01-04")   # dates in order: the feed must pass the strict check
@@ -287,17 +291,15 @@ def drills_c():
     reseal(os.path.join(d, "datasets"), started_at=FIXTURE_NOW)   # the fixture stands in for a scoring run at the pinned clock, so it re-records the run seal
     run(d, "feed_live.py", [], bad_env)
     record(g, "new setup while a check is failing: no alert, nothing logged", feed()["alerts"] == [] and logn() == n0)
-    run(d, "feed_live.py", [], ok_env); a = feed()["alerts"]
+    a = run_new(ok_env)
     record(g, "next clean run: the held alert goes out once", [x["alert_id"] for x in a] == ["BTC-5D-2099-01-04:forming"], str([x["alert_id"] for x in a]))
-    run(d, "feed_live.py", [], ok_env)
-    record(g, "and not again on the run after", feed()["alerts"] == [])
+    record(g, "and not again on the run after", run_new(ok_env) == [])
     with open(p, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
     reseal(os.path.join(d, "datasets"), started_at=FIXTURE_NOW)
-    run(d, "feed_live.py", [], ok_env); a = feed()["alerts"]
+    a = run_new(ok_env)
     record(g, "setup disappears: one 'vanished' alert", [x["alert_id"] for x in a] == ["BTC-5D-2099-01-04:vanished"], str([x["alert_id"] for x in a]))
-    run(d, "feed_live.py", [], ok_env)
-    record(g, "and not again", feed()["alerts"] == [])
+    record(g, "and not again", run_new(ok_env) == [])
     log = read_rows(os.path.join(d, "feed", "alert_log.csv"))[1:]
     ids = [r[0] for r in log]
     record(g, "alert log has no duplicate ids", len(ids) == len(set(ids)), f"{len(ids)} ids")

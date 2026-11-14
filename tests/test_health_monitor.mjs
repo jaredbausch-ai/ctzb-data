@@ -143,7 +143,11 @@ check("no bindings at all: runs, reports only what it can see", Array.isArray(r.
 
 // ---- /health and secrets ----
 reset(); W.mirror.ok = false; await run();
+// /health reads the real clock; pin it to the test's own clock (14 Nov 2026: the test's clock ends 2026-11-14T03:50Z,
+// so from 04:30Z that day on the wall clock this check failed for no reason in the code)
+const realNow = Date.now; Date.now = () => T;
 const h = await (await worker.fetch(new Request("https://x/health"), { SCHED })).json();
+Date.now = realNow;
 check("/health shows the monitor and its problems", h.version === 3 && h.monitor && h.monitor.problems.includes("mirror") && h.monitor.stale === false, JSON.stringify(h.monitor));
 const all = [...SCHED.m.values()].join(" ") + JSON.stringify(h);
 check("the bot token is never stored or shown", !all.includes(TOKEN));
