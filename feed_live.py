@@ -541,7 +541,7 @@ def main():
     extras_ok = all_ok and steps.get("extras", "success") == "success" and all(
         os.path.exists(d(f)) for f in ("missstats.csv", "pastpaths.csv", "oddsfade.csv"))
     feed["extras_withheld"] = not extras_ok
-    if not extras_ok:
+    if steps.get("extras", "success") != "success":
         remove_extras_files(a.datasets)
     feed["if_it_misses"] = [
         {"label": LABEL, "asset": r["asset"], "grade": r["grade"], "signals": num(r["aplus_signals"]),
@@ -681,10 +681,11 @@ def held_alerts(feed_path, log_path):
 
 
 def remove_extras_files(datasets):
-    """14 Nov 2026 audit #30 fix check: when this run's extras are withheld, delete the extras step's files (the
-    chart files among them) so none is served beside the feed. extras clears them as it starts, but a failure part-way
-    leaves those it had written, and the later steps leave them out of the run seal, so a file changed after that was
-    served. The page then says the chart is unavailable."""
+    """14 Nov 2026 audit #30 fix check: when the extras step did not succeed, delete its files (the chart files among
+    them) so none is served beside the feed. extras clears them as it starts, but a failure part-way leaves those it
+    had written, and the later steps leave them out of the run seal, so a file changed after that was served. The page
+    then says the chart is unavailable. When extras succeeded the seal covers its files, and a change to one fails the
+    run closed."""
     for f_ in EXTRAS_FILES:
         try:
             os.remove(os.path.join(datasets, f_))
@@ -737,8 +738,9 @@ if __name__ == "__main__":
         fail_closed(out, e, log)
         ds = sys.argv[sys.argv.index("--datasets") + 1] if "--datasets" in sys.argv[1:-1] else "datasets"
         try:
-            remove_extras_files(ds)   # a fail-closed feed withholds the extras too
-        except OSError:
+            if step_outcomes().get("extras", "success") != "success":
+                remove_extras_files(ds)   # as on a published feed: the seal does not cover them
+        except Exception:  # noqa: BLE001 -- the withheld feed is already written
             pass
         print(f"FEED BUILD FAILED ({type(e).__name__}: {e}); wrote a withheld feed to {out}", file=sys.stderr)
         sys.exit(1)

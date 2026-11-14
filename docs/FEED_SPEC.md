@@ -241,8 +241,9 @@ They never gate cards or alerts.
 **`extras_withheld`** is true when the run is held back, when the extras step is reported as anything but "success"
 (an absent extras outcome counts as success), or when `missstats.csv`, `pastpaths.csv` or `oddsfade.csv` is missing.
 Then `if_it_misses`, `past_paths`, `odds_fade.early_dip` and `odds_fade.day10` are empty and `example_if_it_misses`
-and `example_past_paths` are null, and `feed_live.py` deletes the extras step's files from `datasets/` (the chart files
-among them), so the page says a chart is unavailable rather than draw one the run did not check.
+and `example_past_paths` are null. When the extras step is reported as anything but "success", `feed_live.py` also
+deletes its files from `datasets/` (the chart files among them), so the page says a chart is unavailable rather than
+draw one the run did not check.
 
 **`if_it_misses[]`**: per asset that has top-grade signals, per grade (A+, A, B, C) with at least one signal. A miss
 is a signal that did not rise 10% within 60 days (`miss_rule` says so). `signals`, `misses`, `up_first` (misses whose
@@ -386,9 +387,9 @@ not hold) and `alerts_held` (the alerts kept for the next clean feed, as above).
 - extras is not gating: a later step runs without it, and when it did not finish its files are left out of the check.
   extras deletes its own files before its seal check and writes them all again from this run's inputs (the chart
   files from the candles, the figures from the ledger, `earlydip.csv` and `holdcheck.csv`), so a change to them before
-  it runs is not served. Whenever the feed withholds the extras (`extras_withheld`, a fail-closed feed included),
-  `feed_live.py` deletes every one of the extras step's files, so none written by a failed extras, or changed after it,
-  is served beside the feed.
+  it runs is not served. Whenever the extras step is reported as anything but "success", `feed_live.py` deletes every
+  one of its files, on a published or a fail-closed feed, so none written by a failed extras, or changed after it, is
+  served beside the feed; when it succeeded, the seal covers them and a change to one fails the run closed.
 - `feed_live.py` refuses a seal started more than 2 hours (`MAX_RUN_HOURS`) before it runs, or after it, so running it
   again on its own later cannot publish the last run's scoring as fresh.
 - The seal and the alert-log record guard against accidents and partial runs, not against someone with write access to

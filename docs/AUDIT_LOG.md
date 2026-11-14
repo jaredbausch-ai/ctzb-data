@@ -1095,8 +1095,8 @@ The two causes, each fixed at its family's rule:
   failed, so the cards published beside it, and the page, which matches only the chart's last close to the card,
   drew the altered bar (a BTC 1D high raised 25%). The same path left the last run's chart files beside a fresh feed
   whenever extras' seal check failed. Rule now: extras deletes its files before its seal check and does not hold them
-  against the run, then writes them all again from this run's inputs; and `feed_live.py` deletes them whenever it
-  withholds the extras (added after the fix check, below). Test: `test_seal` (a chart bar altered after grade: written again, the altered bar gone, the run clean; the
+  against the run, then writes them all again from this run's inputs; and `feed_live.py` deletes them whenever the
+  extras step did not succeed (added after the fix check, below). Test: `test_seal` (a chart bar altered after grade: written again, the altered bar gone, the run clean; the
   seal broken before extras: no chart or extras file left; the next run clean).
 - **A funding file that had lost `funding_oi_weighted` passed.** The column the FUND read takes first was checked
   only where filled, so a file with the column emptied or removed was scored on `funding_mean` every day. Rule now:

@@ -2,8 +2,8 @@
 
 Part 1 works on a small folder of stand-in files (fast). Part 2 runs the real pipeline in a copy of the repo:
 a clean run, an extras step that fails part-way (cards must still publish), a chart file changed before extras (written again
-from the candles) or the seal broken before extras (extras leaves no chart file) (audit #30), extras failed part-way or
-a fail-closed feed (feed_live.py leaves no extras file, fix check), a dataset cut between two steps (the next step refuses to run) and a dataset
+from the candles) or the seal broken before extras (extras leaves no chart file) (audit #30), extras failed part-way, with
+a published or a fail-closed feed (feed_live.py leaves no extras file, fix check), a dataset cut between two steps (the next step refuses to run) and a dataset
 changed after the last step (the feed is withheld).
     python3 tests/test_seal.py
 """
@@ -130,7 +130,8 @@ rc, f, out = feed(OK + ',extras=success')
 ok('...and the next run is clean, with the chart files back', codes == [0] * 5 and rc == 0 and not f['extras_withheld'] and os.path.exists(cp), f'{codes} {out[-200:]}')
 
 # fix check, audit #30: extras failed part-way after writing its chart files, and one of them was changed before the
-# later steps; and a fail-closed feed. feed_live.py deletes every extras file whenever it withholds the extras.
+# later steps; and a fail-closed feed after a failed extras. feed_live.py deletes every extras file whenever extras did
+# not succeed (when it did, the seal covers them).
 step('refresh.py'); step('grade_live.py')
 mp = os.path.join(R, 'datasets', 'manifest.json'); m0 = open(mp, 'rb').read()
 step('extras_live.py'); open(mp, 'wb').write(m0)   # extras died after writing: it never recorded finishing
@@ -145,9 +146,9 @@ ok('extras failed part-way and a chart file it wrote changed: the cards publish,
    c3 == [0, 0] and rc == 0 and not f['cards_withheld'] and f['extras_withheld'] and not left, f'{c3} {left} {out[-300:]}')
 codes = [step(s)[0] for s in ('refresh.py', 'grade_live.py', 'extras_live.py', 'stack_live.py', 'verify_cards.py')]
 gp = os.path.join(R, 'datasets', 'grades.csv'); g0 = open(gp, 'rb').read(); open(gp, 'ab').write(b'\n')
-rc, f, out = feed(OK + ',extras=success')
+rc, f, out = feed(OK + ',extras=failure')
 left = [n for n in seal.EXTRAS_FILES if os.path.exists(os.path.join(R, 'datasets', n))]
-ok('a fail-closed feed: no extras file left (fix check)', rc == 1 and f['cards_withheld'] and f['extras_withheld'] and not left, f'{rc} {left} {out[-200:]}')
+ok('a fail-closed feed after a failed extras: no extras file left (fix check)', rc == 1 and f['cards_withheld'] and f['extras_withheld'] and not left, f'{rc} {left} {out[-200:]}')
 open(gp, 'wb').write(g0)
 
 step('refresh.py'); step('grade_live.py'); step('extras_live.py')
