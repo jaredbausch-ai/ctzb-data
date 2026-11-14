@@ -8,7 +8,7 @@ audience will read it too, once the ETHKROS Cloudflare account exists.
 
 Rules (docs/FEED_SPEC.md):
   - fields are only ever added, never renamed or removed; schema_version is 6
-    (the 13 Nov 2026 additions alert_log and alert_log_carry were made at 6 without a bump)
+    (the additions alert_log and alert_log_carry, 13 Nov 2026, and alerts_held, 14 Nov, were made at 6 without a bump)
   - every record carries the computed-signal label
   - cards, live signals, the example and every figure from the run's datasets are withheld
     (cards_withheld true) whenever the stack check, the card cross-check or any gating step
@@ -19,12 +19,12 @@ Rules (docs/FEED_SPEC.md):
     and the aliases, and words the labels)
   - (schema 4, 10 Nov 2026, item 17d) every card, print and open signal carries
     a signal_id = chart + confirmation date, which is the same at every stage of
-    a signal's life. "alerts" lists the events NEW in this generation --
+    a signal's life. "alerts" lists the events of the last day --
     forming, confirmed, vanished -- each with a fixed alert_id. feed/alert_log.csv
     is an append-only record of every alert_id ever emitted, committed with the
-    feed, so an alert appears in exactly one generation however many runs happen.
-    Senders must still never send an alert_id twice: the same generation is read
-    many times.
+    feed, so each event is emitted once however many runs happen. An emitted
+    alert stays in "alerts" for its delivery window (carried_alerts, 14 Nov 2026),
+    so senders must never send an alert_id twice.
   - (schema 5, 11 Nov 2026, item 18) the member card figures written by
     extras_live.py: if_it_misses, odds_fade, past_paths. Withheld (empty, with
     extras_withheld true) when that step failed this run, so a stale copy from an
@@ -60,6 +60,13 @@ def now_utc():
 SCHEMA_VERSION = 6   # 6 (12 Nov 2026): every field added on 11-12 Nov (the +10% switch and audits #1-#14), batched
 POSTING_BAR = 70     # WINMIN in refresh.py / EDGE_BAR in stack_live.py (tests/test_feed_extras.py checks they agree)
 ALERT_LOG_FIELDS = ["alert_id", "event", "signal_id", "chart", "emitted_at"]
+# The delivery window (14 Nov 2026 audit #28). The sender reads the feed from the mirror, which pulls every 15
+# minutes; a feed replaced sooner (a red run's 1-minute retry) was never seen, and its alerts were lost while the
+# log marked them sent. So an emitted alert stays in `alerts` on every clean feed for at least ALERT_HOLD_HOURS
+# after it was emitted, and after that until a clean feed carrying it has stood ALERT_STAND_MINUTES. Held and
+# fail-closed feeds send nothing; they keep the alerts in `alerts_held` so the next clean feed carries them on.
+ALERT_HOLD_HOURS = 24
+ALERT_STAND_MINUTES = 60
 # Steps whose failure withholds cards and alerts. Passed in by daily.yml as
 # CTZB_STEP_OUTCOMES="refresh=success,grade=success,...". Absent = run by hand.
 GATING_STEPS = ("refresh", "grade", "stack", "cards", "regress")
@@ -165,13 +172,55 @@ def check_log(log_path, prev_feed_path):
         return cur
     # alerts a published feed carried that never reached the log: its own, plus any carried forward through
     # fail-closed feeds since (13 Nov 2026 audit #24: one crashed run in between used to lock every later run)
-    unlogged = (prev.get("alert_log_carry") or []) + (prev.get("alerts") or [])
+    # (since 14 Nov 2026 `alerts` also carries alerts already logged: only the ones the log lacks are appended)
+    have_ids = {r.get("alert_id") for r in cur}
+    unlogged = [x for x in (prev.get("alert_log_carry") or []) + (prev.get("alerts") or [])
+                if isinstance(x, dict) and x.get("alert_id") not in have_ids]
+    unlogged = [x for i, x in enumerate(unlogged) if x.get("alert_id") not in {y.get("alert_id") for y in unlogged[:i]}]
     rebuilt = cur + [{k: x.get(k) for k in ALERT_LOG_FIELDS} for x in unlogged]
     if sha(log_bytes(rebuilt)) == want["sha256"]:
         write_log(log_path, rebuilt)   # the last run died between publishing the feed and writing the log
         return rebuilt
     raise RuntimeError("the alert log is not the one the last published feed left "
                        f"({(have or {}).get('rows', 'no')} rows on disk, {want.get('rows')} expected)")
+
+
+def _ts(v):
+    try:
+        return datetime.strptime(v, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        return None
+
+
+def prev_carry(prev):
+    """The alerts the previous feed was carrying: its `alerts` when it was clean, its `alerts_held` when not."""
+    if not isinstance(prev, dict):
+        return []
+    src = prev.get("alerts_held") if prev.get("alerts_withheld") else prev.get("alerts")
+    return [x for x in (src or []) if isinstance(x, dict) and isinstance(x.get("alert_id"), str)]
+
+
+def carried_alerts(prev, log_rows, now, keep_all=False):
+    """Alerts an earlier run emitted that stay in this feed (the delivery window above). Only ids the alert log
+    records as emitted are carried, rebuilt from the log's own rows, so a damaged feed cannot add one. keep_all
+    (a held run): nothing leaves while nothing is being sent."""
+    logged = {r["alert_id"]: r for r in log_rows if r.get("emitted_at") != "seeded"}
+    stood = None
+    if isinstance(prev, dict) and not prev.get("alerts_withheld"):
+        g = _ts(prev.get("generated_at"))
+        stood = (now - g).total_seconds() / 60 if g else None
+    out, seen = [], set()
+    for x in prev_carry(prev):
+        r = logged.get(x["alert_id"])
+        if r is None or x["alert_id"] in seen:
+            continue
+        e = _ts(r["emitted_at"])
+        young = e is not None and (now - e).total_seconds() < ALERT_HOLD_HOURS * 3600
+        if keep_all or young or stood is None or stood < ALERT_STAND_MINUTES:
+            seen.add(x["alert_id"])
+            out.append({"alert_id": r["alert_id"], "event": r["event"], "signal_id": r["signal_id"],
+                        "chart": r["chart"], "emitted_at": r["emitted_at"], "label": LABEL})
+    return out
 
 
 def pending_alerts(forming, confirmed, log_rows):
@@ -333,8 +382,15 @@ def main():
     log_rows = read_log(a.alert_log) if seed and os.path.exists(a.alert_log) else ([] if seed else check_log(a.alert_log, a.out))
     alerts, seeded = [], False
     log_dirty = False   # the alert log is written only once the feed has passed its strict check (13 Nov 2026)
+    try:
+        with open(a.out) as f:
+            prev_feed = json.load(f)
+    except (OSError, ValueError):
+        prev_feed = None
+    held = []
     if not all_ok:
-        pass  # withheld: nothing emitted, nothing logged -- the next clean run sends it
+        # withheld: nothing emitted, nothing logged -- the next clean run sends it; alerts already emitted are kept
+        held = [] if seed else carried_alerts(prev_feed, log_rows, now_utc(), keep_all=True)
     elif seed:
         # A new log, on purpose only (CTZB_SEED_ALERT_LOG=1): record what is already live without alerting on
         # it, or day one would announce every signal currently on the books. A log that is simply missing is
@@ -346,6 +402,7 @@ def main():
                     for s_, ch in sorted(confirmed.items())]
         log_dirty = True
     else:
+        alerts = carried_alerts(prev_feed, log_rows, now_utc())
         new_events = pending_alerts(forming, confirmed, log_rows)
         for ev, s_, ch in new_events:
             aid = f"{s_}:{ev}"
@@ -369,6 +426,7 @@ def main():
         "alerts_withheld": not all_ok,
         "alerts_seeded": seeded,
         "alerts": alerts,
+        "alerts_held": held,
         "market_regime": status.get("Market regime"),
         "next_buy_date": status.get("Next buy date"),
         "trades_a_year": status.get("Trades a year"),
@@ -527,7 +585,24 @@ def unlogged_alerts(feed_path, log_path):
     have = log_state(log_path) if log_path else None
     if have and have["sha256"] == rec["sha256"]:
         return []
-    return (prev.get("alert_log_carry") or []) + (prev.get("alerts") or [])
+    try:
+        have_ids = {r.get("alert_id") for r in read_log(log_path)} if have else set()
+    except Exception:  # noqa: BLE001 -- a damaged log is the next run's to judge (check_log)
+        have_ids = set()
+    return [x for x in (prev.get("alert_log_carry") or []) + (prev.get("alerts") or [])
+            if isinstance(x, dict) and x.get("alert_id") not in have_ids]
+
+
+def held_alerts(feed_path, log_path):
+    """For the fail-closed feed: the alerts the last feed was carrying, kept for the next clean feed."""
+    try:
+        with open(feed_path) as f:
+            prev = json.load(f)
+        rows_ = read_log(log_path) if log_path and os.path.exists(log_path) else []
+        rows_ += [{k: x.get(k) for k in ALERT_LOG_FIELDS} for x in unlogged_alerts(feed_path, log_path)]
+        return carried_alerts(prev, rows_, now_utc(), keep_all=True)
+    except Exception:  # noqa: BLE001 -- the fail-closed feed must always be written
+        return []
 
 
 def fail_closed(out_path, err, log_path=None):
@@ -550,7 +625,9 @@ def fail_closed(out_path, err, log_path=None):
             "alert_log": prev_log_record(out_path) or (log_state(log_path) if log_path else None),
             # alerts the last published feed sent that the log does not hold yet (it died before writing the log):
             # carried so the next run can still rebuild the log, and never sent again
-            "alert_log_carry": unlogged_alerts(out_path, log_path)}
+            "alert_log_carry": unlogged_alerts(out_path, log_path),
+            # alerts the last feed was carrying in their delivery window; the next clean feed carries them on
+            "alerts_held": held_alerts(out_path, log_path)}
     atomic_write(out_path, (json.dumps(feed, indent=1) + "\n").encode())
     return
 

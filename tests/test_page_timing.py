@@ -1,6 +1,8 @@
 """Timing tests for the member page (13 Nov 2026, audit #23): slow files and a page left open.
 
   1. a slow feed: the card area says "Loading", never blank and never "Data unavailable" while it loads;
+     1b. (14 Nov 2026 audit #28) on every tab, every area that reads the feed says "Loading" while it loads:
+     the setup picker, Previous signals, the chart, the past-signals count; nothing says "unavailable";
   2. a slow example file: the example chart says "Loading", not "couldn't be loaded";
   3. a slow chart file: the previous setup's chart is cleared at once ("Loading <chart>"), and a file that
      arrives after the member picked another setup is not drawn over it;
@@ -85,6 +87,28 @@ with sync_playwright() as pw:
     pg.clock.run_for(3000); pg.wait_for_timeout(800)
     ok('...and draws once the feed arrives', 'Loading the latest data' not in pg.inner_text('#card') and not errs, str(errs[:1]))
     pg.close()
+    # 1b. slow feed, every tab and area (audit #28: Chart and Past signals read "unavailable"; picker and Previous
+    # signals were blank)
+    for start in ('now', 'chart', 'record', 'read'):
+        pg, errs = page(b, delay={'feed': 20000})
+        pg.goto(f'http://site.test/#{start}'); pg.wait_for_timeout(600)
+        seen = {}
+        for tab in ('now', 'chart', 'record', 'read'):
+            pg.click(f'#tab-{tab}'); pg.wait_for_timeout(150)
+            seen[tab] = pg.evaluate("""() => { const v = (s) => { const e = document.querySelector(s); return e ? e.textContent.trim() : null; };
+                const rd = document.querySelector('#view-read');   // the explainer names the word "unavailable" itself
+                return { body: document.body.innerText.replace(rd ? rd.innerText : '', '') + ' ' + Array.from(document.querySelectorAll('svg text')).map(t => t.textContent).join(' '),
+                         picker: v('#picker'), intact: v('#prevIntact'), closed: v('#prevClosed'), card: v('#card'),
+                         chart: Array.from(document.querySelectorAll('#chartSvg text')).map(t => t.textContent).join(' '), rec: v('#recCount') }; }""")
+        pg.click('#previewSwitch'); pg.wait_for_timeout(150)
+        sw = pg.inner_text('#card')
+        s = seen['now']
+        areas = {k: s[k] for k in ('picker', 'intact', 'closed', 'card')} | {'chart': seen['chart']['chart'], 'rec': seen['record']['rec']}
+        bad = [t for t, x in seen.items() if 'unavailable' in x['body'].lower() or "can't reach" in x['body'].lower()]
+        empty = [k for k, v in areas.items() if not v or 'Loading' not in v]
+        ok(f'slow feed, opened on #{start}: every area says Loading on every tab, nothing says unavailable',
+           not bad and not empty and 'Loading' in sw and 'unavailable' not in sw.lower() and not errs, f'unavailable on {bad}; not loading: {empty} {areas}; switch: {sw[:60]!r} {errs[:1]}')
+        pg.close()
     # 2. slow example
     pg, errs = page(b, delay={'example': 3000})
     pg.goto('http://site.test/#chart'); pg.wait_for_timeout(800)

@@ -923,6 +923,39 @@ extras 28/28, fetch tests 4/4, year-end replays 8/8, gate-off and no-today-bar r
 now select the live signal: with forming setups in the feed the page opens on the best forming card), fire drills
 58/58, site Worker 25/25, damage test 31/31 (quick pass).
 
+## Round 28 — 14 Nov (audit #28: damage part only, counted on the frozen list)
+
+**Not clean:** 3 causes got through a family's rule, all real-life damage. No wrong figure, no script error, no
+damaged input scored or published unwithheld.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page (443 states) | 64 / 0 | 157 / 0 | 36 / 0 | 10 / 0 | 34 / 0 | 90 / **4** |
+| Pipeline (640 runs + 10 alert-log sequences + 8 calendar replays) | 129 / 0 | 304 / 0 | 80 / 0 | 114 / **2** | 19 + 8 / 0 | 8 / 0 |
+
+(cases tried / got through). Report: `analysis/audit28_2026-11-14/broken/`.
+
+The three causes, each fixed at its family's rule:
+- **Partial run (2 runs): an alert lost to a red run's retry.** A run that went red after publishing (the extras step,
+  or a fetch after the feed) is re-run 1 minute later; the retry's feed replaced the first before the mirror's
+  15-minute pull, and each alert was carried in one generation only, so the sender never saw it while the log marked
+  it sent. Rule now: an emitted alert stays in `alerts` for its delivery window, at least 24 hours and then until a
+  clean feed carrying it has stood an hour; held and fail-closed feeds keep it in `alerts_held` and the next clean feed
+  carries it again. Only alerts the log records are carried, rebuilt from the log. Test: `test_feed_alerts` (the
+  retry case end to end, held and fail-closed runs in between, a forged alert never carried, and the window itself);
+  every alert check now counts what a sender that never sends an `alert_id` twice would send.
+- **Delivery (page, 2 states): "unavailable" while the feed was still loading.** The Chart tab read "Data
+  unavailable" and Past signals "Past signals unavailable right now" while the header said "Loading". The page had no
+  loading state for the feed. Rule now: every file starts "loading", and every area that reads it says "Loading" until
+  it arrives. Test: `test_page_timing` 1b (slow feed, opened on each of the four tabs, every tab visited: picker,
+  Previous signals, card, chart and past-signals count all say "Loading", nothing says "unavailable", the example
+  switch included).
+- **Delivery (page, 2 states): the setup picker and Previous signals blank while the feed loaded.** They were first
+  drawn after the feed arrived. Now drawn in their loading state before any file arrives. Same test.
+
+Both tests fail on the old code. Hardening (not counted): 6 hand-forged feeds the strict check accepts, and an empty
+but valid regression baseline turning the guard off (listed in the report).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

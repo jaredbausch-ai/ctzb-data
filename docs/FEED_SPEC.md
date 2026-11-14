@@ -14,7 +14,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 - The `ctzb-feed` Worker mirrors it from GitHub every 15 minutes.
 - The `ctzb-site` Worker serves the mirror's copy to the member page as `/data/ctzb_feed.json`.
 - The `ctzb-dashboard` Worker reads `alerts` from the mirror on its cron and sends each `alert_id` once to the
-  operator's private Telegram, remembering what it sent. It sends nothing while `alerts_withheld` is true.
+  operator's private Telegram, remembering what it sent. It sends nothing while `alerts_withheld` is true. An alert
+  stays in `alerts` for its delivery window (Alerts, below), so it is read many times.
 - The `ctzb-scheduler` health monitor reads `generated_at`, `cards_withheld`, `checks.failed_steps`, `extras_withheld`
   and `candle_check.kraken` from the mirror.
 
@@ -36,7 +37,7 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 - **`schema_version` is 6.** It is the constant `SCHEMA_VERSION` in `feed_live.py`, set by hand and written into every
   feed, the fail-closed feed included. Nothing in the pipeline, the page or the Workers computes or reads it (the
   strict check does not); two tests assert it is 6. It changes
-  only when the constant is edited; `alert_log` and `alert_log_carry` are schema 6 fields that came without a bump.
+  only when the constant is edited; `alert_log`, `alert_log_carry` and `alerts_held` are schema 6 fields that came without a bump.
 - **It computes no figure.** It repackages the datasets the same run wrote. Its own work is: the time stamp, the
   schema version, the posting bar constant, the aliases, the label and note texts, which alerts are new, and the alert
   log record.
@@ -92,7 +93,8 @@ strict check does not read the field.
 | `cards_withheld` | bool | True when `checks.all_passed` is false |
 | `alerts_withheld` | | Same value as `cards_withheld` |
 | `alerts_seeded` | | True only on a run made with `CTZB_SEED_ALERT_LOG=1` that passed every check |
-| `alerts[]` | | Alerts new in this generation (Alerts, below) |
+| `alerts[]` | | Alerts in their delivery window: new in this generation, or emitted earlier and carried (Alerts, below) |
+| `alerts_held[]` | | On a held feed, the alerts it would have carried; empty on a clean feed (Alerts, below) |
 | `market_regime` | Bullish or Bearish? | status.csv: the regime gate `rsi_regime(BTC_2D, 8, 13, 60, 41)` on the scored date |
 | `next_buy_date` | | status.csv: a YYYY-MM-DD date or the text "none ahead". The earliest confirmation close date, today included, of a forming low on an ETH chart that carries a walk-forward tier tag, whatever the regime gate reads. A computed date, not a planned buy |
 | `trades_a_year` (`signals_a_year`) | | status.csv: text "N on average", N = ETH tier signals per year rounded once, or "—" when the tier has fewer than 4 scored signals |
@@ -284,8 +286,9 @@ signals whose 60th day had closed by 22 Sep 2024 (the example card's sample). `e
 
 ## Alerts and the alert log
 
-`alerts[]` lists the events new in this generation. Each: `alert_id` (`{signal_id}:{event}`, fixed for that event
-forever), `event`, `signal_id`, `chart`, `emitted_at` (this feed's `generated_at`), `label`.
+`alerts[]` lists the alerts in their delivery window: the events new in this generation, and alerts emitted by earlier
+runs that are carried. Each: `alert_id` (`{signal_id}:{event}`, fixed for that event forever), `event`, `signal_id`,
+`chart`, `emitted_at` (the `generated_at` of the feed that first emitted it), `label`.
 
 - `forming`: a forming card appeared (graded charts, regime gate on at the trough), unless that signal already has a
   forming or confirmed alert.
@@ -295,17 +298,22 @@ forever), `event`, `signal_id`, `chart`, `emitted_at` (this feed's `generated_at
   (the trough slid, or the setup stopped qualifying).
 
 Every grade alerts. `feed/alert_log.csv` (`alert_id`, `event`, `signal_id`, `chart`, `emitted_at`) records every alert
-ever emitted and is committed with the feed, so an alert appears in exactly one generation. That generation is read
-many times, so **a sender records every `alert_id` it sends and never sends one twice.**
+ever emitted and is committed with the feed, so each event is emitted once. An emitted alert is carried in `alerts`
+for at least 24 hours after `emitted_at`, and after that until a clean feed carrying it has stood an hour
+(`ALERT_HOLD_HOURS`, `ALERT_STAND_MINUTES`). The sender reads the feed from the mirror, which pulls every 15 minutes, so
+a feed replaced sooner (a red run's 1-minute retry) is never read; the window means some feed it reads carries every
+alert. Only alerts the log records are carried, rebuilt from the log's rows. **A sender records every `alert_id` it
+sends and never sends one twice.**
 
 - **Withheld is not dropped.** When the run is held back, `alerts` is empty and nothing is logged; the next run that
-  passes every check emits what is pending.
+  passes every check emits what is pending. Alerts already emitted are kept in `alerts_held` (held and fail-closed
+  feeds alike) and the next clean feed carries them again, however long the run was held.
 - **Seeding.** A new log starts only on a run with `CTZB_SEED_ALERT_LOG=1`: it records every forming and confirmed
   signal with `emitted_at` "seeded", alerts on none of them and sets `alerts_seeded`.
 - **The log must be the one the last feed left.** On every run that is not seeding, `feed_live.py` compares the log's
   SHA-256 with the previous feed's `alert_log`. A match passes. Otherwise it appends the previous feed's
-  `alert_log_carry` and `alerts`; if that matches, the last run died between the feed and the log, and the log is
-  rebuilt. Anything else (deleted, cut, emptied or older) fails closed. With no previous record, a missing log fails
+  `alert_log_carry` and `alerts` whose `alert_id` the log lacks; if that matches, the last run died between the feed
+  and the log (or the log lost rows the feed still carries), and the log is rebuilt. Anything else (deleted, cut, emptied or older) fails closed. With no previous record, a missing log fails
   closed and an existing one is accepted.
 - **Order.** The feed is written only after it passes the strict check, then the log. If the log cannot be written,
   the feed stays published and the run exits non-zero; the next run rebuilds the log from it.
@@ -321,7 +329,8 @@ many times, so **a sender records every `alert_id` it sends and never sends one 
 the stack's coverage check requires every documented read only when there is a subject. A held feed is still
 published, with:
 
-- `cards_withheld`, `alerts_withheld` and `extras_withheld` true; `alerts` empty and nothing logged;
+- `cards_withheld`, `alerts_withheld` and `extras_withheld` true; `alerts` empty and nothing logged; `alerts_held` as
+  above;
 - `cards`, `prints`, `open_signals`, `confluence_windows`, `grade_odds`, `if_it_misses`, `past_paths`,
   `odds_fade.early_dip` and `odds_fade.day10` empty; `example_card`, `example_if_it_misses` and `example_past_paths`
   null;
@@ -344,12 +353,12 @@ On every run it also checks the alert log (above, not on a seeding run) and the 
 Any exception in `feed_live.py` (these, or a crash) overwrites the feed with the fail-closed feed and exits 1. It has
 `posting_bar_pct` 70, `cards_withheld`, `alerts_withheld` and `extras_withheld` true, `checks.passed` and
 `checks.all_passed` false, `checks.lines` empty, `checks.steps` as passed, `checks.failed_steps` `["feed"]`,
-`feed_error` (the exception's type name), every list except `alert_log_carry` empty, `candle_check`, `example_card`, `example_if_it_misses`,
+`feed_error` (the exception's type name), every list except `alert_log_carry` and `alerts_held` empty, `candle_check`, `example_card`, `example_if_it_misses`,
 `example_past_paths`, `scored_as_of`, `market_regime`, `next_buy_date` and `trades_a_year` null, and `odds_fade` with
 only `label`, `posting_bar_pct`, a null `sample` and empty lists. It has no `alerts_seeded`, `signals_a_year`,
 `odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record,
-or the log's own state if there is none) and `alert_log_carry` (alerts the last published feed sent that the log does
-not hold). A null `market_regime` or `scored_as_of` means unknown, never "off".
+or the log's own state if there is none), `alert_log_carry` (alerts the last published feed sent that the log does
+not hold) and `alerts_held` (the alerts the last feed was carrying). A null `market_regime` or `scored_as_of` means unknown, never "off".
 
 ## The run seal
 

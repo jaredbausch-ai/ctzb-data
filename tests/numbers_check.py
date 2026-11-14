@@ -9,7 +9,7 @@ The full numbers audit still runs in the two final clean runs.
 Compared per date:
   - every file in datasets/ and feed/ (exact text), except run bookkeeping that tests/replay_at.sh copies from the
     live repo uncut and that holds no figure: datasets/manifest.json (the seal's hashes), datasets/candle_check.json,
-    feed/alert_log.csv, and the feed's alerts, alert_log, alert_log_carry and candle_check (13 Nov 2026 fix check:
+    feed/alert_log.csv, and the feed's alerts, alerts_held, alert_log, alert_log_carry and candle_check (13 Nov 2026 fix check:
     with them in, every 4-hour pipeline run changed the replays and the check failed with no figure moved);
   - the numbers a member reads on the page (every price, percentage, count and date token in the Now, Chart,
     Past signals and How to read tabs, in order). Wording changes that move no number pass.
@@ -50,7 +50,7 @@ def replay(date, root):
 
 
 BOOKKEEPING_FILES = {"datasets/manifest.json", "datasets/candle_check.json", "feed/alert_log.csv"}
-BOOKKEEPING_KEYS = ("alerts", "alert_log", "alert_log_carry", "candle_check")
+BOOKKEEPING_KEYS = ("alerts", "alerts_held", "alert_log", "alert_log_carry", "candle_check")
 
 
 def normalise(fs):

@@ -363,7 +363,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     catch (_) { return null; }
   }
 
-  const S = { feed: null, ledger: [], trades: null, example: null, preview: false, chartMode: "alert", asset: "all" };
+  // every file starts "loading": until it arrives, each area that reads it says "Loading", never "unavailable" or
+  // nothing (14 Nov 2026 audit #28: before the feed arrived the Chart and Past-signals tabs read "unavailable")
+  const S = { feed: null, ledger: [], trades: null, example: null, preview: false, chartMode: "alert", asset: "all",
+              loading: { feed: true, ledger: true, trades: true, example: true } };
 
   /* ---------- strict file checks (13 Nov 2026) ----------
      One definition of a well-formed feed, read by this page and by the pipeline (feedcheck.py reads the block
@@ -587,7 +590,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function feedAgeH() { const t = S.feed && Date.parse(S.feed.generated_at); return Number.isFinite(t) ? (Date.now() - t) / 3.6e6 : null; }
   // the market filter as the feed states it: "on", "off", or null when the feed doesn't say
   function regime() { const r = S.feed && S.feed.market_regime; return r === "Bullish" ? "on" : r === "Bearish" ? "off" : null; }
-  function feedHealth() { return !S.feed ? "down" : S.feed.cards_withheld ? "held" : "ok"; }
+  function feedHealth() { return S.loading.feed ? "loading" : !S.feed ? "down" : S.feed.cards_withheld ? "held" : "ok"; }
+  // what an empty list says when the feed is not "ok"; one place, so every area reads the same state
+  const NOT_OK = { loading: "Loading…", down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." };
   // The data is out of date on the viewer's clock in two ways: it is older than 5 hours (a missed update), or a daily
   // close (00:00 UTC, when every graded chart's bar closes) has passed since it was written, so what it says about
   // the bar that just closed ("confirms if it closes above", "an estimate until the current bar closes") is no longer
@@ -619,10 +624,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const live = openSignals(), forming = selectable().filter((c) => !c._open);
     const liveBtns = live.length ? live.map((o) => `<button class="pick top" data-sel="${esc(o.signal_id)}" aria-pressed="${on(o.signal_id)}">
         ${esc(o.chart)} <b>Day ${o.days_elapsed}</b><span class="small">best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</span></button>`).join("")
-      : `<span class="pnone">${{ down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No live top-grade setups right now."}</span>`;
+      : `<span class="pnone">${NOT_OK[feedHealth()] || "No live top-grade setups right now."}</span>`;
     const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
         ${esc(c.chart)} <b>${pc(c.rose10_within60d_pct)}</b><span class="small">rose 10% in 60 days · n ${c.past_trades ?? "n/a"} · ${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
-      : `<span class="pnone">${{ down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "Nothing forming today."}</span>`;
+      : `<span class="pnone">${NOT_OK[feedHealth()] || "Nothing forming today."}</span>`;
     $("#picker").innerHTML = `<div class="prow"><span class="plabel">Live</span>${liveBtns}</div>
       <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button></div>`;
   }
@@ -675,6 +680,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       box.innerHTML = `<div class="card-head"><div class="where">${esc(m.chart || "")}</div><div class="state" style="--c: var(--muted)" data-state="quiet">${m.missing ? "Card unavailable" : "No odds yet"}</div></div>
         <div class="empty-card"><div class="big">${m.missing ? "This setup's card isn't in the latest data" : "No past signals like this one yet"}</div><div class="small" style="max-width: 46ch">${m.missing ? "It comes back with the next good run. No figures are shown for it until then." : "This setup has no finished past signals to draw odds from, so no figures are shown for it."}</div></div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
+      return;
+    }
+    if (!m && feedHealth() === "loading") {
+      box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="loading">Loading</div></div><div class="empty-card"><div class="big">Loading the latest data…</div></div>`;
       return;
     }
     if (!m && feedHealth() !== "ok") {
@@ -843,7 +852,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const open = openSignals().slice().sort((a, b) => a.days_elapsed - b.days_elapsed);
     // first group: on track, or already rose 10% (whatever it did afterwards); second: edge lost, then closed signals
     const intact = open.filter((o) => openStatus(o) === "intact"), fading = open.filter((o) => openStatus(o) === "fading");
-    $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">${{ down: "Unavailable: the feed can't be read right now.", held: "Held back: a data check failed on the latest run." }[feedHealth()] || "No open top-grade setup on track or up 10%."}</div>`;
+    $("#prevIntact").innerHTML = intact.length ? intact.map((o) => miniOpen(o, "")).join("") : `<div class="none">${{ loading: "Loading…", down: "Unavailable: the feed can't be read right now.", held: NOT_OK.held }[feedHealth()] || "No open top-grade setup on track or up 10%."}</div>`;
     const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
     $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + (S.loading && S.loading.ledger ? `<div class="none">Loading past signals…</div>` : S.ledgerOk ? "" : `<div class="none">Past signals unavailable right now.</div>`) + recent.map((r) => `
       <div class="mini closed">
@@ -904,6 +913,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       if (!ex || !m) {
         if (S.loading && S.loading.example && feedHealth() === "ok") { blankChart("ETH · 2-day · example", "", "Loading the example's chart…"); return; }   // audit #23: said "couldn't be loaded" while loading
         const h = feedHealth();
+        if (h === "loading") { blankChart("Loading…", "", "Loading the latest data…"); return; }
         blankChart("ETH · 2-day · example", h === "down" ? "Can't reach the data right now." : h === "held" ? "A data check failed on the latest run; setups are held back." : !m ? "The worked example isn't in the latest data." : "The example's chart data couldn't be loaded.",
           h === "down" ? "Data unavailable" : h === "held" ? "Setups held back" : !m ? "Example unavailable" : "Chart data unavailable"); return;   // audit #25: no example in the feed is not a failed file
       }
@@ -1214,7 +1224,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // 13 Nov 2026 audit #22: the card used to wait for all four files, so a slow ledger, trade or example file
     // left the card area blank. The feed is drawn as soon as it arrives; the others fill in as they come.
     const pLedger = get("data/ledger.csv", "text"), pTrades = get("data/trades.json"), pExample = get("data/example_ETH-2D-2024-09-22.json");
-    const feed = await get("data/ctzb_feed.json");
+    const pFeed = get("data/ctzb_feed.json");
+    // every area is drawn in its loading state before any file arrives (14 Nov 2026 audit #28: the setup picker and
+    // Previous signals stayed blank, and the Chart and Past-signals tabs read "unavailable", while the feed was slow)
+    renderPicker(); renderPrev(); show(location.hash.slice(1) || "now");
+    const feed = await pFeed;
     // the feed is used only if it passes the strict check above, whole. Anything else is no feed.
     const feedBad = feedProblems(feed);
     const feedOk = feedBad.length === 0;
@@ -1222,7 +1236,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // the general odds-fade table is used only when it is whole: both lists present and non-empty
     if (feedOk && !(feed.odds_fade && feed.odds_fade.early_dip.length && feed.odds_fade.day10.length)) feed.odds_fade = null;
     S.feed = feedOk ? feed : null;
-    S.loading = { ledger: true, trades: true, example: true };
+    S.loading.feed = false;
     if (bestCard()) S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
     { const b = edgeRule().bar; if (b != null) $("#howBar").textContent = b + "% bar"; }

@@ -1,0 +1,8 @@
+03:25 stage 0: setup done; pipeline set 1 (344 cases) started; states 0 disagreements 0
+03:36 stage 1: pipeline set 1 (candles/series) done, 336 cases kept + 8 re-run pending; 0 counted disagreements so far
+03:43 stage 2: page set 1 done (190 states, 0 counted disagreements; blank picker while feed loads noted); alert sequences done (10, 2 counted: alerts replaced by a re-run within the mirror window)
+03:43 stage 3: page set 3 (slow files) done: 1 counted disagreement (slow feed -> Chart/Past signals read unavailable, blank panels)
+04:10 stage 4: page set 2 done (245 states incl re-runs; 0 counted disagreements beyond harness/expectation fixes)
+04:20 stage 5: 8 calendar-boundary replays done, all clean
+04:24 stage 6: pipeline set 2 done (300 cases, 0 counted); compiled 1105 checks, 4 distinct counted disagreements (2 alert-delivery, 2 slow-feed wording/blank, over 2 states)
+04:37 stage 7: repo tests run (seal 23/23, page timing 11/11, feed damage quick 31/31); final: 1105 checks, 6 disagreement rows (3 causes) counted
