@@ -28,7 +28,6 @@ sys.path.insert(0, os.path.join(ROOT, ".github", "scripts"))
 import check_candles as CC  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 from reseal import reseal  # noqa: E402 -- fixtures stand in for scoring steps, so they re-record the run seal (seal.py)
-import dataclock; dataclock.pin()  # noqa: E402 -- the repo data's own day, not the wall clock
 
 PY = sys.executable
 RESULTS = []
@@ -285,7 +284,7 @@ def drills_c():
     new = dict(rows[0], chart="BTC 5D", asset="BTC", tf="5D", trough="2099-01-01", lowDay="2099-01-02", confirms="2099-01-04")   # dates in order: the feed must pass the strict check
     with open(p, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows + [new])
-    reseal(os.path.join(d, "datasets"))   # the fixture stands in for a scoring run, so it re-records the run seal
+    reseal(os.path.join(d, "datasets"), started_at=FIXTURE_NOW)   # the fixture stands in for a scoring run at the pinned clock, so it re-records the run seal
     run(d, "feed_live.py", [], bad_env)
     record(g, "new setup while a check is failing: no alert, nothing logged", feed()["alerts"] == [] and logn() == n0)
     run(d, "feed_live.py", [], ok_env); a = feed()["alerts"]
@@ -294,7 +293,7 @@ def drills_c():
     record(g, "and not again on the run after", feed()["alerts"] == [])
     with open(p, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
-    reseal(os.path.join(d, "datasets"))
+    reseal(os.path.join(d, "datasets"), started_at=FIXTURE_NOW)
     run(d, "feed_live.py", [], ok_env); a = feed()["alerts"]
     record(g, "setup disappears: one 'vanished' alert", [x["alert_id"] for x in a] == ["BTC-5D-2099-01-04:vanished"], str([x["alert_id"] for x in a]))
     run(d, "feed_live.py", [], ok_env)
