@@ -1049,6 +1049,32 @@ test, damage test 31/31 (quick pass). The gate-off test failed on the round-28 c
 copies today's alert log, and the delivery window carries its alerts, so it counted 6 forming alerts already sent. It
 now counts only alerts new to the log, as the fire drills do (gate off: 0 cards, 0 new forming alerts).
 
+**Fix check** (independent agent, `analysis/audit29_2026-11-14/fixcheck/`): 3 of 5 fixed at the family level (the
+delivery, blank-line and after-today rules), 3 incomplete counting the hardening case, 0 wrong, 0 untested, 11
+sentences. The numbers-baseline claim held: the old code with only the replay cut (and the first-day skip for the 5
+dates before 2023) reproduces the new baseline exactly.
+- **4H and 12H gaps, incomplete:** bars cut from the start or end of a file, or deleted from one asset to match the
+  other asset's own one-asset gap, still passed. Now each file must start on its first bar (`fetch.FIRST_BAR`), the
+  ETH and BTC files of a timeframe must end on the same bar, on the day of the asset's last daily bar, and a gap in
+  the other file only counts when it is not that file's own. New cases in `test_input_files` (61/61; the 5 new ones
+  fail on the round-29 code).
+- **Alert log copy, incomplete:** with the feed lost, a copy damaged but holding every `alert_id` (a row altered, or
+  a row repeated) overwrote a good log, so an altered alert the mirror never pulled would not have been delivered.
+  Restoring now needs a copy that repeats no `alert_id` and either begins with the whole log or holds every row of
+  the log exactly; otherwise the run fails closed. New cases in `test_feed_alerts` (65/65; they fail on the round-29
+  code).
+- **Hardening, incomplete:** the per-asset summary on the Past signals tab and the miss figures still read a held
+  feed. Both now read nothing from a held feed (`test_page_states`).
+- **Sentences:** 11 corrected (FEED_SPEC 5, AUDIT_LOG 2, DAMAGE_LIST 2, the fetch.py docstring and the feed_live.py
+  docstring).
+- Left as documented: with the feed lost, the copy deleted and the log cut, the cut log is accepted (three files at
+  once); the lost alert is emitted again with a new `emitted_at` but the sender sends each `alert_id` once.
+
+After the corrections: input files 61/61, feed alerts 65/65, page states 52/52, site Worker 26/26, candle check
+95/95, series cells 40/40, numbers check 13 dates unchanged, year end 8/8, gate off, no today bar, fetch today 4/4,
+run seal 23/23, fire drills 58/58, page timing 16/16, per-year test, cut files 495/495, damage test 31/31 (quick
+pass).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
