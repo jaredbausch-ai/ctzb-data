@@ -235,14 +235,16 @@ for what, bad_copy in [("one row's emitted_at altered", b"".join(ls_[:-1] + [ls_
 check("...the copy put right -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
 # 14 Nov 2026 audit #32: the feed lost, the copy lost AND the log cut in the same window. With no record left the
 # log on disk was accepted as it was, and the alert whose row was cut was emitted again. Now the run is withheld
-# until the feed or the copy is put back, and a whole log with no record is not trusted either
+# until the feed or the copy is put back, and a whole log with no record is not trusted either. Twice running: the
+# withheld feed must not record the log on disk as the record, or the next run accepts the damaged log
 cut = full[:full.rindex(b"\n", 0, len(full) - 1) + 1]
 for what, dmg in [("the log cut", cut), ("the log whole", full)]:
     os.remove(FEED); os.remove(BK); open(LOG, "wb").write(dmg)
-    rc, f, err = run_fail()
-    check(f"feed lost, copy lost and {what} -> withheld, log untouched, nothing re-sent",
-          rc == 1 and f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == dmg and "cannot be checked" in err,
-          str((rc, [a_["alert_id"] for a_ in f["_sent"]], err[-160:])))
+    rc, f, err = run_fail(); rc2, f2, err2 = run_fail()
+    check(f"feed lost, copy lost and {what} -> withheld twice running, log untouched, nothing re-sent",
+          rc == 1 and rc2 == 1 and f2["cards_withheld"] and f["_sent"] == [] and f2["_sent"] == [] and open(LOG, "rb").read() == dmg
+          and "cannot be checked" in err and "cannot be checked" in err2,
+          str((rc, rc2, [a_["alert_id"] for a_ in f2["_sent"]], err2[-160:])))
     open(LOG, "wb").write(full); open(BK, "wb").write(full); f = run()
     check("...the copy put back -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
 set_cards([]); run()

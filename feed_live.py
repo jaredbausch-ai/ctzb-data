@@ -714,10 +714,11 @@ def fail_closed(out_path, err, log_path=None):
             "market_regime": None, "next_buy_date": None, "trades_a_year": None,
             # a failed run never writes the log, so what the log must be is unchanged: carry the last published
             # feed's record forward (a log damaged before this run must still be caught by the next one)
-            # (with no readable last feed and a second copy of the log, no record is written: the next run checks the
-            # log against the copy as it then is, so putting a damaged copy right ends the hold; audit #29)
-            "alert_log": prev_log_record(out_path)
-                         or (None if not log_path or backup_bytes(log_path) is not None else log_state(log_path)),
+            # (with no readable last feed, no record is written: the next run checks the log against the copy as it
+            # then is, so putting a damaged copy right ends the hold, audit #29; with no copy either it stays held
+            # until the feed or the copy is put back. 14 Nov 2026 audit #32 fix: it used to record the log on disk
+            # here, which made a log damaged in that window the record the next run accepted)
+            "alert_log": prev_log_record(out_path),
             # alerts the last published feed sent that the log does not hold yet (it died before writing the log):
             # carried so the next run can still rebuild the log, and never sent again
             "alert_log_carry": unlogged_alerts(out_path, log_path),

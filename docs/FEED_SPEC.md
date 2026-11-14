@@ -106,7 +106,7 @@ strict check does not read the field.
 | `grade_odds[]` | list | Below |
 | `candle_check` | | Below |
 | `extras_withheld`, `if_it_misses[]`, `odds_fade`, `past_paths[]`, `example_if_it_misses`, `example_past_paths` | (not read), list, object?, list, miss?, path? | Member-card extras, below |
-| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log, and on a fail-closed feed when the last feed has no record and the log has a second copy (below) |
+| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log, and on a fail-closed feed when the last feed has no record (below) |
 | `feed_error`, `alert_log_carry` | | Fail-closed feed only (below) |
 
 `next_buy_date` and `trades_a_year` come from refresh.py's ETH walk-forward tier: the ETH chart/tag pairs with at
@@ -372,8 +372,9 @@ Any exception in `feed_live.py` (these, or a crash) overwrites the feed with the
 `feed_error` (the exception's type name), every list except `alert_log_carry` and `alerts_held` empty, `candle_check`, `example_card`, `example_if_it_misses`,
 `example_past_paths`, `scored_as_of`, `market_regime`, `next_buy_date` and `trades_a_year` null, and `odds_fade` with
 only `label`, `posting_bar_pct`, a null `sample` and empty lists. It has no `alerts_seeded`, `signals_a_year`,
-`odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record; if there is none, null when the log has a second copy, so
-the next run checks against the copy as it then is, else the log's own state), `alert_log_carry` (alerts the last published feed sent that the log does
+`odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record; if there is none, null, so the next run checks against the
+copy as it then is, and with no copy stays held until the feed or the copy is put back; never the log's own state,
+which would make a log damaged in that window the record), `alert_log_carry` (alerts the last published feed sent that the log does
 not hold) and `alerts_held` (the alerts kept for the next clean feed, as above). A null `market_regime` or `scored_as_of` means unknown, never "off".
 
 ## The run seal
