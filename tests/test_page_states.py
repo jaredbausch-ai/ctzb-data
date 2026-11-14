@@ -23,7 +23,7 @@ def candles(a, tf):
     return json.dumps({"chart": f"{a} {tf}", "bars": [{"t": float(r["time"]), "o": float(r["open"]), "h": float(r["high"]), "l": float(r["low"]), "c": float(r["close"])} for r in csv.DictReader(open(p))]})
 
 
-def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None, pick=None):
+def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None, pick=None, edit_candles=None):
     out = {}
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
     errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
@@ -38,6 +38,8 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex
             a, tf = u.rsplit("/", 1)[1][:-5].split("_"); c = candles(a, tf)
             if c and cut_candles is not None:
                 j = json.loads(c); j["bars"] = j["bars"][:cut_candles]; c = json.dumps(j)
+            if c and edit_candles is not None:
+                j = json.loads(c); edit_candles(j["bars"]); c = json.dumps(j)
             return route.fulfill(body=c, content_type="application/json") if c else route.fulfill(status=404, body="x")
         if "fonts" in u: return route.abort()
         return route.fulfill(status=404, body="x")
@@ -116,6 +118,18 @@ def main():
         t_c0, e_c0 = render(pw, FEED, views=("chart",), cut_candles=0); t_c3, e_c3 = render(pw, FEED, views=("chart",), cut_candles=3)
         exj = json.loads(EX); ex21 = json.dumps(dict(exj, bars=exj["bars"][:21])); ex30 = json.dumps(dict(exj, bars=exj["bars"][:30]))
         t_e21, e_e21 = render(pw, FEED, views=("chart",), ex=ex21, example_on=True); t_e30, e_e30 = render(pw, FEED, views=("chart",), ex=ex30, example_on=True)
+        # 14 Nov 2026 audit #29: prices are to the cent. A chart file whose last close lost its last digit in transit
+        # (73736.44 read as 73736.4) is not drawn; a gap under half a cent is the same price. A ledger whose last
+        # line has no line end was cut short, even when every cell still reads.
+        def shift(d):
+            def f(bars): bars[-1]["c"] = round(bars[-1]["c"] - d, 6); bars[-1]["l"] = min(bars[-1]["l"], bars[-1]["c"])
+            return f
+        t_s4, e_s4 = render(pw, FEED, views=("chart",), pick=LIVE_TOP, edit_candles=shift(0.04))
+        t_s0, e_s0 = render(pw, FEED, views=("chart",), pick=LIVE_TOP, edit_candles=shift(0.004))
+        t_le, e_le = render(pw, FEED, views=("record",), ledger=LEDGER.rstrip("\r\n"))
+        # hardening: a held feed that still carries the record's counts and the regime shows neither
+        heldfull = copy.deepcopy(FEED); heldfull.update(cards_withheld=True, cards=[], open_signals=[], example_card=None); heldfull["checks"]["all_passed"] = False
+        t_hf, e_hf = render(pw, heldfull, views=("now", "record"))
         # a live setup whose own card (and status) is missing from the feed: no pooled stand-in (audit #19)
         nocard = copy.deepcopy(FEED)
         for o in nocard["open_signals"]: o["card"] = None; o["edge_level_pct"] = None
@@ -183,6 +197,10 @@ def main():
             ("live setup with no card in the feed: 'Card unavailable', no pooled figures, no error",
              "Card unavailable" in t_nc["now"] and "ETH TIER SIGNALS" not in t_nc["now"].upper()
              and not BAD.search(t_nc["now"]) and not BAD.search(t_nc["chart"]) and not e_nc, str(e_nc[:1])),
+            ("chart file whose last close is 4 cents off the card's price (a cut digit): not drawn, no error", "don't match the setup's latest price" in t_s4["chart"] and not e_s4, t_s4["chart"][:200].replace("\n", " ")),
+            ("... and under half a cent off: the same price, drawn", "don't match" not in t_s0["chart"] and "Chart data unavailable" not in t_s0["chart"] and "live setup, day" in t_s0["chart"].lower() and not e_s0, t_s0["chart"][:200].replace("\n", " ")),
+            ("ledger whose last line has no line end: Past signals says unavailable", "Past signals unavailable" in t_le["record"] and not e_le, t_le["record"][:160].replace("\n", " ")),
+            ("held feed still carrying the record's counts and regime: neither shown", "Past signals unavailable" in t_hf["record"] and "Market filter: on" not in t_hf["now"] + t_hf["record"] and not e_hf, t_hf["record"][:160].replace("\n", " ")),
             ("must close above, one bar ahead: shown as an estimate", "closes above about $3,000.12 (an estimate until the current bar closes)" in t_k1["now"] and not e_k1, t_k1["now"][:300].replace("\n", " ")),
             ("must close above, on the open bar: shown exact", "closes above $3,000.12" in t_k0["now"] and "about $3,000.12" not in t_k0["now"] and not e_k0, t_k0["now"][:300].replace("\n", " ")),
             ("no worked example in the feed: the example chart says so, not that its file failed", "isn't in the latest data" in t_nx["chart"] and "couldn't be loaded" not in t_nx["chart"] and not e_nx, t_nx["chart"][:200].replace("\n", " ")),

@@ -106,7 +106,7 @@ strict check does not read the field.
 | `grade_odds[]` | list | Below |
 | `candle_check` | | Below |
 | `extras_withheld`, `if_it_misses[]`, `odds_fade`, `past_paths[]`, `example_if_it_misses`, `example_past_paths` | (not read), list, object?, list, miss?, path? | Member-card extras, below |
-| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log |
+| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log, and on a held-back feed with no last record and a second copy of the log (below) |
 | `feed_error`, `alert_log_carry` | | Fail-closed feed only (below) |
 
 `next_buy_date` and `trades_a_year` come from refresh.py's ETH walk-forward tier: the ETH chart/tag pairs with at
@@ -318,10 +318,16 @@ records every `alert_id` it sends and never sends one twice.**
 - **The log must be the one the last feed left.** On every run that is not seeding, `feed_live.py` compares the log's
   SHA-256 with the previous feed's `alert_log`. A match passes. Otherwise it appends the previous feed's
   `alert_log_carry` and `alerts` whose `alert_id` the log lacks; if that matches, the last run died between the feed
-  and the log (or the log lost rows the feed still carries), and the log is rebuilt. Anything else (deleted, cut, emptied or older) fails closed. With no previous record, a missing log fails
-  closed and an existing one is accepted.
-- **Order.** The feed is written only after it passes the strict check, then the log. If the log cannot be written,
-  the feed stays published and the run exits non-zero; the next run rebuilds the log from it.
+  and the log (or the log lost rows the feed still carries), and the log is rebuilt.
+- **The second copy.** Every run also keeps `feed/alert_log_backup.csv`, byte for byte the log the feed records. When
+  the previous feed cannot be read or has no record, the copy is the record. A log that matches neither the record
+  nor the rebuild is restored from the copy when the copy is exactly what the record says and restoring drops no
+  alert the log holds (the log was cut, emptied, deleted or lost rows). Anything else fails closed, including a log
+  holding an alert the copy lacks when the copy is the record (the copy is then the damaged file). With no previous
+  record and no copy, a missing log fails closed and an existing one is accepted.
+- **Order.** The feed is written only after it passes the strict check, then the copy, then the log. If the copy or
+  the log cannot be written, the feed stays published and the run exits non-zero; the next run rebuilds or restores
+  the log.
 
 ## When the feed is held back
 
@@ -361,8 +367,8 @@ Any exception in `feed_live.py` (these, or a crash) overwrites the feed with the
 `feed_error` (the exception's type name), every list except `alert_log_carry` and `alerts_held` empty, `candle_check`, `example_card`, `example_if_it_misses`,
 `example_past_paths`, `scored_as_of`, `market_regime`, `next_buy_date` and `trades_a_year` null, and `odds_fade` with
 only `label`, `posting_bar_pct`, a null `sample` and empty lists. It has no `alerts_seeded`, `signals_a_year`,
-`odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record,
-or the log's own state if there is none), `alert_log_carry` (alerts the last published feed sent that the log does
+`odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record; if there is none, null when the log has a second copy, so
+the next run checks against the copy as it then is, else the log's own state), `alert_log_carry` (alerts the last published feed sent that the log does
 not hold) and `alerts_held` (the alerts kept for the next clean feed, as above). A null `market_regime` or `scored_as_of` means unknown, never "off".
 
 ## The run seal
@@ -388,18 +394,23 @@ not hold) and `alerts_held` (the alerts kept for the next clean feed, as above).
 enforce mode, when any of the last 30 closed days differs from Kraken's close by more than 0.5%. stack_live.py runs
 `fetch.history_problems` again and fails the stack step on any problem. It requires:
 
-- every candle file (1D to 8D, 4H, 12H) present, ending with a whole line, with a volume column and every row exactly
+- every file below (candle files and daily series) ending with a whole line and holding no blank line;
+- every candle file (1D to 8D, 4H, 12H) present, with a volume column and every row exactly
   the header's cells; every cell readable; prices finite and above zero; high and low bracketing open and close;
   volume not negative; times on the bar grid (daily and multi-day bars at midnight UTC) and strictly ascending;
 - each daily file starting on the exchange's first day (ETH 2016-05-18, BTC 2016-01-01) with no missing day after it
   (ETH 2016-05-21 and 2016-05-22 excepted), and every 2D-8D file exactly its daily candles bucketed, volume included;
 - 4H and 12H files on their own timeframe (99% of bars one step apart) and their own asset (last close within 25% of
-  that day's daily close); ETH's daily close between 0.1% and 50% of BTC's every day;
+  that day's daily close), with no bar missing: every gap is one of the exchange's own that only one asset has
+  (`fetch.OWN_GAPS`: ETH's first week of trading in May 2016, a BTC 4H gap on 10 Aug 2018) or appears at the same time
+  in the other asset's file (an exchange outage; 28 Feb 2017 and 25 Oct 2025 so far); ETH's daily close between 0.1%
+  and 50% of BTC's every day;
 - the funding series from 2020-01-21, the long/short ratio from 2020-05-31 and open interest from 2022-09-13 (per
   asset), and BTC put/call from 2016-11-01: no missing or repeated day; the columns the scorer reads in range (funding:
   `funding_mean` on every row and `funding_oi_weighted` where filled, both between -1 and 1; the FUND read takes
   `funding_oi_weighted` first, the FCOOL read `funding_mean`); every other cell blank or a finite number; whole rows;
-  derivatives columns of their own asset. stack_live.py alone also requires each series' read column to be filled up
+  derivatives columns of their own asset; no row dated after today (the run's UTC date); a series is not read on a
+  day before its first day. stack_live.py alone also requires each series' read column to be filled up
   to no more than 1 day before today (put/call: 2 days, it writes completed days only): the funding reads take the
   last known day as today's and the long/short and put/call reads go blank when their day is missing, so a series
   further behind can change the forming cards. A series behind that lag holds the run's cards back but does not stop
@@ -474,20 +485,20 @@ Worker, uncached.
   current bar closes)". A live card says on the card whether its edge is lost, it rose 10%, or it is on track, and
   that its odds are as of the entry close, not from today; an edge-lost card is not drawn in the live colour. The
   chart's ladder bands show their n, and its side box restates the sample. The market filter pill reads Bullish as on
-  and Bearish as off; with no reading the quiet card does not call the filter off. Previous signals reads "as of the
+  and Bearish as off, and unavailable on a held-back feed; with no reading the quiet card does not call the filter off. Previous signals reads "as of the
   latest data · reload for each 4-hour update", with a first group headed "On track or rose 10%". How to read says a
   confirmed setup is final while a forming one can vanish, and that the filter is read on the day the bar that made
   the low opened.
 - **Ledger.** Unavailable ("Past signals unavailable"), never partly shown, when it is missing, a row has the wrong
-  number of cells, a top-grade row is malformed or inconsistent with itself (known chart, real date, numbers, yes/no
+  number of cells or the file's last line has no line end (cut short), a top-grade row is malformed or inconsistent with itself (known chart, real date, numbers, yes/no
   columns agreeing with the best move, dips and day-60 change in order), a signal appears twice, its top-grade rows do
   not match `grade_odds` per asset (count and +10% share), a signal's 60 days had not closed by `scored_as_of`, or
-  there is no usable feed.
+  there is no usable feed (down or held back).
 - **Chart files.** Not drawn ("Chart data unavailable") unless the file names the chart asked for, has at least 10
   bars of numbers, prices above zero, high and low bracketing open and close, times ascending, runs on the chart's own
   steps (2D+ bars restart on 1 January), ends no later than `generated_at`, and closes at the card's `price_now`; for
-  a live signal its entry bar must close at `entry_close`. The site Worker refuses a candle file with a row that is
-  not numbers. A file that arrives after the member picked another setup is not drawn. A chart that cannot be drawn
+  a live signal its entry bar must close at `entry_close` (both to the half cent: prices are to the cent). The site
+  Worker refuses a candle file with a row that is not numbers or whose last line has no line end (cut short). A file that arrives after the member picked another setup is not drawn. A chart that cannot be drawn
   clears everything from the setup charted before. A forming setup's file whose last bar is older than the feed labels
   that bar "Latest bar · date", not "Today". With the feed down or held back, the example switch and the Chart tab say
   so.

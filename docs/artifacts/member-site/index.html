@@ -342,6 +342,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const dateLong = (iso) => { if (!iso) return ""; const d = new Date(iso.length <= 10 ? iso + "T00:00:00Z" : iso); return d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }); };
   const TF_DAYS = { "1D": 1, "2D": 2, "3D": 3, "5D": 5, "8D": 8, "1W": 7 };
 
+  function sameCents(a, b) { return Math.abs(a - b) <= 0.005 + 1e-9; }
   function parseCSV(text) {
     const rows = []; let row = [], cell = "", q = false;
     for (let i = 0; i < text.length; i++) {
@@ -356,6 +357,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const head = rows.shift() || [];
     const out = rows.filter((r) => r.length === head.length).map((r) => Object.fromEntries(head.map((h, i) => [h, r[i]])));
     out.dropped = rows.length - out.length;   // rows with the wrong number of cells: a damaged file
+    // every file is written ending with a whole line: one that doesn't was cut short, and its last cell can look
+    // like a valid shorter number (14 Nov 2026 audit #29)
+    out.cut = text.length > 0 && !text.endsWith("\n");
     return out;
   }
   async function get(path, kind) {
@@ -589,7 +593,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const STALE_AFTER_H = 5;
   function feedAgeH() { const t = S.feed && Date.parse(S.feed.generated_at); return Number.isFinite(t) ? (Date.now() - t) / 3.6e6 : null; }
   // the market filter as the feed states it: "on", "off", or null when the feed doesn't say
-  function regime() { const r = S.feed && S.feed.market_regime; return r === "Bullish" ? "on" : r === "Bearish" ? "off" : null; }
+  function regime() { const r = S.feed && !S.feed.cards_withheld && S.feed.market_regime; return r === "Bullish" ? "on" : r === "Bearish" ? "off" : null; }
   function feedHealth() { return S.loading.feed ? "loading" : !S.feed ? "down" : S.feed.cards_withheld ? "held" : "ok"; }
   // what an empty list says when the feed is not "ok"; one place, so every area reads the same state
   const NOT_OK = { loading: "Loading…", down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." };
@@ -936,14 +940,16 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       // (13 Nov 2026 audit #23)
       // (a live setup's latest price is on its card: a chart file from another run is not drawn either; audit #24)
       const pnow = c._open ? (c.card ? c.card.price_now : null) : c.price_now;
-      if (pnow != null && Math.abs(cd.bars[cd.bars.length - 1].c - pnow) > 1e-6 * pnow) {
+      // prices are to the cent, so they must agree to the half cent: a relative gap let a BTC close with its last
+      // digit cut (73736.44 read as 73736.4) through (14 Nov 2026 audit #29)
+      if (pnow != null && !sameCents(cd.bars[cd.bars.length - 1].c, pnow)) {
         blankChart(c.chart.replace(" ", " · "), "This chart's candles don't match the setup's latest price.", "Chart data unavailable for " + c.chart); return;
       }
       bars = cd.bars; E = bars.length - 1; entry = c.price_now ?? bars[E].c;
       if (c._open) {
         const k = bars.findIndex((b) => dayOf(barNextOpen(b.t, tfd) - 86400) === c.entry_date);   // short year-end bars too (audit #15)
         if (k < 0) { blankChart(`${c.chart.replace(" ", " · ")} · live setup, day ${c.days_elapsed} of 60`, `Confirmed ${dateLong(c.entry_date)} · entry close ${money(c.entry_close)}.`, "This chart's data doesn't reach back to the entry"); return; }
-        if (Math.abs(bars[k].c - c.entry_close) > 1e-6 * c.entry_close) { blankChart(c.chart.replace(" ", " · "), "This chart's candles don't match the setup's entry close.", "Chart data unavailable for " + c.chart); return; }
+        if (!sameCents(bars[k].c, c.entry_close)) { blankChart(c.chart.replace(" ", " · "), "This chart's candles don't match the setup's entry close.", "Chart data unavailable for " + c.chart); return; }
         E = k; entry = c.entry_close;
       }   // the bar that CLOSES on the entry date (12 Nov 2026 audit #4)
       m.entry = entry;
@@ -1269,11 +1275,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       S.ledgerOk = !!ledgerText;   // a missing ledger must read as unavailable, not as an empty record (audit #16)
       // every row must have the right number of cells, every top-grade row must be well formed and consistent
       // with itself, and no signal may appear twice. Otherwise the record is unavailable, never partly shown.
-      if (S.ledgerOk && (ledgerAll.dropped || !S.ledger.every(ledgerRowOk) || new Set(S.ledger.map((r) => r.chart + "|" + r.entry)).size !== S.ledger.length)) { S.ledger = []; S.ledgerOk = false; }
+      if (S.ledgerOk && (ledgerAll.dropped || ledgerAll.cut || !S.ledger.every(ledgerRowOk) || new Set(S.ledger.map((r) => r.chart + "|" + r.entry)).size !== S.ledger.length)) { S.ledger = []; S.ledgerOk = false; }
     // The ledger is whole only if it holds exactly the top-grade signals the feed counts, per asset, with the
     // same rose-10% share, and every signal's 60 days closed by the feed's date. With no usable feed (down or
     // held back) it cannot be checked, so it is not shown (13 Nov 2026 audit #22).
-    const want = ((S.feed && S.feed.grade_odds) || []).filter((g) => g.grade === "A+");
+    const want = ((S.feed && !S.feed.cards_withheld && S.feed.grade_odds) || []).filter((g) => g.grade === "A+");
     const shareOk = (g) => { const rs = S.ledger.filter((r) => r.asset === g.asset); return rs.length === g.past_trades && (!rs.length || Math.abs(100 * rs.filter((r) => r.reached10 === "yes").length / rs.length - g.rose10_within60d_pct) <= 0.5); };
     const closedBy = S.feed && S.feed.scored_as_of ? Date.parse(S.feed.scored_as_of + "T00:00:00Z") : null;
     if (S.ledgerOk && (!want.length || closedBy === null || !want.every(shareOk) || S.ledger.some((r) => !["ETH", "BTC"].includes(r.asset) || !want.some((g) => g.asset === r.asset))

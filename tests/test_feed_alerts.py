@@ -6,7 +6,7 @@ a sender that remembers every alert_id it sent (as the dashboard Worker does) wo
 
 Run: python tests/test_feed_alerts.py   -- exits 1 if any case fails.
 """
-import csv, datetime as dt, json, os, shutil, subprocess, sys, tempfile
+import csv, datetime as dt, io, json, os, shutil, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tests"))
@@ -171,25 +171,58 @@ f = run()
 check("...and they return on the next clean run", f["market_regime"] in ("Bullish", "Bearish") and f["scored_as_of"])
 
 # ---- 13 Nov 2026 (audit #22): the alert log must be the one the last published feed recorded ----
+# (14 Nov 2026 audit #29: a log damaged on its own is restored from its second copy; the old outcomes below now need
+# the copy gone too)
+BK = LOG[:-4] + "_backup.csv"
 good_log = open(LOG, "rb").read()
+check("every run leaves the log's second copy equal to the log", open(BK, "rb").read() == good_log)
 lines_ = good_log.splitlines(keepends=True)
+for what, dmg in [("a row cut", b"".join(lines_[:1] + lines_[2:])), ("emptied to its header", lines_[0]), ("deleted", None)]:
+    os.remove(LOG) if dmg is None else open(LOG, "wb").write(dmg)
+    rc, f, err = run_fail()
+    check(f"alert log {what}, its copy whole -> restored exactly from the copy, clean, nothing re-sent",
+          rc == 0 and open(LOG, "rb").read() == good_log and not f["cards_withheld"] and f["_sent"] == [], err[-160:])
+    good_log = open(LOG, "rb").read()
+os.remove(BK)
 open(LOG, "wb").write(b"".join(lines_[:1] + lines_[2:]))   # its first row (a seeded one, no longer in any feed) cut
 rc, f, err = run_fail()
-check("alert log with a row cut -> withheld, nothing re-sent", rc == 1 and f["cards_withheld"] and f["_sent"] == [] and "alert log" in err, err[-160:])
+check("alert log with a row cut and no copy -> withheld, nothing re-sent", rc == 1 and f["cards_withheld"] and f["_sent"] == [] and "alert log" in err, err[-160:])
 open(LOG, "wb").write(good_log); run()
+check("...the right log back -> clean, and the copy is written again", open(BK, "rb").read() == open(LOG, "rb").read())
 good_log = open(LOG, "rb").read()
 open(LOG, "wb").write(good_log[:good_log.rindex(b"\n", 0, len(good_log) - 1) + 1])   # last row cut
 rc, f, err = run_fail()
 check("alert log with its last row cut while the feed still carries that alert -> restored exactly, nothing re-sent",
       rc == 0 and open(LOG, "rb").read() == good_log and f["_sent"] == [] and not f["cards_withheld"], err[-160:])
+bk_ = open(BK, "rb").read(); os.remove(BK)
 open(LOG, "wb").write(good_log.split(b"\n", 1)[0] + b"\n")   # emptied to its header
 rc, f, err = run_fail()
-check("alert log emptied -> withheld, nothing re-sent", rc == 1 and f["_sent"] == [], err[-160:])
+check("alert log emptied, no copy -> withheld, nothing re-sent", rc == 1 and f["_sent"] == [], err[-160:])
 os.remove(LOG); rc, f, err = run_fail()
-check("alert log deleted -> withheld, no new log started", rc == 1 and not os.path.exists(LOG), err[-160:])
+check("alert log deleted, no copy -> withheld, no new log started", rc == 1 and not os.path.exists(LOG), err[-160:])
 open(LOG, "wb").write(good_log)
 f = run()
 check("...the right log back -> runs clean again, nothing re-sent", f["_sent"] == [] and not f["cards_withheld"])
+# 14 Nov 2026 audit #29: the previous feed lost AND the log damaged in the same window. The copy is the record:
+# the log is restored and the lost alert is not emitted again
+set_cards([("ETH 2D", D4)]); f = run(); sent = [a_["alert_id"] for a_ in f["_sent"]]; full = open(LOG, "rb").read()
+for what, dmg in [("its last row cut", full[:full.rindex(b"\n", 0, len(full) - 1) + 1]), ("cut mid-row", full[:-9]), ("deleted", None)]:
+    os.remove(FEED); os.remove(LOG) if dmg is None else open(LOG, "wb").write(dmg)
+    rc, f, err = run_fail(); rows_ = list(csv.DictReader(open(LOG)))
+    check(f"feed lost and alert log {what} -> log restored from the copy, the alert not emitted again",
+          sent == [f"ETH-2D-{D4}:forming"] and rc == 0 and open(LOG, "rb").read() == full and f["_sent"] == []
+          and [r["emitted_at"] for r in rows_ if r["alert_id"] == sent[0]] == [r["emitted_at"] for r in csv.DictReader(io.StringIO(full.decode())) if r["alert_id"] == sent[0]],
+          str((rc, sent, [a_["alert_id"] for a_ in f["_sent"]], err[-120:])))
+# the copy is the damaged one (an older copy) and the feed is lost: the log holds an alert the copy lacks -> held,
+# nothing dropped or sent again, and it stays held (never accepted on the next run) until the copy is put right
+old = full[:full.rindex(b"\n", 0, len(full) - 1) + 1]
+os.remove(FEED); open(BK, "wb").write(old)
+rc, f, err = run_fail(); rc2, f2, err2 = run_fail()
+check("feed lost and the copy older than the log -> withheld twice running, log untouched, nothing re-sent",
+      rc == 1 and rc2 == 1 and f2["cards_withheld"] and open(LOG, "rb").read() == full and f["_sent"] == [] and f2["_sent"] == [], err[-160:])
+open(BK, "wb").write(full); f = run()
+check("...the copy put right -> clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [] and open(LOG, "rb").read() == full)
+set_cards([]); run()
 set_cards([("ETH 3D", D4)])
 f = run(); sent = [a_["alert_id"] for a_ in f["_sent"]]
 open(LOG, "wb").write(good_log)   # the run published its feed, then died before writing the log

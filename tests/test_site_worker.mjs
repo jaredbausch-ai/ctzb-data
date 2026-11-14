@@ -17,6 +17,7 @@ const mirror = { fetch: async (req) => { const p = new URL(req.url).pathname; se
   if (p === "/datasets/ledger.csv") return new Response(LEDGER);
   if (p === "/datasets/candles_btc_1d.csv") return new Response(CANDLES);
   if (p === "/datasets/candles_btc_2d.csv") return new Response(CANDLES + "1788566400,79675.12,nan,78000,79000\n");
+  if (p === "/datasets/candles_btc_3d.csv") return new Response(CANDLES.slice(0, -2));   // cut short: 79675.12 reads 79675.1
   return new Response("nope", { status: 404 }); } };
 let tradesStatus = 404;
 const trades = { fetch: async () => tradesStatus === 200 ? new Response(JSON.stringify({ trades: [] })) : new Response("{}", { status: tradesStatus }) };
@@ -49,13 +50,15 @@ const c = await r.json();
 check("candles: mirror CSV becomes the page's JSON", r.status === 200 && c.chart === "BTC 1D" && c.bars.length === 2 && c.bars[0].h === 82283);
 r = await _test.handle(req("/data/candles/BTC_2D.json", "pw-test"), PW);
 check("candles with a row that is not numbers: the whole file refused (502), no row dropped silently", r.status === 502);
+r = await _test.handle(req("/data/candles/BTC_3D.json", "pw-test"), PW);
+check("candles cut short (last line has no line end): refused (502), never a shorter last close (audit #29)", r.status === 502);
 r = await _test.handle(req("/data/candles/ETH_3D.json", "pw-test"), PW);
 check("candles missing upstream: 404, not an error page", r.status === 404);
 for (const p of ["/data/candles/../ledger.json", "/data/candles/SOL_1D.json", "/data/candles/BTC_4H.json", "/data/datasets/status.csv", "/feed/ctzb_feed.json", "/data/candles/btc_1d.json"]) {
   r = await _test.handle(req(p, "pw-test"), PW);
   check(`path outside the fixed table refused: ${p}`, r.status === 404);
 }
-check("no caller-supplied path ever reached the mirror", seen.every((p) => ["/feed/ctzb_feed.json", "/datasets/ledger.csv", "/datasets/candles_btc_1d.csv", "/datasets/candles_btc_2d.csv", "/datasets/candles_eth_3d.csv"].includes(p)), seen.join(" "));
+check("no caller-supplied path ever reached the mirror", seen.every((p) => ["/feed/ctzb_feed.json", "/datasets/ledger.csv", "/datasets/candles_btc_1d.csv", "/datasets/candles_btc_2d.csv", "/datasets/candles_btc_3d.csv", "/datasets/candles_eth_3d.csv"].includes(p)), seen.join(" "));
 r = await _test.handle(req("/data/trades.json", "pw-test"), PW);
 check("trades relay in dry run (404): page gets 404 and shows its empty state", r.status === 404);
 tradesStatus = 200; r = await _test.handle(req("/data/trades.json", "pw-test"), PW);

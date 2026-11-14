@@ -151,12 +151,30 @@ def log_state(path):
     return {"sha256": sha(b), "rows": max(0, b.count(b"\n") - 1)}
 
 
+def backup_path(log_path):
+    """The alert log's second copy, next to it (feed/alert_log_backup.csv; 14 Nov 2026 audit #29)."""
+    return log_path[:-4] + "_backup.csv" if log_path.endswith(".csv") else log_path + ".backup"
+
+
+def backup_bytes(log_path):
+    try:
+        with open(backup_path(log_path), "rb") as f:
+            return f.read()
+    except OSError:
+        return None
+
+
 def check_log(log_path, prev_feed_path):
     """13 Nov 2026 audit #22: the alert log must be exactly the one the last published feed left behind.
     A log that was deleted, cut, emptied or replaced by an older copy would lose an alert or send one twice.
     Returns the log's rows. If the last run published its feed but died before writing the log, the log is
     rebuilt from that feed's own alerts (the feed went out, so they were sent). Anything else raises, which
-    publishes the withheld feed."""
+    publishes the withheld feed.
+    14 Nov 2026 audit #29: every run also keeps a second copy of the log (backup_path), written after the feed and
+    before the log. When the previous feed cannot be read, the copy is the record; a log that differs from the
+    record is restored from the copy when the copy is exactly what the record says and restoring drops no alert the
+    log holds (a lost feed and a cut log used to let the next run accept the cut log and send its lost alert
+    again)."""
     prev = None
     try:
         with open(prev_feed_path) as f:
@@ -164,10 +182,14 @@ def check_log(log_path, prev_feed_path):
     except (OSError, ValueError):
         prev = None
     want = (prev or {}).get("alert_log") if isinstance(prev, dict) else None
+    bk = backup_bytes(log_path)
+    if not (isinstance(want, dict) and want.get("sha256")):
+        # no readable record in the previous feed: the second copy is the record
+        want = {"sha256": sha(bk), "rows": max(0, bk.count(b"\n") - 1)} if bk is not None else None
     have = log_state(log_path)
     cur = read_log(log_path) if have else []
     if not want:
-        # no record to check against: the first run under this rule, or no previous feed
+        # no record to check against: the first run under this rule, or no previous feed and no second copy
         if have is None:
             raise RuntimeError("the alert log is missing and no published feed records it; to start a new log on "
                                "purpose, run once with CTZB_SEED_ALERT_LOG=1")
@@ -178,13 +200,26 @@ def check_log(log_path, prev_feed_path):
     # fail-closed feeds since (13 Nov 2026 audit #24: one crashed run in between used to lock every later run)
     # (since 14 Nov 2026 `alerts` also carries alerts already logged: only the ones the log lacks are appended)
     have_ids = {r.get("alert_id") for r in cur}
-    unlogged = [x for x in (prev.get("alert_log_carry") or []) + (prev.get("alerts") or [])
-                if isinstance(x, dict) and x.get("alert_id") not in have_ids]
+    pv = prev if isinstance(prev, dict) else {}
+    carry = [x for k in ("alert_log_carry", "alerts") for x in (pv.get(k) if isinstance(pv.get(k), list) else [])]
+    unlogged = [x for x in carry if isinstance(x, dict) and x.get("alert_id") not in have_ids]
     unlogged = [x for i, x in enumerate(unlogged) if x.get("alert_id") not in {y.get("alert_id") for y in unlogged[:i]}]
     rebuilt = cur + [{k: x.get(k) for k in ALERT_LOG_FIELDS} for x in unlogged]
     if sha(log_bytes(rebuilt)) == want["sha256"]:
         write_log(log_path, rebuilt)   # the last run died between publishing the feed and writing the log
         return rebuilt
+    if bk is not None and sha(bk) == want["sha256"]:
+        # the log was cut, lost or damaged, and the second copy is exactly the log the record expects. Restored only
+        # when that drops nothing the log holds (the log is a cut copy, or every alert in it is in the copy); a log
+        # holding an alert the copy lacks means the copy is the damaged one, and the run fails closed
+        lb = open(log_path, "rb").read() if have else b""
+        try:
+            bids = {r.get("alert_id") for r in csv.DictReader(io.StringIO(bk.decode()))}
+        except (UnicodeDecodeError, csv.Error):
+            bids = None
+        if bk.startswith(lb) or (bids is not None and {r.get("alert_id") for r in cur} <= bids):
+            atomic_write(log_path, bk)
+            return read_log(log_path)
     raise RuntimeError("the alert log is not the one the last published feed left "
                        f"({(have or {}).get('rows', 'no')} rows on disk, {want.get('rows')} expected)")
 
@@ -569,6 +604,13 @@ def main():
     final_log = log_bytes(log_rows) if log_dirty else (open(a.alert_log, "rb").read() if os.path.exists(a.alert_log) else None)
     feed["alert_log"] = {"sha256": sha(final_log), "rows": max(0, final_log.count(b"\n") - 1)} if final_log is not None else None
     atomic_write(a.out, (json.dumps(feed, indent=1) + "\n").encode())
+    # the second copy, after the feed and before the log: a run that dies between the two leaves the copy equal to
+    # the log the feed records, and the next run restores the log from it (check_log)
+    if final_log is not None and backup_bytes(a.alert_log) != final_log:
+        try:
+            atomic_write(backup_path(a.alert_log), final_log)
+        except OSError as e:
+            raise SystemExit(f"feed published, but the alert log's second copy could not be written ({e})")
     if log_dirty:
         try:
             write_log(a.alert_log, log_rows)
@@ -651,7 +693,10 @@ def fail_closed(out_path, err, log_path=None):
             "market_regime": None, "next_buy_date": None, "trades_a_year": None,
             # a failed run never writes the log, so what the log must be is unchanged: carry the last published
             # feed's record forward (a log damaged before this run must still be caught by the next one)
-            "alert_log": prev_log_record(out_path) or (log_state(log_path) if log_path else None),
+            # (with no readable last feed and a second copy of the log, no record is written: the next run checks the
+            # log against the copy as it then is, so putting a damaged copy right ends the hold; audit #29)
+            "alert_log": prev_log_record(out_path)
+                         or (None if not log_path or backup_bytes(log_path) is not None else log_state(log_path)),
             # alerts the last published feed sent that the log does not hold yet (it died before writing the log):
             # carried so the next run can still rebuild the log, and never sent again
             "alert_log_carry": unlogged_alerts(out_path, log_path),

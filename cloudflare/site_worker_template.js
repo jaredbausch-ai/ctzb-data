@@ -122,6 +122,9 @@ async function gate(req, env, fetchImpl = fetch) {
 
 /* ---------- data ---------- */
 function csvToBars(text) {
+  // the file is written ending with a whole line: one that doesn't was cut short in transit, and its last cell can
+  // look like a valid shorter number (14 Nov 2026 audit #29)
+  if (!text.endsWith("\n")) throw new Error("candle file cut short");
   const lines = text.trim().split(/\r?\n/);
   const head = lines.shift().split(",");
   const col = (k) => head.indexOf(k);

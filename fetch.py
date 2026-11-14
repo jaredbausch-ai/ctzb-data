@@ -193,6 +193,28 @@ def _cut_short(path):
         return f.read(1) != b"\n"
 
 
+def _file_problem(path, name):
+    """The whole-file rule for every file history_problems reads (14 Nov 2026 audit #29): it ends with a whole line
+    (see _cut_short) and holds no blank line. csv.DictReader skips blank lines, so a blank line read as nothing at
+    all; no writer here writes one, so a blank line is a damaged file."""
+    if _cut_short(path):
+        return f"{name}: its last line has no line end: the file was cut short"
+    with open(path, "rb") as f:
+        lines = f.read().split(b"\n")[:-1]
+    if any(not ln.strip(b"\r \t") for ln in lines):
+        return f"{name}: it holds a blank line: the file is damaged"
+    return None
+
+
+# The exchange's own gaps in the intraday files (14 Nov 2026 audit #29): bars the exchange never had, by the open time
+# of the bar before the gap. Every other gap must appear at the same time in the other asset's file of the same
+# timeframe (an exchange outage stops both markets; a damaged file loses bars in one). These are the gaps one asset
+# has and the other lacks: ETH's first week of trading (May 2016), ETH 12H in the same week, and a BTC-only gap on
+# 10 Aug 2018. The shared ones (28 Feb 2017, 25 Oct 2025) need no entry.
+OWN_GAPS = {"ETH_4H": {1463529600, 1463616000, 1463644800, 1463702400, 1463774400, 1464004800, 1464062400},
+            "BTC_4H": {1533859200}, "ETH_12H": {1463745600}, "BTC_12H": set()}
+
+
 # How far behind today a daily series may end in a normal run. The funding reads take the last known day as today's
 # and the long/short and put/call reads go blank when their day is missing, so a series further behind can change the
 # forming cards (13 Nov 2026 audit #27: funding 3 days behind moved the ETH 1D card). After a day with a successful
@@ -224,8 +246,9 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None
     cell blank or a finite number, and ending no more than max_lag days before today."""
     if not os.path.exists(path):
         return [f"{name} is missing"]
-    if _cut_short(path):
-        return [f"{name}: its last line has no line end: the file was cut short"]
+    fp = _file_problem(path, name)
+    if fp:
+        return [fp]
     with open(path, newline="") as f:
         rows = list(csv.DictReader(f))
     if any(None in r or None in r.values() for r in rows):
@@ -256,6 +279,9 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None
         bad.append(f"{name}: a {col} value is not a number in range")
     cp = _cells_problem(name, rows)
     if cp: bad.append(cp)
+    if days[-1] > today:
+        # a source dating a row ahead, or a series newer than the run's clock (14 Nov 2026 audit #29)
+        bad.append(f"{name}: a row is dated {days[-1]}, after {today}")
     if max_lag is not None:
         # measured on the last day whose read column is filled: a blank there is a day the scorer skips
         filled = [d for d, v in zip(days, vals) if v not in ("", None)]
@@ -281,17 +307,23 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
       number.
     - With lag=True (stack_live.py only): each series' read column filled up to no more than MAX_LAG_DAYS before
       `today` (default: the clock's UTC date): 1 day for funding, long/short and open interest, 2 for put/call.
-    4H and 12H files can have exchange gaps, so they are checked for structure, grid, timeframe and asset."""
+    - No series has a row dated after `today` (14 Nov 2026 audit #29). A series whose first day is after `today` did not
+      exist yet and is not read (only a replay of an early date gets there; a clock set back that far fails the
+      freshness checks).
+    - Every file ends with a whole line and holds no blank line (_file_problem).
+    4H and 12H files are checked for structure, grid, timeframe and asset, and for missing bars: a gap must be one of
+    the exchange's own (OWN_GAPS) or appear at the same time in the other asset's file."""
     from clock import now_utc
     today = today or now_utc().date()
-    bad, closes, intraday = [], {}, {}
+    bad, closes, intraday, gaps = [], {}, {}, {}
     for a in assets:
         for name, step in [(f"{a}_{tf}D", 0) for tf in (1,) + tuple(TIMEFRAMES)] + [(f"{a}_4H", 4 * 3600), (f"{a}_12H", 12 * 3600)]:
             pth = os.path.join(data_dir, name + ".csv")
             if not os.path.exists(pth):
                 bad.append(f"{name} is missing"); continue
-            if _cut_short(pth):
-                bad.append(f"{name}: its last line has no line end: the file was cut short")
+            fp = _file_problem(pth, name)
+            if fp:
+                bad.append(fp)
             with open(pth, newline="") as f:
                 frows = list(csv.DictReader(f))
             rp = _row_problems(name, frows, step)
@@ -304,16 +336,22 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
                 if on < 0.99 * (len(ts) - 1):
                     bad.append(f"{name}: only {on} of {len(ts) - 1} bars are one {step // 3600}-hour step apart: not a {name.split('_')[1]} file")
                 intraday[name] = (ts[-1], float(frows[-1]["close"]))
+                gaps[name] = {(int(ts[i - 1]), int(ts[i])) for i in range(1, len(ts)) if ts[i] - ts[i - 1] != step}
         # the other daily series the scoring steps read (stack_live.py: long/short ratio, open interest; BTC put/call)
         for rel, col, first, lo, hi, blank_ok, lag_ in [(f"derivs/{a}_lsratio_daily.csv", "ls_ratio_mean", "2020-05-31", 0, 20, False, MAX_LAG_DAYS["lsratio"]),
                                                        (f"derivs/{a}_oi_daily.csv", "oi_usd_total", "2022-09-13", 0, 1e12, False, MAX_LAG_DAYS["oi"])] + \
                 ([("options/BTC_pcr_daily.csv", "pcr_amt", "2016-11-01", 0, 1e6, True, MAX_LAG_DAYS["pcr"])] if a == "BTC" else []):
+            if dt.date.fromisoformat(first) > today:
+                continue   # the series did not exist yet on the run's day (only a replay of an early date gets here)
             bad += _series_problems(os.path.join(data_dir, rel), rel, col, dt.date.fromisoformat(first), lo, hi, blank_ok, today,
                                     asset=a if rel.startswith("derivs/") else None, max_lag=lag_ if lag else None)
         pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")
-        if os.path.exists(pf):
-            if _cut_short(pf):
-                bad.append(f"{a}_funding_daily: its last line has no line end: the file was cut short")
+        if FUNDING_FIRST > today:
+            pass   # the series did not exist yet on the run's day
+        elif os.path.exists(pf):
+            fp = _file_problem(pf, f"{a}_funding_daily")
+            if fp:
+                bad.append(fp)
             with open(pf, newline="") as f:
                 fr = list(csv.DictReader(f))
             try:
@@ -334,6 +372,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
                     bad.append(f"{a}_funding_daily: a funding value (funding_mean or funding_oi_weighted) is not a number between -1 and 1")
                 cp = _cells_problem(f"{a}_funding_daily", fr)
                 if cp: bad.append(cp)
+                if days[-1] > today:
+                    bad.append(f"{a}_funding_daily: a row is dated {days[-1]}, after {today}")
                 if lag and days[-1] < today - dt.timedelta(days=MAX_LAG_DAYS["funding"]):
                     bad.append(f"{a}_funding_daily ends {days[-1]}: more than {MAX_LAG_DAYS['funding']} day(s) before {today}")
                 if days[0] != FUNDING_FIRST:
@@ -392,6 +432,15 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
         d = dt.datetime.fromtimestamp(t, dt.timezone.utc).date()
         if a in closes and d in closes[a] and not 0.75 <= c / closes[a][d] <= 1.25:
             bad.append(f"{name}: its last close is not {a}'s price that day: a file of another asset?")
+    # no bar missing in a 4H or 12H file: every gap is one of the exchange's own (OWN_GAPS) or the other asset's file
+    # has it at the same time (14 Nov 2026 audit #29: 199 bars deleted from ETH 4H passed the 99% timeframe test)
+    for name, gs in gaps.items():
+        a, tf = name.split("_")
+        other = gaps.get(f"{'BTC' if a == 'ETH' else 'ETH'}_{tf}", set())
+        odd = sorted(g for g in gs if g[0] not in OWN_GAPS.get(name, set()) and g not in other)
+        if odd:
+            first = dt.datetime.fromtimestamp(odd[0][0], dt.timezone.utc).strftime("%Y-%m-%d %H:%M")
+            bad.append(f"{name}: {len(odd)} gap(s) the exchange did not have (first after the bar of {first} UTC): bars are missing")
     if "ETH" in closes and "BTC" in closes:
         odd = [d for d in closes["ETH"] if d in closes["BTC"] and not 0.001 <= closes["ETH"][d] / closes["BTC"][d] <= 0.5]
         if odd:

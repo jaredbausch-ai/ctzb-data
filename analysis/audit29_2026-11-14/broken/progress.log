@@ -1,0 +1,4 @@
+2026-11-14T06:11:33Z stage B1 (input files) done: 196 cases (98 per state); outcomes stop 162, held 14, same 19, diff 1; got through (struct): 6 (eth4h_gap_200 x2, pcr_neg_prem x2 [unread column], r0414 funding newer copy x2)
+2026-11-14T06:46:29Z stages B2-B6 done: B2 402 cases, B3 13 alert sequences, B4 10 replays, B5 28+4, B6 72 kills; pipeline disagreements so far: 4H gap (x2), series rows dated after today accepted (no figure change), newer-run funding copy scored (r0414, figures differ), feed lost + log cut re-emits an alert
+2026-11-14T07:35:22Z stage A (page: A 254, A2 79, A3 50 = 383 states) done: page disagreements 1 counted (BTC chart CSV cut in last cell passes 1e-6 match) + 1 hardening
+2026-11-14T07:35:22Z stage C done: test_feed_damage 31/31 (limits 40/10), test_seal 23/23, test_page_timing 16/16. Totals: 1106 checks (383 page, 723 pipeline); 25 counted rows not ok = 5 distinct disagreements; 1 hardening

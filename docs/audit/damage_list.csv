@@ -3055,3 +3055,47 @@ first_round,level,family,kind,case,expected
 26,pipeline,WRONG CONTENT,real life,datasets/candle_check.json older run copy after refresh,held
 26,pipeline,WRONG CONTENT,real life,feed/alert_log.csv older copy (other state),held
 26,pipeline,WRONG CONTENT,real life,"alert log: clean, then feed AND log both reverted to the previous run (push lost), then clean",each new event emitted once
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv del_last3 in funding_mean,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv inf_cell in funding_oi_weighted,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv huge_cell in funding_oi_weighted,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv nan_cell in funding_oi_weighted,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv inf_cell in funding_oi_weighted,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv huge_cell in funding_oi_weighted,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv: today's funding_oi_weighted = 3.0,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv: today's funding_oi_weighted = -3.0,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv: today's funding_oi_weighted = inf,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv: today's funding_oi_weighted = nan,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/ETH_funding_daily.csv: today's funding_oi_weighted = 1e300,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv: today's funding_oi_weighted = 3.0,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv: today's funding_oi_weighted = -3.0,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv: today's funding_oi_weighted = inf,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv: today's funding_oi_weighted = nan,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv: today's funding_oi_weighted = 1e300,"fails safe (job stops at a check, or feed held / fail-closed), or publishes the undamaged run's figures when the content is unchanged"
+27,page,HARDENING,hand-forged,"a ladder share that no count can give (n 8, 50% -> 4/8 ok; n 8, 37%)",rejected
+27,page,HARDENING,hand-forged,"an era share no count can give (n 22, 50%: 11/22 ok; 51%)",rejected
+27,page,HARDENING,hand-forged,scored_as_of three days before generated_at,rejected
+27,page,HARDENING,hand-forged,a forming card confirming in 2030,rejected
+27,page,HARDENING,hand-forged,a past path whose day-0 median is +5%,rejected
+27,page,HARDENING,hand-forged,ledger: a top-grade row moved to another chart (counts unchanged),"""Past signals unavailable"", rest unchanged"
+27,page,TIMING,real life,"feed written 23:13 UTC, viewer 00:05 UTC (52 min later, after the 1D bar closed)",midnight
+27,page,TIMING,real life,"quiet market on 1 Jan 2026, example switched off: the per-year count",peryear
+28,pipeline,PARTIAL RUN,real life,"a non-gating step fails (extras before the feed, or a third-party fetch after it); the run is red and the automatic re-run (1 min cooldown) runs again on the same data",each alert delivered once: a red run must not consume an alert that no reader saw
+28,pipeline,PARTIAL RUN,real life,"same, red because a fetch after the feed failed (flows/onchain/derivs outage)",alerts not lost
+28,page,DELIVERY,real life,feed file slow (still loading); member opens Chart / Past signals,Loading
+28,page,DELIVERY,real life,same,Loading
+28,page,DELIVERY,real life,feed file slow (still loading),Loading text in every area
+29,page,HARDENING,hand-forged,a held feed that still carries grade_odds and past_paths,"""Setups held back""; ledger not shown with a held feed (FEED_SPEC)"
+29,page,DELIVERY,real life,"candles_btc_2d.csv cut_in_last_cell, through the Worker (HTTP 200)","""Chart data unavailable"" for that setup; card unchanged"
+29,pipeline,MALFORMED,real life,data/ETH_4H.csv: eth4h_gap_200 (before check_candles),"job stops at check_candles, or feed held back / fail-closed"
+29,pipeline,WRONG CONTENT,real life,data/derivs/BTC_funding_daily.csv: BTC_fund_old_copy (before check_candles),"job stops at check_candles, or feed held back / fail-closed"
+29,pipeline,TIMING,real life,ETH_funding_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,BTC_funding_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,ETH_funding_2rows_ahead,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,BTC_funding_2rows_ahead,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,ETH_lsratio_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,BTC_lsratio_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,ETH_oi_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,BTC_oi_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,MALFORMED,real life,eth_funding_blank_line_mid,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,TIMING,real life,BTC_pcr_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
+29,pipeline,MISSING,real life,alert sequence feed_deleted_log_cut: 11-12T20:14 clean -> 11-13T04:14 clean -> 11-13T04:44 clean,"every alert of the all-clean chain logged once, carried by a clean feed, emitted_at fixed"

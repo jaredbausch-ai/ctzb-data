@@ -70,10 +70,10 @@ Tests: `node tests/test_trades_relay.mjs` (41).
 chart example into `site_worker_template.js`. The page reads `data/...` by relative path;
 the Worker answers from fixed tables only: the feed and `ledger.csv` from the mirror,
 candles from the mirror's `datasets/candles_<asset>_<tf>.csv` (written by `extras_live.py`
-each run), trades from `ctzb-trades` (404 until it goes live, which the page shows as "the lead
+each run; a file whose last line has no line end was cut short and is refused, 502), trades from `ctzb-trades` (404 until it goes live, which the page shows as "the lead
 trader's feed is unavailable"). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
 `access` (`ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`) or `password` (`SITE_PASSWORD`), unset =
-refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (25).
+refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (26).
 
 **Health monitor (11 Nov 2026).** `ctzb-scheduler` v3 also watches everything that can fail
 quietly -- its own GitHub dispatches, the mirror's sync, the nightly backup, the feed's age,
