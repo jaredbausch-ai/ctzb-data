@@ -57,11 +57,18 @@ def main():
             lag = fetch.MAX_LAG_DAYS[kind]
             end = dt.date.fromisoformat(rows[-1]["date"])
             open(p, "w").write(orig)
-            ok(f"{rel}: ending {lag} day(s) behind passes", not fetch.history_problems(D, today=end + dt.timedelta(days=lag)) or
-               all(rel.split('/')[-1][:3] not in x and 'pcr' not in x and 'funding' not in x and 'lsratio' not in x and '_oi_' not in x
-                   for x in fetch.history_problems(D, today=end + dt.timedelta(days=lag))))
-            probs = fetch.history_problems(D, today=end + dt.timedelta(days=lag + 1))
-            ok(f"{rel}: ending {lag + 1} day(s) behind fails", any(f"day(s) before" in x and (rel.split("/")[-1].split(".")[0] in x or rel in x) for x in probs))
+            stem = rel.split("/")[-1].split(".")[0]
+            probs = fetch.history_problems(D, today=end + dt.timedelta(days=lag), lag=True)
+            ok(f"{rel}: ending {lag} day(s) behind passes the stack step's check", not any(stem in x and "day(s) before" in x for x in probs))
+            probs = fetch.history_problems(D, today=end + dt.timedelta(days=lag + 1), lag=True)
+            ok(f"{rel}: ending {lag + 1} day(s) behind fails the stack step's check", any(stem in x and "day(s) before" in x for x in probs))
+            ok(f"{rel}: ... but not the candle check, which runs before the fetch that catches it up",
+               not any(stem in x and "day(s) before" in x for x in fetch.history_problems(D, today=end + dt.timedelta(days=lag + 5))))
+            if kind == "pcr":   # lag is measured on the read column: blank put/call days at the end count as behind
+                rs = [dict(r) for r in rows]
+                for r in rs[-3:]: r["pcr_amt"] = ""
+                write(rs)
+                ok(f"{rel}: its last 3 pcr_amt cells blank fails the stack step's check", any(stem in x and "day(s) before" in x for x in fetch.history_problems(D, today=end, lag=True)))
             open(p, "w").write(orig)
         print(f"\n{sum(results)}/{len(results)} passed")
         return 0 if all(results) else 1

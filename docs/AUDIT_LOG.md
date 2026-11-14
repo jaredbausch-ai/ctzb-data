@@ -882,7 +882,8 @@ got through a family's rule.
 | Page (227 states, 51 hand-forged) | 34 / 0 | 68 / 0 | 23 / 0 | 6 / 0 | 22 / **2** | 23 / 0 |
 | Pipeline (542 runs + 19 alert-log sequences) | 8 / 0 | 318 / **16** | 23 / 0 | 176 + 19 / 0 | 16 / 0 | — |
 
-(cases tried / got through). Report: `analysis/audit27_2026-11-14/broken/`.
+(cases tried / got through; the run with funding 3 days behind is counted under Malformed, as in the report, and is
+the Timing cause below). Report: `analysis/audit27_2026-11-14/broken/`.
 
 The four causes, each fixed at its family's rule:
 - **Malformed (15 runs): the funding column the scorer reads first was not checked.** The check covered
@@ -890,9 +891,10 @@ The four causes, each fixed at its family's rule:
   card changed). Rule now: every cell of every series file is blank or a finite number, and every column the scorer
   reads is range-checked. Test: `tests/test_series_cells.py` (every column of every series, text/inf/nan in the last
   and a middle row; each read column out of range).
-- **Timing (1 run): funding 3 days behind changed a card.** The scoring steps read the last known day as today's and
-  the check allowed 3 days. Rule now: each series may end only its normal lag behind (funding, long/short, open
-  interest 1 day; put/call 2), measured over the last 79 runs (never more). Same test.
+- **Timing (1 run): funding 3 days behind changed a card.** The funding reads take the last known day as today's and
+  the check allowed 3 days. Rule now: each series' read column may end only its normal lag behind (funding, long/short,
+  open interest 1 day; put/call 2; none of the 133 committed runs of 1 to 14 Nov ran further behind), applied by the
+  stack step only. Same test.
 - **Timing (page): a daily close passed but the page said nothing.** A feed of 23:13 still read "confirms ... an
   estimate until the current bar closes" at 00:05. Rule now: every text that depends on the viewer's clock is judged
   on it: a note appears once 00:00 UTC has passed since the data was written. Test: `test_page_timing` 4d.
@@ -901,6 +903,16 @@ The four causes, each fixed at its family's rule:
   15 Jan 2026: 2020 to 2024).
 
 Hardening (not counted): 6 hand-forged feeds the strict check accepts (listed in the report).
+
+**Fix check** (independent agent, `analysis/audit27_2026-11-14/fixcheck/`): 3 of 4 fixed at the family level (its own
+new cases caught on the new code, missed on the old). **1 wrong, caught before it shipped to a real outage:** the lag
+rule was enforced in the candle check, which runs before the candle commit and before the derivatives fetch, so one
+UTC day without a successful derivatives fetch would have stopped every later run, with nothing able to catch the
+series up. Now only the stack step applies it: the cards are held back, the job still commits the candles and runs the
+fetch, and the next run recovers. 1 incomplete: put/call lag was measured by row date, so blank values at the end
+passed; it is now measured on the last filled value of the read column. 10 sentences corrected (FEED_SPEC 3,
+fetch.py 3, AUDIT_LOG 2, DAMAGE_LIST 1, a page comment 1), including an unreproducible "79 runs" (it is 133 runs, 1
+to 14 Nov, none behind the new limits).
 
 **Re-checked after the changes:** numbers check 13 dates unchanged, series cells 32/32, per-year test, page timing
 11/11, candle check 95/95 (two expected messages updated for the 1-day lag), run seal 23/23, feed alerts 31/31, feed

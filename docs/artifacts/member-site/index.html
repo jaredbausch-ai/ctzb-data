@@ -591,7 +591,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // The data is out of date on the viewer's clock in two ways: it is older than 5 hours (a missed update), or a daily
   // close (00:00 UTC, when every graded chart's bar closes) has passed since it was written, so what it says about
   // the bar that just closed ("confirms if it closes above", "an estimate until the current bar closes") is no longer
-  // true (13 Nov 2026 audit #27). These are the only texts that depend on the viewer's clock.
+  // true (13 Nov 2026 audit #27). With the lead-trader file's future-trade check, these are the only uses of the viewer's clock.
   function staleNote() {
     const a = feedAgeH();
     if (a === null) return "";
@@ -1235,7 +1235,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // The example the page switched on itself for a quiet market goes off once the data goes stale: it must not stand in
     // for an outage on a page left open (13 Nov 2026 audit #25). One the member switched on stays.
     // Every note on screen follows the data's age as it grows: the hour count kept the first value it showed
-    // (13 Nov 2026 audit #26). It is the only text on the page that depends on the viewer's clock.
+    // (13 Nov 2026 audit #26). The two notes are the only texts that depend on the viewer's clock.
     setInterval(() => { const note = staleNote(); if (note === lastNote) return;
       const flipped = !!note !== !!lastNote; lastNote = note;
       if (flipped) {

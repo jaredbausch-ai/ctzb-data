@@ -383,10 +383,14 @@ enforce mode, when any of the last 30 closed days differs from Kraken's close by
   that day's daily close); ETH's daily close between 0.1% and 50% of BTC's every day;
 - the funding series from 2020-01-21, the long/short ratio from 2020-05-31 and open interest from 2022-09-13 (per
   asset), and BTC put/call from 2016-11-01: no missing or repeated day; the columns the scorer reads in range (funding:
-  `funding_oi_weighted`, read first, and `funding_mean`, its fallback, between -1 and 1 where filled); every other cell
-  blank or a finite number; whole rows; derivatives columns of their own asset; and ending no more than 1 day before
-  today (put/call: 2 days, it writes completed days only). The scoring steps read the last known day as today's, so a
-  series further behind would change the forming cards; in a normal run the derivatives end 0 or 1 day behind.
+  `funding_mean` on every row and `funding_oi_weighted` where filled, both between -1 and 1; the FUND read takes
+  `funding_oi_weighted` first, the FCOOL read `funding_mean`); every other cell blank or a finite number; whole rows;
+  derivatives columns of their own asset. stack_live.py alone also requires each series' read column to be filled up
+  to no more than 1 day before today (put/call: 2 days, it writes completed days only): the funding reads take the
+  last known day as today's and the long/short and put/call reads go blank when their day is missing, so a series
+  further behind can change the forming cards. A series behind that lag holds the run's cards back but does not stop
+  the job, so the candles are still committed and the derivatives fetch that runs after the feed can catch up. In a
+  normal run the derivatives end 0 or 1 day behind.
 
 The freshness check requires the last daily bar to be today's open bar and the last 4H bar to be the current 4-hour
 bar; fetch.py builds it from the hourly candles
@@ -439,7 +443,8 @@ Worker, uncached.
   day before `scored_as_of`, left off when it is null; its "checks passed / FAILED" reads `cards_withheld`. A feed
   older than 5 hours shows a stale warning on every tab, with its hour count kept current; a feed written before the
   latest daily close (00:00 UTC) shows a note that the close has passed and what it says about that bar is out of
-  date. Both are re-checked every minute on the viewer's clock and are the only texts that depend on it. The example
+  date. Both are re-checked every minute on the viewer's clock; when both apply, the 5-hour note shows. The only other
+  check that uses the viewer's clock is the lead-trader file's "trade in the future" test. The example
   the page switched on by itself for a quiet market goes off when either appears; one the member switched on stays.
 - **What it reads.** Live signals of the top grade, and forming cards of every grade (top grade first, the rest ranked
   by `rose10_within60d_pct`). The exact `typical_*_exact_pct` fields, never the rounded ones; prices built from them

@@ -204,7 +204,10 @@ def main():
     # assumes it. The workflow's freshness check guarantees it for a real run; this fails closed anywhere else
     # (12 Nov 2026 audit #17: a run just after midnight on yesterday's bar mixed two days).
     import fetch
-    hist = fetch.history_problems('data')
+    # lag=True: the derivatives series must also be no further behind than their normal lag. Only this step applies
+    # it: in the candle check it would stop the job before the derivatives fetch that catches the series up
+    # (13 Nov 2026 fix check of audit #27)
+    hist = fetch.history_problems('data', lag=True)
     if hist:   # a candle file cut short, or a 2D-8D file that isn't its daily candles bucketed (audit #20)
         msg = 'candle files are not whole: ' + '; '.join(hist)
         open(os.path.join(OUT, 'stack_status.txt'), 'w').write(f'{now_utc():%Y-%m-%d %H:%M} UTC FAILED {msg}\n')
