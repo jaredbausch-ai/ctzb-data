@@ -107,7 +107,9 @@ def main():
                 c["from_entry"].update(still_rose10_pct=None, still_rose10_exact_pct=None)
                 for e in ("before_2022", "since_2022"): c[e].update(past_trades=0, past_signals=0, rose10_never_fell25_within60d_pct=None)
                 for r in c["if_it_falls_first"]: r.update(past_trades=0, past_signals=0, still_rose10_pct=None, still_rose10_exact_pct=None, went_on_to_fall25_pct=None)
-        t_em, e_em = render(pw, empty, views=("now", "chart"))
+        # select the top-grade live signal: with forming setups in the feed, the page opens on the best forming card
+        LIVE_TOP = next((o["signal_id"] for o in FEED["open_signals"] if o.get("grade") == "A+"), None)
+        t_em, e_em = render(pw, empty, views=("now", "chart"), pick=LIVE_TOP)
         # files cut short in transit (12 Nov 2026 audit #18)
         led_cut = "\n".join(LEDGER.split("\n")[:400]); led_head = LEDGER.split("\n")[0] + "\n"
         t_lc, e_lc = render(pw, FEED, views=("record", "now"), ledger=led_cut); t_lh, e_lh = render(pw, FEED, views=("record",), ledger=led_head)
@@ -117,7 +119,7 @@ def main():
         # a live setup whose own card (and status) is missing from the feed: no pooled stand-in (audit #19)
         nocard = copy.deepcopy(FEED)
         for o in nocard["open_signals"]: o["card"] = None; o["edge_level_pct"] = None
-        t_nc, e_nc = render(pw, nocard, views=("now", "chart"))
+        t_nc, e_nc = render(pw, nocard, views=("now", "chart"), pick=LIVE_TOP)
         # hand-broken feeds (13 Nov 2026 audit #20): each must read as unavailable, never as a figure or a blank page
         def mut(fn):
             f = copy.deepcopy(FEED); fn(f); return f

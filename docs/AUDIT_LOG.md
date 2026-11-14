@@ -902,6 +902,12 @@ The four causes, each fixed at its family's rule:
 
 Hardening (not counted): 6 hand-forged feeds the strict check accepts (listed in the report).
 
+**Re-checked after the changes:** numbers check 13 dates unchanged, series cells 32/32, per-year test, page timing
+11/11, candle check 95/95 (two expected messages updated for the 1-day lag), run seal 23/23, feed alerts 31/31, feed
+extras 28/28, fetch tests 4/4, year-end replays 8/8, gate-off and no-today-bar replays, page states 48/48 (two tests
+now select the live signal: with forming setups in the feed the page opens on the best forming card), fire drills
+58/58, site Worker 25/25, damage test 31/31 (quick pass).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
