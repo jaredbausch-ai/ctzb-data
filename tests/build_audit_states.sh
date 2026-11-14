@@ -15,6 +15,9 @@ for N in replay_0414 current; do
 done
 rm -rf "${OUT:?}/replay_0414/data" "${OUT:?}/replay_0414/datasets" "${OUT:?}/replay_0414/feed"
 (cd "$ROOT" && git archive 4aa1208 data datasets feed) | tar -x -C "$OUT/replay_0414"
+# that feed predates the alert log's record and second copy; a log with neither fails closed (audit #32), so give it
+# the copy every run now leaves
+cp "$OUT/replay_0414/feed/alert_log.csv" "$OUT/replay_0414/feed/alert_log_backup.csv"
 for N in replay_0414 current; do
   D="$OUT/$N"
   if [ "$N" = replay_0414 ]; then export CTZB_NOW=2026-11-12T04:14:00Z; else unset CTZB_NOW; fi
