@@ -1117,6 +1117,25 @@ without changing a figure; the documented three-file limit of the alert log also
 unchanged, candle check 95/95, feed extras 28/28, feed alerts 65/65, year end 8/8, gate off, no today bar, fetch today
 4/4, cut files 495/495, per-year test, damage test 31/31 (quick pass).
 
+**Fix check** (independent agent, `analysis/audit30_2026-11-14/fixcheck/`): B fixed (42 cases of its own, all caught;
+real data, open interest a day behind, and replays at 2021-06-01, 2022-09-12/13/14 and 2026-11-13 pass), A
+incomplete, 0 wrong, 0 untested, 6 sentences.
+- **A, incomplete:** an extras step that failed part-way left the chart files it had written; the later steps leave
+  them out of the seal, so one changed after that was served beside the cards (a BTC 1D bar raised 25%), and a last
+  run's chart file put back after extras died before writing was served too. Now `feed_live.py` deletes every one of
+  the extras step's files whenever that step did not succeed, on a published or a fail-closed feed (when it
+  succeeded, the seal covers them). New cases in `test_seal` (29/29; the 2 new ones fail on the round-30 code). A
+  first version deleted them on every held feed too; that broke the seal for a later feed on the same run's files
+  (feed alerts and 2 fire drills failed), so it was narrowed before the re-check.
+- **Sentences:** 6 corrected (FEED_SPEC 1, DAMAGE_LIST 1, AUDIT_LOG 3, the seal.py comment). The FEED_SPEC sentence
+  also now says the odds-fade figures come from `earlydip.csv` and `holdcheck.csv`.
+- Left as it is (not a round-30 finding, fails safe): an open interest file of non-UTF-8 bytes crashes the history
+  check, which stops the step.
+
+After the corrections: run seal 29/29, feed alerts 65/65, feed extras 28/28, page states 52/52, fire drills 58/58,
+numbers check 13 dates unchanged, year end 8/8, gate off, no today bar, page timing 16/16, per-year test, damage test
+31/31 (quick pass).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
