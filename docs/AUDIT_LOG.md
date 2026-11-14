@@ -1283,11 +1283,42 @@ from the page; it had not been rebuilt since round 29 (it is deployed only after
 specified: a hand run with no step outcomes is judged on `stack_status.txt` alone.
 
 The lead-trader schema now names `id` (optional, text), since the repeat rule reads it; the damage test requires every
-field the page reads to be in the schema (it failed 29 of 31 until then).
+field the page reads to be in the schema (2 of its 31 checks failed until then, one per state).
 
 **Re-checked after the changes:** numbers check 13 dates unchanged, midnight 7/7, run seal 29/29, feed extras 28/28,
 feed alerts 83/83, page states 56/56, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20,
 per-year test, site worker 26/26, trades relay 41/41, damage test 31/31 (quick pass).
+
+**Fix check** (independent agent, `analysis/audit33_2026-11-14/fixcheck/`): **incomplete**. The page refused repeats
+with the same id and exact copies, but still showed two events for the same event with an id on one copy only, an
+id null on one copy and missing on the other, an equal object or list field, and one instant written two ways
+(`12:00:00Z` and `12:00:00.000Z`). The relay cannot store one id twice (`appendEvents` filters against the list it
+writes back), so "a relay update applied twice" was not its real route: when a fill of an order showed up a read late
+with an earlier time and that read saw an old state, the relay posted the order's open again under another id (shown
+as two trades); seeing the current state, it posted an "add" older than the open (the page refused the file). The
+damage-test count in this entry was misstated. Nothing legitimate is refused (relay tests and every event shape the
+relay emits pass); the rebuilt Worker holds exactly the page.
+- **Completed, page:** two events are the same when both have an id and the ids match, or, when either has none,
+  every other field holds the same value (a null field counts as missing, times as the same instant, numbers as the
+  same number, objects and lists field by field). `feedcheck.py` does the same, and now reads times to the
+  millisecond as the page does (it compared whole seconds for newest-first order). Test: `test_feed_damage` (14 hand
+  cases, page and pipeline alike).
+- **Completed, relay (built, not deployed):** an order's open and close are named by the order, so a late fill
+  repeats an id already stored instead of posting the order again; a late fill of an order already processed posts
+  nothing. Test: `test_trades_relay` (45; 3 of the 4 new cases fail on the code before). Known limit, written in
+  `cloudflare/README.md`: a closing order split across two reads whose earlier fill is late posts a reduce then a
+  close, or the reduce alone; before this change the second case posted an open the other way.
+- **Sentences:** 7 corrected (FEED_SPEC 1, DAMAGE_LIST 1, AUDIT_LOG 2, the member-site README 1, `feedcheck.py` 1,
+  the page comment 1).
+
+Two slips caught by the suite before any push: the new number helper in `feedcheck.py` first took the name of the
+schema's own number test, so every number field read as invalid (renamed); and two `test_page_timing` cases depended
+on the time of day the repo's feed was written (5 hours after a feed written after 19:00 UTC, the daily-close note
+already showed), so they now use a feed dated midday.
+
+After the corrections: numbers check 13 dates unchanged, midnight 7/7, run seal 29/29, feed extras 28/28, feed alerts
+83/83, page states 56/56, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20, per-year test,
+site worker 26/26, damage test 33/33 (quick pass), trades relay 45/45.
 
 ---
 
