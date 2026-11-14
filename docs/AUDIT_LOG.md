@@ -985,6 +985,70 @@ Worker 25/25.
 
 ---
 
+## Round 29 — 14 Nov (audit #29: damage part only, counted on the frozen list)
+
+**Not clean:** 5 causes got through a family's rule, all real-life damage. In each, a damaged input was used when it
+should have been held back. No wrong printed figure, no script error, no wording that misstates the state.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page (383 states) | 40 / 0 | 209 / 0 | 27 / 0 | – | 19 / 0 | 73 / **1** |
+| Pipeline (723 runs) | 136 / **1** | 284 / **2** | 96 / 0 | 155 / 0 | 52 / **1** | – |
+
+(cases tried / got through; the one wrong-content row is the same cause as the timing one). Report:
+`analysis/audit29_2026-11-14/broken/`.
+
+The five causes, each fixed at its family's rule:
+- **Delivery (page): a BTC chart file cut one digit short was drawn.** The chart's last close was matched to the
+  card's price within one part in a million, about 7 cents at BTC prices, so 73736.44 read as 73736.4 passed. Rule
+  now: prices are to the cent, so the chart must match the card's `price_now` and `entry_close` to the half cent; and
+  a CSV whose last line has no line end was cut short and is refused, by the site Worker for candle files (502) and
+  by the page for the ledger. Tests: `test_page_states` (4 cents off: not drawn; under half a cent: drawn; a ledger
+  missing its last line end: unavailable), `test_site_worker` (a cut candle file refused).
+- **Malformed (pipeline): 199 bars deleted from ETH 4H passed.** The 4H/12H rule only asked that 99% of bars be one
+  step apart. Rule now: no bar missing from a 4H or 12H file. A gap must be one of the exchange's own that only one
+  asset has (`fetch.OWN_GAPS`: ETH's first week in May 2016, BTC 4H on 10 Aug 2018) or appear at the same time in the
+  other asset's file (an exchange outage hits both; 28 Feb 2017 and 25 Oct 2025 so far). Test: `test_input_files`.
+- **Malformed (pipeline): a blank line inside the funding series passed.** The check read with `csv.DictReader`,
+  which skips blank lines. Rule now: every file the history check reads (every candle file and every daily series)
+  ends with a whole line and holds no blank line. Test: `test_input_files` (a blank line in the middle, at the end, or
+  of spaces, in each of 21 files).
+- **Timing (pipeline): a series row dated after today passed.** The series checks only tested "no more than N days
+  behind". Rule now: no series row is dated after the run's UTC date, in the candle check and in the stack step. In
+  the committed runs no series ever ran ahead of its commit's day. Test: `test_input_files`.
+- **Missing (pipeline): a lost feed plus a cut alert log sent an alert again.** With no readable previous feed, an
+  existing log was accepted as it was. Rule now: every run keeps a second copy of the log
+  (`feed/alert_log_backup.csv`), written after the feed and before the log. When the previous feed cannot be read the
+  copy is the record, and a log that was cut, emptied or deleted is restored from the copy when that drops no alert the
+  log holds. A log holding an alert the copy lacks fails closed, and a fail-closed feed with no last record writes
+  none, so putting the copy right ends the hold. A log damaged on its own is now also restored from the copy instead
+  of failing closed. Test: `test_feed_alerts` (the copy kept equal to the log; cut, emptied and deleted logs restored;
+  the same with no copy still held; a lost feed with the log's last row cut, cut mid-row or deleted; a lost feed with
+  an older copy held twice running, then clean once the copy is right).
+
+Every new test fails on the round-28 code. Hardening (not counted), fixed because it was cheap: a hand-built held
+feed that still carried `grade_odds` and `market_regime` showed the past-signals record and "Market filter: on". The
+page now reads neither from a held feed (`test_page_states`).
+
+Replays now cut the daily series at the replay day too (`tests/replay_at.sh`), since a row after the clock's day is
+now rejected; a series is not read on a day before its first day (only an early replay gets there). Before this, the
+replays read series rows from after their own day. That changed 25 replay figures in the numbers check (put/call
+readings for weekly closes after the replay day, now "no data"; some funding tags), which the live pipeline never
+sees because its series end on its own day. A run with the old replay script and the new rules switched off
+reproduced the old baseline exactly, so the changes come from the replay cut alone; the baseline was re-approved.
+The 44 cases that got through in rounds 27 to 29 were added to `docs/audit/damage_list.csv`, which had not been done
+for rounds 27 and 28.
+
+**Re-checked after the changes:** input files 56/56 (new), feed alerts 62/62, page states 52/52, site Worker 26/26,
+series cells 40/40, cut files 495/495, candle check 95/95, numbers check re-approved and then 13 dates unchanged, run
+seal 23/23, feed extras 28/28, fetch today 4/4, year end 8/8, no today bar, dashboard sender 21/21, dashboard gate
+26/26, health monitor 36/36, mirror backup 21/21, trades relay 41/41, fire drills 58/58, page timing 16/16, per-year
+test, damage test 31/31 (quick pass). The gate-off test failed on the round-28 code as well as the new: the replay
+copies today's alert log, and the delivery window carries its alerts, so it counted 6 forming alerts already sent. It
+now counts only alerts new to the log, as the fire drills do (gate off: 0 cards, 0 new forming alerts).
+
+---
+
 ## Deliberately left alone (definitional notes, not issues)
 
 - **Flash-print clamp.** A $0.06 BTC low on 15 Apr 2017 (and ETH's $0.10 GDAX wick on 21 Jun 2017)
