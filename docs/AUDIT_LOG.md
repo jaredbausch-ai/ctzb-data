@@ -913,6 +913,9 @@ fetch, and the next run recovers. 1 incomplete: put/call lag was measured by row
 passed; it is now measured on the last filled value of the read column. 10 sentences corrected (FEED_SPEC 3,
 fetch.py 3, AUDIT_LOG 2, DAMAGE_LIST 1, a page comment 1), including an unreproducible "79 runs" (it is 133 runs, 1
 to 14 Nov, none behind the new limits).
+After the corrections: series cells 40/40, candle check 95/95, numbers check unchanged, run seal 23/23, feed alerts
+31/31, year-end 8/8, gate-off and no-today-bar replays, page timing 11/11, fire drills 58/58, site Worker 25/25, both
+audit states build.
 
 **Re-checked after the changes:** numbers check 13 dates unchanged, series cells 32/32, per-year test, page timing
 11/11, candle check 95/95 (two expected messages updated for the 1-day lag), run seal 23/23, feed alerts 31/31, feed
