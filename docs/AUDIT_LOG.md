@@ -1173,6 +1173,22 @@ a last feed replaced by an older run's copy keeps later runs failing closed unti
 feed alerts 65/65, page states 52/52, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 19/19,
 per-year test, site worker 26/26, damage test 31/31 (quick pass).
 
+**Fix check** (independent agent, `analysis/audit31_2026-11-14/fixcheck/`): D1 fixed (20 cases of its own: tab
+switches, setup switches, a file that fails or never arrives, every file late at once; no area says "unavailable"
+while loading or keeps a stale text on a tab already open), D2 fixed (26 cases of its own: quiet with the filter on and
+off, forming cards only, open signals, 31 Dec to 1 Jan, a held run; the alert log through a run that fails closed for
+this reason loses nothing and sends nothing twice; none of the 120 committed feeds that are not withheld is refused by
+the new rule; the page and `feedcheck.py` agree on 12 date variants). 0 incomplete, 0 wrong, 4 sentences.
+- **Sentences:** 4 corrected (FEED_SPEC 1, the test_midnight docstring, AUDIT_LOG 2): a forming-only market got
+  through too, and some new cases are controls.
+- **Gap closed:** `test_midnight` now has the forming-only case (7/7; 3 of 7 on the round-30 code).
+- **Seen, not counted (predates the round), fixed:** with a valid lead-trader file holding no trades, the Chart note
+  said his entries were listed on the Now tab while the Now tab said none were posted. It now says he has posted no
+  trades yet. Test: `test_page_timing` (20/20).
+
+After the corrections: numbers check 13 dates unchanged, midnight 7/7, page timing 20/20, page states 52/52, feed
+alerts 65/65, damage test 31/31 (quick pass).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
