@@ -979,6 +979,10 @@ incomplete, 0 wrong, 17 sentences.
 - Hardening (not counted): a forged previous feed whose `alert_log` hash matches the log plus a forged row is trusted
   by the existing rebuild rule, and under the window the row is now sent.
 
+After the corrections: page timing 16/16, feed alerts 52/52, numbers check 13 dates unchanged, page states 48/48,
+dashboard sender 21/21, health monitor 36/36, run seal 23/23, damage test 31/31 (quick pass), fire drills 58/58, site
+Worker 25/25.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
