@@ -26,6 +26,7 @@ Writes datasets/:
   open.csv      every signal in its 60 days on a graded chart: day count, marks, best / worst, edge status
   cards_open.csv     each of those signals' own card
   cards_example.csv  the member site's worked example, from what was known at its alert
+and analysis/registry.json (the REGISTRY as JSON, committed by the Action).
 Historical rates for entry quality only. Computed signals, never fills.
   python3 -I stack_live.py
 """

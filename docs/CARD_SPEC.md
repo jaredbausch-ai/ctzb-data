@@ -1,7 +1,7 @@
 # Card specification
 
 Approved by Jared 28 Oct 2026. This is the single definition of every number and
-every word on a trade card: the console's card now, and the client screens later
+every word on a signal card: the console's card now, and the client screens later
 (Joe's side builds those from the same feed). A card may not show a number that is
 not defined here, and a definition may not change without changing this file in the
 same commit.
@@ -60,9 +60,11 @@ the 60 days after it.
 Which lows get a card: a forming low only on a graded chart (1D, 2D, 3D, 5D) with the regime gate on at its
 trough date and at least one past signal in its sample; a live (open) setup on a graded chart; the worked example. There are no 8D cards.
 
-A live setup's card is the card as issued at its entry close. Because a from-entry figure beside an open signal
+A live setup's card is rebuilt every run by the forming-card rules, with the setup's own lenses at entry and a
+sample of every past signal whose 60 days have closed by the run's date; each figure is measured from each past
+signal's own entry close. Because a from-entry figure beside an open signal
 can read as today's chance (CONTEXT, 31 Oct 2026), the card itself says "Edge lost", "Rose 10%" (it rose 10% before reaching its edge level) or "On track", says the
-odds are "as of the entry close, not from today", and an edge-lost card is dimmed and not drawn in the live
+odds are "measured from the entry close, not from today's price", and an edge-lost card is dimmed and not drawn in the live
 colour. No from-today odds are computed for members.
 
 The member site (`docs/artifacts/member-site/index.html`) shows the same card in its own words. Each label
@@ -121,12 +123,12 @@ trader: in / out / not in / unavailable" (from the lead trader's own posted trad
    from-entry and falls-first ladder rows (from the 1D candles, written out independently). Exact,
    except the three 6-place exact medians, confirmable from the 6-place ledger to one unit in the
    6th place (since 12 Nov 2026, audit #8). The card's dates and prices (low day, confirms, must close above,
-   latest price, entry close) and its confluences come from stack_live.py and are not re-derived there. Any mismatch fails the run (red Action, `stack_status.txt` FAILED); the feed then withholds cards and alerts, and the health monitor messages Jared.
+   latest price, entry close) and its confluences come from stack_live.py and are not re-derived there. Any mismatch fails the run (red Action, `stack_status.txt` FAILED); the feed then withholds cards and alerts, and the health monitor messages Jared if they are still held back 75 minutes later.
    On 28 Oct this check caught a dip of -25.26% that a rounded figure turned into
    -25.3%; the cards use exact prices.
 3. The quoted-versus-actual record (ledger, "odds on the day") shows how past quotes
    held up. Quotes ran 10-20 points high on +20% and on this measure (28 Oct); the
-   per-trade fitted models that tried to fix it lost to the grade out of sample
+   per-signal fitted models that tried to fix it lost to the grade out of sample
    (`analysis/model.py`). Watch this gap; it is the honest limit of the numbers.
 
 

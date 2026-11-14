@@ -96,14 +96,14 @@
 <div class="tc" id="tcard">
   <div class="tcpick" id="tcPick"></div>
   <div class="tctop"><div class="tcn" id="tcN"></div><div class="tcword" id="tcWord">—</div><div class="tcline" id="tcLine">—</div></div>
-  <div class="tchead"><div class="tcbig" id="tcBig">—</div><div class="tcbigk"><b>Rose 10% and never fell 25%, within 60 days of buying</b><span>A 25% fall is what wipes out a position at 3.3x leverage.</span></div></div>
+  <div class="tchead"><div class="tcbig" id="tcBig">—</div><div class="tcbigk"><b>Rose 10% and never fell 25%, within 60 days of the entry close</b><span>A 25% fall is what wipes out a position at 3.3x leverage.</span></div></div>
   <div class="tcgrid" id="tcGrid"></div>
   <div class="tcsplit" id="tcSplit"></div>
-  <div class="tclad" id="tcConfBox"><h3>Active confluences now &middot; all within 60 days of buying</h3>
-    <table><thead><tr><th>Active now</th><th>Past trades</th><th>Rose 20% or more</th><th>Fell 30% or more</th><th>Window closes</th></tr></thead><tbody id="tcConf"></tbody></table>
+  <div class="tclad" id="tcConfBox"><h3>Active confluences now &middot; all within 60 days of the entry close</h3>
+    <table><thead><tr><th>Active now</th><th>Past signals</th><th>Rose 20% or more</th><th>Fell 30% or more</th><th>Window closes</th></tr></thead><tbody id="tcConf"></tbody></table>
     <p>Only confluences that are live today, weak ones included. Each row is its own group of past trades, separate from the number above, and the rows overlap, so they are not added together.</p></div>
-  <div class="tclad"><h3>If it falls before it rises 10% &middot; all within 60 days of buying</h3>
-    <table><thead><tr><th>Fall below the buy price</th><th>Trades that got there</th><th>Still rose 10%, never fell 25%</th><th>Went on to fall 25%</th></tr></thead><tbody id="tcLad"></tbody></table>
+  <div class="tclad"><h3>If it falls before it rises 10% &middot; all within 60 days of the entry close</h3>
+    <table><thead><tr><th>Fall below the entry close</th><th>Signals that got there</th><th>Still rose 10%, never fell 25%</th><th>Went on to fall 25%</th></tr></thead><tbody id="tcLad"></tbody></table>
     <p>What a fall of each size has meant for trades like this before. It is information for your own decision, not a stop.</p></div>
   <div class="tcfoot" id="tcFoot"></div>
 </div>
@@ -320,9 +320,9 @@ function drawAction(){
   $("tcBig").textContent=P(c.surv10);
   const g=$("tcGrid"); g.textContent="";
   const DY=x=>(x===undefined||x===""||x===null)?"\u2014":"day "+x;
-  [[P(c.reach20),"Rose 20% or more above the buy price, within 60 days",""],[D(c.bestMove),"Typical biggest rise above the buy price, within 60 days","gd"],[D(c.dipBeforeHigh),"Typical lowest point vs the buy price, before it made its 60-day high",""],
-   [D(c.maxDip60),"Typical deepest dip below the buy price, within 60 days","wn"],[P(c.touched30),"Fell 30% or more below the buy price, within 60 days","bd"],[P(c.scaled20),"Beat a normal move for the market, within 60 days","gd"],
-   [DY(c.daysTo10),"Typical day it first hit +10% over the buy price (trades that got there)","gd"],[DY(c.daysTo20),"Typical day it first hit +20% over the buy price (trades that got there)","gd"],[DY(c.daysToHigh),"Typical day of the 60-day high, counted from the buy",""],
+  [[P(c.reach20),"Rose 20% or more above the entry close, within 60 days",""],[D(c.bestMove),"Typical biggest rise above the entry close, within 60 days","gd"],[D(c.dipBeforeHigh),"Typical lowest point vs the entry close, before it made its 60-day high",""],
+   [D(c.maxDip60),"Typical deepest dip below the entry close, within 60 days","wn"],[P(c.touched30),"Fell 30% or more below the entry close, within 60 days","bd"],[P(c.scaled20),"Beat a normal move for the market, within 60 days","gd"],
+   [DY(c.daysTo10),"Typical day it first hit +10% over the entry close (signals that got there)","gd"],[DY(c.daysTo20),"Typical day it first hit +20% over the entry close (signals that got there)","gd"],[DY(c.daysToHigh),"Typical day of the 60-day high, counted from the buy",""],
    [DY(c.daysToLow),"Typical day of the deepest dip, counted from the buy","wn"]].forEach(([v,k,cl])=>{
     const d=el("div"); d.appendChild(el("div","tcv "+cl,v)); d.appendChild(el("div","tck",k)); g.appendChild(d);});
   const sp=$("tcSplit"); sp.textContent="";
@@ -345,7 +345,7 @@ function drawAction(){
     tr.appendChild(el("td",null,t+"%")); tr.appendChild(el("td",null,String(n)));
     tr.appendChild(el("td",ok===""?"":(+ok>=50?"gd":+ok>=30?"wn":"bd"),n?P(ok):"\u2014")); tr.appendChild(el("td",lq===""?"":(+lq>=50?"bd":"wn"),n?P(lq):"\u2014")); tb.appendChild(tr);});
   const f=$("tcFoot"); f.textContent=""; f.appendChild(el("b",null,"Where these numbers come from: "));
-  f.appendChild(document.createTextNode(c.basis.charAt(0).toUpperCase()+c.basis.slice(1)+". All figures are within 60 days of buying, measured from the buy price. These are past signals, not real trades, and past results don\u2019t promise future ones."));
+  f.appendChild(document.createTextNode(c.basis.charAt(0).toUpperCase()+c.basis.slice(1)+". All figures are within 60 days of the entry close, measured from the entry close. These are past signals, not real trades, and past results don\u2019t promise future ones."));
 }
 function drawLadder(){
   const h=$("ladder"); h.textContent="";

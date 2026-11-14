@@ -6,8 +6,9 @@
   2. a slow example file: the example chart says "Loading", not "couldn't be loaded";
   3. a slow chart file: the previous setup's chart is cleared at once ("Loading <chart>"), and a file that
      arrives after the member picked another setup is not drawn over it;
-  4. a page left open past 5 hours: the stale warning appears without a reload, and the worked example the page
-     switched on for a quiet market goes off (audit #25).
+  4. a page left open past 5 hours: the stale warning appears without a reload; 4b. the worked example the page
+     switched on for a quiet market goes off (audit #25); 4c. the hour count keeps up; 4d. the daily close passes;
+  5. chart files from an older run (missing their last bars) are never drawn for a live or forming setup;
   6. a slow lead-trader file, member on the Chart tab (14 Nov 2026 audit #31): the side panel says "Loading", never
      "unavailable", while it loads, and points to the Now tab once a valid file arrives, without leaving the tab.
 

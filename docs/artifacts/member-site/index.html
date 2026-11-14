@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
 <style>
 /* Layout: one full-width screen. Header with the market filter and tabs; "Now" is three
-   panels (lead trader | live card with its detail below | previous alerts). Dark neon,
+   panels (lead trader | live card with its detail below | previous signals). Dark neon,
    single theme by design (approved 10 Nov). Frame colour = the card's state. */
 :root {
   color-scheme: dark;
@@ -287,7 +287,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. A confirmed setup is final and can't vanish. A forming setup can: it is shown before the confirming close.</p>
           <p>A signal only counts if our market filter said the broader trend was on your side on the day the bar that made its low opened (on a 2D, 3D or 5D chart that can be a few days before the low itself). In a downtrend the system stays quiet, sometimes for a year. The header shows the filter as it is today, so a setup whose low came just before the filter turned off can still appear while the header reads off.</p>
           <p>Every confirmed setup is checked against several independent confirmations. Only the ones where the most line up reach the top grade.</p>
-          <p>The odds on each card come from how past signals with the same profile behaved over the next 60 days. They measure the quality of the entry, not a trading result.</p>
+          <p>The odds on each card come from how past signals like this one behaved over the next 60 days: the same confirmations on the same chart when there are enough, otherwise the same grade, as the card says under its big number. They measure the quality of the entry, not a trading result.</p>
         </div>
         <div class="sidebox">
           <div class="sec-title" style="color: var(--fade-2)">Reading a card</div>
@@ -297,7 +297,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: of its past signals that fell 5%, 10%, 15% or 20% before rising 10%, the share that then still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
             <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our <span id="howBar">posting bar</span>.</dd>
-            <dt>If it misses</dt><dd>Of the past signals that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median best price of all those misses within the 60 days.</dd>
+            <dt>If it misses</dt><dd>Of all past signals of this asset and grade that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median best price of all those misses within the 60 days (the row names the pool).</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
           </dl>
           <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</div>
@@ -376,10 +376,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
      One definition of a well-formed feed, read by this page and by the pipeline (feedcheck.py reads the block
      between the two markers, and feed_live.py refuses to publish a feed that fails it). A feed that fails ANY
      rule is not used at all: the page says "Data unavailable". Nothing is guessed or patched.
-     Types: pct 0..100, pcti a whole number 0..100, num a finite number under a million either way, n whole
-     number >= 0, day whole number 0..60, px a price above 0 and under 10^9, dip a change -100..0, rise a change
-     0..100,000, chg a change above -100 and up to 100,000, share 0 (exclusive)..100, lev above 0 up to 100,
-     date YYYY-MM-DD, ts ISO time (UTC, "Z"), str non-empty text, text any text, bool, "=a|b" one of these words.
+     Types: pct 0..100, pcti a whole number 0..100, num a finite number under a million either way, n a whole
+     number from 0 to under a million, day whole number 0..60, px a price above 0 and under 10^9, dip a change
+     -100..0, rise a change 0..100,000, chg a change above -100 and up to 100,000, share 0 (exclusive)..100, lev above
+     0 up to 100, date a real calendar date YYYY-MM-DD in 2000-2099, ts ISO time in 2000-2099 ending "Z" (UTC), str non-empty text, text any text, bool, "=a|b" one of these words.
      A key ending in "?" may be null or missing. "@name" refers to defs. A list is [item, min length, max length]. */
   const FEED_SCHEMA = /*FEED_SCHEMA*/{"defs":{"asset":"=ETH|BTC","tf":"=1D|2D|3D|5D","chart":"=ETH 1D|ETH 2D|ETH 3D|ETH 5D|BTC 1D|BTC 2D|BTC 3D|BTC 5D","grade":"=A+|A|B|C","era":{"past_trades":"n","rose10_never_fell25_within60d_pct?":"pcti"},"rung":{"fell_pct":"n","past_trades":"n","still_rose10_pct?":"pcti","still_rose10_exact_pct?":"pct","went_on_to_fall25_pct?":"pcti"},"card":{"signal_id":"str","chart":"@chart","asset":"@asset","timeframe":"@tf","grade":"@grade","low_date":"date","low_day":"date","confirms_on":"date","bars_to_confirm?":"n","must_close_above?":"px","price_now?":"px","entry_close?":"px","sample":"str","past_trades":"n","rose10_within60d_pct?":"pcti","rose10_never_fell25_within60d_pct?":"pcti","rose20_within60d_pct?":"pcti","fell30_within60d_pct?":"pcti","typical_biggest_rise_exact_pct?":"rise","typical_dip_before_rise_exact_pct?":"dip","typical_deepest_dip_exact_pct?":"dip","typical_day_of_60d_high?":"day","typical_day_of_deepest_dip?":"day","before_2022":"@era","since_2022":"@era","from_entry":{"still_rose10_pct?":"pcti","still_rose10_exact_pct?":"pct"},"if_it_falls_first":["@rung",4,4]},"open":{"signal_id":"str","chart":"@chart","entry_date":"date","entry_close":"px","grade":"@grade","tags":"text","confirmations":"text","label":"str","days_elapsed":"day","day10_pct?":"chg","day30_pct?":"chg","day60_pct?":"chg","best_so_far_pct?":"chg","worst_so_far_pct?":"chg","edge_level_pct?":"dip","edge_status":"=lost|rose10|intact","card?":"@card"},"miss":{"signals":"n","misses":"n","up_first":"n","median_peak_pct?":"rise","median_worst_drop_pct?":"dip","median_day60_pct?":"chg"},"path":{"signals":"n","days":[{"day":"day","median_pct":"chg","q25_pct":"chg","q75_pct":"chg"},61,61]}},"feed":{"generated_at":"ts","cards_withheld":"bool","checks":{"all_passed":"bool"},"posting_bar_pct?":"pcti","scored_as_of?":"date","market_regime?":"=Bullish|Bearish","cards":["@card",0],"open_signals":["@open",0],"example_card?":"@card","grade_odds":[{"asset":"@asset","grade":"str","past_trades":"n","rose10_within60d_pct?":"pcti","rose10_never_fell25_within60d_pct?":"pcti","rose20_within60d_pct?":"pcti","median_deepest_dip_pct?":"dip"},0],"if_it_misses":[{"asset":"@asset","grade":"@grade","signals":"n","misses":"n","up_first":"n","median_peak_pct?":"rise","median_worst_drop_pct?":"dip","median_day60_pct?":"chg"},0],"example_if_it_misses?":"@miss","past_paths":[{"asset":"@asset","signals":"n","days":[{"day":"day","median_pct":"chg","q25_pct":"chg","q75_pct":"chg"},61,61]},0],"example_past_paths?":"@path","odds_fade?":{"posting_bar_pct":"pcti","tier_fixed_on?":"date","early_dip":[{"band":"str","rose10_after_day10_pct":"pcti","edge":"=intact|gone"},0],"day10":[{"check":"str","rose10_after_day10_pct":"pcti","edge":"=intact|gone"},0]}},"trades":{"trades":[{"id?":"str","asset":"@asset","direction":"=long|short","action":"=open|add|reduce|close","time":"ts","price":"px","leverage?":"lev","size_pct?":"share","move_pct?":"chg","account_pct?":"chg"},0]}}/*END_FEED_SCHEMA*/;
   const isNum = (v) => typeof v === "number" && Number.isFinite(v);
@@ -730,7 +730,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="quiet">No setup right now</div></div>${staleNote()}
         <div class="empty-card">
           <div class="big">Waiting for the next one</div>
-          <div class="small" style="max-width: 46ch">${on ? `The market filter is on. Nothing at the top grade is forming or confirmed today. ${perYearText()}` : off ? "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year." : "Nothing at the top grade is forming or confirmed today. The market filter's reading is unavailable right now."}</div>
+          <div class="small" style="max-width: 46ch">${on ? `The market filter is on. Nothing is forming today and no top-grade signal is within its 60 days. ${perYearText()}` : off ? "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year." : "Nothing is forming today and no top-grade signal is within its 60 days. The market filter's reading is unavailable right now."}</div>
         </div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
@@ -752,12 +752,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade. It can still vanish before it confirms.</div>`
           : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>`
-          : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before ever reaching its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`)} The odds below are as of the entry close, not from today.</div>` : ""}
+          : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before ever reaching its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`)} The odds below are measured from the entry close, not from today's price.</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
           <div class="big num"${lost ? ' style="opacity: 0.5"' : ""}>${pc(m.reach10)}</div>
-          <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days${m.kind === "open" ? " · at the entry close, not from today" : ""}</div>
+          <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days${m.kind === "open" ? " · measured from the entry close, not from today" : ""}</div>
           <div style="font-size: 13px; color: var(--high)">${pc(m.surv10)} did it without ever falling 25.3%</div>
           <div class="small">${m.fromCard ? `from ${esc(m.sample || m.n + " past signals")}` : `from all ${m.n} ${esc(m.asset)} top-grade signals`} · every figure covers the 60 days after entry</div>
         </div>
@@ -840,11 +840,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       </div>`).join("");
   }
 
-  /* ---------- Now: previous alerts ---------- */
+  /* ---------- Now: previous signals ---------- */
   // Edge intact or lost, by the setup's OWN ladder (12 Nov 2026 audit #6; it used the pooled ETH table):
   // lost if its from-entry odds are under the bar, or it has fallen past its own edge before rising 10%
   // top-grade signals a year, counted from the ledger over the full calendar years from 2020 (the first with
-  // ETH and BTC both graded) to last year; nothing typed but that start (12 Nov 2026 audits #9, #15)
+  // ETH and BTC both graded) to the last full year whose signals have all had their 60 days close by the scored
+  // date; nothing typed but that start (12 Nov 2026 audits #9, #15)
   // open time of the bar after the one opening at t: 2D+ bars are bucketed within each calendar year and restart
   // on 1 January, so a year's last bar can be short
   function barNextOpen(t, tfd) {
@@ -1153,7 +1154,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $("#chartSide").innerHTML = `
       <div class="sidebox">
         <div class="sec-title" style="color: var(--live)">What the card says</div>
-        <div class="small">${esc(m.chart)}${m.kind === "example" ? " · example" : ""}${m.sample ? ` · from ${esc(m.sample)}` : ""}${m.kind === "open" ? " · odds as of the entry close, not from today" : ""}</div>
+        <div class="small">${esc(m.chart)}${m.kind === "example" ? " · example" : ""}${m.sample ? ` · from ${esc(m.sample)}` : ""}${m.kind === "open" ? " · odds measured from the entry close, not from today" : ""}</div>
         <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${pc(m.reach10)}</div>
         <div class="small">rose 10% within 60 days, from ${m.n} past signals; ${pc(m.surv10)} without ever falling 25.3%</div>
         <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(pxAt(m.entry, m.high))}</b></div>

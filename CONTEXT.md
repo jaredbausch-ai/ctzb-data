@@ -148,7 +148,7 @@ for highs; `_declamp` returns the clamp list, `_declean` prints it and returns t
 **A drop after the high is not a wipeout.** Counting any −30% at any point
 flags 104 of 138 ETH 2D troughs, because held long enough nearly every entry
 eventually prints one. That measures holding period, not entry quality. The
-`dead` field only counts a −30% that lands *before* the trough gives back 5%.
+`dead` field only counts a −30% from entry that lands *before* price has gained 5% from entry.
 
 **Unbounded upside measures the asset, not the setup.** With no time limit a
 2016 trough reports +21,435%. `umx` is bounded to 365 days.
@@ -159,7 +159,7 @@ days *after* entry. 627 of 979 rows score higher under it than they could have
 at entry. The reach-+20% gradient across agreement levels collapses from
 44%–79% to **52%–64%** once only prior prints count. `troughs.py` carries both:
 `cf` (backward only, trade from this) and `cfs` (symmetric, kept so the sheet
-reconciles with the dashboard). refresh.py's tier.csv, confluence.csv and buy.csv still use the symmetric
+reconciles with the dashboard). refresh.py's tier.csv, walkforward.csv (its 3+ / 4+ agreeing rows), confluence.csv and buy.csv still use the symmetric
 count; nothing on the dashboard, the feed or the member site reads them (the AGREE lens and the confluence
 windows count only prints 0-10 days before).
 
@@ -213,7 +213,7 @@ logs and every generator from the CT/Signal work.
 |---|---|
 | `engine.py` | indicator, signal detection, candle loading and clamping |
 | `regimes.py` | the mechanical regime gate |
-| `refresh.py` | builds `datasets/*.csv` for the dashboard; run by the Action |
+| `refresh.py` | builds 13 of the `datasets/*.csv` (status, buy, live, levels, setups, tier, walkforward, years, confluence, invalidation, earlydip, holdcheck, forward; grade_live, extras_live, stack_live and verify_cards write or change the rest); run by the Action |
 | `troughs.py` → `troughs.json` | one row per trough, 996 rows, 6 charts |
 | `odds.py` → `odds.json` | aggregate odds by chart and tag |
 | `waves.py` | swing segmentation and Elliott counts |
@@ -532,7 +532,8 @@ statistics work continues in the background while it runs.
 **Member card redesign (item 18) -- 10-11 Nov 2026.** [Partly superseded 11-12 Nov 2026: each card's edge is now its own ladder
 ("the player, not the league"), the pooled early-dip read is a general explainer only, and every figure below is in the feed;
 see the 12 Nov audit paragraphs and docs/FEED_SPEC.md.] Decisions, Jared:
-members are sent A+ only, and the card says "Confirmed setup" (the grade stays
+members are sent A+ only [superseded: member alerts are not switched on and which setups they cover is undecided
+(SITE_CHANGES R3); the page shows forming setups of every grade for context], and the card says "Confirmed setup" (the grade stays
 internal) [since 12 Nov 2026: a live top-grade card says "Live setup", a forming one "Setup forming", and the
 worked example "Confirmed setup"; no grade letter is shown anywhere]. **The posting bar is 70%: below it a signal's edge is gone** (same
 number as WINMIN in refresh.py). On the card that is the early-dip read -- a
@@ -1372,14 +1373,14 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
-**Every trade its own odds -- tested 28 Oct 2026, the GRADE WINS.** `analysis/model.py`
+**Every signal its own odds -- tested 28 Oct 2026, the GRADE WINS.** `analysis/model.py`
 (declared, walk-forward 2019-2025, 852 out-of-sample signals): logistic models on
 every read (M1), every pair of reads (M2) and the grade's own lenses weighted instead
 of counted (M3, addendum) all lost to the equal-weight grade's odds on Brier and AUC,
 for +10/+20/+30% and touched -30%. reach20 top vs bottom fifth: grade 71/33, M1 64/36,
 M2 66/41, M3 68/38. Touched -30% is not predictable out of sample by any version
 (AUC ~0.5; BTC grade 0.37). Weighting overfits; counting holds. Grade stays; nothing
-adopted. Do not re-propose per-trade fitted odds without new data.
+adopted. Do not re-propose per-signal fitted odds without new data.
 
 **Console record = like for like only (28 Oct 2026).** The console once showed
 the "at least these lenses" record, which for the ETH 1D signal was 17 stronger A+
@@ -1505,9 +1506,10 @@ what is n? Under 15 signals, say so and give the parent figure beside it, labell
 from-entry figure next to an open signal reads as that signal's chance, and most readers
 look at the picture, not the caveat. Use the from-here read (same state, same day after
 entry). Any visual must be readable without its caption: if the picture alone can be
-misread, it is wrong. [Member site, 12 Nov 2026 audit #14: a live setup's member card is the card as issued at
-its entry close; no from-today figure exists for members. The card itself now says "Edge lost" / "Rose 10%" / "On track" and
-"as of the entry close, not from today", and an edge-lost card is dimmed. Whether members should get a
+misread, it is wrong. [Member site, 12 Nov 2026 audit #14: a live setup's member card measures its odds from the
+entry close; no from-today figure exists for members. The card itself now says "Edge lost" / "Rose 10%" / "On track" and
+"measured from the entry close, not from today's price" (14 Nov 2026 docs audit: its sample is rebuilt each run from
+every past signal whose 60 days have closed, so it is not frozen at the entry), and an edge-lost card is dimmed. Whether members should get a
 from-today figure instead is an open decision for Jared.]
 
 **When he asks for statistics on a signal, always include the positioning read
@@ -1599,7 +1601,7 @@ again.
 
 ## 4 Nov 2026 — active confluences on the card
 
-Jared asked why the live ETH 2D card showed no confluences when two were active (after the BTC 1D and the ETH 1D diamonds of 2 Nov). The card had been defined on 28 Oct around its one like-for-like number; confluence cells only reached the live-stack table. Gap closed: stack_live now writes every confluence cell active for a forming setup into cards.csv `confluences` (JSON, deduplicated across layers, weak ones included), the dashboard card shows an "Active confluences now" table (past trades, rose 20%, fell 30%, window closes; under 15 trades flagged), and the feed carries `active_confluences` (schema 3). Each confluence is its own sample and is never folded into the card's number. Rule stands: the confluence section lists only what is active now, all of it, nothing else. Entry quality only; not a track record.
+Jared asked why the live ETH 2D card showed no confluences when two were active (after the BTC 1D and the ETH 1D diamonds of 2 Nov). The card had been defined on 28 Oct around its one like-for-like number; confluence cells only reached the live-stack table. Gap closed: stack_live now writes every confluence cell active for a forming setup into cards.csv `confluences` (JSON, deduplicated across layers, weak ones included), the dashboard card shows an "Active confluences now" table (past signals, rose 20%, fell 30%, window closes; under 15 signals flagged), and the feed carries `active_confluences` (schema 3). Each confluence is its own sample and is never folded into the card's number. Rule stands: the confluence section lists only what is active now, all of it, nothing else. Entry quality only; not a track record.
 
 ## 4 Nov 2026 — GitHub's scheduler was dropping two of every three ticks
 
@@ -1607,7 +1609,7 @@ Run history 1-4 Nov: the candle job (six ticks a day) fired 2-3 times a day, oft
 
 ## 4 Nov 2026 — card wording: every tile says what it is measured from
 
-Jared read "Typical dip before the 60-day high" as a pullback from a profit. It is the median lowest low between the buy and the day of the 60-day high, as a percentage of the BUY PRICE (analysis/tagstats.measure: ddpk = min(low up to the high day) / entry - 1). Relabelled "Typical lowest point vs the buy price, before it made its 60-day high"; the rise, deepest-dip, fell-30% and day tiles now also name the buy price. Field names unchanged (feed rule: never rename). Rule: a card tile names its reference point.
+Jared read "Typical dip before the 60-day high" as a pullback from a profit. It is the median lowest low between the buy and the day of the 60-day high, as a percentage of the BUY PRICE (analysis/tagstats.measure: ddpk = min(low up to the high day) / entry - 1). Relabelled "Typical lowest point vs the buy price, before it made its 60-day high"; the rise, deepest-dip, fell-30% and day tiles now also name the buy price. Field names unchanged (feed rule: never rename). Rule: a card tile names its reference point. [14 Nov 2026: the dashboard now says "the entry close" where it said "the buy price" or "buying", and "signals" for trades.]
 
 ## 4 Nov 2026 — full pipeline audit (docs/PIPELINE_AUDIT_2026-11-04.md)
 

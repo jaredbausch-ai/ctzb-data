@@ -3,8 +3,8 @@
 This is the "one feed" in the live-feed plan sent to Joe (docs/joe/
 2026-10-28_live_feed_proposal_SENT.md, settled 31 Oct). Every screen on Joe's
 side (admin portal, member site, alerts, his Grok AI) is meant to read this
-file instead of emailed copies. The Cloudflare backend that serves views per
-audience will read it too, once the ETHKROS Cloudflare account exists.
+file instead of emailed copies. The Cloudflare Workers (the ctzb-feed mirror, ctzb-site, ctzb-dashboard and
+ctzb-scheduler) read it; keyed views per audience are not built yet.
 
 Rules (docs/FEED_SPEC.md):
   - fields are only ever added, never renamed or removed; schema_version is 6

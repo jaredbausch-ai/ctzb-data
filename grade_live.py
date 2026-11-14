@@ -31,11 +31,12 @@ Writes / changes, in datasets/:
                  dips, median / top-quarter / largest upside. ETH from 2020
                  (where funding exists), BTC full history. Completed 60-day
                  windows only.
-  forward.csv    adds `grade` and `lenses` to every row (matched by chart and
-                 entry bar).
+  forward.csv    adds `grade`, `lenses`, `htfDiv` and `marker` to every row
+                 (matched by chart and entry bar).
   (liveread.csv, prints.csv and windows.csv come from stack_live.py, which
    runs after extras_live.py and checks every documented read.)
-  live.csv       adds `formingGrade` and `formingLenses`: the grade a forming
+  live.csv       adds `formingGrade`, `formingLenses`, `formingHtfDiv`, `formingMarker`, `closeNow`
+                 and `closeDate`: the grade a forming
                  low would carry if it confirmed now. PROVISIONAL: CT vs its
                  Signal line, price vs the last entry and funding all move
                  until it confirms.

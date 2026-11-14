@@ -40,7 +40,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
   only when the constant is edited; `alert_log`, `alert_log_carry` and `alerts_held` are schema 6 fields that came without a bump.
 - **It computes no figure.** It repackages the datasets the same run wrote. Its own work is: the time stamp, the
   schema version, the posting bar constant, the aliases, the label and note texts, which alerts are new, which
-  earlier alerts are carried, and the alert log record.
+  earlier alerts are carried, the alert log record and its second copy, the checks that decide a held or fail-closed
+  feed, and deleting the extras files when that step did not succeed.
 - **Every card, print, live signal, grade row, alert and extras block carries `label`**: computed signal, not a fill,
   entry quality only, not a strategy return or a track record.
 - **Dates** are YYYY-MM-DD (UTC calendar days); times are ISO 8601 UTC ending in `Z`, except `candle_check.checked_at`,
@@ -96,7 +97,7 @@ strict check does not read the field.
 | `alerts[]` | | Alerts in their delivery window: new in this generation, or emitted earlier and carried (Alerts, below) |
 | `alerts_held[]` | | On a held or fail-closed feed, the alerts kept for the next clean feed; empty on a clean feed (Alerts, below) |
 | `market_regime` | Bullish or Bearish? | status.csv: the regime gate `rsi_regime(BTC_2D, 8, 13, 60, 41)` on the scored date |
-| `next_buy_date` | | status.csv: a YYYY-MM-DD date or the text "none ahead". The earliest confirmation close date, today included, of a forming low on an ETH chart that carries a walk-forward tier tag, whatever the regime gate reads. A computed date, not a planned buy |
+| `next_buy_date` | | status.csv: a YYYY-MM-DD date or the text "none ahead". The earliest confirmation close date, today included, of a forming low on an ETH chart whose bucket, "any trough", "zone-exit B" or "prime dot" tag is a walk-forward tier pair (diamond tags are not read until the low confirms), whatever the regime gate reads. A computed date, not a planned buy |
 | `trades_a_year` (`signals_a_year`) | | status.csv: text "N on average", N = ETH tier signals per year rounded once, or "—" when the tier has fewer than 4 scored signals |
 | `cards[]` | list of card | One card per forming low that qualifies (Cards, below) |
 | `example_card` | card? | The worked example (Cards, below) |
@@ -106,7 +107,7 @@ strict check does not read the field.
 | `grade_odds[]` | list | Below |
 | `candle_check` | | Below |
 | `extras_withheld`, `if_it_misses[]`, `odds_fade`, `past_paths[]`, `example_if_it_misses`, `example_past_paths` | (not read), list, object?, list, miss?, path? | Member-card extras, below |
-| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log, and on a fail-closed feed when the last feed has no record (below) |
+| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; a run with no log fails closed unless it is seeding; null on a held seeding run with no log, and on a fail-closed feed when the last feed has no record (below) |
 | `feed_error`, `alert_log_carry` | | Fail-closed feed only (below) |
 
 `next_buy_date` and `trades_a_year` come from refresh.py's ETH walk-forward tier: the ETH chart/tag pairs with at
@@ -458,7 +459,7 @@ applies the same rules, trimming text and matching digits as JavaScript does.
 - **Feed:** `cards_withheld` is the opposite of `checks.all_passed`; a withheld feed has no cards, live signals or
   example card; a feed that is not withheld states `market_regime`, `scored_as_of` and `posting_bar_pct`;
   `scored_as_of` is not after `generated_at`, and in a feed that is not withheld it is `generated_at`'s own day (a
-  feed written after a daily close from data scored before it is not published as clean); no signal id, asset/grade pair or past-paths asset appears twice.
+  feed written after a daily close from data scored before it is not published as clean); no signal id appears twice within `cards` or within `open_signals`, and no asset/grade pair (`grade_odds`, `if_it_misses`) or past-paths asset appears twice.
 - **Live signals:** id matches chart and entry date; entry not after the feed's date; `days_elapsed` equals the days
   from entry to `generated_at`'s date; each day-10/30/60 figure present exactly when that day has passed; figures
   within best and worst; `edge_status` agrees with best, worst and edge level; the card is its own (chart, date,
@@ -482,7 +483,8 @@ Worker, uncached.
   card and no live signal ("Setups held back"). `odds_fade` is used only when both of its lists are non-empty. A
   missing `market_regime` reads "Market filter: unavailable". The footer's "Daily candles closed through" date is the
   day before `scored_as_of`, left off when it is null; its "checks passed / FAILED" reads `cards_withheld`. A feed
-  older than 5 hours shows a stale warning on every tab, with its hour count kept current; a feed written before the
+  older than 5 hours shows a stale warning on the Chart, Past signals and How to read tabs and on the Now card (not on
+  a card that reads "No odds yet", "Card unavailable" or "Example unavailable"), with its hour count kept current; a feed written before the
   latest daily close (00:00 UTC) shows a note that the close has passed and what it says about that bar is out of
   date. Both are re-checked every minute on the viewer's clock; when both apply, the 5-hour note shows. The only other
   check that uses the viewer's clock is the lead-trader file's "trade in the future" test. The example
@@ -499,7 +501,7 @@ Worker, uncached.
   row and era shows its own n, and the "If it misses" row names its pool. Every forming card says it can still vanish
   before it confirms; when the confirmation bar is the next bar, its price reads "about $X (an estimate until the
   current bar closes)". A live card says on the card whether its edge is lost, it rose 10%, or it is on track, and
-  that its odds are as of the entry close, not from today; an edge-lost card is not drawn in the live colour. The
+  that its odds are measured from the entry close, not from today's price; an edge-lost card is not drawn in the live colour. The
   chart's ladder bands show their n, and its side box restates the sample. The market filter pill reads Bullish as on
   and Bearish as off, and unavailable on a held-back feed; with no reading the quiet card does not call the filter off. Previous signals reads "as of the
   latest data · reload for each 4-hour update", with a first group headed "On track or rose 10%". How to read says a
@@ -522,7 +524,8 @@ Worker, uncached.
   if its bars are well formed on 2-day steps, its entry bar closes on 22 Sep 2024 at `entry_close`, it reaches 60 days
   past the entry bar, and its entry close equals the example card's.
 - **Lead-trader file.** Served from the `ctzb-trades` relay, which the review banner says is in dry run. Checked
-  against the schema's lead-trader part (key `trades`), newest first, none in the future, and no event repeating an
+  against the schema's lead-trader part (key `trades`), newest first, none more than 5 minutes ahead of the viewer's
+  clock, and no event repeating an
   earlier one: two events are the same when both have an `id` and the ids match, or, when either has none, every
   other field holds the same value (a null field counts as missing, times as the same instant); a failure reads
   "unavailable". It never changes the odds. The card's lead-trader line reads "not in" when he has posted entries but

@@ -194,10 +194,10 @@ Jared).** It counts from entry and ignores where the trade is now. A trade alrea
 its signal low on day 11 does not have the odds it had at entry: ETH grade A, fractal
 high +13.5% above entry, reads 72% from entry but **35%** from that state (17 trades;
 30% across all ETH grades, 73 trades). The live read gives ODDS FROM HERE only: past
-graded trades of the same asset (same grade when 30+, else all grades) that were in the
+graded signals of the same asset (same grade when 30+, else all grades) that were in the
 same state on the same day after entry -- above entry, under entry but above the signal
 low, or under the signal low -- and the share that rose as far from THAT day's close as
-the level sits above TODAY's price, by day 60. Never show the from-entry figure next to a live trade.
+the level sits above TODAY's price, by day 60. Never show the from-entry figure next to a live signal.
 
 Information for the discretionary exit, never a rule and never part of the grade or
 the card. Placebo levels at 0.45/0.55/0.70/0.85 behave the same as the fib numbers --

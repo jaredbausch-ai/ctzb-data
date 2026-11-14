@@ -3,7 +3,7 @@
 docs/artifacts/member-site/index.html, so the page and the pipeline read one definition.
 
 Types (the page's comment beside FEED_SCHEMA lists the same): pct 0..100, pcti a whole number 0..100, num a
-finite number under a million either way, n a whole number 0 or more, day a whole number 0..60, px a price above
+finite number under a million either way, n a whole number from 0 to under a million, day a whole number 0..60, px a price above
 0 and under 10^9, dip -100..0, rise 0..100,000, chg above -100 and up to 100,000, share above 0 up to 100, lev
 above 0 up to 100, date (YYYY-MM-DD), ts (ISO time, UTC), str (non-empty text), text (any text), bool,
 "=a|b|c" (one of these words). Text is trimmed and digits matched as JavaScript does (ASCII digits only;
