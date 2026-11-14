@@ -1,8 +1,9 @@
 """Tests for the run seal (seal.py, 13 Nov 2026): nothing in datasets/ may change between pipeline steps.
 
 Part 1 works on a small folder of stand-in files (fast). Part 2 runs the real pipeline in a copy of the repo:
-a clean run, an extras step that fails part-way (cards must still publish), a dataset cut between two steps (the next step
-refuses to run) and a dataset changed after the last step (the feed is withheld).
+a clean run, an extras step that fails part-way (cards must still publish), a chart file changed before extras (written again
+from the candles) or the seal broken before extras (extras leaves no chart file) (audit #30), a dataset cut between two steps (the next step refuses to run) and a dataset
+changed after the last step (the feed is withheld).
     python3 tests/test_seal.py
 """
 import os, shutil, subprocess, sys, tempfile, json
@@ -97,6 +98,33 @@ open(os.path.join(R, 'datasets', 'pastpaths.csv'), 'w').write('half')     # extr
 c3 = [step(s)[0] for s in ('stack_live.py', 'verify_cards.py')]
 rc, f, out = feed(OK + ',extras=failure')
 ok('extras failed part-way: cards still publish, the extras fields are withheld', c3 == [0, 0] and rc == 0 and not f['cards_withheld'] and f['extras_withheld'], f'{c3} {out[-300:]}')
+
+# 14 Nov 2026 audit #30: a chart file changed between the grade step and extras (the last run's, still in datasets/).
+# extras refused at the seal before clearing its outputs, the later steps then left the chart files out of the
+# seal, and the cards published beside a chart with an altered bar. Now extras clears its files first and writes
+# them again from the candles.
+step('refresh.py'); step('grade_live.py')
+cp = os.path.join(R, 'datasets', 'candles_btc_1d.csv'); clean = open(cp).read(); cl = clean.splitlines(keepends=True)
+k = len(cl) // 2; cells = cl[k].rstrip('\n').split(','); cells[2] = str(round(float(cells[2]) * 1.25, 2)); bad_line = ','.join(cells) + '\n'; cl[k] = bad_line
+open(cp, 'w').write(''.join(cl))
+rc_x, out_x = step('extras_live.py')
+c3 = [step(s)[0] for s in ('stack_live.py', 'verify_cards.py')]
+rc, f, out = feed(OK + ',extras=success')
+ok('a chart file changed between grade and extras: extras writes it again from the candles, the altered bar is gone (audit #30)',
+   rc_x == 0 and os.path.exists(cp) and bad_line not in open(cp).read() and open(cp).read() == clean, f'{rc_x} {out_x[-200:]}')
+ok('...and the run publishes clean', c3 == [0, 0] and rc == 0 and not f['cards_withheld'] and not f['extras_withheld'], f'{c3} {out[-300:]}')
+# the seal broken before extras for another reason (the ledger changed after grade): extras fails and leaves no chart
+# or extras file from the last run beside this run's feed
+step('refresh.py'); step('grade_live.py')
+lp = os.path.join(R, 'datasets', 'ledger.csv'); led = open(lp, 'rb').read()
+open(lp, 'ab').write(b'\n')
+rc_x, out_x = step('extras_live.py')
+left = [n for n in seal.EXTRAS_FILES if os.path.exists(os.path.join(R, 'datasets', n))]
+ok('the seal broken before extras: extras fails and no chart or extras file from the last run is left (audit #30)', rc_x != 0 and 'seal' in out_x and not left, f'{rc_x} {left} {out_x[-200:]}')
+open(lp, 'wb').write(led)
+codes = [step(s)[0] for s in ('refresh.py', 'grade_live.py', 'extras_live.py', 'stack_live.py', 'verify_cards.py')]
+rc, f, out = feed(OK + ',extras=success')
+ok('...and the next run is clean, with the chart files back', codes == [0] * 5 and rc == 0 and not f['extras_withheld'] and os.path.exists(cp), f'{codes} {out[-200:]}')
 
 step('refresh.py'); step('grade_live.py'); step('extras_live.py')
 lp = os.path.join(R, 'datasets', 'ledger.csv'); led = open(lp, 'rb').read()

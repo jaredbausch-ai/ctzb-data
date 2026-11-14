@@ -172,6 +172,7 @@ def _row_problems(name, rows, step):
 
 
 FUNDING_FIRST = dt.date(2020, 1, 21)
+OI_FIRST = "2022-09-13"   # the first day of the open interest series, and so of funding_oi_weighted
 
 
 def _market_columns_ok(header, asset):
@@ -304,7 +305,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
     - The funding series (data/derivs/<asset>_funding_daily.csv; the FUND read takes funding_oi_weighted, else
       funding_mean; the FCOOL read takes funding_mean): days strictly ascending from its first day with none
       missing, funding_mean on every row and funding_oi_weighted where filled a finite number between -1 and 1
-      (the series has stayed within -0.5 and 0.3), every other cell blank or a finite number.
+      (the series has stayed within -0.5 and 0.3), every other cell blank or a finite number. funding_oi_weighted
+      is blank before open interest began (OI_FIRST) and filled on every day open interest has a total (audit #30).
     - The other daily series the scoring steps read (long/short ratio and open interest per asset, BTC put/call):
       present, starting on their first day, no day missing, values in range, every other cell blank or a finite
       number.
@@ -345,7 +347,7 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
                 ends[name] = (int(ts[0]), int(ts[-1]))
         # the other daily series the scoring steps read (stack_live.py: long/short ratio, open interest; BTC put/call)
         for rel, col, first, lo, hi, blank_ok, lag_ in [(f"derivs/{a}_lsratio_daily.csv", "ls_ratio_mean", "2020-05-31", 0, 20, False, MAX_LAG_DAYS["lsratio"]),
-                                                       (f"derivs/{a}_oi_daily.csv", "oi_usd_total", "2022-09-13", 0, 1e12, False, MAX_LAG_DAYS["oi"])] + \
+                                                       (f"derivs/{a}_oi_daily.csv", "oi_usd_total", OI_FIRST, 0, 1e12, False, MAX_LAG_DAYS["oi"])] + \
                 ([("options/BTC_pcr_daily.csv", "pcr_amt", "2016-11-01", 0, 1e6, True, MAX_LAG_DAYS["pcr"])] if a == "BTC" else []):
             if dt.date.fromisoformat(first) > today:
                 continue   # the series did not exist yet on the run's day (only a replay of an early date gets here)
@@ -380,6 +382,24 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
                 if cp: bad.append(cp)
                 if days[-1] > today:
                     bad.append(f"{a}_funding_daily: a row is dated {days[-1]}, after {today}")
+                # 14 Nov 2026 audit #30: the column the scorer reads first is blank before open interest began and
+                # filled on every day open interest has a total (fetch_derivs.py writes it from the two); a file that
+                # has lost it scored on funding_mean everywhere and passed
+                po = os.path.join(data_dir, "derivs", f"{a}_oi_daily.csv")
+                try:
+                    with open(po, newline="") as f:
+                        oi_days = {r["date"] for r in csv.DictReader(f) if r.get("oi_usd_total") not in ("", None)}
+                except (OSError, KeyError, TypeError, ValueError, csv.Error):
+                    oi_days = None
+                if oi_days is None:
+                    bad.append(f"{a}_funding_daily: funding_oi_weighted could not be checked against open interest ({a}_oi_daily unreadable)")
+                else:
+                    early = [r["date"] for r in fr if r["date"] < OI_FIRST and r.get("funding_oi_weighted") not in ("", None)]
+                    gone = [r["date"] for r in fr if r["date"] >= OI_FIRST and r["date"] in oi_days and r.get("funding_oi_weighted") in ("", None)]
+                    if early:
+                        bad.append(f"{a}_funding_daily: funding_oi_weighted is filled on {early[0]}, before open interest began ({OI_FIRST})")
+                    if gone:
+                        bad.append(f"{a}_funding_daily: funding_oi_weighted is blank on {len(gone)} day(s) open interest has (first {gone[0]})")
                 if lag and days[-1] < today - dt.timedelta(days=MAX_LAG_DAYS["funding"]):
                     bad.append(f"{a}_funding_daily ends {days[-1]}: more than {MAX_LAG_DAYS['funding']} day(s) before {today}")
                 if days[0] != FUNDING_FIRST:

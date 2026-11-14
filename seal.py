@@ -136,7 +136,9 @@ def check(out, step):
     need = tuple(s for s in need if s != 'extras')   # extras is not a gating step: a later step may run without it
     m = _read(out) or {}
     extras_ok = 'extras' in m.get('steps', [])
-    bad = problems(out, need=need, ignore=() if extras_ok or step in ('refresh', 'grade', 'extras') else EXTRAS_FILES)
+    # 14 Nov 2026 audit #30: extras clears its own files before this check (extras_live.py), so it does not hold
+    # them against the run; the steps after a failed extras do not either (feed_live.py withholds them)
+    bad = problems(out, need=need, ignore=EXTRAS_FILES if step == 'extras' or not (extras_ok or step in ('refresh', 'grade')) else ())
     if step in m.get('steps', []):
         bad.append(f'step "{step}" already ran in this run')
     if bad:

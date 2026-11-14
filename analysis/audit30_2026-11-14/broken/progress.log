@@ -1,0 +1,21 @@
+05:08 A1 page delivery replay: 97 cases so far, 29 got through
+05:15 A1 page delivery replay: 99 cases so far, 0 got through
+05:19 A1 page delivery current: 178 cases so far, 0 got through
+05:21 B3 runs/timing replay: 32 cases so far, 0 disagreements
+05:29 B3 runs/timing current: 64 cases so far, 0 disagreements
+05:32 B1 candle battery current: 666 cases, 38 disagreements
+05:38 A2 page content/timing replay ['same', 'markup', 'timing', 'cross', 'held', 'yearend', 'trades', 'boundary', 'hardening']: 86 cases so far, 16 got through
+05:39 B4 alert-log battery: 29 cases, 5 disagreements
+05:41 A2 page content/timing current ['same', 'markup', 'timing', 'cross', 'held', 'yearend', 'trades', 'boundary', 'hardening']: 143 cases so far, 20 got through
+05:42 A2 page content/timing replay ['trades']: 28 cases so far, 0 got through
+05:42 A2 page content/timing current ['trades']: 56 cases so far, 0 got through
+05:47 A2 page content/timing replay ['yearend']: 28 cases so far, 0 got through
+05:56 B1 candle battery current: 0 cases, 0 disagreements
+05:56 B1 candle battery current: 20 cases, 0 disagreements
+06:15 B1b series battery current: 210 cases, 7 disagreements
+06:20 B2 between-step battery replay: 740 cases, 203 disagreements
+06:21 B2 between-step battery replay: 197 cases, 0 disagreements
+06:23 B2 between-step battery current: 168 cases, 9 disagreements
+06:25 B1c config battery current: 72 cases, 20 disagreements
+06:26 B1 candle battery replay: 190 cases, 0 disagreements
+11:29 FINAL: 2524 cases (page 340, pipeline 2184), 4 disagreements (2 causes), 11 hardening accepted; report AUDIT30_BROKEN.md

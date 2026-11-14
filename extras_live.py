@@ -73,14 +73,16 @@ def main():
     ap.add_argument("--datasets", default=os.path.join(ROOT, "datasets"))
     a = ap.parse_args()
     import seal
-    seal.check(a.datasets, "extras")   # the steps before this one finished and their files are untouched (seal.py)
     # 13 Nov 2026 audit #24: clear this step's outputs first, so a failure part-way never leaves the previous run's
-    # chart files or figures beside this run's feed (the page then says the chart is unavailable)
+    # chart files or figures beside this run's feed (the page then says the chart is unavailable). 14 Nov 2026
+    # audit #30: before the seal check too, so a broken seal does not leave them (a chart file changed between the
+    # grade step and this one was served with the cards)
     for f_ in seal.EXTRAS_FILES:
         try:
             os.remove(os.path.join(a.datasets, f_))
         except FileNotFoundError:
             pass
+    seal.check(a.datasets, "extras")   # the steps before this one finished and their files are untouched (seal.py)
     full = cd.rows("datasets/ledger.csv")
     led = [r for r in full if r["grade"] == "A+"]
     if not led:

@@ -3099,3 +3099,14 @@ first_round,level,family,kind,case,expected
 29,pipeline,MALFORMED,real life,eth_funding_blank_line_mid,"stop / held back, or (stale outputs) figures equal the clean run"
 29,pipeline,TIMING,real life,BTC_pcr_row_tomorrow,"stop / held back, or (stale outputs) figures equal the clean run"
 29,pipeline,MISSING,real life,alert sequence feed_deleted_log_cut: 11-12T20:14 clean -> 11-13T04:14 clean -> 11-13T04:44 clean,"every alert of the all-clean chain logged once, carried by a clean feed, emitted_at fixed"
+30,page,HARDENING,hand-forged,feed: a forming card confirming in 2030 with 1 bar to go,rejected
+30,page,HARDENING,hand-forged,feed: a forming card whose price_now is 3x the other cards' of the same asset,rejected
+30,page,HARDENING,hand-forged,feed: a forming card that must close above 10% of today's price,rejected or flagged
+30,page,HARDENING,hand-forged,feed: dip before the high equals the deepest dip but lands after the high,rejected
+30,page,HARDENING,hand-forged,feed: every past signal touched -30% yet as many rose 10% without ever falling 25.3%,rejected
+30,page,HARDENING,hand-forged,feed: a live signal marked rose 10% while its card's price_now is below entry,rejected
+30,page,HARDENING,hand-forged,feed: grade_odds rows reversed,same page
+30,page,HARDENING,hand-forged,feed: scored_as_of a month before generated_at,rejected or flagged
+30,pipeline,MALFORMED,real life,"datasets/candles_eth_5d.csv: a figure altered, after the grade step","fails closed: a later step refuses the seal, feed held or fail-closed"
+30,pipeline,MALFORMED,real life,data/derivs/BTC_funding_daily.csv: read column lost,stops at the candle check or the cards are held
+30,pipeline,MALFORMED,real life,"datasets/candles_btc_1d.csv: one middle bar's high raised 25%, after the grade step (repro; page then served this run's files)","fails closed (seal), or the chart says unavailable"

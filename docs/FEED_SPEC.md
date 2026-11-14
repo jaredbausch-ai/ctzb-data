@@ -383,6 +383,8 @@ not hold) and `alerts_held` (the alerts kept for the next clean feed, as above).
 - Sealed files: everything in `datasets/`, the candle files in `data/`, the funding, long/short and open-interest
   series in `data/derivs/` and `data/options/BTC_pcr_daily.csv`.
 - extras is not gating: a later step runs without it, and when it did not finish its files are left out of the check.
+  extras deletes its own files before its seal check and writes them again from this run's ledger and candles, so a
+  change to them before it runs is not served, and when it fails (its seal check included) none of them is left.
 - `feed_live.py` refuses a seal started more than 2 hours (`MAX_RUN_HOURS`) before it runs, or after it, so running it
   again on its own later cannot publish the last run's scoring as fresh.
 - The seal and the alert-log record guard against accidents and partial runs, not against someone with write access to
@@ -410,7 +412,8 @@ enforce mode, when any of the last 30 closed days differs from Kraken's close by
 - the funding series from 2020-01-21, the long/short ratio from 2020-05-31 and open interest from 2022-09-13 (per
   asset), and BTC put/call from 2016-11-01: no missing or repeated day; the columns the scorer reads in range (funding:
   `funding_mean` on every row and `funding_oi_weighted` where filled, both between -1 and 1; the FUND read takes
-  `funding_oi_weighted` first, the FCOOL read `funding_mean`); every other cell blank or a finite number; whole rows;
+  `funding_oi_weighted` first, the FCOOL read `funding_mean`; `funding_oi_weighted` blank before 2022-09-13, when open
+  interest began, and filled on every day open interest has a total); every other cell blank or a finite number; whole rows;
   derivatives columns of their own asset; no row dated after today (the run's UTC date). A series whose first day is
   after the run's day did not exist yet and is not checked (only a replay of an early date gets there). stack_live.py alone also requires each series' read column to be filled up
   to no more than 1 day before today (put/call: 2 days, it writes completed days only): the funding reads take the
