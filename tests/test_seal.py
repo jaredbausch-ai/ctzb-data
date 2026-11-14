@@ -2,7 +2,8 @@
 
 Part 1 works on a small folder of stand-in files (fast). Part 2 runs the real pipeline in a copy of the repo:
 a clean run, an extras step that fails part-way (cards must still publish), a chart file changed before extras (written again
-from the candles) or the seal broken before extras (extras leaves no chart file) (audit #30), a dataset cut between two steps (the next step refuses to run) and a dataset
+from the candles) or the seal broken before extras (extras leaves no chart file) (audit #30), extras failed part-way or
+a fail-closed feed (feed_live.py leaves no extras file, fix check), a dataset cut between two steps (the next step refuses to run) and a dataset
 changed after the last step (the feed is withheld).
     python3 tests/test_seal.py
 """
@@ -103,6 +104,8 @@ ok('extras failed part-way: cards still publish, the extras fields are withheld'
 # extras refused at the seal before clearing its outputs, the later steps then left the chart files out of the
 # seal, and the cards published beside a chart with an altered bar. Now extras clears its files first and writes
 # them again from the candles.
+[step(s) for s in ('refresh.py', 'grade_live.py', 'extras_live.py', 'stack_live.py', 'verify_cards.py')]   # a clean run first: the
+# failed-extras case above left no chart file (feed_live.py deletes them when it withholds the extras)
 step('refresh.py'); step('grade_live.py')
 cp = os.path.join(R, 'datasets', 'candles_btc_1d.csv'); clean = open(cp).read(); cl = clean.splitlines(keepends=True)
 k = len(cl) // 2; cells = cl[k].rstrip('\n').split(','); cells[2] = str(round(float(cells[2]) * 1.25, 2)); bad_line = ','.join(cells) + '\n'; cl[k] = bad_line
@@ -125,6 +128,27 @@ open(lp, 'wb').write(led)
 codes = [step(s)[0] for s in ('refresh.py', 'grade_live.py', 'extras_live.py', 'stack_live.py', 'verify_cards.py')]
 rc, f, out = feed(OK + ',extras=success')
 ok('...and the next run is clean, with the chart files back', codes == [0] * 5 and rc == 0 and not f['extras_withheld'] and os.path.exists(cp), f'{codes} {out[-200:]}')
+
+# fix check, audit #30: extras failed part-way after writing its chart files, and one of them was changed before the
+# later steps; and a fail-closed feed. feed_live.py deletes every extras file whenever it withholds the extras.
+step('refresh.py'); step('grade_live.py')
+mp = os.path.join(R, 'datasets', 'manifest.json'); m0 = open(mp, 'rb').read()
+step('extras_live.py'); open(mp, 'wb').write(m0)   # extras died after writing: it never recorded finishing
+for n in ('missstats.csv', 'pastpaths.csv', 'oddsfade.csv'):
+    os.remove(os.path.join(R, 'datasets', n))      # ...and before these
+cl = open(cp).read().splitlines(keepends=True); cells = cl[k].rstrip('\n').split(','); cells[2] = str(round(float(cells[2]) * 1.25, 2)); cl[k] = ','.join(cells) + '\n'
+open(cp, 'w').write(''.join(cl))
+c3 = [step(s)[0] for s in ('stack_live.py', 'verify_cards.py')]
+rc, f, out = feed(OK + ',extras=failure')
+left = [n for n in seal.EXTRAS_FILES if os.path.exists(os.path.join(R, 'datasets', n))]
+ok('extras failed part-way and a chart file it wrote changed: the cards publish, extras withheld, no extras file left (fix check)',
+   c3 == [0, 0] and rc == 0 and not f['cards_withheld'] and f['extras_withheld'] and not left, f'{c3} {left} {out[-300:]}')
+codes = [step(s)[0] for s in ('refresh.py', 'grade_live.py', 'extras_live.py', 'stack_live.py', 'verify_cards.py')]
+gp = os.path.join(R, 'datasets', 'grades.csv'); g0 = open(gp, 'rb').read(); open(gp, 'ab').write(b'\n')
+rc, f, out = feed(OK + ',extras=success')
+left = [n for n in seal.EXTRAS_FILES if os.path.exists(os.path.join(R, 'datasets', n))]
+ok('a fail-closed feed: no extras file left (fix check)', rc == 1 and f['cards_withheld'] and f['extras_withheld'] and not left, f'{rc} {left} {out[-200:]}')
+open(gp, 'wb').write(g0)
 
 step('refresh.py'); step('grade_live.py'); step('extras_live.py')
 lp = os.path.join(R, 'datasets', 'ledger.csv'); led = open(lp, 'rb').read()

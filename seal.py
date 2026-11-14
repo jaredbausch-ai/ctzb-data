@@ -137,7 +137,8 @@ def check(out, step):
     m = _read(out) or {}
     extras_ok = 'extras' in m.get('steps', [])
     # 14 Nov 2026 audit #30: extras clears its own files before this check (extras_live.py), so it does not hold
-    # them against the run; the steps after a failed extras do not either (feed_live.py withholds them)
+    # them against the run; the steps after a failed extras do not either (feed_live.py deletes them when it withholds
+    # the extras)
     bad = problems(out, need=need, ignore=EXTRAS_FILES if step == 'extras' or not (extras_ok or step in ('refresh', 'grade')) else ())
     if step in m.get('steps', []):
         bad.append(f'step "{step}" already ran in this run')

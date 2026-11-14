@@ -541,6 +541,8 @@ def main():
     extras_ok = all_ok and steps.get("extras", "success") == "success" and all(
         os.path.exists(d(f)) for f in ("missstats.csv", "pastpaths.csv", "oddsfade.csv"))
     feed["extras_withheld"] = not extras_ok
+    if not extras_ok:
+        remove_extras_files(a.datasets)
     feed["if_it_misses"] = [
         {"label": LABEL, "asset": r["asset"], "grade": r["grade"], "signals": num(r["aplus_signals"]),
          "misses": num(r["misses"]), "up_first": num(r["up_first"]),
@@ -678,6 +680,18 @@ def held_alerts(feed_path, log_path):
             return []
 
 
+def remove_extras_files(datasets):
+    """14 Nov 2026 audit #30 fix check: when this run's extras are withheld, delete the extras step's files (the
+    chart files among them) so none is served beside the feed. extras clears them as it starts, but a failure part-way
+    leaves those it had written, and the later steps leave them out of the run seal, so a file changed after that was
+    served. The page then says the chart is unavailable."""
+    for f_ in EXTRAS_FILES:
+        try:
+            os.remove(os.path.join(datasets, f_))
+        except FileNotFoundError:
+            pass
+
+
 def fail_closed(out_path, err, log_path=None):
     """Fire drills, 11 Nov 2026: when this script itself crashes (a missing column after an
     upstream step failed, say), the PREVIOUS feed used to stay published, cards and all, as
@@ -721,5 +735,10 @@ if __name__ == "__main__":
         if "--alert-log" in sys.argv[1:-1]:
             log = sys.argv[sys.argv.index("--alert-log") + 1]
         fail_closed(out, e, log)
+        ds = sys.argv[sys.argv.index("--datasets") + 1] if "--datasets" in sys.argv[1:-1] else "datasets"
+        try:
+            remove_extras_files(ds)   # a fail-closed feed withholds the extras too
+        except OSError:
+            pass
         print(f"FEED BUILD FAILED ({type(e).__name__}: {e}); wrote a withheld feed to {out}", file=sys.stderr)
         sys.exit(1)

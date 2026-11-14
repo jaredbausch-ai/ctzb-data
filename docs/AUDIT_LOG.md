@@ -1095,18 +1095,19 @@ The two causes, each fixed at its family's rule:
   failed, so the cards published beside it, and the page, which matches only the chart's last close to the card,
   drew the altered bar (a BTC 1D high raised 25%). The same path left the last run's chart files beside a fresh feed
   whenever extras' seal check failed. Rule now: extras deletes its files before its seal check and does not hold them
-  against the run, then writes them again from this run's ledger and candles; when it fails, none of its files is
-  left. Test: `test_seal` (a chart bar altered after grade: written again, the altered bar gone, the run clean; the
+  against the run, then writes them all again from this run's inputs; and `feed_live.py` deletes them whenever it
+  withholds the extras (added after the fix check, below). Test: `test_seal` (a chart bar altered after grade: written again, the altered bar gone, the run clean; the
   seal broken before extras: no chart or extras file left; the next run clean).
 - **A funding file that had lost `funding_oi_weighted` passed.** The column the FUND read takes first was checked
   only where filled, so a file with the column emptied or removed was scored on `funding_mean` every day. Rule now:
   `funding_oi_weighted` is blank before open interest began (2022-09-13) and filled on every day open interest has a
-  total, as `fetch_derivs.py` writes it; the one day open interest has not yet reached may be blank. In the last 80
+  total, as `fetch_derivs.py` writes it. A day the open interest file lacks may be blank; the stack step allows open
+  interest to be at most a day behind, so there only the last day can be. In the last 80
   committed versions of both files the column was always filled from 2022-09-13 on. Test: `test_series_cells`
   (emptied, removed, blank on one day, blank on the last day, filled before 2022-09-13: each fails in the candle check
   and the stack step; blank on the day open interest has not reached: passes).
 
-Every new failing case fails on the round-29 code (series cells 42 of 58 then; run seal 24 of 27). Hardening (not
+Every new failing case fails on the round-29 code (series cells 42 of 62 then; run seal 24 of 27). Hardening (not
 counted) left as it is: forming-card dates and prices far from the others, inconsistent past-signal shares, a
 `scored_as_of` a month old. Not counted: `docs/PRETRADE.md` cut in half weakens the stack step's coverage check
 without changing a figure; the documented three-file limit of the alert log also showed. The 11 cases of round 30
