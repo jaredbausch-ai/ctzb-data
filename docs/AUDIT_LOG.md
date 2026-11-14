@@ -1189,6 +1189,48 @@ the new rule; the page and `feedcheck.py` agree on 12 date variants). 0 incomple
 After the corrections: numbers check 13 dates unchanged, midnight 7/7, page timing 20/20, page states 52/52, feed
 alerts 65/65, damage test 31/31 (quick pass).
 
+## Round 32 — 14 Nov (audit #32: damage part only, counted on the frozen list)
+
+**Not clean:** 2 causes got through a family's rule, both real-life damage, both a damaged input used without being
+withheld. No wrong figure reached a member, nothing reads as a return.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page | 62 / 0 | 291 / **4** | 58 / 0 | 39 / 0 | 44 / 0 | 24 / 0 |
+| Pipeline | 64 / 0 | 507 / 0 | 53 / 0 | 1,126 / **2** | 28 / 0 | n/a |
+
+(cases tried / got through; the 4 page rows are one cause in two states, the 2 pipeline rows one cause in two states).
+Hardening, not counted: 79 tried; one got through (another run's `candle_check.json` swapped in between two steps of
+one job: the feed's Kraken status came from that run, no member-facing figure changed). States: a replay of 11 Nov
+04:30 UTC (four forming setups) and the data of 14 Nov. Report: `analysis/audit32_2026-11-14/broken/`.
+
+The two causes, each fixed at its family's rule:
+- **Malformed: a top-grade ledger row whose `dipBeforeHigh` cell was blank or a single space was accepted.** The page
+  read that cell only through `+`, where both are 0, and never checked it was a number as it does the other numeric
+  cells. The column is not shown, so no figure was wrong. Rule now: every numeric cell the page reads must be a
+  number. Test: `test_page_states` (blank and a space: Past signals reads unavailable).
+- **Partial run: with the previous feed lost, the alert log's second copy lost and the log cut, the log on disk was
+  accepted and the alerts whose rows were cut were emitted again** (same `alert_id`, new `emitted_at`). With no record
+  left, `check_log` took the log as it was. Rule now: with neither the previous feed nor the copy there is nothing to
+  check the log against, so the run fails closed whether the log is whole or not, until the feed or the copy is put
+  back from the last commit. The withheld feed no longer records the log on disk as the record (that would have made
+  the damaged log the record the next run accepted). Test: `test_feed_alerts` (log cut and log whole, each withheld
+  twice running, log untouched, nothing re-sent; the copy put back runs clean).
+
+Every new case fails on the round-31 code (page states 52 of 53, feed alerts 67 of 69). The second run of the
+alert-log case also fails on this round's first fix, which recorded the log on disk in the withheld feed; that was
+caught by the suite before the fix check. The 56 cases of round 32 (3 got through, 53 hardening) were added to
+`docs/audit/damage_list.csv`. Not tested by the auditor: the whole `feed/` folder rolled back to an older snapshot
+(neither state emits a new alert at its own clock).
+
+The fire drills and the audit-state builder replay commit 4aa1208, whose feed predates the alert log's record and
+second copy, so under the new rule their fixture failed closed (fire drills 53 of 58). The fixture now gets the copy
+every run leaves (the log as the fixture has it); nothing else in it changes.
+
+**Re-checked after the changes:** numbers check 13 dates unchanged, midnight 7/7, run seal 29/29, feed extras 28/28,
+feed alerts 69/69, page states 53/53, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20,
+per-year test, site worker 26/26, damage test 31/31 (quick pass), audit states build (replay 4 cards, current clean).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
