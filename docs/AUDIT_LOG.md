@@ -1255,6 +1255,40 @@ site worker 26/26, damage test 31/31 (quick pass), audit states build (replay 4 
 log passes the check. The live copy is in the old format until the next run rewrites it (the feed is its record
 until then).
 
+## Round 33 — 14 Nov (audit #33: damage part only, counted on the frozen list)
+
+**Not clean:** 1 cause got through a family's rule, real-life damage on the page: a wrong figure (one lead-trader fill
+shown as two trades). No damaged input scored or published, nothing that reads as a return.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page | 61 / 0 | 276 / 0 | 45 / 0 | 9 / **1** | 30 / 0 | 48 / 0 |
+| Pipeline | 25 / 0 | 645 / 0 | 62 / 0 | 336 / 0 | 9 / 0 | 1 / 0 |
+
+(cases tried / got through; the page row is one cause in both states). Hardening, not counted: 59 tried, none got
+through. The page and `feedcheck.py` gave the same verdict on 2,000 mutated feeds. States: a replay of 11 Nov 04:14
+UTC (four forming setups) and the data of 14 Nov. Report: `analysis/audit33_2026-11-14/broken/`.
+
+The cause, fixed at its family's rule:
+- **Partial run: a lead-trader file listing one fill twice (the same `id`, time, price and size) was shown as two
+  trades.** The page's check of that file covered its shape, newest-first order and future times, not a repeated
+  event. The auditor's real-life route is a relay update applied twice (read from the relay's code, not reproduced).
+  Rule now: an event that repeats an earlier one (the same `id`, or every field the same) means the file is damaged,
+  and the lead trader reads "unavailable"; `feedcheck.py` applies the same rule. Test: `test_page_states` (the same
+  id; no id and every field the same; two different fills in the same second are both shown).
+
+The two repeat cases fail on the round-32 page (page states 54 of 56). The 36 cases of round 33 (1 got through, 35
+hardening) were added to `docs/audit/damage_list.csv`. The site Worker (`cloudflare/ctzb-site-worker.js`) was rebuilt
+from the page; it had not been rebuilt since round 29 (it is deployed only after the two clean runs). Not counted, as
+specified: a hand run with no step outcomes is judged on `stack_status.txt` alone.
+
+The lead-trader schema now names `id` (optional, text), since the repeat rule reads it; the damage test requires every
+field the page reads to be in the schema (it failed 29 of 31 until then).
+
+**Re-checked after the changes:** numbers check 13 dates unchanged, midnight 7/7, run seal 29/29, feed extras 28/28,
+feed alerts 83/83, page states 56/56, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20,
+per-year test, site worker 26/26, trades relay 41/41, damage test 31/31 (quick pass).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
