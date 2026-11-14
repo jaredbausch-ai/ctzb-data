@@ -866,6 +866,11 @@ version of `numbers_check.py` compared run bookkeeping copied from the live repo
 it failed after every 4-hour run with no figure moved (fixed: bookkeeping is left out; no figure moved against the
 baseline); 12 sentences of the rewritten FEED_SPEC incomplete or loose, and 2 true statements lost (all corrected).
 
+**Re-checked after the changes:** numbers check 13 dates unchanged, cut files 496/496, candle check 95/95, run seal
+23/23, feed alerts 31/31, feed extras 28/28, fetch tests 4/4, Action-environment test, year-end replays 8/8, gate-off
+and no-today-bar replays, both audit states build, page states 48/48, page timing 10/10, site Worker 25/25, damage
+test 31/31, fire drills 58/58.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
