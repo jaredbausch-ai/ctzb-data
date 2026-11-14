@@ -523,7 +523,8 @@ Worker, uncached.
   past the entry bar, and its entry close equals the example card's.
 - **Lead-trader file.** Served from the `ctzb-trades` relay, which the review banner says is in dry run. Checked
   against the schema's lead-trader part (key `trades`), newest first, none in the future, and no event repeating an
-  earlier one (the same `id`, or every field the same: one fill listed twice); a failure reads
+  earlier one: two events are the same when both have an `id` and the ids match, or, when either has none, every
+  other field holds the same value (a null field counts as missing, times as the same instant); a failure reads
   "unavailable". It never changes the odds. The card's lead-trader line reads "not in" when he has posted entries but
   none on that asset. The chart's note says "Loading" while his file loads and is updated in place when it arrives,
   says his feed is unavailable when it cannot be read and that he has posted no trades when the file holds none, and

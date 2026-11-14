@@ -47,7 +47,7 @@ async function fx(url, init) {
   if (u.pathname === "/api/v3/brokerage/orders/historical/fills") {
     const start = Date.parse(u.searchParams.get("start_sequence_timestamp"));
     if (u.searchParams.getAll("product_types").join() !== "FUTURE") cb.jwtProblems.push("fills not limited to futures");
-    return J({ fills: cb.fills.filter((f) => Date.parse(f.trade_time) >= start), cursor: "" });
+    return J({ fills: cb.fills.filter((f) => !f.hidden && Date.parse(f.trade_time) >= start), cursor: "" });
   }
   if (u.pathname === "/api/v3/brokerage/cfm/positions") return J({ positions: cb.positions });
   if (u.pathname === "/api/v3/brokerage/cfm/balance_summary") return J({ balance_summary: { total_usd_balance: amt(cb.balance), initial_margin: amt(cb.margin) } });
@@ -203,6 +203,38 @@ check("an Ed25519 key is refused with a clear message", /ECDSA/.test(edMsg), edM
 const k2 = kv();
 await _test.tick({ TRADES: k2, COINBASE_KEY_NAME: KEYNAME }, fx, now);
 check("missing key: error recorded, nothing posted", /COINBASE_PRIVATE_KEY is not set/.test(state(k2).last_error) && !k2.m.has("events"));
+
+// ---- 14 Nov 2026 audit #33 fix check: a fill of one order that shows up a read late, with an earlier time ----
+// KV reads can be up to a minute old: a tick that reads the state from before the last tick used to post the same
+// open (or close) again under another id, and with a fresh state the late fill posted an "add" older than the open
+const kvPin = () => { const b = kv(); let pin = null; return { ...b, snap: () => new Map(b.m), pinTo: (s) => { pin = s; },
+  get: async (key, o) => (pin ? (pin.has(key) ? (o && o.type === "json" ? JSON.parse(pin.get(key)) : pin.get(key)) : null) : b.get(key, o)) }; };
+const late = async (stale, closing) => {
+  cb.fills = []; cb.positions = []; const kk = kvPin(); await _test.tick(ENV(kk), fx, now);   // baseline, flat
+  if (closing) { const ta = step(); cb.fills.push(fill("O", "ETP-20DEC30-CDE", "BUY", 100, 3000, ta)); cb.positions = [pos("ETP-20DEC30-CDE", "LONG", 100, 3000)]; step(); await _test.tick(ENV(kk), fx, now); }
+  const t0 = step(), t1 = step(), side = closing ? "SELL" : "BUY";
+  cb.fills.push(fill("X", "ETP-20DEC30-CDE", side, 50, 2999, t0, { hidden: true }), fill("X", "ETP-20DEC30-CDE", side, 50, 3001, t1));
+  cb.positions = closing ? [] : [pos("ETP-20DEC30-CDE", "LONG", 100, 3000)];
+  const s0 = kk.snap(); step(); await _test.tick(ENV(kk), fx, now);
+  cb.fills.find((f) => f.hidden).hidden = false;
+  if (stale) { const p = new Map(s0); p.set("events", kk.m.get("events")); kk.pinTo(p); }
+  step(); await _test.tick(ENV(kk), fx, now); kk.pinTo(null);
+  return JSON.parse(kk.m.get("events") || "[]").filter((e) => e.time >= t0);
+};
+for (const [stale, what] of [[true, "the late read seeing an old state"], [false, "the late read seeing the current state"]]) {
+  const ev_ = await late(stale, false);
+  check(`an opening order whose earlier fill shows up a read late (${what}): one open, nothing older after it`,
+    ev_.length === 1 && ev_[0].action === "open" && ev_[0].id === "X:open", ev_.map((e) => `${e.id} ${e.action} ${e.time}`).join("; "));
+}
+// a closing order split across two reads with its earlier fill late: no event is posted twice and the list stays newest
+// first (the page would refuse either), but the position is misstated: on a read that sees an old state, a reduce then
+// a close; on one that sees the current state, the reduce alone (the reconcile already holds the close). A known limit
+// (before this change the second case posted an open the other way, older than the reduce): cloudflare/README.md
+for (const stale of [true, false]) {
+  const ev_ = await late(stale, true);
+  check(`a closing order whose earlier fill shows up a read late (${stale ? "old" : "current"} state): no event twice, newest first`,
+    new Set(ev_.map((e) => e.id)).size === ev_.length && ev_.every((e, i) => !i || Date.parse(e.time) <= Date.parse(ev_[i - 1].time)), ev_.map((e) => `${e.id} ${e.action} ${e.time}`).join("; "));
+}
 
 console.log(`\n${res.filter(Boolean).length}/${res.length} passed`);
 process.exit(res.every(Boolean) ? 0 : 1);

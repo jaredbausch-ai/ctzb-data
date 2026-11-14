@@ -527,8 +527,18 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (!out.length) crossCheck(feed, out);
     return out;
   }
-  const sameEvent = (a, b) => (typeof a.id === "string" && a.id === b.id)
-    || (Object.keys(a).length === Object.keys(b).length && Object.keys(a).every((k) => Object.prototype.hasOwnProperty.call(b, k) && a[k] === b[k]));
+  // two lead-trader events are the same event when both have an id and the ids match, or, when either has none,
+  // every other field holds the same value: a null field counts as missing, times as the same instant, numbers as
+  // the same number, and objects and lists field by field (audit #33 and its fix check)
+  const sameVal = (x, y, k) => {
+    if (x == null || y == null) return x == null && y == null;
+    if (k === "time" && isTs(x) && isTs(y)) return Date.parse(x) === Date.parse(y);
+    if (Array.isArray(x) || Array.isArray(y)) return Array.isArray(x) && Array.isArray(y) && x.length === y.length && x.every((v, i) => sameVal(v, y[i]));
+    if (typeof x === "object" || typeof y === "object") return typeof x === "object" && typeof y === "object" && sameFields(x, y, false);
+    return x === y;
+  };
+  const sameFields = (a, b, top) => [...new Set([...Object.keys(a), ...Object.keys(b)])].every((k) => (top && k === "id") || sameVal(a[k], b[k], top ? k : null));
+  const sameEvent = (a, b) => (typeof a.id === "string" && typeof b.id === "string") ? a.id === b.id : sameFields(a, b, true);
   function tradesProblems(t) {
     const out = []; shapeCheck(t, FEED_SCHEMA.trades, FEED_SCHEMA.defs, "trades", out);
     if (out.length) return out;
@@ -536,8 +546,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     t.trades.forEach((x, i) => {
       if (i && Date.parse(x.time) > Date.parse(t.trades[i - 1].time)) out.push("trades[" + i + "]: not newest first");
       if (Date.parse(x.time) > Date.now() + 5 * 60e3) out.push("trades[" + i + "]: in the future");
-      // 14 Nov 2026 audit #33: one fill listed twice read as two trades. An event that repeats an earlier one (the
-      // same id, or every field the same) means the file is damaged
+      // 14 Nov 2026 audit #33: one fill listed twice read as two trades. An event that repeats an earlier one
+      // (sameEvent) means the file is damaged
       if (t.trades.slice(0, i).some((y) => sameEvent(x, y))) out.push("trades[" + i + "]: repeats an earlier event");
     });
     return out;

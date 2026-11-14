@@ -234,29 +234,63 @@ def trades_problems(trades, schema=None, now=None):
     check(trades, schema['trades'], schema['defs'], 'trades', out)
     if out:
         return out
-    t = lambda x: dt.datetime.strptime(x[:19], '%Y-%m-%dT%H:%M:%S').replace(tzinfo=dt.timezone.utc)
-    now = (now or dt.datetime.now(dt.timezone.utc)) + dt.timedelta(minutes=5)
+    t = _ts_ms   # to the millisecond, as the page's Date.parse reads it (a longer fraction is cut, not rounded)
+    now = _ts_ms((now or dt.datetime.now(dt.timezone.utc)).strftime('%Y-%m-%dT%H:%M:%S.%f')[:23] + 'Z') + 5 * 60000
     for i, x in enumerate(trades['trades']):
         if i and t(x['time']) > t(trades['trades'][i - 1]['time']): out.append(f'trades[{i}]: not newest first')
         if t(x['time']) > now: out.append(f'trades[{i}]: in the future')
-        # 14 Nov 2026 audit #33: one fill listed twice read as two trades; an event that repeats an earlier one (the
-        # same id, or every field the same, compared as the page compares them) means the file is damaged
+        # 14 Nov 2026 audit #33: one fill listed twice read as two trades; an event that repeats an earlier one
+        # (_same_event, the page's sameEvent) means the file is damaged
         if any(_same_event(x, y) for y in trades['trades'][:i]): out.append(f'trades[{i}]: repeats an earlier event')
     return out
 
 
-def _js_eq(a, b):
-    """JavaScript ===, for values parsed from JSON: objects and lists are never equal, true is not 1."""
-    if isinstance(a, (dict, list)) or isinstance(b, (dict, list)) or isinstance(a, bool) != isinstance(b, bool):
-        return False
-    if isinstance(a, str) != isinstance(b, str) or (a is None) != (b is None):
-        return False
-    return a == b
+_TS = re.compile(r'^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d+))?Z$')
+
+
+def _ts_ms(v):
+    """A schema timestamp in milliseconds since 1970, a longer fraction cut to the millisecond (as JavaScript's
+    Date.parse reads it)."""
+    m = _TS.match(v)
+    s = dt.datetime.strptime(m.group(1), '%Y-%m-%dT%H:%M:%S').replace(tzinfo=dt.timezone.utc)
+    return int(s.timestamp()) * 1000 + int(((m.group(2) or '') + '000')[:3])
+
+
+def _num(x):
+    """A JSON number as JavaScript reads it: the nearest double, past its range infinite."""
+    try:
+        return float(x)
+    except OverflowError:
+        return math.inf if x > 0 else -math.inf
+
+
+def _same_val(x, y, k=None):
+    if x is None or y is None:
+        return x is None and y is None
+    if k == 'time' and isinstance(x, str) and isinstance(y, str) and _TS.match(x) and _TS.match(y):
+        return _ts_ms(x) == _ts_ms(y)
+    if isinstance(x, list) or isinstance(y, list):
+        return isinstance(x, list) and isinstance(y, list) and len(x) == len(y) and all(_same_val(a, b) for a, b in zip(x, y))
+    if isinstance(x, dict) or isinstance(y, dict):
+        return isinstance(x, dict) and isinstance(y, dict) and _same_fields(x, y, False)
+    if isinstance(x, bool) or isinstance(y, bool):
+        return isinstance(x, bool) and isinstance(y, bool) and x == y
+    if isinstance(x, (int, float)) and isinstance(y, (int, float)):
+        return _num(x) == _num(y)
+    return isinstance(x, str) and isinstance(y, str) and x == y
+
+
+def _same_fields(a, b, top):
+    return all((top and k == 'id') or _same_val(a.get(k), b.get(k), k if top else None) for k in set(a) | set(b))
 
 
 def _same_event(a, b):
-    return (isinstance(a.get('id'), str) and a.get('id') == b.get('id')) or (
-        len(a) == len(b) and all(k in b and _js_eq(a[k], b[k]) for k in a))
+    """The page's sameEvent: both ids text and equal; or, when either has none, every other field the same (a null
+    field counts as missing, times as the same instant, numbers as the same number, objects and lists field by
+    field)."""
+    if isinstance(a.get('id'), str) and isinstance(b.get('id'), str):
+        return a['id'] == b['id']
+    return _same_fields(a, b, True)
 
 
 if __name__ == '__main__':

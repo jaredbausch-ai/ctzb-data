@@ -201,7 +201,7 @@ function groupOrders(fills) {
   for (const f of fills) {
     const k = f.order_id || f.entry_id;
     let o = byId.get(k);
-    if (!o) { o = { id: f.entry_id, product: f.product_id, side: f.side, contracts: 0, pxq: 0, fee: 0, time: f.trade_time }; byId.set(k, o); orders.push(o); }
+    if (!o) { o = { id: f.entry_id, order: k, product: f.product_id, side: f.side, contracts: 0, pxq: 0, fee: 0, time: f.trade_time }; byId.set(k, o); orders.push(o); }
     const s = num(f.size) || 0, p = num(f.price) || 0;
     o.contracts += s; o.pxq += s * p; o.fee += num(f.commission) || 0;
     if (Date.parse(f.trade_time) > Date.parse(o.time)) o.time = f.trade_time;
@@ -218,10 +218,23 @@ function applyOrder(state, o, info, mode) {
   const prev = pos.qty, next = prev + q;
   const base = { mode, time: o.time, asset: info.asset, instrument: info.instrument, price: o.price, product: o.product };
   const out = [];
+  // 14 Nov 2026 audit #33 fix check: an order opens or closes a position once, so those events are named by the
+  // order, not by its first fill. A fill of the order that shows up a read later, with an earlier time, used to post
+  // the same open (or close) again under another id when that read saw an old state; now it repeats an id already
+  // stored, which appendEvents drops. A later fill of an order that opened the position adds to it quietly (it is
+  // the same trade), instead of posting an "add" older than the open.
+  const opened = state.opened_orders || (state.opened_orders = []);
+  const markOpened = () => { opened.push(o.order); if (opened.length > SEEN_CAP) state.opened_orders = opened.slice(-SEEN_CAP); };
+  // a fill of an order already processed in an earlier read, timed no later than what was processed then, arrived
+  // late: Coinbase's positions already hold it (the reconcile copies them), so it changes nothing and posts nothing
+  const done = state.done_orders || (state.done_orders = []);
+  const last = done.find((d) => d[0] === o.order);
+  if (last && Date.parse(o.time) <= Date.parse(last[1])) return out;
+  if (last) last[1] = o.time; else { done.push([o.order, o.time]); if (done.length > SEEN_CAP) state.done_orders = done.slice(-SEEN_CAP); }
   const close = (qtyClosed, action) => {
     const dir = Math.sign(prev);
     const feeShare = o.fee * (qtyClosed / Math.abs(q));
-    out.push({ ...base, id: `${o.id}:${action}`, action, direction: dir > 0 ? "long" : "short",
+    out.push({ ...base, id: action === "close" ? `${o.order}:close` : `${o.id}:${action}`, action, direction: dir > 0 ? "long" : "short",
       reduced_pct: action === "reduce" ? (qtyClosed / Math.abs(prev)) * 100 : null,
       move_pct: pos.avg ? (o.price / pos.avg - 1) * 100 * dir : null,
       _realized: (o.price - pos.avg) * dir * qtyClosed * info.contract_size - feeShare,
@@ -229,8 +242,13 @@ function applyOrder(state, o, info, mode) {
       held_days: pos.opened_at ? (Date.parse(o.time) - Date.parse(pos.opened_at)) / 86400000 : null });
   };
   if (Math.abs(prev) < EPS) {
-    out.push({ ...base, id: `${o.id}:open`, action: "open", direction: sgn > 0 ? "long" : "short" });
+    out.push({ ...base, id: `${o.order}:open`, action: "open", direction: sgn > 0 ? "long" : "short" });
     state.positions[o.product] = { qty: next, avg: o.price, opened_at: o.time, entry_leverage: null, entry_size_pct: null };
+    markOpened();
+  } else if (Math.sign(prev) === sgn && opened.includes(o.order)) {
+    pos.avg = (Math.abs(prev) * pos.avg + Math.abs(q) * o.price) / Math.abs(next);   // the rest of the opening order
+    pos.qty = next;
+    state.positions[o.product] = pos;
   } else if (Math.sign(prev) === sgn) {
     out.push({ ...base, id: `${o.id}:add`, action: "add", direction: sgn > 0 ? "long" : "short" });
     pos.avg = (Math.abs(prev) * pos.avg + Math.abs(q) * o.price) / Math.abs(next);
@@ -244,8 +262,9 @@ function applyOrder(state, o, info, mode) {
     close(Math.abs(prev), "close");
     delete state.positions[o.product];
     if (Math.abs(next) > EPS) {   // flipped through zero: the rest opens the other way
-      out.push({ ...base, id: `${o.id}:open`, action: "open", direction: sgn > 0 ? "long" : "short" });
+      out.push({ ...base, id: `${o.order}:open`, action: "open", direction: sgn > 0 ? "long" : "short" });
       state.positions[o.product] = { qty: next, avg: o.price, opened_at: o.time, entry_leverage: null, entry_size_pct: null };
+      markOpened();
     }
   }
   return out;

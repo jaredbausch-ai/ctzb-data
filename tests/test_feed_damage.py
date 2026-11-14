@@ -291,6 +291,32 @@ def main():
             js = S.pg.evaluate(JS_APPLY, [dict(op, base='trades', fn='__tradesProblems') for _, _, op in TOPS])
             diff = [(TOPS[i][0], TOPS[i][1]) for i in range(len(TOPS)) if py[i] != js[i]]
             ok(f'{name}: page and pipeline agree on all {len(TOPS)} damaged lead-trader files ({sum(py)} rejected)', not diff, str(diff[:6]))
+            # 14 Nov 2026 audit #33 and its fix check: one event listed twice is refused, however the copies are
+            # written; two different events are shown. Raw JSON text, so both sides parse the same bytes
+            E = {k: v for k, v in TR['trades'][0].items() if k != 'id'}; Es = json.dumps(E)[1:-1]
+            T0 = E['time'][:19]; T1 = (dt.datetime.strptime(T0, '%Y-%m-%dT%H:%M:%S') + dt.timedelta(milliseconds=1)).strftime('%Y-%m-%dT%H:%M:%S.%f')[:23] + 'Z'
+            ev = lambda extra='': '{' + Es + (', ' + extra if extra else '') + '}'
+            with_t = lambda t, extra='': '{' + json.dumps(dict(E, time=t))[1:-1] + (', ' + extra if extra else '') + '}'
+            REP = [('the same id twice', True, [ev('"id": "o1:open"'), ev('"id": "o1:open"')]),
+                   ('the same id, a field different', True, [ev('"id": "o1:open"'), '{' + json.dumps(dict(E, price=E['price'] + 1))[1:-1] + ', "id": "o1:open"}']),
+                   ('an id on the first copy only', True, [ev('"id": "o1:open"'), ev()]), ('an id on the second copy only', True, [ev(), ev('"id": "o1:open"')]),
+                   ('id null on one copy, missing on the other', True, [ev('"id": null'), ev()]),
+                   ('no id, the same instant written two ways', True, [with_t(T0 + 'Z'), with_t(T0 + '.000Z')]),
+                   ('no id, an equal list and object field', True, [ev('"x": [1, {"a": 2}]'), ev('"x": [1, {"a": 2}]')]),
+                   ('no id, whole numbers past 2^53 that read as one number', True, [ev('"n": 9007199254740993'), ev('"n": 9007199254740992')]),
+                   ('no id, a field null on one copy and missing on the other', True, [ev('"leverage_note": null'), ev()]),
+                   ('three copies, far apart', True, [ev('"id": "o1:open"'), ev('"id": "o2:add"'), ev('"id": "o1:open"'), ev('"id": "o3:add"'), ev('"id": "o1:open"')]),
+                   ('different ids, every other field the same', False, [ev('"id": "o2:open"'), ev('"id": "o1:open"')]),
+                   ('no id, a price a cent apart', False, [ev(), '{' + json.dumps(dict(E, price=round(E['price'] + 0.01, 2)))[1:-1] + '}']),
+                   ('no id, times a millisecond apart', False, [with_t(T1), with_t(T0 + 'Z')]),
+                   ('no id, true against 1', False, [ev('"f": true'), ev('"f": 1')])]
+            rep = []
+            for lbl, want, evs in REP:
+                txt = '{"trades": [' + ', '.join(evs) + ']}'
+                p_ = any('repeats an earlier event' in x for x in feedcheck.trades_problems(json.loads(txt), schema, now=g0))
+                j_ = S.pg.evaluate("(t) => window.__tradesProblems(JSON.parse(t)).some((x) => /repeats an earlier event/.test(x))", txt)
+                if p_ != want or j_ != want: rep.append((lbl, want, p_, j_))
+            ok(f'{name}: one event listed twice is refused, two different events are not, page and pipeline alike ({len(REP)} cases)', not rep, str(rep[:4]))
             bad = []; seen = set()
             for i, (gen, kind, op) in enumerate(TOPS):
                 if (gen, kind, py[i]) in seen: continue

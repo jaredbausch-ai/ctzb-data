@@ -63,7 +63,13 @@ positions recorded, not posted). Positions reconciled against Coinbase; mismatch
 corrected and logged, never posted. `MODE` unset or anything but `live` = dry run:
 nothing public, gated `/dry` (`DRY_VIEW_PASSWORD`) shows what would post. Going live
 needs Noah's sign-off and is Jared's switch. Setup: `BRIEF_trades.md`.
-Tests: `node tests/test_trades_relay.mjs` (41).
+An order's open and close are named by the order (`<order>:open`, `<order>:close`), so a fill of it that shows up a
+read late, with an earlier time, repeats an id already stored instead of posting the order again; a late fill of an
+order already processed posts nothing (Coinbase's positions already hold it). Known limit: a closing order split
+across two reads whose earlier fill shows up late posts a reduce and then a close when the late read sees the state
+from before the last one, and the reduce alone when it sees the current state (the close reaches the tracked position
+through the reconcile, which never posts). **Built 14 Nov 2026 (audit #33 fix check), not yet deployed.**
+Tests: `node tests/test_trades_relay.mjs` (45).
 
 **ctzb-site** (11 Nov 2026, item 18) — the member site. Built, not written:
 `python cloudflare/build_site.py` wraps `docs/artifacts/member-site/index.html` and the
