@@ -871,6 +871,37 @@ baseline); 12 sentences of the rewritten FEED_SPEC incomplete or loose, and 2 tr
 and no-today-bar replays, both audit states build, page states 48/48, page timing 10/10, site Worker 25/25, damage
 test 31/31, fire drills 58/58.
 
+## Round 27 — 13 Nov, 20:00 ET – 14 Nov (audit #27: damage part only, counted on the frozen list)
+
+The first round on the new method: the damage part alone, attacking each of the six families of
+`docs/audit/DAMAGE_LIST.md`; numbers by `tests/numbers_check.py`; docs once damage is clean. **Not clean:** 4 causes
+got through a family's rule.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page (227 states, 51 hand-forged) | 34 / 0 | 68 / 0 | 23 / 0 | 6 / 0 | 22 / **2** | 23 / 0 |
+| Pipeline (542 runs + 19 alert-log sequences) | 8 / 0 | 318 / **16** | 23 / 0 | 176 + 19 / 0 | 16 / 0 | — |
+
+(cases tried / got through). Report: `analysis/audit27_2026-11-14/broken/`.
+
+The four causes, each fixed at its family's rule:
+- **Malformed (15 runs): the funding column the scorer reads first was not checked.** The check covered
+  `funding_mean`; the scorer reads `funding_oi_weighted` first, so inf, nan, 1e300 or 3.0 there was scored (one ETH 1D
+  card changed). Rule now: every cell of every series file is blank or a finite number, and every column the scorer
+  reads is range-checked. Test: `tests/test_series_cells.py` (every column of every series, text/inf/nan in the last
+  and a middle row; each read column out of range).
+- **Timing (1 run): funding 3 days behind changed a card.** The scoring steps read the last known day as today's and
+  the check allowed 3 days. Rule now: each series may end only its normal lag behind (funding, long/short, open
+  interest 1 day; put/call 2), measured over the last 79 runs (never more). Same test.
+- **Timing (page): a daily close passed but the page said nothing.** A feed of 23:13 still read "confirms ... an
+  estimate until the current bar closes" at 00:05. Rule now: every text that depends on the viewer's clock is judged
+  on it: a note appears once 00:00 UTC has passed since the data was written. Test: `test_page_timing` 4d.
+- **Timing (page): "about N times a year" on 1 January** averaged a year whose late signals were not yet in the ledger.
+  Rule now: only full years whose signals have all had their 60 days close. Test: `tests/test_per_year.py` (replay of
+  15 Jan 2026: 2020 to 2024).
+
+Hardening (not counted): 6 hand-forged feeds the strict check accepts (listed in the report).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

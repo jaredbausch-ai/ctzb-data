@@ -588,9 +588,17 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // the market filter as the feed states it: "on", "off", or null when the feed doesn't say
   function regime() { const r = S.feed && S.feed.market_regime; return r === "Bullish" ? "on" : r === "Bearish" ? "off" : null; }
   function feedHealth() { return !S.feed ? "down" : S.feed.cards_withheld ? "held" : "ok"; }
+  // The data is out of date on the viewer's clock in two ways: it is older than 5 hours (a missed update), or a daily
+  // close (00:00 UTC, when every graded chart's bar closes) has passed since it was written, so what it says about
+  // the bar that just closed ("confirms if it closes above", "an estimate until the current bar closes") is no longer
+  // true (13 Nov 2026 audit #27). These are the only texts that depend on the viewer's clock.
   function staleNote() {
     const a = feedAgeH();
-    return a !== null && a > STALE_AFTER_H ? `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old. The update pipeline has not refreshed it on schedule, so treat everything below as out of date until it does.</div>` : "";
+    if (a === null) return "";
+    if (a > STALE_AFTER_H) return `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old. The update pipeline has not refreshed it on schedule, so treat everything below as out of date until it does.</div>`;
+    const t = Date.parse(S.feed.generated_at);
+    if (Math.floor(Date.now() / 864e5) > Math.floor(t / 864e5)) return `<div class="stale-note" data-state="closed">The daily close at 00:00 UTC has passed since this data was written. It updates shortly after each close; until then, anything below about the bar that just closed is out of date.</div>`;
+    return "";
   }
   // the stale warning on the other tabs too (13 Nov 2026 audit #22: it was on the Now card only)
   function staleBars() {
@@ -814,7 +822,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     return n >= nextJan ? nextJan : n;
   }
   function perYearText() {
-    const y1 = (S.feed && S.feed.generated_at ? +S.feed.generated_at.slice(0, 4) : new Date().getUTCFullYear()) - 1, y0 = 2020;
+    // the last full year whose every signal has had its 60 days close by the scored date (the ledger lists a signal
+    // only then): until about 1 March the year just ended is still incomplete (13 Nov 2026 audit #27)
+    const ref = S.feed && (S.feed.scored_as_of || (S.feed.generated_at || "").slice(0, 10));
+    const refT = ref ? Date.parse(ref + "T00:00:00Z") : NaN;
+    if (!Number.isFinite(refT)) return "";
+    const y1 = new Date(refT - 60 * 864e5).getUTCFullYear() - 1, y0 = 2020;
     const n = S.ledger.filter((r) => +r.entry.slice(0, 4) >= y0 && +r.entry.slice(0, 4) <= y1).length;
     if (!n || y1 < y0) return "";
     return `Top-grade setups come about ${Math.round(n / (y1 - y0 + 1))} times a year (${y0} to ${y1} average; bear years, when the market filter is off, are included).`;

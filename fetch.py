@@ -193,9 +193,32 @@ def _cut_short(path):
         return f.read(1) != b"\n"
 
 
-def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None):
+# How far behind today a daily series may end in a normal run. The scoring steps read the last known day as today's,
+# so a series further behind changes the forming cards (13 Nov 2026 audit #27: funding 3 days behind moved the ETH 1D
+# card). The derivatives fetch runs after the feed and writes today's partial day, so at the next run's scoring the
+# derivatives end at most 1 day behind; put/call writes only completed days, so it ends at most 2 days behind.
+MAX_LAG_DAYS = {"funding": 1, "lsratio": 1, "oi": 1, "pcr": 2}
+
+
+def _cells_problem(name, rows):
+    """Every cell of a series file other than its date is blank or a finite number: no text, no inf or nan, in any
+    column, read or not (13 Nov 2026 audit #27: a column the scorer reads first was not checked)."""
+    for i, r in enumerate(rows, 2):
+        for k, v in r.items():
+            if k == "date" or v in ("", None): continue
+            try:
+                x = float(v)
+            except ValueError:
+                return f"{name}: row {i} column {k} is not a number"
+            if not math.isfinite(x):
+                return f"{name}: row {i} column {k} is not a finite number"
+    return None
+
+
+def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None, max_lag=1):
     """One daily series: present, starting on its first day, no day missing or repeated, every value a number in
-    (lo, hi) (a blank allowed only where the source has none, e.g. put/call on a day without trades), and current."""
+    (lo, hi) (a blank allowed only where the source has none, e.g. put/call on a day without trades), every other
+    cell blank or a finite number, and ending no more than max_lag days before today."""
     if not os.path.exists(path):
         return [f"{name} is missing"]
     if _cut_short(path):
@@ -228,8 +251,10 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None
         return math.isfinite(x) and lo < x < hi if not blank_ok else math.isfinite(x) and lo <= x < hi
     if not all(ok(v) for v in vals):
         bad.append(f"{name}: a {col} value is not a number in range")
-    if days[-1] < today - dt.timedelta(days=3):
-        bad.append(f"{name} ends {days[-1]}: more than 3 days before {today}")
+    cp = _cells_problem(name, rows)
+    if cp: bad.append(cp)
+    if days[-1] < today - dt.timedelta(days=max_lag):
+        bad.append(f"{name} ends {days[-1]}: more than {max_lag} day(s) before {today}")
     return bad
 
 
@@ -240,13 +265,15 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
       exchange never had); every 2D-8D file is exactly the daily candles bucketed by resample().
     - ETH is ETH and BTC is BTC: on every day both have, ETH's close is between 0.1% and 50% of BTC's (it has
       been 0.8% to 15%). A file of one asset saved under the other's name fails here.
-    - The funding series the grade reads (data/derivs/<asset>_funding_daily.csv, column funding_mean): days
-      strictly ascending from its first day with none missing, every value a finite number between -1 and 1
-      (the series has stayed within -0.5 and 0.3), and the last day no more than 3 days before `today`
-      (default: the clock's UTC date). The derivatives fetch runs after the feed, so the series ends a day
-      behind the candles in a normal run.
+    - The funding series the grade reads (data/derivs/<asset>_funding_daily.csv; the scorer reads
+      funding_oi_weighted, else funding_mean): days strictly ascending from its first day with none missing, both
+      columns, where filled, a finite number between -1 and 1 (the series has stayed within -0.5 and 0.3), every
+      other cell blank or a finite number, and the last day no more than 1 day before `today` (default: the
+      clock's UTC date; MAX_LAG_DAYS). The derivatives fetch runs after the feed and writes today's partial day,
+      so the series ends 0 or 1 day behind in a normal run (79 runs from 25 Oct to 14 Nov 2026: never more).
     - The other daily series the scoring steps read (long/short ratio and open interest per asset, BTC put/call):
-      present, starting on their first day, no day missing, values in range, current.
+      present, starting on their first day, no day missing, values in range, every other cell blank or a finite
+      number, and ending no more than 1 day (put/call: 2 days, it writes completed days only) before `today`.
     4H and 12H files can have exchange gaps, so they are checked for structure, grid, timeframe and asset."""
     from clock import now_utc
     today = today or now_utc().date()
@@ -271,11 +298,11 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                     bad.append(f"{name}: only {on} of {len(ts) - 1} bars are one {step // 3600}-hour step apart: not a {name.split('_')[1]} file")
                 intraday[name] = (ts[-1], float(frows[-1]["close"]))
         # the other daily series the scoring steps read (stack_live.py: long/short ratio, open interest; BTC put/call)
-        for rel, col, first, lo, hi, blank_ok in [(f"derivs/{a}_lsratio_daily.csv", "ls_ratio_mean", "2020-05-31", 0, 20, False),
-                                                  (f"derivs/{a}_oi_daily.csv", "oi_usd_total", "2022-09-13", 0, 1e12, False)] + \
-                ([("options/BTC_pcr_daily.csv", "pcr_amt", "2016-11-01", 0, 1e6, True)] if a == "BTC" else []):
+        for rel, col, first, lo, hi, blank_ok, lag in [(f"derivs/{a}_lsratio_daily.csv", "ls_ratio_mean", "2020-05-31", 0, 20, False, MAX_LAG_DAYS["lsratio"]),
+                                                       (f"derivs/{a}_oi_daily.csv", "oi_usd_total", "2022-09-13", 0, 1e12, False, MAX_LAG_DAYS["oi"])] + \
+                ([("options/BTC_pcr_daily.csv", "pcr_amt", "2016-11-01", 0, 1e6, True, MAX_LAG_DAYS["pcr"])] if a == "BTC" else []):
             bad += _series_problems(os.path.join(data_dir, rel), rel, col, dt.date.fromisoformat(first), lo, hi, blank_ok, today,
-                                    asset=a if rel.startswith("derivs/") else None)
+                                    asset=a if rel.startswith("derivs/") else None, max_lag=lag)
         pf = os.path.join(data_dir, "derivs", f"{a}_funding_daily.csv")
         if os.path.exists(pf):
             if _cut_short(pf):
@@ -287,6 +314,8 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                     raise ValueError("a row does not have exactly the header's cells")
                 days = [dt.date.fromisoformat(r["date"]) for r in fr]
                 vals = [float(r["funding_mean"]) for r in fr]
+                # the scorer reads funding_oi_weighted first and falls back to funding_mean when it is blank
+                vals += [float(r["funding_oi_weighted"]) for r in fr if r.get("funding_oi_weighted") not in ("", None)]
             except (KeyError, TypeError, ValueError):
                 bad.append(f"{a}_funding_daily: a row has no readable date or funding_mean, or not exactly the header's cells"); days = vals = []
             if fr and not _market_columns_ok(list(fr[0]), a):
@@ -295,9 +324,11 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None):
                 if any((days[i] - days[i - 1]).days != 1 for i in range(1, len(days))):
                     bad.append(f"{a}_funding_daily: a day is missing, repeated or out of order")
                 if not all(math.isfinite(v) and -1 < v < 1 for v in vals):
-                    bad.append(f"{a}_funding_daily: a funding value is not a number between -1 and 1")
-                if days[-1] < today - dt.timedelta(days=3):
-                    bad.append(f"{a}_funding_daily ends {days[-1]}: more than 3 days before {today}")
+                    bad.append(f"{a}_funding_daily: a funding value (funding_mean or funding_oi_weighted) is not a number between -1 and 1")
+                cp = _cells_problem(f"{a}_funding_daily", fr)
+                if cp: bad.append(cp)
+                if days[-1] < today - dt.timedelta(days=MAX_LAG_DAYS["funding"]):
+                    bad.append(f"{a}_funding_daily ends {days[-1]}: more than {MAX_LAG_DAYS['funding']} day(s) before {today}")
                 if days[0] != FUNDING_FIRST:
                     bad.append(f"{a}_funding_daily starts {days[0]}, expected {FUNDING_FIRST}: history is missing")
             elif not fr:

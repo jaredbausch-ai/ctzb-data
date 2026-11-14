@@ -1,0 +1,7 @@
+01:13 stage 0: setup; states 0, disagreements 0
+01:32 stage 1-2 running: page missing, pipeline candles done (216 cases, 2 got through harmlessly: 12H end); disagreements so far 1 (funding stale 3 days changes card)
+01:34 stage pipeline series done (75 cases); page missing running; counted disagreements so far: funding stale card change (1), funding_oi_weighted not range-checked (4 cases)
+01:45 page missing (34) and malformed (65) done: 0 disagreements (2 harness artifacts: chart CSVs are CRLF already)
+01:46 pipeline datasets (102) done: 0 disagreements (2 byte-identical older copies)
+02:07 pipeline misc (81), extra (28), alert sequences (19) done; page redo/delivery/hardening done; counted disagreements so far: funding_oi_weighted unchecked (scored, changes ETH card), funding 3-day stand-in changes card
+02:18 done: page 227 states, pipeline 542 runs + 19 alert sequences; counted disagreements 18 rows from 4 causes (page 2, pipeline 16); hardening 6

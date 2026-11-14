@@ -51,7 +51,7 @@ DELAY_JS = """
 """
 
 
-def page(b, delay=None, age_h=0.1, feed=None):
+def page(b, delay=None, age_h=0.1, feed=None, at=None):
     """delay: {'feed': ms, 'example': ms, 'candles': ms}: the page's own request waits that long on its (fake) clock,
     released by pg.clock.run_for."""
     delay = delay or {}
@@ -70,7 +70,7 @@ def page(b, delay=None, age_h=0.1, feed=None):
         return route.fulfill(status=404, body='x')
     pg.route('**/*', h)
     g = dt.datetime.strptime(FEED['generated_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
-    pg.clock.install(time=g + dt.timedelta(hours=age_h))
+    pg.clock.install(time=at or g + dt.timedelta(hours=age_h))
     pg.add_init_script("window.__delay = " + json.dumps(delay) + ";" + DELAY_JS)
     return pg, errs
 
@@ -133,6 +133,19 @@ with sync_playwright() as pw:
         pg.evaluate(f"location.hash = '#{v}'"); pg.wait_for_timeout(300)
         seen[v] = sorted(set(_re.findall(r'This data is (\d+) hours old', pg.inner_text('#view-' + v))))
     ok('page left open a day: every tab says 28 hours old, not the first hour shown', all(s == ['28'] for s in seen.values()) and not errs, f'{seen} {errs[:1]}')
+    pg.close()
+    # 4d. the daily close passes after the data was written (audit #27: a feed of 23:13 still read "confirms ...
+    # an estimate until the current bar closes" at 00:05, with no note for up to 5 hours)
+    quiet2 = json.loads(json.dumps(FEED)); quiet2.update(cards=[], open_signals=[], market_regime='Bullish')
+    day = FEED['generated_at'][:10]; quiet2['generated_at'] = day + 'T23:13:00Z'; quiet2['scored_as_of'] = day
+    gq = dt.datetime.strptime(quiet2['generated_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=dt.timezone.utc)
+    pg, errs = page(b, feed=quiet2, at=gq + dt.timedelta(minutes=30))
+    pg.goto('http://site.test/#now'); pg.wait_for_timeout(1200)
+    before = pg.query_selector('#card .stale-note')
+    pg.clock.run_for(25 * 60 * 1000); pg.wait_for_timeout(400)      # now 00:08 the next day
+    after = pg.query_selector('#card .stale-note[data-state="closed"]')
+    txt = pg.inner_text('#card') if after else ''
+    ok('daily close passed since the data was written: the note says so within a minute, before 5 hours', before is None and after is not None and '00:00 UTC' in txt and not errs, f'{before} {txt[:160]!r} {errs[:1]}')
     pg.close()
     # 4b. quiet market, page left open: the example the page switched on itself goes off once the data is stale (audit #25)
     quiet = json.loads(json.dumps(FEED)); quiet.update(cards=[], open_signals=[], market_regime='Bullish')

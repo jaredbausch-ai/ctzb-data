@@ -111,7 +111,7 @@ def fund(edit):
         with open(pth, 'w', newline='') as fh:
             w = csv.DictWriter(fh, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
     return f
-whole(fund(lambda r: r[:-60]), 'ETH funding with its last 60 days cut', 'more than 3 days before')
+whole(fund(lambda r: r[:-60]), 'ETH funding with its last 60 days cut', 'day(s) before')
 whole(fund(lambda r: [dict(x, funding_mean='nan') if i >= len(r) - 40 else x for i, x in enumerate(r)]), 'ETH funding, last 40 days nan', 'not a number between -1 and 1')
 whole(fund(lambda r: [dict(x, funding_mean='-100') if i >= len(r) - 10 else x for i, x in enumerate(r)]), 'ETH funding, last 10 days -100', 'not a number between -1 and 1')
 whole(fund(lambda r: r[:500] + r[501:]), 'ETH funding missing one day', 'a day is missing')
@@ -128,7 +128,7 @@ def series(rel, edit):
     return f
 whole(series('derivs/BTC_funding_daily.csv', lambda r: r[30:]), 'BTC funding with its first 30 days cut (audit #23)', 'BTC_funding_daily starts')
 whole(series('derivs/ETH_lsratio_daily.csv', lambda r: [dict(x, ls_ratio_mean='nan') if i == 500 else x for i, x in enumerate(r)]), 'ETH long/short ratio with a nan (audit #23)', 'not a number in range')
-whole(series('derivs/BTC_oi_daily.csv', lambda r: r[:-30]), 'BTC open interest with its last 30 days cut (audit #23)', 'more than 3 days before')
+whole(series('derivs/BTC_oi_daily.csv', lambda r: r[:-30]), 'BTC open interest with its last 30 days cut (audit #23)', 'day(s) before')
 whole(series('derivs/ETH_oi_daily.csv', lambda r: [dict(x, oi_usd_total='-5') if i == 100 else x for i, x in enumerate(r)]), 'ETH open interest negative (audit #23)', 'not a number in range')
 whole(series('options/BTC_pcr_daily.csv', lambda r: r[:900] + r[901:]), 'BTC put/call missing a day (audit #23)', 'a day is missing')
 whole(lambda M: os.remove(f'{M}/derivs/ETH_lsratio_daily.csv'), 'ETH long/short file deleted (audit #23)', 'ETH_lsratio_daily.csv is missing')

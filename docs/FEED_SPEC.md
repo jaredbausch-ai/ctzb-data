@@ -382,8 +382,11 @@ enforce mode, when any of the last 30 closed days differs from Kraken's close by
 - 4H and 12H files on their own timeframe (99% of bars one step apart) and their own asset (last close within 25% of
   that day's daily close); ETH's daily close between 0.1% and 50% of BTC's every day;
 - the funding series from 2020-01-21, the long/short ratio from 2020-05-31 and open interest from 2022-09-13 (per
-  asset), and BTC put/call from 2016-11-01: no missing or repeated day, values in range, whole rows, ending no more
-  than 3 days before today, and derivatives columns of their own asset.
+  asset), and BTC put/call from 2016-11-01: no missing or repeated day; the columns the scorer reads in range (funding:
+  `funding_oi_weighted`, read first, and `funding_mean`, its fallback, between -1 and 1 where filled); every other cell
+  blank or a finite number; whole rows; derivatives columns of their own asset; and ending no more than 1 day before
+  today (put/call: 2 days, it writes completed days only). The scoring steps read the last known day as today's, so a
+  series further behind would change the forming cards; in a normal run the derivatives end 0 or 1 day behind.
 
 The freshness check requires the last daily bar to be today's open bar and the last 4H bar to be the current 4-hour
 bar; fetch.py builds it from the hourly candles
@@ -434,15 +437,18 @@ Worker, uncached.
   card and no live signal ("Setups held back"). `odds_fade` is used only when both of its lists are non-empty. A
   missing `market_regime` reads "Market filter: unavailable". The footer's "Daily candles closed through" date is the
   day before `scored_as_of`, left off when it is null; its "checks passed / FAILED" reads `cards_withheld`. A feed
-  older than 5 hours shows a stale warning on every tab, re-checked every minute; the example the page switched on by
-  itself for a quiet market goes off then; one the member switched on stays.
+  older than 5 hours shows a stale warning on every tab, with its hour count kept current; a feed written before the
+  latest daily close (00:00 UTC) shows a note that the close has passed and what it says about that bar is out of
+  date. Both are re-checked every minute on the viewer's clock and are the only texts that depend on it. The example
+  the page switched on by itself for a quiet market goes off when either appears; one the member switched on stays.
 - **What it reads.** Live signals of the top grade, and forming cards of every grade (top grade first, the rest ranked
   by `rose10_within60d_pct`). The exact `typical_*_exact_pct` fields, never the rounded ones; prices built from them
   in exact decimal arithmetic. The 70% bar from `posting_bar_pct`. A card with no past signals shows "No odds yet"; a
   live signal with no card shows "Card unavailable". A share with no value, or a price that is not a number, prints
   "n/a". The worked example comes only from `example_card` ("Example unavailable" without it) and stands in for a
   quiet market only when the feed is clean, fresh and carries it. The quiet card's "about N times a year" is counted
-  from the ledger's top-grade rows, 2020 to the year before the feed's.
+  from the ledger's top-grade rows, 2020 to the last full year whose signals have all had their 60 days close by
+  `scored_as_of` (the year before the year of `scored_as_of` minus 60 days).
 - **How a card is worded.** Under the big number, the card's sample, which covers every figure from it; each ladder
   row and era shows its own n, and the "If it misses" row names its pool. Every forming card says it can still vanish
   before it confirms; when the confirmation bar is the next bar, its price reads "about $X (an estimate until the
