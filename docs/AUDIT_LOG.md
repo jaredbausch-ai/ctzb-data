@@ -826,6 +826,46 @@ part's replays, not counted by it); tests: run seal 23 (was 18), page states 48 
 feed extras 28/28, candle check 95/95, run seal 23/23, page states 48/48, page timing 9/9, damage test 31/31,
 year-end replays 8/8, gate-off and no-today-bar replays, site Worker 25/25, fire drills 58/58.
 
+## Round 26 — 13 Nov, 17:00–20:00 ET (audit #26: three independent agents at once; then the method changed again)
+
+Scored on Jared's definitions. **Not clean:** all three parts found issues.
+
+| Part | Checked | Findings |
+|---|---|---|
+| Numbers on real data | 2 frozen states (59,236 comparisons, 0) + 293 replayed dates (5,698,860 comparisons) | **1** cause, 72 rows on one replay date: the 2016-21 volatility median behind "beat a normal move" counted today's open daily bar when the replay date fell in 2016-21 (two open-signal cards 65% → 71% in the 2021-06-25 replay; today's runs unaffected). The agent was stopped by a container restart before its report; `numbers/SUMMARY.md` is written from its logs |
+| Real-life damage | 1,348 states (192 page, 1,156 pipeline) | 2 causes: a 2D-8D candle file cut just after a row's last comma was read with a zero volume and scored (34 cases, 10 with different figures); the stale note's hour count stayed at its first value on a page left open (6) |
+| Docs (people rely on) | 6 documents + CONTEXT's current rules | 13 (1 wrong: schema_version rule; 7 loose; 5 reading as trades) |
+
+Reports: `analysis/audit26_2026-11-13/`.
+
+**Why rounds kept finding things (Jared asked, 13 Nov 18:36 ET).** Traced on rounds 25-26: about half of each
+round's docs findings were in text written during the audits, two of them my own previous-round fixes; 368 of
+FEED_SPEC's 523 lines were dated "Audit #N corrections" notes that went stale as later fixes changed behaviour; the
+damage part's cut-file finding was the round-24 finding's family, fixed then only for the files named; and fresh
+auditors explore open-ended categories, so new cases keep appearing. **Method from here (Jared agreed, 18:43 ET):**
+- the numbers audit no longer runs every round: `tests/numbers_check.py` replays 13 fixed dates after every change and
+  compares every dataset, feed and page figure with a baseline; the full numbers audit runs in the two final clean runs;
+- specs state current rules only (FEED_SPEC rewritten, history moved to `docs/history/`);
+- fixes cover the whole family, with a family test (`tests/test_cut_files.py`: every input file, cut at every point);
+- an independent fix check (`docs/audit/FIX_CHECK_BRIEF.md`) checks each round's fixes before the next audit;
+- order: damage until clean, then docs against frozen code, then two full three-part clean runs.
+
+**Changed** (commits b6eb046 docs part; 42cdc9c, 3bc0f0f, ac49945 and the fix-check corrections):
+- `fetch.py`: a blank cell, volume included, is a damaged row; a file whose last line has no line end was cut short;
+  a check that cannot run is a failure, never skipped as "already reported".
+- `measures.py`: the volatility median uses closed bars only.
+- Member page: the stale note's hour count follows the data's age on a page left open.
+- Docs: the 13 docs findings, and 4 outside-scope notes (the b6eb046 message says 5; the fix check counted 4).
+- Tests: `test_cut_files.py` (496/496), `numbers_check.py` (13 dates), page timing 10 (was 9); tests that run the
+  pipeline on the repo's data pin the clock to that data's day (`tests/dataclock.py`), and the fire drills seal their
+  fixture at its own clock (both had started failing with the wall clock once the 2-hour seal rule came in).
+
+**Fix check** (independent agent, `analysis/audit26_2026-11-13/fixcheck/`): 17 of 18 findings fixed and tested on
+the code before and after; 1 incomplete (the same trade wording two sentences on in CONTEXT, fixed); the first
+version of `numbers_check.py` compared run bookkeeping copied from the live repo (alert log, seal, candle check), so
+it failed after every 4-hour run with no figure moved (fixed: bookkeeping is left out; no figure moved against the
+baseline); 12 sentences of the rewritten FEED_SPEC incomplete or loose, and 2 true statements lost (all corrected).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

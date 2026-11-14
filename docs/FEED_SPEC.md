@@ -1,7 +1,7 @@
 # Live feed spec
 
 `feed/ctzb_feed.json` is one JSON file that carries every computed signal, card and card figure the member page and
-the alert sender use. `feed_live.py` writes it at the end of each pipeline run. It is entry quality only: the data has
+the alert sender use. It is the feed agreed in the plan with Joe. `feed_live.py` writes it at the end of each pipeline run. It is entry quality only: the data has
 no exit, so nothing in it is a strategy return, a result or a track record. Every signal in it is a computed signal,
 never a fill.
 
@@ -21,7 +21,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 ## When it is written
 
 - The `ctzb-scheduler` Worker dispatches `daily.yml` 13 minutes after each 4-hour close (00, 04, 08, 12, 16 and 20
-  UTC), with a backup at 43 minutes that the workflow's gate skips when the first run landed the candle.
+  UTC), with a backup at 43 minutes that the workflow's gate skips when the first run landed the candle. The automatic
+  re-run after a failure, the watchdog's re-dispatch and a manual run are not gated and also write a feed.
 - In each run: fetch, the freshness check and the candle check must pass, or the job stops and no feed is written.
   Then refresh, grade, extras, stack, cards and regress run (each may fail without stopping the job), then
   `feed_live.py`, with every step's outcome passed in `CTZB_STEP_OUTCOMES`.
@@ -33,14 +34,16 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 - **Fields are only ever added, never renamed or removed.** A field whose name does not fit what it holds keeps its
   name and gains a correctly named twin with the same value (Aliases, below).
 - **`schema_version` is 6.** It is the constant `SCHEMA_VERSION` in `feed_live.py`, set by hand and written into every
-  feed, the fail-closed feed included. Nothing computes or checks it: the strict check does not read it. It changes
+  feed, the fail-closed feed included. Nothing in the pipeline, the page or the Workers computes or reads it (the
+  strict check does not); two tests assert it is 6. It changes
   only when the constant is edited; `alert_log` and `alert_log_carry` are schema 6 fields that came without a bump.
 - **It computes no figure.** It repackages the datasets the same run wrote. Its own work is: the time stamp, the
   schema version, the posting bar constant, the aliases, the label and note texts, which alerts are new, and the alert
   log record.
 - **Every card, print, live signal, grade row, alert and extras block carries `label`**: computed signal, not a fill,
   entry quality only, not a strategy return or a track record.
-- **Dates** are YYYY-MM-DD (UTC calendar days); times are ISO 8601 UTC ending in `Z`. Every signal is dated by its
+- **Dates** are YYYY-MM-DD (UTC calendar days); times are ISO 8601 UTC ending in `Z`, except `candle_check.checked_at`,
+  which ends in `+00:00`. Every signal is dated by its
   confirmation bar's close date (the entry). The exceptions are named where they occur.
 - **Units.** A share is a percent, 0 to 100 (a whole number in the rounded fields). A change is a percent from the
   entry close (negative below it). Prices are USD (Coinbase ETH-USD and BTC-USD candles), rounded to the cent. Day
@@ -49,7 +52,7 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
   once its 60th day (entry + 60) has closed by the date in question.
 - **Rounding: one rule.** `rounding.rnd` rounds half away from zero, once, from the unrounded value, on the float's
   exact binary value (as JavaScript's `toFixed` does, so the page and the pipeline agree). Shares are whole numbers;
-  medians and changes 1 decimal; prices 2 decimals; `*_exact_pct` fields 6 decimals. `must_close_above` alone is
+  median moves and changes 1 decimal; median days (`typical_day_*`) whole days; prices 2 decimals; `*_exact_pct` fields 6 decimals. `must_close_above` alone is
   rounded down to the cent. The feed never holds `-0.0`.
 - **Exact vs shown.** The ledger stores each signal's measures to 6 decimals. Card medians and shares are computed at
   full precision. The `*_exact_pct` fields carry them to 6 decimals; the rounded fields are for display. The 70%
@@ -75,7 +78,8 @@ the 60 days.
 
 ## Top level
 
-"Strict" is the field's type in the strict check (below); `?` means it may be null or missing.
+"Strict" is the field's type in the strict check (below); `?` means it may be null or missing; a blank cell means the
+strict check does not read the field.
 
 | Field | Strict | Meaning and source |
 |---|---|---|
@@ -84,7 +88,7 @@ the 60 days.
 | `posting_bar_pct` | pcti? | 70, the constant `POSTING_BAR`: a card ladder share below it means the edge is gone. The same number as refresh.py `WINMIN`, stack_live.py `EDGE_BAR` and carddesign.py `POST_BAR` |
 | `scored_as_of` | date? | status.csv "Scored as of": the clock's UTC date when refresh.py ran, the day of the open daily bar |
 | `label` | | The computed-signal label |
-| `checks` | | Below |
+| `checks` | `all_passed` bool | Below |
 | `cards_withheld` | bool | True when `checks.all_passed` is false |
 | `alerts_withheld` | | Same value as `cards_withheld` |
 | `alerts_seeded` | | True only on a run made with `CTZB_SEED_ALERT_LOG=1` that passed every check |
@@ -99,7 +103,7 @@ the 60 days.
 | `confluence_windows[]` | | Below |
 | `grade_odds[]` | list | Below |
 | `candle_check` | | Below |
-| `extras_withheld`, `if_it_misses[]`, `odds_fade`, `past_paths[]`, `example_if_it_misses`, `example_past_paths` | | Member-card extras, below |
+| `extras_withheld`, `if_it_misses[]`, `odds_fade`, `past_paths[]`, `example_if_it_misses`, `example_past_paths` | (not read), list, object?, list, miss?, path? | Member-card extras, below |
 | `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; null when there is no log |
 | `feed_error`, `alert_log_carry` | | Fail-closed feed only (below) |
 
@@ -115,8 +119,9 @@ date follows that rule.
 
 A card is one setup's odds, from its own like-for-like sample. stack_live.py builds three kinds with one function.
 verify_cards.py re-derives every figure computed from the sample (counts, shares, medians, eras, timing, ladder) from
-the ledger and the 1D candles and fails the run on any difference; the dates, prices and `active_confluences` come
-from stack_live.py alone.
+the ledger and the 1D candles and fails the run on any difference; the dates, prices, `grade`, `confirmations`, the
+`sample` wording and `active_confluences` come from stack_live.py alone (verify_cards.py uses the card's grade, lenses
+and sample rule to rebuild the sample).
 
 - **`cards[]`: forming lows.** Only on a graded chart (1D, 2D, 3D, 5D), only when the regime gate is on at the low's
   trough date, and only when the sample has at least one past signal.
@@ -151,13 +156,13 @@ states the rule and the count in words, with no grade letter ("of the top grade"
 | `rose20_within60d_pct` | pcti? | Share that reached +20% |
 | `beat_normal_move_pct` | | Share whose best move reached 20% x (365-day volatility at entry / the asset's 2016-21 median of it); signals with no 365 days of volatility before entry are left out |
 | `fell30_within60d_pct` | pcti? | Share whose deepest dip reached -30% |
-| `typical_biggest_rise_pct` (`_exact_pct`) | rise? | Median best move within 60 days |
-| `typical_dip_before_rise_pct` (`_exact_pct`) | dip? | Median lowest point vs the entry close before the 60-day high. Not a pullback from profit |
-| `typical_deepest_dip_pct` (`_exact_pct`) | dip? | Median deepest dip within 60 days |
+| `typical_biggest_rise_pct` (`_exact_pct`) | `_exact_pct` rise? | Median best move within 60 days |
+| `typical_dip_before_rise_pct` (`_exact_pct`) | `_exact_pct` dip? | Median lowest point vs the entry close before the 60-day high. Not a pullback from profit |
+| `typical_deepest_dip_pct` (`_exact_pct`) | `_exact_pct` dip? | Median deepest dip within 60 days |
 | `typical_day_first_rose10`, `typical_day_first_rose20` | | Median day of the first +10% / +20% high, among signals that got there |
 | `typical_day_of_60d_high`, `typical_day_of_deepest_dip` | day? | Median day of the 60-day high / of the deepest dip |
 | `before_2022`, `since_2022` | era | `past_trades` and `rose10_never_fell25_within60d_pct` for the signals before / from 1 Jan 2022 |
-| `from_entry` | | The ladder's first row: `past_trades`, `still_rose10_pct` and `still_rose10_exact_pct` (share that rose 10% before ever falling 25.3%), `went_on_to_fall25_pct` (share that fell 25.3% before rising 10%) |
+| `from_entry` | `still_rose10_pct` pcti?, `still_rose10_exact_pct` pct? | The ladder's first row: `past_trades`, `still_rose10_pct` and `still_rose10_exact_pct` (share that rose 10% before ever falling 25.3%), `went_on_to_fall25_pct` (share that fell 25.3% before rising 10%) |
 | `if_it_falls_first[]` | 4 rungs | Rows for `fell_pct` 5, 10, 15, 20: `past_trades` (signals that fell that far before rising 10%), and of those `still_rose10_pct` / `still_rose10_exact_pct` (then rose 10% before falling 25.3%) and `went_on_to_fall25_pct` (fell 25.3% first). One that rose 10% first and fell 25.3% later counts as having risen |
 | `active_confluences[]` | | Forming cards only (empty on live and example cards). Below |
 | `example` | | `example_card` only: true |
@@ -255,7 +260,8 @@ Measured on daily candles from the entry close.
 - Also `label`, `posting_bar_pct` (70), `tier_fixed_on`, `sample` (the sentence above), `edge_measured_on` ("rose 10%
   after day 10 (days 11 to 60)").
 
-**`past_paths[]`**: per asset with top-grade signals: `grade` "A+", `signals`, `note`, and `days[]` for day 0 to 60:
+**`past_paths[]`**: the past-signal cloud on the Chart tab (`example_past_paths` draws the example's). Per asset with
+top-grade signals: `grade` "A+", `signals`, `note`, and `days[]` for day 0 to 60:
 `q25_pct`, `median_pct`, `q75_pct`, percent from the entry close on the daily close of the k-th calendar day after the
 entry date, every top-grade signal lined up at entry. A signal without 60 consecutive daily closes after entry is
 skipped. Quartiles and medians interpolate linearly between the two nearest ranked values (position (n - 1) x q), on
@@ -338,7 +344,7 @@ On every run it also checks the alert log (above, not on a seeding run) and the 
 Any exception in `feed_live.py` (these, or a crash) overwrites the feed with the fail-closed feed and exits 1. It has
 `posting_bar_pct` 70, `cards_withheld`, `alerts_withheld` and `extras_withheld` true, `checks.passed` and
 `checks.all_passed` false, `checks.lines` empty, `checks.steps` as passed, `checks.failed_steps` `["feed"]`,
-`feed_error` (the exception's type name), every list empty, `candle_check`, `example_card`, `example_if_it_misses`,
+`feed_error` (the exception's type name), every list except `alert_log_carry` empty, `candle_check`, `example_card`, `example_if_it_misses`,
 `example_past_paths`, `scored_as_of`, `market_regime`, `next_buy_date` and `trades_a_year` null, and `odds_fade` with
 only `label`, `posting_bar_pct`, a null `sample` and empty lists. It has no `alerts_seeded`, `signals_a_year`,
 `odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record,
@@ -363,8 +369,9 @@ not hold). A null `market_regime` or `scored_as_of` means unknown, never "off".
 
 ## Inputs checked before scoring
 
-`.github/scripts/check_candles.py` stops the job when `fetch.history_problems` reports anything or, in enforce mode,
-when any of the last 30 closed days differs from Kraken's close by more than 0.5%. stack_live.py runs
+`.github/scripts/check_candles.py` stops the job when `fetch.history_problems` reports anything; when any of the last
+90 closed daily bars is missing, has bad prices or zero volume, or any of the last 540 4H bars has bad prices; or, in
+enforce mode, when any of the last 30 closed days differs from Kraken's close by more than 0.5%. stack_live.py runs
 `fetch.history_problems` again and fails the stack step on any problem. It requires:
 
 - every candle file (1D to 8D, 4H, 12H) present, ending with a whole line, with a volume column and every row exactly
@@ -378,9 +385,10 @@ when any of the last 30 closed days differs from Kraken's close by more than 0.5
   asset), and BTC put/call from 2016-11-01: no missing or repeated day, values in range, whole rows, ending no more
   than 3 days before today, and derivatives columns of their own asset.
 
-The freshness check requires the last daily bar to be today's open bar; fetch.py builds it from the hourly candles
-when the daily endpoint has not opened it. stack_live.py fails if the last daily bar is not today's. The fetchers
-write each file whole or not at all.
+The freshness check requires the last daily bar to be today's open bar and the last 4H bar to be the current 4-hour
+bar; fetch.py builds it from the hourly candles
+when the daily endpoint has not opened it. stack_live.py fails if the last daily bar is not today's. fetch.py, fetch_derivs.py and fetch_pcr.py,
+which write every file the scoring steps read, write each file whole or not at all.
 
 ## The strict check
 
@@ -388,14 +396,16 @@ One definition of a well-formed feed: `FEED_SCHEMA` in `docs/artifacts/member-si
 `/*FEED_SCHEMA*/` and `/*END_FEED_SCHEMA*/` markers. The page applies it; `feedcheck.py` reads the same block and
 applies the same rules, trimming text and matching digits as JavaScript does.
 
-- **Types:** `pct` 0-100; `pcti` a whole number 0-100; `num` finite, under a million either way; `n` a whole number 0
-  or more; `day` a whole number 0-60; `px` above 0 and under 10^9; `dip` -100 to 0; `rise` 0 to 100,000; `chg` above
+- **Types:** `pct` 0-100; `pcti` a whole number 0-100; `num` finite, under a million either way; `n` a whole number from 0
+  to under a million; `day` a whole number 0-60; `px` above 0 and under 10^9; `dip` -100 to 0; `rise` 0 to 100,000; `chg` above
   -100 up to 100,000; `share` and `lev` above 0 up to 100; `date`; `ts`; `str` non-empty text; `text`; `bool`; one of
-  a fixed set of words. A key marked `?` may be null or missing. A list has a minimum and maximum length.
+  a fixed set of words. A key marked `?` may be null or missing. A list has a minimum length and, where the
+  schema gives one, a maximum.
 - **Cards:** chart is asset + timeframe; `signal_id` matches chart and `confirms_on`; the two eras add up to the
   sample; an era's or ladder row's count is 0 exactly when its shares are null; ladder rows are 5, 10, 15, 20 with
   counts that never rise and never exceed the sample; a card with `past_trades` 0 has no checked figures and any other
-  card has all of them; the never-fell-25.3% and +20% shares sit within the +10% share; the dip before the high is no
+  card has all of them; the never-fell-25.3% and +20% shares sit within the +10% share; the from-entry share sits between the never-fell-25.3%
+  share and the +10% share; a ladder row's two shares add to at most 101; the dip before the high is no
   deeper than the deepest dip; rounded and exact shares agree; `sample` states the sample size; `low_date` <=
   `low_day` <= `confirms_on`; a forming card does not confirm before the feed's date.
 - **Feed:** `cards_withheld` is the opposite of `checks.all_passed`; a withheld feed has no cards, live signals or
@@ -405,6 +415,8 @@ applies the same rules, trimming text and matching digits as JavaScript does.
   from entry to `generated_at`'s date; each day-10/30/60 figure present exactly when that day has passed; figures
   within best and worst; `edge_status` agrees with best, worst and edge level; the card is its own (chart, date,
   grade, entry close).
+- **Grade rows:** figures present exactly when the count is above 0; the never-fell-25.3% and +20% shares sit within
+  the +10% share.
 - **Extras:** miss counts nest and medians are null exactly when there are no misses; past paths run day 0 to 60 with
   quartiles in order; `if_it_misses` and `past_paths` describe the same samples as `grade_odds`; the example card is
   `ETH-2D-2024-09-22` and the example extras describe its sample; `odds_fade` rows are the fixed bands and checks in
