@@ -1136,6 +1136,42 @@ After the corrections: run seal 29/29, feed alerts 65/65, feed extras 28/28, pag
 numbers check 13 dates unchanged, year end 8/8, gate off, no today bar, page timing 16/16, per-year test, damage test
 31/31 (quick pass).
 
+## Round 31 — 14 Nov (audit #31: damage part only, counted on the frozen list)
+
+**Not clean:** 2 causes got through a family's rule, both real-life damage, both wording that misstated the state. No
+wrong figure, no damaged input scored or published, nothing that reads as a return.
+
+| Level | Missing | Malformed | Wrong content | Partial run | Timing | Delivery |
+|---|---|---|---|---|---|---|
+| Page | 31 / 0 | 118 / 0 | 23 / 0 | 6 / 0 | 30 / 0 | 56 / **3** |
+| Pipeline | 53 / 0 | 289 / 0 | 48 / 0 | 62 / 0 | 34 / **1** | n/a |
+
+(cases tried / got through; the 3 page rows are one cause). Hardening, not counted: 28 tried, 25 accepted, each
+showing the file's own values. Report: `analysis/audit31_2026-11-14/broken/`.
+
+The two causes, each fixed at its family's rule:
+- **Delivery: the Chart tab's lead-trader note read "unavailable" while the file loaded, and kept it after a valid
+  file arrived** (until the member left and reopened the tab). The note tested only whether the file had been read,
+  and the file's arrival redrew the Now tab but not an open Chart tab. Rule now: every area that reads a file says
+  "Loading" until it arrives and is redrawn when it arrives, including on a tab already open. Test:
+  `test_page_timing` (slow file on the Chart tab: Loading; valid file arrives: points to the Now tab without leaving
+  the tab; file fails to load: unavailable).
+- **Timing: a run whose scoring finished before 00:00 UTC and whose feed was written after it published clean** in a
+  quiet market, with no "daily close has passed" note, since the page judges the close from the feed's write time.
+  (With open signals the run already failed closed.) Rule now: the strict check, which the page and `feedcheck.py`
+  share, refuses a feed that is not withheld whose `scored_as_of` is not its own day, so `feed_live.py` fails closed;
+  the next run publishes clean. Test: `test_midnight` (new: the same quiet data written at 23:59:55 publishes clean,
+  at 00:00:05 fails closed; the strict check on both).
+
+Every new failing case fails on the round-30 code (page timing 17 of 19 then; midnight 2 of 5). The 32 cases of round
+31 (4 got through, 28 hardening) were added to `docs/audit/damage_list.csv`. Not counted: a hand run with no step
+outcomes is judged on `stack_status.txt` alone, as specified; a skipped extras step withholds the whole feed (over-safe);
+a last feed replaced by an older run's copy keeps later runs failing closed until fixed by hand (safe).
+
+**Re-checked after the changes:** numbers check 13 dates unchanged, midnight 5/5, run seal 29/29, feed extras 28/28,
+feed alerts 65/65, page states 52/52, fire drills 58/58, year end 8/8, gate off, no today bar, page timing 19/19,
+per-year test, site worker 26/26, damage test 31/31 (quick pass).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
