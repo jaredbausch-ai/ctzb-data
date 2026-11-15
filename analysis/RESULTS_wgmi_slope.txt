@@ -1,0 +1,13 @@
+WGMI HISTOGRAM (110-day slope) AS A LENS -- declared 15 Nov 2026 (analysis/wgmi_slope.py)
+CEILING: M2 is revised after publication. A pass cannot become a lens; a fail is final.
+signals with a slope read: 870 (ETH 357, BTC 513), 2016-12-18 to 2026-09-05
+cand    asset dir  | to 2021: n on/off  win on/off  t30 on/off | 2022 on: n on/off  win on/off  t30 on/off | charts years | shuffle | overlap | verdict
+S_GT1   ETH SEL  |  22/102  82/ 78  18/ 20 |  71/162  69/ 37  11/ 23 | 4/4 4/5 | +19.0/+8.8 | - | fail
+S_GT0   ETH SEL  |  46/78   67/ 86  30/ 13 | 114/119  55/ 39  20/ 19 | 2/4 4/5 | +1.4/+5.9 | AGREE=on | fail
+S_LT0   ETH WARN |  78/46   86/ 67  13/ 30 | 119/114  39/ 55  19/ 20 | 2/4 4/5 | +1.4/+7.1 | AGREE=on | fail
+S_LTM1  ETH WARN |  41/83   90/ 73  20/ 19 |  76/157  41/ 50  24/ 18 | 1/4 3/5 | -0.2/+7.4 | FUND=off | fail
+S_GT1   BTC SEL  |  69/213  75/ 59  29/ 23 |  73/158  48/ 30   3/  3 | 4/4 5/7 | +14.4/+13.4 | - | fail
+S_GT0   BTC SEL  | 122/160  67/ 60  28/ 22 | 115/116  37/ 35   3/  2 | 4/4 3/8 | +2.7/+10.5 | GAP=on | fail
+S_LT0   BTC WARN | 160/122  60/ 67  22/ 28 | 116/115  35/ 37   2/  3 | 4/4 3/8 | +2.7/+8.2 | GAP=on | fail
+S_LTM1  BTC WARN |  97/185  54/ 68  30/ 22 |  78/153  38/ 35   1/  3 | 4/4 5/8 | +6.1/+7.8 | GAP=on | fail
+ENTRY QUALITY ONLY. No exit in the data. Computed signals, never fills.
