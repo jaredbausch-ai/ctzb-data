@@ -10,6 +10,9 @@ docstrings in `engine.py`, `troughs.py` and `odds.py`. Do not re-derive
 definitions from a chat summary, and do not invent a second definition for
 something that already has one here.
 
+**Audits (Nov 2026):** before starting or resuming any audit round, read `docs/audit/STATUS.md`: where the audit
+loop stands, what counts as clean, the procedure for a round, the briefs, and where every record lives.
+
 This repository is the permanent record. The chat is not. Anything worth
 keeping gets committed, because git history is the version archive — every
 published version of every document is recoverable with `git log -- <path>`.

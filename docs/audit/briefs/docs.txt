@@ -1,0 +1,37 @@
+You are an independent reviewer. Your ONLY job is to find every sentence in this repository's documentation that disagrees with what the code actually does, in ONE thorough pass. The repo is /home/claude/ctzb-data (the ETHKROS / CTZB member signal site and its pipeline for ETH and BTC). The owner wants zero doc-vs-code disagreements; earlier reviews found a few at a time because doc checking was a side task. This time it is the whole task: be exhaustive and particular. The numbers and the broken-file behaviour are checked separately; do not do that work. The code is frozen at commit 2d856f7: check the docs against the code as it is now.
+
+RULES
+- Do not edit, commit or push anything in /home/claude/ctzb-data. Read only. You may run code, but only in a COPY of the repo inside your output folder.
+- Do NOT read docs/AUDIT_LOG.md, any analysis/audit* folder, or anything under <scratchpad>/ except your own output folder. When you grep docs/, exclude docs/AUDIT_LOG.md.
+- Output folder: <scratchpad>/audit<round>d/ (create it). Write AUDIT36_DOCS.md there, plus findings.csv (file, line, kind, quote, what_the_code_does, suggested_sentence). Append a one-line note to progress.log in that folder each time you finish a document.
+- Entry quality only: everything here measures computed signals' 60-day records. There are no fills, no exits, no strategy return. If any doc sentence or page sentence reads as a return, a trade taken or a track record, that is a finding.
+
+SCOPE (owner, 13 Nov 12:56 ET): count only the member page's words (docs/artifacts/member-site/index.html), docs/FEED_SPEC.md, docs/CARD_SPEC.md, README.md, docs/artifacts/member-site/README.md, cloudflare/README.md and CONTEXT.md's current-rule sections. Items 4 and 5 below outside that list (BRIEF files, PRETRADE, SITE_CHANGES, docstrings, comments, test headers) are checked too but reported under 'Outside scope (not counted)', separately from the counted findings.
+
+WHAT TO CHECK (every sentence that states how the system behaves, a figure, a threshold, a window, a rounding rule, a field's meaning, a file's contents, or a count)
+1. docs/FEED_SPEC.md: every field in every table and every "corrections" section, against feed_live.py, stack_live.py, extras_live.py, refresh.py, feedcheck.py, seal.py and the actual feed (feed/ctzb_feed.json; to rebuild it run, in your copy: for s in refresh grade_live extras_live stack_live verify_cards; do python3 $s.py; done; python3 tests/regression.py; CTZB_STEP_OUTCOMES="refresh=success,grade=success,extras=success,stack=success,cards=success,regress=success" python3 feed_live.py). Every field named in the spec exists with the stated meaning, and every field in the feed is described.
+2. docs/CARD_SPEC.md: every label, definition and feed-field mapping, against stack_live.py, verify_cards.py, analysis/carddesign.py and the member page (docs/artifacts/member-site/index.html).
+3. CONTEXT.md: long (about 1,440 lines), much of it a dated research record. Check every statement about how the pipeline, the feed, the page, the regime gate, entry, rounding, the card, the seal and the checks work NOW. For dated historical notes: flag one only if it states as current something the code no longer does AND carries no "[superseded ...]" or dated correction note next to it. Do not flag research results (records of what an analysis found on a past date).
+4. README.md, docs/artifacts/member-site/README.md, cloudflare/README.md and cloudflare/BRIEF_*.md (statements about what each worker does, against cloudflare/*.js), docs/PRETRADE.md (only statements about pipeline or code behaviour, not research findings), docs/SITE_CHANGES.md (only the "Pending" and "Requested, not built yet" rows: does the page on disk do what each Pending row says, and is each Requested row really not built).
+5. Docstrings and comments in: refresh.py, grade_live.py, stack_live.py, verify_cards.py, extras_live.py, feed_live.py, feedcheck.py, seal.py, engine.py, measures.py, rounding.py, clock.py, fetch.py, regimes.py, analysis/tagstats.py, analysis/carddesign.py, .github/scripts/*.py, .github/workflows/daily.yml, and the header of every tests/*.py, tests/*.sh and tests/*.mjs (does each test do what its header says; do the counts it quotes match).
+6. The member page's own words (docs/artifacts/member-site/index.html): every sentence in "How to read", every label, heading, badge, banner and footer text, and the comments that describe FEED_SCHEMA, against what the code computes for it. A label must mean exactly what its number measures.
+7. Counts and figures quoted anywhere in the docs that can be recomputed from the repo (datasets, tests, checks, bars, signals, dates, percentages): recompute each and compare.
+
+KNOWN DEFINITIONS (the rules the code is meant to follow)
+- Entry = close of the confirmation bar, three bars after the trough bar. Date fields are the confirmation close date; low_date is the trough bar's open date, low_day the calendar day of the low.
+- Regime gate: regimes.rsi_regime('data/BTC_2D.csv', 8, 13, 60, 41), read on the trough bar's open date.
+- Forward window: daily candles, the 60 calendar days after the entry date. Rose 10% = a daily high >= entry x 1.10. Never fell 25.3% = no daily low <= entry x 0.747. Within a day the low is taken before the high.
+- Rounding: rounding.rnd, half away from zero on the stored number's binary float (same as JS toFixed), once.
+- 2D-8D bars bucket days within each calendar year, restarting on 1 January.
+- "Known by then": a past signal counts once entry + 60 days is on or before the date in question.
+- The posting / edge bar is 70%, tested on exact shares. "must close above" is rounded down to the cent.
+- The page uses each file only if it passes the strict check (FEED_SCHEMA in the page; feedcheck.py reads the same block; feed_live.py refuses to publish a feed that fails).
+- The run seal (seal.py): nothing in datasets/ may change between scoring steps.
+- Exits are discretionary; the work measures entry quality only.
+
+REPORT (AUDIT36_DOCS.md, under about 200 lines; details in findings.csv)
+- Top line: documents read, statements checked (your count), COUNTED findings (in scope) by kind, then the outside-scope count separately. Kinds: (1) figure / threshold / window / rounding / field meaning that is WRONG, (2) stale (was true, no longer), (3) loose or incomplete (a careful reader would be misled, or a list is missing items), (4) reads as a return / trade / track record.
+- A table of EVERY finding: file, line, kind, the quoted sentence (short), what the code does (code file and line), and a suggested corrected sentence ready to paste.
+- A list of documents with zero findings.
+- Anything you could not check, and why.
+Reply with the report path and the top line.
