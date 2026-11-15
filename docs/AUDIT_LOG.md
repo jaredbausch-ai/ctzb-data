@@ -1340,7 +1340,36 @@ row or repeated header row is accepted (only top-grade rows are read); `tests/re
 emptied; a feed replaced by an older copy keeps later runs failing closed until repaired by hand; the mirror keeps
 serving a dataset the repo deleted (the page's own price and time check refuses such a chart file).
 
-Next, as agreed: a docs audit against this frozen code, then two full clean runs (numbers, damage, docs).
+**Docs part** (independent agent, code frozen at 4388653; `analysis/audit34_2026-11-14/docs/`): about 780 statements
+checked; **24 counted findings** (4 wrong, 2 stale, 16 loose or incomplete, 2 reading as a trade) and 13 outside the
+counted scope. Every field in the feed is described in FEED_SPEC, every field it names exists, and its strict column
+matches the page's schema exactly. All 37 sentences were corrected to match the code (no code behaviour changed):
+- **The live card's odds.** The page and CARD_SPEC said a live card's odds were "as of the entry close" and the card
+  "as issued at its entry close". The code rebuilds a live card every run from every past signal whose 60 days have
+  closed by the run's date (each measured from its own entry close). The page now says the odds are "measured from the
+  entry close, not from today's price"; CARD_SPEC, FEED_SPEC and CONTEXT say the same.
+- **FEED_SPEC (6):** `next_buy_date` reads only a forming low's bucket, "any trough", "zone-exit B" or "prime dot"
+  tags; `alert_log` is null only on a held seeding run; `feed_live.py`'s own work includes the second copy, the
+  hold checks and deleting extras files; the duplicate-id rule is per list; the stale warning is not on a card reading
+  "No odds yet", "Card unavailable" or "Example unavailable"; a lead-trader time may be up to 5 minutes ahead.
+- **CARD_SPEC (3 more):** "signal card" (was "trade card"), "per-signal fitted models", the health monitor messages
+  after 75 minutes held back.
+- **The page (4 more):** "How to read" on where the odds come from and the misses pool; the quiet card ("nothing is
+  forming today and no top-grade signal is within its 60 days"); the schema comment's limits on `n`, dates and times.
+- **READMEs (6):** the member-site README's section names, the 5-minute allowance and the fixed values the page
+  types; `cloudflare/README.md`'s tokens (the dashboard and the scheduler hold the Telegram bot token); README.md's
+  walk-forward figures dated to 1 November 2026.
+- **CONTEXT (4):** the `dead` field (a -30% from entry before price gains 5% from entry); walkforward.csv's 3+ / 4+
+  rows use the symmetric count; refresh.py writes 13 of the datasets; "Every signal its own odds".
+- **Outside scope (13):** docstrings in `feed_live.py`, `feedcheck.py`, `check_candles.py`, `grade_live.py` and
+  `stack_live.py`; the page's comments; the `test_page_timing` and `test_seal` headers; PRETRADE "signals";
+  SITE_CHANGES rows 6, 6b and 6i; CONTEXT's member-alerts note; the dashboard's "Past trades", "Trades that got
+  there" and "buy price" labels, now "signals" and "the entry close" (dashboard worker rebuilt; SITE_CHANGES row 7b).
+
+**Re-checked after the corrections:** numbers check 13 dates unchanged, midnight 7/7, run seal 29/29, feed extras
+28/28, feed alerts 83/83, page states 56/56, fire drills 58/58, year end 8/8, gate off, no today bar, page timing
+20/20, per-year test, site worker 26/26, damage test 33/33 (quick pass), dashboard alerts 21/21, dashboard gate
+26/26, trades relay 45/45.
 
 ---
 
