@@ -1,0 +1,7 @@
+2026-11-15T05:41:22Z data checks: frozen states A done (current 26004, replay_0414 25967 data comparisons), 0 disagreements
+2026-11-15T05:41:22Z page checks: frozen states A done (current 941, replay_0414 792 page comparisons), 0 disagreements
+2026-11-15T05:48:44Z checker self-test: 35 of 35 planted errors caught (27 data, 8 page)
+2026-11-15T14:08:01Z replays: 328 real dates (326 audited, 2 fail-closed tests withheld as required), 5,695,532 comparisons, 0 disagreements
+2026-11-15T14:08:01Z synthetic states: none built (out of scope for this numbers audit; only the checker self-test plants, 35/35 caught)
+2026-11-15T14:08:15Z final re-run of frozen states with the final checker: current 27051, replay_0414 26841 comparisons, 0 disagreements
+2026-11-15T14:09:00Z report: written (A 53,892 comparisons / 0 disagreements; B 5,695,532 / 0)

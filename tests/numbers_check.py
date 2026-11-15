@@ -4,7 +4,7 @@ page produce with a stored baseline. Any change stops the line until it is expla
 Why (Jared, 13 Nov 2026): the full numbers audit (two hours, an independent agent) had been at or near zero for
 many rounds, so it no longer runs every round. Damage fixes still change pipeline code and could move a figure
 (round 22: a round-21 check held back a good Sep 2020 feed), so this check runs after every change instead.
-The full numbers audit still runs in the two final clean runs.
+The full numbers audit still runs in every three-part audit round.
 
 Compared per date:
   - every file in datasets/ and feed/ (exact text), except run bookkeeping that tests/replay_at.sh copies from the

@@ -92,7 +92,7 @@ def main():
             if name.startswith("quiet") or name == "no example card":   # the page opens on the example; switch it off too
                 pass
             bad = [(v, m.group(0), t[max(0, m.start() - 40):m.end() + 20].replace("\n", " ")) for v, t in texts.items() for m in BAD.finditer(t)]
-            # 15 Nov 2026 clean run #1: with every file served at once, nothing still says "Loading" (the past-signals
+            # 15 Nov 2026 audit round 35: with every file served at once, nothing still says "Loading" (the past-signals
             # cloud's note kept the chart file's "Loading" text when the feed carried no past paths)
             loading = [(v, t[max(0, t.find("Loading") - 60):t.find("Loading") + 40].replace("\n", " ")) for v, t in texts.items() if "Loading" in t]
             for label, cond, detail in [(f"{name}: no raw placeholder in any view", not bad, str(bad[:2])), (f"{name}: no page error", not errs, str(errs[:1])),
@@ -213,7 +213,7 @@ def main():
         # audit #25: a feed with no worked example (dates before 22 Nov 2024) says so on the chart, not "couldn't be loaded"
         noex = copy.deepcopy(FEED); noex.update(cards=[], open_signals=[], market_regime="Bullish", example_card=None, example_past_paths=None, example_if_it_misses=None)
         t_nx, e_nx = render(pw, noex, views=("chart",), example_on=True)
-        # 15 Nov 2026 clean run #1: the example's own extras without the example (published before 22 Nov 2024) are refused
+        # 15 Nov 2026 audit round 35: the example's own extras without the example (published before 22 Nov 2024) are refused
         noexx = copy.deepcopy(noex); noexx.update(example_past_paths=FEED["example_past_paths"], example_if_it_misses=FEED["example_if_it_misses"])
         t_xx, e_xx = render(pw, noexx, views=("now",)); py_xx = feedcheck.problems(json.loads(json.dumps(noexx)))
         # audit #25: Previous signals lists open signals newest first in both groups, whatever the feed's order

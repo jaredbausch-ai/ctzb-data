@@ -1105,7 +1105,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // the example's cloud uses only signals known by its date, the same sample as its card (12 Nov 2026 audit #6)
     const pp = !c && S.feed && S.feed.example_past_paths ? S.feed.example_past_paths : ((S.feed && S.feed.past_paths) || []).find((p) => p.asset === asset);
     if (!pp) {
-      // the note and subtitle are set here too: they still held the chart file's "Loading" text (clean run #1, 15 Nov 2026)
+      // the note and subtitle are set here too: they still held the chart file's "Loading" text (audit round 35, 15 Nov 2026)
       svgEl(svg, "text", { x: 550, y: 130, fill: "var(--muted)", "font-size": 14, "text-anchor": "middle" }, "Past paths unavailable in this feed");
       $("#cloudSub").textContent = ""; $("#cloudNote").textContent = "The past signals' paths are not in this feed, so they can't be drawn.";
       return;

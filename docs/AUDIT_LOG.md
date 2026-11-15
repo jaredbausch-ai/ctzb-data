@@ -844,11 +844,11 @@ FEED_SPEC's 523 lines were dated "Audit #N corrections" notes that went stale as
 damage part's cut-file finding was the round-24 finding's family, fixed then only for the files named; and fresh
 auditors explore open-ended categories, so new cases keep appearing. **Method from here (Jared agreed, 18:43 ET):**
 - the numbers audit no longer runs every round: `tests/numbers_check.py` replays 13 fixed dates after every change and
-  compares every dataset, feed and page figure with a baseline; the full numbers audit runs in the two final clean runs;
+  compares every dataset, feed and page figure with a baseline; the full numbers audit runs in every three-part round;
 - specs state current rules only (FEED_SPEC rewritten, history moved to `docs/history/`);
 - fixes cover the whole family, with a family test (`tests/test_cut_files.py`: every input file, cut at every point);
 - an independent fix check (`docs/audit/FIX_CHECK_BRIEF.md`) checks each round's fixes before the next audit;
-- order: damage until clean, then docs against frozen code, then two full three-part clean runs.
+- order: damage until clean, then docs against frozen code, then three-part rounds (numbers, damage, docs) until two in a row are clean.
 
 **Changed** (commits b6eb046 docs part; 42cdc9c, 3bc0f0f, ac49945 and the fix-check corrections):
 - `fetch.py`: a blank cell, volume included, is a damaged row; a file whose last line has no line end was cut short;
@@ -1279,7 +1279,7 @@ The cause, fixed at its family's rule:
 
 The two repeat cases fail on the round-32 page (page states 54 of 56). The 36 cases of round 33 (1 got through, 35
 hardening) were added to `docs/audit/damage_list.csv`. The site Worker (`cloudflare/ctzb-site-worker.js`) was rebuilt
-from the page; it had not been rebuilt since round 29 (it is deployed only after the two clean runs). Not counted, as
+from the page; it had not been rebuilt since round 29 (it is deployed only after two clean rounds in a row). Not counted, as
 specified: a hand run with no step outcomes is judged on `stack_status.txt` alone.
 
 The lead-trader schema now names `id` (optional, text), since the repeat rule reads it; the damage test requires every
@@ -1390,7 +1390,7 @@ both Workers rebuild to identical bytes). Corrected:
 After the corrections: numbers check 13 dates unchanged, page states 56/56, site worker 26/26, dashboard gate 26/26,
 dashboard alerts 21/21, the repo's feed passes `feedcheck.py`.
 
-## Round 35 — 15 Nov (clean run #1: numbers, damage and docs, three independent agents at once)
+## Round 35 — 15 Nov (numbers, damage and docs, three independent agents at once; clean rounds in a row: 0 of 2)
 
 **Not clean.** Code frozen at 5d36e46. States: a replay of 12 Nov 04:14 UTC (four forming setups), one of 11 Nov 04:14
 and the data of 15 Nov 00:32 UTC (six forming setups).

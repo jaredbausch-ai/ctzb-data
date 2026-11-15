@@ -612,7 +612,7 @@ def main():
                    "q75_pct": num(r["q75_pct"])} for r in paths if r["asset"] == asset]}
         for asset in dict.fromkeys(r["asset"] for r in paths)]
 
-    # the worked example's own extras only with the example itself (15 Nov 2026 clean run #1: before 22 Nov 2024 they
+    # the worked example's own extras only with the example itself (15 Nov 2026 audit round 35: before 22 Nov 2024 they
     # were published with no example card)
     me = rows(d("missstats_example.csv")) if extras_ok and example_card and os.path.exists(d("missstats_example.csv")) else []
     feed["example_if_it_misses"] = {
