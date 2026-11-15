@@ -1459,6 +1459,28 @@ HTML). Both baseline re-approvals moved only what their commits say; both Worker
 After the corrections: numbers check 13 dates unchanged, run seal 29/29, feed alerts 83/83, dashboard gate 26/26,
 dashboard alerts 21/21.
 
+## Round 36 — 15 Nov (numbers, damage and docs; clean rounds in a row: 0 of 2)
+
+**Not clean (docs part).** Code frozen at 2d856f7. States: replays of 12 Nov and 11 Nov 04:14 UTC (four forming
+setups) and the data of 15 Nov 05:24 UTC (six forming setups). The numbers and damage agents stopped twice on usage
+limits and were resumed where they stopped.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Numbers | 53,892 comparisons on the two frozen states; 5,695,532 on 326 replays of real dates (and 2 fail-closed tests) | **0** |
+| Damage | 1,954 real-life cases (page 479, pipeline 1,475); 71 hardening, 14 accepted | **0** (every flag was a harness error) |
+| Docs | about 960 statements | **10** (1 wrong, 1 stale, 7 loose, 1 reading as a track record), plus 7 outside scope |
+
+Reports: `analysis/audit36_2026-11-15/` (numbers, broken, docs). All 17 docs sentences were corrected in 9c177ca: the
+page's disclaimer now reads "How past signals behaved doesn't guarantee how future signals will behave." (was "Past
+results don't guarantee future results."), its link "See every past top-grade signal"; README's request count;
+FEED_SPEC's schema-6 list and `example_if_it_misses` fields; CARD_SPEC's example misses mapping; CONTEXT (lag across
+1 January, the dashboard artifact frozen at v38, when the feed is written, what is not built); docstrings, SITE_CHANGES
+and a dated CONTEXT note outside scope. Numbers unchanged; page states 64/64. On the docs rule from round 37 this
+round would have counted 3 (the request count, the artifact row, the disclaimer). The 36 hardening cases were added
+to `docs/audit/damage_list.csv`. The 17 corrections are checked by round 37's docs part rather than a separate fix
+check.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

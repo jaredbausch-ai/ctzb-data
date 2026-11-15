@@ -1,0 +1,23 @@
+2026-11-15T05:29:43Z stage 0: started; read brief, docs, code
+2026-11-15T14:06:47Z page stage 1: 454 page cases run (17 flagged, incl. 2 controls that must fail); page copy frozen to the state's (= commit 2d856f7) from here on
+2026-11-15T14:11:51Z pipeline states: 1 cases so far, 0 not ok so far
+2026-11-15T14:13:01Z pipeline replays: 7 cases so far, 0 not ok so far
+2026-11-15T14:35:14Z pipeline candles at fetch (current): 483 cases so far, 10 not ok so far
+2026-11-15T14:37:15Z pipeline candles (replay): 527 cases so far, 10 not ok so far
+2026-11-15T14:44:38Z pipeline candles after the check: 576 cases so far, 10 not ok so far
+2026-11-15T14:45:08Z pipeline candles between steps: 590 cases so far, 10 not ok so far
+2026-11-15T14:57:28Z pipeline series at fetch: 772 cases so far, 10 not ok so far
+2026-11-15T14:59:14Z pipeline datasets before feed: 1125 cases so far, 10 not ok so far
+2026-11-15T15:02:43Z pipeline datasets between steps: 1345 cases so far, 10 not ok so far
+2026-11-15T15:03:07Z pipeline datasets (replay): 1390 cases so far, 10 not ok so far
+2026-11-15T15:09:00Z pipeline steps order/killed/outcomes: 1422 cases so far, 12 not ok so far
+2026-11-15T15:09:29Z pipeline clocks: 1431 cases so far, 12 not ok so far
+2026-11-15T15:12:23Z pipeline config files: 1448 cases so far, 12 not ok so far
+2026-11-15T15:13:33Z pipeline two runs at once: 1453 cases so far, 12 not ok so far
+2026-11-15T15:14:18Z pipeline alert log single: 1477 cases so far, 15 not ok so far
+2026-11-15T15:16:30Z pipeline alert sequence: 1478 cases so far, 15 not ok so far
+2026-11-15T15:23:09Z pipeline re-judged: alert-log harness fixes, spaces cases on served numbers
+2026-11-15T15:24:43Z page stage 2: 33 more page cases (pipeline-built states, neighbouring ledgers, reruns); 3 flagged, all harness expectation errors
+2026-11-15T15:53:48Z stage C: repo tests on a copy of the frozen current state: test_seal 29/29, test_page_timing 20/20, test_feed_damage (RENDER_LIMIT=40 REJECT_LIMIT=10) 33/33. Final: 1955 counted cases, 0 disagreements; 71 hardening cases, 14 accepted
+2026-11-15T15:53:58Z correction: counted cases are 1954 (page 479, pipeline 1475), 0 disagreements; hardening 71, 14 accepted
+2026-11-15T15:54:56Z report written: AUDIT36_BROKEN.md (0 disagreements in 1954 counted cases; 14 hardening cases accepted out of 71)
