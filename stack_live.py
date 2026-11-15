@@ -554,7 +554,7 @@ def main():
         out.append([subj, f'Grade {g}, all {a} charts', 'record'] + rec(ag) + ['from 2020' if a == 'ETH' else 'full history'])
         if len(ex) >= 15: basis, G_ = f'all {len(ex)} past {a} {tf} signals with exactly the same confirmations', ex  # 'signals', not 'trades': none were taken (12 Nov 2026 audit)
         elif len(sg) >= 15: basis, G_ = f'all {len(sg)} past {a} {tf} signals of {gp(g)} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
-        else: basis, G_ = f'all {len(ag)} past signals of {gp(g)} across all {a} charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
+        else: basis, G_ = f'all {len(ag)} past signals of {gp(g)} across the {a} 1D, 2D, 3D and 5D charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag
         out.append([subj, 'CONSOLE RECORD', basis] + rec(G_) + ['like for like'])
         # A forming low gets a member card (and so a forming alert) only on a graded chart (1D-5D; 8D is not
         # graded and verify_cards cannot re-derive it) and only when the regime gate is on at its trough date:
@@ -758,7 +758,7 @@ def main():
               and s.get('fund') is not None and s.get('fcool') is not None and gof(len(sets(s))) == g]
         if len(ex) >= 15: basis, G_ = f'all {len(ex)} {a} {tf} signals with exactly the same confirmations whose 60 days had closed by then', ex
         elif len(sg) >= 15: basis, G_ = f'all {len(sg)} {a} {tf} signals of {gp(g)} whose 60 days had closed by then (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
-        else: basis, G_ = f'all {len(ag)} signals of {gp(g)} across all {a} charts whose 60 days had closed by then ({a} {tf} alone had only {len(sg)}, too few to use)', ag
+        else: basis, G_ = f'all {len(ag)} signals of {gp(g)} across the {a} 1D, 2D, 3D and 5D charts whose 60 days had closed by then ({a} {tf} alone had only {len(sg)}, too few to use)', ag
         rx = dict(exr, _trough=exr['tdate'], _need='', _kill=None, _price_now='', _entry_close=round(exr['entry'], 2))
         ex_cards.append(card(rx, g, have, basis, G_))
 

@@ -217,7 +217,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
               <div class="small" style="color: var(--lead-soft)">Real trades, posted automatically when they fill (once his feed is live)</div>
             </div>
             <div id="leadBody"><div class="lead-empty">Loading the lead trader's feed…</div></div>
-            <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before an alert, sometimes after, sometimes not at all. Once his feed is live, every trade is posted automatically. Entry, exit, leverage and size as a share of the account; never dollar amounts.</div>
+            <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before an alert, sometimes after, sometimes not at all. Once his feed is live, every trade is posted automatically: the action, the fill price, leverage and size as a share of the account, and on a reduce or close the move from his average entry and the result as a share of the account; never position sizes or balances in dollars.</div>
           </div>
         </section>
 
@@ -650,7 +650,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       : `<span class="pnone">${NOT_OK[feedHealth()] || "No live top-grade setups right now."}</span>`;
     const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
         ${esc(c.chart)} <b>${pc(c.rose10_within60d_pct)}</b><span class="small">rose 10% in 60 days · n ${c.past_trades ?? "n/a"} · ${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
-      : `<span class="pnone">${NOT_OK[feedHealth()] || "Nothing forming today."}</span>`;
+      : `<span class="pnone">${NOT_OK[feedHealth()] || "No setup with a card forming today."}</span>`;
     $("#picker").innerHTML = `<div class="prow"><span class="plabel">Live</span>${liveBtns}</div>
       <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button></div>`;
   }
@@ -730,7 +730,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       box.innerHTML = `<div class="card-head"><div class="where">BTC · ETH</div><div class="state" style="--c: var(--muted)" data-state="quiet">No setup right now</div></div>${staleNote()}
         <div class="empty-card">
           <div class="big">Waiting for the next one</div>
-          <div class="small" style="max-width: 46ch">${on ? `The market filter is on. Nothing is forming today and no top-grade signal is within its 60 days. ${perYearText()}` : off ? "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year." : "Nothing is forming today and no top-grade signal is within its 60 days. The market filter's reading is unavailable right now."}</div>
+          <div class="small" style="max-width: 46ch">${on ? `The market filter is on. No setup with a card is forming today and no top-grade signal is within its 60 days. ${perYearText()}` : off ? "The market filter is off, so the system is quiet. It stays quiet in downtrends, sometimes for a year." : "No setup with a card is forming today and no top-grade signal is within its 60 days. The market filter's reading is unavailable right now."}</div>
         </div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;

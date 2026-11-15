@@ -15,8 +15,9 @@ Rules (docs/FEED_SPEC.md):
     failed; a broken seal, a damaged alert log or a failed strict check publishes the
     fail-closed feed
   - it only repackages datasets/*.csv written earlier in the same run; it
-    computes no figure of its own (it stamps the time, the schema version, the posting bar constant
-    and the aliases, and words the labels)
+    computes no figure of its own (it stamps the time, the schema version and the posting bar constant,
+    builds the ids and aliases, words the labels, decides which alerts are new or carried, keeps the alert log
+    and its copy, decides a held or fail-closed feed, and deletes a failed extras step's files)
   - (schema 4, 10 Nov 2026, item 17d) every card, print and open signal carries
     a signal_id = chart + confirmation date, which is the same at every stage of
     a signal's life. "alerts" lists the events in their delivery window
@@ -193,7 +194,7 @@ def check_log(log_path, prev_feed_path):
     A log that was deleted, cut, emptied or replaced by an older copy would lose an alert or send one twice.
     Returns the log's rows. If the last run published its feed but died before writing the log, the log is
     rebuilt from that feed's own alerts (the feed went out, so they were sent). Anything else raises, which
-    publishes the withheld feed.
+    publishes the fail-closed feed.
     14 Nov 2026 audit #29: every run also keeps a second copy of the log (backup_path), written after the feed and
     before the log. When the previous feed cannot be read, the copy is the record; a log that differs from the
     record is restored from the copy when the copy is exactly what the record says and restoring changes no row the
@@ -423,7 +424,7 @@ def main():
     failed_steps = [k for k in GATING_STEPS if steps.get(k) != "success"] if os.environ.get("CTZB_STEP_OUTCOMES", "").strip() else []
     all_ok = ok and not failed_steps
     # 13 Nov 2026 audit #21: a clean run always writes these (stack_live.py). If one is gone after the checks
-    # passed, the feed must not read as a quiet market: crash here, which publishes the withheld feed.
+    # passed, the feed must not read as a quiet market: crash here, which publishes the fail-closed feed.
     if all_ok:
         # the candle check's own verdict (13 Nov 2026 audit #22): a run whose candles failed the structural check
         # must not publish, whatever the later steps did

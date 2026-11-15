@@ -1,0 +1,13 @@
+00:45 done: docs/FEED_SPEC.md checked against feed_live/feedcheck/stack_live/extras_live/refresh/seal/check_candles/fetch and the rebuilt feed
+00:45 done: docs/CARD_SPEC.md checked against stack_live/verify_cards/carddesign, member page and the console card (eth-setup-standard.html)
+00:45 done: README.md checked against fetch/refresh/grade_live/daily.yml/dashboard reads
+00:45 done: docs/artifacts/member-site/README.md checked against page, example file, site worker
+00:45 done: cloudflare/README.md checked against the five workers and the six mjs suites (counts rerun)
+00:45 done: docs/SITE_CHANGES.md Pending and Requested rows checked against the page on disk and the dashboard page
+00:50 done: CONTEXT.md current-rule sections (Who/Confirmation lag/Setup/Regime/Traps/Where things live/Live artifacts/Current regime/Open items/Standing instructions) plus dated notes scanned
+00:50 done: docs/artifacts/member-site/index.html words, labels, banners, footer, FEED_SCHEMA comment checked against its own code and the feed
+00:50 done: docs/PRETRADE.md pipeline/code statements
+00:50 done: cloudflare/BRIEF_*.md worker statements
+00:50 done: docstrings/comments: refresh, grade_live, stack_live, verify_cards, extras_live, feed_live, feedcheck, seal, engine, measures, rounding, clock, fetch, regimes, tagstats, carddesign, .github/scripts, daily.yml
+01:03 done: test headers (30 files) read against code; 16 py/sh tests and 6 mjs suites rerun
+01:03 report written: AUDIT35_DOCS.md, findings.csv

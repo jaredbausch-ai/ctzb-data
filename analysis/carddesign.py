@@ -4,8 +4,8 @@ Descriptive only. Nothing here is a filter test, nothing selects or grades a
 signal, and nothing is tuned: every figure re-reads the pipeline's own
 datasets and reports it.
 
-1. If it misses. Per asset and grade (A+, A, B, C since 11 Nov 2026, so a below-grade forming card
-   has its own): signals that did NOT rise 10% within 60 days of entry (+20% until 11 Nov 2026):
+1. If it misses. misses() works on any asset and grade's ledger rows; extras_live.py calls it per grade (A+, A,
+   B, C since 11 Nov 2026, so a below-grade forming card has its own), and this script's own report covers A+ only: signals that did NOT rise 10% within 60 days of entry (+20% until 11 Nov 2026):
    how many went above entry at some point in the 60 days, and how far (median and mean of the best
    move above entry inside the 60 days). Also their median worst drop and
    median day-60 change (the day-60 close vs the entry close). Source: datasets/ledger.csv (bestMove, maxDrawdown,

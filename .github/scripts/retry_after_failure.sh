@@ -9,8 +9,8 @@
 #
 # The streak counts this run plus the consecutive FAILED runs before it (cancelled runs are
 # ignored; any successful run, including a gate skip, ends a streak). From the 3rd failure
-# in a row a GitHub issue labelled pipeline-alert is opened (GitHub emails the owner) and
-# commented on at the 3rd failure and every 6th after; the next successful run closes it.
+# in a row a GitHub issue labelled pipeline-alert is opened (GitHub emails the owner), or commented on if one is
+# already open, and commented on every 6th failure after that; the next successful run closes it.
 #
 # Usage: retry_after_failure.sh <workflow file, e.g. daily.yml> <label for the alert>
 # Needs GH_TOKEN (actions: write, issues: write) and GITHUB_REPOSITORY, GITHUB_RUN_ID.

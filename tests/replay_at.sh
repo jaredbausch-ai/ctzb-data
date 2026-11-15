@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Replay the pipeline as of a past date on a copy of this repo: candles and daily series cut at the end of <date> (the date's
 # own daily bar is kept whole and is "today's open bar"; 2D-8D bars are rebuilt from the cut daily candles),
-# clock set to <date>T04:14Z (CTZB_NOW). Used by tests/test_year_end.py and by audits to reach states that today's data
+# clock set to <date>T04:14Z (CTZB_NOW). Used by tests/numbers_check.py, test_year_end.py, test_per_year.py,
+# test_feed_damage.py, test_gate_off.sh, test_no_today_bar.sh and by audits to reach states that today's data
 # doesn't show. Regression is skipped (the ledger is shorter by construction).
 # Usage: tests/replay_at.sh <YYYY-MM-DD> <out dir> [clock, default <date>T04:14:00Z] [--keep-going]
 #   --keep-going: do not stop when a step fails (to see what a failed run publishes)

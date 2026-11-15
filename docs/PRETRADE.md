@@ -329,7 +329,7 @@ Tier 1.
 
 ## Conviction grade — report with every signal (27-28 Oct 2026)
 
-**Report the setup's own record, not just the grade.** `datasets/liveread.csv` (recomputed every run, shown on the dashboard as "This setup — every read we have") gives this chart with these exact lenses, each lens on vs off this chart, the bucket and the BTC 3D confirmer's tags. Lead with that; the pooled grade is context.
+**Report the setup's own record, not just the grade.** `datasets/liveread.csv` (recomputed every run, shown on the dashboard as "This setup — every read we have") gives this chart with these exact lenses, each lens on vs off this chart, the bucket and every documented confluence cell that is on (BTC 3D confirmer cells exist for "any", B and diamond tags only). Lead with that; the pooled grade is context.
 
 *`analysis/grade.py`, `grade2.py` (addendum), `grade3.py` (audit of every
 documented read), all declared, with placebo checks on the added lenses.*
@@ -436,8 +436,9 @@ and a DOC_MAP line in `stack_live.py`, or the pipeline run fails.
 
 **Grade of every signal, and of anything forming:** `python3 -I grade_live.py`
 (runs every pipeline run). It writes `datasets/grades.csv` (each grade's
-record), `ledger.csv` and `dipdist.csv`, and adds `grade` / `lenses` to `datasets/forward.csv` and
-`formingGrade` / `formingLenses` to `datasets/live.csv`. The dashboard reads the grade table and sizing from
+record), `ledger.csv` and `dipdist.csv`, and adds `grade`, `lenses`, `htfDiv` and `marker` to
+`datasets/forward.csv` and `formingGrade`, `formingLenses`, `formingHtfDiv`, `formingMarker`, `closeNow` and
+`closeDate` to `datasets/live.csv`. The dashboard reads the grade table and sizing from
 grades.csv. A forming grade is
 provisional until the low confirms.
 

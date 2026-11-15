@@ -23,7 +23,7 @@ consumer of the public repo switches by changing only its base URL.
 
 Backups (item 17e): optional R2 binding `BACKUPS` -> bucket `ctzb-backups` (private).
 Once a day at 01:00 UTC the cron stores the exact current commit as
-`daily/ctzb-data-YYYY-MM-DD.tar.gz` (tagged with its sha), plus `monthly/ctzb-data-YYYY-MM`
+`daily/ctzb-data-YYYY-MM-DD.tar.gz` (tagged with its sha), plus `monthly/ctzb-data-YYYY-MM.tar.gz`
 on the 1st. Write-once. An R2 lifecycle rule expires `daily/` after 90 days; `monthly/`
 is kept. About 10 MB on 12 Nov 2026 and growing with the repo (cap 200 MB). `/health` reports the last backup. To restore: download the object
 from the R2 dashboard and `tar -xzf` it (drilled 12 Nov 2026: byte-identical to its tagged commit, pipeline reruns clean on it). Tests: `node tests/test_mirror_backup.mjs` (21).
@@ -58,7 +58,8 @@ futures balance with a **View-only** CDP key (ES256 JWT, one per request), group
 fills of one order into one trade, and records open / add / reduce / close with price,
 leverage and size as % of the account; on reduce / close also the move from average
 entry and the result as % of the account. Never dollar amounts, contract counts or
-balances: every stored record passes an allow-list. First run takes a baseline (open
+balances in what it posts or shows on /dry: every trade event passes an allow-list (its private state keeps contract
+counts to track positions). First run takes a baseline (open
 positions recorded, not posted). Positions reconciled against Coinbase; mismatches are
 corrected and logged, never posted. `MODE` unset or anything but `live` = dry run:
 nothing public, gated `/dry` (`DRY_VIEW_PASSWORD`) shows what would post. Going live

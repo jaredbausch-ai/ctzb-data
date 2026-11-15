@@ -36,7 +36,7 @@ of those runs takes a few minutes. There is a 0.25s pause between requests and a
 ## Schedule
 
 13 minutes after each 4-hour close (00, 04, 08, 12, 16, 20 UTC), started by the ctzb-scheduler Cloudflare
-Worker, with a backup at :43 that skips when the candle is already in. Also runnable by hand from the Actions tab.
+Worker, with a backup at :43 that skips when the candle is already in and the last run passed. Also runnable by hand from the Actions tab.
 
 ## The last bar
 

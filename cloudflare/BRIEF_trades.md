@@ -152,8 +152,9 @@ The agent does not make this change.
 Every minute it reads new futures fills, positions and the futures balance, using a
 fresh signed token per request. The fills of one order become one trade at their
 average price. BTC and ETH only; anything else is ignored. A record shows time, asset,
-long or short, open / add / reduce / close, price, leverage and size as a percentage of
-the account, never dollar amounts, contract counts or balances. If its own count of a
+instrument, long or short, open / add / reduce / close, price, leverage and size as a percentage of
+the account, and on a reduce or close the share reduced, the move from average entry, the result as a
+percentage of the account and the days held; never dollar amounts, contract counts or balances. If its own count of a
 position ever disagrees with Coinbase, Coinbase wins and the correction is logged for
 review, never posted. It writes to storage only when something changes, plus a check-in
 every 15 minutes, which keeps it well inside Cloudflare's free limits.

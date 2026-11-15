@@ -1,8 +1,9 @@
 # Card specification
 
 Approved by Jared 28 Oct 2026. This is the single definition of every number and
-every word on a signal card: the console's card now, and the client screens later
-(Joe's side builds those from the same feed). A card may not show a number that is
+every word on a signal card: the member card (`docs/artifacts/member-site/index.html`), the dashboard console's
+card (`docs/artifacts/eth-setup-standard.html`; where it differs, see "The dashboard console's card" below), and the
+client screens later (Joe's side builds those from the same feed). A card may not show a number that is
 not defined here, and a definition may not change without changing this file in the
 same commit.
 
@@ -39,8 +40,8 @@ the 60 days after it.
 | On the card | Definition | Field |
 |---|---|---|
 | Corner: N past signals | Size of the sample above | `n` |
-| Big number (since 11 Nov 2026): Rose 10% within 60 days of the entry close | Share of the sample whose highest daily high in the 60 days was at least 10% above the entry close | `reach10` |
-| Line under it: did it without ever falling 25.3% | Share of the sample that rose 10% AND whose lowest daily low in the 60 days never reached 25.3% below the entry close (where 3.3x with 5% maintenance margin liquidates). Exact prices, not rounded figures (until 11 Nov 2026 this was the big number) | `surv10` |
+| Big number on the member card (since 11 Nov 2026): Rose 10% within 60 days of the entry close | Share of the sample whose highest daily high in the 60 days was at least 10% above the entry close | `reach10` |
+| Line under it on the member card (the console's big number): did it without ever falling 25.3% | Share of the sample that rose 10% AND whose lowest daily low in the 60 days never reached 25.3% below the entry close (where 3.3x with 5% maintenance margin liquidates). Exact prices, not rounded figures (until 11 Nov 2026 this was the big number) | `surv10` |
 | Rose 20% or more | Share whose highest price in 60 days was at least 20% above the entry close | `reach20` |
 | Typical biggest rise | Median of each signal's highest price in 60 days vs the entry close | `bestMove` |
 | Typical lowest point vs the entry close, before it made its 60-day high (wording fixed 4 Nov 2026; was "Typical dip before the 60-day high", which read as a pullback from profit) | Median, across the past signals, of each signal's lowest low from the day after the entry up to the day of its 60-day high, as a percentage of the ENTRY CLOSE. Negative = it was under the entry close at some point before topping. It is not a pullback from a profit | `dipBeforeHigh` |
@@ -71,7 +72,7 @@ The member site (`docs/artifacts/member-site/index.html`) shows the same card in
 below is defined here; anything not listed is in the table above. Also on the member page: "Red on day 10, rose
 10% after" (`odds_fade.day10`, the red row's `rose10_after_day10_pct`, days 11 to 60; shown only when a card has
 no ladder), "Where the odds fade · ETH tier signals" (`odds_fade.early_dip` bands and the `odds_fade.day10` green/red rows, a general explainer; shown only when a card has no ladder) and "Lead
-trader: in / out / not in / unavailable" (from the lead trader's own posted trades, newest first).
+trader: loading / in · long / in · short / out / not in / unavailable" (from the lead trader's own posted trades, newest first).
 
 | On the member card | Definition | Feed field |
 |---|---|---|
@@ -95,7 +96,7 @@ trader: in / out / not in / unavailable" (from the lead trader's own posted trad
 ## Wording rules
 
 - Plain words only. No internal names (lens codes, "headline", "surv10", "basis",
-  "bucket") on a card, and no grade letters: the grade stays internal, so a card says "the top grade" or
+  "bucket") on a card, and on the member card no grade letters (the console shows them): the grade stays internal, so a member card says "the top grade" or
   "the same grade" (12 Nov 2026 audit #11; the sample line, e.g. "all 37 past BTC 1D signals of the same
   grade", and the miss tiles, e.g. "95 misses of all 313 BTC same-grade signals" (illustrative; the figure moves as signals close)).
 - The card says once, under the big number, that every figure covers the 60 days after entry ("rose 10%
@@ -105,10 +106,19 @@ trader: in / out / not in / unavailable" (from the lead trader's own posted trad
   shows its own n: each ladder row, each era, and the misses (their count and the pool, named on the
   "If it misses" row itself and on the miss tiles, on every card).
 - The card always ends by saying these are past signals, not real trades, and that this is entry quality
-  only. The dashboard console uses the sentence above; the member card's foot reads "Statistics from past
-  signal history. Entry quality only: no exit, not a trade or a track record." Either wording meets the rule.
-- A forming low is labelled "Setup forming" with "It can still vanish before it confirms" until it
-  confirms.
+  only. The dashboard console's foot reads "These are past signals, not real trades: entry quality only, with no
+  exit."; the member card's foot reads "Statistics from past signal history. Entry quality only: no exit, not a
+  trade or a track record." Either wording meets the rule.
+- On the member card a forming low is labelled "Setup forming" with "It can still vanish before it confirms"
+  until it confirms; the console card reads "<chart> · <grade> forming" and "Provisional until it confirms."
+
+## The dashboard console's card
+
+Jared's own console (`docs/artifacts/eth-setup-standard.html`, served by the `ctzb-dashboard` Worker) shows the
+same measures with these differences: its big number is surv10, "Rose 10% and never fell 25.3%, within 60 days of
+the entry close" (reach10 is not shown); it shows the grade letter on its picker and heading; its ladder heads read
+"Then rose 10% before falling 25.3%" and "Fell 25.3% before rising 10%"; it shows the active confluences, which the
+member card does not; and its forming and foot wording are as above.
 
 ## What keeps it airtight
 

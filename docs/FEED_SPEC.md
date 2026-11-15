@@ -13,7 +13,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 - The pipeline commits it to `feed/` in this repository, beside `data/` and `datasets/`. The repository is public.
 - The `ctzb-feed` Worker mirrors it from GitHub every 15 minutes.
 - The `ctzb-site` Worker serves the mirror's copy to the member page as `/data/ctzb_feed.json`.
-- The `ctzb-dashboard` Worker reads `alerts` from the mirror on its cron and sends each `alert_id` once to the
+- The `ctzb-dashboard` Worker reads `alerts` from the mirror on its cron (and, to word each message, the matching
+  card, print or live signal) and sends each `alert_id` once to the
   operator's private Telegram, remembering what it sent. It sends nothing while `alerts_withheld` is true. An alert
   stays in `alerts` for its delivery window (Alerts, below), so it is read many times.
 - The `ctzb-scheduler` health monitor reads `generated_at`, `cards_withheld`, `checks.failed_steps`, `extras_withheld`
@@ -22,7 +23,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 ## When it is written
 
 - The `ctzb-scheduler` Worker dispatches `daily.yml` 13 minutes after each 4-hour close (00, 04, 08, 12, 16 and 20
-  UTC), with a backup at 43 minutes that the workflow's gate skips when the first run landed the candle. The automatic
+  UTC), with a backup at 43 minutes that the workflow's gate skips when the candle is already in and the last completed
+  run passed. The automatic
   re-run after a failure, the watchdog's re-dispatch and a manual run are not gated and also write a feed.
 - In each run: fetch, the freshness check and the candle check must pass, or the job stops and no feed is written.
   Then refresh, grade, extras, stack, cards and regress run (each may fail without stopping the job), then
@@ -39,8 +41,9 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
   strict check does not); two tests assert it is 6. It changes
   only when the constant is edited; `alert_log`, `alert_log_carry` and `alerts_held` are schema 6 fields that came without a bump.
 - **It computes no figure.** It repackages the datasets the same run wrote. Its own work is: the time stamp, the
-  schema version, the posting bar constant, the aliases, the label and note texts, which alerts are new, which
-  earlier alerts are carried, the alert log record and its second copy, the checks that decide a held or fail-closed
+  schema version, the posting bar constant, the signal and alert ids, the aliases, the prints' `provisional` flag,
+  the label and note texts (the `odds_fade` sample's tier date included), the `candle_check` summary, which alerts are
+  new, which earlier alerts are carried, the alert log record and its second copy, the checks that decide a held or fail-closed
   feed, and deleting the extras files when that step did not succeed.
 - **Every card, print, live signal, grade row, alert and extras block carries `label`**: computed signal, not a fill,
   entry quality only, not a strategy return or a track record.
@@ -331,7 +334,7 @@ records every `alert_id` it sends and never sends one twice.**
   closed: when the copy is the record, a copy that lacks a row of the log, holds it altered, or repeats an alert is
   the damaged file. With no record in the previous feed and no usable copy there is nothing to check the log against,
   so the run fails closed whether the log is there or not. It stays closed until the copy is put back from the last
-  commit of a clean run (a withheld run commits its own feed, which has no record, and no copy), or the feed is put
+  commit of a clean run (a fail-closed run commits its own feed, whose `alert_log` is then null, and writes no copy), or the feed is put
   back with a log that matches its record or can be rebuilt to it; a new log is started only by seeding.
 - **Order.** The feed is written only after it passes the strict check, then the copy, then the log. If the copy or
   the log cannot be written, the feed stays published and the run exits non-zero; the next run rebuilds or restores

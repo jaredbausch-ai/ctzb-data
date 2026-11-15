@@ -1399,8 +1399,9 @@ funding stand-in without a new idea.
 **Signal card (called the trade card until 13 Nov 2026), published 28 Oct 2026 (Jared approved: "airtight").** Every number and
 word on a card is defined in `docs/CARD_SPEC.md`, the only definition; change it in
 the same commit as any card change. The big number was "rose 10% and never fell 25%,
-within 60 days of buying" [superseded 11 Nov 2026: the big number is "rose 10% within 60 days"; surv10, "without
-ever falling 25.3%", is the line under it] (`measures.surv10`, exact prices; -25.3% is where 3.3x with
+within 60 days of buying" [superseded 11 Nov 2026 on the member card and in the feed: the big number there is
+"rose 10% within 60 days", with surv10, "without ever falling 25.3%", under it; the dashboard console card still
+leads with surv10, now labelled "never fell 25.3%" (CARD_SPEC, "The dashboard console's card")] (`measures.surv10`, exact prices; -25.3% is where 3.3x with
 5% maintenance liquidates), with rose 20%, typical rise, typical dips, fell 30%,
 beat a normal move (`scaled20`), the before-2022 / since-2022 split, the dip table
 and the kill close. `stack_live.py` writes `datasets/cards.csv` and refuses to if
@@ -1470,14 +1471,17 @@ day-ten three-state read has no written definition, so it is not computed.
 Any read on a live or forming signal runs the whole stack and reports the
 setup-specific record from `datasets/liveread.csv` (written by `stack_live.py`
 every pipeline run): this chart with exactly / at least these lenses, each lens's
-state (ON / off) with this chart's record in that same state, the bucket, and the BTC 3D confirmer's own tags (diamond,
-prime, bucket) with this chart's record after that kind of confirmer. The pooled
+state (ON / off) with this chart's record in that same state, the bucket, and every documented confluence cell that
+is on (for a BTC 3D confirmer: the grokpack cells by its tag, which cover "any", B and, for ETH 1D A, diamond; no cell
+exists for a prime-dot or A-bucket confirmer). The pooled
 grade averages every chart and every mix; it is context, not the number for the
 signal. The same file is the source for anything client-facing. Before answering,
 check every documented confluence in PRETRADE.md (Tier 1, Promising, flags) and
 name each one that is on, with its record.
 
-**Dashboard freshness (1 Nov 2026, Jared):** status.csv carries "Updated (UTC)" (refresh.py). The ETH Setup Standard page shows UPDATED <local time> (Nh ago) top right, a DATA DELAYED banner when it is 6h+ old, an "About this data" panel (4-hourly refresh, confirm at bar close, provisional forming lows, card cross-check, delayed notice, computed signals not trades, sources), and the footer now says refreshed every 4 hours. Source docs/artifacts/eth-setup-standard.html = files/index.html in the artifact DB (v35).
+**Dashboard freshness (1 Nov 2026, Jared):** status.csv carries "Updated (UTC)" (refresh.py). The ETH Setup Standard page shows UPDATED <local time> (Nh ago) top right, a DATA DELAYED banner when it is 6h+ old, an "About this data" panel (4-hourly refresh, confirm at bar close, provisional forming lows, card cross-check, delayed notice, computed signals not trades, sources), and the footer now says refreshed every 4 hours. Source docs/artifacts/eth-setup-standard.html, served by the ctzb-dashboard Worker (built by
+cloudflare/build_dashboard.py); it matched the claude.ai artifact's files/index.html v38 on 10 Nov 2026 and has
+changed since.
 
 **Pipeline stall, 31 Oct 23:16 - 1 Nov 18:35 UTC, and the watchdog (1 Nov 2026).** The candle
 job ran green for 19 hours without pushing: stack_live rewrites `analysis/registry.json`, the

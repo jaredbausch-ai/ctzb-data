@@ -3,9 +3,9 @@
   python3 -I analysis/tagstats.py --chart BTC_5D --bucket C --diamond hollow
 
 Signals: engine.signals(data/<chart>.csv, regime = R.rsi_regime(BTC_2D,8,13,60,41)),
-entry = close of the confirmation bar (ei = ti + 3), dated by the confirmation
-bar. Paths are measured on DAILY candles from the day that bar closes (the last
-day of its bucket), so drawdown depth and day counts are exact to the day.
+entry = close of the confirmation bar (ei = ti + 3). Paths are measured on DAILY candles from the day that bar
+closes (the last day of its bucket), so drawdown depth and day counts are exact to the day; the per-signal tables
+print the confirmation bar's open date (engine edate) as "entry date".
 
 Per signal, for H = 30 / 60 / 90 calendar days (only if the window is complete):
   ret     close H days after entry vs entry

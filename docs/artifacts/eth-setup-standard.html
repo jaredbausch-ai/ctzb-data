@@ -96,14 +96,14 @@
 <div class="tc" id="tcard">
   <div class="tcpick" id="tcPick"></div>
   <div class="tctop"><div class="tcn" id="tcN"></div><div class="tcword" id="tcWord">—</div><div class="tcline" id="tcLine">—</div></div>
-  <div class="tchead"><div class="tcbig" id="tcBig">—</div><div class="tcbigk"><b>Rose 10% and never fell 25%, within 60 days of the entry close</b><span>A 25% fall is what wipes out a position at 3.3x leverage.</span></div></div>
+  <div class="tchead"><div class="tcbig" id="tcBig">—</div><div class="tcbigk"><b>Rose 10% and never fell 25.3%, within 60 days of the entry close</b><span>A 25.3% fall is what liquidates a position at 3.3x leverage with 5% maintenance margin.</span></div></div>
   <div class="tcgrid" id="tcGrid"></div>
   <div class="tcsplit" id="tcSplit"></div>
   <div class="tclad" id="tcConfBox"><h3>Active confluences now &middot; all within 60 days of the entry close</h3>
     <table><thead><tr><th>Active now</th><th>Past signals</th><th>Rose 20% or more</th><th>Fell 30% or more</th><th>Window closes</th></tr></thead><tbody id="tcConf"></tbody></table>
     <p>Only confluences that are live today, weak ones included. Each row is its own group of past signals, separate from the number above, and the rows overlap, so they are not added together.</p></div>
   <div class="tclad"><h3>If it falls before it rises 10% &middot; all within 60 days of the entry close</h3>
-    <table><thead><tr><th>Fall below the entry close</th><th>Signals that got there</th><th>Still rose 10%, never fell 25%</th><th>Went on to fall 25%</th></tr></thead><tbody id="tcLad"></tbody></table>
+    <table><thead><tr><th>Fall below the entry close</th><th>Signals that got there</th><th>Then rose 10% before falling 25.3%</th><th>Fell 25.3% before rising 10%</th></tr></thead><tbody id="tcLad"></tbody></table>
     <p>What a fall of each size has meant for signals like this before. It is information for your own decision, not a stop.</p></div>
   <div class="tcfoot" id="tcFoot"></div>
 </div>
@@ -327,7 +327,7 @@ function drawAction(){
     const d=el("div"); d.appendChild(el("div","tcv "+cl,v)); d.appendChild(el("div","tck",k)); g.appendChild(d);});
   const sp=$("tcSplit"); sp.textContent="";
   [[c.surv10Old,c.nOld,"before 2022"],[c.surv10New,c.nNew,"since 2022"]].forEach(([v,nn,lab])=>{const d=el("div");
-    d.appendChild(el("div","tcv "+(+v>=60?"gd":"wn"),+nn?P(v):"\u2014")); d.appendChild(el("div","tck","Rose 10% and never fell 25% within 60 days, "+lab+" ("+nn+" signals)")); sp.appendChild(d);});
+    d.appendChild(el("div","tcv "+(+v>=60?"gd":"wn"),+nn?P(v):"\u2014")); d.appendChild(el("div","tck","Rose 10% and never fell 25.3% within 60 days, "+lab+" ("+nn+" signals)")); sp.appendChild(d);});
   const cf=$("tcConf"); cf.textContent=""; let CF=[];
   try{CF=JSON.parse(c.confluences||"[]");}catch(e){CF=[];}
   const MD=x=>new Date(x+"T00:00:00Z").toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"UTC"});
@@ -345,7 +345,7 @@ function drawAction(){
     tr.appendChild(el("td",null,t+"%")); tr.appendChild(el("td",null,String(n)));
     tr.appendChild(el("td",ok===""?"":(+ok>=50?"gd":+ok>=30?"wn":"bd"),n?P(ok):"\u2014")); tr.appendChild(el("td",lq===""?"":(+lq>=50?"bd":"wn"),n?P(lq):"\u2014")); tb.appendChild(tr);});
   const f=$("tcFoot"); f.textContent=""; f.appendChild(el("b",null,"Where these numbers come from: "));
-  f.appendChild(document.createTextNode(c.basis.charAt(0).toUpperCase()+c.basis.slice(1)+". All figures are within 60 days of the entry close, measured from the entry close. These are past signals, not real trades, and past results don\u2019t promise future ones."));
+  f.appendChild(document.createTextNode(c.basis.charAt(0).toUpperCase()+c.basis.slice(1)+". All figures are within 60 days of the entry close, measured from the entry close. These are past signals, not real trades: entry quality only, with no exit. Past results don\u2019t promise future ones."));
 }
 function drawLadder(){
   const h=$("ladder"); h.textContent="";

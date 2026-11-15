@@ -46,10 +46,17 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex
         return route.fulfill(status=404, body="x")
     pg.route("**/*", h)
     if isinstance(feed, dict) and isinstance(feed.get("generated_at"), str) and feed["generated_at"][:2] == "20": pg.clock.install(time=feed["generated_at"])
-    for v in views:
-        pg.goto("http://site.test/#" + v); pg.wait_for_timeout(1500)
-        if pick and pg.is_visible(f'[data-sel="{pick}"]'):
+    # the setup picker is on the Now tab: pick there first, then move to each tab in the same page (with forming
+    # setups in the feed the page opens on one of them, so a tab opened directly would not show the picked setup)
+    if pick:
+        pg.goto("http://site.test/#now"); pg.wait_for_timeout(1500)
+        if pg.is_visible(f'[data-sel="{pick}"]'):
             pg.click(f'[data-sel="{pick}"]'); pg.wait_for_timeout(600)
+    for v in views:
+        if pick:
+            pg.evaluate("(v) => { location.hash = v; }", v); pg.wait_for_timeout(1200)
+        else:
+            pg.goto("http://site.test/#" + v); pg.wait_for_timeout(1500)
         if example_on and not pg.is_checked("#previewSwitch"):
             pg.click("#previewSwitch"); pg.wait_for_timeout(600)
         if example_on and v == "chart" and pg.is_visible("#bHap"):
@@ -104,7 +111,7 @@ def main():
         for o in empty["open_signals"]:
             if o.get("card"):   # as the pipeline publishes one (1-11 Sep 2020): no past signals, so no figures at all
                 c = o["card"]
-                c.update(sample="all 0 past signals of the same grade across all ETH charts", past_trades=0, past_signals=0, rose10_within60d_pct=None, rose10_never_fell25_within60d_pct=None, rose20_within60d_pct=None, fell30_within60d_pct=None,
+                c.update(sample="all 0 past signals of the same grade across the ETH 1D, 2D, 3D and 5D charts", past_trades=0, past_signals=0, rose10_within60d_pct=None, rose10_never_fell25_within60d_pct=None, rose20_within60d_pct=None, fell30_within60d_pct=None,
                          typical_biggest_rise_exact_pct=None, typical_dip_before_rise_exact_pct=None, typical_deepest_dip_exact_pct=None,
                          typical_day_of_60d_high=None, typical_day_of_deepest_dip=None)
                 c["from_entry"].update(still_rose10_pct=None, still_rose10_exact_pct=None)
