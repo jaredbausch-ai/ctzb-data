@@ -1390,6 +1390,51 @@ both Workers rebuild to identical bytes). Corrected:
 After the corrections: numbers check 13 dates unchanged, page states 56/56, site worker 26/26, dashboard gate 26/26,
 dashboard alerts 21/21, the repo's feed passes `feedcheck.py`.
 
+## Round 35 — 15 Nov (clean run #1: numbers, damage and docs, three independent agents at once)
+
+**Not clean.** Code frozen at 5d36e46. States: a replay of 12 Nov 04:14 UTC (four forming setups), one of 11 Nov 04:14
+and the data of 15 Nov 00:32 UTC (six forming setups).
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Numbers | 61,882 comparisons on the two frozen states; 6,048,752 on 310 replays of real dates (2020-09-01 to 2026-09-05) | 0 on the page; **1 cause in the feed** (454 rows, 2 fields) |
+| Damage | 1,532 real-life cases (page 165, pipeline 1,354, 31 alert-log sequences), 28 hardening | **1** (page, family 4) |
+| Docs | about 1,040 statements | **21** (3 wrong, 3 stale, 15 loose), plus 12 outside scope |
+
+Reports: `analysis/audit35_2026-11-15/` (numbers, broken, docs). Every cause was fixed:
+- **Numbers: before 22 Nov 2024 the feed carried the worked example's misses and past paths with no example card**
+  (in all 227 replays of those dates; the page never showed them). `feed_live.py` now writes them only with the
+  example card, and the strict check (page and `feedcheck.py`) refuses them without it. Numbers baseline re-approved:
+  the 7 dates before 22 Nov 2024 change only in those two fields, now null. Test: `test_page_states` (the extras with
+  no example card are refused on both sides).
+- **Damage, family 4: with the extras step failed, the Chart tab's past-signals note kept "Loading <chart>…"** under
+  "Past paths unavailable in this feed", sometimes naming another chart. The cloud returned before setting its note.
+  Rule now: no area keeps a "Loading" text once its files have arrived. Test: `test_page_states` checks every state
+  for it. Its "extras withheld" and "an era with no signals" states had themselves failed the strict check (the page
+  read "Feed unavailable"), so the extras-withheld page had never been tested; both are now feeds the pipeline can
+  publish, and every state there must pass the strict check.
+- **Docs (33 sentences):** CARD_SPEC claimed to define the dashboard console's card, which had drifted: it now covers
+  the member card and the console's card, with the console's differences listed, and the console's labels say 25.3%
+  and "before" (were 25% and "never") and its foot says entry quality only (its big number stays surv10). The card's
+  sample names the 1D, 2D, 3D and 5D charts (was "all ETH charts"; numbers baseline re-approved, that wording only).
+  The page: the lead-trader panel's description of a posted trade; "No setup with a card forming today". FEED_SPEC
+  and README: the :43 backup also runs after a failed run; what the dashboard sender reads; feed_live's own work; a
+  fail-closed (not withheld) feed. `cloudflare/README.md`: the monthly backup key, the relay's private state. CONTEXT:
+  the console card, liveread's confirmer cells, the dashboard source. Outside scope: docstrings, test headers, BRIEF,
+  PRETRADE, SITE_CHANGES.
+- `test_page_states` picks a setup on the Now tab first: with forming setups in the feed the page opens on one, so a
+  tab opened directly never showed the picked setup (one case failed on the 15 Nov data).
+
+Not counted: hardening (page and `feedcheck.py` differ on `past_trades: 27.0`, which `feed_live.py` never writes; the
+12H files missing their last bar after 12:00 UTC pass, though 12H is not scored and `fetch.py` builds it with 4H; an
+emptied regression baseline passes); numbers cosmetics (the cloud's axis prints "-20%" with a hyphen; "2020 to 2020
+average" on 19-24 Aug 2021).
+
+**Re-checked after the changes:** numbers check 13 dates unchanged (after the two re-approvals above), midnight 7/7, run
+seal 29/29, feed extras 28/28, feed alerts 83/83, page states 64/64 (the new "Loading" and strict-check cases fail
+on the old page), fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20, per-year test, site
+worker 26/26, damage test 33/33 (quick pass), dashboard alerts 21/21, dashboard gate 26/26, trades relay 45/45.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
