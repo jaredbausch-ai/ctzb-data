@@ -1390,6 +1390,11 @@ both Workers rebuild to identical bytes). Corrected:
 After the corrections: numbers check 13 dates unchanged, page states 56/56, site worker 26/26, dashboard gate 26/26,
 dashboard alerts 21/21, the repo's feed passes `feedcheck.py`.
 
+**Jared, 15 Nov 09:31 ET: what counts in the docs part from round 37.** A docs finding counts against a round only if
+it is a wrong figure or label, a stale statement, or wording that reads as a trade, a return or a track record. Loose
+or incomplete wording is still reported and fixed, but no longer stops a round counting as clean. Numbers and damage
+are unchanged. Two clean rounds in a row are still required.
+
 ## Round 35 — 15 Nov (numbers, damage and docs, three independent agents at once; clean rounds in a row: 0 of 2)
 
 **Not clean.** Code frozen at 5d36e46. States: a replay of 12 Nov 04:14 UTC (four forming setups), one of 11 Nov 04:14

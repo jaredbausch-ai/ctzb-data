@@ -12,6 +12,8 @@ the files it points to do not. Update the "Where we are" section at the end of e
 - **Next:** when round 36's damage part reports, fix any counted cause, run a fix check, then start round 37 on the
   new frozen code.
 - Findings per round, docs passes: 24 (round 34), 21 (round 35), 10 (round 36). Damage: 1 (35); numbers: 1 (35), 0 (36).
+  On the docs rule from round 37 (kinds 1, 2 and 4 only), round 36's docs part would have counted 3 (one wrong
+  figure, one stale row, the "Past results" disclaimer).
 
 ## What "clean" means (Jared, 13 Nov 2026)
 
@@ -21,7 +23,7 @@ A round is clean when all three parts come back at zero counted findings:
 |---|---|---|
 | Numbers | any figure or label on the page or in the feed that disagrees with a recomputation from the raw candles | — |
 | Damage | a real-life damage case that gets through its family's rule (`DAMAGE_LIST.md`, six frozen families) | hand-forged contradictions ("hardening"); a new case outside the families (added to the list, not counted) |
-| Docs | a sentence that disagrees with the frozen code in: the member page's words, FEED_SPEC, CARD_SPEC, README.md, the member-site README, `cloudflare/README.md`, CONTEXT's current-rule sections | everything else (docstrings, comments, test headers, BRIEFs, PRETRADE, SITE_CHANGES): reported "outside scope", fixed anyway |
+| Docs | in the member page's words, FEED_SPEC, CARD_SPEC, README.md, the member-site README, `cloudflare/README.md` and CONTEXT's current-rule sections, a sentence that is a wrong figure or label (kind 1), stale (kind 2), or reads as a trade, a return or a track record (kind 4) | loose or incomplete wording (kind 3), fixed anyway (Jared, 15 Nov 09:31 ET: "as long as the wording is pretty close"); everything outside those documents (docstrings, comments, test headers, BRIEFs, PRETRADE, SITE_CHANGES): reported "outside scope", fixed anyway |
 
 ## Procedure for one round
 

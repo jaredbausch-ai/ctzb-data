@@ -1439,7 +1439,10 @@ not stop a run counting as clean (Jared, 13 Nov 10:23 ET, after audit #22). The 
 people rely on: the member page's own words, docs/FEED_SPEC.md, docs/CARD_SPEC.md, the three READMEs and the
 CONTEXT sections that state current rules; the dated history, PRETRADE, SITE_CHANGES, AUDIT_LOG, code comments
 and test headers were checked in full once (audits #22 and #23, 100 findings fixed) and are not re-counted
-(Jared, 13 Nov 12:56 ET). Two clean runs in a row are required before the site ships. The member page uses a file
+(Jared, 13 Nov 12:56 ET). Within that scope, from round 37 a docs finding counts only if it is a wrong figure or
+label, a stale statement, or wording that reads as a trade, a return or a track record; loose or incomplete wording
+is still fixed but does not stop a round counting as clean (Jared, 15 Nov 09:31 ET). Two clean rounds in a row are
+required before the site ships. The member page uses a file
 only if it passes one strict check (the schema inside the page, `FEED_SCHEMA`; `feedcheck.py` reads the same block,
 and `feed_live.py` will not publish a feed that fails it), so a damaged feed reads "Data unavailable".
 **How rounds run (13 Nov 2026, Jared, after audit #26):** the numbers part runs as `tests/numbers_check.py` after
