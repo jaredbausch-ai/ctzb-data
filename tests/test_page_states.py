@@ -1,5 +1,5 @@
 """Render the member page in states today's data doesn't show, and fail on any raw placeholder
-("${", "undefined", "NaN", "null%", "n/a%") in what a member reads (12 Nov 2026 audit #15: the quiet
+("${", "undefined", "NaN", "null%", "n/a%", "[object") in what a member reads (12 Nov 2026 audit #15: the quiet
 card printed "${perYear()}"). Needs playwright + chromium. Reads datasets/ and feed/ of this repo
 (run the pipeline first so feed/ctzb_feed.json has cards).
 

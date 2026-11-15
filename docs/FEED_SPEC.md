@@ -1,7 +1,8 @@
 # Live feed spec
 
-`feed/ctzb_feed.json` is one JSON file that carries every computed signal, card and card figure the member page and
-the alert sender use. It is the feed agreed in the plan with Joe. `feed_live.py` writes it at the end of each pipeline run. It is entry quality only: the data has
+`feed/ctzb_feed.json` is one JSON file that carries every card and card figure the member page and the alert sender
+use, and every live, forming and recent signal; the page's past-signal record comes from `datasets/ledger.csv`
+beside it. It is the feed agreed in the plan with Joe. `feed_live.py` writes it at the end of each pipeline run. It is entry quality only: the data has
 no exit, so nothing in it is a strategy return, a result or a track record. Every signal in it is a computed signal,
 never a fill.
 
@@ -56,7 +57,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
   counts are calendar days.
 - **The 60-day window** is the 60 calendar days after the entry date, on daily candles. A past signal is counted only
   once its 60th day (entry + 60) has closed by the date in question.
-- **Rounding: one rule.** `rounding.rnd` rounds half away from zero, once, from the unrounded value, on the float's
+- **Rounding: one rule.** `rounding.rnd` rounds half away from zero, once, from the unrounded value (for `if_it_misses` and
+  `example_if_it_misses`, from the ledger's 6-place measures), on the float's
   exact binary value (as JavaScript's `toFixed` does, so the page and the pipeline agree). Shares are whole numbers;
   median moves and changes 1 decimal; median days (`typical_day_*`) whole days; prices 2 decimals; `*_exact_pct` fields 6 decimals. `must_close_above` alone is
   rounded down to the cent. The feed never holds `-0.0`.
@@ -225,7 +227,9 @@ confirmation close is 0 to 60 days before today (the clock's UTC date). The memb
 
 stack_live.py `windows.csv`: every window open today, from each signal (all ten charts) confirmed 0-10 days ago, and
 each bullish Stoch divergence of the last 10 days on a chart that has lower charts, sorted by closing date.
-`opened_by` (chart), `confirmed` (date), `closes` (confirmed + 10 days), `applies_to` (what it counts toward: the
+`opened_by` (chart), `confirmed` (date: for a signal, its confirmation close date; for a DIVH window, the open date
+of the bar that confirms the divergence, which can be the bar still open today: a named exception to the date rule),
+`closes` (`confirmed` + 10 days), `applies_to` (what it counts toward: the
 agreement count, the BTC3 or BTCX lens, a near miss, a confluence cell, or the DIVH flag).
 
 ## grade_odds[]
@@ -514,7 +518,7 @@ Worker, uncached.
   the low opened.
 - **Ledger.** Unavailable ("Past signals unavailable"), never partly shown, when it is missing, a row has the wrong
   number of cells or the file's last line has no line end (cut short), a top-grade row is malformed or inconsistent with itself (known chart, real date, numbers, yes/no
-  columns agreeing with the best move, dips and day-60 change in order), a signal appears twice, its top-grade rows do
+  columns agreeing with the best move, dips and day-60 change in order), a top-grade signal appears twice, its top-grade rows do
   not match `grade_odds` per asset (count and +10% share), a signal's 60 days had not closed by `scored_as_of`, or
   there is no usable feed (down or held back).
 - **Chart files.** Not drawn ("Chart data unavailable") unless the file names the chart asked for, has at least 10

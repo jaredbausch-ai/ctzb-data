@@ -241,7 +241,7 @@ def main():
                         'yes' if m['up'] >= 10 else 'no', 'yes' if m['up'] >= 15 else 'no',
                         'yes' if MS.surv10(m) else 'no', (lambda v: '' if v is None else 'yes' if v else 'no')(MS.scaled20(a, r['d0'], m))])
     # Odds on the day: the grade's rates from signals of the same asset and grade
-    # whose 60 days had finished before this entry (no hindsight), shrunk toward
+    # whose 60th day (entry + 60) had closed by this entry's close (no hindsight), shrunk toward
     # that history's base rate with weight 5. Blank until 10 such signals exist.
     hist = sorted([(r['a'], r['d0'], grade_of(r)[0], dict(r['m'], sc=MS.scaled20(r['a'], r['d0'], r['m']))) for a in ('ETH', 'BTC')
                    for r in rows if r['a'] == a and r['tf'] in GRADED_TF and 'm' in r

@@ -64,8 +64,8 @@ signals, bars = E.signals("data/ETH_3D.csv", regime=reg)
 
 ## Rescoring the dashboard
 
-`refresh.py` turns the candles into 13 of the datasets behind the dashboard
-(ETH Setup Standard) and the member feed:
+`refresh.py` turns the candles into 13 datasets; the dashboard (ETH Setup Standard) reads status, live and
+forward of them, and the member feed status and forward plus earlydip and holdcheck (through `extras_live.py`):
 
 ```
 python refresh.py --data data --out datasets

@@ -10,7 +10,7 @@ Rules (docs/FEED_SPEC.md):
   - fields are only ever added, never renamed or removed; schema_version is 6
     (the additions odds_fade.tier_fixed_on, 12 Nov 2026, alert_log and alert_log_carry, 13 Nov, and alerts_held, 14 Nov,
     were made at 6 without a bump)
-  - every record carries the computed-signal label
+  - every card, print, live signal, grade row, alert and extras block carries the computed-signal label
   - cards, live signals, the example and every figure from the run's datasets are withheld
     (cards_withheld true) whenever the stack check, the card cross-check or any gating step
     failed; a broken seal, a damaged alert log or a failed strict check publishes the

@@ -3,8 +3,9 @@
 
 Reads data/ETH_{1,2,3,5,8}D.csv and data/BTC_2D.csv (the regime gate) as written by fetch.py, plus
 data/ETH_1D.csv for the forward windows (BTC_1D.csv is loaded but not used), runs the CTZB engine over each chart, and writes the dataset
-CSVs the ETH Setup Standard dashboard and the feed read (tier, buy, live, forward, earlydip, holdcheck,
-status and the rest; see each ds_* function).
+CSVs (setups, buy, live, tier, walkforward, years, confluence, invalidation, levels, earlydip, holdcheck, forward,
+status; see each ds_* function); the dashboard reads status, live and forward, the feed status and forward, and
+extras_live.py earlydip and holdcheck.
 
 The 70%+ tier is DERIVED, not stored, so nothing has to be committed back
 and nothing drifts. --tier picks how:

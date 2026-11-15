@@ -21,12 +21,13 @@ Writes datasets/:
   liveread.csv  subject, read, status, record (n, +20%, touched -30%, dip before
                 high, largest dip in 60d, +10%, +30%, median best move), sample
   prints.csv    every chart: last signals and anything forming, with confirm dates
-  windows.csv   every confluence window open now: which print opened it, what it
-                applies to, and when it closes
+  windows.csv   every confluence window open now: the print or divergence that opened
+                it, what it applies to, and when it closes
   cards.csv     one member card per forming low (graded charts, gate on at the trough, non-empty sample)
   open.csv      every signal in its 60 days on a graded chart: day count, marks, best / worst, edge status
   cards_open.csv     each of those signals' own card
   cards_example.csv  the member site's worked example, from what was known at its alert
+  stack_status.txt   one OK or FAILED line (verify_cards.py appends its own)
 and analysis/registry.json (the REGISTRY as JSON, committed by the Action).
 Historical rates for entry quality only. Computed signals, never fills.
   python3 -I stack_live.py

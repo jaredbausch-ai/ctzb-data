@@ -149,8 +149,8 @@ The agent does not make this change.
 
 ## What the Worker does, briefly
 
-Every minute it reads new futures fills, positions and the futures balance, using a
-fresh signed token per request. The fills of one order become one trade at their
+Every minute it reads new futures fills; it reads positions and the futures balance when fills arrive and
+otherwise every 15 minutes, using a fresh signed token per request. The fills of one order become one trade at their
 average price. BTC and ETH only; anything else is ignored. A record shows time, asset,
 instrument, long or short, open / add / reduce / close, price, leverage and size as a percentage of
 the account, and on a reduce the share reduced, on a reduce or close the move from average entry, the result as a

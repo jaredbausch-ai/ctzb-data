@@ -46,7 +46,7 @@ combines `docs/artifacts/eth-setup-standard.html` (the page, unchanged) with
 `dashboard_worker_template.js`. Edit those three, never the output.
 It also sends Jared's phone alerts through a private Telegram bot: cron `5,20,35,50 * * * *`
 (offset from the mirror's 15-minute sync) reads the feed's `alerts` (schema 4), and to word each message the
-matching card, print or live signal, and sends each `alert_id` once, recorded in KV `NOTIFY` (every clean feed carries each alert for at least 24 hours after it was first emitted, so a feed the mirror misses loses nothing while the mirror pulls at least once a day). A failed send is not recorded and retries
+matching card, print or live signal, and sends each `alert_id` once, recorded in KV `NOTIFY` (every clean feed carries each alert for at least 24 hours after it was first emitted, so a feed the mirror misses loses nothing while the mirror pulls at least once a day, short of a hold of more than 7 days followed by an unreadable feed; `docs/FEED_SPEC.md`, Alerts). A failed send is not recorded and retries
 on the next tick. `POST /alerts/test` (gated, once per 10 minutes) checks the path.
 Bindings: `NOTIFY` (KV), secret `TELEGRAM_BOT_TOKEN`, var `TELEGRAM_CHAT_ID`.
 

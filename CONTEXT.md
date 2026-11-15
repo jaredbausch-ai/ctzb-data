@@ -1474,7 +1474,7 @@ the worst-case median is no longer shown (Jared, 28 Oct). The position console n
 median drawdown from entry (median largest dip within 60 days, grades.csv
 `medDip`), Jared's decision 28 Oct, and states the share of past setups of that
 grade whose dip reached the user's liquidation point (`datasets/dipdist.csv`).
-At 3.3x with no reserve that share is A+ 14%, A 25%, B 27%, C 36%. Known gap: the CT RSI
+At 3.3x with no reserve that share is, for ETH, A+ 14%, A 25%, B 27%, C 36% (BTC: A+ 15%, A 14%, B 23%, C 27%). Known gap: the CT RSI
 day-ten three-state read has no written definition, so it is not computed.
 
 **Never quote the pooled grade alone (set 28 Oct 2026, after Jared had to correct it).**
@@ -1619,7 +1619,7 @@ Jared asked why the live ETH 2D card showed no confluences when two were active 
 
 ## 4 Nov 2026 — GitHub's scheduler was dropping two of every three ticks
 
-Run history 1-4 Nov: the candle job (six ticks a day) fired 2-3 times a day, often hours late (4 Nov: 00:32 and 11:58 only; the 16:07 tick never fired). The watchdog sat on the same best-effort clock and fired 3 of 24 times on 4 Nov, with a 6-hour threshold longer than the 4-hour cadence. Not caused by Jared's usage: public-repo Actions minutes are free and unmetered; this is GitHub's scheduler. Fix: the candle job ticks at :13 and :43 every hour plus 00:07, behind a gate job that skips in seconds when the current 4-hour candle is already committed (any one honoured tick per window is enough), with a concurrency group so runs never overlap; the watchdog ticks four times an hour at off-peak minutes and alerts at 4h45m. Still best-effort underneath: the permanent fix is an outside scheduler (a Cloudflare Worker cron calling the dispatch API) on the ETHKROS Cloudflare account. [superseded 10 Nov 2026: the ctzb-dashboard Worker serves the dashboard from the mirror; no Claude scheduled task uploads it] The dashboard upload is a Claude scheduled task and does depend on Claude usage; the Cloudflare backend reading the feed directly removes that dependency.
+Run history 1-4 Nov: the candle job (six ticks a day) fired 2-3 times a day, often hours late (4 Nov: 00:32 and 11:58 only; the 16:07 tick never fired). The watchdog sat on the same best-effort clock and fired 3 of 24 times on 4 Nov, with a 6-hour threshold longer than the 4-hour cadence. Not caused by Jared's usage: public-repo Actions minutes are free and unmetered; this is GitHub's scheduler. [superseded 10 Nov 2026: GitHub's cron is gone; the ctzb-scheduler Worker dispatches the candle job at :13/:43 after each 4-hour close and the watchdog 95 minutes after each close] Fix: the candle job ticks at :13 and :43 every hour plus 00:07, behind a gate job that skips in seconds when the current 4-hour candle is already committed (any one honoured tick per window is enough), with a concurrency group so runs never overlap; the watchdog ticks four times an hour at off-peak minutes and alerts at 4h45m. Still best-effort underneath: the permanent fix is an outside scheduler (a Cloudflare Worker cron calling the dispatch API) on the ETHKROS Cloudflare account. [superseded 10 Nov 2026: the ctzb-dashboard Worker serves the dashboard from the mirror; no Claude scheduled task uploads it] The dashboard upload is a Claude scheduled task and does depend on Claude usage; the Cloudflare backend reading the feed directly removes that dependency.
 
 ## 4 Nov 2026 — card wording: every tile says what it is measured from
 
