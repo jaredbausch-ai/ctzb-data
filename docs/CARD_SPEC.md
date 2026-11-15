@@ -118,7 +118,9 @@ Jared's own console (`docs/artifacts/eth-setup-standard.html`, served by the `ct
 same measures with these differences: its big number is surv10, "Rose 10% and never fell 25.3%, within 60 days of
 the entry close" (reach10 is not shown); it shows the grade letter on its picker and heading; its ladder heads read
 "Then rose 10% before falling 25.3%" and "Fell 25.3% before rising 10%"; it shows the active confluences, which the
-member card does not; and its forming and foot wording are as above.
+member card does not; it states its sample rule in its foot ("Where these numbers come from: ...") rather than under
+the big number; with no card it reads "Nothing forming" / "No chart has a low forming with a card right now."; and its
+forming and foot wording are as above.
 
 ## What keeps it airtight
 

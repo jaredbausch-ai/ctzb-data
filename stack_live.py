@@ -543,7 +543,7 @@ def main():
         # The record the console shows (set 28 Oct 2026 after the "at least" record
         # overstated a setup): like for like only. Exactly these lenses when 15+
         # past setups exist; else this chart at the same grade; else the same grade
-        # across this asset's charts. Never a superset of stronger setups.
+        # across this asset's 1D, 2D, 3D and 5D charts. Never a superset of stronger setups.
         gof = lambda c: 'C' if c <= 1 else 'B' if c == 2 else 'A' if c == 3 else 'A+'
         ex = [s for s in Cf if set(have) == sets(s)]
         sg = [s for s in Cf if gof(len(sets(s))) == g]
@@ -551,7 +551,7 @@ def main():
                 and (a != 'ETH' or (s.get('fund') is not None and s.get('fcool') is not None))]
         ag = [s for s in Aall if gof(len(sets(s))) == g]
         out.append([subj, f'This chart at grade {g} (any mix of {len(have)} lenses)', 'record'] + rec(sg) + ['from 2020' if a == 'ETH' else 'full history'])
-        out.append([subj, f'Grade {g}, all {a} charts', 'record'] + rec(ag) + ['from 2020' if a == 'ETH' else 'full history'])
+        out.append([subj, f'Grade {g}, {a} 1D, 2D, 3D and 5D charts', 'record'] + rec(ag) + ['from 2020' if a == 'ETH' else 'full history'])
         if len(ex) >= 15: basis, G_ = f'all {len(ex)} past {a} {tf} signals with exactly the same confirmations', ex  # 'signals', not 'trades': none were taken (12 Nov 2026 audit)
         elif len(sg) >= 15: basis, G_ = f'all {len(sg)} past {a} {tf} signals of {gp(g)} (' + ('none' if not ex else f'only {len(ex)}') + ' had exactly the same confirmations, too few to use)', sg
         else: basis, G_ = f'all {len(ag)} past signals of {gp(g)} across the {a} 1D, 2D, 3D and 5D charts ({a} {tf} alone has only {len(sg)}, too few to use)', ag

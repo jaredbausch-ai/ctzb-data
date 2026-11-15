@@ -153,7 +153,7 @@ Every minute it reads new futures fills, positions and the futures balance, usin
 fresh signed token per request. The fills of one order become one trade at their
 average price. BTC and ETH only; anything else is ignored. A record shows time, asset,
 instrument, long or short, open / add / reduce / close, price, leverage and size as a percentage of
-the account, and on a reduce or close the share reduced, the move from average entry, the result as a
+the account, and on a reduce the share reduced, on a reduce or close the move from average entry, the result as a
 percentage of the account and the days held; never dollar amounts, contract counts or balances. If its own count of a
 position ever disagrees with Coinbase, Coinbase wins and the correction is logged for
 review, never posted. It writes to storage only when something changes, plus a check-in

@@ -165,7 +165,7 @@ ok('feed_live run again on its own a day later: the last run is not published as
 shutil.copy(os.path.join(R, 'datasets', 'grades.csv'), os.path.join(t, 'g'))
 open(os.path.join(R, 'datasets', 'grades.csv'), 'a').write('\n')
 rc, f, out = feed(OK + ',extras=success')
-ok('a dataset changed after the last step: feed_live publishes the withheld feed and exits 1', rc == 1 and f['cards_withheld'] and 'seal' in out, out[-200:])
+ok('a dataset changed after the last step: feed_live publishes the fail-closed feed and exits 1', rc == 1 and f['cards_withheld'] and 'seal' in out, out[-200:])
 shutil.rmtree(t)
 
 print(f'\n{sum(results)}/{len(results)} passed')

@@ -6,7 +6,7 @@ on:
   # Worker ctzb-scheduler, which dispatches this workflow with scheduled=true at 13 and
   # 43 minutes after each 4-hour close (00, 04, 08, 12, 16, 20 UTC). On its first 15.5
   # hours it fired 32 of 32 ticks. The 43-minute tick is the backup: the gate skips it
-  # when the 13-minute run already landed the candle.
+  # when the candle is already in and the last completed run passed.
   workflow_dispatch:
     inputs:
       scheduled:

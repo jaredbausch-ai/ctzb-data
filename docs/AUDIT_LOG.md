@@ -1435,6 +1435,25 @@ seal 29/29, feed extras 28/28, feed alerts 83/83, page states 64/64 (the new "Lo
 on the old page), fire drills 58/58, year end 8/8, gate off, no today bar, page timing 20/20, per-year test, site
 worker 26/26, damage test 33/33 (quick pass), dashboard alerts 21/21, dashboard gate 26/26, trades relay 45/45.
 
+**Fix check** (independent agent, `analysis/audit35_2026-11-15/fixcheck/`): both code causes fixed at their rules (118
+replays from 2020-09 to 2026-11: the example's extras appear exactly when the example card does, and every feed passes
+the strict check; held, fail-closed and extras-withheld feeds from real runs are not refused; 0 of 1,656 page checks
+keep "Loading" once files arrived or failed, across 12 states, every tab, picker and file late, 404, aborted, empty or
+HTML). Both baseline re-approvals moved only what their commits say; both Workers rebuild to identical bytes. Of the
+33 doc corrections, 27 fixed, 5 incomplete, 1 wrong. Corrected (13 sentences, 7 counted):
+- **Wrong:** `cloudflare/README.md` said `/dry` shows no contract counts; its review notes name them when a reconcile
+  corrects a position.
+- **Repeats left:** CONTEXT's :43 backup, the lead-trader relay's "percentages only" (it posts the fill price and
+  leverage), the console record's last pool (the 1D-5D charts); `cloudflare/README.md`'s dashboard sender.
+- **New, loose:** CARD_SPEC's console section (its sample rule in the foot; its empty state); FEED_SPEC's list of
+  `feed_live.py`'s own work (it leaves out the example's extras with no example card).
+- **Outside scope (6):** `feed_live.py`'s "withheld feed" for the fail-closed one (and its log line); the liveread
+  row "Grade X, all ETH charts" now names the 1D-5D charts (numbers baseline re-approved: that label only); the
+  `daily.yml` comment; the console's empty state ("with a card"); CONTEXT's grade-letter note; BRIEF_trades.
+
+After the corrections: numbers check 13 dates unchanged, run seal 29/29, feed alerts 83/83, dashboard gate 26/26,
+dashboard alerts 21/21.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

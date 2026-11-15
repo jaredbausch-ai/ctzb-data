@@ -308,7 +308,7 @@ function drawAction(){
   const pick=$("tcPick"); pick.textContent="";
   const rank={"A+":4,"A":3,"B":2,"C":1};
   const C=[...CARDS].sort((x,y)=>(rank[y.grade]||0)-(rank[x.grade]||0)||(x.asset===y.asset?0:x.asset==="ETH"?-1:1));
-  if(!C.length){$("tcWord").textContent="Nothing forming";$("tcLine").textContent="No chart has a low forming right now.";["tcN","tcBig","tcGrid","tcSplit","tcConf","tcLad","tcFoot"].forEach(i=>$(i).textContent="");return;}
+  if(!C.length){$("tcWord").textContent="Nothing forming";$("tcLine").textContent="No chart has a low forming with a card right now.";["tcN","tcBig","tcGrid","tcSplit","tcConf","tcLad","tcFoot"].forEach(i=>$(i).textContent="");return;}
   if(!SEL||!C.find(c=>c.chart===SEL)) SEL=C[0].chart;
   const c=C.find(x=>x.chart===SEL);
   C.forEach(x=>{const bt=el("button",x.chart===SEL?"on":"",x.chart+" \u00b7 "+x.grade);bt.type="button";bt.setAttribute("aria-pressed",x.chart===SEL?"true":"false");bt.addEventListener("click",()=>{SEL=x.chart;drawAction();});pick.appendChild(bt);});

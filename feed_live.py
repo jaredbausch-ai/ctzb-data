@@ -631,7 +631,7 @@ def main():
     feed = signal_aliases(feed)
     # 13 Nov 2026: the member page uses a feed only if it passes its strict check (the schema inside the page;
     # feedcheck.py reads the same block). Never publish one it would reject: crash, which publishes the
-    # withheld feed and turns the run red.
+    # fail-closed feed and turns the run red.
     bad = feedcheck.problems(json.loads(json.dumps(feed)))
     if bad:
         raise RuntimeError("feed fails the strict check: " + "; ".join(bad[:5]))
@@ -728,7 +728,7 @@ def remove_extras_files(datasets):
 def fail_closed(out_path, err, log_path=None):
     """Fire drills, 11 Nov 2026: when this script itself crashes (a missing column after an
     upstream step failed, say), the PREVIOUS feed used to stay published, cards and all, as
-    if the run were clean. Overwrite it with an empty, withheld feed instead, so every reader
+    if the run were clean. Overwrite it with an empty, fail-closed feed instead, so every reader
     sees that this run's checks failed. Exit 1 still turns the run red and retries it."""
     now = now_utc().strftime("%Y-%m-%dT%H:%M:%SZ")
     feed = {"schema_version": SCHEMA_VERSION, "generated_at": now, "posting_bar_pct": POSTING_BAR, "scored_as_of": None, "label": LABEL,
@@ -761,7 +761,7 @@ if __name__ == "__main__":
         main()
     except SystemExit:
         raise
-    except Exception as e:  # noqa: BLE001 -- any crash must leave a withheld feed behind
+    except Exception as e:  # noqa: BLE001 -- any crash must leave a fail-closed feed behind
         out = "feed/ctzb_feed.json"
         if "--out" in sys.argv[1:-1]:
             out = sys.argv[sys.argv.index("--out") + 1]
@@ -773,7 +773,7 @@ if __name__ == "__main__":
         try:
             if step_outcomes().get("extras", "success") != "success":
                 remove_extras_files(ds)   # as on a published feed: the seal does not cover them
-        except Exception:  # noqa: BLE001 -- the withheld feed is already written
+        except Exception:  # noqa: BLE001 -- the fail-closed feed is already written
             pass
-        print(f"FEED BUILD FAILED ({type(e).__name__}: {e}); wrote a withheld feed to {out}", file=sys.stderr)
+        print(f"FEED BUILD FAILED ({type(e).__name__}: {e}); wrote a fail-closed feed to {out}", file=sys.stderr)
         sys.exit(1)

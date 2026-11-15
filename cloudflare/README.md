@@ -45,8 +45,8 @@ combines `docs/artifacts/eth-setup-standard.html` (the page, unchanged) with
 `dashboard_shim.js` (a stand-in for the Dashboard artifact type's `dash` runtime) and
 `dashboard_worker_template.js`. Edit those three, never the output.
 It also sends Jared's phone alerts through a private Telegram bot: cron `5,20,35,50 * * * *`
-(offset from the mirror's 15-minute sync) reads the feed's `alerts` (schema 4) and sends
-each `alert_id` once, recorded in KV `NOTIFY` (every clean feed carries each alert for at least 24 hours after it was first emitted, so a feed the mirror misses loses nothing while the mirror pulls at least once a day). A failed send is not recorded and retries
+(offset from the mirror's 15-minute sync) reads the feed's `alerts` (schema 4), and to word each message the
+matching card, print or live signal, and sends each `alert_id` once, recorded in KV `NOTIFY` (every clean feed carries each alert for at least 24 hours after it was first emitted, so a feed the mirror misses loses nothing while the mirror pulls at least once a day). A failed send is not recorded and retries
 on the next tick. `POST /alerts/test` (gated, once per 10 minutes) checks the path.
 Bindings: `NOTIFY` (KV), secret `TELEGRAM_BOT_TOKEN`, var `TELEGRAM_CHAT_ID`.
 
@@ -58,8 +58,8 @@ futures balance with a **View-only** CDP key (ES256 JWT, one per request), group
 fills of one order into one trade, and records open / add / reduce / close with price,
 leverage and size as % of the account; on reduce / close also the move from average
 entry and the result as % of the account. Never dollar amounts, contract counts or
-balances in what it posts or shows on /dry: every trade event passes an allow-list (its private state keeps contract
-counts to track positions). First run takes a baseline (open
+balances in what it posts: every trade event passes an allow-list. Its private state keeps contract counts to track
+positions, and the gated `/dry` review notes name them when a reconcile corrects one. First run takes a baseline (open
 positions recorded, not posted). Positions reconciled against Coinbase; mismatches are
 corrected and logged, never posted. `MODE` unset or anything but `live` = dry run:
 nothing public, gated `/dry` (`DRY_VIEW_PASSWORD`) shows what would post. Going live

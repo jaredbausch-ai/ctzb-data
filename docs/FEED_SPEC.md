@@ -44,7 +44,8 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
   schema version, the posting bar constant, the signal and alert ids, the aliases, the prints' `provisional` flag,
   the label and note texts (the `odds_fade` sample's tier date included), the `candle_check` summary, which alerts are
   new, which earlier alerts are carried, the alert log record and its second copy, the checks that decide a held or fail-closed
-  feed, and deleting the extras files when that step did not succeed.
+  feed, deleting the extras files when that step did not succeed, and leaving out the worked example's own extras
+  when there is no example card.
 - **Every card, print, live signal, grade row, alert and extras block carries `label`**: computed signal, not a fill,
   entry quality only, not a strategy return or a track record.
 - **Dates** are YYYY-MM-DD (UTC calendar days); times are ISO 8601 UTC ending in `Z`, except `candle_check.checked_at`,
