@@ -176,6 +176,8 @@ signals per year, touched -30%, median dip and +20% rate. Aim: at least about
 one trade a month when the market allows.
 
 **Do not use WGMI in any analysis (Jared, 26 Oct 2026).** Keep the work to the CT build.
+One exception (Jared, 15 Nov 2026): the WGMI v4 histogram alone (110-day slope of
+DIRECTION) tested once as a lens, `analysis/wgmi_slope.py`, labelled a ceiling.
 
 **The green star / WGMI tag cannot be rebuilt.** It was diamond + WGMI liquidity
 timing below zero. `docs/reference/CTZB_tag_reference.pdf` states in its own
