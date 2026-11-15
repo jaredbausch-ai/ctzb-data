@@ -8,8 +8,8 @@ record; the dashboard editor is where they are deployed.
 | `ctzb-feed` | `ctzb-feed-worker.js` | `GITHUB_TOKEN` — Contents: read-only | yes — read-only mirror of the repo |
 | `ctzb-scheduler` | `ctzb-scheduler-worker.js` | `GITHUB_DISPATCH_TOKEN` — Actions: read+write; `TELEGRAM_BOT_TOKEN` for the health monitor | no data route; `/health` only |
 | `ctzb-dashboard` | `ctzb-dashboard-worker.js` (**generated** — see below) | `TELEGRAM_BOT_TOKEN` (the alert bot; `DASHBOARD_PASSWORD` in password mode); reads the mirror over a Service Binding | **no** — every path behind a gate that fails closed |
-| `ctzb-trades` | `ctzb-trades-worker.js` | `COINBASE_PRIVATE_KEY` — Coinbase CDP key, **View only** | `/health` only until `MODE=live`; then `/trades.json` |
-| `ctzb-site` | `ctzb-site-worker.js` (**generated** by `build_site.py`) | none; reads the mirror and `ctzb-trades` over Service Bindings | **no** — every path behind a gate that fails closed |
+| `ctzb-trades` | `ctzb-trades-worker.js` | `COINBASE_KEY_NAME` and `COINBASE_PRIVATE_KEY` — Coinbase CDP key, **View only**; `DRY_VIEW_PASSWORD` for `/dry` | `/health` only until `MODE=live`; then `/trades.json` |
+| `ctzb-site` | `ctzb-site-worker.js` (**generated** by `build_site.py`) | `SITE_PASSWORD` in password mode; reads the mirror and `ctzb-trades` over Service Bindings | **no** — every path behind a gate that fails closed |
 
 They are separate on purpose. The public mirror must never hold a credential that
 can trigger CI.

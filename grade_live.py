@@ -21,7 +21,9 @@ Writes / changes, in datasets/:
   ledger.csv     every graded signal, one row: chart, dates, entry, tags, grade,
                  lenses, the grade's odds (whole-sample, so hindsight for past
                  rows) and what happened (reached +20%, touched -30%, best move,
-                 largest dip from entry, dip before the high, day-60 change: the day-60 close vs the entry close).
+                 largest dip from entry, dip before the high, day-60 change: the day-60 close vs the entry close,
+                 reached +10% / +15%, surv10, scaled20) and the grade's odds as they stood on each signal's day
+                 (the day* columns).
   grades.csv     the record of each grade (worstTenthMedian = the median dip
                  among the worst 10% of that grade's signals: shown, not used
                  for sizing; the dashboard sizes against medDip since 28 Oct):
@@ -35,11 +37,11 @@ Writes / changes, in datasets/:
                  (matched by chart and entry bar).
   (liveread.csv, prints.csv and windows.csv come from stack_live.py, which
    runs after extras_live.py and checks every documented read.)
-  live.csv       adds `formingGrade`, `formingLenses`, `formingHtfDiv`, `formingMarker`, `closeNow`
-                 and `closeDate`: the grade a forming
+  live.csv       adds `formingGrade`, `formingLenses`, `formingHtfDiv` and `formingMarker` (the grade a forming
                  low would carry if it confirmed now. PROVISIONAL: CT vs its
                  Signal line, price vs the last entry and funding all move
-                 until it confirms.
+                 until it confirms), plus `closeNow` and `closeDate` (the
+                 latest daily close and its date).
 A grade is a historical rate for that kind of setup, not a forecast. Entry
 quality only: computed signals, never fills.
 """

@@ -5,7 +5,7 @@ docs/artifacts/member-site/index.html, so the page and the pipeline read one def
 Types (the page's comment beside FEED_SCHEMA lists the same): pct 0..100, pcti a whole number 0..100, num a
 finite number under a million either way, n a whole number from 0 to under a million, day a whole number 0..60, px a price above
 0 and under 10^9, dip -100..0, rise 0..100,000, chg above -100 and up to 100,000, share above 0 up to 100, lev
-above 0 up to 100, date (YYYY-MM-DD), ts (ISO time, UTC), str (non-empty text), text (any text), bool,
+above 0 up to 100, date a real calendar date YYYY-MM-DD in 2000-2099, ts ISO time in 2000-2099 ending "Z" (UTC), str (non-empty text), text (any text), bool,
 "=a|b|c" (one of these words). Text is trimmed and digits matched as JavaScript does (ASCII digits only;
 JavaScript's whitespace set, which includes the byte-order mark), so both sides give the same verdict. A key ending in "?" may be null or missing. "@name" refers to defs.
 A list spec is [item spec, min length, max length].
@@ -228,7 +228,7 @@ def problems(feed, schema=None):
 
 
 def trades_problems(trades, schema=None, now=None):
-    """`now`: the viewer's clock (default the real clock); a trade after it is in the future."""
+    """`now`: the viewer's clock (default the real clock); a trade more than 5 minutes after it is in the future."""
     schema = schema or load_schema()
     out = []
     check(trades, schema['trades'], schema['defs'], 'trades', out)

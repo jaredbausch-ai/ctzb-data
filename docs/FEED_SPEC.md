@@ -107,7 +107,7 @@ strict check does not read the field.
 | `grade_odds[]` | list | Below |
 | `candle_check` | | Below |
 | `extras_withheld`, `if_it_misses[]`, `odds_fade`, `past_paths[]`, `example_if_it_misses`, `example_past_paths` | (not read), list, object?, list, miss?, path? | Member-card extras, below |
-| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; a run with no log fails closed unless it is seeding; null on a held seeding run with no log, and on a fail-closed feed when the last feed has no record (below) |
+| `alert_log` | | `sha256` and `rows` of `feed/alert_log.csv` as this run leaves it; a run that finds no log restores or rebuilds it (below) and fails closed when it cannot, unless it is seeding; null on a held seeding run with no log, and on a fail-closed feed when the last feed has no record (below) |
 | `feed_error`, `alert_log_carry` | | Fail-closed feed only (below) |
 
 `next_buy_date` and `trades_a_year` come from refresh.py's ETH walk-forward tier: the ETH chart/tag pairs with at

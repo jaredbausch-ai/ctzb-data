@@ -143,7 +143,7 @@ the frequency.
 
 Tier selection and the walk-forward choose from the same eleven candidate
 tags, `diamond+dot` included. Two earlier scripts disagreed on this — the
-walk-forward omitted that tag — which is why, when this was written (1 November 2026), the pooled
+walk-forward omitted that tag — which is why, in the figures as of 16 October 2026 below, the pooled
 "All 70%+ setups" row read 90 signals at 66% rather than 88 at 67% (the
 confluence rows, 77% at 3+ charts agreeing and 75% at 4+, were unaffected).
 The rows move as signals close: `datasets/walkforward.csv` has the current ones.

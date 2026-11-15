@@ -213,7 +213,7 @@ logs and every generator from the CT/Signal work.
 |---|---|
 | `engine.py` | indicator, signal detection, candle loading and clamping |
 | `regimes.py` | the mechanical regime gate |
-| `refresh.py` | builds 13 of the `datasets/*.csv` (status, buy, live, levels, setups, tier, walkforward, years, confluence, invalidation, earlydip, holdcheck, forward; grade_live, extras_live, stack_live and verify_cards write or change the rest); run by the Action |
+| `refresh.py` | builds 13 of the `datasets/*.csv` (status, buy, live, levels, setups, tier, walkforward, years, confluence, invalidation, earlydip, holdcheck, forward; grade_live, extras_live and stack_live write or change the rest, except ledger_odds.csv, which analysis/model.py writes when run by hand); run by the Action |
 | `troughs.py` → `troughs.json` | one row per trough, 996 rows, 6 charts |
 | `odds.py` → `odds.json` | aggregate odds by chart and tag |
 | `waves.py` | swing segmentation and Elliott counts |
@@ -1609,7 +1609,7 @@ Run history 1-4 Nov: the candle job (six ticks a day) fired 2-3 times a day, oft
 
 ## 4 Nov 2026 — card wording: every tile says what it is measured from
 
-Jared read "Typical dip before the 60-day high" as a pullback from a profit. It is the median lowest low between the buy and the day of the 60-day high, as a percentage of the BUY PRICE (analysis/tagstats.measure: ddpk = min(low up to the high day) / entry - 1). Relabelled "Typical lowest point vs the buy price, before it made its 60-day high"; the rise, deepest-dip, fell-30% and day tiles now also name the buy price. Field names unchanged (feed rule: never rename). Rule: a card tile names its reference point. [14 Nov 2026: the dashboard now says "the entry close" where it said "the buy price" or "buying", and "signals" for trades.]
+Jared read "Typical dip before the 60-day high" as a pullback from a profit. It is the median lowest low between the buy and the day of the 60-day high, as a percentage of the BUY PRICE (analysis/tagstats.measure: ddpk = min(low up to the high day) / entry - 1). Relabelled "Typical lowest point vs the buy price, before it made its 60-day high"; the rise, deepest-dip, fell-30% and day tiles now also name the buy price. Field names unchanged (feed rule: never rename). Rule: a card tile names its reference point. [14 Nov 2026: the dashboard now says "the entry close" where it said "the buy price", "buying" or "the buy", and "signals" where it said "trades".]
 
 ## 4 Nov 2026 — full pipeline audit (docs/PIPELINE_AUDIT_2026-11-04.md)
 

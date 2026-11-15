@@ -1371,6 +1371,25 @@ matches the page's schema exactly. All 37 sentences were corrected to match the 
 20/20, per-year test, site worker 26/26, damage test 33/33 (quick pass), dashboard alerts 21/21, dashboard gate
 26/26, trades relay 45/45.
 
+**Docs fix check** (independent agent, `analysis/audit34_2026-11-14/docs_fixcheck/`): of the 24 counted, 21 fixed, 2
+incomplete, 1 wrong; of the 13 outside scope, 7 fixed, 6 incomplete. No code behaviour changed (numbers unchanged,
+both Workers rebuild to identical bytes). Corrected:
+- **Wrong (counted):** FEED_SPEC said a run with no alert log fails closed unless seeding; it restores or rebuilds the
+  log when it can (from the copy or the last feed), and fails closed only when it cannot.
+- **Incomplete (counted, 2):** `cloudflare/README.md` now lists the site Worker's `SITE_PASSWORD` and the relay's
+  `COINBASE_KEY_NAME` and `DRY_VIEW_PASSWORD`; CONTEXT no longer says `verify_cards.py` writes datasets
+  (`ledger_odds.csv` comes from `analysis/model.py`, run by hand).
+- **New (counted, 1):** the member-site README says every change since the last deploy is in SITE_CHANGES' Pending
+  list, which stopped at audit #25: rows 6l (audits #26 to #33) and 6m (this docs audit) added.
+- **Outside scope (10):** the dashboard's remaining "trades" and "the buy" wording (now signals and the entry close;
+  worker rebuilt) and the CONTEXT note on it; the `grade_live.py` docstring (`closeNow` / `closeDate` described
+  apart from the grade; the ledger's other columns); `check_candles.py` ("beyond the exchange's own gaps");
+  `feedcheck.py` (date and time limits; 5 minutes ahead); two page comments; PRETRADE "signals" (two places).
+- README.md's walk-forward sentence is dated to the table it sits under ("as of 16 October 2026").
+
+After the corrections: numbers check 13 dates unchanged, page states 56/56, site worker 26/26, dashboard gate 26/26,
+dashboard alerts 21/21, the repo's feed passes `feedcheck.py`.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

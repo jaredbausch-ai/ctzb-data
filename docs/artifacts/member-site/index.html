@@ -136,7 +136,7 @@ main { flex: 1; min-height: 0; }
 .pick[aria-pressed="true"] { border-color: var(--c, var(--live)); color: var(--text); box-shadow: 0 0 12px color-mix(in srgb, var(--c, var(--live)) 30%, transparent); }
 .pick.top { --c: var(--live); } .pick.below { --c: var(--fade); } .pick.ex { --c: var(--muted); }
 
-/* Previous alerts */
+/* Previous signals */
 .prev { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .prev .sec-title { color: var(--live); }
 .grp { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; }
@@ -542,7 +542,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function tradesProblems(t) {
     const out = []; shapeCheck(t, FEED_SCHEMA.trades, FEED_SCHEMA.defs, "trades", out);
     if (out.length) return out;
-    // newest first (the relay prepends), none in the future
+    // newest first (the relay prepends), none more than 5 minutes ahead of the viewer's clock
     t.trades.forEach((x, i) => {
       if (i && Date.parse(x.time) > Date.parse(t.trades[i - 1].time)) out.push("trades[" + i + "]: not newest first");
       if (Date.parse(x.time) > Date.now() + 5 * 60e3) out.push("trades[" + i + "]: in the future");

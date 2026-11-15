@@ -101,10 +101,10 @@
   <div class="tcsplit" id="tcSplit"></div>
   <div class="tclad" id="tcConfBox"><h3>Active confluences now &middot; all within 60 days of the entry close</h3>
     <table><thead><tr><th>Active now</th><th>Past signals</th><th>Rose 20% or more</th><th>Fell 30% or more</th><th>Window closes</th></tr></thead><tbody id="tcConf"></tbody></table>
-    <p>Only confluences that are live today, weak ones included. Each row is its own group of past trades, separate from the number above, and the rows overlap, so they are not added together.</p></div>
+    <p>Only confluences that are live today, weak ones included. Each row is its own group of past signals, separate from the number above, and the rows overlap, so they are not added together.</p></div>
   <div class="tclad"><h3>If it falls before it rises 10% &middot; all within 60 days of the entry close</h3>
     <table><thead><tr><th>Fall below the entry close</th><th>Signals that got there</th><th>Still rose 10%, never fell 25%</th><th>Went on to fall 25%</th></tr></thead><tbody id="tcLad"></tbody></table>
-    <p>What a fall of each size has meant for trades like this before. It is information for your own decision, not a stop.</p></div>
+    <p>What a fall of each size has meant for signals like this before. It is information for your own decision, not a stop.</p></div>
   <div class="tcfoot" id="tcFoot"></div>
 </div>
 
@@ -221,7 +221,7 @@
 <div class="panel about"><ul>
 <li><b>Refreshed every 4 hours.</b> The first run each day is a few minutes after the daily close (00:00 UTC). The time of the last update is in the top right.</li>
 <li><b>A signal confirms only at the close of its confirmation bar,</b> never part-way through a bar. Lows still forming are marked provisional and can change or disappear until they confirm.</li>
-<li><b>Every number is checked before it is shown.</b> Each card is rebuilt from the trade ledger and must match, or the old card stays up.</li>
+<li><b>Every number is checked before it is shown.</b> Each card is rebuilt from the signal ledger and must match, or the old card stays up.</li>
 <li><b>If the data is more than 6 hours old</b> a "data delayed" notice appears above, and the pipeline is re-run and investigated automatically.</li>
 <li><b>Computed signals, not trades.</b> The odds are how past signals behaved after entry (entry quality only). There is no exit in the data, so nothing here is a strategy return or a track record. Past behaviour, not a forecast, not financial advice.</li>
 <li>Prices: Coinbase. Funding and positioning: Coinalyze. Options: Deribit.</li>
@@ -313,7 +313,7 @@ function drawAction(){
   const c=C.find(x=>x.chart===SEL);
   C.forEach(x=>{const bt=el("button",x.chart===SEL?"on":"",x.chart+" \u00b7 "+x.grade);bt.type="button";bt.setAttribute("aria-pressed",x.chart===SEL?"true":"false");bt.addEventListener("click",()=>{SEL=x.chart;drawAction();});pick.appendChild(bt);});
   const P=v=>v===""||v===undefined?"\u2014":v+"%", D=v=>v===""||v===undefined?"\u2014":((+v)>0?"+":"")+(+v).toFixed(1)+"%";
-  const nN=$("tcN"); nN.textContent=""; nN.appendChild(el("b",null,String(c.n))); nN.appendChild(document.createTextNode("past trades"));
+  const nN=$("tcN"); nN.textContent=""; nN.appendChild(el("b",null,String(c.n))); nN.appendChild(document.createTextNode("past signals"));
   $("tcWord").textContent=c.chart+" \u00b7 "+c.grade+" forming";
   const cd=new Date(c.confirms+"T00:00:00Z"), dn=cd.toLocaleDateString("en-US",{weekday:"long",month:"short",day:"numeric",timeZone:"UTC"});
   $("tcLine").textContent="Confirms at the "+dn+" close"+(c.killClose!==""?", if "+c.asset+" closes above "+(+c.killClose).toLocaleString("en-US",{minimumFractionDigits:2})+".":" ("+c.barsNeeded+" more bars to close).")+" Confirmations: "+(c.lenses==="none"?"none yet":c.lenses)+". Provisional until it confirms.";
@@ -322,19 +322,19 @@ function drawAction(){
   const DY=x=>(x===undefined||x===""||x===null)?"\u2014":"day "+x;
   [[P(c.reach20),"Rose 20% or more above the entry close, within 60 days",""],[D(c.bestMove),"Typical biggest rise above the entry close, within 60 days","gd"],[D(c.dipBeforeHigh),"Typical lowest point vs the entry close, before it made its 60-day high",""],
    [D(c.maxDip60),"Typical deepest dip below the entry close, within 60 days","wn"],[P(c.touched30),"Fell 30% or more below the entry close, within 60 days","bd"],[P(c.scaled20),"Beat a normal move for the market, within 60 days","gd"],
-   [DY(c.daysTo10),"Typical day it first hit +10% over the entry close (signals that got there)","gd"],[DY(c.daysTo20),"Typical day it first hit +20% over the entry close (signals that got there)","gd"],[DY(c.daysToHigh),"Typical day of the 60-day high, counted from the buy",""],
-   [DY(c.daysToLow),"Typical day of the deepest dip, counted from the buy","wn"]].forEach(([v,k,cl])=>{
+   [DY(c.daysTo10),"Typical day it first hit +10% over the entry close (signals that got there)","gd"],[DY(c.daysTo20),"Typical day it first hit +20% over the entry close (signals that got there)","gd"],[DY(c.daysToHigh),"Typical day of the 60-day high, counted from the entry close",""],
+   [DY(c.daysToLow),"Typical day of the deepest dip, counted from the entry close","wn"]].forEach(([v,k,cl])=>{
     const d=el("div"); d.appendChild(el("div","tcv "+cl,v)); d.appendChild(el("div","tck",k)); g.appendChild(d);});
   const sp=$("tcSplit"); sp.textContent="";
   [[c.surv10Old,c.nOld,"before 2022"],[c.surv10New,c.nNew,"since 2022"]].forEach(([v,nn,lab])=>{const d=el("div");
-    d.appendChild(el("div","tcv "+(+v>=60?"gd":"wn"),+nn?P(v):"\u2014")); d.appendChild(el("div","tck","Rose 10% and never fell 25% within 60 days, "+lab+" ("+nn+" trades)")); sp.appendChild(d);});
+    d.appendChild(el("div","tcv "+(+v>=60?"gd":"wn"),+nn?P(v):"\u2014")); d.appendChild(el("div","tck","Rose 10% and never fell 25% within 60 days, "+lab+" ("+nn+" signals)")); sp.appendChild(d);});
   const cf=$("tcConf"); cf.textContent=""; let CF=[];
   try{CF=JSON.parse(c.confluences||"[]");}catch(e){CF=[];}
   const MD=x=>new Date(x+"T00:00:00Z").toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"UTC"});
   if(!CF.length){const tr=el("tr"),td=el("td",null,"None active right now.");td.colSpan=5;tr.appendChild(td);cf.appendChild(tr);}
   CF.forEach(x=>{const tr=el("tr");
     const who=x.tag==="all"?"every "+c.chart+" signal":c.chart+" "+x.tag+" signals";
-    const small=+x.n<15?" (under 15 trades: too few to lean on)":"";
+    const small=+x.n<15?" (under 15 signals: too few to lean on)":"";
     tr.appendChild(el("td",null,"After the "+x.after+" "+x.afterTag+" signal confirmed "+MD(x.confirmed)+" \u00b7 record for "+who+small));
     tr.appendChild(el("td",null,String(x.n)));
     tr.appendChild(el("td",x.reach20===""?"":(+x.reach20>=60?"gd":"wn"),P(x.reach20)));
