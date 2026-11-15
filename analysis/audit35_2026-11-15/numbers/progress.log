@@ -1,0 +1,7 @@
+2026-11-15T00:42:04Z stage 1 data checks (A: frozen states): 55652 comparisons (current 27846, replay_0414 27806), 0 disagreements
+2026-11-15T01:28:44Z stage 2 page checks (A: frozen states): 6156 page comparisons (current 3163, replay_0414 2993), 0 disagreements; checker self-test 25/25 planted errors caught
+2026-11-15T02:05:57Z stage 3 replays (B): 306 real-date replays done
+2026-11-15T02:10:06Z checker self-test round 2 (year-end replay 2023-12-31 23:59): 12 planted, 11 caught, then date-axis-label and candle-count checks added: 12/12; rerunning all 306 replays with the final checker (run 1: 5,935,055 comparisons, 454 disagreements, all the example-extras pair)
+2026-11-15T03:16:44Z stage 3 replays (B) final checker: 306 replays, 5938673 comparisons, 454 disagreements (2 distinct feed fields, 227 replays); stage A rerun: 61882 comparisons, 0 disagreements
+2026-11-15T03:19:07Z stage 4 synthetic states: none built (out of scope: real data only; the two planted-error copies are checker self-tests). report stage next: A 61882 comparisons 0 disagreements; B 310 replays 6048752 comparisons 454 disagreements (2 distinct feed fields)
+2026-11-15T03:20:23Z stage 5 report written: AUDIT35_NUMBERS.md; A 61882 comparisons 0 disagreements; B 310 replays 6048752 comparisons 454 disagreement rows, 2 distinct feed figures (example_if_it_misses, example_past_paths before 22 Nov 2024); self-test 37/37

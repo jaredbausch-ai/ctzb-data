@@ -1,0 +1,14 @@
+2026-11-15T00:37:02Z stage0 setup: states 0, disagreements 0
+2026-11-15T00:55:15Z stage A1 page real-life batch: 149 page cases on 2 states, 0 disagreements so far (5 harness expectation errors to override)
+2026-11-15T00:58:04Z stage A2 page hardening batch: 28 cases, 1 page/feedcheck verdict mismatch (hardening), 0 counted disagreements
+2026-11-15T01:01:39Z stage A3 extras-withheld page check: 1 counted disagreement (cloud note says Loading another chart)
+2026-11-15T01:32:32Z stage B1 pipeline inputs: 734 cases on cur, 0 counted disagreements (7 harness expectation errors overridden); running total 1 disagreement
+2026-11-15T01:33:53Z stage B2 datasets damaged before feed_live: 336 cases, 0 disagreements; running total 1
+2026-11-15T01:52:13Z stage B2 datasets damaged between steps: 150 chain cases + 336 before-feed, 0 disagreements; running total 1
+2026-11-15T01:57:27Z stage B2b config/reference files: 38 cases, 0 disagreements (1 hardening note: a regression baseline with no rows passes); running total 1
+2026-11-15T02:03:26Z stage B3 partial/killed/out-of-order/concurrent runs, outcomes, clocks: 37 cases, 0 disagreements (3 harness expectation errors); running total 1
+2026-11-15T02:24:37Z stage A4 replay states (quiet bear, bear 2022, New Year 00:20, year end 23:50, leap day, the example's own period): 16 page cases, 0 disagreements; B4 alert log 23 scenarios (start log polluted by later events: re-run as palerts2); running total 1
+2026-11-15T02:45:19Z stage C repo tests: test_seal 29/29, test_page_timing 20/20, test_feed_damage (RENDER_LIMIT=40 REJECT_LIMIT=10) 33/33 pass; running total 1
+2026-11-15T02:51:01Z stage B3b kills at 26 points + page timing on other tabs (12) + real held/fail-closed/extras feeds (6): 0 new disagreements; running total 1
+2026-11-15T03:17:51Z stage B4 alert log across real days (start log rebuilt as 11 Nov left it; 6 new events on 15 Nov): 31 scenarios, 0 disagreements; running total 1
+2026-11-15T03:19:20Z done: 11 states, 1,532 real-life cases + 28 hardening; 1 counted disagreement (page, iv: Chart-tab cloud note says 'Loading <another chart>' when the extras step failed)

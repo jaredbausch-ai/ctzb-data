@@ -364,7 +364,7 @@ def drills_e():
         card, picker, state, stale, ex = scenario(502, None)
         record(g, "mirror down: page says 'Data unavailable', not a quiet market",
                state == "down" and "Waiting for the next one" not in card and "filter is off" not in card.lower() and not ex, card.split("\n")[1] if "\n" in card else card)
-        held = dict(fresh_feed, cards=[], cards_withheld=True, alerts_withheld=True, open_signals=[], example_card=None,
+        held = dict(fresh_feed, cards=[], cards_withheld=True, alerts_withheld=True, open_signals=[], example_card=None, example_past_paths=None, example_if_it_misses=None,
                     checks=dict(fresh_feed.get("checks") or {}, all_passed=False))   # as feed_live writes a held feed
         card, picker, state, stale, ex = scenario(200, held)
         record(g, "checks failed: page says setups are held back", state == "held" and "Held back" in picker and not ex, card.split("\n")[1] if "\n" in card else card)

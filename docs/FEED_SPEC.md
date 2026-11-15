@@ -276,7 +276,8 @@ skipped. Quartiles and medians interpolate linearly between the two nearest rank
 the exact path values, rounded once.
 
 **`example_if_it_misses`, `example_past_paths`**: the same figures for the worked example, from only the ETH top-grade
-signals whose 60th day had closed by 22 Sep 2024 (the example card's sample). `example_if_it_misses` has `signals`,
+signals whose 60th day had closed by 22 Sep 2024 (the example card's sample); null whenever `example_card` is null (the
+strict check refuses them without it). `example_if_it_misses` has `signals`,
 `misses`, `up_first`, `median_peak_pct`, `median_worst_drop_pct`, `median_day60_pct`, `miss_rule`, `note`.
 
 ## checks and candle_check
@@ -471,7 +472,7 @@ applies the same rules, trimming text and matching digits as JavaScript does.
   the +10% share.
 - **Extras:** miss counts nest and medians are null exactly when there are no misses; past paths run day 0 to 60 with
   quartiles in order; `if_it_misses` and `past_paths` describe the same samples as `grade_odds`; the example card is
-  `ETH-2D-2024-09-22` and the example extras describe its sample; `odds_fade` rows are the fixed bands and checks in
+  `ETH-2D-2024-09-22` and the example extras describe its sample and are null without it; `odds_fade` rows are the fixed bands and checks in
   order, each edge mark agrees with its share against the bar, and filled rows come with `tier_fixed_on`.
 
 `feed_live.py` runs it on every feed it builds and never publishes one that fails.

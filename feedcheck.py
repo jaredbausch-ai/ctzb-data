@@ -194,6 +194,8 @@ def cross(f, out):
         if ex['signal_id'] != EXAMPLE_ID: out.append('feed.example_card: not the worked example')
         if f.get('example_past_paths') is not None and f['example_past_paths']['signals'] != ex['past_trades']: out.append("feed.example_past_paths: not the example's sample")
         if f.get('example_if_it_misses') is not None and f['example_if_it_misses']['signals'] != ex['past_trades']: out.append("feed.example_if_it_misses: not the example's sample")
+    elif f.get('example_past_paths') is not None or f.get('example_if_it_misses') is not None:
+        out.append("feed.example_past_paths / example_if_it_misses: present with no example card")
     for k in ('grade_odds', 'if_it_misses'):
         keys = [(x['asset'], x['grade']) for x in f[k]]
         if len(set(keys)) != len(keys): out.append(f'feed.{k}: an asset and grade appear twice')

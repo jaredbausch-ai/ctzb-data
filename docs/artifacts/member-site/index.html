@@ -512,7 +512,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       if (f.example_card.signal_id !== EXAMPLE_ID) out.push("feed.example_card: not the worked example");
       if (!nil(f.example_past_paths) && f.example_past_paths.signals !== f.example_card.past_trades) out.push("feed.example_past_paths: not the example's sample");
       if (!nil(f.example_if_it_misses) && f.example_if_it_misses.signals !== f.example_card.past_trades) out.push("feed.example_if_it_misses: not the example's sample");
-    }
+    } else if (!nil(f.example_past_paths) || !nil(f.example_if_it_misses)) out.push("feed.example_past_paths / example_if_it_misses: present with no example card");
     for (const k of ["grade_odds", "if_it_misses"]) { const keys = f[k].map((x) => x.asset + "|" + x.grade); if (new Set(keys).size !== keys.length) out.push("feed." + k + ": an asset and grade appear twice"); }
     { const a = f.past_paths.map((x) => x.asset); if (new Set(a).size !== a.length) out.push("feed.past_paths: an asset appears twice"); }
   }
@@ -1104,7 +1104,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const svg = $("#cloudSvg"); svg.innerHTML = "";
     // the example's cloud uses only signals known by its date, the same sample as its card (12 Nov 2026 audit #6)
     const pp = !c && S.feed && S.feed.example_past_paths ? S.feed.example_past_paths : ((S.feed && S.feed.past_paths) || []).find((p) => p.asset === asset);
-    if (!pp) { svgEl(svg, "text", { x: 550, y: 130, fill: "var(--muted)", "font-size": 14, "text-anchor": "middle" }, "Past paths unavailable in this feed"); return; }
+    if (!pp) {
+      // the note and subtitle are set here too: they still held the chart file's "Loading" text (clean run #1, 15 Nov 2026)
+      svgEl(svg, "text", { x: 550, y: 130, fill: "var(--muted)", "font-size": 14, "text-anchor": "middle" }, "Past paths unavailable in this feed");
+      $("#cloudSub").textContent = ""; $("#cloudNote").textContent = "The past signals' paths are not in this feed, so they can't be drawn.";
+      return;
+    }
     const L = 20, R = 960, T = 12, B = 230, P0 = -40, P1 = 100;
     const X = (d) => L + (R - L) * d / 60, Y = (v) => B - (Math.max(P0, Math.min(P1, v)) - P0) / (P1 - P0) * (B - T);
     for (const v of [100, 50, 20, 0, -20, -40]) {

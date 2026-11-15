@@ -1,0 +1,311 @@
+date,clock,reasons,pipeline,generated_at,regime,cards,aplus_cards,open,aplus_open,forming_prints,example,withheld,checks,data_checks,page_checks,disagreements,secs
+2020-09-01,2020-09-01T00:00:30Z,clock 00:00:30,ok,2020-09-01T00:00:30Z,Bullish,3,0,28,4,7,False,False,10452,9574,878,2,11
+2020-09-03,,day after confirmation ETH 2D 2020-09-02,ok,2020-09-03T04:14:00Z,Bullish,0,0,28,4,0,False,False,10015,9380,635,2,9
+2020-10-07,,top-grade forming (expected),ok,2020-10-07T04:14:00Z,Bullish,4,0,27,0,5,False,False,10749,10040,709,2,9
+2020-10-16,,top-grade forming (expected),ok,2020-10-16T04:14:00Z,Bullish,1,0,27,2,2,False,False,10560,9932,628,2,9
+2020-11-01,,day 60 in progress ETH 2D 2020-09-02; top-grade forming (expected),ok,2020-11-01T04:14:00Z,Bullish,2,0,27,7,2,False,False,11286,10177,1109,2,12
+2020-11-02,,day 60 closed ETH 2D 2020-09-02,ok,2020-11-02T04:14:00Z,Bullish,0,0,26,7,0,False,False,10955,10008,947,2,10
+2020-11-05,,day 60 in progress BTC 1D 2020-09-06,ok,2020-11-05T04:14:00Z,Bullish,3,0,26,7,3,False,False,11384,10200,1184,2,13
+2020-11-06,,day 60 closed BTC 1D 2020-09-06,ok,2020-11-06T04:14:00Z,Bullish,0,0,28,10,0,False,False,11360,10173,1187,2,12
+2020-11-07,,day 60 in progress ETH 1D 2020-09-08,ok,2020-11-07T04:14:00Z,Bullish,0,0,28,10,0,False,False,11360,10173,1187,2,12
+2020-11-08,,day 60 closed ETH 1D 2020-09-08,ok,2020-11-08T04:14:00Z,Bullish,2,0,27,10,2,False,False,11606,10257,1349,2,13
+2020-11-13,,day 60 in progress BTC 2D 2020-09-14,ok,2020-11-13T04:14:00Z,Bullish,1,0,28,10,1,False,False,11530,10264,1266,2,13
+2020-11-14,,day 60 closed BTC 2D 2020-09-14,ok,2020-11-14T04:14:00Z,Bullish,0,0,26,10,0,False,False,11330,10143,1187,2,12
+2020-11-17,,day 60 in progress ETH 1D 2020-09-18,ok,2020-11-17T04:14:00Z,Bullish,4,1,25,10,4,False,False,11866,10355,1511,2,14
+2020-11-18,,day 60 closed ETH 1D 2020-09-18,ok,2020-11-18T04:14:00Z,Bullish,4,0,24,10,4,False,False,11822,10315,1507,2,15
+2020-11-21,,top-grade forming (expected),ok,2020-11-21T04:14:00Z,Bullish,2,1,25,10,2,False,False,11628,10283,1345,2,14
+2020-12-04,2020-12-04T00:13:00Z,clock 00:13:00,ok,2020-12-04T00:13:00Z,Bullish,1,0,25,12,1,False,False,11809,10381,1428,2,14
+2020-12-08,,day 60 in progress ETH 1D 2020-10-09,ok,2020-12-08T04:14:00Z,Bullish,0,0,25,12,0,False,False,11745,10398,1347,2,13
+2020-12-09,,day 60 closed ETH 1D 2020-10-09,ok,2020-12-09T04:14:00Z,Bullish,2,0,24,11,2,False,False,11929,10482,1447,2,14
+2020-12-18,,day 60 in progress BTC 1D 2020-10-19,ok,2020-12-18T04:14:00Z,Bullish,4,2,27,12,4,False,False,12549,10846,1703,2,16
+2020-12-19,,day 60 closed BTC 1D 2020-10-19,ok,2020-12-19T04:14:00Z,Bullish,4,2,25,11,4,False,False,12410,10769,1641,2,15
+2020-12-20,,top-grade forming (expected),ok,2020-12-20T04:14:00Z,Bullish,2,1,27,12,2,False,False,12342,10779,1563,2,14
+2020-12-26,,year end,ok,2020-12-26T04:14:00Z,Bullish,4,3,25,9,4,False,False,12429,10876,1553,2,14
+2020-12-27,,year end,ok,2020-12-27T04:14:00Z,Bullish,2,2,27,11,2,False,False,12441,10886,1555,2,14
+2020-12-28,,year end,ok,2020-12-28T04:14:00Z,Bullish,2,2,27,11,2,False,False,12439,10886,1553,2,14
+2020-12-29,,year end,ok,2020-12-29T04:14:00Z,Bullish,2,2,27,11,2,False,False,12440,10887,1553,2,14
+2020-12-30,,top-grade forming (expected); year end,ok,2020-12-30T04:14:00Z,Bullish,1,1,28,12,1,False,False,12446,10892,1554,2,14
+2020-12-31,,year end,ok,2020-12-31T04:14:00Z,Bullish,1,1,27,12,1,False,False,12404,10850,1554,2,14
+2021-01-01,,year end,ok,2021-01-01T04:14:00Z,Bullish,1,0,27,12,1,False,False,12409,10857,1552,2,14
+2021-01-02,,year end,ok,2021-01-02T04:14:00Z,Bullish,2,2,27,12,2,False,False,12553,10920,1633,2,14
+2021-01-03,,year end,ok,2021-01-03T04:14:00Z,Bullish,2,2,27,12,2,False,False,12554,10921,1633,2,15
+2021-01-04,,year end,ok,2021-01-04T04:14:00Z,Bullish,1,1,28,13,1,False,False,12558,10926,1632,2,15
+2021-01-12,,day 60 in progress BTC 2D 2020-11-13,ok,2021-01-12T04:14:00Z,Bullish,0,0,26,12,0,False,False,12359,10832,1527,2,14
+2021-01-13,,day 60 closed BTC 2D 2020-11-13,ok,2021-01-13T04:14:00Z,Bullish,6,0,25,12,6,False,False,13181,11168,2013,2,17
+2021-01-25,,day after confirmation ETH 1D 2021-01-24,ok,2021-01-25T04:14:00Z,Bullish,2,0,26,10,2,False,False,12660,11095,1565,2,13
+2021-01-26,,top-grade forming (expected),ok,2021-01-26T04:14:00Z,Bullish,6,0,26,10,7,False,False,13244,11355,1889,2,16
+2021-01-31,,day after confirmation BTC 2D 2021-01-30,ok,2021-01-31T04:14:00Z,Bullish,2,0,28,10,3,False,False,12859,11294,1565,2,14
+2021-02-05,,top-grade forming (expected),ok,2021-02-05T04:14:00Z,Bullish,4,2,28,12,6,False,False,13362,11483,1879,2,17
+2021-03-08,2021-03-08T03:59:59Z,clock 03:59:59,ok,2021-03-08T03:59:59Z,Bullish,2,0,27,6,3,False,False,13117,11710,1407,2,12
+2021-03-29,,top-grade forming (expected),ok,2021-03-29T04:14:00Z,Bullish,6,0,28,5,6,False,False,13858,12189,1669,2,14
+2021-04-07,,top-grade forming (expected),ok,2021-04-07T04:14:00Z,Bullish,1,0,26,4,1,False,False,13185,11949,1236,2,10
+2021-04-27,,top-grade forming (expected),ok,2021-04-27T04:14:00Z,Bullish,8,0,27,5,9,False,False,14557,12638,1919,2,15
+2021-05-06,,top-grade forming (expected),ok,2021-05-06T04:14:00Z,Bullish,5,2,30,5,6,False,False,14438,12764,1674,2,13
+2021-06-05,,filter flip 2021-06-08 -3,ok,2021-06-05T04:14:00Z,Bullish,6,0,29,6,6,False,False,14984,13131,1853,2,15
+2021-06-06,,filter flip 2021-06-08 -2,ok,2021-06-06T04:14:00Z,Bullish,6,0,29,5,7,False,False,14981,13190,1791,2,14
+2021-06-07,,filter flip 2021-06-08 -1,ok,2021-06-07T04:14:00Z,Bullish,2,0,29,5,2,False,False,14398,12929,1469,2,11
+2021-06-08,,"filter flip 2021-06-08 +0; filter off; forming low across flip 2021-06-08 (ETH 3D, ETH 5D)",ok,2021-06-08T04:14:00Z,Bearish,2,0,29,5,2,False,False,14398,12929,1469,2,12
+2021-06-09,,"day after confirmation ETH 3D 2021-06-08; filter flip 2021-06-08 +1; forming low across flip 2021-06-08 (ETH 2D, ETH 5D, BTC 2D, BTC 3D, BTC 5D, BTC 8D)",ok,2021-06-09T04:14:00Z,Bearish,5,0,30,5,8,False,False,14922,13208,1714,2,13
+2021-06-10,,"filter flip 2021-06-08 +2; forming low across flip 2021-06-08 (ETH 5D, BTC 2D, BTC 3D, BTC 5D, BTC 8D)",ok,2021-06-10T04:14:00Z,Bearish,4,0,26,3,6,False,False,14476,12971,1505,2,11
+2021-06-11,,"forming low across flip 2021-06-08 (BTC 2D, BTC 3D, BTC 5D, BTC 8D)",ok,2021-06-11T04:14:00Z,Bearish,3,0,26,3,5,False,False,14333,12907,1426,2,11
+2021-06-11,2021-06-11T08:13:00Z,clock 08:13:00,ok,2021-06-11T08:13:00Z,Bearish,3,0,26,3,5,False,False,14333,12907,1426,2,11
+2021-06-12,,"forming low across flip 2021-06-08 (BTC 2D, BTC 3D, BTC 5D)",ok,2021-06-12T04:14:00Z,Bearish,3,0,25,3,6,False,False,14297,12873,1424,2,11
+2021-06-13,,"forming low across flip 2021-06-08 (ETH 5D, BTC 2D, BTC 3D, BTC 5D, BTC 8D)",ok,2021-06-13T04:14:00Z,Bearish,4,0,25,3,9,False,False,14454,12951,1503,2,11
+2021-06-14,,"forming low across flip 2021-06-08 (ETH 5D, BTC 3D, BTC 5D, BTC 8D)",ok,2021-06-14T04:14:00Z,Bearish,3,0,25,2,8,False,False,14276,12914,1362,2,10
+2021-06-15,,"forming low across flip 2021-06-08 (BTC 3D, BTC 8D)",ok,2021-06-15T04:14:00Z,Bearish,1,0,27,2,5,False,False,14119,12917,1202,2,9
+2021-06-16,,"forming low across flip 2021-06-08 (BTC 3D, BTC 8D)",ok,2021-06-16T04:14:00Z,Bearish,1,0,27,2,4,False,False,14112,12910,1202,2,9
+2021-06-17,,"forming low across flip 2021-06-08 (BTC 3D, BTC 8D)",ok,2021-06-17T04:14:00Z,Bearish,1,0,27,2,5,False,False,14119,12917,1202,2,9
+2021-06-18,,day after confirmation BTC 3D 2021-06-17,ok,2021-06-18T04:14:00Z,Bearish,0,0,28,2,0,False,False,14017,12894,1123,2,8
+2021-06-25,,filter off,ok,2021-06-25T04:14:00Z,Bearish,0,0,27,2,2,False,False,13989,12866,1123,2,8
+2021-07-13,,filter off,ok,2021-07-13T04:14:00Z,Bearish,0,0,15,0,3,False,False,13370,12369,1001,2,7
+2021-07-30,,filter off,ok,2021-07-30T04:14:00Z,Bearish,0,0,9,0,4,False,False,13125,12124,1001,2,7
+2021-08-16,,filter flip 2021-08-19 -3,ok,2021-08-16T04:14:00Z,Bearish,0,0,1,0,0,False,False,12761,11760,1001,2,6
+2021-08-17,,filter flip 2021-08-19 -2; filter off; nothing forming or live on any chart,ok,2021-08-17T04:14:00Z,Bearish,0,0,0,0,0,False,False,12719,11718,1001,2,6
+2021-08-18,,filter flip 2021-08-19 -1; no card and no live signal,ok,2021-08-18T04:14:00Z,Bearish,0,0,0,0,2,False,False,12733,11732,1001,2,6
+2021-08-19,,"filter flip 2021-08-19 +0; forming low across flip 2021-08-19 (ETH 1D, ETH 2D, ETH 3D, BTC 1D, BTC 2D, BTC 3D)",ok,2021-08-19T04:14:00Z,Bullish,0,0,0,0,6,False,False,12761,11760,1001,2,6
+2021-08-20,,"filter flip 2021-08-19 +1; forming low across flip 2021-08-19 (ETH 1D, ETH 2D, ETH 3D, BTC 1D, BTC 2D, BTC 3D)",ok,2021-08-20T04:14:00Z,Bullish,0,0,0,0,6,False,False,12761,11760,1001,2,6
+2021-08-21,,"filter flip 2021-08-19 +2; forming low across flip 2021-08-19 (ETH 2D, ETH 3D, BTC 2D, BTC 3D)",ok,2021-08-21T04:14:00Z,Bullish,0,0,0,0,4,False,False,12747,11746,1001,2,6
+2021-08-22,,"forming low across flip 2021-08-19 (ETH 2D, ETH 3D, BTC 2D, BTC 3D)",ok,2021-08-22T04:14:00Z,Bullish,0,0,0,0,4,False,False,12747,11746,1001,2,6
+2021-08-23,,"forming low across flip 2021-08-19 (ETH 2D, ETH 3D, BTC 2D, BTC 3D)",ok,2021-08-23T04:14:00Z,Bullish,0,0,0,0,4,False,False,12747,11746,1001,2,6
+2021-08-24,,"forming low across flip 2021-08-19 (ETH 2D, BTC 2D, BTC 3D)",ok,2021-08-24T04:14:00Z,Bullish,0,0,0,0,3,False,False,12740,11739,1001,2,6
+2021-08-25,,"forming low across flip 2021-08-19 (ETH 3D, BTC 3D)",ok,2021-08-25T04:14:00Z,Bullish,2,0,0,0,4,False,False,13019,11858,1161,2,8
+2021-09-13,2021-09-13T12:43:00Z,clock 12:43:00,ok,2021-09-13T12:43:00Z,Bullish,3,0,5,0,3,False,False,13492,12254,1238,2,9
+2021-10-03,,top-grade forming (expected),ok,2021-10-03T04:14:00Z,Bullish,4,1,17,2,6,False,False,14644,13161,1483,2,11
+2021-10-20,,top-grade forming (expected),ok,2021-10-20T04:14:00Z,Bullish,1,1,23,5,1,False,False,14849,13369,1480,2,11
+2021-11-30,,day 60 in progress BTC 1D 2021-10-01,ok,2021-11-30T04:14:00Z,Bullish,6,0,27,9,7,False,False,16580,14375,2205,2,16
+2021-12-01,,day 60 closed BTC 1D 2021-10-01,ok,2021-12-01T04:14:00Z,Bullish,6,0,25,6,8,False,False,16295,14298,1997,2,15
+2021-12-17,2021-12-17T16:13:00Z,clock 16:13:00,ok,2021-12-17T16:13:00Z,Bullish,2,0,27,3,2,False,False,15820,14329,1491,2,11
+2021-12-26,,year end,ok,2021-12-26T04:14:00Z,Bullish,3,0,29,2,5,False,False,16108,14600,1508,2,11
+2021-12-27,,year end,ok,2021-12-27T04:14:00Z,Bullish,2,0,30,2,4,False,False,16030,14605,1425,2,10
+2021-12-28,,year end,ok,2021-12-28T04:14:00Z,Bullish,1,0,30,2,2,False,False,15880,14534,1346,2,10
+2021-12-29,,year end,ok,2021-12-29T04:14:00Z,Bullish,0,0,30,2,0,False,False,15730,14463,1267,2,9
+2021-12-30,,year end,ok,2021-12-30T04:14:00Z,Bullish,3,0,28,2,4,False,False,16103,14575,1528,2,11
+2021-12-31,,year end,ok,2021-12-31T04:14:00Z,Bullish,3,0,28,2,3,False,False,16098,14570,1528,2,11
+2022-01-01,,year end,ok,2022-01-01T04:14:00Z,Bullish,8,0,28,2,10,False,False,16829,14900,1929,2,14
+2022-01-02,,year end,ok,2022-01-02T04:14:00Z,Bullish,6,0,28,2,8,False,False,16597,14826,1771,2,13
+2022-01-03,,year end,ok,2022-01-03T04:14:00Z,Bullish,6,0,27,2,8,False,False,16557,14786,1771,2,13
+2022-01-04,,year end,ok,2022-01-04T04:14:00Z,Bullish,4,0,27,2,5,False,False,16260,14653,1607,2,12
+2022-01-19,,day after confirmation BTC 3D 2022-01-18,ok,2022-01-19T04:14:00Z,Bullish,2,0,28,0,4,False,False,16042,14737,1305,2,10
+2022-01-24,,filter flip 2022-01-27 -3,ok,2022-01-24T04:14:00Z,Bullish,5,0,25,0,5,False,False,16334,14786,1548,2,12
+2022-01-25,,filter flip 2022-01-27 -2,ok,2022-01-25T04:14:00Z,Bullish,6,0,23,0,8,False,False,16425,14782,1643,2,12
+2022-01-26,,day after confirmation ETH 1D 2022-01-25; filter flip 2022-01-27 -1,ok,2022-01-26T04:14:00Z,Bullish,5,0,25,0,7,False,False,16421,14855,1566,2,11
+2022-01-27,,"filter flip 2022-01-27 +0; forming low across flip 2022-01-27 (ETH 2D, BTC 2D, BTC 3D, BTC 5D, BTC 8D)",ok,2022-01-27T04:14:00Z,Bearish,4,0,25,0,5,False,False,16266,14785,1481,2,11
+2022-01-28,,"filter flip 2022-01-27 +1; forming low across flip 2022-01-27 (ETH 2D, ETH 3D, ETH 5D, ETH 8D, BTC 2D, BTC 3D, BTC 5D, BTC 8D)",ok,2022-01-28T04:14:00Z,Bearish,6,0,25,0,8,False,False,16559,14918,1641,2,12
+2022-01-29,,"filter flip 2022-01-27 +2; forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 3D, BTC 5D, BTC 8D)",ok,2022-01-29T04:14:00Z,Bearish,4,0,25,0,6,False,False,16309,14844,1465,2,10
+2022-01-30,,"forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 3D, BTC 5D, BTC 8D)",ok,2022-01-30T04:14:00Z,Bearish,4,0,25,0,6,False,False,16309,14844,1465,2,10
+2022-01-31,,"forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-01-31T04:14:00Z,Bearish,3,0,26,0,5,False,False,16238,14852,1386,2,10
+2022-02-01,,"forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-01T04:14:00Z,Bearish,3,0,24,0,5,False,False,16154,14768,1386,2,10
+2022-02-02,,"forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-02T04:14:00Z,Bearish,3,0,24,0,5,False,False,16154,14768,1386,2,10
+2022-02-03,,"forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-03T04:14:00Z,Bearish,3,0,24,0,6,False,False,16159,14775,1384,2,10
+2022-02-04,,"forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-04T04:14:00Z,Bearish,3,0,23,0,6,False,False,16117,14733,1384,2,10
+2022-02-05,,"forming low across flip 2022-01-27 (ETH 3D, ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-05T04:14:00Z,Bearish,3,0,23,0,6,False,False,16113,14733,1380,2,10
+2022-02-06,,"forming low across flip 2022-01-27 (ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-06T04:14:00Z,Bearish,2,0,22,0,4,False,False,15948,14647,1301,2,9
+2022-02-07,,"forming low across flip 2022-01-27 (ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-07T04:14:00Z,Bearish,2,0,22,0,4,False,False,15948,14647,1301,2,9
+2022-02-08,,"forming low across flip 2022-01-27 (ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-08T04:14:00Z,Bearish,2,0,22,0,4,False,False,15948,14647,1301,2,9
+2022-02-09,,"forming low across flip 2022-01-27 (ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2022-02-09T04:14:00Z,Bearish,2,0,22,0,4,False,False,15948,14647,1301,2,9
+2022-02-10,,"forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-10T04:14:00Z,Bearish,0,0,24,0,2,False,False,15802,14657,1145,2,8
+2022-02-11,,"forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-11T04:14:00Z,Bearish,0,0,24,0,2,False,False,15802,14657,1145,2,8
+2022-02-12,,"filter off; forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-12T04:14:00Z,Bearish,0,0,23,0,2,False,False,15778,14615,1163,2,8
+2022-02-13,,"forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-13T04:14:00Z,Bearish,0,0,23,0,2,False,False,15778,14615,1163,2,8
+2022-02-14,,"forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-14T04:14:00Z,Bearish,0,0,23,0,6,False,False,15806,14643,1163,2,8
+2022-02-15,,"forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-15T04:14:00Z,Bearish,0,0,21,0,6,False,False,15722,14559,1163,2,9
+2022-02-16,,"forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-16T04:14:00Z,Bearish,0,0,21,0,6,False,False,15722,14559,1163,2,8
+2022-02-17,,"forming low across flip 2022-01-27 (ETH 8D, BTC 8D)",ok,2022-02-17T04:14:00Z,Bearish,0,0,21,0,3,False,False,15701,14538,1163,2,8
+2022-03-01,,filter off,ok,2022-03-01T04:14:00Z,Bearish,0,0,16,0,5,False,False,15505,14342,1163,2,8
+2022-03-19,,filter off,ok,2022-03-19T04:14:00Z,Bearish,0,0,10,0,2,False,False,15232,14069,1163,2,8
+2022-03-21,2022-03-21T20:13:00Z,clock 20:13:00,ok,2022-03-21T20:13:00Z,Bearish,0,0,8,0,2,False,False,15148,13985,1163,2,8
+2022-04-06,,filter off,ok,2022-04-06T04:14:00Z,Bearish,0,0,3,0,2,False,False,14938,13775,1163,2,7
+2022-04-23,,filter off,ok,2022-04-23T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-04-26,,nothing forming or live on any chart,ok,2022-04-26T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-05-11,,filter off,ok,2022-05-11T04:14:00Z,Bearish,0,0,0,0,2,False,False,14812,13649,1163,2,7
+2022-05-17,,no card and no live signal,ok,2022-05-17T04:14:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,7
+2022-05-29,,filter off,ok,2022-05-29T04:14:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,7
+2022-06-13,,nothing forming or live on any chart,ok,2022-06-13T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-06-15,,filter off,ok,2022-06-15T04:14:00Z,Bearish,0,0,0,0,8,False,False,14854,13691,1163,2,7
+2022-06-23,2022-06-23T23:59:00Z,clock 23:59:00,ok,2022-06-23T23:59:00Z,Bearish,0,0,0,0,10,False,False,14868,13705,1163,2,7
+2022-06-28,,no card and no live signal,ok,2022-06-28T04:14:00Z,Bearish,0,0,0,0,4,False,False,14826,13663,1163,2,7
+2022-07-03,,filter off,ok,2022-07-03T04:14:00Z,Bearish,0,0,0,0,8,False,False,14854,13691,1163,2,7
+2022-07-19,,nothing forming or live on any chart,ok,2022-07-19T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-07-21,,filter off,ok,2022-07-21T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-08-07,,filter off,ok,2022-08-07T04:14:00Z,Bearish,0,0,0,0,4,False,False,14826,13663,1163,2,7
+2022-08-13,,nothing forming or live on any chart,ok,2022-08-13T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-08-18,,no card and no live signal,ok,2022-08-18T04:14:00Z,Bearish,0,0,0,0,1,False,False,14805,13642,1163,2,7
+2022-08-25,,filter off,ok,2022-08-25T04:14:00Z,Bearish,0,0,0,0,7,False,False,14847,13684,1163,2,7
+2022-08-28,,nothing forming or live on any chart,ok,2022-08-28T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-09-12,,filter off,ok,2022-09-12T04:14:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,7
+2022-09-26,2022-09-26T00:00:30Z,clock 00:00:30,ok,2022-09-26T00:00:30Z,Bearish,0,0,0,0,9,False,False,14861,13698,1163,2,7
+2022-09-27,,no card and no live signal,ok,2022-09-27T04:14:00Z,Bearish,0,0,0,0,9,False,False,14861,13698,1163,2,7
+2022-09-29,,filter off,ok,2022-09-29T04:14:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,7
+2022-10-17,,filter off,ok,2022-10-17T04:14:00Z,Bearish,0,0,0,0,8,False,False,14854,13691,1163,2,7
+2022-10-31,,nothing forming or live on any chart,ok,2022-10-31T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-11-04,,filter off,ok,2022-11-04T04:14:00Z,Bearish,0,0,0,0,4,False,False,14826,13663,1163,2,7
+2022-11-10,,no card and no live signal,ok,2022-11-10T04:14:00Z,Bearish,0,0,0,0,2,False,False,14812,13649,1163,2,7
+2022-11-21,,filter off,ok,2022-11-21T04:14:00Z,Bearish,0,0,0,0,0,False,False,14798,13635,1163,2,7
+2022-12-09,,filter off,ok,2022-12-09T04:14:00Z,Bearish,0,0,0,0,5,False,False,14833,13670,1163,2,8
+2022-12-17,,no card and no live signal,ok,2022-12-17T04:14:00Z,Bearish,0,0,0,0,8,False,False,14854,13691,1163,2,8
+2022-12-26,,filter off; year end,ok,2022-12-26T04:14:00Z,Bearish,0,0,0,0,5,False,False,14833,13670,1163,2,7
+2022-12-27,,year end,ok,2022-12-27T04:14:00Z,Bearish,0,0,0,0,2,False,False,14812,13649,1163,2,7
+2022-12-28,,year end,ok,2022-12-28T04:14:00Z,Bearish,0,0,0,0,2,False,False,14812,13649,1163,2,7
+2022-12-29,,year end,ok,2022-12-29T04:14:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,7
+2022-12-29,2022-12-29T00:13:00Z,clock 00:13:00,ok,2022-12-29T00:13:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,7
+2022-12-30,,year end,ok,2022-12-30T04:14:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,8
+2022-12-31,,year end,ok,2022-12-31T04:14:00Z,Bearish,0,0,0,0,6,False,False,14840,13677,1163,2,8
+2023-01-01,,year end,ok,2023-01-01T04:14:00Z,Bearish,0,0,0,0,5,False,False,14833,13670,1163,2,7
+2023-01-02,,year end,ok,2023-01-02T04:14:00Z,Bearish,0,0,0,0,5,False,False,14833,13670,1163,2,7
+2023-01-03,,year end,ok,2023-01-03T04:14:00Z,Bearish,0,0,0,0,3,False,False,14819,13656,1163,2,7
+2023-01-04,,year end,ok,2023-01-04T04:14:00Z,Bearish,0,0,0,0,3,False,False,14819,13656,1163,2,7
+2023-01-13,,filter off,ok,2023-01-13T04:14:00Z,Bearish,0,0,0,0,1,False,False,14805,13642,1163,2,8
+2023-01-20,,no card and no live signal,ok,2023-01-20T04:14:00Z,Bearish,0,0,0,0,3,False,False,14819,13656,1163,2,9
+2023-01-22,,filter flip 2023-01-25 -3,ok,2023-01-22T04:14:00Z,Bearish,0,0,0,0,1,False,False,14805,13642,1163,2,8
+2023-01-23,,filter flip 2023-01-25 -2,ok,2023-01-23T04:14:00Z,Bearish,0,0,0,0,1,False,False,14805,13642,1163,2,7
+2023-01-24,,filter flip 2023-01-25 -1,ok,2023-01-24T04:14:00Z,Bearish,0,0,0,0,1,False,False,14805,13642,1163,2,7
+2023-01-25,,"filter flip 2023-01-25 +0; forming low across flip 2023-01-25 (ETH 1D, ETH 2D, ETH 3D, BTC 1D)",ok,2023-01-25T04:14:00Z,Bullish,0,0,0,0,4,False,False,14826,13663,1163,2,8
+2023-01-26,,"filter flip 2023-01-25 +1; forming low across flip 2023-01-25 (ETH 1D, ETH 2D, ETH 3D, BTC 1D)",ok,2023-01-26T04:14:00Z,Bullish,0,0,0,0,4,False,False,14826,13663,1163,2,7
+2023-01-27,,"filter flip 2023-01-25 +2; forming low across flip 2023-01-25 (ETH 1D, ETH 2D, ETH 3D, BTC 1D)",ok,2023-01-27T04:14:00Z,Bullish,0,0,0,0,4,False,False,14826,13663,1163,2,8
+2023-01-28,,nothing forming or live on any chart,ok,2023-01-28T04:14:00Z,Bullish,0,0,0,0,0,False,False,14798,13635,1163,2,8
+2023-01-29,,forming low across flip 2023-01-25 (ETH 3D),ok,2023-01-29T04:14:00Z,Bullish,3,0,0,0,4,False,False,15235,13831,1404,2,10
+2023-02-18,,top-grade forming (expected),ok,2023-02-18T04:14:00Z,Bullish,6,0,6,0,7,False,False,16079,14440,1639,2,13
+2023-04-03,2023-04-03T03:59:59Z,clock 03:59:59,ok,2023-04-03T03:59:59Z,Bullish,1,0,25,2,1,False,False,16825,15423,1402,2,11
+2023-04-21,,day 60 in progress ETH 3D 2023-02-20,ok,2023-04-21T04:14:00Z,Bullish,0,0,23,3,0,False,False,16839,15438,1401,2,11
+2023-04-22,,day 60 closed ETH 3D 2023-02-20,ok,2023-04-22T04:14:00Z,Bullish,4,0,21,2,4,False,False,17269,15606,1663,2,13
+2023-04-25,,top-grade forming (expected),ok,2023-04-25T04:14:00Z,Bullish,6,0,22,2,7,False,False,17634,15809,1825,2,14
+2023-05-28,,top-grade forming (expected),ok,2023-05-28T04:14:00Z,Bullish,6,1,26,2,8,False,False,18235,16392,1843,2,14
+2023-06-07,,top-grade forming (expected),ok,2023-06-07T04:14:00Z,Bullish,7,3,26,3,8,False,False,18629,16609,2020,2,16
+2023-06-12,,day after confirmation BTC 2D 2023-06-11,ok,2023-06-12T04:14:00Z,Bullish,2,0,27,4,2,False,False,18131,16436,1695,2,13
+2023-06-18,,day after confirmation ETH 1D 2023-06-17,ok,2023-06-18T04:14:00Z,Bullish,6,0,29,4,6,False,False,18876,16855,2021,2,16
+2023-06-29,,top-grade forming (expected),ok,2023-06-29T04:14:00Z,Bullish,4,1,31,5,5,False,False,18861,16926,1935,2,15
+2023-07-06,2023-07-06T08:13:00Z,clock 08:13:00,ok,2023-07-06T08:13:00Z,Bullish,0,0,29,6,1,False,False,18436,16723,1713,2,13
+2023-09-14,,top-grade forming (expected),ok,2023-09-14T04:14:00Z,Bullish,8,0,20,0,10,False,False,19464,17483,1981,2,15
+2023-09-30,,top-grade forming (expected),ok,2023-09-30T04:14:00Z,Bullish,3,1,30,2,4,False,False,19671,17929,1742,2,13
+2023-10-06,,day 60 in progress ETH 1D 2023-08-07,ok,2023-10-06T04:14:00Z,Bullish,3,2,32,4,4,False,False,19995,18091,1904,2,14
+2023-10-07,,day 60 closed ETH 1D 2023-08-07,ok,2023-10-07T04:14:00Z,Bullish,3,0,31,4,4,False,False,19955,18051,1904,2,15
+2023-10-09,2023-10-09T12:43:00Z,clock 12:43:00,ok,2023-10-09T12:43:00Z,Bullish,0,0,32,5,1,False,False,19697,17956,1741,2,13
+2023-10-15,,top-grade forming (expected),ok,2023-10-15T04:14:00Z,Bullish,7,0,29,5,7,False,False,20570,18266,2304,2,18
+2023-10-24,,top-grade forming (expected),ok,2023-10-24T04:14:00Z,Bullish,1,1,31,6,2,False,False,20040,18140,1900,2,14
+2023-11-05,,top-grade forming (expected),ok,2023-11-05T04:14:00Z,Bullish,2,1,28,8,3,False,False,20300,18159,2141,2,17
+2023-11-19,,day 60 in progress BTC 1D 2023-09-20,ok,2023-11-19T04:14:00Z,Bullish,7,0,23,8,7,False,False,20876,18314,2562,2,20
+2023-11-20,,day 60 closed BTC 1D 2023-09-20; day after confirmation BTC 1D 2023-11-19,ok,2023-11-20T04:14:00Z,Bullish,6,0,22,8,6,False,False,20716,18235,2481,2,19
+2023-11-21,,day after confirmation ETH 1D 2023-11-20,ok,2023-11-21T04:14:00Z,Bullish,0,0,23,8,0,False,False,19948,17949,1999,2,14
+2023-11-27,,top-grade forming (expected),ok,2023-11-27T04:14:00Z,Bullish,2,0,25,9,2,False,False,20537,18296,2241,2,16
+2023-12-06,,top-grade forming (expected),ok,2023-12-06T04:14:00Z,Bullish,3,2,25,8,3,False,False,20758,18468,2290,2,16
+2023-12-26,,year end,ok,2023-12-26T04:14:00Z,Bullish,0,0,25,9,1,False,False,20668,18499,2169,2,15
+2023-12-27,,year end,ok,2023-12-27T04:14:00Z,Bullish,8,2,24,8,10,False,False,21723,18968,2755,2,19
+2023-12-28,,year end,ok,2023-12-28T04:14:00Z,Bullish,7,1,24,8,9,False,False,21580,18906,2674,2,19
+2023-12-29,,year end,ok,2023-12-29T04:14:00Z,Bullish,4,1,24,8,5,False,False,21140,18711,2429,2,18
+2023-12-30,,year end,ok,2023-12-30T04:14:00Z,Bullish,5,1,24,8,6,False,False,21313,18801,2512,2,18
+2023-12-31,,year end,ok,2023-12-31T04:14:00Z,Bullish,6,1,23,7,7,False,False,21352,18823,2529,2,18
+2024-01-01,,top-grade forming (expected); year end,ok,2024-01-01T04:14:00Z,Bullish,7,1,24,7,9,False,False,21572,18964,2608,2,19
+2024-01-02,,year end,ok,2024-01-02T04:14:00Z,Bullish,6,1,25,7,8,False,False,21499,18970,2529,2,18
+2024-01-03,,year end,ok,2024-01-03T04:14:00Z,Bullish,2,0,25,7,3,False,False,20914,18707,2207,2,15
+2024-01-04,,year end,ok,2024-01-04T04:14:00Z,Bullish,6,0,25,7,8,False,False,21495,18968,2527,2,18
+2024-01-11,2024-01-11T16:13:00Z,clock 16:13:00,ok,2024-01-11T16:13:00Z,Bullish,3,2,29,8,4,False,False,21482,19102,2380,2,17
+2024-02-07,,top-grade forming (expected),ok,2024-02-07T04:14:00Z,Bullish,5,2,25,3,7,False,False,21595,19365,2230,2,16
+2024-02-20,,day 60 in progress BTC 2D 2023-12-22,ok,2024-02-20T04:14:00Z,Bullish,2,1,27,4,2,False,False,21469,19378,2091,2,14
+2024-02-21,,day 60 closed BTC 2D 2023-12-22,ok,2024-02-21T04:14:00Z,Bullish,0,0,26,5,0,False,False,21247,19236,2011,2,13
+2024-02-29,,day 60 in progress ETH 2D 2023-12-31; top-grade forming (expected),ok,2024-02-29T04:14:00Z,Bullish,3,1,27,6,3,False,False,21856,19524,2332,2,16
+2024-03-01,,day 60 closed ETH 2D 2023-12-31; day 60 in progress BTC 1D 2024-01-01,ok,2024-03-01T04:14:00Z,Bullish,2,1,27,6,2,False,False,21736,19487,2249,2,16
+2024-03-02,,day 60 closed BTC 1D 2024-01-01,ok,2024-03-02T04:14:00Z,Bullish,2,1,26,6,2,False,False,21694,19445,2249,2,16
+2024-03-28,,day 60 in progress ETH 1D 2024-01-28,ok,2024-03-28T04:14:00Z,Bullish,5,0,22,6,6,False,False,22218,19692,2526,2,18
+2024-03-29,,day 60 closed ETH 1D 2024-01-28,ok,2024-03-29T04:14:00Z,Bullish,3,0,22,6,3,False,False,21979,19611,2368,2,16
+2024-04-07,,day 60 in progress BTC 1D 2024-02-07,ok,2024-04-07T04:14:00Z,Bullish,6,0,22,6,8,False,False,22509,19896,2613,2,18
+2024-04-08,,day 60 closed BTC 1D 2024-02-07,ok,2024-04-08T04:14:00Z,Bullish,6,0,20,4,8,False,False,22297,19812,2485,2,17
+2024-04-12,,day after confirmation ETH 3D 2024-04-11,ok,2024-04-12T04:14:00Z,Bullish,0,0,21,4,0,False,False,21569,19566,2003,2,13
+2024-04-14,2024-04-14T20:13:00Z,clock 20:13:00,ok,2024-04-14T20:13:00Z,Bullish,4,0,21,4,6,False,False,22159,19832,2327,2,15
+2024-04-21,,day after confirmation BTC 1D 2024-04-20,ok,2024-04-21T04:14:00Z,Bullish,5,0,24,3,7,False,False,22478,20132,2346,2,16
+2024-04-29,,top-grade forming (expected),ok,2024-04-29T04:14:00Z,Bullish,4,1,25,2,5,False,False,22385,20184,2201,2,15
+2024-05-23,,top-grade forming (expected),ok,2024-05-23T04:14:00Z,Bullish,3,2,29,2,5,False,False,22777,20621,2156,2,14
+2024-07-18,2024-07-18T23:59:00Z,clock 23:59:00,ok,2024-07-18T23:59:00Z,Bullish,2,0,23,3,4,False,False,23119,20926,2193,2,14
+2024-07-21,,top-grade forming (expected),ok,2024-07-21T04:14:00Z,Bullish,3,1,23,3,5,False,False,23258,20990,2268,2,15
+2024-07-26,,day 60 in progress ETH 1D 2024-05-27,ok,2024-07-26T04:14:00Z,Bullish,3,0,24,3,5,False,False,23403,21111,2292,2,15
+2024-07-27,,day 60 closed ETH 1D 2024-05-27,ok,2024-07-27T04:14:00Z,Bullish,3,0,23,2,5,False,False,23298,21070,2228,2,15
+2024-08-31,,day after confirmation ETH 1D 2024-08-30,ok,2024-08-31T04:14:00Z,Bullish,3,0,26,2,5,False,False,23903,21655,2248,2,15
+2024-09-18,,day after confirmation BTC 3D 2024-09-17,ok,2024-09-18T04:14:00Z,Bullish,5,2,29,2,7,False,False,24558,22152,2406,2,17
+2024-09-22,,top-grade forming (expected),ok,2024-09-22T04:14:00Z,Bullish,1,1,30,3,3,False,False,24229,22047,2182,2,15
+2024-10-15,,top-grade forming (expected),ok,2024-10-15T04:14:00Z,Bullish,3,2,31,6,3,False,False,25081,22499,2582,2,18
+2024-10-20,2024-10-20T00:00:30Z,clock 00:00:30,ok,2024-10-20T00:00:30Z,Bullish,2,2,31,8,2,False,False,25153,22490,2663,2,18
+2024-10-31,,top-grade forming (expected),ok,2024-10-31T04:14:00Z,Bullish,4,1,30,8,4,False,False,25523,22684,2839,2,20
+2024-11-12,,top-grade forming (expected),ok,2024-11-12T04:14:00Z,Bullish,3,2,30,13,3,False,False,25969,22809,3160,2,22
+2024-11-21,,top-grade forming (expected),ok,2024-11-21T04:14:00Z,Bullish,4,3,28,13,4,False,False,26176,22895,3281,2,23
+2024-12-04,,top-grade forming (expected),ok,2024-12-04T04:14:00Z,Bullish,5,1,32,15,5,True,False,27224,23563,3661,0,25
+2024-12-26,,year end,ok,2024-12-26T04:14:00Z,Bullish,2,0,28,12,2,True,False,26672,23422,3250,0,21
+2024-12-27,,year end,ok,2024-12-27T04:14:00Z,Bullish,1,0,29,12,1,True,False,26598,23427,3171,0,20
+2024-12-28,,year end,ok,2024-12-28T04:14:00Z,Bullish,5,0,27,12,5,True,False,27090,23595,3495,0,23
+2024-12-29,,year end,ok,2024-12-29T04:14:00Z,Bullish,3,0,27,12,3,True,False,26801,23470,3331,0,22
+2024-12-30,,year end,ok,2024-12-30T04:14:00Z,Bullish,3,0,27,12,3,True,False,26800,23471,3329,0,22
+2024-12-31,,year end,ok,2024-12-31T04:14:00Z,Bullish,4,0,28,12,4,True,False,27014,23602,3412,0,22
+2025-01-01,,day after confirmation ETH 3D 2024-12-31; year end,ok,2025-01-01T04:14:00Z,Bullish,7,0,26,11,9,True,False,27342,23749,3593,0,24
+2025-01-02,,year end,ok,2025-01-02T04:14:00Z,Bullish,7,0,26,11,9,True,False,27341,23750,3591,0,24
+2025-01-03,,year end,ok,2025-01-03T04:14:00Z,Bullish,5,0,28,11,7,True,False,27192,23761,3431,0,22
+2025-01-04,,year end,ok,2025-01-04T04:14:00Z,Bullish,4,0,29,11,6,True,False,27119,23767,3352,0,22
+2025-01-23,2025-01-23T00:13:00Z,clock 00:13:00,ok,2025-01-23T00:13:00Z,Bullish,3,1,29,4,5,True,False,26852,23999,2853,0,17
+2025-02-15,,day after confirmation BTC 1D 2025-02-14,ok,2025-02-15T04:14:00Z,Bullish,6,0,23,1,8,True,False,26988,24076,2912,0,18
+2025-04-10,,top-grade forming (expected),ok,2025-04-10T04:14:00Z,Bullish,6,0,22,0,7,True,False,27415,24565,2850,0,17
+2025-04-23,,top-grade forming (expected),ok,2025-04-23T04:14:00Z,Bullish,4,2,24,2,6,True,False,27589,24745,2844,0,17
+2025-04-27,2025-04-27T03:59:59Z,clock 03:59:59,ok,2025-04-27T03:59:59Z,Bullish,1,1,27,3,3,True,False,27446,24761,2685,0,16
+2025-05-09,,top-grade forming (expected),ok,2025-05-09T04:14:00Z,Bullish,2,1,26,4,2,True,False,27721,24877,2844,0,18
+2025-06-15,,day after confirmation ETH 3D 2025-06-14,ok,2025-06-15T04:14:00Z,Bullish,4,1,23,4,4,True,False,28279,25253,3026,0,18
+2025-07-07,,top-grade forming (expected),ok,2025-07-07T04:14:00Z,Bullish,3,1,23,2,5,True,False,28283,25450,2833,0,17
+2025-07-11,,day after confirmation BTC 1D 2025-07-10,ok,2025-07-11T04:14:00Z,Bullish,0,0,25,4,2,True,False,28224,25450,2774,0,16
+2025-07-30,2025-07-30T08:13:00Z,clock 08:13:00,ok,2025-07-30T08:13:00Z,Bullish,2,0,23,4,2,True,False,28468,25532,2936,0,18
+2025-08-08,,top-grade forming (expected),ok,2025-08-08T04:14:00Z,Bullish,6,0,21,4,7,True,False,29017,25765,3252,0,21
+2025-09-30,,top-grade forming (expected),ok,2025-09-30T04:14:00Z,Bullish,6,0,23,2,6,True,False,29575,26407,3168,0,19
+2025-11-02,2025-11-02T12:43:00Z,clock 12:43:00,ok,2025-11-02T12:43:00Z,Bullish,6,0,25,1,8,True,False,30033,26911,3122,0,20
+2025-12-02,,filter flip 2025-12-05 -3,ok,2025-12-02T04:14:00Z,Bullish,5,1,24,1,7,True,False,30144,27103,3041,0,18
+2025-12-03,,filter flip 2025-12-05 -2,ok,2025-12-03T04:14:00Z,Bullish,4,2,25,1,6,True,False,30072,27110,2962,0,19
+2025-12-04,,filter flip 2025-12-05 -1,ok,2025-12-04T04:14:00Z,Bullish,4,2,25,1,6,True,False,30068,27110,2958,0,19
+2025-12-05,,"filter flip 2025-12-05 +0; forming low across flip 2025-12-05 (ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2025-12-05T04:14:00Z,Bearish,2,0,27,3,4,True,False,30080,27120,2960,0,18
+2025-12-06,,"filter flip 2025-12-05 +1; forming low across flip 2025-12-05 (ETH 5D, ETH 8D, BTC 5D, BTC 8D)",ok,2025-12-06T04:14:00Z,Bearish,2,0,25,2,4,True,False,29934,27036,2898,0,17
+2025-12-07,,"day after confirmation ETH 5D 2025-12-06; filter flip 2025-12-05 +2; forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-07T04:14:00Z,Bearish,1,0,27,2,5,True,False,29944,27123,2821,0,17
+2025-12-08,,"forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-08T04:14:00Z,Bearish,1,0,27,2,5,True,False,29944,27123,2821,0,17
+2025-12-09,,"forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-09T04:14:00Z,Bearish,1,0,27,2,5,True,False,29945,27124,2821,0,17
+2025-12-10,,"forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-10T04:14:00Z,Bearish,1,0,27,2,4,True,False,29938,27117,2821,0,17
+2025-12-11,,"filter off; forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-11T04:14:00Z,Bearish,1,0,27,2,4,True,False,29938,27117,2821,0,17
+2025-12-12,,"forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-12T04:14:00Z,Bearish,1,0,26,2,4,True,False,29894,27075,2819,0,17
+2025-12-13,,"forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-13T04:14:00Z,Bearish,1,0,26,2,4,True,False,29894,27075,2819,0,17
+2025-12-14,,"forming low across flip 2025-12-05 (ETH 8D, BTC 3D, BTC 8D)",ok,2025-12-14T04:14:00Z,Bearish,1,0,24,2,3,True,False,29803,26984,2819,0,17
+2025-12-15,,"forming low across flip 2025-12-05 (ETH 8D, BTC 8D)",ok,2025-12-15T04:14:00Z,Bearish,0,0,25,2,2,True,False,29729,26989,2740,0,16
+2025-12-16,,"forming low across flip 2025-12-05 (ETH 8D, BTC 8D)",ok,2025-12-16T04:14:00Z,Bearish,0,0,25,2,3,True,False,29736,26996,2740,0,16
+2025-12-17,,forming low across flip 2025-12-05 (BTC 8D),ok,2025-12-17T04:14:00Z,Bearish,0,0,24,2,2,True,False,29687,26947,2740,0,16
+2025-12-26,,year end,ok,2025-12-26T04:14:00Z,Bearish,0,0,19,2,6,True,False,29505,26765,2740,0,16
+2025-12-27,,year end,ok,2025-12-27T04:14:00Z,Bearish,0,0,18,2,8,True,False,29477,26737,2740,0,16
+2025-12-28,,filter off; year end,ok,2025-12-28T04:14:00Z,Bearish,0,0,18,2,8,True,False,29477,26737,2740,0,15
+2025-12-29,,year end,ok,2025-12-29T04:14:00Z,Bearish,0,0,18,2,5,True,False,29456,26716,2740,0,16
+2025-12-30,,year end,ok,2025-12-30T04:14:00Z,Bearish,0,0,18,2,8,True,False,29477,26737,2740,0,16
+2025-12-31,,year end,ok,2025-12-31T04:14:00Z,Bearish,0,0,18,2,8,True,False,29477,26737,2740,0,16
+2026-01-01,,year end,ok,2026-01-01T04:14:00Z,Bearish,0,0,17,2,6,True,False,29421,26681,2740,0,16
+2026-01-02,,year end,ok,2026-01-02T04:14:00Z,Bearish,0,0,15,2,5,True,False,29330,26590,2740,0,16
+2026-01-03,,year end,ok,2026-01-03T04:14:00Z,Bearish,0,0,15,2,5,True,False,29330,26590,2740,0,16
+2026-01-04,,year end,ok,2026-01-04T04:14:00Z,Bearish,0,0,15,2,5,True,False,29330,26590,2740,0,15
+2026-01-15,,filter off,ok,2026-01-15T04:14:00Z,Bearish,0,0,11,2,2,True,False,29141,26401,2740,0,15
+2026-02-02,,filter off,ok,2026-02-02T04:14:00Z,Bearish,0,0,5,2,6,True,False,28917,26177,2740,0,15
+2026-02-04,2026-02-04T16:13:00Z,clock 16:13:00,ok,2026-02-04T16:13:00Z,Bearish,0,0,3,0,1,True,False,28676,26058,2618,0,14
+2026-02-19,,filter off,ok,2026-02-19T04:14:00Z,Bearish,0,0,0,0,1,True,False,28550,25932,2618,0,13
+2026-03-09,,filter off,ok,2026-03-09T04:14:00Z,Bearish,0,0,0,0,6,True,False,28585,25967,2618,0,13
+2026-03-15,,nothing forming or live on any chart,ok,2026-03-15T04:14:00Z,Bearish,0,0,0,0,0,True,False,28543,25925,2618,0,13
+2026-03-25,,no card and no live signal,ok,2026-03-25T04:14:00Z,Bearish,0,0,0,0,5,True,False,28578,25960,2618,0,14
+2026-03-27,,filter off,ok,2026-03-27T04:14:00Z,Bearish,0,0,0,0,0,True,False,28543,25925,2618,0,13
+2026-03-29,,nothing forming or live on any chart,ok,2026-03-29T04:14:00Z,Bearish,0,0,0,0,0,True,False,28543,25925,2618,0,13
+2026-04-13,,filter off,ok,2026-04-13T04:14:00Z,Bearish,0,0,0,0,5,True,False,28578,25960,2618,0,13
+2026-05-01,,filter off,ok,2026-05-01T04:14:00Z,Bearish,0,0,0,0,7,True,False,28592,25974,2618,0,14
+2026-05-04,,no card and no live signal,ok,2026-05-04T04:14:00Z,Bearish,0,0,0,0,5,True,False,28578,25960,2618,0,14
+2026-05-10,2026-05-10T20:13:00Z,clock 20:13:00,ok,2026-05-10T20:13:00Z,Bearish,0,0,0,0,4,True,False,28571,25953,2618,0,14
+2026-05-18,,nothing forming or live on any chart,ok,2026-05-18T04:14:00Z,Bearish,0,0,0,0,0,True,False,28543,25925,2618,0,13
+2026-05-19,,filter off,ok,2026-05-19T04:14:00Z,Bearish,0,0,0,0,0,True,False,28543,25925,2618,0,13
+2026-06-05,,filter off; nothing forming or live on any chart,ok,2026-06-05T04:14:00Z,Bearish,0,0,0,0,0,True,False,28543,25925,2618,0,13
+2026-06-20,,no card and no live signal,ok,2026-06-20T04:14:00Z,Bearish,0,0,0,0,6,True,False,28585,25967,2618,0,13
+2026-06-23,,filter off,ok,2026-06-23T04:14:00Z,Bearish,0,0,0,0,4,True,False,28571,25953,2618,0,13
+2026-07-11,,filter off,ok,2026-07-11T04:14:00Z,Bearish,0,0,0,0,5,True,False,28578,25960,2618,0,13
+2026-07-28,,filter off; no card and no live signal,ok,2026-07-28T04:14:00Z,Bearish,0,0,0,0,3,True,False,28564,25946,2618,0,13
+2026-08-12,2026-08-12T23:59:00Z,clock 23:59:00,ok,2026-08-12T23:59:00Z,Bearish,0,0,0,0,3,True,False,28564,25946,2618,0,13
+2026-08-15,,filter off,ok,2026-08-15T04:14:00Z,Bearish,0,0,0,0,4,True,False,28571,25953,2618,0,14
+2026-08-30,,filter flip 2026-09-02 -3,ok,2026-08-30T04:14:00Z,Bearish,0,0,0,0,1,True,False,28550,25932,2618,0,14
+2026-08-31,,filter flip 2026-09-02 -2,ok,2026-08-31T04:14:00Z,Bearish,0,0,0,0,5,True,False,28578,25960,2618,0,13
+2026-09-01,,filter flip 2026-09-02 -1,ok,2026-09-01T04:14:00Z,Bearish,0,0,0,0,2,True,False,28557,25939,2618,0,14
+2026-09-02,,filter flip 2026-09-02 +0; forming low across flip 2026-09-02 (BTC 8D),ok,2026-09-02T04:14:00Z,Bullish,0,0,0,0,1,True,False,28550,25932,2618,0,13
+2026-09-03,,"filter flip 2026-09-02 +1; forming low across flip 2026-09-02 (ETH 2D, BTC 2D, BTC 8D)",ok,2026-09-03T04:14:00Z,Bullish,2,0,0,0,5,True,False,28850,26072,2778,0,15
+2026-09-04,,filter flip 2026-09-02 +2; forming low across flip 2026-09-02 (BTC 8D),ok,2026-09-04T04:14:00Z,Bullish,2,0,0,0,3,True,False,28838,26060,2778,0,15
+2026-09-05,,"forming low across flip 2026-09-02 (ETH 2D, BTC 8D)",ok,2026-09-05T04:14:00Z,Bullish,2,0,0,0,4,True,False,28841,26067,2774,0,16
+2025-02-04,,day 60 in progress ETH 1D 2024-12-06,ok,2025-02-04T04:14:00Z,Bullish,2,0,27,2,2,True,False,26569,23919,2650,0,15
+2025-02-05,,day 60 closed ETH 1D 2024-12-06,ok,2025-02-05T04:14:00Z,Bullish,2,0,26,1,2,True,False,26464,23876,2588,0,15
+2025-06-23,,day 60 in progress ETH 1D 2025-04-24,ok,2025-06-23T04:14:00Z,Bullish,7,0,21,3,8,True,False,28572,25365,3207,0,19
+2025-06-24,,day 60 closed ETH 1D 2025-04-24,ok,2025-06-24T04:14:00Z,Bullish,7,0,20,2,8,True,False,28474,25329,3145,0,19

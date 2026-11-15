@@ -611,7 +611,9 @@ def main():
                    "q75_pct": num(r["q75_pct"])} for r in paths if r["asset"] == asset]}
         for asset in dict.fromkeys(r["asset"] for r in paths)]
 
-    me = rows(d("missstats_example.csv")) if extras_ok and os.path.exists(d("missstats_example.csv")) else []
+    # the worked example's own extras only with the example itself (15 Nov 2026 clean run #1: before 22 Nov 2024 they
+    # were published with no example card)
+    me = rows(d("missstats_example.csv")) if extras_ok and example_card and os.path.exists(d("missstats_example.csv")) else []
     feed["example_if_it_misses"] = {
         "label": LABEL, "asset": "ETH", "grade": "A+", "signals": num(me[0]["aplus_signals"]), "misses": num(me[0]["misses"]),
         "up_first": num(me[0]["up_first"]), "median_peak_pct": num(me[0]["median_peak_pct"]),
@@ -619,7 +621,7 @@ def main():
         "miss_rule": "did not rise 10% within 60 days",
         "note": "The worked example's misses: only ETH top-grade signals whose 60th day had closed by 2024-09-22."} if me else None
 
-    pe = rows(d("pastpaths_example.csv")) if extras_ok and os.path.exists(d("pastpaths_example.csv")) else []
+    pe = rows(d("pastpaths_example.csv")) if extras_ok and example_card and os.path.exists(d("pastpaths_example.csv")) else []
     feed["example_past_paths"] = {
         "label": LABEL, "asset": "ETH", "grade": "A+", "signals": num(pe[0]["n"]),
         "note": "The worked example's cloud: only ETH top-grade signals whose 60th day had closed by 2024-09-22.",

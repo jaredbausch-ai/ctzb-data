@@ -3293,3 +3293,33 @@ first_round,level,family,kind,case,expected
 34,page,HARDENING,hand-forged,forged: live signal grade A+ but its card graded C,feed=down; ledger=unavail; trades=unavail
 34,page,HARDENING,hand-forged,"forged: checks.passed false, all_passed true",feed=down; ledger=unavail; trades=unavail
 34,page,HARDENING,hand-forged,ledger with CR-only line ends (old Mac),
+35,page,HARDENING,hand-forged,h-markup-sample,page verdict equals feedcheck.py's; no markup executed
+35,page,HARDENING,hand-forged,h-markup-band,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-markup-tags-confirmations,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-long-sample,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-unicode-sample,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-exponent-forms,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-float-int-past-trades,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-deep-junk,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-huge-unknown-number,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-share-above-parent,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-eras-dont-add,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-card-wrong-signal,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-dup-card-id,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-days-elapsed-off,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-lists-reversed,page verdict equals feedcheck.py's; same picker set
+35,page,HARDENING,hand-forged,h-ledger-other-run-grade-odds,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-example-card-other-run,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-generated-future-1day,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,h-scored-before-generated,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,b-edge-70.0,page verdict equals feedcheck.py's; 5% row holds at exactly 70
+35,page,HARDENING,hand-forged,b-edge-69.999999,page verdict equals feedcheck.py's; 5% row is the edge at 69.999999
+35,page,HARDENING,hand-forged,b-shares-0-and-100,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,b-price-0.01,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,b-price-1e9-minus,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,b-day-0-and-60,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,b-bar-60,page verdict equals feedcheck.py's
+35,page,HARDENING,hand-forged,b-bar-100,page verdict equals feedcheck.py's
+35,page,PARTIAL RUN,real life,real-extras-withheld,cards shown; charts drawn; ledger ok
+35,page,PARTIAL RUN,real life,"extras step failed (feed_live publishes cards with extras_withheld, past_paths empty); member opens each setup on the Chart tab",the past-signals cloud and its note say the paths are unavailable (the chart's own state)
+35,pipeline,HARDENING,hand-forged,ETH_12H.csv and BTC_12H.csv both cut by their last whole line,the whole-history check fails (bars missing from the end)

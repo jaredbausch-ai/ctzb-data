@@ -233,7 +233,7 @@ def main():
             S = Site(b, R); base = S.base
             print(f'--- {name}: feed {base["generated_at"]}, {len(base["cards"])} forming cards, {len(base["open_signals"])} live signals ---')
             ok(f'{name}: the real feed passes the strict check', not feedcheck.problems(base, schema), str(feedcheck.problems(base, schema)[:3]))
-            held = copy.deepcopy(base); held.update(cards_withheld=True, cards=[], open_signals=[], example_card=None); held['checks']['all_passed'] = False
+            held = copy.deepcopy(base); held.update(cards_withheld=True, cards=[], open_signals=[], example_card=None, example_past_paths=None, example_if_it_misses=None); held['checks']['all_passed'] = False
             ok(f'{name}: a held feed passes the strict check', not feedcheck.problems(held, schema), str(feedcheck.problems(held, schema)[:3]))
             # 2. verdicts agree
             OPS = list(ops_for(base, 'feed', FP))

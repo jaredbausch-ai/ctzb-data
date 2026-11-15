@@ -9,6 +9,8 @@ import copy, csv, io, json, os, re, sys
 from playwright.sync_api import sync_playwright
 
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, R)
+import feedcheck  # noqa: E402 -- every state below that stands for a real feed must pass the strict check
 PAGE = open(f"{R}/docs/artifacts/member-site/index.html", encoding="utf-8").read()
 DOC = "<!doctype html><html><head><meta charset=utf-8></head><body>" + PAGE + "</body></html>"
 FEED = json.load(open(f"{R}/feed/ctzb_feed.json"))
@@ -70,13 +72,19 @@ def main():
     quiet = copy.deepcopy(FEED); quiet["cards"] = []; quiet["open_signals"] = []; quiet["market_regime"] = "Bullish"
     off = copy.deepcopy(quiet); off["market_regime"] = "Bearish"
     noextras = copy.deepcopy(FEED); noextras.update(extras_withheld=True, if_it_misses=[], past_paths=[], example_past_paths=None, example_if_it_misses=None)
-    noextras["odds_fade"] = {"label": FEED["label"], "posting_bar_pct": None, "sample": None, "early_dip": [], "day10": []}
-    noexample = copy.deepcopy(quiet); noexample["example_card"] = None
+    # as feed_live.py writes it when the extras step failed (15 Nov 2026: this state had a null posting bar, which
+    # fails the strict check, so the page read "Feed unavailable" and the extras-withheld page was never tested)
+    noextras["odds_fade"] = {"label": FEED["label"], "posting_bar_pct": FEED["posting_bar_pct"], "sample": None, "early_dip": [], "day10": []}
+    noexample = copy.deepcopy(quiet); noexample.update(example_card=None, example_past_paths=None, example_if_it_misses=None)
     oneera = copy.deepcopy(FEED)
     for o in oneera["open_signals"]:
-        if o.get("card"): o["card"]["before_2022"] = {"past_trades": 0, "past_signals": 0, "rose10_never_fell25_within60d_pct": None}
+        if o.get("card"):   # every past signal since 2022 (15 Nov 2026: the eras must add up to the sample, or the page refuses the feed)
+            c_ = o["card"]; c_["before_2022"] = {"past_trades": 0, "past_signals": 0, "rose10_never_fell25_within60d_pct": None}
+            c_["since_2022"] = {"past_trades": c_["past_trades"], "past_signals": c_["past_trades"], "rose10_never_fell25_within60d_pct": c_["rose10_never_fell25_within60d_pct"]}
     states = {"as built": FEED, "quiet, filter on": quiet, "quiet, filter off": off, "extras withheld": noextras,
               "no example card": noexample, "an era with no signals": oneera, "feed down": None}
+    for name_, f_ in states.items():   # each stands for a feed the pipeline can publish, so the page must accept it
+        if f_ is not None: assert not feedcheck.problems(json.loads(json.dumps(f_))), (name_, feedcheck.problems(json.loads(json.dumps(f_)))[:3])
     ok = n = 0
     with sync_playwright() as pw:
         for name, feed in states.items():
@@ -84,7 +92,11 @@ def main():
             if name.startswith("quiet") or name == "no example card":   # the page opens on the example; switch it off too
                 pass
             bad = [(v, m.group(0), t[max(0, m.start() - 40):m.end() + 20].replace("\n", " ")) for v, t in texts.items() for m in BAD.finditer(t)]
-            for label, cond, detail in [(f"{name}: no raw placeholder in any view", not bad, str(bad[:2])), (f"{name}: no page error", not errs, str(errs[:1]))]:
+            # 15 Nov 2026 clean run #1: with every file served at once, nothing still says "Loading" (the past-signals
+            # cloud's note kept the chart file's "Loading" text when the feed carried no past paths)
+            loading = [(v, t[max(0, t.find("Loading") - 60):t.find("Loading") + 40].replace("\n", " ")) for v, t in texts.items() if "Loading" in t]
+            for label, cond, detail in [(f"{name}: no raw placeholder in any view", not bad, str(bad[:2])), (f"{name}: no page error", not errs, str(errs[:1])),
+                                        (f"{name}: no area still says Loading once its files have arrived", not loading, str(loading[:2]))]:
                 n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if not cond else ""))
         # the quiet card itself, with the example switched off
         b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
@@ -102,7 +114,7 @@ def main():
                                     ("quiet card: no raw placeholder", not BAD.search(t), t[:200])]:
             n += 1; ok += bool(cond); print(f"  {'PASS' if cond else '*** FAIL ***'}  {label}" + (f"  -- {detail}" if not cond else ""))
         # unknown must not read as "none" (12 Nov 2026 audit #16)
-        held = copy.deepcopy(FEED); held.update(cards_withheld=True, cards=[], open_signals=[], example_card=None); held["checks"]["all_passed"] = False   # as feed_live writes it
+        held = copy.deepcopy(FEED); held.update(cards_withheld=True, cards=[], open_signals=[], example_card=None, example_past_paths=None, example_if_it_misses=None); held["checks"]["all_passed"] = False   # as feed_live writes it
         t_down, _ = render(pw, None, views=("now",)); t_held, _ = render(pw, held, views=("now",)); t_led, _ = render(pw, FEED, views=("record", "now"), ledger=None)
         fc = copy.deepcopy(held); fc.update(market_regime=None, scored_as_of=None)   # what feed_live writes when it fails closed, or when refresh failed
         t_fc, e_fc = render(pw, fc, views=("now",))
@@ -143,7 +155,7 @@ def main():
             b = io.StringIO(); csv.writer(b, lineterminator="\n").writerows(rows); return b.getvalue()
         t_db = [render(pw, FEED, views=("record",), ledger=blank_dip(v)) for v in ("", " ")]
         # hardening: a held feed that still carries the record's counts and the regime shows neither
-        heldfull = copy.deepcopy(FEED); heldfull.update(cards_withheld=True, cards=[], open_signals=[], example_card=None); heldfull["checks"]["all_passed"] = False
+        heldfull = copy.deepcopy(FEED); heldfull.update(cards_withheld=True, cards=[], open_signals=[], example_card=None, example_past_paths=None, example_if_it_misses=None); heldfull["checks"]["all_passed"] = False
         t_hf, e_hf = render(pw, heldfull, views=("now", "record"))
         # a live setup whose own card (and status) is missing from the feed: no pooled stand-in (audit #19)
         nocard = copy.deepcopy(FEED)
@@ -199,8 +211,11 @@ def main():
         fc_.update(confirms_on=nxt, signal_id=f"{fc_['asset']}-{fc_['timeframe']}-{nxt}", must_close_above=3000.12, bars_to_confirm=1, price_now=3100.0)
         fm["cards"] = [fc_]; fm0 = copy.deepcopy(fm); fm0["cards"][0]["bars_to_confirm"] = 0
         # audit #25: a feed with no worked example (dates before 22 Nov 2024) says so on the chart, not "couldn't be loaded"
-        noex = copy.deepcopy(FEED); noex.update(cards=[], open_signals=[], market_regime="Bullish", example_card=None)
+        noex = copy.deepcopy(FEED); noex.update(cards=[], open_signals=[], market_regime="Bullish", example_card=None, example_past_paths=None, example_if_it_misses=None)
         t_nx, e_nx = render(pw, noex, views=("chart",), example_on=True)
+        # 15 Nov 2026 clean run #1: the example's own extras without the example (published before 22 Nov 2024) are refused
+        noexx = copy.deepcopy(noex); noexx.update(example_past_paths=FEED["example_past_paths"], example_if_it_misses=FEED["example_if_it_misses"])
+        t_xx, e_xx = render(pw, noexx, views=("now",)); py_xx = feedcheck.problems(json.loads(json.dumps(noexx)))
         # audit #25: Previous signals lists open signals newest first in both groups, whatever the feed's order
         rev = copy.deepcopy(FEED); rev["open_signals"] = sorted(rev["open_signals"], key=lambda o: -o["days_elapsed"])
         for o in rev["open_signals"][:6]: o["grade"] = "A+"; o["card"]["grade"] = "A+"   # several top-grade, so the order shows
@@ -226,6 +241,7 @@ def main():
             ("held feed still carrying the record's counts and regime: neither shown, nor the per-asset summary", "Past signals unavailable" in t_hf["record"] and "Market filter: on" not in t_hf["now"] + t_hf["record"] and not re.search(r"\b\d+ signals\b", t_hf["record"]) and not e_hf, t_hf["record"][:160].replace("\n", " ")),
             ("must close above, one bar ahead: shown as an estimate", "closes above about $3,000.12 (an estimate until the current bar closes)" in t_k1["now"] and not e_k1, t_k1["now"][:300].replace("\n", " ")),
             ("must close above, on the open bar: shown exact", "closes above $3,000.12" in t_k0["now"] and "about $3,000.12" not in t_k0["now"] and not e_k0, t_k0["now"][:300].replace("\n", " ")),
+            ("the example's extras with no example card: refused by the page and by feedcheck.py", "Data unavailable" in t_xx["now"] and any("no example card" in x for x in py_xx) and not e_xx, str(py_xx[:2]) + t_xx["now"][:120].replace("\n", " ")),
             ("no worked example in the feed: the example chart says so, not that its file failed", "isn't in the latest data" in t_nx["chart"] and "couldn't be loaded" not in t_nx["chart"] and not e_nx, t_nx["chart"][:200].replace("\n", " ")),
             ("open signals in reverse feed order: Previous signals still lists each group newest first", bool(days_in(t_rv["now"])) and not e_rv and all(
                 days_in(seg) == sorted(days_in(seg)) for seg in re.split(r"(?i)edge lost or closed", re.split(r"(?i)previous signals", t_rv["now"])[-1])), str(days_in(re.split(r"(?i)previous signals", t_rv["now"])[-1]))),
