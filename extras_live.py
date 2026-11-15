@@ -18,7 +18,7 @@ by hand (item 17b):
                  "where the past signals went").
   candles_<asset>_<tf>.csv  The last 70 bars of each chart (time, open, high, low, close), so the member
                  site's chart view can draw any forming setup through the read-only mirror,
-                 which serves datasets/*.csv only.
+                 which serves datasets/*.csv but nothing in data/.
   oddsfade.csv   datasets/earlydip.csv and datasets/holdcheck.csv marked against the
                  70% posting bar (WINMIN in refresh.py). Jared 11 Nov 2026: below 70%
                  the signal's edge is gone. ETH walk-forward tier signals, every chart,
@@ -33,7 +33,8 @@ A+ signals give no usable path, a non-finite figure, empty earlydip/holdcheck, o
 candle file with a non-numeric price. An asset with no A+ signals is left out.
 
 Usage: python extras_live.py [--datasets datasets]
-(the ledger is always read from the repo's datasets/ledger.csv; only the outputs follow --datasets)
+(the ledger, earlydip.csv and holdcheck.csv are always read from the repo's datasets/; the outputs and the seal follow
+--datasets)
 """
 import argparse
 import csv

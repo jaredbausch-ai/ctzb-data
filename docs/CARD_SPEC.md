@@ -84,8 +84,8 @@ trader: loading / in · long / in · short / out / not in / unavailable" (from t
 | Edge gone below | The first fall whose exact "still rose 10%" share is below the 70% bar; "Below the 70% bar from entry" (Chart tab: "below the bar already") when even the from-entry row is; "Holds at every level" when no row is below the bar | ladder `still_rose10_exact_pct`, `from_entry` |
 | Where the odds fade: From entry | Share of the sample that rose 10% before ever falling 25.3% (low checked first within a day) | `from_entry.still_rose10_pct` |
 | Where the odds fade: Falls X% first | Of the signals that fell X% before rising 10%, the share that then rose 10% before falling 25.3% | `if_it_falls_first[]` |
-| If it misses: went above entry | Of the asset/grade's signals that did not rise 10% in 60 days, how many had a best price above entry, and the median best price of all those misses | `if_it_misses[]` (`up_first`, `median_peak_pct`) |
-| Typical worst drop, misses / Typical change by day 60, misses | Median deepest dip / median day-60 change of those misses, with their count and pool | `if_it_misses[]` |
+| If it misses: went above entry | Of the asset/grade's signals that did not rise 10% in 60 days, how many had a best price above entry, and the median best price of all those misses | `if_it_misses[]` (`up_first`, `median_peak_pct`); on the worked example `example_if_it_misses` (signals whose 60 days had closed by 22 Sep 2024) |
+| Typical worst drop, misses / Typical change by day 60, misses | Median deepest dip / median day-60 change of those misses, with their count and pool | `if_it_misses[]`; on the worked example `example_if_it_misses` |
 | Reached +20% / Touched −30% within 60 days | As above (`reach20`, `touched30`) | `rose20_within60d_pct`, `fell30_within60d_pct` |
 | High lands around / Deepest dip lands around | Median day of the 60-day high / deepest dip | `typical_day_of_60d_high`, `typical_day_of_deepest_dip` |
 | By era | surv10 before 2022 / since 2022 with each n | `before_2022`, `since_2022` |

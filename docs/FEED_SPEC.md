@@ -39,7 +39,7 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 - **`schema_version` is 6.** It is the constant `SCHEMA_VERSION` in `feed_live.py`, set by hand and written into every
   feed, the fail-closed feed included. Nothing in the pipeline, the page or the Workers computes or reads it (the
   strict check does not); two tests assert it is 6. It changes
-  only when the constant is edited; `alert_log`, `alert_log_carry` and `alerts_held` are schema 6 fields that came without a bump.
+  only when the constant is edited; `odds_fade.tier_fixed_on`, `alert_log`, `alert_log_carry` and `alerts_held` are schema 6 fields that came without a bump.
 - **It computes no figure.** It repackages the datasets the same run wrote. Its own work is: the time stamp, the
   schema version, the posting bar constant, the signal and alert ids, the aliases, the prints' `provisional` flag,
   the label and note texts (the `odds_fade` sample's tier date included), the `candle_check` summary, which alerts are
@@ -278,7 +278,7 @@ the exact path values, rounded once.
 
 **`example_if_it_misses`, `example_past_paths`**: the same figures for the worked example, from only the ETH top-grade
 signals whose 60th day had closed by 22 Sep 2024 (the example card's sample); null whenever `example_card` is null (the
-strict check refuses them without it). `example_if_it_misses` has `signals`,
+strict check refuses them without it). `example_if_it_misses` has `label`, `asset` ("ETH"), `grade` ("A+"), `signals`,
 `misses`, `up_first`, `median_peak_pct`, `median_worst_drop_pct`, `median_day60_pct`, `miss_rule`, `note`.
 
 ## checks and candle_check

@@ -30,7 +30,7 @@ exports: 68 of 68 open/high/low/close values identical to the cent.
 ## Rate limits
 
 The public endpoint returns at most 300 candles per request. Every run pages the daily history back to
-2016 (about a dozen requests); only the 4H/12H files, built from hourly candles, are incremental, and the first
+2016 (about 14 requests per asset, 28 in all); only the 4H/12H files, built from hourly candles, are incremental, and the first
 of those runs takes a few minutes. There is a 0.25s pause between requests and a retry with backoff.
 
 ## Schedule

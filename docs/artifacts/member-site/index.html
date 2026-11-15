@@ -232,7 +232,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div id="prevIntact"></div>
           <div class="grp" style="color: var(--muted); margin-top: 4px">Edge lost or closed</div>
           <div id="prevClosed" style="display: flex; flex-direction: column; gap: 8px"></div>
-          <button class="linkbtn" data-go="record">See every past signal, misses included</button>
+          <button class="linkbtn" data-go="record">See every past top-grade signal, misses included</button>
         </section>
       </div>
     </section>
@@ -300,14 +300,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
             <dt>If it misses</dt><dd>Of all past signals of this asset and grade that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median best price of all those misses within the 60 days (the row names the pool).</dd>
             <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
           </dl>
-          <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</div>
+          <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. How past signals behaved doesn't guarantee how future signals will behave. Crypto is volatile and leveraged trading can lose more than you put in.</div>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="foot">
-    <span class="fine" style="max-width: 900px; font-size: 12.5px">ETHKROS publishes computed statistics, not personal advice. Odds are statistics based on past signal history and data, entry quality only. Past results don't guarantee future results. Crypto is volatile and leveraged trading can lose more than you put in.</span>
+    <span class="fine" style="max-width: 900px; font-size: 12.5px">ETHKROS publishes computed statistics, not personal advice. Odds are statistics based on past signal history and data, entry quality only. How past signals behaved doesn't guarantee how future signals will behave. Crypto is volatile and leveraged trading can lose more than you put in.</span>
     <span class="small" id="feedState"></span>
   </footer>
 </div>
@@ -789,7 +789,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       </div>
       <div class="card-foot">
         <button class="btn" data-go="chart">Open on the chart →</button>
-        <span class="fine" style="max-width: 44ch">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. Past results don't guarantee future results.</span>
+        <span class="fine" style="max-width: 44ch">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. How past signals behaved doesn't guarantee how future signals will behave.</span>
       </div>`;
     const lad = $("#ladder");
     const row = (t, v, gone, extra) => `<div class="bar"><span>${esc(t).replace(/-/g, MINUS)}${extra ? ` <span class="small">${extra}</span>` : ""}</span><div class="t"><div class="f${gone ? " gone" : ""}" style="width: ${v ?? 0}%"></div></div><span class="num">${v ?? "n/a"}${v != null ? "%" : ""}</span></div>`;
@@ -1172,7 +1172,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       </div>
       ${what}
       <div class="sidebox" id="chLead" style="border-color: #6A2A60; background: #1E0F24; color: #FFC6EC; font-size: 13px">${chartLeadText()}</div>
-      <div class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. Past results don't guarantee future results.</div>`;
+      <div class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. How past signals behaved doesn't guarantee how future signals will behave.</div>`;
   }
 
   // The Chart tab's lead-trader note follows the file like the Now tab does: "Loading" until it arrives, never
