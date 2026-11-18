@@ -190,6 +190,16 @@ def backup_bytes(log_path):
         return None
 
 
+def record_prefix(bk, want_sha):
+    """True when a whole-row beginning of the copy `bk`, shorter than the copy, is the log the record names."""
+    i = bk.find(b"\n")
+    while 0 <= i < len(bk) - 1:
+        if sha(bk[:i + 1]) == want_sha:
+            return True
+        i = bk.find(b"\n", i + 1)
+    return False
+
+
 def check_log(log_path, prev_feed_path):
     """13 Nov 2026 audit #22: the alert log must be exactly the one the last published feed left behind.
     A log that was deleted, cut, emptied or replaced by an older copy would lose an alert or send one twice.
@@ -225,23 +235,28 @@ def check_log(log_path, prev_feed_path):
                                "purpose, run once with CTZB_SEED_ALERT_LOG=1")
         raise RuntimeError("the alert log cannot be checked: the last feed has no record of it and its second copy is "
                            "lost or damaged; restore feed/alert_log_backup.csv from the last commit of a clean run")
-    if have and have["sha256"] == want["sha256"]:
-        # 18 Nov 2026 audit #39: the log matches the previous feed's record, but the second copy holds that log and
-        # more. Every run writes the feed, then the copy, then the log, so the copy can only be ahead of both when a
-        # later run died between the copy and the log and its feed was then put back to the run before's. Its rows
-        # were emitted by that later feed: they are restored from the copy, or they would be emitted again with a new
-        # emitted_at. A copy that is not the log plus whole rows, or repeats an alert, fails closed
-        lb = open(log_path, "rb").read()
-        if bk is not None and len(bk) > len(lb) and bk.startswith(lb):
-            try:
-                ids = [r.get("alert_id") for r in csv.DictReader(io.StringIO(bk.decode()))]
-            except (UnicodeDecodeError, csv.Error):
-                ids = None
-            if ids is None or len(set(ids)) != len(ids):
-                raise RuntimeError("the alert log's second copy holds rows the log lacks and cannot be read whole; "
-                                   "restore feed/alert_log_backup.csv from the last commit of a clean run")
+    # 18 Nov 2026 audit #39: the second copy can be AHEAD of the record: the record's log is a whole-row beginning of
+    # the copy, and the copy holds more. Every run writes the feed, then the copy, then the log, so this happens only
+    # when a later run wrote the copy and its feed (or its feed and log) was then put back to the run before's, most
+    # often because that run died between the copy and the log. Those rows were emitted by that later feed: the log
+    # is restored from the copy (when the log on disk is the copy or a beginning of it), or they would be emitted again
+    # with a new emitted_at. The check uses the copy itself, not this run's outcome, so a run that restores the log
+    # and then fails closed (its feed keeps the older record) leaves a state the next run accepts the same way (round
+    # 40 delta check: it used to fail closed on every later run). A copy ahead that repeats an alert or cannot be read
+    # as rows fails closed
+    lb = open(log_path, "rb").read() if have else b""
+    if bk is not None and sha(bk) != want["sha256"] and bk.startswith(lb) and record_prefix(bk, want["sha256"]):
+        try:
+            ids = [r.get("alert_id") for r in csv.DictReader(io.StringIO(bk.decode()))]
+        except (UnicodeDecodeError, csv.Error):
+            ids = None
+        if ids is None or len(set(ids)) != len(ids):
+            raise RuntimeError("the alert log's second copy holds rows the log lacks and cannot be read whole; "
+                               "restore feed/alert_log_backup.csv from the last commit of a clean run")
+        if lb != bk:
             atomic_write(log_path, bk)
-            return read_log(log_path)
+        return read_log(log_path)
+    if have and have["sha256"] == want["sha256"]:
         return cur
     # alerts a published feed carried that never reached the log: its own, plus any carried forward through
     # fail-closed feeds since (13 Nov 2026 audit #24: one crashed run in between used to lock every later run)

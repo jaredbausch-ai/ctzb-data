@@ -369,6 +369,34 @@ check("...a copy ahead of the log that repeats an alert: fails closed, the log u
       rc == 1 and open(LOG, "rb").read() == log_now and "second copy" in err, err[-160:])
 open(BK, "wb").write(CP(rows_bk)); at(42); f = run()
 check("...the copy put right: clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [], str(ids_(f)))
+# round 40 delta check: the same, but the run that restores the log then fails closed (its feed keeps the older
+# record). The next clean run used to fail closed, and so did every one after it
+Z5 = f"ETH-5D-{DAY(8)}:forming"
+at(43); f = run(); prev_raw = open(FEED, "rb").read(); good = open(LOG, "rb").read()
+at(44); set_cards(base3 + [("ETH 2D", D5), ("ETH 3D", D6), ("BTC 2D", DAY(7)), ("ETH 5D", DAY(8))]); f = run()
+first = {a_["alert_id"]: a_["emitted_at"] for a_ in f["alerts"]}
+open(LOG, "wb").write(good); open(FEED, "wb").write(prev_raw)
+cards_ok = open(f"{DS}/cards.csv").read()
+rows_c = list(csv.DictReader(io.StringIO(cards_ok))); rows_c[0]["surv10"] = "250"   # an impossible share: the strict
+with open(f"{DS}/cards.csv", "w", newline="") as fh:                                  # check refuses the feed, after
+    w_ = csv.DictWriter(fh, fieldnames=CARD_COLS); w_.writeheader(); w_.writerows(rows_c)   # check_log has run
+reseal(DS); at(45); rc, f, err = run_fail()
+open(f"{DS}/cards.csv", "w").write(cards_ok); reseal(DS)
+at(46); f = run(); logrow = {r["alert_id"]: r["emitted_at"] for r in csv.DictReader(open(LOG))}
+again = [a_["alert_id"] for a_ in f["alerts"] if a_["alert_id"] == Z5 and a_["emitted_at"] != first.get(Z5)]
+check("...and when the restoring run then fails closed: the next run is clean and the alert is not emitted again",
+      rc == 1 and "strict check" in err and Z5 in first and not f["cards_withheld"] and logrow.get(Z5) == first[Z5] and again == [],
+      str((rc, f["cards_withheld"], logrow.get(Z5), first.get(Z5), again)))
+# the feed AND the log put back to the run before's, the copy not: handled the same way
+Z6 = f"BTC-5D-{DAY(9)}:forming"
+at(47); f = run(); prev_raw = open(FEED, "rb").read(); good = open(LOG, "rb").read()
+at(48); set_cards(base3 + [("ETH 2D", D5), ("ETH 3D", D6), ("BTC 2D", DAY(7)), ("ETH 5D", DAY(8)), ("BTC 5D", DAY(9))]); f = run()
+first = {a_["alert_id"]: a_["emitted_at"] for a_ in f["alerts"]}
+open(LOG, "wb").write(good); open(FEED, "wb").write(prev_raw)
+at(49); f = run(); logrow = {r["alert_id"]: r["emitted_at"] for r in csv.DictReader(open(LOG))}
+check("...the feed and the log put back, the copy not: the log restored from the copy, the alert not emitted again",
+      Z6 in first and not f["cards_withheld"] and logrow.get(Z6) == first[Z6]
+      and not [a_ for a_ in f["alerts"] if a_["alert_id"] == Z6 and a_["emitted_at"] != first[Z6]], str((logrow.get(Z6), first.get(Z6))))
 
 # the window itself, on feed_live.carried_alerts (the scored datasets tie the feed to its day, so hours are not replayed)
 sys.path.insert(0, ROOT); import feed_live as FL  # noqa: E402

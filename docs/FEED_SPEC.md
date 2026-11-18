@@ -328,10 +328,14 @@ records every `alert_id` it sends and never sends one twice.**
 - **Seeding.** A new log starts only on a run with `CTZB_SEED_ALERT_LOG=1`: it records every forming and confirmed
   signal with `emitted_at` "seeded", alerts on none of them and sets `alerts_seeded`.
 - **The log must be the one the last feed left.** On every run that is not seeding, `feed_live.py` compares the log's
-  SHA-256 with the previous feed's `alert_log`. A match passes, unless the second copy (below) holds that log and
-  more: the copy is written before the log, so it is ahead of both only when a later run died between the copy and
-  the log and its feed was then put back to the run before's. The log is then restored from the copy, so the later
-  feed's alerts are not emitted again; a copy ahead of the log that repeats an `alert_id` fails closed. Otherwise it appends the previous feed's
+  SHA-256 with the previous feed's `alert_log`. First, the second copy (below) may be ahead of the record: the
+  record's log is a whole-row beginning of the copy, and the copy holds more. The copy is written before the log, so
+  this happens when a later run wrote the copy and its feed (or its feed and its log) was then put back to the run
+  before's, most often because that run died between the copy and the log. When the log on disk is the copy or a
+  beginning of it, the log is restored from the copy, so the later feed's alerts are not emitted again; a copy ahead
+  that repeats an `alert_id` or cannot be read as rows fails closed. The restored log is written when the run starts;
+  if that run then fails closed, its feed keeps the older record, and the next run finds the copy ahead again and
+  accepts the log the same way. Otherwise a log that matches the record passes. When it does not, the run appends the previous feed's
   `alert_log_carry` and `alerts` whose `alert_id` the log lacks; if that matches, the last run died between the feed
   and the log (or the log lost rows the feed still carries), and the log is rebuilt.
 - **The second copy.** Every run that publishes a clean or held feed also keeps `feed/alert_log_backup.csv`: byte for

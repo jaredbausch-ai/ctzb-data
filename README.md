@@ -86,7 +86,8 @@ docs/PRETRADE.md; the lenses also come from `grade6.py`) and writes `datasets/gr
 `dipdist.csv`, plus grade and flag columns
 on `forward.csv` and `live.csv` and the latest close on `live.csv`. The
 dashboard page (`docs/artifacts/eth-setup-standard.html`, served by the ctzb-dashboard Worker) reads
-`status`, `live`, `grades`, `forward`, `dipdist`, `cards`, `liveread`, `prints` and `windows`; it also asks for `maxsafe`, which no pipeline step writes, so its max-safe column stays empty.
+`status`, `live`, `grades`, `forward`, `dipdist`, `cards`, `liveread`, `prints` and `windows`; its max-safe column (`maxsafe`) is worked out in the page from `grades` (1 / (|median
+dip| / 100 + 0.05) for each ETH grade), so no pipeline step writes it.
 
 `fetch_pcr.py` runs every 3 hours in its own workflow (`.github/workflows/pcr.yml`), dispatched by the ctzb-scheduler Worker at :25:
 daily options put/call for BTC and ETH from Deribit's free trade history into
