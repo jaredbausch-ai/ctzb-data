@@ -1574,6 +1574,23 @@ round's commit. Reports: `analysis/audit40_2026-11-18/` (broken, docs, docs_delt
 - 10 loose or outside-scope sentences corrected (How to read "several separate confirmations", the member-site README
   list, the scheduler version, the extras comments, the GAP lens wording, FEED_SPEC's copy-ahead sentences).
 
+
+## Round 41 — 18 Nov (damage and docs only; the segment from round 41: damage and docs clean rounds in a row 1 of 2)
+
+**Clean (damage 0, docs 0).** Code frozen at 01f3976, prompts written by `docs/audit/make_prompts.py`. States: a
+replay of 11 Nov 04:14 UTC and the data of 18 Nov 21:13 UTC (two forming setups), plus the auditor's own: a run at
+00:00:30 UTC the next day, replays of 15 Mar 2026 (quiet), 31 Dec 2025, 1 Jan 2026 and 29 Feb 2024, an extras-failed
+and a stack-failed run.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Damage | 675 real-life cases (page 368, pipeline 307) of 730 checks; 24 hardening; two-fault none | **0** |
+| Docs | about 760 statements in 21 documents; every feed key against FEED_SPEC | **0** (8 kind 3, 1 borderline, 2 outside scope, recorded in `loose_wording.md`) |
+
+Reports: `analysis/audit41_2026-11-18/` (broken, docs). Noted, not counted (valid file, no damage): with an ETH
+position open in the lead-trader file, the worked example (the 22 Sep 2024 signal) read "Lead trader: in · long",
+which can read as him having taken that past signal (category v, liability). Fixed before round 42 (below).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

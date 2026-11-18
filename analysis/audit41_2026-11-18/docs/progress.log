@@ -1,0 +1,13 @@
+rebuilt feed; starting doc reads
+21:33 done docs/FEED_SPEC.md: read in full, checked against feed_live/stack_live/refresh/extras_live/feedcheck/seal/check_candles/fetch and the rebuilt feed; 0 counted
+21:33 done docs/CARD_SPEC.md: read in full; 0 counted, 1 kind 3
+21:33 done docs/artifacts/member-site/index.html (page words + FEED_SCHEMA comments): 0 counted, 3 kind 3
+21:33 done README.md: 0 counted, 1 kind 3
+21:33 done docs/artifacts/member-site/README.md: 0 counted, 1 kind 3
+21:33 done cloudflare/README.md: 0 counted (6 node suites rerun, counts match)
+21:33 done CONTEXT.md current-rule sections + scan of dated record: 0 counted, 1 borderline
+21:33 done cloudflare/BRIEF_*.md: 0
+21:33 done docs/PRETRADE.md pipeline statements: 0
+21:33 done docs/SITE_CHANGES.md Pending + Requested rows: 0
+21:33 done docstrings/comments/test headers: 2 outside-scope findings
+21:34 report written: AUDIT41_DOCS.md, findings.csv (11 rows)

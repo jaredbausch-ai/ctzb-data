@@ -1,0 +1,70 @@
+2026-11-18T21:14:22Z start: reading brief and code; cases 0, disagreements 0
+2026-11-18T21:17:52Z pipeline harness built; baseline replay chain 18s ok; cases 0, disagreements 0
+2026-11-18T21:30:48Z repo tests: test_seal 29/29, test_page_timing 24/24 pass; test_feed_damage (quick) running; 164 page + 244 pipeline cases written; cases run 0, disagreements 0
+2026-11-18T21:39:23Z repo tests done: test_feed_damage quick 33/33 pass; starting page batch
+2026-11-18T21:39:46Z page batch current ^(feed-404|ledger-cut-0.3|chart-other-run|trades-cycle|clock-5h01)$ done: 5 cases, 1 real cases with issues
+2026-11-18T21:40:06Z pipeline current .: 10/244 cases, 0 with issues so far
+2026-11-18T21:40:14Z pipeline current .: 20/244 cases, 0 with issues so far
+2026-11-18T21:40:21Z pipeline current .: 30/244 cases, 0 with issues so far
+2026-11-18T21:40:35Z pipeline current .: 40/244 cases, 0 with issues so far
+2026-11-18T21:41:03Z pipeline current .: 50/244 cases, 0 with issues so far
+2026-11-18T21:41:14Z pipeline current .: 60/244 cases, 0 with issues so far
+2026-11-18T21:41:37Z pipeline current .: 70/244 cases, 0 with issues so far
+2026-11-18T21:42:02Z pipeline current .: 80/244 cases, 0 with issues so far
+2026-11-18T21:43:06Z pipeline current .: 90/244 cases, 0 with issues so far
+2026-11-18T21:45:30Z pipeline current .: 100/244 cases, 0 with issues so far
+2026-11-18T21:48:02Z pipeline current .: 110/244 cases, 0 with issues so far
+2026-11-18T21:49:08Z pipeline current .: 120/244 cases, 0 with issues so far
+2026-11-18T21:50:50Z pipeline current .: 130/244 cases, 1 with issues so far
+2026-11-18T21:53:33Z pipeline current .: 140/244 cases, 1 with issues so far
+2026-11-18T21:56:25Z pipeline current .: 150/244 cases, 1 with issues so far
+2026-11-18T21:58:00Z pipeline current .: 160/244 cases, 1 with issues so far
+2026-11-18T21:59:53Z pipeline current .: 170/244 cases, 1 with issues so far
+2026-11-18T22:02:29Z pipeline current .: 180/244 cases, 2 with issues so far
+2026-11-18T22:03:50Z pipeline current .: 190/244 cases, 2 with issues so far
+2026-11-18T22:05:30Z pipeline current .: 200/244 cases, 2 with issues so far
+2026-11-18T22:08:08Z pipeline current .: 210/244 cases, 2 with issues so far
+2026-11-18T22:10:52Z pipeline current .: 220/244 cases, 2 with issues so far
+2026-11-18T22:12:45Z pipeline current .: 230/244 cases, 4 with issues so far
+2026-11-18T22:12:47Z pipeline batch current: 230 cases run, 2 flagged (both harness no-op damage, being re-run), 0 disagreements
+2026-11-18T22:15:10Z pipeline current .: 240/244 cases, 5 with issues so far
+2026-11-18T22:16:14Z pipeline current . done: 244 cases, 5 with issues
+2026-11-18T22:18:47Z pipeline current ^(candle-ETH_1D-crlf|candle-BTC_1D-crlf|ds-status-figure|ds-pastpaths-older-copy|kill-extras-halfway|kill-refresh-halfway|guard2-.*)$: 10/16 cases, 1 with issues so far
+2026-11-18T22:19:58Z pipeline current ^(candle-ETH_1D-crlf|candle-BTC_1D-crlf|ds-status-figure|ds-pastpaths-older-copy|kill-extras-halfway|kill-refresh-halfway|guard2-.*)$ done: 16 cases, 1 with issues
+2026-11-18T22:20:09Z pipeline current ^kill-refresh-halfway$ done: 1 cases, 0 with issues
+2026-11-18T22:20:14Z pipeline current done: 251 cases (incl 10 guard2), 0 disagreements; starting page batch current (164)
+2026-11-18T22:22:02Z page batch current .: 25/164 cases, 0 with issues so far
+2026-11-18T22:24:02Z page batch current .: 50/164 cases, 1 with issues so far
+2026-11-18T22:26:05Z page batch current .: 75/164 cases, 1 with issues so far
+2026-11-18T22:28:04Z page batch current .: 100/164 cases, 1 with issues so far
+2026-11-18T22:30:03Z page batch current .: 125/164 cases, 1 with issues so far
+2026-11-18T22:31:59Z page batch current .: 150/164 cases, 1 with issues so far
+2026-11-18T22:32:59Z page batch current . done: 164 cases, 1 real cases with issues
+2026-11-18T22:34:05Z page batch current ^(chart-files-slow|ledger-crlf)$ done: 2 cases, 0 real cases with issues
+2026-11-18T22:34:12Z page current done: 164 cases, 0 real-life disagreements (1 valid-file observation: example card shows lead trader's current position); starting page replay
+2026-11-18T22:36:07Z page batch replay .: 25/164 cases, 0 with issues so far
+2026-11-18T22:38:49Z page batch replay .: 50/164 cases, 0 with issues so far
+2026-11-18T22:41:17Z page batch replay .: 75/164 cases, 0 with issues so far
+2026-11-18T22:43:41Z page batch replay .: 100/164 cases, 0 with issues so far
+2026-11-18T22:46:04Z page batch replay .: 125/164 cases, 0 with issues so far
+2026-11-18T22:49:22Z page batch replay . done: 164 cases, 0 real cases with issues
+2026-11-18T22:49:34Z page replay done: 160 cases, 0 real-life disagreements; starting pipeline replay subset
+2026-11-18T22:50:38Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$: 10/75 cases, 9 with issues so far
+2026-11-18T22:52:34Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$: 20/75 cases, 9 with issues so far
+2026-11-18T22:54:42Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$: 30/75 cases, 9 with issues so far
+2026-11-18T22:56:53Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$: 40/75 cases, 10 with issues so far
+2026-11-18T22:59:31Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$: 50/75 cases, 13 with issues so far
+2026-11-18T23:01:24Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$: 60/75 cases, 15 with issues so far
+2026-11-18T23:03:28Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$: 70/75 cases, 20 with issues so far
+2026-11-18T23:04:39Z pipeline replay ^(candle-ETH_1D-(dup-mid|del-last|cut-last-line|crlf)|candle-ETH_4H-crlf|candle-BTC_2D-is-ETH|candle-1D-ends-yesterday|series-ETH_funding_daily-(del-last2|cut)|series-BTC_pcr_daily-del-last2|ds-(ledger|cards|open|prints|status|oddsfade|candles_eth_2d)-(cut|older-copy|figure)|ds-stack_status-.*|ds-candle_check-.*|ds-manifest-deleted|data-candle-changed-mid|cfg-(grade.json-cut|page-missing)|outcomes-.*|order-.*|kill-.*|clock-.*|alog-(deleted|cut|row-dup|and-backup-deleted)|prevfeed-.*|guard2-(ETH_1D-dup-mid|ETH_4H-del-mid))$ done: 75 cases, 22 with issues
+2026-11-18T23:05:04Z pipeline replay subset done: 68 cases, 0 disagreements (22 alert flags were a same-clock harness artefact); next: midnight run, quiet/year-end replays
+2026-11-18T23:08:01Z page batch work/mid_0030 ^(clean|clock-.*|open-.*|feed-404|chart-last-bar-lost|chart-bar-lost-mid|chart-other-run|ledger-row-lost|example-404|trades-cycle|viewer-.*)$ done: 15 cases, 2 real cases with issues
+2026-11-18T23:08:58Z page batch work/rp_2026-03-15 ^(clean|clock-.*|open-.*|feed-404|chart-last-bar-lost|chart-bar-lost-mid|chart-other-run|ledger-row-lost|example-404|trades-cycle|viewer-.*)$ done: 15 cases, 0 real cases with issues
+2026-11-18T23:10:08Z page batch work/rp_2025-12-31 ^(clean|clock-.*|open-.*|feed-404|chart-last-bar-lost|chart-bar-lost-mid|chart-other-run|ledger-row-lost|example-404|trades-cycle|viewer-.*)$ done: 15 cases, 0 real cases with issues
+2026-11-18T23:11:18Z page batch work/rp_2026-01-01 ^(clean|clock-.*|open-.*|feed-404|chart-last-bar-lost|chart-bar-lost-mid|chart-other-run|ledger-row-lost|example-404|trades-cycle|viewer-.*)$ done: 15 cases, 0 real cases with issues
+2026-11-18T23:13:11Z page batch work/rp_2024-02-29 ^(clean|clock-.*|open-.*|feed-404|chart-last-bar-lost|chart-bar-lost-mid|chart-other-run|ledger-row-lost|example-404|trades-cycle|viewer-.*)$ done: 15 cases, 0 real cases with issues
+2026-11-18T23:14:13Z page batch replay ^feed-(held|failclosed)-run done: 4 cases, 0 real cases with issues
+2026-11-18T23:15:14Z page batch work/extrasfail ^(clean|clock-5h01|feed-404|ledger-404)$ done: 4 cases, 0 real cases with issues
+2026-11-18T23:15:26Z page batch work/stackfail ^(clean|clock-5h01|feed-404|ledger-404)$ done: 4 cases, 3 real cases with issues
+2026-11-18T23:16:30Z all batches done: 730 checks (675 real-life: page 368, pipeline 307), 0 real-life disagreements; 1 valid-file observation; writing report
+2026-11-18T23:17:35Z report written: AUDIT41_BROKEN.md; 675 real-life cases, 0 disagreements
