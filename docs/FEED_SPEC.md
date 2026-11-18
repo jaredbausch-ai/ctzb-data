@@ -546,8 +546,8 @@ Worker, uncached.
   clock, and no event repeating an
   earlier one: two events are the same when both have an `id` and the ids match, or, when either has none, every
   other field holds the same value (a null field counts as missing, times as the same instant); a failure reads
-  "unavailable". It never changes the odds. The card's lead-trader line reads "not in" when he has posted entries but
-  none on that asset. The chart's note says "Loading" while his file loads and is updated in place when it arrives,
+  "unavailable". It never changes the odds. A current setup's card has a lead-trader line (the worked example, a past
+  signal, has none); it reads "not in" when he has posted entries but none on that asset. The chart's note says "Loading" while his file loads and is updated in place when it arrives,
   says his feed is unavailable when it cannot be read and that he has posted no trades when the file holds none, and
   says that his entries and exits are not drawn on the chart.
 - **Loading.** The card is drawn as soon as the feed arrives ("Loading the latest data…" until then); the ledger,

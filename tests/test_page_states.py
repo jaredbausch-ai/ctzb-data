@@ -201,6 +201,14 @@ def main():
         t_tw, e_tw = render(pw, FEED, views=("now",), trades={"trades": [dict(FILL, id="o2:add", action="add"), dict(FILL, id="o1:open")]})
         good = "feed is unavailable" not in t_tw["now"] and t_tw["now"].count("ETH long") >= 2 and not e_tw
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with two different fills in the same second: both shown" + ("" if good else f"  -- {t_tw['now'][:200]!r}"))
+        # 18 Nov 2026 audit round 41 (liability): with an ETH position open in the lead-trader file, the worked example
+        # (a 2024 signal) read "Lead trader: in · long", as if he had taken that past signal. The example card carries no
+        # lead-trader line; a current setup's card still does
+        t_ex41, e_ex41 = render(pw, quiet, views=("now",), example_on=True, trades={"trades": [dict(FILL, id="o1:open")]})
+        t_cur41, e_cur41 = render(pw, FEED, views=("now",), trades={"trades": [dict(FILL, id="o1:open")]})
+        good = ("example" in t_ex41["now"] and "Lead trader: in" not in t_ex41["now"] and not e_ex41
+                and "Lead trader: in · long" in t_cur41["now"] and not e_cur41)
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  the worked example (a past signal) shows no lead-trader position; a current setup still does" + ("" if good else f"  -- {(t_ex41['now'][:300], 'Lead trader: in · long' in t_cur41['now'], e_ex41, e_cur41)!r}"))
         nomiss = copy.deepcopy(FEED)
         for r in nomiss["if_it_misses"]: r.update(misses=0, up_first=0, median_peak_pct=None, median_worst_drop_pct=None, median_day60_pct=None)
         for g in nomiss["grade_odds"]: g.update(rose10_within60d_pct=100)   # no misses means every one rose 10% (the strict check holds them together)

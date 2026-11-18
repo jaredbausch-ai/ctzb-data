@@ -777,7 +777,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="kv"><span>Edge gone below</span><span class="ed" style="font-size: 15px">${edgeTxt}</span></div>
           <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: went above entry</span><span>${missTxt}</span></div>${pool}
         </div>
-        <div class="marker"><span class="dot"></span><span>Lead trader: ${leadState(m)}</span></div>
+        ${m.kind === "example" ? "" : `<div class="marker"><span class="dot"></span><span>Lead trader: ${leadState(m)}</span></div>`}
       </div>
       <div class="detail">
         <div class="sec-title">The detail</div>
