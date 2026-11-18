@@ -28,6 +28,15 @@ the files it points to do not. Update the "Where we are" section at the end of e
   round (round 40's counted docs finding was a sentence written in round 39 to fix a loose one).
 - **Every change checked before the next round.** Each changed sentence and each code fix gets an independent check
   (the fix check) before the round that follows it starts, not found during it.
+- **Decisions (Jared, 18 Nov 15:46 ET).** The priorities are stale or incorrect data and liability (anything that reads
+  as a trade, a return or a track record).
+  - **Cap: at most 4 more rounds (41 to 44).** If damage and docs do not have two clean rounds in a row by then, stop:
+    Jared gets a short list of what is open and decides whether to launch with it.
+  - **Two-fault damage cases** (two separate, independent faults in a row) are recorded and fixed, not counted.
+  - **Borderline docs findings** (the auditor calls them borderline) count only if they are in the member page's own
+    words and show a wrong or stale figure or read to a member as a trade, a return or a track record; otherwise they
+    are fixed, not counted.
+  - The damage and docs briefs say this.
 
 ## What "clean" means (Jared, 13 Nov 2026)
 
@@ -43,10 +52,11 @@ A round is clean when all three parts come back at zero counted findings:
 
 1. **Freeze.** Note the HEAD commit. Build the states: `bash tests/build_audit_states.sh <dir>` (a replay of 12 Nov
    04:14 UTC and today's data) and `bash tests/replay_at.sh 2026-11-11 <dir>/replay_1111 2026-11-11T04:14:00Z`.
-2. **Brief.** Copy the three briefs in `docs/audit/briefs/` (numbers, damage, docs), fill in the round number,
-   the state folder, the frozen commit and today's state (forming setups, build time). Then grep each prompt for
-   the previous round's commit and date: none may remain (round 40's docs prompt kept round 39's commit, so the
-   docs were checked against the older code and the difference had to be checked separately).
+2. **Brief.** `python3 docs/audit/make_prompts.py --round N --parts damage,docs --scratchpad <dir> --today ...
+   --built ... --forming ...` writes the prompts from the briefs in `docs/audit/briefs/`, with the frozen commit
+   taken from HEAD, and refuses when the repo has uncommitted changes or a prompt keeps any placeholder, another
+   commit or another round's number (round 40's docs prompt, edited by hand, kept round 39's commit, so the docs
+   were checked against the older code and the difference had to be checked separately).
 3. **Run.** Three independent agents at once (opus, background), each told to read only its brief. They must not
    read earlier audit reports or AUDIT_LOG: independence is the point. The machine has 2 cores; the briefs say so.
 4. **Fix.** For each counted cause: fix it at its family's rule (not just the case), add a test that fails on the
