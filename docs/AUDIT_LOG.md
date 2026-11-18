@@ -1508,6 +1508,27 @@ Reports: `analysis/audit37_2026-11-15/` (numbers, broken, docs). Every cause was
 Numbers check unchanged after the fix; fire drills 58/58; test_check_candles 95/95 (one expectation updated: the
 header rule names a missing volume column first).
 
+## Round 38 — 18 Nov (damage and docs only, as Jared asked; clean rounds in a row: 0 of 2)
+
+**Not clean (damage and docs, 1 each).** Code frozen at af13e4c. States: a replay of 11 Nov 04:14 UTC (four forming
+setups) and the data of 18 Nov 09:24 UTC (four forming setups). No numbers part (Jared, 18 Nov 04:19 ET: rounds 38
+and 39 run the damage and docs parts only).
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Damage | 685 counted cases (page 290 states, pipeline 395); 25 hardening | **1** (one cause in two states) |
+| Docs | about 1,040 statements | **1** (kind 2), plus 4 loose and 4 outside scope |
+
+Reports: `analysis/audit38_2026-11-18/` (broken, docs). Fixed:
+- **Damage, family 5 (page): a page left open past 5 hours said "The update pipeline has not refreshed it on
+  schedule"** though the pipeline had run: an open page never reads the feed again. The warning now says the page has
+  been open since it read the data and asks for a reload, and blames the pipeline only when the data was already
+  over 5 hours old as the page read it. Test: `test_page_timing` 22/22 (fails on the old page); 590706c.
+- **Docs (1 counted): CONTEXT quoted per-grade liquidation shares that move as signals close** (ETH A 25% became 26%).
+  CONTEXT no longer quotes them; `datasets/dipdist.csv` has them. 8 more sentences corrected, including the page's
+  lead-trader timing ("within about a minute of each fill, once his feed is live") and "Change by day 60"; 53ec2a7.
+- Pipeline: 0 counted; its 11 flags were damage that changed nothing, or stricter-than-needed holds and stops.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

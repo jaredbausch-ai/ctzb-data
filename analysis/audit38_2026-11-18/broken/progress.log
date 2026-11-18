@@ -1,0 +1,7 @@
+stage0 setup 09:29 states=0 disagreements=0
+stageC test_feed_damage 32/32 pass 09:45
+stageC test_seal 29/29 test_page_timing 20/20 pass 10:36; page batch 1 invalid (clock in seconds bug), re-running
+stageA page done 11:35: 299 page states, counted disagreements 2 (left-open wording, cur+r1111)
+stageB pipeline batch done 14:53; running appended cases
+merge 15:08: page 317 states, pipeline 395; counted disagreements 2 (page TIMING: left-open wording x2 states), pipeline 0
+report written 15:09: 685 counted states (290 page, 395 pipeline), 2 disagreements (one cause), 25 hardening

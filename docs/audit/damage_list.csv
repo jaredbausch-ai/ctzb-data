@@ -3375,3 +3375,30 @@ first_round,level,family,kind,case,expected
 37,page,HARDENING,hand-forged,two forming cards for the same chart,
 37,page,HARDENING,hand-forged,forming card confirms in 2099,
 37,page,HARDENING,hand-forged,forming card low after the feed date,
+38,page,HARDENING,hand-forged,viewer clock a day behind the feed (feed in the future),ok
+38,page,TIMING,real life,"page loaded 6 min after the feed, left open 6 hours",ok
+38,page,HARDENING,hand-forged,open signal carries another signal's card,down
+38,page,HARDENING,hand-forged,cards list reversed,ok
+38,page,HARDENING,hand-forged,open_signals reversed,ok
+38,page,HARDENING,hand-forged,grade_odds ETH A+ count +1,down
+38,page,HARDENING,hand-forged,open_signals from the 11 Nov run,down
+38,page,HARDENING,hand-forged,grade_odds from the 11 Nov run (counts then disagree with ledger),down
+38,page,HARDENING,hand-forged,forming cards from the 11 Nov run,down
+38,page,HARDENING,hand-forged,example card entry_close +0.01 (example chart then mismatches),ok
+38,page,HARDENING,hand-forged,HTML/script markup in every text field,ok
+38,page,HARDENING,hand-forged,"a 200,000-character sample",ok
+38,page,HARDENING,hand-forged,"unicode (RTL, emoji, zero-width) in samples",ok
+38,page,HARDENING,hand-forged,deeply nested junk in an unread field,ok
+38,page,HARDENING,hand-forged,duplicate keys (earlier copies say Bearish / withheld),ok
+38,page,HARDENING,hand-forged,a card's from-entry exact share 69.999999 (shown 70),ok
+38,page,HARDENING,hand-forged,a card's from-entry exact share exactly 70,ok
+38,page,HARDENING,hand-forged,ETH 2D prices scaled to cents (price 0.01 boundary),ok
+38,page,HARDENING,hand-forged,ETH 2D prices scaled x100000 (near 10^9),ok
+38,page,HARDENING,hand-forged,a forming card with past_trades 0 and no figures,ok
+38,page,HARDENING,hand-forged,"a clean feed with no cards and no live signal, filter on (example stands in)",ok
+38,page,HARDENING,hand-forged,quiet feed 6 h old: the example must not stand in,ok
+38,page,HARDENING,hand-forged,"quiet fresh feed, page left open 6 h: the example must switch off",ok
+38,page,HARDENING,hand-forged,quiet feed with the market filter missing while not withheld,down
+38,page,HARDENING,hand-forged,odds_fade with day10 emptied,ok
+38,page,HARDENING,hand-forged,grade_odds ETH A+ count +1 with if_it_misses and past_paths moved too (share then off),down
+38,page,HARDENING,hand-forged,shares written as 7.0e1 style exponents,ok
