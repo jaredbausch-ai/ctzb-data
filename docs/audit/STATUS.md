@@ -16,6 +16,19 @@ the files it points to do not. Update the "Where we are" section at the end of e
 - Counted per round: docs 24 (34), 21 (35), 10 (36; 3 on the new rule), 1 (37), 1 (38), 0 (39), 1 (40); damage 1 (35),
   0 (36), 1 (37), 1 (38), 1 (39), 0 (40); numbers 1 (35), 0 (36), 0 (37).
 
+## The plan from round 41 (Jared, 18 Nov 15:35 ET)
+
+- **Segmented.** Numbers already has two clean rounds in a row (36, 37) and is not re-run for now. Rounds run the
+  damage and docs parts only until **both** have two clean rounds in a row. Then the full system (all three parts) is
+  run again.
+- **Clean rounds in a row (damage and docs): 0 of 2.**
+- **Fewer new sentences.** During this segment only counted causes are changed: damage causes, and docs findings of
+  kind 1, 2 or 4, each with the smallest change. Loose wording (kind 3) and outside-scope findings are recorded in
+  `docs/audit/loose_wording.md` and corrected together at the end, because every rewrite is new text for the next
+  round (round 40's counted docs finding was a sentence written in round 39 to fix a loose one).
+- **Every change checked before the next round.** Each changed sentence and each code fix gets an independent check
+  (the fix check) before the round that follows it starts, not found during it.
+
 ## What "clean" means (Jared, 13 Nov 2026)
 
 A round is clean when all three parts come back at zero counted findings:
