@@ -35,3 +35,5 @@ REPORT (AUDIT<round>_DOCS.md, under about 200 lines; details in findings.csv)
 - A list of documents with zero findings.
 - Anything you could not check, and why.
 Reply with the report path and the top line.
+
+Work in a copy of the repo inside your output folder checked out at commit <commit> (git clone -q /home/claude/ctzb-data <copy> && git -C <copy> checkout -q <commit>), never in /home/claude/ctzb-data itself, and read the page and code from that copy, not from the live repo.
