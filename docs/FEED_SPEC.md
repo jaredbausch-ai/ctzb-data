@@ -328,7 +328,10 @@ records every `alert_id` it sends and never sends one twice.**
 - **Seeding.** A new log starts only on a run with `CTZB_SEED_ALERT_LOG=1`: it records every forming and confirmed
   signal with `emitted_at` "seeded", alerts on none of them and sets `alerts_seeded`.
 - **The log must be the one the last feed left.** On every run that is not seeding, `feed_live.py` compares the log's
-  SHA-256 with the previous feed's `alert_log`. A match passes. Otherwise it appends the previous feed's
+  SHA-256 with the previous feed's `alert_log`. A match passes, unless the second copy (below) holds that log and
+  more: the copy is written before the log, so it is ahead of both only when a later run died between the copy and
+  the log and its feed was then put back to the run before's. The log is then restored from the copy, so the later
+  feed's alerts are not emitted again; a copy ahead of the log that repeats an `alert_id` fails closed. Otherwise it appends the previous feed's
   `alert_log_carry` and `alerts` whose `alert_id` the log lacks; if that matches, the last run died between the feed
   and the log (or the log lost rows the feed still carries), and the log is rebuilt.
 - **The second copy.** Every run that publishes a clean or held feed also keeps `feed/alert_log_backup.csv`: byte for

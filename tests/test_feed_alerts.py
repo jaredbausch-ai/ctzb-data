@@ -343,6 +343,33 @@ fk = json.load(open(FEED)); fk["alerts"] = 7; json.dump(fk, open(FEED, "w"))
 at(35); f = run()
 check("a previous feed whose alerts list is not a list: no crash, the log's recent alerts are carried, nothing re-sent",
       Z3 in ids_(f) and f["_sent"] == [] and not f["cards_withheld"], str(ids_(f)))
+# ---- 18 Nov 2026 (audit #39): a run wrote the feed and the copy, then died before the log, and the feed alone was
+# then put back to the run before's. The log matched the old feed, so the copy's newer rows were not read and the
+# alerts were emitted again with a new emitted_at ----
+Z4 = f"BTC-2D-{DAY(7)}:forming"
+at(36); f = run(); prev_raw = open(FEED, "rb").read(); good = open(LOG, "rb").read(); good_bk = open(BK, "rb").read()
+at(37); set_cards(base3 + [("ETH 2D", D5), ("ETH 3D", D6), ("BTC 2D", DAY(7))]); f = run()
+first = {a_["alert_id"]: a_["emitted_at"] for a_ in f["alerts"]}; ahead = open(BK, "rb").read()
+open(LOG, "wb").write(good); open(FEED, "wb").write(prev_raw)   # died before the log; then the feed alone put back
+at(38); f = run(); logrow = {r["alert_id"]: r["emitted_at"] for r in csv.DictReader(open(LOG))}
+again = [a_["alert_id"] for a_ in f["alerts"] if a_["alert_id"] == Z4 and a_["emitted_at"] != first.get(Z4)]
+check("feed step died after the copy, then the feed alone put back: the log is restored from the copy, the alert is "
+      "not emitted again", Z4 in first and not f["cards_withheld"] and logrow.get(Z4) == first[Z4] and again == []
+      and open(BK, "rb").read() == ahead, str((logrow.get(Z4), first.get(Z4), again)))
+# the legitimate opposite: the copy alone put back to an older run's (it is behind the log): the log stands
+at(39); f = run(); log_now = open(LOG, "rb").read(); open(BK, "wb").write(good_bk)
+at(40); f = run()
+check("...the copy alone put back to an older run's: clean, the log unchanged, nothing emitted",
+      not f["cards_withheld"] and open(LOG, "rb").read() == log_now and f["_sent"] == [], str(ids_(f)))
+# a copy ahead of the log that repeats an alert is not trusted
+rows_bk = FL.copy_log(open(BK, "rb").read()); last = rows_bk.rstrip(b"\n").split(b"\n")[-1] + b"\n"
+open(BK, "wb").write(CP(rows_bk + last)); log_now = open(LOG, "rb").read()
+at(41); rc, f, err = run_fail()
+check("...a copy ahead of the log that repeats an alert: fails closed, the log untouched",
+      rc == 1 and open(LOG, "rb").read() == log_now and "second copy" in err, err[-160:])
+open(BK, "wb").write(CP(rows_bk)); at(42); f = run()
+check("...the copy put right: clean, nothing re-sent", not f["cards_withheld"] and f["_sent"] == [], str(ids_(f)))
+
 # the window itself, on feed_live.carried_alerts (the scored datasets tie the feed to its day, so hours are not replayed)
 sys.path.insert(0, ROOT); import feed_live as FL  # noqa: E402
 E = dt.datetime(2026, 11, 14, 4, 14, tzinfo=dt.timezone.utc)

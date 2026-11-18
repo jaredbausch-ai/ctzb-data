@@ -1529,6 +1529,26 @@ Reports: `analysis/audit38_2026-11-18/` (broken, docs). Fixed:
   lead-trader timing ("within about a minute of each fill, once his feed is live") and "Change by day 60"; 53ec2a7.
 - Pipeline: 0 counted; its 11 flags were damage that changed nothing, or stricter-than-needed holds and stops.
 
+## Round 39 — 18 Nov (damage and docs only, as Jared asked; clean rounds in a row: 0 of 2)
+
+**Not clean (damage 1, docs 0).** Code frozen at 465e385. States: a replay of 11 Nov 04:14 UTC and the data of 18 Nov
+15:16 UTC (four forming setups), plus replays at 1 Jan 2026, 31 Dec 2025 and 29 Feb 2024. No numbers part.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Damage | 1,134 checks (page 296 states, pipeline 838 including 12 seven-day alert-log sequences); 61 hardening | **1** |
+| Docs | about 560 statements in scope, 340 outside | **0** (kinds 1, 2, 4), plus 2 loose in scope and 4 outside scope |
+
+Reports: `analysis/audit39_2026-11-18/` (broken, docs). Fixed:
+- **Damage, family 4 (pipeline): an alert emitted twice.** The feed step wrote the feed and the second copy, died
+  before the log, and then the feed file alone was put back to the run before's. The log matched that old feed, so
+  `check_log` accepted it without reading the copy, which held the later run's 6 alerts; they were emitted again with
+  a new emitted_at. Now a copy that holds the log plus more rows restores the log (it can only be ahead when a later
+  run died between the copy and the log); one that repeats an alert fails closed. Test: `test_feed_alerts` 87/87
+  (85/87 on the old code). The auditor was unsure this can happen in real life (two faults in a row), so it counted.
+- **Docs:** the 6 loose sentences corrected (README dashboard datasets, the member-site README's plain phrases, the
+  refresh.py walk-forward comment, two test headers, the page's clock comment); 554f40c.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

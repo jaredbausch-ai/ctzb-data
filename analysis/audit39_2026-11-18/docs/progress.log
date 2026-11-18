@@ -1,0 +1,14 @@
+copy of repo at 465e385 in audit39d/repo; feed rebuilt (refresh..verify_cards, regression PASS, feed_live) -- 4 cards, 34 prints, 21 open signals, 10 windows
+docs/FEED_SPEC.md done: every table row, alias, held/fail-closed/seal/inputs/strict/page section checked against feed_live, stack_live, extras_live, refresh, grade_live, feedcheck, seal, fetch, check_candles, daily.yml, workers, page; every feed key described -- 0 findings
+docs/CARD_SPEC.md done: every row checked vs stack_live, verify_cards, carddesign, member page and dashboard console page; pool 33 and first-signal dates recomputed -- 0 findings
+docs/artifacts/member-site/index.html done: How to read, labels, headings, badges, banners, footer, FEED_SCHEMA comment vs code -- 0 counted findings (1 outside-scope code comment)
+README.md done: counts recomputed (13 datasets, 12 keep.json, 11 tags, 14/28 requests) -- 1 finding (kind 3: dashboard read list omits maxsafe)
+docs/artifacts/member-site/README.md done: paths, example file (51 bars, 12 Aug-20 Nov 2024), typed-wording list -- 1 finding (kind 3: typed plain-description list incomplete)
+cloudflare/README.md done: worker behaviour vs cloudflare/*.js; node test counts re-run (21/26/21/45/26/36 all match); 26 dispatches/day -- 0 findings
+CONTEXT.md current-rule sections done (Confirmation lag, The setup, Regime gate, Traps, Where things live, Open items, Standing instructions, 4 Nov notes); 996 troughs/6 charts, 176 cells, 13 dates, 58/58, regime-on 2026-09-02 recomputed -- 0 findings
+cloudflare/BRIEF_*.md done (pinned-commit setup briefs; worker statements vs code) -- 0 findings
+docs/PRETRADE.md pipeline statements done (coverage check, 12 headings, grade_live outputs) -- 0 findings
+docs/SITE_CHANGES.md Pending rows 1-7b and Requested R1-R3 checked against page/worker on disk -- 0 findings
+docstrings/comments in refresh, grade_live, stack_live, verify_cards, extras_live, feed_live, feedcheck, seal, engine, measures, rounding, clock, fetch, regimes, tagstats, carddesign, .github/scripts, daily.yml done -- 1 finding outside scope (refresh.py select_tier comment)
+tests/* headers done (test_gate_off re-run: 10 forming lows PASS; numbers_check 13 dates; fire drill groups) -- 2 findings outside scope (test_feed_damage, test_seal headers)
+report written: AUDIT39_DOCS.md, findings.csv (6 rows)

@@ -3402,3 +3402,4 @@ first_round,level,family,kind,case,expected
 38,page,HARDENING,hand-forged,odds_fade with day10 emptied,ok
 38,page,HARDENING,hand-forged,grade_odds ETH A+ count +1 with if_it_misses and past_paths moved too (share then off),down
 38,page,HARDENING,hand-forged,shares written as 7.0e1 style exponents,ok
+39,pipeline,PARTIAL RUN,real life,"feed step died after the feed and the second copy, before the log; then the feed alone put back to the run before's: 6 alerts emitted again",log restored from the copy; no alert_id emitted twice

@@ -226,6 +226,22 @@ def check_log(log_path, prev_feed_path):
         raise RuntimeError("the alert log cannot be checked: the last feed has no record of it and its second copy is "
                            "lost or damaged; restore feed/alert_log_backup.csv from the last commit of a clean run")
     if have and have["sha256"] == want["sha256"]:
+        # 18 Nov 2026 audit #39: the log matches the previous feed's record, but the second copy holds that log and
+        # more. Every run writes the feed, then the copy, then the log, so the copy can only be ahead of both when a
+        # later run died between the copy and the log and its feed was then put back to the run before's. Its rows
+        # were emitted by that later feed: they are restored from the copy, or they would be emitted again with a new
+        # emitted_at. A copy that is not the log plus whole rows, or repeats an alert, fails closed
+        lb = open(log_path, "rb").read()
+        if bk is not None and len(bk) > len(lb) and bk.startswith(lb):
+            try:
+                ids = [r.get("alert_id") for r in csv.DictReader(io.StringIO(bk.decode()))]
+            except (UnicodeDecodeError, csv.Error):
+                ids = None
+            if ids is None or len(set(ids)) != len(ids):
+                raise RuntimeError("the alert log's second copy holds rows the log lacks and cannot be read whole; "
+                                   "restore feed/alert_log_backup.csv from the last commit of a clean run")
+            atomic_write(log_path, bk)
+            return read_log(log_path)
         return cur
     # alerts a published feed carried that never reached the log: its own, plus any carried forward through
     # fail-closed feeds since (13 Nov 2026 audit #24: one crashed run in between used to lock every later run)

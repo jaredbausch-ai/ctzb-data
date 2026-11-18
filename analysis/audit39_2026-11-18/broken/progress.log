@@ -1,0 +1,12 @@
+15:49Z page part 1 (current state): 146 cases, 3 judged BAD, all 3 expectation/harness errors on review (1-cent chart refused = correct; slow chart files still loading at capture); disagreements so far 0
+15:52Z page part 2 (current): 53 cases, 10 judged BAD, all judge text-case artifacts (LATEST uppercase; held example reads 'Setups held back'); disagreements 0
+16:04Z pipeline inputs (candle files): 386 cases: 350 stopped at the candle check, 14 held, 13 clean equal to reference (no-op encodings), 9 harness errors (BTC 8D file too short for my row index); disagreements 0
+16:11Z pipeline series: 88 cases: 67 stop, 7 held, 14 clean equal to reference (CRLF, a market column dropped, last day lost within lag, pcr unread column dropped, in-range value); disagreements 0 (pcr unread column dropped noted)
+16:27Z pipeline between steps: 277 cases (6 boundaries x 4-7 datasets x 8 damages): all held or fail-closed except 3 no-op damages (older copy byte-identical, one-line file 'header only'); disagreements 0
+16:34Z pipeline other: 69 cases (static inputs, outcomes, order, kills, clocks, alert log single-run damage): all held/fail-closed/clean-correct; 4 judged BAD reviewed: 2 expectation errors (extras skipped is non-gating; duplicate outcome key not real), 2 replay artifacts (1111 log holds future rows); disagreements 0
+17:01Z alert sequences (12 variants, 7 daily runs each, 12-18 Nov): 1 disagreement (v10: feed step dies after the feed and copy, then the feed reverts to the previous run's copy: 6 alerts re-emitted with a new emitted_at); v11 same with copy also old = full feed/ rollback, the documented exception; others OK
+17:05Z page on replays (1 Jan 2026, 31 Dec 2025 23:59:59, 1 Jan 00:13, 29 Feb 2024) and slow-file switching: 12+5 checks, judged BAD only on 2 expectation errors (no example card before Sep 2024; viewer after the close sees the close note); disagreements 0
+17:11Z page on 1111 state: 87 cases, judged BAD only on the same judge artifacts; disagreements 0
+17:28Z repo tests: test_seal 29/29, test_page_timing 24/24, test_feed_damage (RENDER_LIMIT=40 REJECT_LIMIT=10) 33/33 pass
+17:29Z two runs at once in one folder: 3 interleavings, all end held (no mixed-run clean feed); disagreements 1 so far
+17:31Z report written: 1134 checks; counted disagreements 1 (pipeline, family 4, alert re-emitted after a killed feed step plus a reverted feed); hardening got through 0
