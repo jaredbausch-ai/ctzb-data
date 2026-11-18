@@ -825,11 +825,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const t = S.trades && S.trades.trades;
     if (S.loading && S.loading.trades) { b.innerHTML = `<div class="lead-empty">Loading the lead trader's feed…</div>`; return; }
     if (!S.trades) {
-      b.innerHTML = `<div class="lead-empty">The lead trader's feed is unavailable right now. His real entries and exits appear here the moment they fill.</div>`;
+      b.innerHTML = `<div class="lead-empty">The lead trader's feed is unavailable right now. His real entries and exits are posted here automatically, within about a minute of each fill, once his feed is live (reload to see the latest).</div>`;
       return;
     }
     if (!t || !t.length) {
-      b.innerHTML = `<div class="lead-empty">No trades posted yet. The lead trader's real entries and exits appear here the moment they fill.</div>`;
+      b.innerHTML = `<div class="lead-empty">No trades posted yet. The lead trader's real entries and exits are posted here automatically, within about a minute of each fill, once his feed is live (reload to see the latest).</div>`;
       return;
     }
     b.innerHTML = `<div class="grp" style="color: var(--lead-soft)">Latest</div>` + t.slice(0, 6).map((x) => `
@@ -1153,7 +1153,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span>Best price</span><b class="hi">${pct((hiB.h / en - 1) * 100)}, days ${(ex.bars.indexOf(hiB) - E) * 2 - 1}–${(ex.bars.indexOf(hiB) - E) * 2}</b></div>
         <div class="kv num"><span>Deepest drop</span><b class="lo">${pct((loB.l / en - 1) * 100)}, days ${(ex.bars.indexOf(loB) - E) * 2 - 1}–${(ex.bars.indexOf(loB) - E) * 2}</b></div>
         <div class="kv num"><span>Day 10 check</span><b class="${d10.c < en ? "lo" : "hi"}">${d10.c < en ? "Red" : "Green"}, ${pct((d10.c / en - 1) * 100)}</b></div>
-        <div class="kv num"><span>Price on day 60</span><b>${pct((ex.bars[E + 30].c / en - 1) * 100)}</b></div>
+        <div class="kv num"><span>Change by day 60</span><b>${pct((ex.bars[E + 30].c / en - 1) * 100)}</b></div>
       </div>`;
     } else what = `<div class="sidebox" style="border-style: dashed; background: transparent; color: var(--soft)">This is all that was known at the confirmation: the zones, the +10% level and the timing. Press <b style="color: #7FF0FF">What happened</b> to see the real path.</div>`;
     $("#chartSide").innerHTML = `

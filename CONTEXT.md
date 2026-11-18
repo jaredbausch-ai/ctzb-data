@@ -1465,8 +1465,8 @@ writes `datasets/liveread.csv` (each read, ON/off, its record on that chart),
 `datasets/prints.csv` (each chart's last three signals and any forming low) and `datasets/windows.csv`
 (every confluence window open now and when it closes). `check_coverage()` fails
 the run (red Action + `datasets/stack_status.txt` FAILED) if a PRETRADE heading in
-Tier 1 / Promising / In-trade is not mapped in DOC_MAP or a registry id is not
-evaluated. **Adding any finding to PRETRADE means adding its REGISTRY entry and
+Tier 1 / Promising / In-trade is not mapped in DOC_MAP, a mapped id is not in REGISTRY, or, when there is at least
+one forming low or open signal to evaluate, a registry id is not evaluated. **Adding any finding to PRETRADE means adding its REGISTRY entry and
 DOC_MAP line in the same commit.** The ctzb-dashboard Worker reads these outputs live through the mirror,
 and sends each feed alert (forming, confirmed, vanished) once to Jared's Telegram. Drawdown in
 every table is from entry (dip before the 60-day high, largest dip in 60 days);
@@ -1474,7 +1474,8 @@ the worst-case median is no longer shown (Jared, 28 Oct). The position console n
 median drawdown from entry (median largest dip within 60 days, grades.csv
 `medDip`), Jared's decision 28 Oct, and states the share of past setups of that
 grade whose dip reached the user's liquidation point (`datasets/dipdist.csv`).
-At 3.3x with no reserve that share is, for ETH, A+ 14%, A 25%, B 27%, C 36% (BTC: A+ 15%, A 14%, B 23%, C 27%). Known gap: the CT RSI
+At 3.3x with no reserve the dashboard shows that share per grade from `datasets/dipdist.csv` (it moves as signals
+close, so no figure is quoted here). Known gap: the CT RSI
 day-ten three-state read has no written definition, so it is not computed.
 
 **Never quote the pooled grade alone (set 28 Oct 2026, after Jared had to correct it).**
@@ -1623,7 +1624,7 @@ Run history 1-4 Nov: the candle job (six ticks a day) fired 2-3 times a day, oft
 
 ## 4 Nov 2026 — card wording: every tile says what it is measured from
 
-Jared read "Typical dip before the 60-day high" as a pullback from a profit. It is the median lowest low between the buy and the day of the 60-day high, as a percentage of the BUY PRICE (analysis/tagstats.measure: ddpk = min(low up to the high day) / entry - 1). Relabelled "Typical lowest point vs the buy price, before it made its 60-day high"; the rise, deepest-dip, fell-30% and day tiles now also name the buy price. Field names unchanged (feed rule: never rename). Rule: a card tile names its reference point. [14 Nov 2026: the dashboard now says "the entry close" where it said "the buy price", "buying" or "the buy", and "signals" where it said "trades".]
+Jared read "Typical dip before the 60-day high" as a pullback from a profit. It is the median lowest low between the entry close and the day of the 60-day high, as a percentage of the ENTRY CLOSE (analysis/tagstats.measure: ddpk = min(low up to the high day) / entry - 1). Relabelled "Typical lowest point vs the entry close, before it made its 60-day high" (on 4 Nov it read "the buy price"); the rise, deepest-dip, fell-30% and day tiles now also name the entry close. Field names unchanged (feed rule: never rename). Rule: a card tile names its reference point. [14 Nov 2026: the dashboard now says "the entry close" where it said "the buy price", "buying" or "the buy", and "signals" where it said "trades".]
 
 ## 4 Nov 2026 — full pipeline audit (docs/PIPELINE_AUDIT_2026-11-04.md)
 

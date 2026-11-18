@@ -1,5 +1,5 @@
-"""The GitHub Action installs numpy only at the grade step, after refresh.py (and fetch / check
-steps) have run. Run those steps here with numpy blocked, so a numpy import in them fails locally
+"""The GitHub Action installs numpy only at the grade step, after refresh.py (and the fetch / check
+steps) have run. Run refresh.py here with numpy blocked, so a numpy import in it fails locally
 too (12 Nov 2026: refresh.py imported analysis/tagstats.py, which needs numpy, and every Action
 run failed its refresh step for hours while every local test passed).
 

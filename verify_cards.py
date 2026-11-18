@@ -5,10 +5,11 @@ datasets/cards.csv is built by stack_live.py. datasets/ledger.csv is built separ
 grade_live.py, one row per graded signal. This script re-derives each card's sample
 from the ledger alone, using the rule written on the card (exactly the same
 confirmations / this chart at the same grade / the same grade across the asset's
-charts), recomputes every figure on the card and fails the run if any differs, exactly: n, the
-big number (rose 10%), surv10, scaled20, +20%, -30%, the rounded and exact medians, the eras,
+charts), recomputes every figure on the card and fails the run if any differs: exactly for n, the
+big number (rose 10%), surv10, scaled20, +20%, -30%, the rounded medians, the eras,
 the timing medians, and the from-entry row and every falls-first ladder row (shown and exact
-shares) from the 1D candles. There are no 8D cards since 12 Nov 2026 (audit #14: stack_live only
+shares) from the 1D candles, and the three exact medians to one unit in the 6th place (the ledger's precision).
+There are no 8D cards since 12 Nov 2026 (audit #14: stack_live only
 builds cards on graded charts); the 8D skip below is a guard, and it fails the run if one appears.
 (Extended 12 Nov 2026, audit #8: it used to check 10 of these.) It checks every card the site shows: cards.csv,
 cards_open.csv and cards_example.csv; fails the run if a live signal in open.csv has no card; and checks the

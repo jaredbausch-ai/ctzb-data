@@ -418,8 +418,8 @@ enforce mode, when any of the last 30 closed days differs from Kraken's close by
 `fetch.history_problems` again and fails the stack step on any problem. It requires:
 
 - every file below (candle files and daily series) ending with a whole line and holding no blank line;
-- every candle file (1D to 8D, 4H, 12H) present, with a volume column and every row exactly
-  the header's cells; every cell readable; prices finite and above zero; high and low bracketing open and close;
+- every candle file (1D to 8D, 4H, 12H) present, with a header that is exactly `time,open,high,low,close,volume`
+  (no extra, missing, repeated or reordered column) and every row exactly the header's cells; every cell readable; prices finite and above zero; high and low bracketing open and close;
   volume not negative; times on the bar grid (daily and multi-day bars at midnight UTC) and strictly ascending;
 - each daily file starting on the exchange's first day (ETH 2016-05-18, BTC 2016-01-01) with no missing day after it
   (ETH 2016-05-21 and 2016-05-22 excepted), and every 2D-8D file exactly its daily candles bucketed, volume included;
