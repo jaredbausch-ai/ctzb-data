@@ -1,0 +1,12 @@
+2026-11-15T16:03:02Z stage0 start: harnesses written
+2026-11-15T16:11:51Z stage B1 candle damage run 1 (ETH_1D, BTC_1D x 47 damages, replay_1111): 0 passed with damage; partial rerun scheduled
+2026-11-15T16:46:02Z stage B1 done: candle damage, 355 + 54 records, 2 states, 0 disagreements (dup close column caught only by the regression guard)
+2026-11-18T08:12:10Z stage A1 page batch 1: 164 cases, 2 states, 10 flagged, all 10 expectation/harness errors on review -> 0 disagreements
+2026-11-18T08:16:48Z stage A2 page batch 2 (lead trader, unusual JSON, hardening): 65 cases, 0 counted disagreements; hardening accepted: 4 forged-consistency cases
+2026-11-18T08:19:09Z stage B1b dup close column (recent rows): 4 cases, 4 published clean with changed cards -> 1 disagreement (structural)
+2026-11-18T08:31:32Z stage B2 series damage (funding, ls ratio, OI, put/call): 218 cases, 2 states, 1 disagreement (funding last row lost -> cards change, clean)
+2026-11-18T08:54:48Z stage B3 intermediate files/order/outcomes/kills/clock/two runs/alert log: ~942 cases, 2 states, 0 disagreements after review (flags were no-op damages, extras-not-gating by design, mislabelled alert setup)
+2026-11-18T09:20:23Z stage C repo tests: test_seal 29/29, test_page_timing 20/20, test_feed_damage (RENDER_LIMIT=40 REJECT_LIMIT=10) 33/33
+2026-11-18T09:21:20Z stage D year-end/leap-day replays: 3 runs clean, 3 page renders clean; totals 
+2026-11-18T09:22:09Z stage E summary: 1685 checks (1660 counted + 25 hardening), counted disagreements 13 rows / 2 causes (D1 duplicate column name, D2 funding last row), hardening got through 4
+2026-11-18T09:23:15Z report written: AUDIT37_BROKEN.md; counted disagreements 13 rows / 2 causes (pipeline), page 0; hardening 4 of 25 got through

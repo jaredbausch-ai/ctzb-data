@@ -3,16 +3,16 @@
 Read this first, before starting or resuming any audit round. The chat that runs the audits forgets; this file and
 the files it points to do not. Update the "Where we are" section at the end of every round.
 
-## Where we are (15 Nov 2026, 11:05 ET)
+## Where we are (18 Nov 2026, 04:40 ET)
 
 - **Clean rounds in a row: 0 of 2.** The site (`ctzb-site`, still on deploy 656d67c3) is redeployed only after two
   clean rounds in a row.
-- **Round 36** (code frozen at 2d856f7): numbers 0, damage 0 (1,954 cases), docs 10 counted, so not clean. The 17
-  docs corrections are in 9c177ca.
-- **Round 37** is next, on the code as it stands after round 36, and is the first judged by the docs rule of 15 Nov
-  (kinds 1, 2 and 4 only).
-- Findings per round, docs passes: 24 (round 34), 21 (round 35), 10 (round 36; 3 on the new rule). Damage: 1 (35),
-  0 (36). Numbers: 1 (35), 0 (36).
+- **Round 37** (code 44e7a74): numbers 0, damage 1 (a repeated candle column, fixed in 63adca9), docs 1 (fixed in
+  7b087a2), so not clean.
+- **Jared, 18 Nov 04:19 ET:** run rounds 38 and 39 with the damage and docs parts only (no numbers part), then stop
+  and assess.
+- Counted per round: docs 24 (34), 21 (35), 10 (36; 3 on the new rule), 1 (37); damage 1 (35), 0 (36), 1 (37);
+  numbers 1 (35), 0 (36), 0 (37).
 
 ## What "clean" means (Jared, 13 Nov 2026)
 

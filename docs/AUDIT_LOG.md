@@ -1481,6 +1481,33 @@ round would have counted 3 (the request count, the artifact row, the disclaimer)
 to `docs/audit/damage_list.csv`. The 17 corrections are checked by round 37's docs part rather than a separate fix
 check.
 
+## Round 37 — 15 to 18 Nov (numbers, damage and docs; clean rounds in a row: 0 of 2)
+
+**Not clean (damage and docs).** Code frozen at 44e7a74. States: replays of 12 Nov and 11 Nov 04:14 UTC (four forming
+setups) and the data of 15 Nov 15:56 UTC (six forming setups). The numbers and damage agents stopped on usage limits
+and were resumed on 18 Nov. First round judged by the docs rule of 15 Nov (kinds 1, 2 and 4 count).
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Numbers | 56,479 comparisons on the frozen states; 4,895,609 on 270 replays (2020-09-01 to 2026-11-14); 44 on edge states | **0** |
+| Damage | 1,660 counted cases (page 207, pipeline 1,455); 25 hardening, 4 accepted | **1** (D1; D2 not counted, below) |
+| Docs | about 1,050 statements | **1** (kind 1), plus 7 loose and 8 outside scope |
+
+Reports: `analysis/audit37_2026-11-15/` (numbers, broken, docs). Every cause was fixed:
+- **Damage D1, family 2: a candle file with a second `close` column passed.** The history check read the last of two
+  same-named columns, the scorer the first, so closes changed inside each bar's range were scored (ETH 1D: a forming
+  card gone, `price_now` changed). Rule now: every candle file's header is exactly `time,open,high,low,close,volume`
+  (fetch.py writes no other). Test: `test_input_files` (14 files, a repeated, extra, missing or reordered column: all
+  56 fail on the old code); fixed in 63adca9.
+- **Damage D2, not counted: the ETH funding file losing today's row was scored with yesterday's funding.** A series one
+  day behind is the normal state before the derivatives fetch writes today (`MAX_LAG_DAYS`), so the files cannot tell
+  this from a real run; the auditor itself asked whether it is accepted behaviour. Recorded in DAMAGE_LIST family 1.
+- **Docs (1 counted):** FEED_SPEC now names the DIVH window's `confirmed` date as the confirming bar's open date; 15
+  more sentences corrected (7b087a2).
+
+Numbers check unchanged after the fix; fire drills 58/58; test_check_candles 95/95 (one expectation updated: the
+header rule names a missing volume column first).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

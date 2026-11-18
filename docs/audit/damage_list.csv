@@ -3359,3 +3359,19 @@ first_round,level,family,kind,case,expected
 36,page,HARDENING,hand-forged,"price_now 999,999,999.99","{""feed"": ""ok"", ""ledger"": ""ok"", ""trades"": ""unavail"", ""example_chart"": ""ok"", ""charts"": {""ETH-1D-2026-11-17"": ""unavail""}}"
 36,page,HARDENING,hand-forged,a low dated 1 January,"{""feed"": ""ok"", ""ledger"": ""ok"", ""trades"": ""unavail"", ""example_chart"": ""ok"", ""charts"": {}}"
 36,pipeline,HARDENING,hand-forged,alert log: previous feed is an older run's feed,fail-closed or clean; nothing re-emitted
+37,pipeline,MALFORMED,real life,data/BTC_4H.csv: dup_close_col_first_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/BTC_4H.csv: dup_close_col_last_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/ETH_1D.csv: dup_close_col_recent_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/BTC_3D.csv: dup_close_col_recent_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/ETH_4H.csv: dup_close_col_first_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/ETH_4H.csv: dup_close_col_last_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/BTC_12H.csv: dup_close_col_first_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/BTC_12H.csv: dup_close_col_last_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/ETH_12H.csv: dup_close_col_first_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/ETH_12H.csv: dup_close_col_last_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MALFORMED,real life,data/BTC_2D.csv: dup_close_col_recent_bad,job stops before the commit (previous feed stays) or run withheld
+37,pipeline,MISSING,real life,data/derivs/ETH_funding_daily.csv: del_last_row,job stops before the commit (previous feed stays) or run withheld
+37,page,HARDENING,hand-forged,sample text names another number that contains n (127 for 27),
+37,page,HARDENING,hand-forged,two forming cards for the same chart,
+37,page,HARDENING,hand-forged,forming card confirms in 2099,
+37,page,HARDENING,hand-forged,forming card low after the feed date,
