@@ -630,7 +630,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     if (a > STALE_AFTER_H && atLoad <= STALE_AFTER_H) return `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old: this page has been open since it read it. Reload the page for the latest; if it is still this old after a reload, the update pipeline has not refreshed it on schedule.</div>`;
     if (a > STALE_AFTER_H) return `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old. The update pipeline has not refreshed it on schedule, so treat everything below as out of date until it does.</div>`;
     const t = Date.parse(S.feed.generated_at);
-    if (Math.floor(Date.now() / 864e5) > Math.floor(t / 864e5)) return `<div class="stale-note" data-state="closed">The daily close at 00:00 UTC has passed since this data was written. It updates shortly after each close; until then, anything below about the bar that just closed is out of date.</div>`;
+    // the same for the daily close (round 38): a page that read the data before the close and is still open will not
+    // update by itself, so it asks for a reload; one that read it after the close waits for the pipeline
+    const closedSinceLoad = Number.isFinite(S.feedLoadedAt) && Math.floor(Date.now() / 864e5) > Math.floor(S.feedLoadedAt / 864e5);
+    if (Math.floor(Date.now() / 864e5) > Math.floor(t / 864e5)) return closedSinceLoad
+      ? `<div class="stale-note" data-state="closed">The daily close at 00:00 UTC has passed since this page read its data. Reload the page for the latest; until it has updated, anything below about the bar that just closed is out of date.</div>`
+      : `<div class="stale-note" data-state="closed">The daily close at 00:00 UTC has passed since this data was written. It updates shortly after each close; until then, anything below about the bar that just closed is out of date.</div>`;
     return "";
   }
   // the stale warning on the other tabs too (13 Nov 2026 audit #22: it was on the Now card only)

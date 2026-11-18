@@ -193,6 +193,16 @@ with sync_playwright() as pw:
     after = pg.query_selector('#card .stale-note[data-state="closed"]')
     txt = pg.inner_text('#card') if after else ''
     ok('daily close passed since the data was written: the note says so within a minute, before 5 hours', before is None and after is not None and '00:00 UTC' in txt and not errs, f'{before} {txt[:160]!r} {errs[:1]}')
+    # 18 Nov 2026 audit round 38: this page read the data before the close and is still open, so it asks for a reload
+    ok('...and, the page having read the data before the close, it asks for a reload (an open page never updates itself)',
+       'since this page read its data' in txt and 'Reload the page' in txt, txt[:200])
+    pg.close()
+    # the same data read after the close: the page waits for the pipeline, no reload hint
+    pg, errs = page(b, feed=quiet2, at=gq + dt.timedelta(minutes=55))   # 00:08 the next day, page opened then
+    pg.goto('http://site.test/#now'); pg.wait_for_timeout(1200)
+    t2 = pg.inner_text('#card') if pg.query_selector('#card .stale-note[data-state="closed"]') else ''
+    ok('page opened after the close on data from before it: "It updates shortly after each close", no reload hint',
+       'updates shortly after each close' in t2 and 'Reload' not in t2 and not errs, t2[:200])
     pg.close()
     # 4b. quiet market, page left open: the example the page switched on itself goes off once the data is stale (audit #25)
     quiet = json.loads(json.dumps(MIDDAY)); quiet.update(cards=[], open_signals=[], market_regime='Bullish')

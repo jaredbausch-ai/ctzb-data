@@ -495,7 +495,7 @@ Worker, uncached.
   older than 5 hours shows a stale warning on the Chart, Past signals and How to read tabs and on the Now card (not on
   a card that reads "No odds yet", "Card unavailable" or "Example unavailable"), with its hour count kept current; it says the update pipeline has not refreshed the data on schedule when the data was already
   over 5 hours old as the page read it, and otherwise (a page left open) that the page has been open since it read it,
-  asking for a reload; a feed written before the
+  asking for a reload; the daily-close note likewise asks for a reload when the page read its data before the close; a feed written before the
   latest daily close (00:00 UTC) shows a note that the close has passed and what it says about that bar is out of
   date. Both are re-checked every minute on the viewer's clock; when both apply, the 5-hour note shows. The only other
   check that uses the viewer's clock is the lead-trader file's "trade in the future" test. The example
