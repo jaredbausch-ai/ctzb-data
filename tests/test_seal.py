@@ -4,7 +4,8 @@ Part 1 works on a small folder of stand-in files (fast). Part 2 runs the real pi
 a clean run; an extras step that fails part-way (cards must still publish); a chart file changed before extras (written
 again from the candles); the seal broken before extras (extras leaves no chart file) (audit #30); extras failed part-way
 with a published or a fail-closed feed (feed_live.py leaves no extras file, fix check); a dataset cut between two steps
-(the next step refuses to run); and a dataset changed after the last step (the fail-closed feed is published).
+(the next step refuses to run); feed_live.py run again on its own a day later (refused as an earlier
+run's seal); and a dataset changed after the last step (the fail-closed feed is published).
     python3 tests/test_seal.py
 """
 import os, shutil, subprocess, sys, tempfile, json

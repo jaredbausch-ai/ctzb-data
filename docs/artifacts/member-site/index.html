@@ -1302,7 +1302,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // The example the page switched on itself for a quiet market goes off once the data goes stale: it must not stand in
     // for an outage on a page left open (13 Nov 2026 audit #25). One the member switched on stays.
     // Every note on screen follows the data's age as it grows: the hour count kept the first value it showed
-    // (13 Nov 2026 audit #26). The two notes are the only texts that depend on the viewer's clock.
+    // (13 Nov 2026 audit #26). The two notes, and the lead-trader file's "in the future"
+    // check, are the only things that depend on the viewer's clock.
     setInterval(() => { const note = staleNote(); if (note === lastNote) return;
       const flipped = !!note !== !!lastNote; lastNote = note;
       if (flipped) {

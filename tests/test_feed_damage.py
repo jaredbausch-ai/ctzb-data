@@ -9,7 +9,7 @@ bad date, list emptied / cut / doubled / reversed, sign flipped, ...), and check
   2. the page's verdict (window.__feedProblems) and the pipeline's (feedcheck.problems) agree on every
      damaged feed;
   3. every kind of damaged feed the page still ACCEPTS renders on every tab with no script error and no raw
-     placeholder (NaN, undefined, null, [object, Infinity, ${, $-);
+     placeholder (NaN, undefined, null, n/a%, n/ax, [object, Infinity, ${, $-);
   4. REJECTED feeds show "Data unavailable", with no script error and no raw placeholder;
   5. every feed field the page reads is in the schema (recorded with a Proxy while every tab and button is used);
   6. the lead-trader file, the ledger and the chart files: damaged ones read "unavailable", never garbage.

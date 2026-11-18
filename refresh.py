@@ -269,7 +269,8 @@ def select_tier(rows, upto=None):
         for t in TAGS:
             # walk-forward (12 Nov 2026 audit #4): only signals whose 60-day outcome had CLOSED
             # before `upto` -- r["d"] is the confirmation bar's open date, so the entry is the
-            # close of that bar, tf - 1 days later, and the outcome's last day is 60 days after
+            # close of that bar, at most tf - 1 days later (fewer for a year's short last bar, where tf - 1
+            # is a conservative bound), and the outcome's last day is 60 days after
             sub = [r for r in rows if r["chart"] == name and t in r["tags"]
                    and (upto is None or r["d"] + dt.timedelta(days=_tf_days(r["chart"]) - 1 + HOR) < upto)]
             if len(sub) >= NMIN and wr(sub) >= WINMIN:
