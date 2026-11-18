@@ -153,6 +153,20 @@ with sync_playwright() as pw:
     pg.clock.run_for(20 * 60 * 1000); pg.wait_for_timeout(300)
     after = pg.query_selector('#card .stale-note') is not None
     ok('page left open past 5 hours: the stale warning appears without a reload', not before and after, f'before {before}, after {after}')
+    # 18 Nov 2026 audit round 38: the data was current when the page read it, so the warning asks for a reload instead
+    # of saying the pipeline has not refreshed it (it may well have; an open page never reads the feed again)
+    wtxt = pg.inner_text('#card .stale-note') if after else ''
+    ok('...and says the page has been open and asks for a reload, not that the pipeline missed its schedule',
+       'Reload the page' in wtxt and not wtxt.startswith('This data is 5 hours old. The update pipeline'), wtxt[:160])
+    pg.close()
+    pg, errs = page(b, age_h=6, feed=MIDDAY)   # data already 6 hours old when the page reads it: the pipeline's
+    pg.goto('http://site.test/#now'); pg.wait_for_timeout(800)
+    stxt = pg.inner_text('#card .stale-note') if pg.query_selector('#card .stale-note') else ''
+    ok('data already stale when the page reads it: the warning says the pipeline has not refreshed it, no reload hint',
+       'has not refreshed it on schedule' in stxt and 'Reload' not in stxt and not errs, stxt[:160])
+    pg.close()
+    pg, errs = page(b, age_h=4.9, feed=MIDDAY); pg.goto('http://site.test/#now'); pg.wait_for_timeout(800)
+    pg.clock.run_for(20 * 60 * 1000); pg.wait_for_timeout(300)
     pg.goto('http://site.test/#record'); pg.wait_for_timeout(300)
     ok('...on the other tabs too', 'hours old' in pg.inner_text('#view-record'))
     pg.close()

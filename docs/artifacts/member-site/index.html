@@ -623,6 +623,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   function staleNote() {
     const a = feedAgeH();
     if (a === null) return "";
+    // 18 Nov 2026 audit round 38: a page left open never reads the feed again, so data that was current when the page
+    // read it goes stale in the tab while the pipeline runs on schedule. Then the page says so and asks for a reload,
+    // rather than blaming the pipeline; data already stale when the page read it is the pipeline's
+    const t0 = Date.parse(S.feed.generated_at), atLoad = Number.isFinite(S.feedLoadedAt) ? (S.feedLoadedAt - t0) / 3.6e6 : a;
+    if (a > STALE_AFTER_H && atLoad <= STALE_AFTER_H) return `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old: this page has been open since it read it. Reload the page for the latest; if it is still this old after a reload, the update pipeline has not refreshed it on schedule.</div>`;
     if (a > STALE_AFTER_H) return `<div class="stale-note" data-state="stale">This data is ${Math.floor(a)} hours old. The update pipeline has not refreshed it on schedule, so treat everything below as out of date until it does.</div>`;
     const t = Date.parse(S.feed.generated_at);
     if (Math.floor(Date.now() / 864e5) > Math.floor(t / 864e5)) return `<div class="stale-note" data-state="closed">The daily close at 00:00 UTC has passed since this data was written. It updates shortly after each close; until then, anything below about the bar that just closed is out of date.</div>`;
@@ -1278,6 +1283,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // the general odds-fade table is used only when it is whole: both lists present and non-empty
     if (feedOk && !(feed.odds_fade && feed.odds_fade.early_dip.length && feed.odds_fade.day10.length)) feed.odds_fade = null;
     S.feed = feedOk ? feed : null;
+    S.feedLoadedAt = Date.now();   // when this page read the feed: an open page never reads it again
     S.loading.feed = false;
     if (bestCard()) S.sel = bestCard().signal_id;
     renderHeader(); renderLead(); renderCard(); renderPrev();
