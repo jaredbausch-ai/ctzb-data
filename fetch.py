@@ -139,6 +139,9 @@ FIRST_DAY = {"ETH": dt.date(2016, 5, 18), "BTC": dt.date(2016, 1, 1)}
 KNOWN_MISSING = {"ETH": {dt.date(2016, 5, 21), dt.date(2016, 5, 22)}, "BTC": set()}
 
 
+CANDLE_HEADER = "time,open,high,low,close,volume"   # the only header fetch.py writes on a candle file
+
+
 def _row_problems(name, rows, step):
     """Every row of one candle file: a readable time on the bar grid, strictly ascending; open, high, low and
     close finite and above zero, the high and low bracketing the open and close; volume finite and not negative.
@@ -297,7 +300,8 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None
 
 def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
     """Whole-history checks (13 Nov 2026, audits #20 to #22). Returns a list of problems, empty when whole.
-    - Every candle file (1D to 8D, 4H, 12H), every row: see _row_problems (structure, not price levels).
+    - Every candle file (1D to 8D, 4H, 12H): its header is exactly CANDLE_HEADER (no extra, missing, repeated or
+      reordered column); every row: see _row_problems (structure, not price levels).
     - Each daily file starts on the exchange's first day and has no missing day after it (bar the two the
       exchange never had); every 2D-8D file is exactly the daily candles bucketed by resample().
     - ETH is ETH and BTC is BTC: on every day both have, ETH's close is between 0.1% and 50% of BTC's (it has
@@ -331,6 +335,13 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
             fp = _file_problem(pth, name)
             if fp:
                 bad.append(fp)
+            with open(pth, newline="") as f:
+                head = f.readline().rstrip("\r\n")
+            if head != CANDLE_HEADER:
+                # 18 Nov 2026 audit round 37: a second "close" column read as the real close here (DictReader keeps
+                # the last of two same-named columns) while the scorer read the first, so changed closes were scored.
+                # Every candle file is written with exactly this header (save_*): any other header is a damaged file
+                bad.append(f"{name}: its header is not exactly {CANDLE_HEADER}"); continue
             with open(pth, newline="") as f:
                 frows = list(csv.DictReader(f))
             rp = _row_problems(name, frows, step)

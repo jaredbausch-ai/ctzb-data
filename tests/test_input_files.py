@@ -7,6 +7,9 @@
    check); the same bar missing from both assets' files at once is an exchange outage and passes; the committed
    data, with the exchange's own gaps, passes.
 3. Timing: a daily series row dated after the run's day fails, in the candle check and in the stack step's check.
+4. Malformed: a candle file whose header is not exactly time,open,high,low,close,volume fails (18 Nov 2026 audit
+   round 37: a second "close" column read as the real close in the check while the scorer read the first, so closes
+   changed inside each bar's range were scored): a repeated, extra, missing or reordered column, on every file.
 
     python3 tests/test_input_files.py      # exit 1 on failure
 """
@@ -97,6 +100,26 @@ def main():
                     probs = with_text(rel, lambda t: ahead(t, k), lambda: fetch.history_problems(D, today=day, lag=lag))
                     ok(f"{rel}: a row dated the day after the run's day fails ({'stack step' if lag else 'candle check'}, {k} day(s) past the series end)",
                        any(rel.split("/")[-1][:-4] in x and "after" in x for x in probs), str(probs[:2]))
+
+        def recol(t, how):
+            ls = t.splitlines(keepends=True); out = []
+            for i, l in enumerate(ls):
+                e = "\r\n" if l.endswith("\r\n") else "\n"; c = l.rstrip("\r\n").split(",")
+                if how == "dup_close":   # the real close appended under a second "close"; the first changed on the last 3 rows
+                    if i == 0: c = c + ["close"]
+                    else:
+                        real = c[4]
+                        if i >= len(ls) - 3: c[4] = repr(round(float(c[3]) + 0.01, 2))
+                        c = c + [real]
+                elif how == "extra": c = c + (["vwap"] if i == 0 else ["1.0"])
+                elif how == "missing": c = c[:5]
+                elif how == "swapped": c = c[:3] + [c[4], c[3]] + c[5:]
+                out.append(",".join(c) + e)
+            return "".join(out)
+        for rel in CANDLES:
+            for how in ("dup_close", "extra", "missing", "swapped"):
+                probs = with_text(rel, lambda t: recol(t, how), lambda: fetch.history_problems(D, today=today))
+                ok(f"{rel}: header with a {how.replace('_', ' ')} column fails", any(rel[:-4] in x and "header" in x for x in probs), str(probs[:2]))
         print(f"\n{sum(results)}/{len(results)} passed")
         return 0 if all(results) else 1
     finally:

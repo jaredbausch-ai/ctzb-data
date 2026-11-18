@@ -1,0 +1,5 @@
+2026-11-15T16:13:51Z stage 0: checker built; frozen states REPLAY 27744 + CURRENT 27784 data comparisons, 0 disagreements; pages 395 + 502, 0 disagreements (pre-test)
+2026-11-15T16:38:58Z replays: 90 of 270 done, 1 with a disagreement
+2026-11-18T08:12:18Z replays: 270 of 270 done;  all replays 0 disagreements after re-running R2022-01-27T235900 (4 were my harness: page opened 6 min after a 23:59 feed crosses midnight)
+2026-11-18T08:13:56Z synthetic states: 4 envelope states (candles end D, clock D+1), 44 checks, 0 disagreements (2 harness fixes)
+2026-11-18T08:20:07Z report: A 56,479 comparisons 0 disagreements; B 270 replays 4,895,609 comparisons 0 disagreements; envelope 44/0; planted 50 of 51 caught

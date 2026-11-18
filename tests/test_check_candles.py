@@ -163,7 +163,7 @@ def dropvol(name):
         with open(f'{M}/{name}.csv', 'w', newline='') as fh:
             w = csv.DictWriter(fh, fieldnames=['time', 'open', 'high', 'low', 'close']); w.writeheader(); w.writerows({k: r[k] for k in ('time', 'open', 'high', 'low', 'close')} for r in rows)
     return f
-whole(dropvol('ETH_2D'), 'ETH 2D file without its volume column (audit #24)', 'no volume column')
+whole(dropvol('ETH_2D'), 'ETH 2D file without its volume column (audit #24)', 'header is not exactly')   # 18 Nov 2026: the header rule names it first
 whole(cutline('ETH_1D.csv', 30), 'ETH daily cut inside its last line (audit #24)', "header's cells")
 def shift_last(M):
     rows = list(csv.DictReader(open(f'{M}/ETH_1D.csv'))); rows[-1]['time'] = str(int(float(rows[-1]['time'])) + 3600)
