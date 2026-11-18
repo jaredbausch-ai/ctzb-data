@@ -73,7 +73,8 @@ python refresh.py --data data --out datasets
 
 It writes `status`, `buy`, `live`, `levels`, `setups`, `tier`, `walkforward`,
 `years`, `confluence`, `invalidation`, `earlydip`, `holdcheck` and `forward` as CSVs, and prints a summary of the
-regime, what is forming on each chart, and the next buy dates.
+regime, what is forming on each chart, and when each forming low would confirm (`buy.csv`'s `buyDate`: a computed
+date, not a planned buy).
 
 `engine.py` and `regimes.py` sit beside it. The date comes from the clock
 (`CTZB_NOW` replays a past run whole); `--today YYYY-MM-DD` overrides only the tier anchor, status and

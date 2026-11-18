@@ -28,7 +28,7 @@ on the 1st. Write-once. An R2 lifecycle rule expires `daily/` after 90 days; `mo
 is kept. About 10 MB on 12 Nov 2026 and growing with the repo (cap 200 MB). `/health` reports the last backup. To restore: download the object
 from the R2 dashboard and `tar -xzf` it (drilled 12 Nov 2026: byte-identical to its tagged commit, pipeline reruns clean on it). Tests: `node tests/test_mirror_backup.mjs` (21).
 
-**ctzb-scheduler** (v2, 10 Nov 2026) — KV binding `SCHED`, ONE cron trigger
+**ctzb-scheduler** (v2 10 Nov 2026; v3, with the health monitor below, 11 Nov; `/health` reports version 3) — KV binding `SCHED`, ONE cron trigger
 `13,25,35,43 * * * *`. The code decides what each tick dispatches: `daily.yml`
 (with `scheduled=true`) at :13 and :43 after each 4-hour close, `watchdog.yml`
 95 minutes after each close, `pcr.yml` every 3 hours. About 26 dispatches a day.

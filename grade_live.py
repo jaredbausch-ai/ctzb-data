@@ -5,7 +5,7 @@ docs/PRETRADE.md "Conviction grade"). This script only APPLIES it; it does not
 re-choose lenses. The lens list is read from analysis/grade.json.
 
   Grade = number of the asset's lenses present at entry: C 0-1, B 2, A 3, A+ 4+.
-  ETH lenses: GAP (CT > Signal by 5+), HIGH (entry above the previous signal),
+  ETH lenses: GAP (CT more than 5 points above its Signal line), HIGH (entry above the previous signal),
   AGREE (2+ other ETH charts confirmed 0-10 days before), BTC3 (BTC 3D
   confirmed 0-10 days before; ETH 1D/2D), FUND (funding at or above its 90-day
   median), FCOOL (funding not cooling). BTC lenses: GAP, UP8 (8D CT rising),

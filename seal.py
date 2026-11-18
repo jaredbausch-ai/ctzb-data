@@ -28,7 +28,8 @@ MAX_RUN_HOURS = 2   # a whole run takes about 3 minutes
 NAME = 'manifest.json'
 ORDER = ('refresh', 'grade', 'extras', 'stack', 'cards')
 # What extras_live.py writes. The extras step is not a gating step: if it fails part-way, its files are left out
-# of the later steps' seal checks, and feed_live.py withholds just the extras fields.
+# of the later steps' seal checks, and feed_live.py withholds the extras fields and deletes every extras file, the
+# chart candle files included.
 EXTRAS_FILES = ('missstats.csv', 'missstats_example.csv', 'pastpaths.csv', 'pastpaths_example.csv', 'oddsfade.csv') + tuple(
     f'candles_{a}_{t}.csv' for a in ('eth', 'btc') for t in ('1d', '2d', '3d', '5d', '8d'))
 

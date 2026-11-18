@@ -339,7 +339,7 @@ supports it, for sizing. Grade = count of independent lenses present, equal
 weights: C = 0-1, B = 2, A = 3, A+ = 4+. Applied every pipeline run (every 4 hours) by `grade_live.py`;
 shown on the dashboard.
 
-**ETH lenses (6):** CT > Signal by 5+; entry above the previous signal; 2+
+**ETH lenses (6):** CT more than 5 points above its Signal line; entry above the previous signal; 2+
 other ETH charts confirmed 0-10 days before; BTC 3D confirmed 0-10 days before
 (1D/2D); funding at or above its 90-day median; funding not cooling (7-day mean
 at or above its level 14 days earlier). The two funding lenses passed the
@@ -353,7 +353,7 @@ both is worth reading as one funding star plus the rest.
 | B | 13.5 | 53% (81) | 42% | 21% | -15.3% | -4.6% | -28.2% | -39.9% | -52.3% | +22.5% | +48.2% |
 | C | 18.3 | 44% (110) | 35% | 30% | -16.4% | -6.1% | -33.4% | -41.6% | -52.2% | +15.1% | +53.1% |
 
-**BTC lenses (4):** CT > Signal by 5+; 8D CT rising; an ETH 2D signal
+**BTC lenses (4):** CT more than 5 points above its Signal line; 8D CT rising; an ETH 2D signal
 confirmed 0-10 days before a BTC 1D/2D entry; fast CT recovery (CT at the
 confirmation minus CT at the trough in the chart's top third, cut from 2016-21;
 added by `analysis/grade6.py` 28 Oct: lift +8.1 / +17.0 by period, placebo +10.6

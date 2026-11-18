@@ -29,7 +29,9 @@ A round is clean when all three parts come back at zero counted findings:
 1. **Freeze.** Note the HEAD commit. Build the states: `bash tests/build_audit_states.sh <dir>` (a replay of 12 Nov
    04:14 UTC and today's data) and `bash tests/replay_at.sh 2026-11-11 <dir>/replay_1111 2026-11-11T04:14:00Z`.
 2. **Brief.** Copy the three briefs in `docs/audit/briefs/` (numbers, damage, docs), fill in the round number,
-   the state folder, the frozen commit and today's state (forming setups, build time).
+   the state folder, the frozen commit and today's state (forming setups, build time). Then grep each prompt for
+   the previous round's commit and date: none may remain (round 40's docs prompt kept round 39's commit, so the
+   docs were checked against the older code and the difference had to be checked separately).
 3. **Run.** Three independent agents at once (opus, background), each told to read only its brief. They must not
    read earlier audit reports or AUDIT_LOG: independence is the point. The machine has 2 cores; the briefs say so.
 4. **Fix.** For each counted cause: fix it at its family's rule (not just the case), add a test that fails on the

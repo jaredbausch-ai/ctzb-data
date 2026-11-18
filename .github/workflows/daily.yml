@@ -123,8 +123,9 @@ jobs:
           timeout 10m python grade_live.py
 
       # Member card figures (extras_live.py, 11 Nov 2026, item 18): the miss stat,
-      # the past-signal paths and the odds-fade marks, from this run's ledger.
-      # Never blocks anything; if it fails, the feed withholds just these fields.
+      # the past-signal paths, the odds-fade marks and the chart candle files, from this run's ledger and candles.
+      # Never blocks cards or alerts; if it fails, the feed withholds these fields and feed_live.py deletes this
+      # step's files (the page then says a chart is unavailable).
       - name: Member card figures
         id: extras
         continue-on-error: true
