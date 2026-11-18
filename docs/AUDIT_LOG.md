@@ -1549,6 +1549,31 @@ Reports: `analysis/audit39_2026-11-18/` (broken, docs). Fixed:
 - **Docs:** the 6 loose sentences corrected (README dashboard datasets, the member-site README's plain phrases, the
   refresh.py walk-forward comment, two test headers, the page's clock comment); 554f40c.
 
+
+## Round 40 — 18 Nov (damage and docs only, as Jared asked; clean rounds in a row: 0 of 2)
+
+**Not clean (docs 1; damage 0).** Code frozen at 5e52cba (the round 39 fixes). States: a replay of 11 Nov 04:14 UTC
+and the data of 18 Nov 19:06 UTC (two forming setups, ETH 2D and ETH 3D). No numbers part.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Damage | 1,137 checks (page 379 states, pipeline 755 runs, 3 repo tests); 18 hardening | **0** |
+| Docs | about 950 statements (560 in scope), plus a separate check of the sentences changed since 465e385 | **1** (kind 1), plus 1 kind 4 Jared has not ruled on |
+
+The docs prompt kept round 39's frozen commit (465e385), so the docs auditor read the older code; the sentences
+changed since were checked separately (`docs_delta`). STATUS's procedure now has each prompt grepped for the previous
+round's commit. Reports: `analysis/audit40_2026-11-18/` (broken, docs, docs_delta). Fixed:
+- **Docs, kind 1 (counted): README said the dashboard's max-safe column stays empty**; the page works it out from
+  `grades`. Written in round 39. Corrected in 452cbd6.
+- **Docs, kind 4 (borderline, not ruled on): README called buy.csv's confirmation dates "the next buy dates".** Now
+  "when each forming low would confirm (a computed date, not a planned buy)"; f65b5c1.
+- **Code (from the delta check): the round 39 restore could lock the pipeline.** The log was restored at the start of
+  a run; if that run then failed closed, its feed kept the older record and every later run failed closed. check_log
+  now decides from the copy itself (the record's log is a whole-row beginning of a longer copy), which also covers the
+  feed and log both put back. `test_feed_alerts` 89/89 (the lock-up fails on the previous code); 452cbd6.
+- 10 loose or outside-scope sentences corrected (How to read "several separate confirmations", the member-site README
+  list, the scheduler version, the extras comments, the GAP lens wording, FEED_SPEC's copy-ahead sentences).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

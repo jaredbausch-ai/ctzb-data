@@ -1,0 +1,121 @@
+2026-11-18T19:07:19Z start: audit40c begun, 0 cases, 0 disagreements
+2026-11-18T19:12:02Z stage C: repo tests running (feed damage quick pass); page harness written; 0 own cases, 0 disagreements
+2026-11-18T19:24:16Z harnesses written: page batch1 230 cases, page batch2 ~100, pipeline A 253, pipeline C 463; waiting on repo damage test (one heavy job at a time); 0 own cases run, 0 disagreements
+2026-11-18T19:27:37Z stage C done: repo tests_feed_damage quick 33/33 PASS, test_seal 29/29 PASS, test_page_timing 24/24 passed
+2026-11-18T19:27:42Z page batch 1 start: 230 cases (families 1, 2, 3, 6)
+2026-11-18T19:29:25Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 25/230 cases, 0 not ok so far
+2026-11-18T19:31:20Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 50/230 cases, 0 not ok so far
+2026-11-18T19:32:50Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 75/230 cases, 0 not ok so far
+2026-11-18T19:33:44Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 100/230 cases, 1 not ok so far
+2026-11-18T19:34:37Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 125/230 cases, 7 not ok so far
+2026-11-18T19:36:00Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 150/230 cases, 12 not ok so far
+2026-11-18T19:38:26Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 175/230 cases, 12 not ok so far
+2026-11-18T19:41:16Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 200/230 cases, 12 not ok so far
+2026-11-18T19:43:21Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch1.csv: 225/230 cases, 12 not ok so far
+2026-11-18T19:43:44Z page batch 1 done: 230 cases, 12 not ok (before triage)
+2026-11-18T19:44:06Z page batch 1 triaged: 230 cases, 12 flagged were my oracle (BOM stripped by fetch; non-top-grade/unused columns changed; shown rows identical) -> 0 disagreements; starting page batch 2
+2026-11-18T19:44:13Z page batch 2 start: 106 cases (family 5, lead-trader, unusual valid, boundary, hardening)
+2026-11-18T19:46:47Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch2.csv: 25/106 cases, 3 not ok so far
+2026-11-18T19:48:50Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch2.csv: 50/106 cases, 8 not ok so far
+2026-11-18T19:50:10Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch2.csv: 75/106 cases, 8 not ok so far
+2026-11-18T19:52:04Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch2.csv: 100/106 cases, 10 not ok so far
+2026-11-18T19:52:23Z page batch 2 done: 106 cases, 10 not ok (before triage)
+2026-11-18T19:52:49Z page batch 2 start: 3 cases (family 5, lead-trader, unusual valid, boundary, hardening)
+2026-11-18T19:53:05Z page batch 2 done: 3 cases, 0 not ok (before triage)
+2026-11-18T19:53:06Z page batch 2 start: 2 cases (family 5, lead-trader, unusual valid, boundary, hardening)
+2026-11-18T19:53:32Z page batch 2 done: 2 cases, 0 not ok (before triage)
+2026-11-18T19:53:33Z page batch 2 start: 1 cases (family 5, lead-trader, unusual valid, boundary, hardening)
+2026-11-18T19:53:39Z page batch 2 done: 1 cases, 0 not ok (before triage)
+2026-11-18T19:53:54Z page batch 2 triaged: 106 cases, 10 flagged = oracle/harness (00:05 next day correctly shows close note; example card legitimately from feed; markup shown escaped as text; reruns of race/slow/no-odds cases pass) -> 0 disagreements. Page total 336 cases, 0 disagreements. Starting pipeline batch A (253 damaged-input cases)
+2026-11-18T19:53:54Z pipeline batch A start: 253 cases (damaged inputs)
+2026-11-18T19:54:10Z pipeline baseline run on current @ 2026-11-18T19:40:00Z: verdict clean, outcomes {'fresh': 'success', 'candles': 'success', 'refresh': 'success', 'grade': 'success', 'extras': 'success', 'stack': 'success', 'cards': 'success', 'regress': 'success', 'feed': 'success'}, times {'fresh': 0.1, 'candles': 1.2, 'refresh': 0.5, 'grade': 5.2, 'extras': 0.3, 'stack': 8.0, 'cards': 0.6, 'regress': 0.1, 'feed': 0.1}
+2026-11-18T19:54:21Z pipeline batch A: 10/253 pipeline cases, 0 not ok so far
+2026-11-18T19:54:46Z pipeline batch A: 20/253 pipeline cases, 0 not ok so far
+2026-11-18T19:54:56Z pipeline batch A: 30/253 pipeline cases, 0 not ok so far
+2026-11-18T19:55:07Z pipeline batch A: 40/253 pipeline cases, 0 not ok so far
+2026-11-18T19:55:28Z pipeline batch A: 50/253 pipeline cases, 0 not ok so far
+2026-11-18T19:55:42Z pipeline batch A: 60/253 pipeline cases, 0 not ok so far
+2026-11-18T19:56:13Z pipeline batch A: 70/253 pipeline cases, 0 not ok so far
+2026-11-18T19:56:26Z pipeline batch A: 80/253 pipeline cases, 0 not ok so far
+2026-11-18T19:56:40Z pipeline batch A: 90/253 pipeline cases, 0 not ok so far
+2026-11-18T19:57:09Z pipeline batch A: 100/253 pipeline cases, 0 not ok so far
+2026-11-18T19:57:21Z pipeline batch A: 110/253 pipeline cases, 0 not ok so far
+2026-11-18T19:58:02Z pipeline batch A: 120/253 pipeline cases, 1 not ok so far
+2026-11-18T19:58:11Z pipeline batch A: 130/253 pipeline cases, 1 not ok so far
+2026-11-18T19:58:41Z pipeline batch A: 140/253 pipeline cases, 2 not ok so far
+2026-11-18T19:59:12Z pipeline batch A: 150/253 pipeline cases, 2 not ok so far
+2026-11-18T19:59:58Z pipeline batch A: 160/253 pipeline cases, 3 not ok so far
+2026-11-18T20:01:15Z pipeline batch A: 170/253 pipeline cases, 3 not ok so far
+2026-11-18T20:01:39Z pipeline batch A: 180/253 pipeline cases, 3 not ok so far
+2026-11-18T20:02:39Z pipeline batch A: 190/253 pipeline cases, 4 not ok so far
+2026-11-18T20:03:09Z pipeline batch A: 200/253 pipeline cases, 4 not ok so far
+2026-11-18T20:04:05Z pipeline batch A: 210/253 pipeline cases, 5 not ok so far
+2026-11-18T20:04:53Z pipeline batch A: 220/253 pipeline cases, 5 not ok so far
+2026-11-18T20:05:20Z pipeline batch A: 230/253 pipeline cases, 5 not ok so far
+2026-11-18T20:07:11Z pipeline batch A: 240/253 pipeline cases, 8 not ok so far
+2026-11-18T20:07:56Z pipeline batch A: 250/253 pipeline cases, 9 not ok so far
+2026-11-18T20:08:12Z pipeline batch A done: 253 cases, 9 not ok (before triage)
+2026-11-18T20:08:33Z pipeline batch A triaged: 253 cases (219 stopped at fetch checks, 4 held, 30 clean equal to the undamaged run); 9 flagged = my damage left values unchanged (4H/12H 'cut' kept the file whole) or touched only unread columns -> 0 disagreements. Starting pipeline batch C (463)
+2026-11-18T20:08:33Z pipeline batch C start: 463 cases (between steps, outcomes, seal, alert log, clocks)
+2026-11-18T20:08:35Z pipeline batch C: 10/463 pipeline cases, 2 not ok so far
+2026-11-18T20:08:38Z pipeline batch C: 20/463 pipeline cases, 4 not ok so far
+2026-11-18T20:08:40Z pipeline batch C: 30/463 pipeline cases, 5 not ok so far
+2026-11-18T20:08:42Z pipeline batch C: 40/463 pipeline cases, 6 not ok so far
+2026-11-18T20:08:44Z pipeline batch C: 50/463 pipeline cases, 7 not ok so far
+2026-11-18T20:08:47Z pipeline batch C: 60/463 pipeline cases, 8 not ok so far
+2026-11-18T20:08:49Z pipeline batch C: 70/463 pipeline cases, 9 not ok so far
+2026-11-18T20:08:52Z pipeline batch C: 80/463 pipeline cases, 10 not ok so far
+2026-11-18T20:08:55Z pipeline batch C: 90/463 pipeline cases, 11 not ok so far
+2026-11-18T20:08:59Z pipeline batch C: 100/463 pipeline cases, 12 not ok so far
+2026-11-18T20:09:01Z pipeline batch C: 110/463 pipeline cases, 13 not ok so far
+2026-11-18T20:09:03Z pipeline batch C: 120/463 pipeline cases, 14 not ok so far
+2026-11-18T20:09:06Z pipeline batch C: 130/463 pipeline cases, 15 not ok so far
+2026-11-18T20:09:08Z pipeline batch C: 140/463 pipeline cases, 17 not ok so far
+2026-11-18T20:09:11Z pipeline batch C: 150/463 pipeline cases, 17 not ok so far
+2026-11-18T20:09:13Z pipeline batch C: 160/463 pipeline cases, 19 not ok so far
+2026-11-18T20:09:16Z pipeline batch C: 170/463 pipeline cases, 19 not ok so far
+2026-11-18T20:09:19Z pipeline batch C: 180/463 pipeline cases, 20 not ok so far
+2026-11-18T20:09:22Z pipeline batch C: 190/463 pipeline cases, 21 not ok so far
+2026-11-18T20:09:26Z pipeline batch C: 200/463 pipeline cases, 21 not ok so far
+2026-11-18T20:09:29Z pipeline batch C: 210/463 pipeline cases, 21 not ok so far
+2026-11-18T20:09:32Z pipeline batch C: 220/463 pipeline cases, 22 not ok so far
+2026-11-18T20:09:35Z pipeline batch C: 230/463 pipeline cases, 23 not ok so far
+2026-11-18T20:09:38Z pipeline batch C: 240/463 pipeline cases, 24 not ok so far
+2026-11-18T20:09:41Z pipeline batch C: 250/463 pipeline cases, 25 not ok so far
+2026-11-18T20:09:44Z pipeline batch C: 260/463 pipeline cases, 27 not ok so far
+2026-11-18T20:09:47Z pipeline batch C: 270/463 pipeline cases, 28 not ok so far
+2026-11-18T20:09:50Z pipeline batch C: 280/463 pipeline cases, 29 not ok so far
+2026-11-18T20:09:53Z pipeline batch C: 290/463 pipeline cases, 31 not ok so far
+2026-11-18T20:09:56Z pipeline batch C: 300/463 pipeline cases, 32 not ok so far
+2026-11-18T20:09:59Z pipeline batch C: 310/463 pipeline cases, 33 not ok so far
+2026-11-18T20:10:02Z pipeline batch C: 320/463 pipeline cases, 35 not ok so far
+2026-11-18T20:10:06Z pipeline batch C: 330/463 pipeline cases, 37 not ok so far
+2026-11-18T20:10:09Z pipeline batch C: 340/463 pipeline cases, 37 not ok so far
+2026-11-18T20:10:13Z pipeline batch C: 350/463 pipeline cases, 37 not ok so far
+2026-11-18T20:10:15Z pipeline batch C: 360/463 pipeline cases, 37 not ok so far
+2026-11-18T20:10:18Z pipeline batch C: 370/463 pipeline cases, 37 not ok so far
+2026-11-18T20:10:20Z pipeline batch C: 380/463 pipeline cases, 38 not ok so far
+2026-11-18T20:10:23Z pipeline batch C: 390/463 pipeline cases, 39 not ok so far
+2026-11-18T20:10:25Z pipeline batch C: 400/463 pipeline cases, 40 not ok so far
+2026-11-18T20:10:28Z pipeline batch C: 410/463 pipeline cases, 40 not ok so far
+2026-11-18T20:10:32Z pipeline batch C: 420/463 pipeline cases, 40 not ok so far
+2026-11-18T20:10:34Z pipeline batch C: 430/463 pipeline cases, 40 not ok so far
+2026-11-18T20:10:38Z pipeline batch C: 440/463 pipeline cases, 40 not ok so far
+2026-11-18T20:10:41Z pipeline batch C: 450/463 pipeline cases, 42 not ok so far
+2026-11-18T20:10:44Z pipeline batch C: 460/463 pipeline cases, 42 not ok so far
+2026-11-18T20:10:45Z pipeline batch C done: 463 cases, 43 not ok (before triage)
+2026-11-18T20:11:12Z pipeline batch C triaged: 463 cases; 43 flagged = 40 damages that left bytes identical (csv files already CRLF, older copies identical), alert log BOM/renamed column failed closed as designed (my check crashed), page cut after the schema block -> 0 disagreements. Starting pipeline batch D (36)
+2026-11-18T20:11:12Z pipeline batch D start: 36 cases (killed, repeated, out of order, two runs, clocks, repo files)
+2026-11-18T20:13:13Z pipeline batch D: 10/36 pipeline cases, 0 not ok so far
+2026-11-18T20:14:38Z pipeline batch D: 20/36 pipeline cases, 1 not ok so far
+2026-11-18T20:16:35Z pipeline batch D: 30/36 pipeline cases, 2 not ok so far
+2026-11-18T20:17:55Z pipeline batch D done: 36 cases, 2 not ok (before triage)
+2026-11-18T20:18:11Z pipeline batch D triaged: 36 cases; 2 flagged: two interleaved runs end held (both withheld, safe; my expectation too strict), clock 19 h behind on the same date publishes figures equal to the true run -> 0 disagreements. Building replays 2025-12-31 23:50, 2026-01-01 00:20, 2024-02-29, 2025-01-01
+2026-11-18T20:19:09Z page batch 3 start: 28 cases (every selection's chart, real held/fail-closed feeds, year-end and leap-day replays)
+2026-11-18T20:19:58Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch3.csv: 10/28 cases, 2 not ok so far
+2026-11-18T20:20:52Z page batch /tmp/claude-0/-home-claude/64265722-7367-5383-a30a-6078f46fd10f/scratchpad/audit40c/page_batch3.csv: 20/28 cases, 4 not ok so far
+2026-11-18T20:21:57Z page batch 3 done: 28 cases, 5 not ok (before triage)
+2026-11-18T20:22:12Z page batch 3 triaged: 28 cases; 5 flagged = oracle (held feed's Chart tab says 'Setups held back', correct; Feb 2024 replay has no example yet, correct) -> 0 disagreements. Starting page batch 4 (example chart file)
+2026-11-18T20:22:12Z page batch 4 start: 15 cases (the example's chart file)
+2026-11-18T20:23:37Z page batch 4 done: 15 cases, 0 not ok (before triage)
+2026-11-18T20:29:18Z DONE: 1,137 checks (379 page, 755 pipeline, 3 repo tests), 0 disagreements; hardening 18 forged feeds (not counted). Report AUDIT40_BROKEN.md

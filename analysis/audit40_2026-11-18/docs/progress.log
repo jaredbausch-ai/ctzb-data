@@ -1,0 +1,12 @@
+19:27Z done: docs/FEED_SPEC.md: 0 findings (fields, strict check, held and fail-closed feeds rebuilt and compared)
+19:27Z done: docs/CARD_SPEC.md: 0 findings
+19:27Z done: docs/artifacts/member-site/index.html: 1 finding (kind 3)
+19:27Z done: README.md: 1 finding (kind 4)
+19:27Z done: docs/artifacts/member-site/README.md: 1 finding (kind 3)
+19:27Z done: cloudflare/README.md: 1 finding (kind 3); node test counts 26/21/36/21/26/45 confirmed
+19:27Z done: CONTEXT.md current-rule sections: 0 findings
+19:27Z done: cloudflare/BRIEF_*.md (4): 0 findings (pinned builds checked)
+19:27Z done: docs/PRETRADE.md pipeline statements: 1 outside-scope finding (kind 3)
+19:27Z done: docs/SITE_CHANGES.md Pending/Requested: 0 findings
+19:27Z done: docstrings/comments (22 files): 3 outside-scope findings (seal.py, daily.yml, grade_live.py)
+19:27Z done: test headers (30 files): 0 findings; test_gate_off 'ten lows' confirmed by replay

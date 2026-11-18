@@ -1,0 +1,8 @@
+2026-11-18T19:33:10Z start; cloned 5e52cba
+2026-11-18T19:34:03Z item1: read FEED_SPEC alert-log section and feed_live check_log/main/fail_closed; building test
+2026-11-18T19:35:17Z item1 done: A restored/not re-emitted, B log stands, C other route to copy-ahead, D restore-then-fail locks closed, E undecodable copy fails closed
+2026-11-18T19:35:20Z item2 start
+2026-11-18T19:35:57Z item2 done: maxsafe is computed in-page by dash.calc from grades; README claim it stays empty is wrong
+2026-11-18T19:35:57Z item3 start
+2026-11-18T19:37:26Z item3 done: list incomplete (2022 eras, 2016, Jan-1 bar rule, 4-hour update, 3 more phrases)
+2026-11-18T19:38:04Z report written: AUDIT40_DELTA.md, findings.csv (k1:1 k2:0 k3:5 k4:0)
