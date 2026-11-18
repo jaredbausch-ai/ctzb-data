@@ -1,2 +1,11 @@
 openedBy,confirmed,closes,appliesTo
-ETH 2D,2026-11-07,2026-11-17,DIVH flag (bullish Stoch divergence) for ETH 1D
+ETH 1D,2026-11-17,2026-11-27,"agreement count for ETH 2D, ETH 3D, ETH 5D, ETH 8D"
+ETH 1D,2026-11-17,2026-11-27,confluence cell: ETH 5D all (layer4)
+ETH 1D,2026-11-17,2026-11-27,confluence cell: BTC 1D filled diamond (layer4)
+ETH 1D,2026-11-17,2026-11-27,confluence cell: BTC 1D A (layer4)
+ETH 1D,2026-11-17,2026-11-27,confluence cell: BTC 1D C (layer4_small)
+BTC 1D,2026-11-17,2026-11-27,"agreement count for BTC 2D, BTC 3D, BTC 5D, BTC 8D"
+BTC 1D,2026-11-17,2026-11-27,confluence cell: ETH 5D all (layer4)
+BTC 1D,2026-11-17,2026-11-27,confluence cell: BTC 2D diamond (layer4)
+BTC 1D,2026-11-17,2026-11-27,confluence cell: ETH 1D A (layer4)
+BTC 1D,2026-11-17,2026-11-27,confluence cell: BTC 2D prime (layer4_small)
