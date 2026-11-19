@@ -34,6 +34,7 @@ Writes, under data/options/:
   fetch_log.txt         appended
 """
 import argparse, csv, datetime as dt, json, os, time, urllib.parse, urllib.request
+import fetch   # note_series_written (19 Nov 2026 audit round 44)
 
 OUT = 'data/options'
 HIST = 'https://history.deribit.com/api/v2/public/get_last_trades_by_currency_and_time'
@@ -121,6 +122,8 @@ def save(path, rows, cols):
         for d in sorted(rows):
             w.writerow(rows[d])
     os.replace(tmp, path)
+    if rows:   # the record the stack checks the file against: no row it wrote may go missing (19 Nov 2026 audit round 44)
+        fetch.note_series_written(path, max(rows))
 
 
 def oi_snapshot(cur):

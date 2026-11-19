@@ -10,6 +10,11 @@ interest (per asset) and BTC put/call.
 4. funding_oi_weighted (14 Nov 2026, audit #30): emptied on every row, blank on a day open interest has, or filled
    before open interest began fails (an emptied column was scored on funding_mean everywhere and passed); blank on
    the one day open interest has not reached yet passes.
+5. Rows lost (19 Nov 2026 audit round 44): a series whose last row(s) are gone while its fetch's record
+   (series_through.json) says it wrote them fails the stack step's check, even inside the allowed lag (a lost last
+   funding row changed the ETH cards and passed); a record that ends where the file ends (the fetch has not written
+   today) passes, no record is not checked, an unreadable record fails, a replay of an earlier day does not apply a
+   later record. fetch_derivs.write and fetch_pcr.save keep the record, for the scored series only.
 
     python3 tests/test_series_cells.py      # exit 1 on failure
 """
@@ -93,10 +98,58 @@ def main():
                 # the live case: open interest a day behind, so the last day has no weighted figure yet: passes
                 rs = [dict(r) for r in rows]; rs[-1]["funding_oi_weighted"] = ""; write(rs)
                 open(po, "w").write("".join(oorig.splitlines(keepends=True)[:-1]))
+                rec_d = f"{D}/derivs/{fetch.SERIES_RECORD}"; rec_orig = open(rec_d).read()
+                # the fetch wrote open interest only through the day before (its source had not reached today)
+                fetch.note_series_written(po, list(csv.DictReader(open(po)))[-1]["date"])
                 probs = fetch.history_problems(D, today=today, lag=True)
                 ok(f"{rel}: funding_oi_weighted blank on the one day open interest has not reached yet passes" + (f"  -- {probs[:2]}" if probs else ""), not probs)
-                open(po, "w").write(oorig)
+                open(po, "w").write(oorig); open(rec_d, "w").write(rec_orig)
             open(p, "w").write(orig)
+            # 5. rows lost (19 Nov 2026 audit round 44): the last row(s) gone, inside the allowed lag, while the record
+            # says the fetch wrote them: fails the stack step's check; the same file with a record that ends where it
+            # ends (the fetch has not written today yet) passes; no record passes; a record dated after the run's day
+            # (a replay) is not applied
+            sub = rel.split("/")[0]; rec_p = f"{D}/{sub}/{fetch.SERIES_RECORD}"; rec_orig = open(rec_p).read()
+            lines = orig.splitlines(keepends=True)
+            for k in (1, 2) if kind != "pcr" else (1, 2):
+                open(p, "w").write("".join(lines[:-k]))
+                probs = fetch.history_problems(D, today=end, lag=True)
+                ok(f"{rel}: its last {k} row(s) lost (record intact) fails the stack step's check",
+                   any("rows were lost" in x and stem in x for x in probs))
+            open(p, "w").write("".join(lines[:-1]))
+            cut_end = list(csv.DictReader(open(p)))[-1]["date"]
+            fetch.note_series_written(p, cut_end)
+            probs = fetch.history_problems(D, today=end, lag=True)
+            ok(f"{rel}: one day behind with the record also one day behind (the fetch has not written today) passes",
+               not any(stem in x for x in probs))
+            open(rec_p, "w").write(rec_orig); os.remove(rec_p)
+            probs = fetch.history_problems(D, today=end, lag=True)
+            ok(f"{rel}: one row short and no record passes (nothing to compare)", not any("rows were lost" in x for x in probs))
+            open(rec_p, "w").write("{not json")
+            probs = fetch.history_problems(D, today=end, lag=True)
+            ok(f"{rel}: an unreadable record fails the stack step's check", any(fetch.SERIES_RECORD in x and "not readable" in x for x in probs))
+            open(rec_p, "w").write(rec_orig)
+            probs = fetch.history_problems(D, today=end - dt.timedelta(days=1), lag=True)
+            ok(f"{rel}: a replay of the day before (record dated after it) does not apply the record",
+               not any("rows were lost" in x for x in probs))
+            open(p, "w").write(orig)
+        # the fetches record what they write: fetch_derivs.write and fetch_pcr.save, and only the scored series
+        import importlib
+        for modname, fn in (("fetch_derivs", "write"), ("fetch_pcr", "save")):
+            m = importlib.import_module(modname)
+            sub = "derivs" if modname == "fetch_derivs" else "options"
+            name = "ETH_funding_daily.csv" if sub == "derivs" else "BTC_pcr_daily.csv"
+            W = tempfile.mkdtemp(prefix="rec_"); os.makedirs(f"{W}/{sub}")
+            if fn == "write":
+                m.write(f"{W}/{sub}/{name}", ["date", "x"], [["2026-01-01", 1], ["2026-01-02", 2]])
+                m.write(f"{W}/{sub}/ETH_other.csv", ["date", "x"], [["2026-01-03", 1]])
+            else:
+                m.save(f"{W}/{sub}/{name}", {"2026-01-01": {"date": "2026-01-01"}, "2026-01-02": {"date": "2026-01-02"}}, ["date"])
+                m.save(f"{W}/{sub}/BTC_oi_snapshot.csv", {"2026-01-03": {"date": "2026-01-03"}}, ["date"])
+            import json
+            rec = json.load(open(f"{W}/{sub}/{fetch.SERIES_RECORD}"))
+            ok(f"{modname}.{fn} records the scored file's last date, and only scored files", rec == {name: "2026-01-02"})
+            shutil.rmtree(W, ignore_errors=True)
         print(f"\n{sum(results)}/{len(results)} passed")
         return 0 if all(results) else 1
     finally:

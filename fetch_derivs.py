@@ -24,6 +24,7 @@ Incremental: each run refetches from 7 days before the newest stored date;
 the first run backfills from 2019-01-01.
 """
 import csv, datetime as dt, json, os, sys, time, urllib.request, urllib.error, urllib.parse
+import fetch   # note_series_written (19 Nov 2026 audit round 44)
 
 BASE = 'https://api.coinalyze.net/v1'
 OUT = 'data/derivs'
@@ -131,6 +132,8 @@ def write(path, cols, rows):
         for r in rows:
             w.writerow(r)
     os.replace(tmp, path)
+    if rows:   # the record the stack checks the file against: no row it wrote may go missing (19 Nov 2026 audit round 44)
+        fetch.note_series_written(path, rows[-1][0])
 
 
 def main():

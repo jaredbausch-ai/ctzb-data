@@ -304,6 +304,69 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None
     return bad
 
 
+# 19 Nov 2026 audit round 44: a daily series that lost its last row(s) inside its allowed lag looked like a run whose
+# fetch had not yet written today, and was scored on the shorter file. The fetches (fetch_derivs.py, fetch_pcr.py)
+# only ever add rows, and record in each folder's series_through.json the last date of every series file they wrote.
+# A scored series that ends before that record has lost rows: the file is damaged.
+SERIES_RECORD = "series_through.json"
+SCORED_SERIES = {"derivs": [f"{a}_{k}_daily.csv" for a in ("ETH", "BTC") for k in ("funding", "lsratio", "oi")],
+                 "options": ["BTC_pcr_daily.csv"]}
+
+
+def note_series_written(path, last_date):
+    """Called by a fetch right after it has replaced `path` whole: records `last_date` (YYYY-MM-DD, the file's last
+    row) for that file in its folder's series_through.json, written whole or not at all. Only the scored series
+    are recorded."""
+    if os.path.basename(path) not in SCORED_SERIES.get(os.path.basename(os.path.dirname(os.path.abspath(path))), []):
+        return
+    rec_path = os.path.join(os.path.dirname(path), SERIES_RECORD)
+    try:
+        with open(rec_path) as f:
+            rec = json.load(f)
+        if not isinstance(rec, dict):
+            rec = {}
+    except (OSError, ValueError):
+        rec = {}
+    rec[os.path.basename(path)] = str(last_date)
+    tmp = rec_path + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(dict(sorted(rec.items())), f, indent=1)
+        f.write("\n")
+    os.replace(tmp, rec_path)
+
+
+def rows_lost_problems(data_dir, today):
+    """Every scored daily series ends no earlier than the date its fetch recorded writing (series_through.json), when
+    that date is not after `today` (a replay of an earlier day reads a later record and skips it). A folder with no
+    record is not checked (no fetch has written since the record began); an unreadable record is a failure."""
+    bad = []
+    for sub, names in SCORED_SERIES.items():
+        rec_path = os.path.join(data_dir, sub, SERIES_RECORD)
+        if not os.path.exists(rec_path):
+            continue
+        try:
+            with open(rec_path) as f:
+                rec = json.load(f)
+            if not isinstance(rec, dict):
+                raise ValueError
+            rec = {k: dt.date.fromisoformat(v) for k, v in rec.items()}
+        except (OSError, ValueError, TypeError):
+            bad.append(f"{sub}/{SERIES_RECORD} is not readable: restore it from the last commit"); continue
+        for name in names:
+            want = rec.get(name)
+            path = os.path.join(data_dir, sub, name)
+            if want is None or want > today or not os.path.exists(path):
+                continue   # a missing file is reported by the series checks
+            try:
+                with open(path, newline="") as f:
+                    last = max(dt.date.fromisoformat(r["date"]) for r in csv.DictReader(f))
+            except (OSError, KeyError, TypeError, ValueError, csv.Error):
+                continue   # an unreadable file is reported by the series checks
+            if last < want:
+                bad.append(f"{sub}/{name} ends {last}, but its fetch wrote it through {want}: rows were lost")
+    return bad
+
+
 def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
     """Whole-history checks (13 Nov 2026, audits #20 to #22). Returns a list of problems, empty when whole.
     - Every candle file (1D to 8D, 4H, 12H): its header is exactly CANDLE_HEADER (no extra, missing, repeated or
@@ -500,6 +563,9 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
         odd = [d for d in closes["ETH"] if d in closes["BTC"] and not 0.001 <= closes["ETH"][d] / closes["BTC"][d] <= 0.5]
         if odd:
             bad.append(f"ETH and BTC daily closes are not ETH and BTC on {len(odd)} day(s) (first {min(odd)}): a file of one asset under the other's name?")
+    if lag:
+        # the series the stack scores must still hold every row their fetch wrote (19 Nov 2026 audit round 44)
+        bad += rows_lost_problems(data_dir, today)
     return bad
 
 

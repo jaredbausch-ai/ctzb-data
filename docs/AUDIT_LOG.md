@@ -1646,13 +1646,16 @@ ending on the day before the run), and the run scored the ETH forming cards on i
 records exactly this as not damage: "a daily series' last row lost within its allowed lag is not damage the files can
 show: it is the state of a run whose derivatives fetch has not yet written today, and is scored as such" (round 37;
 `MAX_LAG_DAYS["funding"] = 1`). Round 43's auditor filed the same case as by design. The brief does not carry that
-exception, so the auditor counted it; it is recorded here, not counted. Jared to confirm.
+exception, so the auditor counted it. **Jared (19 Nov 07:31 ET) chose to count it and fix it ("Add fix"), so round 44
+is not clean.** Fix: each fetch now records the last date of every scored series it writes (`series_through.json`,
+`fetch.note_series_written`), and the stack step fails a series that ends before its record (`fetch.rows_lost_problems`).
+`test_series_cells` 106/106 (85/106 on the old code: 7 series x one or two rows lost, and an unreadable record).
 
 The auditor's harness had two bugs (its judging, and an empty step list that re-ran the chain); both were fixed and the
 affected cases re-run. Not run this round: the 1 January and 29 February replays (round 43 ran them). Reports:
 `analysis/audit44_2026-11-19/broken/`.
 
-**With rounds 43 and 44, damage has two clean rounds in a row; docs had them in 41 and 42. The segment is done.**
+Next (Jared, 19 Nov 07:32 ET): numbers, damage and docs together.
 
 ---
 
