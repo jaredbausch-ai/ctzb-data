@@ -1379,6 +1379,15 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
+**Jared's position: check it, never ask him (18 Nov 2026).** Before raising anything that depends on whether Jared is
+in a trade (the lead-trader line, the relay, a card or alert that sits beside his position), check it first with the
+CoinStats connector: `get-perpetual-positions` (all exchanges; his Coinbase exchange portfolio is `621c2b368a9078d0`
+in `get-portfolio-list`). Report only in or out, the asset and the direction: never a size, contract count, price,
+balance or P&L. A test or audit case that uses a made-up lead-trader file is labelled a stand-in every time it is
+mentioned, never written as his trade. On the site this is automatic once the trades relay (`ctzb-trades`, Coinbase
+view-only key he entered himself) is live: it posts his opens and closes within about a minute; going live is his
+switch after Noah's sign-off.
+
 **Every signal its own odds -- tested 28 Oct 2026, the GRADE WINS.** `analysis/model.py`
 (declared, walk-forward 2019-2025, 852 out-of-sample signals): logistic models on
 every read (M1), every pair of reads (M2) and the grade's own lenses weighted instead
