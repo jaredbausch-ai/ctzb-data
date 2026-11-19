@@ -3406,3 +3406,4 @@ first_round,level,family,kind,case,expected
 40,page,HARDENING,hand-forged,clean feed whose checks.failed_steps names a failed step: the page does not read that field,shown as clean
 40,page,HARDENING,hand-forged,forged example card a cent off the example file: only the example chart refuses it,example chart unavailable
 42,pipeline,MALFORMED,real life,"candle file with CR CR LF line ends (a CRLF file converted again): passed the candle check; 12H and a 4H with one such row committed",any CR outside a CRLF fails the history check
+43,page,HARDENING,hand-forged,"forged feeds the strict check accepts: sample text 117 past signals for 17, two forming cards on one chart, example graded C, lost signal with no edge level",shown

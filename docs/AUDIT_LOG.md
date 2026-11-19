@@ -1612,6 +1612,24 @@ fail-closed feeds, year-end, 1 January and 29 February replays).
 - **Deploy note (docs auditor):** the committed `cloudflare/ctzb-site-worker.js` was built at 465e385 and lacks 6q and
   6r (the example-card fix); it is rebuilt at deploy prep.
 
+
+## Round 43 — 19 Nov (damage only; damage clean rounds in a row 1 of 2)
+
+**Clean (damage 0).** Code frozen at 723244a (the round 42 line-end fix, its fix check right, the suite green). States:
+the data of 19 Nov 05:02 UTC (six forming setups) and a replay of 11 Nov 04:14 UTC, plus the auditor's own 18 Nov
+23:59:59 and 31 Dec 2025 23:59:59 replays.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Damage | 3,760 real-life cases (page 656, pipeline 3,104) of 3,830; 52 hardening (15 kinds got through, not counted); 18 by design; two-fault none | **0** |
+
+Every structural candle or series fault (the stray CR included) stopped at the candle check; every real change to a
+datasets file between steps was held or failed closed by the run seal. The auditor's raw flag counts in its progress
+log came from three bugs in its own harness (fixed and re-run). Reports: `analysis/audit43_2026-11-19/broken/`.
+Hardening (not counted), for the record: forged feeds the strict check accepts, e.g. a sample text "117 past signals"
+for 17 (the check looks for "17" in the text), two forming cards on one chart, the worked example graded C, a lost
+signal with no edge level ("It fell to its edge level (n/a)").
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

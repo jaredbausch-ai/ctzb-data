@@ -1,0 +1,247 @@
+2026-11-19T05:03:22Z start: audit43c begun; 0 cases, 0 disagreements
+2026-11-19T05:08:24Z stage C started (repo tests: test_feed_damage quick, test_seal, test_page_timing) in background; 0 cases so far
+2026-11-19T05:25:04Z stage C done: test_feed_damage (quick) rc=0, test_seal 29/29, test_page_timing 24/24; starting pipeline snapshots
+2026-11-19T05:25:37Z pipeline batch files current: starting 22 cases
+2026-11-19T05:28:40Z pipeline batch files current: done 22 cases, 2 disagreements
+2026-11-19T05:29:01Z pipeline batch inputs2+clock+steps+alerts current: starting 116 cases
+2026-11-19T05:29:08Z pipeline batch inputs2+clock+steps+alerts current: starting 116 cases
+2026-11-19T05:33:02Z pipeline batch inputs2+clock+steps+alerts current: 25/116 cases, 1 disagreements so far
+2026-11-19T05:36:18Z pipeline batch inputs2+clock+steps+alerts current: 50/116 cases, 5 disagreements so far
+2026-11-19T05:38:56Z pipeline batch inputs2+clock+steps+alerts current: 75/116 cases, 11 disagreements so far
+2026-11-19T05:41:19Z pipeline batch inputs2+clock+steps+alerts current: 100/116 cases, 15 disagreements so far
+2026-11-19T05:44:06Z pipeline batch inputs2+clock+steps+alerts current: done 116 cases, 15 disagreements
+2026-11-19T05:44:06Z pipeline batch inputs2+clock+steps+alerts+files replay_1111: starting 138 cases
+2026-11-19T05:48:08Z pipeline batch inputs2+clock+steps+alerts+files replay_1111: 25/138 cases, 1 disagreements so far
+2026-11-19T05:51:42Z pipeline batch inputs2+clock+steps+alerts+files replay_1111: 50/138 cases, 5 disagreements so far
+2026-11-19T05:55:01Z pipeline batch inputs2+clock+steps+alerts+files replay_1111: 75/138 cases, 7 disagreements so far
+2026-11-19T05:57:22Z pipeline batch inputs2+clock+steps+alerts+files replay_1111: 100/138 cases, 11 disagreements so far
+2026-11-19T06:01:23Z pipeline batch inputs2+clock+steps+alerts+files replay_1111: 125/138 cases, 11 disagreements so far
+2026-11-19T06:03:12Z pipeline batch inputs2+clock+steps+alerts+files replay_1111: done 138 cases, 11 disagreements
+2026-11-19T06:03:12Z pipeline batch inputs current: starting 609 cases
+2026-11-19T06:04:47Z pipeline batch inputs current: 25/609 cases, 0 disagreements so far
+2026-11-19T06:06:59Z pipeline batch inputs current: 50/609 cases, 0 disagreements so far
+2026-11-19T06:09:14Z pipeline batch inputs current: 75/609 cases, 0 disagreements so far
+2026-11-19T06:11:23Z pipeline batch inputs current: 100/609 cases, 0 disagreements so far
+2026-11-19T06:13:48Z pipeline batch inputs current: 125/609 cases, 0 disagreements so far
+2026-11-19T06:13:51Z harness fix: gate emulation ignored check_candles' return code; inputs batches restarted (earlier inputs results discarded)
+2026-11-19T06:14:04Z pipeline batch inputs current: starting 609 cases
+2026-11-19T06:14:23Z pipeline batch inputs current: 25/609 cases, 0 disagreements so far
+2026-11-19T06:14:51Z pipeline batch inputs current: 50/609 cases, 0 disagreements so far
+2026-11-19T06:15:18Z pipeline batch inputs current: 75/609 cases, 0 disagreements so far
+2026-11-19T06:15:47Z pipeline batch inputs current: 100/609 cases, 0 disagreements so far
+2026-11-19T06:16:17Z pipeline batch inputs current: 125/609 cases, 0 disagreements so far
+2026-11-19T06:16:52Z pipeline batch inputs current: 150/609 cases, 0 disagreements so far
+2026-11-19T06:17:31Z pipeline batch inputs current: 175/609 cases, 0 disagreements so far
+2026-11-19T06:17:55Z pipeline batch inputs current: 200/609 cases, 0 disagreements so far
+2026-11-19T06:18:18Z pipeline batch inputs current: 225/609 cases, 0 disagreements so far
+2026-11-19T06:18:45Z pipeline batch inputs current: 250/609 cases, 0 disagreements so far
+2026-11-19T06:19:13Z pipeline batch inputs current: 275/609 cases, 0 disagreements so far
+2026-11-19T06:19:41Z pipeline batch inputs current: 300/609 cases, 0 disagreements so far
+2026-11-19T06:20:08Z pipeline batch inputs current: 325/609 cases, 0 disagreements so far
+2026-11-19T06:20:39Z pipeline batch inputs current: 350/609 cases, 0 disagreements so far
+2026-11-19T06:21:15Z pipeline batch inputs current: 375/609 cases, 0 disagreements so far
+2026-11-19T06:22:59Z pipeline batch inputs current: 400/609 cases, 6 disagreements so far
+2026-11-19T06:24:20Z pipeline batch inputs current: 425/609 cases, 10 disagreements so far
+2026-11-19T06:25:41Z pipeline batch inputs current: 450/609 cases, 14 disagreements so far
+2026-11-19T06:27:26Z pipeline batch inputs current: 475/609 cases, 20 disagreements so far
+2026-11-19T06:28:47Z pipeline batch inputs current: 500/609 cases, 24 disagreements so far
+2026-11-19T06:30:21Z pipeline batch inputs current: 525/609 cases, 29 disagreements so far
+2026-11-19T06:32:04Z pipeline batch inputs current: 550/609 cases, 35 disagreements so far
+2026-11-19T06:33:19Z pipeline batch inputs current: 575/609 cases, 39 disagreements so far
+2026-11-19T06:33:45Z pipeline batch inputs current: 600/609 cases, 39 disagreements so far
+2026-11-19T06:33:55Z pipeline batch inputs current: done 609 cases, 39 disagreements
+2026-11-19T06:33:55Z pipeline batch inputs2 current: starting 44 cases
+2026-11-19T06:36:45Z pipeline batch inputs2 current: 25/44 cases, 1 disagreements so far
+2026-11-19T06:39:26Z pipeline batch inputs2 current: done 44 cases, 5 disagreements
+2026-11-19T06:39:26Z pipeline batch inputs2 replay_1111: starting 44 cases
+2026-11-19T06:42:02Z pipeline batch inputs2 replay_1111: 25/44 cases, 1 disagreements so far
+2026-11-19T06:44:48Z pipeline batch inputs2 replay_1111: done 44 cases, 5 disagreements
+2026-11-19T06:44:48Z pipeline batch steps+alerts+files current: starting 15 cases
+2026-11-19T06:44:51Z pipeline batch steps+alerts+files current: done 15 cases, 1 disagreements
+2026-11-19T06:44:51Z pipeline batch steps+alerts+files replay_1111: starting 15 cases
+2026-11-19T06:44:54Z pipeline batch steps+alerts+files replay_1111: done 15 cases, 1 disagreements
+2026-11-19T06:44:54Z pipeline batch between current: starting 1068 cases
+2026-11-19T06:45:21Z pipeline batch between current: 25/1068 cases, 1 disagreements so far
+2026-11-19T06:45:36Z pipeline batch between current: 50/1068 cases, 1 disagreements so far
+2026-11-19T06:46:01Z pipeline batch between current: 75/1068 cases, 2 disagreements so far
+2026-11-19T06:46:20Z pipeline batch between current: 100/1068 cases, 2 disagreements so far
+2026-11-19T06:46:49Z pipeline batch between current: 125/1068 cases, 3 disagreements so far
+2026-11-19T06:47:26Z pipeline batch between current: 150/1068 cases, 5 disagreements so far
+2026-11-19T06:48:04Z pipeline batch between current: 175/1068 cases, 7 disagreements so far
+2026-11-19T06:48:31Z pipeline batch between current: 200/1068 cases, 8 disagreements so far
+2026-11-19T06:49:30Z pipeline batch between current: 225/1068 cases, 11 disagreements so far
+2026-11-19T06:51:57Z pipeline batch between current: 250/1068 cases, 30 disagreements so far
+2026-11-19T06:53:37Z pipeline batch between current: 275/1068 cases, 43 disagreements so far
+2026-11-19T06:53:55Z pipeline batch between current: 300/1068 cases, 44 disagreements so far
+2026-11-19T06:55:58Z pipeline batch between current: 325/1068 cases, 60 disagreements so far
+2026-11-19T06:56:37Z pipeline batch between current: 350/1068 cases, 64 disagreements so far
+2026-11-19T06:57:02Z pipeline batch between current: 375/1068 cases, 65 disagreements so far
+2026-11-19T06:57:13Z pipeline batch between current: 400/1068 cases, 65 disagreements so far
+2026-11-19T06:57:33Z pipeline batch between current: 425/1068 cases, 66 disagreements so far
+2026-11-19T06:57:47Z pipeline batch between current: 450/1068 cases, 66 disagreements so far
+2026-11-19T06:57:59Z pipeline batch between current: 475/1068 cases, 66 disagreements so far
+2026-11-19T06:58:30Z pipeline batch between current: 500/1068 cases, 69 disagreements so far
+2026-11-19T06:58:49Z pipeline batch between current: 525/1068 cases, 70 disagreements so far
+2026-11-19T06:59:14Z pipeline batch between current: 550/1068 cases, 72 disagreements so far
+2026-11-19T06:59:44Z pipeline batch between current: 575/1068 cases, 75 disagreements so far
+2026-11-19T07:00:00Z pipeline batch between current: 600/1068 cases, 76 disagreements so far
+2026-11-19T07:00:08Z pipeline batch between current: 625/1068 cases, 77 disagreements so far
+2026-11-19T07:00:17Z pipeline batch between current: 650/1068 cases, 77 disagreements so far
+2026-11-19T07:00:27Z pipeline batch between current: 675/1068 cases, 80 disagreements so far
+2026-11-19T07:00:37Z pipeline batch between current: 700/1068 cases, 84 disagreements so far
+2026-11-19T07:00:48Z pipeline batch between current: 725/1068 cases, 87 disagreements so far
+2026-11-19T07:00:56Z pipeline batch between current: 750/1068 cases, 87 disagreements so far
+2026-11-19T07:01:04Z pipeline batch between current: 775/1068 cases, 88 disagreements so far
+2026-11-19T07:01:11Z pipeline batch between current: 800/1068 cases, 91 disagreements so far
+2026-11-19T07:01:19Z pipeline batch between current: 825/1068 cases, 94 disagreements so far
+2026-11-19T07:01:27Z pipeline batch between current: 850/1068 cases, 98 disagreements so far
+2026-11-19T07:01:33Z pipeline batch between current: 875/1068 cases, 98 disagreements so far
+2026-11-19T07:01:39Z pipeline batch between current: 900/1068 cases, 99 disagreements so far
+2026-11-19T07:01:45Z pipeline batch between current: 925/1068 cases, 99 disagreements so far
+2026-11-19T07:01:51Z pipeline batch between current: 950/1068 cases, 99 disagreements so far
+2026-11-19T07:01:59Z pipeline batch between current: 975/1068 cases, 101 disagreements so far
+2026-11-19T07:02:04Z pipeline batch between current: 1000/1068 cases, 102 disagreements so far
+2026-11-19T07:02:09Z pipeline batch between current: 1025/1068 cases, 104 disagreements so far
+2026-11-19T07:02:16Z pipeline batch between current: 1050/1068 cases, 107 disagreements so far
+2026-11-19T07:02:20Z pipeline batch between current: done 1068 cases, 108 disagreements
+2026-11-19T07:02:20Z pipeline batch inputs replay_1111: starting 609 cases
+2026-11-19T07:02:41Z pipeline batch inputs replay_1111: 25/609 cases, 0 disagreements so far
+2026-11-19T07:03:10Z pipeline batch inputs replay_1111: 50/609 cases, 0 disagreements so far
+2026-11-19T07:03:41Z pipeline batch inputs replay_1111: 75/609 cases, 0 disagreements so far
+2026-11-19T07:04:12Z pipeline batch inputs replay_1111: 100/609 cases, 0 disagreements so far
+2026-11-19T07:04:42Z pipeline batch inputs replay_1111: 125/609 cases, 0 disagreements so far
+2026-11-19T07:05:06Z pipeline batch inputs replay_1111: 150/609 cases, 0 disagreements so far
+2026-11-19T07:05:34Z pipeline batch inputs replay_1111: 175/609 cases, 0 disagreements so far
+2026-11-19T07:05:57Z pipeline batch inputs replay_1111: 200/609 cases, 0 disagreements so far
+2026-11-19T07:06:22Z pipeline batch inputs replay_1111: 225/609 cases, 0 disagreements so far
+2026-11-19T07:06:53Z pipeline batch inputs replay_1111: 250/609 cases, 0 disagreements so far
+2026-11-19T07:07:24Z pipeline batch inputs replay_1111: 275/609 cases, 0 disagreements so far
+2026-11-19T07:07:53Z pipeline batch inputs replay_1111: 300/609 cases, 0 disagreements so far
+2026-11-19T07:08:21Z pipeline batch inputs replay_1111: 325/609 cases, 0 disagreements so far
+2026-11-19T07:08:42Z pipeline batch inputs replay_1111: 350/609 cases, 0 disagreements so far
+2026-11-19T07:09:10Z pipeline batch inputs replay_1111: 375/609 cases, 0 disagreements so far
+2026-11-19T07:10:57Z pipeline batch inputs replay_1111: 400/609 cases, 5 disagreements so far
+2026-11-19T07:12:21Z pipeline batch inputs replay_1111: 425/609 cases, 9 disagreements so far
+2026-11-19T07:13:42Z pipeline batch inputs replay_1111: 450/609 cases, 13 disagreements so far
+2026-11-19T07:15:27Z pipeline batch inputs replay_1111: 475/609 cases, 19 disagreements so far
+2026-11-19T07:16:50Z pipeline batch inputs replay_1111: 500/609 cases, 23 disagreements so far
+2026-11-19T07:18:26Z pipeline batch inputs replay_1111: 525/609 cases, 28 disagreements so far
+2026-11-19T07:20:14Z pipeline batch inputs replay_1111: 550/609 cases, 34 disagreements so far
+2026-11-19T07:21:32Z pipeline batch inputs replay_1111: 575/609 cases, 38 disagreements so far
+2026-11-19T07:22:02Z pipeline batch inputs replay_1111: 600/609 cases, 38 disagreements so far
+2026-11-19T07:22:13Z pipeline batch inputs replay_1111: done 609 cases, 38 disagreements
+2026-11-19T07:22:21Z pipeline so far: ~2700 cases; every structural candle/series damage stopped at the gate; open items are unread per-market columns, the accepted 1-day series lag, and harness no-ops (identical copies); triage pending
+2026-11-19T07:22:26Z pipeline batch readcols+between2 current: starting 531 cases
+2026-11-19T07:23:33Z pipeline batch readcols+between2 current: 25/531 cases, 0 disagreements so far
+2026-11-19T07:24:42Z pipeline batch readcols+between2 current: 50/531 cases, 2 disagreements so far
+2026-11-19T07:25:50Z pipeline batch readcols+between2 current: 75/531 cases, 2 disagreements so far
+2026-11-19T07:26:54Z pipeline batch readcols+between2 current: 100/531 cases, 3 disagreements so far
+2026-11-19T07:27:24Z pipeline batch readcols+between2 current: 125/531 cases, 3 disagreements so far
+2026-11-19T07:27:56Z pipeline batch readcols+between2 current: 150/531 cases, 3 disagreements so far
+2026-11-19T07:28:26Z pipeline batch readcols+between2 current: 175/531 cases, 3 disagreements so far
+2026-11-19T07:29:19Z pipeline batch readcols+between2 current: 200/531 cases, 3 disagreements so far
+2026-11-19T07:30:36Z pipeline batch readcols+between2 current: 225/531 cases, 3 disagreements so far
+2026-11-19T07:31:05Z pipeline batch readcols+between2 current: 250/531 cases, 3 disagreements so far
+2026-11-19T07:31:31Z pipeline batch readcols+between2 current: 275/531 cases, 3 disagreements so far
+2026-11-19T07:31:56Z pipeline batch readcols+between2 current: 300/531 cases, 3 disagreements so far
+2026-11-19T07:32:24Z pipeline batch readcols+between2 current: 325/531 cases, 3 disagreements so far
+2026-11-19T07:32:52Z pipeline batch readcols+between2 current: 350/531 cases, 3 disagreements so far
+2026-11-19T07:33:18Z pipeline batch readcols+between2 current: 375/531 cases, 3 disagreements so far
+2026-11-19T07:33:46Z pipeline batch readcols+between2 current: 400/531 cases, 3 disagreements so far
+2026-11-19T07:34:09Z pipeline batch readcols+between2 current: 425/531 cases, 3 disagreements so far
+2026-11-19T07:34:39Z pipeline batch readcols+between2 current: 450/531 cases, 3 disagreements so far
+2026-11-19T07:35:09Z pipeline batch readcols+between2 current: 475/531 cases, 3 disagreements so far
+2026-11-19T07:35:39Z pipeline batch readcols+between2 current: 500/531 cases, 3 disagreements so far
+2026-11-19T07:36:12Z pipeline batch readcols+between2 current: 525/531 cases, 3 disagreements so far
+2026-11-19T07:36:14Z pipeline batch readcols+between2 current: done 531 cases, 3 disagreements
+2026-11-19T07:37:02Z pipeline batch clock mid_1118: starting 14 cases
+2026-11-19T07:39:18Z pipeline batch clock mid_1118: done 14 cases, 3 disagreements
+2026-11-19T07:39:18Z pipeline batch clock ye_1231: starting 14 cases
+2026-11-19T07:39:31Z pipeline batch clock ye_1231: starting 14 cases
+2026-11-19T07:41:11Z pipeline batch clock ye_1231: done 14 cases, 2 disagreements
+2026-11-19T07:41:17Z pipeline batch clock mid_1118: starting 14 cases
+2026-11-19T07:43:34Z pipeline batch clock mid_1118: done 14 cases, 1 disagreements
+2026-11-19T07:43:34Z pipeline batch clock ye_1231: starting 14 cases
+2026-11-19T07:45:41Z pipeline batch clock ye_1231: done 14 cases, 1 disagreements
+2026-11-19T07:45:50Z pipeline batch twice current: starting 3 cases
+2026-11-19T07:46:25Z pipeline batch twice current: done 3 cases, 0 disagreements
+2026-11-19T07:46:33Z page batch trades current: starting 22 cases
+2026-11-19T07:47:32Z page batch trades current: 10/22 cases, 6 with a problem so far
+2026-11-19T07:48:31Z page batch trades current: 20/22 cases, 6 with a problem so far
+2026-11-19T07:48:43Z page batch trades current: done 22 cases, 7 with a problem
+2026-11-19T07:48:56Z page batch delivery+example current: starting 48 cases
+2026-11-19T07:49:14Z page batch delivery+example current: 10/48 cases, 0 with a problem so far
+2026-11-19T07:49:33Z page batch delivery+example current: 20/48 cases, 0 with a problem so far
+2026-11-19T07:50:07Z page batch delivery+example current: 30/48 cases, 0 with a problem so far
+2026-11-19T07:50:42Z page batch delivery+example current: 40/48 cases, 0 with a problem so far
+2026-11-19T07:51:29Z page batch delivery+example current: done 48 cases, 0 with a problem
+2026-11-19T07:51:37Z page batch content+ledger+charts+trades+combos+unusual+hardening current: starting 335 cases
+2026-11-19T07:52:30Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 10/335 cases, 3 with a problem so far
+2026-11-19T07:53:54Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 20/335 cases, 3 with a problem so far
+2026-11-19T07:54:54Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 30/335 cases, 5 with a problem so far
+2026-11-19T07:55:52Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 40/335 cases, 6 with a problem so far
+2026-11-19T07:56:51Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 50/335 cases, 7 with a problem so far
+2026-11-19T07:57:49Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 60/335 cases, 8 with a problem so far
+2026-11-19T07:58:47Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 70/335 cases, 8 with a problem so far
+2026-11-19T07:59:46Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 80/335 cases, 8 with a problem so far
+2026-11-19T08:00:45Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 90/335 cases, 9 with a problem so far
+2026-11-19T08:01:44Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 100/335 cases, 9 with a problem so far
+2026-11-19T08:02:42Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 110/335 cases, 9 with a problem so far
+2026-11-19T08:03:41Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 120/335 cases, 10 with a problem so far
+2026-11-19T08:04:40Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 130/335 cases, 10 with a problem so far
+2026-11-19T08:05:39Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 140/335 cases, 10 with a problem so far
+2026-11-19T08:06:38Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 150/335 cases, 11 with a problem so far
+2026-11-19T08:07:37Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 160/335 cases, 11 with a problem so far
+2026-11-19T08:08:36Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 170/335 cases, 11 with a problem so far
+2026-11-19T08:09:35Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 180/335 cases, 12 with a problem so far
+2026-11-19T08:10:34Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 190/335 cases, 12 with a problem so far
+2026-11-19T08:11:32Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 200/335 cases, 12 with a problem so far
+2026-11-19T08:12:31Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 210/335 cases, 13 with a problem so far
+2026-11-19T08:13:30Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 220/335 cases, 13 with a problem so far
+2026-11-19T08:14:29Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 230/335 cases, 13 with a problem so far
+2026-11-19T08:15:27Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 240/335 cases, 14 with a problem so far
+2026-11-19T08:16:26Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 250/335 cases, 14 with a problem so far
+2026-11-19T08:17:25Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 260/335 cases, 14 with a problem so far
+2026-11-19T08:18:24Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 270/335 cases, 14 with a problem so far
+2026-11-19T08:19:23Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 280/335 cases, 14 with a problem so far
+2026-11-19T08:20:05Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 290/335 cases, 14 with a problem so far
+2026-11-19T08:20:47Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 300/335 cases, 14 with a problem so far
+2026-11-19T08:21:30Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 310/335 cases, 14 with a problem so far
+2026-11-19T08:22:25Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 320/335 cases, 15 with a problem so far
+2026-11-19T08:23:20Z page batch content+ledger+charts+trades+combos+unusual+hardening current: 330/335 cases, 24 with a problem so far
+2026-11-19T08:23:45Z page batch content+ledger+charts+trades+combos+unusual+hardening current: done 335 cases, 28 with a problem
+2026-11-19T08:23:47Z page batch all replay_1111: starting 319 cases
+2026-11-19T08:24:05Z page batch all replay_1111: 10/319 cases, 0 with a problem so far
+2026-11-19T08:24:23Z page batch all replay_1111: 20/319 cases, 0 with a problem so far
+2026-11-19T08:24:53Z page batch all replay_1111: 30/319 cases, 0 with a problem so far
+2026-11-19T08:25:24Z page batch all replay_1111: 40/319 cases, 2 with a problem so far
+2026-11-19T08:25:59Z page batch all replay_1111: 50/319 cases, 3 with a problem so far
+2026-11-19T08:27:25Z page batch all replay_1111: 60/319 cases, 5 with a problem so far
+2026-11-19T08:28:12Z page batch all replay_1111: 70/319 cases, 5 with a problem so far
+2026-11-19T08:29:00Z page batch all replay_1111: 80/319 cases, 7 with a problem so far
+2026-11-19T08:29:47Z page batch all replay_1111: 90/319 cases, 8 with a problem so far
+2026-11-19T08:30:34Z page batch all replay_1111: 100/319 cases, 8 with a problem so far
+2026-11-19T08:31:21Z page batch all replay_1111: 110/319 cases, 8 with a problem so far
+2026-11-19T08:32:08Z page batch all replay_1111: 120/319 cases, 8 with a problem so far
+2026-11-19T08:32:55Z page batch all replay_1111: 130/319 cases, 9 with a problem so far
+2026-11-19T08:33:42Z page batch all replay_1111: 140/319 cases, 9 with a problem so far
+2026-11-19T08:34:30Z page batch all replay_1111: 150/319 cases, 9 with a problem so far
+2026-11-19T08:35:17Z page batch all replay_1111: 160/319 cases, 10 with a problem so far
+2026-11-19T08:36:04Z page batch all replay_1111: 170/319 cases, 10 with a problem so far
+2026-11-19T08:36:51Z page batch all replay_1111: 180/319 cases, 10 with a problem so far
+2026-11-19T08:37:38Z page batch all replay_1111: 190/319 cases, 11 with a problem so far
+2026-11-19T08:38:26Z page batch all replay_1111: 200/319 cases, 11 with a problem so far
+2026-11-19T08:39:13Z page batch all replay_1111: 210/319 cases, 11 with a problem so far
+2026-11-19T08:40:00Z page batch all replay_1111: 220/319 cases, 12 with a problem so far
+2026-11-19T08:40:48Z page batch all replay_1111: 230/319 cases, 12 with a problem so far
+2026-11-19T08:41:35Z page batch all replay_1111: 240/319 cases, 12 with a problem so far
+2026-11-19T08:42:23Z page batch all replay_1111: 250/319 cases, 12 with a problem so far
+2026-11-19T08:43:10Z page batch all replay_1111: 260/319 cases, 12 with a problem so far
+2026-11-19T08:43:52Z page batch all replay_1111: 270/319 cases, 12 with a problem so far
+2026-11-19T08:44:24Z page batch all replay_1111: 280/319 cases, 12 with a problem so far
+2026-11-19T08:45:03Z page batch all replay_1111: 290/319 cases, 12 with a problem so far
+2026-11-19T08:45:42Z page batch all replay_1111: 300/319 cases, 12 with a problem so far
+2026-11-19T08:46:25Z page batch all replay_1111: 310/319 cases, 18 with a problem so far
+2026-11-19T08:47:05Z page batch all replay_1111: done 319 cases, 26 with a problem
+2026-11-19T08:49:55Z all batches done: 3830 cases (page 706, pipeline 3124); 0 counted disagreements; 15 hardening gaps (14 page forged feeds x2 states, 1 pipeline); writing report
+2026-11-19T08:50:51Z report written: AUDIT43_BROKEN.md; 3760 counted cases, 0 disagreements; hardening 15 kinds got through
