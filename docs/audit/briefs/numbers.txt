@@ -2,12 +2,12 @@ You are an independent auditor. Check every number a member sees on the ETHKROS 
 
 INDEPENDENCE: earlier audits exist. Do NOT read, import or copy anything from /home/claude/ctzb-data/analysis/audit_2026-11-12/ or any analysis/audit<N>_2026-11-12/ folder, from docs/AUDIT_LOG.md (when you grep docs/, exclude that file), or from any folder under <scratchpad>/ except the two state folders below and your own output folder. Write all your own code.
 
-Output folder: <scratchpad>/audit<round>n/ (create it). Report AUDIT36_NUMBERS.md, plus all_checks.csv (state, location, label, shown, yours, ok, cause) and disagreements.csv. Append a one-line note to progress.log in that folder each time you finish a stage (data checks, page checks, replays, synthetic states, report), with the comparison and disagreement counts so far. Keep the folder small: delete replay copies as you go, and gzip per-replay check files.
+Output folder: <scratchpad>/audit<round>n/ (create it). Code frozen at commit <commit> (the states were built from it). Report AUDIT<round>_NUMBERS.md, plus all_checks.csv (state, location, label, shown, yours, ok, cause) and disagreements.csv. Append a one-line note to progress.log in that folder each time you finish a stage (data checks, page checks, replays, synthetic states, report), with the comparison and disagreement counts so far. Keep the folder small: delete replay copies as you go, and gzip per-replay check files.
 
 ## The two states (frozen; copy them if you need to run anything)
 
 1. REPLAY: <scratchpad>/a<round>/replay_0414 -- data committed by the 12 Nov 2026 04:14 UTC pipeline run, rebuilt with the current code, clock 2026-11-12T04:14:00Z (env CTZB_NOW). 4 forming setups.
-2. CURRENT: <scratchpad>/a<round>/current -- today's data, real clock (feed generated on 15 Nov 2026 05:24 UTC; read its generated_at). 6 forming setups.
+2. CURRENT: <scratchpad>/a<round>/current -- today's data (daily candles to <today>), real clock (built at <built>; read its generated_at). <forming>.
 Both have a live (open) top-grade BTC 2D setup confirmed 2026-09-21, open signals for ETH and BTC each with its own card, and an example_card. Both were built by tests/build_audit_states.sh.
 
 OTHER REAL DATES: also replay other dates, on COPIES in your own folder. tests/replay_at.sh <YYYY-MM-DD> <out dir> [clock] (run from a copy of a state folder) replays the pipeline as of a past date (candles cut at the end of that date, 2D-8D bars rebuilt from the cut daily candles, clock at 04:14 UTC that day unless given). Report two groups SEPARATELY:
