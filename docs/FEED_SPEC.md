@@ -424,7 +424,8 @@ not hold) and `alerts_held` (the alerts kept for the next clean feed, as above).
 enforce mode, when any of the last 30 closed days differs from Kraken's close by more than 0.5%. stack_live.py runs
 `fetch.history_problems` again and fails the stack step on any problem. It requires:
 
-- every file below (candle files and daily series) ending with a whole line and holding no blank line;
+- every file below (candle files and daily series) ending with a whole line, holding no blank line, and holding no
+  carriage return other than as part of a CRLF line end;
 - every candle file (1D to 8D, 4H, 12H) present, with a header that is exactly `time,open,high,low,close,volume`
   (no extra, missing, repeated or reordered column) and every row exactly the header's cells; every cell readable; prices finite and above zero; high and low bracketing open and close;
   volume not negative; times on the bar grid (daily and multi-day bars at midnight UTC) and strictly ascending;

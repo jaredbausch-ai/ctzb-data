@@ -13,16 +13,18 @@ the files it points to do not. Update the "Where we are" section at the end of e
   not clean.
 - **Round 40** (damage and docs only, code 5e52cba): damage 0, docs 1 (kind 1, README max-safe sentence, fixed in
   452cbd6; plus a borderline kind 4 Jared has not ruled on), so not clean. The first damage part at zero since 36.
-- **Round 41** (damage and docs only, code 01f3976): damage 0, docs 0. **Clean.** Round 42 next (round 2 of the cap).
-- Counted per round: docs 24 (34), 21 (35), 10 (36; 3 on the new rule), 1 (37), 1 (38), 0 (39), 1 (40), 0 (41); damage 1 (35),
-  0 (36), 1 (37), 1 (38), 1 (39), 0 (40), 0 (41); numbers 1 (35), 0 (36), 0 (37).
+- **Round 41** (damage and docs only, code 01f3976): damage 0, docs 0. **Clean.**
+- **Round 42** (damage and docs only, code 8d944e4): damage 1 (CR CR LF line ends, family 2, fixed with a test), docs 0.
+- Counted per round: docs 24 (34), 21 (35), 10 (36; 3 on the new rule), 1 (37), 1 (38), 0 (39), 1 (40), 0 (41), 0 (42); damage 1 (35),
+  0 (36), 1 (37), 1 (38), 1 (39), 0 (40), 0 (41), 1 (42); numbers 1 (35), 0 (36), 0 (37).
 
 ## The plan from round 41 (Jared, 18 Nov 15:35 ET)
 
 - **Segmented.** Numbers already has two clean rounds in a row (36, 37) and is not re-run for now. Rounds run the
   damage and docs parts only until **both** have two clean rounds in a row. Then the full system (all three parts) is
   run again.
-- **Clean rounds in a row (damage and docs): 1 of 2** (round 41 clean).
+- **Docs: done** (clean in rounds 41 and 42). **Damage: 0 of 2** (41 clean, 42 not). Rounds 43 and 44 are left in
+  the cap; damage needs both clean.
 - **Fewer new sentences.** During this segment only counted causes are changed: damage causes, and docs findings of
   kind 1, 2 or 4, each with the smallest change. Loose wording (kind 3) and outside-scope findings are recorded in
   `docs/audit/loose_wording.md` and corrected together at the end, because every rewrite is new text for the next

@@ -10,6 +10,8 @@
 4. Malformed: a candle file whose header is not exactly time,open,high,low,close,volume fails (18 Nov 2026 audit
    round 37: a second "close" column read as the real close in the check while the scorer read the first, so closes
    changed inside each bar's range were scored): a repeated, extra, missing or reordered column, on every file.
+5. Malformed: a carriage return that is not part of a CRLF line end (CR CR LF, a bare CR) fails in every file; all-LF
+   and all-CRLF files pass (19 Nov 2026 audit round 42: CR CR LF passed on the 4H and 12H files).
 
     python3 tests/test_input_files.py      # exit 1 on failure
 """
@@ -53,6 +55,23 @@ def main():
                 ls = t.splitlines(keepends=True); return "".join(ls[:-1] + ["  \n"] + ls[-1:])
             got = [bool(with_text(rel, f, lambda: fetch.history_problems(D, today=today))) for f in (mid, end, sp)]
             ok(f"{rel}: a blank line in the middle, at the end or of spaces fails ({sum(got)}/3)", all(got))
+
+        # 5. stray carriage returns (19 Nov 2026 audit round 42: CR CR LF line ends passed on the 4H and 12H files):
+        # a CR not followed by LF, on one line, on every line, or as a bare-CR line end, fails in every file; the same
+        # file with every line ending LF, or every line ending CRLF, passes
+        for rel in CANDLES + SERIES:
+            def one(t):
+                ls = t.splitlines(keepends=True); k = len(ls) // 2
+                ls[k] = ls[k].rstrip("\r\n") + "\r\r\n"; return "".join(ls)
+            def every(t): return "".join(l.rstrip("\r\n") + "\r\r\n" for l in t.splitlines(keepends=True))
+            def bare(t):
+                ls = t.splitlines(keepends=True); k = len(ls) // 2
+                return "".join(ls[:k]) + ls[k].rstrip("\r\n") + "\r" + "".join(ls[k + 1:])
+            got = [bool(with_text(rel, f, lambda: fetch.history_problems(D, today=today))) for f in (one, every, bare)]
+            ok(f"{rel}: CR CR LF on one line, on every line, or a bare CR line end fails ({sum(got)}/3)", all(got))
+            lf = with_text(rel, lambda t: "".join(l.rstrip("\r\n") + "\n" for l in t.splitlines(keepends=True)), lambda: fetch.history_problems(D, today=today))
+            crlf = with_text(rel, lambda t: "".join(l.rstrip("\r\n") + "\r\n" for l in t.splitlines(keepends=True)), lambda: fetch.history_problems(D, today=today))
+            ok(f"{rel}: every line ending LF, or every line ending CRLF, passes", not lf and not crlf, str((lf + crlf)[:2]))
 
         # 2. missing intraday bars
         def drop(rel, keep):

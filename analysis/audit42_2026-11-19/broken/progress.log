@@ -1,0 +1,47 @@
+2026-11-19T02:14:25Z start: audit42c begun; 0 cases, 0 disagreements
+2026-11-19T02:18:17Z stage 0 done: read spec/page/feed_live/seal/fetch checks; timed chain (~12 s on replay_1111); 0 cases, 0 disagreements
+2026-11-19T02:22:24Z stage A setup: harness built, baseline both states clean, 5 replay packs built (1118,1112,0101,1231,0229); 2 cases, 0 disagreements
+2026-11-19T02:26:44Z stage A: page real-life batch starting
+2026-11-19T02:28:35Z page batch: 25 cases run this pass
+2026-11-19T02:29:58Z page batch: 50 cases run this pass
+2026-11-19T02:31:58Z page batch: 75 cases run this pass
+2026-11-19T02:34:00Z page batch: 100 cases run this pass
+2026-11-19T02:35:23Z page batch: ~120/304 real-life cases run, 0 disagreements so far (1 harness false positive fixed)
+2026-11-19T02:36:02Z page batch: 125 cases run this pass
+2026-11-19T02:37:25Z page batch: 150 cases run this pass
+2026-11-19T02:39:01Z page batch: 175 cases run this pass
+2026-11-19T02:40:40Z page batch: 200 cases run this pass
+2026-11-19T02:42:24Z page batch: 225 cases run this pass
+2026-11-19T02:44:00Z page batch: 250 cases run this pass
+2026-11-19T02:45:48Z page batch: 275 cases run this pass
+2026-11-19T02:48:22Z page batch: 300 cases run this pass
+2026-11-19T02:49:51Z page batch: 25 cases run this pass
+2026-11-19T02:50:32Z stage A page real-life: 304 cases done, 0 disagreements (harness false positives re-run)
+2026-11-19T02:52:19Z stage A: year-end replays (30 Dec 2024, 3 Jan, 1 Feb 2025) charts placed correctly, 0 disagreements; hardening batch starting
+2026-11-19T02:57:43Z hardening (page): 108 forged/unusual cases, page and feedcheck.py agree on all; 0 problems. Pipeline batch starting (396 cases)
+2026-11-19T02:58:25Z pipeline batch: 20 cases this pass, 1 not as expected so far (unreviewed)
+2026-11-19T02:59:18Z pipeline batch: 40 cases this pass, 2 not as expected so far (unreviewed)
+2026-11-19T02:59:41Z pipeline batch: 60 cases this pass, 3 not as expected so far (unreviewed)
+2026-11-19T03:00:41Z pipeline batch: 80 cases this pass, 4 not as expected so far (unreviewed)
+2026-11-19T03:01:40Z pipeline batch: 100 cases this pass, 6 not as expected so far (unreviewed)
+2026-11-19T03:01:58Z pipeline batch: 120 cases this pass, 7 not as expected so far (unreviewed)
+2026-11-19T03:03:04Z pipeline batch: 140 cases this pass, 8 not as expected so far (unreviewed)
+2026-11-19T03:03:50Z pipeline batch: 160 cases this pass, 8 not as expected so far (unreviewed)
+2026-11-19T03:04:45Z pipeline batch: 180 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:05:22Z pipeline batch: 200 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:05:53Z pipeline batch: 220 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:06:32Z pipeline batch: 240 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:07:20Z pipeline batch: 260 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:08:56Z pipeline batch: 280 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:12:02Z pipeline batch: 300 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:12:11Z pipeline batch: 300/396 cases, unexpected outcomes under review: CRLF->CRCRLF line ends pass the candle check (12H), exponent-form cells (format only)
+2026-11-19T03:16:15Z pipeline batch: 320 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:20:26Z pipeline batch: 340 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:24:12Z pipeline batch: 360 cases this pass, 9 not as expected so far (unreviewed)
+2026-11-19T03:27:44Z pipeline batch: 380 cases this pass, 12 not as expected so far (unreviewed)
+2026-11-19T03:33:41Z pipeline batch done: 387 cases; 1 gap found (stray CR line ends pass the candle check: 12H/4H committed; scored files fail safe), rest as expected or harness expectation errors; alert sequences next
+2026-11-19T03:57:35Z alert sequences: 24 run; re-running 6 whose damage was mis-applied by my harness
+2026-11-19T04:02:03Z alert sequences done: 24 sequences (2 two-fault), 0 counted problems; part C repo tests starting
+2026-11-19T04:18:32Z part C: test_seal 29/29, test_page_timing 24/24, test_feed_damage (RENDER_LIMIT=40 REJECT_LIMIT=10) 33/33 pass; building CSVs
+2026-11-19T04:18:58Z CSVs built: 868 checks; 1 counted disagreement (pipeline, CR CR LF line ends pass the candle check); writing report
+2026-11-19T04:19:51Z report written: AUDIT42_BROKEN.md; 1 counted disagreement (pipeline), 0 page; done

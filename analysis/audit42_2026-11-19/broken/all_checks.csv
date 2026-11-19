@@ -1,0 +1,869 @@
+level,family,state,damaged,expected,shown,ok,cause
+page,baseline,replay_1111 (2026-11-11 04:14),none (baseline),clean,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),ledger 404,ledger_unavail,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),ledger 500,ledger_unavail,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),ledger abort,ledger_unavail,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),trades 500,trades_unavail,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),trades abort,trades_unavail,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),example file 404,example_unavail,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),example file 500,example_unavail,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),chart file ETH_1D 404 (mirror lost it),chart_unavail ETH_1D,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),chart file ETH_2D 404 (mirror lost it),chart_unavail ETH_2D,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),chart file ETH_3D 404 (mirror lost it),chart_unavail ETH_3D,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),chart file BTC_1D 404 (mirror lost it),chart_unavail BTC_1D,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),chart file BTC_2D 404 (mirror lost it),chart_unavail BTC_2D,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),every chart file 404,"chart_unavail a,l,l",as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),"feed ok, every other file 500",feed_only,as expected,True,
+page,baseline,current (2026-11-19 02:13),none (baseline),clean,as expected,True,
+page,missing,current (2026-11-19 02:13),ledger 404,ledger_unavail,as expected,True,
+page,missing,current (2026-11-19 02:13),ledger 500,ledger_unavail,as expected,True,
+page,missing,current (2026-11-19 02:13),ledger abort,ledger_unavail,as expected,True,
+page,missing,current (2026-11-19 02:13),trades 500,trades_unavail,as expected,True,
+page,missing,current (2026-11-19 02:13),trades abort,trades_unavail,as expected,True,
+page,missing,current (2026-11-19 02:13),example file 404,example_unavail,as expected,True,
+page,missing,current (2026-11-19 02:13),example file 500,example_unavail,as expected,True,
+page,missing,current (2026-11-19 02:13),chart file ETH_1D 404 (mirror lost it),chart_unavail ETH_1D,as expected,True,
+page,missing,current (2026-11-19 02:13),chart file ETH_2D 404 (mirror lost it),chart_unavail ETH_2D,as expected,True,
+page,missing,current (2026-11-19 02:13),chart file ETH_3D 404 (mirror lost it),chart_unavail ETH_3D,as expected,True,
+page,missing,current (2026-11-19 02:13),chart file BTC_1D 404 (mirror lost it),chart_unavail BTC_1D,as expected,True,
+page,missing,current (2026-11-19 02:13),chart file BTC_2D 404 (mirror lost it),chart_unavail BTC_2D,as expected,True,
+page,missing,current (2026-11-19 02:13),every chart file 404,"chart_unavail a,l,l",as expected,True,
+page,missing,current (2026-11-19 02:13),"feed ok, every other file 500",feed_only,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed with a UTF-8 BOM,same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed with CRLF line ends,same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger empty body,ledger_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger header only,ledger_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger cut mid-line at 30.0%,ledger_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger cut mid-line at 70.0%,ledger_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger cut mid-line at 99.5%,ledger_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),"ledger cut at a line end, last 1 rows lost",ledger_unavail_or_same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),"ledger cut at a line end, last 5 rows lost",ledger_unavail_or_same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),"ledger cut at a line end, last 40 rows lost",ledger_unavail_or_same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger as an HTML error page with status 200,ledger_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger with CRLF line ends,same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger with a UTF-8 BOM,ledger_unavail_or_same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger delivered twice in one body,ledger_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger with a blank line in the middle,ledger_unavail_or_same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),example file cut at 0%,example_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),example file cut at 50%,example_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),example file cut at 99%,example_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),example file as an HTML error page,example_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),trades file cut mid-JSON,trades_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),trades file as an HTML error page with status 200,trades_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),trades file empty body,trades_unavail,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV cut mid-line at the mirror,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV cut at a line end (last bar lost),chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV cut at a line end (first 30 bars lost),chart_drawn_or_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV header only,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV empty,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV is an HTML error page,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D JSON cut in transit,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV with CRLF,same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV with a blank line in the middle,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV with one row twice,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV with a row lost in the middle,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV with two rows swapped,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV with the last row repeated,chart_unavail BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_1D CSV with a UTF-8 BOM,chart_unavail_or_same BTC_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV cut mid-line at the mirror,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV cut at a line end (last bar lost),chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV cut at a line end (first 30 bars lost),chart_drawn_or_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV header only,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV empty,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV is an HTML error page,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D JSON cut in transit,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV with CRLF,same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV with a blank line in the middle,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV with one row twice,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV with a row lost in the middle,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV with two rows swapped,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV with the last row repeated,chart_unavail BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),BTC_2D CSV with a UTF-8 BOM,chart_unavail_or_same BTC_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV cut mid-line at the mirror,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV cut at a line end (last bar lost),chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV cut at a line end (first 30 bars lost),chart_drawn_or_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV header only,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV empty,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV is an HTML error page,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D JSON cut in transit,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV with CRLF,same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV with a blank line in the middle,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV with one row twice,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV with a row lost in the middle,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV with two rows swapped,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV with the last row repeated,chart_unavail ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_1D CSV with a UTF-8 BOM,chart_unavail_or_same ETH_1D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV cut mid-line at the mirror,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV cut at a line end (last bar lost),chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV cut at a line end (first 30 bars lost),chart_drawn_or_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV header only,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV empty,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV is an HTML error page,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D JSON cut in transit,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV with CRLF,same,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV with a blank line in the middle,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV with one row twice,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV with a row lost in the middle,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV with two rows swapped,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV with the last row repeated,chart_unavail ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ETH_2D CSV with a UTF-8 BOM,chart_unavail_or_same ETH_2D,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed slow (arrives after the others),slow_feed,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),ledger slow,slow_ledger,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),example slow,slow_example,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),trades slow then a valid file,slow_trades,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),"chart file slow, member picks another setup before it arrives",slow_chart_switch,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed with a UTF-8 BOM,same,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed with CRLF line ends,same,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger empty body,ledger_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger header only,ledger_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger cut mid-line at 30.0%,ledger_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger cut mid-line at 70.0%,ledger_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger cut mid-line at 99.5%,ledger_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),"ledger cut at a line end, last 1 rows lost",ledger_unavail_or_same,as expected,True,
+page,delivery,current (2026-11-19 02:13),"ledger cut at a line end, last 5 rows lost",ledger_unavail_or_same,as expected,True,
+page,delivery,current (2026-11-19 02:13),"ledger cut at a line end, last 40 rows lost",ledger_unavail_or_same,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger as an HTML error page with status 200,ledger_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger with CRLF line ends,same,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger with a UTF-8 BOM,ledger_unavail_or_same,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger delivered twice in one body,ledger_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger with a blank line in the middle,ledger_unavail_or_same,as expected,True,
+page,delivery,current (2026-11-19 02:13),example file cut at 0%,example_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),example file cut at 50%,example_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),example file cut at 99%,example_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),example file as an HTML error page,example_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),trades file cut mid-JSON,trades_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),trades file as an HTML error page with status 200,trades_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),trades file empty body,trades_unavail,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV cut mid-line at the mirror,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV cut at a line end (last bar lost),chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV cut at a line end (first 30 bars lost),chart_drawn_or_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV header only,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV empty,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV is an HTML error page,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D JSON cut in transit,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV with CRLF,same,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV with a blank line in the middle,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV with one row twice,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV with a row lost in the middle,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV with two rows swapped,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV with the last row repeated,chart_unavail BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),BTC_2D CSV with a UTF-8 BOM,chart_unavail_or_same BTC_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV cut mid-line at the mirror,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV cut at a line end (last bar lost),chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV cut at a line end (first 30 bars lost),chart_drawn_or_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV header only,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV empty,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV is an HTML error page,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D JSON cut in transit,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV with CRLF,same,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV with a blank line in the middle,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV with one row twice,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV with a row lost in the middle,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV with two rows swapped,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV with the last row repeated,chart_unavail ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_2D CSV with a UTF-8 BOM,chart_unavail_or_same ETH_2D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV cut mid-line at the mirror,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV cut at a line end (last bar lost),chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV cut at a line end (first 30 bars lost),chart_drawn_or_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV header only,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV empty,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV is an HTML error page,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D JSON cut in transit,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV with CRLF,same,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV with a blank line in the middle,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV with one row twice,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV with a row lost in the middle,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV with two rows swapped,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV with the last row repeated,chart_unavail ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),ETH_3D CSV with a UTF-8 BOM,chart_unavail_or_same ETH_3D,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed slow (arrives after the others),slow_feed,as expected,True,
+page,delivery,current (2026-11-19 02:13),ledger slow,slow_ledger,as expected,True,
+page,delivery,current (2026-11-19 02:13),example slow,slow_example,as expected,True,
+page,delivery,current (2026-11-19 02:13),trades slow then a valid file,slow_trades,as expected,True,
+page,delivery,current (2026-11-19 02:13),"chart file slow, member picks another setup before it arrives",slow_chart_switch,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ledger URL serves the feed JSON,ledger_unavail,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ledger URL serves a candle CSV,ledger_unavail,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ledger of 29 Feb 2024 (an old run),ledger_unavail,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),trades URL serves the feed JSON,trades_unavail,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),trades URL serves the ledger,trades_unavail,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),example URL serves the feed,example_unavail,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),example URL serves the ETH 2D chart JSON,example_unavail,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_1D file served as BTC_1D,chart_unavail BTC_1D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),BTC_1D file served as ETH_1D,chart_unavail ETH_1D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_2D file served as BTC_2D,chart_unavail BTC_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),BTC_2D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_1D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_2D file served as ETH_1D,chart_unavail ETH_1D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_3D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_8D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),BTC_3D file served as BTC_2D,chart_unavail BTC_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),BTC_1D file from the neighbouring run (P1112),chart_unavail BTC_1D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),BTC_2D file from the neighbouring run (P1112),chart_unavail BTC_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_1D file from the neighbouring run (P1112),chart_unavail ETH_1D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),ETH_2D file from the neighbouring run (P1112),chart_unavail ETH_2D,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),example file whose entry is the next bar,example_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),ledger URL serves the feed JSON,ledger_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),ledger URL serves a candle CSV,ledger_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),ledger of 29 Feb 2024 (an old run),ledger_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),trades URL serves the feed JSON,trades_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),trades URL serves the ledger,trades_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),example URL serves the feed,example_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),example URL serves the ETH 2D chart JSON,example_unavail,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_2D file served as BTC_2D,chart_unavail BTC_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),BTC_2D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_1D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_3D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_2D file served as ETH_3D,chart_unavail ETH_3D,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_8D file served as ETH_2D,chart_unavail ETH_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_5D file served as ETH_3D,chart_unavail ETH_3D,as expected,True,
+page,wrong,current (2026-11-19 02:13),BTC_3D file served as BTC_2D,chart_unavail BTC_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),BTC_2D file from the neighbouring run (P1118),chart_unavail BTC_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_2D file from the neighbouring run (P1118),chart_unavail ETH_2D,as expected,True,
+page,wrong,current (2026-11-19 02:13),ETH_3D file from the neighbouring run (P1118),chart_unavail ETH_3D,as expected,True,
+page,wrong,current (2026-11-19 02:13),example file whose entry is the next bar,example_unavail,as expected,True,
+page,partial,current (2026-11-19 02:13),"feed of this run, ledger of P1118",ledger_mix,as expected,True,
+page,partial,current (2026-11-19 02:13),"feed of this run, chart files of P1118",chart_mix,as expected,True,
+page,partial,current (2026-11-19 02:13),"feed of this run, ledger and chart files of P1118",all_mix,as expected,True,
+page,baseline,P1118,none (baseline),clean,as expected,True,
+page,partial,P1118,"feed of this run, ledger of B",ledger_mix,as expected,True,
+page,partial,P1118,"feed of this run, chart files of B",chart_mix,as expected,True,
+page,partial,P1118,"feed of this run, ledger and chart files of B",all_mix,as expected,True,
+page,partial,replay_1111 (2026-11-11 04:14),"feed of this run, ledger of P1112",ledger_mix,as expected,True,
+page,partial,replay_1111 (2026-11-11 04:14),"feed of this run, chart files of P1112",chart_mix,as expected,True,
+page,partial,replay_1111 (2026-11-11 04:14),"feed of this run, ledger and chart files of P1112",all_mix,as expected,True,
+page,baseline,P1112,none (baseline),clean,as expected,True,
+page,partial,P1112,"feed of this run, ledger of A",ledger_mix,as expected,True,
+page,partial,P1112,"feed of this run, chart files of A",chart_mix,as expected,True,
+page,partial,P1112,"feed of this run, ledger and chart files of A",all_mix,as expected,True,
+page,baseline,P1231,none (baseline),clean,as expected,True,
+page,partial,P1231,"feed of this run, ledger of P0101",ledger_mix,as expected,True,
+page,partial,P1231,"feed of this run, chart files of P0101",chart_mix,as expected,True,
+page,partial,P1231,"feed of this run, ledger and chart files of P0101",all_mix,as expected,True,
+page,baseline,P0101,none (baseline),clean,as expected,True,
+page,partial,P0101,"feed of this run, ledger of P1231",ledger_mix,as expected,True,
+page,partial,P0101,"feed of this run, chart files of P1231",chart_mix,as expected,True,
+page,partial,P0101,"feed of this run, ledger and chart files of P1231",all_mix,as expected,True,
+page,baseline,Pheld,none (baseline),clean,as expected,True,
+page,partial,Pheld,held feed (a gating step failed) beside the last good ledger and chart files,held,as expected,True,
+page,baseline,Pfailclosed,none (baseline),clean,as expected,True,
+page,partial,Pfailclosed,fail-closed feed (feed step crashed) beside the last good ledger and chart files,held,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),viewer clock +299 min from generated_at,fresh,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),viewer clock +301 min from generated_at,stale,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),viewer clock +1560 min from generated_at,stale,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),viewer clock +43200 min from generated_at,stale,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),viewer clock -3 min from generated_at,fresh,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),viewer clock -1440 min from generated_at,future,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),page left open 5 h 10 min,left_open,as expected,True,
+page,timing,replay_1111 (2026-11-11 04:14),page left open 3 days,left_open,as expected,True,
+page,timing,current (2026-11-19 02:13),viewer clock +299 min from generated_at,fresh,as expected,True,
+page,timing,current (2026-11-19 02:13),viewer clock +301 min from generated_at,stale,as expected,True,
+page,timing,current (2026-11-19 02:13),viewer clock +1560 min from generated_at,stale,as expected,True,
+page,timing,current (2026-11-19 02:13),viewer clock +43200 min from generated_at,stale,as expected,True,
+page,timing,current (2026-11-19 02:13),viewer clock -3 min from generated_at,fresh,as expected,True,
+page,timing,current (2026-11-19 02:13),viewer clock -1440 min from generated_at,future,as expected,True,
+page,timing,current (2026-11-19 02:13),page left open 5 h 10 min,left_open,as expected,True,
+page,timing,current (2026-11-19 02:13),page left open 3 days,left_open,as expected,True,
+page,timing,P1231,viewer at 23:59 on 31 Dec,fresh,as expected,True,
+page,timing,P1231,viewer at 00:01 on 1 Jan (daily and yearly close passed),closed,as expected,True,
+page,timing,P1231,"page open at 23:00 31 Dec, still open at 00:30 1 Jan",closed_open,as expected,True,
+page,timing,P0101,"run at 00:13 on 1 Jan, viewer +6 min",fresh,as expected,True,
+page,baseline,P0229,none (baseline),clean,as expected,True,
+page,timing,P0229,"run on 29 Feb, viewer +6 min",fresh,as expected,True,
+page,timing,P1118,"feed 22:13, page open at 22:19, left open past midnight to 00:20",closed_open,as expected,True,
+page,baseline,Pquiet,none (baseline),clean,as expected,True,
+page,timing,Pquiet,"quiet market, viewer +6 min",quiet,as expected,True,
+page,timing,Pquiet,"quiet market, page left open 5 h 10 min (example must go)",quiet_left_open,as expected,True,
+page,timing,Pquiet,"quiet market, viewer 6 h after the feed",quiet_stale,as expected,True,
+page,timing,Pquiet,"quiet market, feed slow",quiet_slow,as expected,True,
+page,baseline,replay_1111 (2026-11-11 04:14),none (baseline),clean,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),feed 404,down,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),feed 500,down,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),feed abort,down,as expected,True,
+page,missing,replay_1111 (2026-11-11 04:14),every data file 404,down,as expected,True,
+page,baseline,current (2026-11-19 02:13),none (baseline),clean,as expected,True,
+page,missing,current (2026-11-19 02:13),feed 404,down,as expected,True,
+page,missing,current (2026-11-19 02:13),feed 500,down,as expected,True,
+page,missing,current (2026-11-19 02:13),feed abort,down,as expected,True,
+page,missing,current (2026-11-19 02:13),every data file 404,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed cut at 0.0% of its bytes,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed cut at 10.0% of its bytes,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed cut at 50.0% of its bytes,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed cut at 90.0% of its bytes,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed cut at 99.9% of its bytes,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed cut just before its last brace,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed as an HTML error page with status 200,down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),"feed body ""null""",down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),"feed body ""{}""",down,as expected,True,
+page,delivery,replay_1111 (2026-11-11 04:14),feed delivered twice in one body,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed cut at 0.0% of its bytes,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed cut at 10.0% of its bytes,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed cut at 50.0% of its bytes,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed cut at 90.0% of its bytes,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed cut at 99.9% of its bytes,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed cut just before its last brace,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed as an HTML error page with status 200,down,as expected,True,
+page,delivery,current (2026-11-19 02:13),"feed body ""null""",down,as expected,True,
+page,delivery,current (2026-11-19 02:13),"feed body ""{}""",down,as expected,True,
+page,delivery,current (2026-11-19 02:13),feed delivered twice in one body,down,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),feed URL serves the ledger CSV,down,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),feed URL serves the example chart JSON,down,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),feed URL serves a chart JSON,down,as expected,True,
+page,wrong,replay_1111 (2026-11-11 04:14),feed URL serves a lead-trader file,down,as expected,True,
+page,wrong,current (2026-11-19 02:13),feed URL serves the ledger CSV,down,as expected,True,
+page,wrong,current (2026-11-19 02:13),feed URL serves the example chart JSON,down,as expected,True,
+page,wrong,current (2026-11-19 02:13),feed URL serves a chart JSON,down,as expected,True,
+page,wrong,current (2026-11-19 02:13),feed URL serves a lead-trader file,down,as expected,True,
+page,baseline,P0229,none (baseline),clean,as expected,True,
+page,timing,P0229,"run on 29 Feb, viewer at 00:00:30 on 1 Mar (20 h old)",stale,as expected,True,
+page,baseline,Pquiet,none (baseline),clean,as expected,True,
+page,timing,Pquiet,"quiet market, feed 404",down,as expected,True,
+page,timing,y1230,"year-end replay (multi-day bars restart on 1 January), every chart",clean,as expected,True,
+page,timing,y0103,"year-end replay (multi-day bars restart on 1 January), every chart",clean,as expected,True,
+page,timing,y0201,"year-end replay (multi-day bars restart on 1 January), every chart",clean,as expected,True,
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: +20% share above its +10% share,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: eras do not add up to the sample,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: ladder count rises with depth,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: signal_id of another date,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: low_day after confirms_on,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: sample text names another size,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: dip before the high deeper than the deepest dip,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card: rounded and exact from-entry shares 3 apart,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),cards: the same card twice,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),cards: forming card already confirmed before the feed date,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),open: a card attached to the wrong signal,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),open: days_elapsed off by one,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),open: rose10 status with best +5%,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),open: intact status but fell past its edge level,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),open: day-10 figure before day 10,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),open: two signals with one id,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),grade_odds: never-fell share above +10% share,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),grade_odds: an asset/grade twice,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),if_it_misses: misses above signals,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),if_it_misses: signals differ from grade_odds,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),past_paths: quartiles out of order on day 30,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),past_paths: count differs from grade_odds,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),example: another signal's card as the example,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),example: extras of another sample,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),feed: withheld but cards present,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),feed: clean but checks.all_passed false,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),feed: scored_as_of the day before generated_at,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),feed: scored_as_of after generated_at,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),odds_fade: bands out of order,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),odds_fade: edge mark disagrees with its share,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),odds_fade: rows filled with no tier date,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card list in reverse order (accepted; picker re-sorts),accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),open_signals in reverse order (accepted),accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),numbers in exponent form / huge-but-valid price,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),markup and script in every text field,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),very long sample text (20 kB),accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),"unicode in text (RTL, emoji, zero-width)",accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),deeply nested junk in an unread field,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),duplicate keys in the JSON text (last wins),same-verdict,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card share exactly 70 / exact 69.999999 on the from-entry row,edge70,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card share exactly 70.0 exact on the from-entry row,edge70,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),card with day 0 / day 60 timings and 0 / 100 shares,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),feed generated 3 min in the future of the viewer,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),feed generated a day ahead of the viewer,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,replay_1111 (2026-11-11 04:14),price 0.01 on a forming card,accept-chart-unavail,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: +20% share above its +10% share,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: eras do not add up to the sample,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: ladder count rises with depth,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: signal_id of another date,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: low_day after confirms_on,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: sample text names another size,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: dip before the high deeper than the deepest dip,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card: rounded and exact from-entry shares 3 apart,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),cards: the same card twice,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),cards: forming card already confirmed before the feed date,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),open: a card attached to the wrong signal,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),open: days_elapsed off by one,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),open: rose10 status with best +5%,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),open: intact status but fell past its edge level,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),open: day-10 figure before day 10,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),open: two signals with one id,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),grade_odds: never-fell share above +10% share,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),grade_odds: an asset/grade twice,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),if_it_misses: misses above signals,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),if_it_misses: signals differ from grade_odds,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),past_paths: quartiles out of order on day 30,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),past_paths: count differs from grade_odds,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),example: another signal's card as the example,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),example: extras of another sample,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),feed: withheld but cards present,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),feed: clean but checks.all_passed false,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),feed: scored_as_of the day before generated_at,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),feed: scored_as_of after generated_at,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),odds_fade: bands out of order,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),odds_fade: edge mark disagrees with its share,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),odds_fade: rows filled with no tier date,reject,as expected,True,page and feedcheck.py agree: reject
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card list in reverse order (accepted; picker re-sorts),accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),open_signals in reverse order (accepted),accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),numbers in exponent form / huge-but-valid price,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),markup and script in every text field,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),very long sample text (20 kB),accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),"unicode in text (RTL, emoji, zero-width)",accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),deeply nested junk in an unread field,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),duplicate keys in the JSON text (last wins),same-verdict,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card share exactly 70 / exact 69.999999 on the from-entry row,edge70,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card share exactly 70.0 exact on the from-entry row,edge70,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),card with day 0 / day 60 timings and 0 / 100 shares,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),feed generated 3 min in the future of the viewer,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),feed generated a day ahead of the viewer,accept,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),price 0.01 on a forming card,accept-chart-unavail,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades valid: one ETH long open,trades-ok,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades valid: ETH short open then add then reduce,trades-ok,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),"trades valid: BTC long closed, ETH long open",trades-ok,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),"trades valid: 40 trades, BTC only",trades-ok,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades valid: no trades,trades-ok,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),"trades valid: optional fields absent, no ids",trades-ok,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades valid: a trade 4 min ahead of the viewer,trades-ok,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: a trade 30 min ahead of the viewer,trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: oldest first,trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: one fill listed twice (same id),trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),"trades damaged: one fill twice, one copy without id",trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),"trades damaged: one fill twice, time written +00:00 vs Z",trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: unknown asset,trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: price 0,trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: leverage 0,trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: action missing,trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: trades is an object,trades-bad,as expected,True,page and feedcheck.py agree: accept
+page-hardening (not counted),hardening,current (2026-11-19 02:13),trades damaged: a dollar size field (usd_size) on a row,trades-bad,"as expected; accepted (unknown fields are ignored, known and accepted); no dollar size or contract count shown",True,page and feedcheck.py agree: accept
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: a middle row duplicated,stopped,stopped:check_candles,True, (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_1D: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: two middle rows swapped,stopped,stopped:check_candles,True, (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_1D: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: first row deleted,stopped,stopped:check_candles,True,"H_5D bars differ from the daily candles: 1 missing (first 2016-05-19), 1 extra; ETH_8D bars differ from the daily candles: 1 missing (first 2016-05-19), 1 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: a middle row deleted,stopped,stopped:check_candles,True, 2016-08-25); ETH_5D: 1 bar(s) are not their daily candles bucketed (first 2016-08-23); ETH_8D: 1 bar(s) are not their daily candles bucketed (first 2016-08-20)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: last row (the open bar) deleted,stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_1D last bar 2026-11-10, expected 2026-11-11"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: last 3 rows deleted,stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_1D last bar 2026-11-08, expected 2026-11-11"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: volume column dropped,stopped,stopped:check_candles,True,"n,high,low,close,volume; ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (KeyError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_1D: column ""close"" renamed ""Close""",stopped,stopped:check_candles,True,"n,high,low,close,volume; ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (KeyError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: columns high and low swapped in the header,stopped,stopped:check_candles,True,25.32; ETH_1D 2026-11-09: OHLC inconsistent o=2125.0 h=2080.35 l=2157.48 c=2132.15; ETH_1D 2026-11-10: OHLC inconsistent o=2132.09 h=2003.24 l=2134.03 c=2050.58
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: text in a close cell,stopped,stopped:check_candles,True,"ng or unreadable cell; ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (ValueError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: blank close cell,stopped,stopped:check_candles,True,"ng or unreadable cell; ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (ValueError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: negative low,stopped,stopped:check_candles,True, 2016-12-05); ETH_5D: 1 bar(s) are not their daily candles bucketed (first 2016-12-01); ETH_8D: 1 bar(s) are not their daily candles bucketed (first 2016-12-02)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: zero open,stopped,stopped:check_candles,True,"ilure) BAD CANDLES: ETH_1D: row 201 has a price at or below zero, or a negative volume; ETH_3D: 1 bar(s) are not their daily candles bucketed (first 2016-12-05)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: zero price on the last (open) bar,stopped,stopped:check_candles,True, 2026-11-09); ETH_5D: 1 bar(s) are not their daily candles bucketed (first 2026-11-07); ETH_8D: 1 bar(s) are not their daily candles bucketed (first 2026-11-09)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_1D: last line cut (no newline, cell shortened)",stopped,stopped:check_candles,True,ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_1D: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: last line cut to just its time,stopped,stopped:check_candles,True,"short or run together); ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (TypeError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: CRLF line ends,clean-same,stopped:check_fresh,True,"state A's 1D/4H/12H files are already CRLF, so this made every line end CR CR LF (a stray CR line). The candle check (fetch._file_problem, fetch.py:200-209) passes it; the scored files fail safe later (check_fresh or engine.load crash -> stopped or held)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: a UTF-8 BOM,stopped,stopped:check_candles,True,"n,high,low,close,volume; ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (KeyError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: a trailing blank line,stopped,stopped:check_fresh,True," File "".github/scripts/check_fresh.py"", line 28, in last     return int(float(rows[-1][0]))                      ~~~~~~~~^^^ IndexError: list index out of range"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: a second header row in the middle,stopped,stopped:check_candles,True,"ng or unreadable cell; ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (ValueError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: a row with an extra trailing comma,stopped,stopped:check_candles,True,"hort or run together); ETH_1D could not be read whole, so its history was not checked; ETH: candle files unreadable (ValueError); see the whole-history problems"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_1D: ""nan"" in a high cell",stopped,stopped:check_candles,True,inite number; ETH_2D: 1 bar(s) are not their daily candles bucketed (first 2016-10-15); ETH_3D: 1 bar(s) are not their daily candles bucketed (first 2016-10-15)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: the whole file emptied,stopped,stopped:check_fresh,True,"^   File "".github/scripts/check_fresh.py"", line 28, in last     return int(float(rows[-1][0]))                      ~~~~^^^^ IndexError: list index out of range"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: file deleted,stopped,stopped:check_fresh,True,"n last     with open(os.path.join(D, name)) as f:          ~~~~^^^^^^^^^^^^^^^^^^^^^^^ FileNotFoundError: [Errno 2] No such file or directory: 'data/ETH_1D.csv'"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: header only,stopped,stopped:check_fresh,True,"pts/check_fresh.py"", line 28, in last     return int(float(rows[-1][0]))                ~~~~~^^^^^^^^^^^^^ ValueError: could not convert string to float: 'time'"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_1D: cut at a row end, half the file lost",stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_1D last bar 2021-08-15, expected 2026-11-11"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: last row repeated,stopped,stopped:check_candles,True,(not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_1D: row(s) repeated or out of order (first at row 3830)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: prices written in exponent form (same values),clean-same,clean-DIFFERENT chart files candles_eth_1d.csv,True,"format only: feed figures equal the undamaged run; chart CSV keeps the cell text (extras copies cells verbatim), values equal"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: cells quoted (same values),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_1D: time written as a float (""...0.0"")",withheld-or-stop,held,True,format only: 4H/12H are not scored; values equal
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: high below close on one middle bar,stopped,stopped:check_candles,True,pen or close; ETH_2D: 1 bar(s) are not their daily candles bucketed (first 2016-09-15); ETH_5D: 1 bar(s) are not their daily candles bucketed (first 2016-09-12)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: last bar time moved one step later (a bar from the future),stopped,stopped:check_candles,True,kipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_1D: row 3829 is not on the 24-hour grid
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D: a cell with trailing spaces (same value),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: a middle row duplicated,stopped,stopped:check_candles,True, (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: two middle rows swapped,stopped,stopped:check_candles,True, (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: first row deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D bars differ from the daily candles: 1 missing (first 2016-01-01), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: a middle row deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D bars differ from the daily candles: 1 missing (first 2016-07-17), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: last row (the open bar) deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D bars differ from the daily candles: 1 missing (first 2026-11-11), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: last 3 rows deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D bars differ from the daily candles: 3 missing (first 2026-11-07), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: volume column dropped,stopped,stopped:check_candles,True," BAD CANDLES: BTC_2D: its header is not exactly time,open,high,low,close,volume; BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_2D: column ""close"" renamed ""Close""",stopped,stopped:check_candles,True," BAD CANDLES: BTC_2D: its header is not exactly time,open,high,low,close,volume; BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: columns high and low swapped in the header,stopped,stopped:check_candles,True,"ure) BAD CANDLES: BTC_2D: its header is not exactly time,open,high,low,close,volume; BTC_2D: 1988 bar(s) are not their daily candles bucketed (first 2016-01-01)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: text in a close cell,stopped,stopped:check_candles,True,"n (not a failure) BAD CANDLES: BTC_2D: row 201 has a missing or unreadable cell; BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: blank close cell,stopped,stopped:check_candles,True,"n (not a failure) BAD CANDLES: BTC_2D: row 201 has a missing or unreadable cell; BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: negative low,stopped,stopped:check_candles,True,"ilure) BAD CANDLES: BTC_2D: row 201 has a price at or below zero, or a negative volume; BTC_2D: 1 bar(s) are not their daily candles bucketed (first 2017-02-02)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: zero open,stopped,stopped:check_candles,True,"ilure) BAD CANDLES: BTC_2D: row 201 has a price at or below zero, or a negative volume; BTC_2D: 1 bar(s) are not their daily candles bucketed (first 2017-02-02)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: zero price on the last (open) bar,stopped,stopped:check_candles,True,"lure) BAD CANDLES: BTC_2D: row 1989 has a price at or below zero, or a negative volume; BTC_2D: 1 bar(s) are not their daily candles bucketed (first 2026-11-11)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_2D: last line cut (no newline, cell shortened)",stopped,stopped:check_candles,True,ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: last line cut to just its time,stopped,stopped:check_candles,True,"989 does not have exactly the header's cells (a line cut short or run together); BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: CRLF line ends,clean-same,held,True,"state A's 1D/4H/12H files are already CRLF, so this made every line end CR CR LF (a stray CR line). The candle check (fetch._file_problem, fetch.py:200-209) passes it; the scored files fail safe later (check_fresh or engine.load crash -> stopped or held)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: a UTF-8 BOM,stopped,stopped:check_candles,True," BAD CANDLES: BTC_2D: its header is not exactly time,open,high,low,close,volume; BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: a trailing blank line,stopped,stopped:check_candles,True,this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: a second header row in the middle,stopped,stopped:check_candles,True,"n (not a failure) BAD CANDLES: BTC_2D: row 151 has a missing or unreadable cell; BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: a row with an extra trailing comma,stopped,stopped:check_candles,True,"152 does not have exactly the header's cells (a line cut short or run together); BTC_2D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_2D: ""nan"" in a high cell",stopped,stopped:check_candles,True, skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D: row 151 holds a non-finite number
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: the whole file emptied,stopped,stopped:check_candles,True," CANDLES: BTC_2D: its header is not exactly time,open,high,low,close,volume; BTC_2D bars differ from the daily candles: 1988 missing (first 2016-01-01), 0 extra"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: file deleted,stopped,stopped:check_candles,True,"n unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D is missing; BTC_2D is missing, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: header only,stopped,stopped:check_candles,True,"- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D is empty; BTC_2D bars differ from the daily candles: 1988 missing (first 2016-01-01), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_2D: cut at a row end, half the file lost",stopped,stopped:check_candles,True,"aken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D bars differ from the daily candles: 994 missing (first 2021-06-08), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: last row repeated,stopped,stopped:check_candles,True,(not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D: row(s) repeated or out of order (first at row 1990)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: prices written in exponent form (same values),clean-same,clean-DIFFERENT chart files candles_btc_2d.csv,True,"format only: feed figures equal the undamaged run; chart CSV keeps the cell text (extras copies cells verbatim), values equal"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: cells quoted (same values),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_2D: time written as a float (""...0.0"")",withheld-or-stop,held,True,format only: 4H/12H are not scored; values equal
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: high below close on one middle bar,stopped,stopped:check_candles,True,"lure) BAD CANDLES: BTC_2D: row 121 has a high below, or a low above, its open or close; BTC_2D: 1 bar(s) are not their daily candles bucketed (first 2016-08-26)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: last bar time moved one step later (a bar from the future),stopped,stopped:check_candles,True,kipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_2D: row 1989 is not on the 24-hour grid
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D: a cell with trailing spaces (same value),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: a middle row duplicated,stopped,stopped:check_candles,True, (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: two middle rows swapped,stopped,stopped:check_candles,True, (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: first row deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D bars differ from the daily candles: 1 missing (first 2016-05-18), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: a middle row deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D bars differ from the daily candles: 1 missing (first 2017-03-11), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: last row (the open bar) deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D bars differ from the daily candles: 1 missing (first 2026-11-09), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: last 3 rows deleted,stopped,stopped:check_candles,True,"Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D bars differ from the daily candles: 3 missing (first 2026-11-03), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: volume column dropped,stopped,stopped:check_candles,True," BAD CANDLES: ETH_3D: its header is not exactly time,open,high,low,close,volume; ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_3D: column ""close"" renamed ""Close""",stopped,stopped:check_candles,True," BAD CANDLES: ETH_3D: its header is not exactly time,open,high,low,close,volume; ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: columns high and low swapped in the header,stopped,stopped:check_candles,True,"ure) BAD CANDLES: ETH_3D: its header is not exactly time,open,high,low,close,volume; ETH_3D: 1279 bar(s) are not their daily candles bucketed (first 2016-05-18)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: text in a close cell,stopped,stopped:check_candles,True,"n (not a failure) BAD CANDLES: ETH_3D: row 201 has a missing or unreadable cell; ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: blank close cell,stopped,stopped:check_candles,True,"n (not a failure) BAD CANDLES: ETH_3D: row 201 has a missing or unreadable cell; ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: negative low,stopped,stopped:check_candles,True,"ilure) BAD CANDLES: ETH_3D: row 201 has a price at or below zero, or a negative volume; ETH_3D: 1 bar(s) are not their daily candles bucketed (first 2018-01-04)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: zero open,stopped,stopped:check_candles,True,"ilure) BAD CANDLES: ETH_3D: row 201 has a price at or below zero, or a negative volume; ETH_3D: 1 bar(s) are not their daily candles bucketed (first 2018-01-04)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: zero price on the last (open) bar,stopped,stopped:check_candles,True,"lure) BAD CANDLES: ETH_3D: row 1280 has a price at or below zero, or a negative volume; ETH_3D: 1 bar(s) are not their daily candles bucketed (first 2026-11-09)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_3D: last line cut (no newline, cell shortened)",stopped,stopped:check_candles,True,ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: last line cut to just its time,stopped,stopped:check_candles,True,"280 does not have exactly the header's cells (a line cut short or run together); ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: CRLF line ends,clean-same,held,True,"state A's 1D/4H/12H files are already CRLF, so this made every line end CR CR LF (a stray CR line). The candle check (fetch._file_problem, fetch.py:200-209) passes it; the scored files fail safe later (check_fresh or engine.load crash -> stopped or held)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: a UTF-8 BOM,stopped,stopped:check_candles,True," BAD CANDLES: ETH_3D: its header is not exactly time,open,high,low,close,volume; ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: a trailing blank line,stopped,stopped:check_candles,True,this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: a second header row in the middle,stopped,stopped:check_candles,True,"n (not a failure) BAD CANDLES: ETH_3D: row 151 has a missing or unreadable cell; ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: a row with an extra trailing comma,stopped,stopped:check_candles,True,"152 does not have exactly the header's cells (a line cut short or run together); ETH_3D could not be read whole, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_3D: ""nan"" in a high cell",stopped,stopped:check_candles,True, skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: row 151 holds a non-finite number
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: the whole file emptied,stopped,stopped:check_candles,True," CANDLES: ETH_3D: its header is not exactly time,open,high,low,close,volume; ETH_3D bars differ from the daily candles: 1279 missing (first 2016-05-18), 0 extra"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: file deleted,stopped,stopped:check_candles,True,"n unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D is missing; ETH_3D is missing, so it was not checked against the daily candles"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: header only,stopped,stopped:check_candles,True,"- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D is empty; ETH_3D bars differ from the daily candles: 1279 missing (first 2016-05-18), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_3D: cut at a row end, half the file lost",stopped,stopped:check_candles,True,"aken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D bars differ from the daily candles: 640 missing (first 2021-08-14), 0 extra"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: last row repeated,stopped,stopped:check_candles,True,(not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: row(s) repeated or out of order (first at row 1281)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: prices written in exponent form (same values),clean-same,clean-DIFFERENT chart files candles_eth_3d.csv,True,"format only: feed figures equal the undamaged run; chart CSV keeps the cell text (extras copies cells verbatim), values equal"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: cells quoted (same values),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_3D: time written as a float (""...0.0"")",withheld-or-stop,held,True,format only: 4H/12H are not scored; values equal
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: high below close on one middle bar,stopped,stopped:check_candles,True,"lure) BAD CANDLES: ETH_3D: row 121 has a high below, or a low above, its open or close; ETH_3D: 1 bar(s) are not their daily candles bucketed (first 2017-05-10)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: last bar time moved one step later (a bar from the future),stopped,stopped:check_candles,True,kipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: row 1280 is not on the 24-hour grid
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D: a cell with trailing spaces (same value),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: a middle row duplicated,stopped,stopped:check_candles,True,: row(s) repeated or out of order (first at row 102); BTC_4H: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: two middle rows swapped,stopped,stopped:check_candles,True,: row(s) repeated or out of order (first at row 102); BTC_4H: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: first row deleted,stopped,stopped:check_candles,True,failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_4H starts after its first bar: bars are missing from the start
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: a middle row deleted,stopped,stopped:check_candles,True,s-check skipped this run (not a failure) BAD CANDLES: ETH_4H: 1 gap(s) the exchange did not have (first after the bar of 2016-06-07 08:00 UTC): bars are missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: last row (the open bar) deleted,stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_4H last bar 2026-11-11 16:00 UTC, expected 20:00 UTC"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: last 3 rows deleted,stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_4H last bar 2026-11-11 08:00 UTC, expected 20:00 UTC"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: volume column dropped,stopped,stopped:check_candles,True,e exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (KeyError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_4H: column ""close"" renamed ""Close""",stopped,stopped:check_candles,True,e exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (KeyError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: columns high and low swapped in the header,stopped,stopped:check_candles,True,12:00: OHLC inconsistent or non-positive; ETH_4H 2026-11-11 16:00: OHLC inconsistent or non-positive; ETH_4H 2026-11-11 20:00: OHLC inconsistent or non-positive
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: text in a close cell,stopped,stopped:check_candles,True,exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (ValueError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: blank close cell,stopped,stopped:check_candles,True,exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (ValueError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: negative low,stopped,stopped:check_candles,True,"1 has a price at or below zero, or a negative volume; BTC_4H: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: zero open,stopped,stopped:check_candles,True,"1 has a price at or below zero, or a negative volume; BTC_4H: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: zero price on the last (open) bar,stopped,stopped:check_candles,True,: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH_4H 2026-11-11 20:00: OHLC inconsistent or non-positive
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_4H: last line cut (no newline, cell shortened)",stopped,stopped:check_candles,True,ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_4H: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: last line cut to just its time,stopped,stopped:check_candles,True, exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (TypeError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: CRLF line ends,clean-same,stopped:check_fresh,True,"state A's 1D/4H/12H files are already CRLF, so this made every line end CR CR LF (a stray CR line). The candle check (fetch._file_problem, fetch.py:200-209) passes it; the scored files fail safe later (check_fresh or engine.load crash -> stopped or held)"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: a UTF-8 BOM,stopped,stopped:check_candles,True,e exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (KeyError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: a trailing blank line,stopped,stopped:check_fresh,True," File "".github/scripts/check_fresh.py"", line 28, in last     return int(float(rows[-1][0]))                      ~~~~~~~~^^^ IndexError: list index out of range"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: a second header row in the middle,stopped,stopped:check_candles,True,exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (ValueError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: a row with an extra trailing comma,stopped,stopped:check_candles,True,exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing; ETH: candle files unreadable (ValueError); see the whole-history problems
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_4H: ""nan"" in a high cell",stopped,stopped:check_candles,True,D CANDLES: ETH_4H: row 151 holds a non-finite number; BTC_4H: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: the whole file emptied,stopped,stopped:check_fresh,True,")   File "".github/scripts/check_fresh.py"", line 28, in last     return int(float(rows[-1][0]))                      ~~~~^^^^ IndexError: list index out of range"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: file deleted,stopped,stopped:check_fresh,True,"n last     with open(os.path.join(D, name)) as f:          ~~~~^^^^^^^^^^^^^^^^^^^^^^^ FileNotFoundError: [Errno 2] No such file or directory: 'data/ETH_4H.csv'"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: header only,stopped,stopped:check_fresh,True,"pts/check_fresh.py"", line 28, in last     return int(float(rows[-1][0]))                ~~~~~^^^^^^^^^^^^^ ValueError: could not convert string to float: 'time'"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_4H: cut at a row end, half the file lost",stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_4H last bar 2021-08-16 20:00 UTC, expected 20:00 UTC"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: last row repeated,stopped,stopped:check_candles,True,row(s) repeated or out of order (first at row 22956); BTC_4H: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: prices written in exponent form (same values),clean-same,clean-same,True,"format only: feed figures equal the undamaged run; chart CSV keeps the cell text (extras copies cells verbatim), values equal"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: cells quoted (same values),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH_4H: time written as a float (""...0.0"")",withheld-or-stop,clean-same,True,format only: 4H/12H are not scored; values equal
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: high below close on one middle bar,stopped,stopped:check_candles,True," has a high below, or a low above, its open or close; BTC_4H: 2 gap(s) the exchange did not have (first after the bar of 2017-02-28 16:00 UTC): bars are missing"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: last bar time moved one step later (a bar from the future),stopped,stopped:check_candles,True,end of one; ETH_4H ends on another day than ETH_1D: bars are missing from its end; BTC_4H and ETH_4H end on different bars: bars are missing from the end of one
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H: a cell with trailing spaces (same value),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: a middle row duplicated,stopped,stopped:check_candles,True,(not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: two middle rows swapped,stopped,stopped:check_candles,True,(not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row(s) repeated or out of order (first at row 102)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: first row deleted,stopped,stopped:check_candles,True,ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H starts after its first bar: bars are missing from the start
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: a middle row deleted,stopped,stopped:check_candles,True,-check skipped this run (not a failure) BAD CANDLES: BTC_12H: 1 gap(s) the exchange did not have (first after the bar of 2016-02-19 00:00 UTC): bars are missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: last row (the open bar) deleted,stopped,stopped:check_candles,True,ETH_12H and BTC_12H end on different bars: bars are missing from the end of one; BTC_12H and ETH_12H end on different bars: bars are missing from the end of one
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: last 3 rows deleted,stopped,stopped:check_candles,True, of one; BTC_12H and ETH_12H end on different bars: bars are missing from the end of one; BTC_12H ends on another day than BTC_1D: bars are missing from its end
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: volume column dropped,stopped,stopped:check_candles,True,"failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: its header is not exactly time,open,high,low,close,volume"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_12H: column ""close"" renamed ""Close""",stopped,stopped:check_candles,True,"failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: its header is not exactly time,open,high,low,close,volume"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: columns high and low swapped in the header,stopped,stopped:check_candles,True,"failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: its header is not exactly time,open,high,low,close,volume"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: text in a close cell,stopped,stopped:check_candles,True, this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 201 has a missing or unreadable cell
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: blank close cell,stopped,stopped:check_candles,True, this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 201 has a missing or unreadable cell
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: negative low,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 201 has a price at or below zero, or a negative volume"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: zero open,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 201 has a price at or below zero, or a negative volume"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: zero price on the last (open) bar,stopped,stopped:check_candles,True,"ilure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 7937 has a price at or below zero, or a negative volume"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_12H: last line cut (no newline, cell shortened)",stopped,stopped:check_candles,True,t a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: last line cut to just its time,stopped,stopped:check_candles,True,hable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 7937 does not have exactly the header's cells (a line cut short or run together)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: CRLF line ends,clean-same,clean-same,False,"state A's 1D/4H/12H files are already CRLF, so this made every line end CR CR LF (a stray CR line). The candle check (fetch._file_problem, fetch.py:200-209) passes it; 12H is not scored, so the run published clean and the damaged file is committed with it"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: a UTF-8 BOM,stopped,stopped:check_candles,True,"failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: its header is not exactly time,open,high,low,close,volume"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: a trailing blank line,stopped,stopped:check_candles,True,his run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: a second header row in the middle,stopped,stopped:check_candles,True, this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 151 has a missing or unreadable cell
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: a row with an extra trailing comma,stopped,stopped:check_candles,True,chable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 152 does not have exactly the header's cells (a line cut short or run together)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_12H: ""nan"" in a high cell",stopped,stopped:check_candles,True,skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 151 holds a non-finite number
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: the whole file emptied,stopped,stopped:check_candles,True,"failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: its header is not exactly time,open,high,low,close,volume"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: file deleted,stopped,stopped:check_candles,True,eachable -- cross-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H is missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: header only,stopped,stopped:check_candles,True,nreachable -- cross-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H is empty
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_12H: cut at a row end, half the file lost",stopped,stopped:check_candles,True, of one; BTC_12H and ETH_12H end on different bars: bars are missing from the end of one; BTC_12H ends on another day than BTC_1D: bars are missing from its end
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: last row repeated,stopped,stopped:check_candles,True,not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row(s) repeated or out of order (first at row 7938)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: prices written in exponent form (same values),clean-same,clean-same,True,"format only: feed figures equal the undamaged run; chart CSV keeps the cell text (extras copies cells verbatim), values equal"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: cells quoted (same values),clean-same,clean-same,True,failed steps 
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z","BTC_12H: time written as a float (""...0.0"")",withheld-or-stop,clean-same,True,format only: 4H/12H are not scored; values equal
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: high below close on one middle bar,stopped,stopped:check_candles,True,"ilure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_12H: row 121 has a high below, or a low above, its open or close"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: last bar time moved one step later (a bar from the future),stopped,stopped:check_candles,True,missing; BTC_12H and ETH_12H end on different bars: bars are missing from the end of one; BTC_12H ends on another day than BTC_1D: bars are missing from its end
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_12H: a cell with trailing spaces (same value),clean-same,clean-same,True,failed steps 
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_1D file saved under the name ETH_1D,stopped,stopped:check_candles,True, that day: a file of another asset?; ETH and BTC daily closes are not ETH and BTC on 3968 day(s) (first 2016-01-01): a file of one asset under the other's name?
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D file saved under the name BTC_1D,stopped,stopped:check_candles,True, that day: a file of another asset?; ETH and BTC daily closes are not ETH and BTC on 3828 day(s) (first 2016-05-18): a file of one asset under the other's name?
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_2D file saved under the name ETH_3D,stopped,stopped:check_candles,True,"n unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D bars differ from the daily candles: 638 missing (first 2016-05-27), 1278 extra"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_3D file saved under the name ETH_2D,stopped,stopped:check_candles,True,"n unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_2D bars differ from the daily candles: 1278 missing (first 2016-05-20), 638 extra"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D file saved under the name ETH_2D,stopped,stopped:check_candles,True,"a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_2D bars differ from the daily candles: 0 missing, 1909 extra"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_2D file saved under the name ETH_2D,stopped,stopped:check_candles,True,"raken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_2D bars differ from the daily candles: 1 missing (first 2016-05-23), 70 extra"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_12H file saved under the name ETH_4H,stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_4H last bar 2026-11-11 12:00 UTC, expected 20:00 UTC"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_4H file saved under the name ETH_4H,stopped,stopped:check_candles,True,s) the exchange did not have (first after the bar of 2018-08-10 00:00 UTC): bars are missing; ETH_4H starts after its first bar: bars are missing from the start
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_4H file saved under the name ETH_12H,stopped,stopped:check_candles,True, skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_12H: row 3 is not on the 12-hour grid
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC_8D file saved under the name BTC_5D,stopped,stopped:check_candles,True,"en unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_5D bars differ from the daily candles: 688 missing (first 2016-01-06), 392 extra"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_5D file saved under the name BTC_5D,stopped,stopped:check_candles,True,"raken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_5D bars differ from the daily candles: 28 missing (first 2016-01-01), 1 extra"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH and BTC daily files swapped,stopped,stopped:check_candles,True, that day: a file of another asset?; ETH and BTC daily closes are not ETH and BTC on 3828 day(s) (first 2016-05-18): a file of one asset under the other's name?
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z","every ETH file swapped with BTC's (1D-8D, 4H, 12H)",stopped,stopped:check_candles,True,ar: bars are missing from the start; ETH and BTC daily closes are not ETH and BTC on 3828 day(s) (first 2016-05-18): a file of one asset under the other's name?
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z","ETH 1D-8D from yesterday's fetch (one day behind), 4H and 12H current",stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_1D last bar 2026-11-10, expected 2026-11-11"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH 3D file from yesterday's fetch,stopped,stopped:check_candles,True,e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_3D: 1 bar(s) are not their daily candles bucketed (first 2026-11-09)
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",every candle file from yesterday's fetch,stopped,stopped:check_fresh,True,"_4H last bar 2026-11-10 20:00 UTC, expected 20:00 UTC; BTC_1D last bar 2026-11-10, expected 2026-11-11; BTC_4H last bar 2026-11-10 20:00 UTC, expected 20:00 UTC"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: a row duplicated,stopped,stopped:check_candles,True,"ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: a middle day deleted,stopped,stopped:check_candles,True,"ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: two days swapped,stopped,stopped:check_candles,True,"ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: last line cut,stopped,stopped:check_candles,True,e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: blank line,stopped,stopped:check_candles,True,ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: text in the read column of the last day,stopped,stopped:check_candles,True,"le -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: a row has no readable date or funding_mean, or not exactly the header's cells"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: file deleted,stopped,stopped:check_candles,True,- cross-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily is missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: emptied,stopped,stopped:check_candles,True, -- cross-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily is empty
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: two days behind (last 2 rows lost),held,held,True,"failed steps stack,cards"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: a row dated tomorrow,stopped,stopped:check_candles,True,"t a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: a row is dated 2026-11-12, after 2026-11-11"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: a row duplicated,stopped,stopped:check_candles,True,"e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: a middle day deleted,stopped,stopped:check_candles,True,"e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: two days swapped,stopped,stopped:check_candles,True,"e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: last line cut,stopped,stopped:check_candles,True,ken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: blank line,stopped,stopped:check_candles,True,e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: text in the read column of the last day,stopped,stopped:check_candles,True,NDLES: derivs/ETH_lsratio_daily.csv: a ls_ratio_mean value is not a number in range; derivs/ETH_lsratio_daily.csv: row 2357 column ls_ratio_mean is not a number
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: file deleted,stopped,stopped:check_candles,True,ck skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv is missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: emptied,stopped,stopped:check_candles,True,heck skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv is empty
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: two days behind (last 2 rows lost),held,held,True,"failed steps stack,cards"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH lsratio: a row dated tomorrow,stopped,stopped:check_candles,True,") BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv: a row is dated 2026-11-12, after 2026-11-11"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: a row duplicated,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_oi_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: a middle day deleted,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_oi_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: two days swapped,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_oi_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: last line cut,stopped,stopped:check_candles,True,: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_oi_daily.csv: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: blank line,stopped,stopped:check_candles,True,ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_oi_daily.csv: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: text in the read column of the last day,stopped,stopped:check_candles,True,lure) BAD CANDLES: derivs/ETH_oi_daily.csv: a oi_usd_total value is not a number in range; derivs/ETH_oi_daily.csv: row 1522 column oi_usd_total is not a number
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: file deleted,stopped,stopped:check_candles,True,re) BAD CANDLES: derivs/ETH_oi_daily.csv is missing; ETH_funding_daily: funding_oi_weighted could not be checked against open interest (ETH_oi_daily unreadable)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: emptied,stopped,stopped:check_candles,True,oss-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_oi_daily.csv is empty
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: two days behind (last 2 rows lost),held,held,True,"failed steps stack,cards"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH oi: a row dated tomorrow,stopped,stopped:check_candles,True,"ilure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_oi_daily.csv: a row is dated 2026-11-12, after 2026-11-11"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding file saved as ETH's,stopped,stopped:check_candles,True,C: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: its market columns are not ETH's: a file of another asset?
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH open-interest file saved as ETH's long/short file,stopped,stopped:check_candles,True,) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/ETH_lsratio_daily.csv: a row has no readable date or ls_ratio_mean
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: a row duplicated,stopped,stopped:check_candles,True,"ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: a middle day deleted,stopped,stopped:check_candles,True,"ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: two days swapped,stopped,stopped:check_candles,True,"ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: last line cut,stopped,stopped:check_candles,True,e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: blank line,stopped,stopped:check_candles,True,ot a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: text in the read column of the last day,stopped,stopped:check_candles,True,"le -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: a row has no readable date or funding_mean, or not exactly the header's cells"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: file deleted,stopped,stopped:check_candles,True,- cross-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily is missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: emptied,stopped,stopped:check_candles,True, -- cross-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily is empty
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: two days behind (last 2 rows lost),held,held,True,"failed steps stack,cards"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC funding: a row dated tomorrow,stopped,stopped:check_candles,True,"t a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: a row is dated 2026-11-12, after 2026-11-11"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: a row duplicated,stopped,stopped:check_candles,True,"e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: a middle day deleted,stopped,stopped:check_candles,True,"e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: two days swapped,stopped,stopped:check_candles,True,"e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: last line cut,stopped,stopped:check_candles,True,ken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: blank line,stopped,stopped:check_candles,True,e) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: text in the read column of the last day,stopped,stopped:check_candles,True,NDLES: derivs/BTC_lsratio_daily.csv: a ls_ratio_mean value is not a number in range; derivs/BTC_lsratio_daily.csv: row 2357 column ls_ratio_mean is not a number
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: file deleted,stopped,stopped:check_candles,True,ck skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv is missing
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: emptied,stopped,stopped:check_candles,True,heck skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv is empty
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: two days behind (last 2 rows lost),held,held,True,"failed steps stack,cards"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC lsratio: a row dated tomorrow,stopped,stopped:check_candles,True,") BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv: a row is dated 2026-11-12, after 2026-11-11"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: a row duplicated,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_oi_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: a middle day deleted,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_oi_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: two days swapped,stopped,stopped:check_candles,True,"ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_oi_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: last line cut,stopped,stopped:check_candles,True,: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_oi_daily.csv: its last line has no line end: the file was cut short
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: blank line,stopped,stopped:check_candles,True,ailure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_oi_daily.csv: it holds a blank line: the file is damaged
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: text in the read column of the last day,stopped,stopped:check_candles,True,lure) BAD CANDLES: derivs/BTC_oi_daily.csv: a oi_usd_total value is not a number in range; derivs/BTC_oi_daily.csv: row 1522 column oi_usd_total is not a number
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: file deleted,stopped,stopped:check_candles,True,re) BAD CANDLES: derivs/BTC_oi_daily.csv is missing; BTC_funding_daily: funding_oi_weighted could not be checked against open interest (BTC_oi_daily unreadable)
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: emptied,stopped,stopped:check_candles,True,oss-check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_oi_daily.csv is empty
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: two days behind (last 2 rows lost),held,held,True,"failed steps stack,cards"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC oi: a row dated tomorrow,stopped,stopped:check_candles,True,"ilure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_oi_daily.csv: a row is dated 2026-11-12, after 2026-11-11"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding file saved as BTC's,stopped,stopped:check_candles,True,C: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: BTC_funding_daily: its market columns are not BTC's: a file of another asset?
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC open-interest file saved as BTC's long/short file,stopped,stopped:check_candles,True,) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: derivs/BTC_lsratio_daily.csv: a row has no readable date or ls_ratio_mean
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC put/call: a day deleted,stopped,stopped:check_candles,True,"lure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: options/BTC_pcr_daily.csv: a day is missing, repeated or out of order"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC put/call: last line cut,stopped,stopped:check_candles,True,Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: options/BTC_pcr_daily.csv: its last line has no line end: the file was cut short
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC put/call: file deleted,stopped,stopped:check_candles,True,check skipped this run (not a failure) BTC: Kraken unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: options/BTC_pcr_daily.csv is missing
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC put/call: four days behind,held,held,True,"failed steps stack,cards"
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH put/call saved as BTC put/call,stopped,stopped:check_candles,True,"en unreachable -- cross-check skipped this run (not a failure) BAD CANDLES: options/BTC_pcr_daily.csv starts 2019-03-01, expected 2016-11-01: history is missing"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding: funding_oi_weighted blank on the last day,stopped,stopped:check_candles,True,le -- cross-check skipped this run (not a failure) BAD CANDLES: ETH_funding_daily: funding_oi_weighted is blank on 1 day(s) open interest has (first 2026-11-11)
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/status.csv deleted before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/status.csv cut mid-line before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/status.csv a figure altered before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/forward.csv deleted before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/forward.csv cut mid-line before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/forward.csv a figure altered before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/live.csv deleted before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/live.csv cut mid-line before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/live.csv a figure altered before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/setups.csv deleted before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/setups.csv cut mid-line before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/setups.csv a figure altered before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candle_check.json deleted before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candle_check.json cut mid-line before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candle_check.json a figure altered before step grade,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv deleted before step extras,withheld,held,True,"failed steps stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv cut mid-line before step extras,withheld,held,True,"failed steps stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv a figure altered before step extras,withheld,held,True,"failed steps stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/grades.csv deleted before step extras,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/grades.csv cut mid-line before step extras,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/grades.csv a figure altered before step extras,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/earlydip.csv deleted before step extras,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/earlydip.csv cut mid-line before step extras,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/earlydip.csv a figure altered before step extras,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv deleted before step stack,withheld,held,True,"failed steps stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv cut mid-line before step stack,withheld,held,True,"failed steps stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv a figure altered before step stack,withheld,held,True,"failed steps stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candles_eth_2d.csv deleted before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candles_eth_2d.csv cut mid-line before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candles_eth_2d.csv a figure altered before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/missstats.csv deleted before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/missstats.csv cut mid-line before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/missstats.csv a figure altered before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/pastpaths.csv deleted before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/pastpaths.csv cut mid-line before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/pastpaths.csv a figure altered before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/oddsfade.csv deleted before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/oddsfade.csv cut mid-line before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/oddsfade.csv a figure altered before step stack,withheld,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards.csv deleted before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards.csv cut mid-line before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards.csv a figure altered before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/open.csv deleted before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/open.csv cut mid-line before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/open.csv a figure altered before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards_open.csv deleted before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards_open.csv cut mid-line before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards_open.csv a figure altered before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/stack_status.txt deleted before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/stack_status.txt cut mid-line before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/stack_status.txt a figure altered before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/prints.csv deleted before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/prints.csv cut mid-line before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/prints.csv a figure altered before step cards,withheld,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards_example.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards_example.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/cards_example.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/grades.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/grades.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/grades.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/windows.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/windows.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/windows.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/status.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/status.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/status.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candles_btc_1d.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candles_btc_1d.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/candles_btc_1d.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/missstats.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/missstats.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/missstats.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ledger.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/open.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/open.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/open.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/prints.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/prints.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/prints.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/pastpaths_example.csv deleted before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/pastpaths_example.csv a row duplicated before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/pastpaths_example.csv a figure altered before step feed,withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",datasets/ copied back from an older run (replay 11 Nov 04:14) before feed,fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",stack_status.txt emptied before feed,held,held,True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",stack_status.txt a FAILED line appended before feed,held,held,True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","candle_check.json deleted after the candle check, before refresh",fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",candle_check.json cut before refresh,fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",candle_check.json from a failed check (structural_ok false) before refresh,fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",manifest.json deleted before feed,fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",manifest.json from the older run before feed,fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",manifest.json cut before cards,held,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",a stray file appears in datasets/ before feed,fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",a .tmp file left in datasets/ before stack,clean-same-or-withheld,clean-same,True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH_1D candle file changed (a later fetch) between refresh and grade,held,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",ETH funding changed (the derivatives fetch) between stack and cards,held,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",BTC put/call changed between cards and feed,fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",extras step killed half way (its files half written),held-extras,"clean-extras if_it_misses,odds_fade,past_paths,example_if_it_misses,example_past_paths,extras_withheld,chart files candles_btc_1d.csv,candles_btc_2d.csv,candles_btc_3d.csv,candles_btc_5d.csv,candles_btc_8d.csv,candles_eth_1d.csv,candles_eth_2d.csv,candles_eth_3d.csv,candles_eth_5d.csv,candles_eth_8d.csv",True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","extras failed, then a chart file changed before feed",clean-extras-withheld,"clean-extras if_it_misses,odds_fade,past_paths,example_if_it_misses,example_past_paths,extras_withheld,chart files candles_btc_1d.csv,candles_btc_2d.csv,candles_btc_3d.csv,candles_btc_5d.csv,candles_btc_8d.csv,candles_eth_1d.csv,candles_eth_2d.csv,candles_eth_3d.csv,candles_eth_5d.csv,candles_eth_8d.csv",True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",grade killed after writing ledger.csv (no seal record),held,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",stack killed (timeout) before writing anything,held,held,True,"failed steps stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",verify_cards killed (timeout),held,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",regression killed (timeout),held,held,True,failed steps regress
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",stack run before extras (steps out of order),held,held,True,failed steps cards
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",grade run twice (a repeated step),held,held,True,failed steps grade
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",refresh skipped (last run's datasets and seal),withheld,held,True,"failed steps grade,stack,cards"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",refresh run again after cards (a second run starting in the same folder),withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",two runs interleaved in one folder (B refresh/grade between A grade and A extras),withheld,clean-same,True,"the second refresh restarts the seal, so this is one complete run on the same inputs: figures equal, nothing mixed"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","feed_live run again 3 h after the run (hand run, no outcomes)",fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","feed_live run again 30 min after the run (hand run, no outcomes)",clean-same,clean-same,True,failed steps 
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",analysis/grade.json deleted,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",analysis/grade.json cut,withheld,held,True,"failed steps grade,stack,cards"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",analysis/grokpack.json deleted,withheld,held,True,"failed steps stack,cards"
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",tests/baseline/ledger.json deleted,held,held,True,failed steps regress
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",tests/baseline/ledger.json cut,held,held,True,failed steps regress
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",tests/baseline/ledger.json emptied to {},held,held,True,failed steps regress
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",tests/baseline/ledger.json emptied to [],held,held,True,failed steps regress
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",tests/baseline/ledger.json zero bytes,held,held,True,failed steps regress
+pipeline,missing,"replay_1111 copy, clock 2026-11-11T20:30Z",member page file missing (feedcheck reads its schema),fail-closed,fail-closed,True,failed steps feed feed_error FileNotFoundError
+pipeline,malformed,"replay_1111 copy, clock 2026-11-11T20:30Z",member page file cut before its schema end marker,fail-closed,fail-closed,True,failed steps feed feed_error AttributeError
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","CTZB_STEP_OUTCOMES missing, regression failed (hand run)",documented: hand run judged on stack_status alone,clean-same,True,"documented: a hand run with no CTZB_STEP_OUTCOMES is judged on stack_status.txt alone (FEED_SPEC ""Held feed""); not counted"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","CTZB_STEP_OUTCOMES missing, all steps passed (hand run)",clean-same,clean-same,True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",CTZB_STEP_OUTCOMES empty string,documented: hand run,clean-same,True,documented: treated as a hand run; not counted
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",clock a day ahead of the candles,stopped,stopped:check_fresh,True,"_4H last bar 2026-11-11 20:00 UTC, expected 20:00 UTC; BTC_1D last bar 2026-11-11, expected 2026-11-12; BTC_4H last bar 2026-11-11 20:00 UTC, expected 20:00 UTC"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",clock a day behind the candles,stopped,stopped:check_fresh,True,"STALE CANDLES: ETH_1D last bar 2026-11-11, expected 2026-11-10; BTC_1D last bar 2026-11-11, expected 2026-11-10"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",clock at 23:59:59 on the candles' day,clean-same,clean-same,True,failed steps 
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",clock at 00:00:00 the next day,stopped,stopped:check_fresh,True,"_4H last bar 2026-11-11 20:00 UTC, expected 00:00 UTC; BTC_1D last bar 2026-11-11, expected 2026-11-12; BTC_4H last bar 2026-11-11 20:00 UTC, expected 00:00 UTC"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z","run starts 23:59:58, steps cross midnight from extras on",withheld,held,True,"failed steps stack,cards"
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z","every step before midnight, feed_live at 00:00:01",fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z","stack at 23:59:59, verify_cards after midnight",withheld,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",feed_live 2 h 05 min after refresh started (a slow run),fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,timing,"replay_1111 copy, clock 2026-11-11T20:30Z",feed_live clock behind refresh (seal started in the future),fail-closed,fail-closed,True,failed steps feed feed_error RuntimeError
+pipeline,wrong,"replay_1111 copy, clock 2026-11-11T20:30Z",analysis/grade.json: one lens dropped from a list (a bad edit),withheld,held,True,failed steps regress
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","CTZB_STEP_OUTCOMES with unrendered expressions (""refresh=,grade=,..."")",held,held,True,"failed steps refresh,grade,stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","CTZB_STEP_OUTCOMES ""Success"" capitalised",held,held,True,"failed steps refresh,grade,stack,cards,regress"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",CTZB_STEP_OUTCOMES lacks regress,held,held,True,failed steps regress
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",CTZB_STEP_OUTCOMES lacks extras (extras ran fine),clean-same,clean-same,True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",CTZB_STEP_OUTCOMES says extras=skipped,clean-extras-withheld-or-fc,"clean-extras if_it_misses,odds_fade,past_paths,example_if_it_misses,example_past_paths,extras_withheld,chart files candles_btc_1d.csv,candles_btc_2d.csv,candles_btc_3d.csv,candles_btc_5d.csv,candles_btc_8d.csv,candles_eth_1d.csv,candles_eth_2d.csv,candles_eth_3d.csv,candles_eth_5d.csv,candles_eth_8d.csv",True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",CTZB_STEP_OUTCOMES says extras=cancelled,clean-extras-withheld-or-fc,"clean-extras if_it_misses,odds_fade,past_paths,example_if_it_misses,example_past_paths,extras_withheld,chart files candles_btc_1d.csv,candles_btc_2d.csv,candles_btc_3d.csv,candles_btc_5d.csv,candles_btc_8d.csv,candles_eth_1d.csv,candles_eth_2d.csv,candles_eth_3d.csv,candles_eth_5d.csv,candles_eth_8d.csv",True,failed steps 
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z","CTZB_STEP_OUTCOMES with spaces around ""=""",held,clean-same,True,"feed_live strips the spaces; every step did succeed, so a clean feed is right"
+pipeline,partial,"replay_1111 copy, clock 2026-11-11T20:30Z",CTZB_STEP_OUTCOMES with a duplicate key (regress=success then regress=failure),held,held,True,failed steps regress
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data","control: clean, clean",no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data","held (regression failed), then clean",no alert emitted twice or lost; withheld runs send and log nothing,r1:held(0 new) -> r2:clean(4 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data","fail-closed (prints.csv lost before feed), then clean",no alert emitted twice or lost; withheld runs send and log nothing,r1:fail-closed(0 new) -> r2:clean(4 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data","feed_live killed after the feed, before the copy and the log",no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data","feed_live killed after the copy, before the log",no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log deleted between runs,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log emptied,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log replaced by the run before's,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log copy deleted,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",feed file lost between runs,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",feed replaced by the run before's between runs,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",feed and log both replaced by the run before's (a revert of the last commit's feed/ files except the copy),no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",the whole feed/ folder put back to the run before's (a commit lost),no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(4 new),True,"not counted: the run before's feed/ folder coming back means its commit never landed (push failed: the mirror never read it, so re-emitting is right) or a landed commit was undone by someone with write access (out of scope); the sender's alert_id memory still blocks a second send"
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",feed_live run twice on the same scoring (repeated step),no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r1b:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data","held, held, clean (two red runs in a row)",no alert emitted twice or lost; withheld runs send and log nothing,r1:held(0 new) -> r2:held(0 new) -> r3:clean(4 new),True,
+pipeline-alerts (two-fault),partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",TWO-FAULT: log and its copy both deleted,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:fail-closed(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log cut mid-row between runs,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log: last 3 rows lost at a row end,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log: a row duplicated,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log: rows reordered,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",alert log copy cut,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts,partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",feed file cut between runs,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline-alerts (two-fault),partial,"replay_1111 copy, 11 Nov seeded log, 12 Nov data",TWO-FAULT: feed lost and log cut,no alert emitted twice or lost; withheld runs send and log nothing,r1:clean(4 new) -> r2:clean(0 new),True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",BTC_12H: LF->CRLF,accept (format only),ACCEPTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",BTC_12H: every line end CR CR LF,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",BTC_12H: one lone CR line mid-file,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",BTC_12H: CR-only line ends,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",BTC_12H: a row ending CR CR LF mid-file,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_4H: LF->CRLF,accept (format only),ACCEPTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_4H: every line end CR CR LF,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_4H: one lone CR line mid-file,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_4H: CR-only line ends,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_4H: a row ending CR CR LF mid-file,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_1D: LF->CRLF,accept (format only),ACCEPTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_1D: every line end CR CR LF,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_1D: one lone CR line mid-file,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_1D: CR-only line ends,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_1D: a row ending CR CR LF mid-file,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_2D: LF->CRLF,accept (format only),ACCEPTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_2D: every line end CR CR LF,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_2D: one lone CR line mid-file,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_2D: CR-only line ends,reject,REJECTED,True,
+pipeline (fetch.history_problems direct),malformed,"current copy, CTZB_NOW 2026-11-19T02:40Z",ETH_2D: a row ending CR CR LF mid-file,reject,ACCEPTED,False,"same rule gap as the counted disagreement (fetch.py:207-208); the full run fails safe for 1D/2D-8D (check_fresh or engine.load crash), not for 4H/12H"

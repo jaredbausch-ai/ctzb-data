@@ -1591,6 +1591,27 @@ Reports: `analysis/audit41_2026-11-18/` (broken, docs). Noted, not counted (vali
 position open in the lead-trader file, the worked example (the 22 Sep 2024 signal) read "Lead trader: in · long",
 which can read as him having taken that past signal (category v, liability). Fixed before round 42 (below).
 
+
+## Round 42 — 19 Nov (damage and docs only; docs clean rounds in a row 2 of 2, damage 0 of 2)
+
+**Docs clean (0); damage not clean (1).** Code frozen at 8d944e4 (with the example-card fix c12db83). States: the
+data of 19 Nov 02:13 UTC (two forming setups) and a replay of 11 Nov 04:14 UTC, plus the auditor's own (held and
+fail-closed feeds, year-end, 1 January and 29 February replays).
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Damage | 868 checks: page 321 cases on 14 states, pipeline 387 runs, 23 alert-log sequences, 20 direct checks; 108 hardening; 2 two-fault (not counted) | **1** |
+| Docs | about 1,000 statements | **0** (1 borderline in FEED_SPEC, 8 kind 3; outside scope 7 kind 2, 3 kind 3; recorded in `loose_wording.md`) |
+
+**Docs now has two clean rounds in a row (41, 42).** Reports: `analysis/audit42_2026-11-19/` (broken, docs). Fixed:
+- **Damage, family 2 (pipeline): CR CR LF line ends passed the candle check.** `_file_problem` split on LF and
+  stripped CR, so a stray CR was never seen. Scored files failed safe one step later (check_fresh or engine.load), but
+  the 12H file (not scored) and a 4H file with one such row passed and were committed. No figure a member reads
+  changed. Now any CR that is not part of a CRLF line end fails every file the history check reads.
+  `test_input_files` 159/159 (138/159 on the old code: 21 files x CR CR LF on one line, on every line, a bare CR).
+- **Deploy note (docs auditor):** the committed `cloudflare/ctzb-site-worker.js` was built at 465e385 and lacks 6q and
+  6r (the example-card fix); it is rebuilt at deploy prep.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
