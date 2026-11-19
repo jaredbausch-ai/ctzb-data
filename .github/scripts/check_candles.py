@@ -13,7 +13,8 @@ check_fresh.py: a bad fetch is retried, never committed as if it were good).
   - whole history (fetch.history_problems): every candle file's header exactly time,open,high,low,close,volume and
     every row of every candle file well formed (prices finite and
     above zero, high and low bracketing open and close, volume not negative, 4H/12H on their grid, rows
-    strictly ascending); each daily file starts on the exchange's first day with no missing day; every 2D-8D
+    strictly ascending); every file ending with a whole line, with no blank line and no stray carriage return; each
+    daily file starts on the exchange's first day with no missing day; every 2D-8D
     file is its daily candles bucketed; ETH is ETH and BTC is BTC; the funding, long/short, open-interest and put/call
     series are whole (how far behind they may end is checked only by stack_live.py); 4H/12H files have no missing bar beyond the exchange's own gaps.
 

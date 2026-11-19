@@ -60,7 +60,7 @@ Superseded change notes are in `docs/history/FEED_SPEC_history_to_2026-11-13.md`
 - **Rounding: one rule.** `rounding.rnd` rounds half away from zero, once, from the unrounded value (for `if_it_misses` and
   `example_if_it_misses`, from the ledger's 6-place measures), on the float's
   exact binary value (as JavaScript's `toFixed` does, so the page and the pipeline agree). Shares are whole numbers;
-  median moves and changes 1 decimal; median days (`typical_day_*`) whole days; prices 2 decimals; `*_exact_pct` fields 6 decimals. `must_close_above` alone is
+  median and mean moves and changes 1 decimal; median days (`typical_day_*`) whole days; prices 2 decimals; `*_exact_pct` fields 6 decimals. `must_close_above` alone is
   rounded down to the cent. The feed never holds `-0.0`.
 - **Exact vs shown.** The ledger stores each signal's measures to 6 decimals. Card medians and shares are computed at
   full precision. The `*_exact_pct` fields carry them to 6 decimals; the rounded fields are for display. The 70%
@@ -148,6 +148,7 @@ states the rule and the count in words, with no grade letter ("of the top grade"
 
 | Field | Strict | Meaning |
 |---|---|---|
+| `label` | | The computed-signal label |
 | `signal_id` | str | Chart and confirmation date, e.g. `ETH-1D-2026-11-12`. A forming card, its print once confirmed and its live signal share it. A trough that slides is a new signal with a new id |
 | `chart`, `asset`, `timeframe` | chart, asset, tf | e.g. "ETH 2D", "ETH", "2D" |
 | `low_date` | date | The trough bar's open date |
@@ -208,7 +209,7 @@ reads the gate on the trough date too (its "on for N days" age is as of the entr
 ## open_signals[]
 
 stack_live.py `open.csv`: every signal on a graded chart (1D, 2D, 3D, 5D), ETH and BTC, every grade, whose
-confirmation close is 0 to 60 days before today (the clock's UTC date). The member page shows the top-grade ones.
+confirmation close is 1 to 60 days before today (the clock's UTC date). The member page shows the top-grade ones.
 
 | Field | Strict | Meaning |
 |---|---|---|
@@ -330,9 +331,9 @@ records every `alert_id` it sends and never sends one twice.**
 - **The log must be the one the last feed left.** On every run that is not seeding, `feed_live.py` compares the log's
   SHA-256 with the previous feed's `alert_log`. First, the second copy (below) may be ahead of the record: the
   record's log is a whole-row beginning of the copy, and the copy holds more. The copy is written before the log, so
-  this happens when a later run wrote the copy and its feed (or its feed and its log) was then put back to the run
-  before's, most often because that run died between the copy and the log. When the log on disk is the copy or a
-  beginning of it, the log is restored from the copy, so the later feed's alerts are not emitted again; a copy ahead
+  this happens when a later run wrote the copy and its feed (or its feed and its log) was then put back to an earlier
+  run's (most often the run before's, because that run died between the copy and the log). When the log on disk is
+  missing, the copy or a beginning of it, the log is restored from the copy, so the later feed's alerts are not emitted again; a copy ahead
   that repeats an `alert_id` or cannot be read as rows fails closed. The restored log is written when the run starts;
   if that run then fails closed, its feed keeps the older record, and the next run finds the copy ahead again and
   accepts the log the same way. Otherwise a log that matches the record passes. When it does not, the run appends the previous feed's
@@ -538,8 +539,9 @@ Worker, uncached.
   there is no usable feed (down or held back).
 - **Chart files.** Not drawn ("Chart data unavailable") unless the file names the chart asked for, has at least 10
   bars of numbers, prices above zero, high and low bracketing open and close, times ascending, runs on the chart's own
-  steps (2D+ bars restart on 1 January), ends no later than `generated_at`, and closes at the card's `price_now`; for
-  a live signal its entry bar must close at `entry_close` (both to the half cent: prices are to the cent). The site
+  steps (2D+ bars restart on 1 January), has a last bar that opened no later than `generated_at`, and closes at the card's `price_now`; for
+  a live signal its entry bar must close at `entry_close` (both to the half cent: prices are to the cent). A live
+  signal's file that does not reach back to its entry bar reads "This chart's data doesn't reach back to the entry". The site
   Worker refuses a candle file with a row that is not numbers or whose last line has no line end (cut short). A file that arrives after the member picked another setup is not drawn. A chart that cannot be drawn
   clears everything from the setup charted before. A forming setup's file whose last bar is older than the feed labels
   that bar "Latest bar · date", not "Today". With the feed down or held back, the example switch and the Chart tab say
@@ -552,8 +554,9 @@ Worker, uncached.
   clock, and no event repeating an
   earlier one: two events are the same when both have an `id` and the ids match, or, when either has none, every
   other field holds the same value (a null field counts as missing, times as the same instant); a failure reads
-  "unavailable". It never changes the odds. A current setup's card has a lead-trader line (the worked example, a past
-  signal, has none); it reads "not in" when he has posted entries but none on that asset. The chart's note says "Loading" while his file loads and is updated in place when it arrives,
+  "unavailable". It never changes the odds. A live or forming setup's card that shows figures has a lead-trader line (the worked example,
+  a past signal, has none); it reads "not in" when his file holds no event on that asset, including when it holds none
+  at all. The chart's note says "Loading" while his file loads and is updated in place when it arrives,
   says his feed is unavailable when it cannot be read and that he has posted no trades when the file holds none, and
   says that his entries and exits are not drawn on the chart.
 - **Loading.** The card is drawn as soon as the feed arrives ("Loading the latest data…" until then); the ledger,

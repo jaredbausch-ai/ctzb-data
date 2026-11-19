@@ -34,7 +34,7 @@ Writes / changes, in datasets/:
                  (where funding exists), BTC full history. Completed 60-day
                  windows only.
   forward.csv    adds `grade`, `lenses`, `htfDiv` and `marker` to every row
-                 (matched by chart and entry bar).
+                 (matched by chart and entry date, the confirmation close).
   (liveread.csv, prints.csv and windows.csv come from stack_live.py, which
    runs after extras_live.py and checks every documented read.)
   live.csv       adds `formingGrade`, `formingLenses`, `formingHtfDiv` and `formingMarker` (the grade a forming

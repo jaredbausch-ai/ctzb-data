@@ -28,9 +28,10 @@ The arithmetic is analysis/carddesign.py's, imported, so the analysis write-up a
 feed can never disagree. Descriptive only: entry quality, no exit in the data, computed
 signals and never fills.
 
-Fails (exit 1) rather than write a half result: no A+ signals at all, an asset whose
+Fails (exit 1) rather than write a usable half result: no A+ signals at all, an asset whose
 A+ signals give no usable path, a non-finite figure, empty earlydip/holdcheck, or a
-candle file with a non-numeric price. An asset with no A+ signals is left out.
+candle file with a non-numeric price (candle files written before the bad one stay until feed_live.py deletes every
+extras file of a failed step). An asset with no A+ signals is left out.
 
 Usage: python extras_live.py [--datasets datasets]
 (the ledger, earlydip.csv and holdcheck.csv are always read from the repo's datasets/; the outputs and the seal follow

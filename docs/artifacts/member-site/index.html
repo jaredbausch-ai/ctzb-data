@@ -214,10 +214,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="in lead-in">
             <div>
               <div class="sec-title">Lead trader</div>
-              <div class="small" style="color: var(--lead-soft)">Real trades, posted automatically when they fill (once his feed is live)</div>
+              <div class="small" style="color: var(--lead-soft)">Real trades, posted automatically within about a minute of each fill (once his feed is live)</div>
             </div>
             <div id="leadBody"><div class="lead-empty">Loading the lead trader's feed…</div></div>
-            <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before an alert, sometimes after, sometimes not at all. Once his feed is live, every trade is posted automatically: the action, the fill price, leverage and size as a share of the account, and on a reduce or close the move from his average entry and the result as a share of the account; never position sizes or balances in dollars.</div>
+            <div class="fine" style="margin-top: auto; color: var(--lead-soft)">The lead trader trades his own account on his own judgement: sometimes before a signal confirms, sometimes after, sometimes not at all. Once his feed is live, every trade is posted automatically: the action, the fill price, leverage and size as a share of the account, and on a reduce or close the move from his average entry and the result as a share of the account; never position sizes or balances in dollars.</div>
           </div>
         </section>
 
@@ -293,12 +293,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="sec-title" style="color: var(--fade-2)">Reading a card</div>
           <dl>
             <dt>The big number</dt><dd>The share of past signals like this one that rose 10% within 60 days of the entry close. The line under it: the share that did that without ever falling 25.3% below the entry close, where 3.3x leverage with 5% maintenance margin liquidates.</dd>
-            <dt>Typical high</dt><dd>The median best price within 60 days, from the entry close.</dd>
+            <dt>Typical high</dt><dd>The median best move within 60 days: how far above the entry close the highest price went, as a percentage.</dd>
             <dt>Typical drop</dt><dd>The median deepest dip within 60 days. Size your position and leverage so this dip doesn't hurt you.</dd>
             <dt>Where the odds fade</dt><dd>This setup's own record: of its past signals that fell 5%, 10%, 15% or 20% before rising 10%, the share that then still rose 10% before ever falling 25.3%. The first row, from entry, is the same measure with no fall first. The number of signals is shown on every row.</dd>
-            <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our <span id="howBar">posting bar</span>.</dd>
-            <dt>If it misses</dt><dd>Of all past signals of this asset and grade that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median best price of all those misses within the 60 days (the row names the pool).</dd>
-            <dt>Lead trader</dt><dd>Whether the lead trader is in, out or not in ("unavailable" if his feed can't be read). His real trades never change the odds.</dd>
+            <dt>Edge gone</dt><dd>The first fall at which this setup's odds drop below our <span id="howBar">posting bar</span>. When its odds are under the bar before any fall, it reads "from entry" (on the Chart tab, "below the bar already"); "Holds at every level" means no fall measured takes them under it.</dd>
+            <dt>If it misses</dt><dd>Of all past signals of this asset and grade (on the worked example, those known by its date) that did not rise 10% within 60 days, how many went above entry at some point in the 60 days, and the median best move of all those misses within the 60 days, as a percentage above the entry close (the row names the pool).</dd>
+            <dt>Lead trader</dt><dd>On a live or forming setup's card (the worked example has none): whether the lead trader is in, out or not in on that asset ("loading" while his feed loads, "unavailable" if it can't be read). His real trades never change the odds.</dd>
           </dl>
           <div class="fine">Odds are statistics based on the history of past signals and their data, and measure entry quality only. How past signals behaved doesn't guarantee how future signals will behave. Crypto is volatile and leveraged trading can lose more than you put in.</div>
         </div>
@@ -617,7 +617,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // what an empty list says when the feed is not "ok"; one place, so every area reads the same state
   const NOT_OK = { loading: "Loading…", down: "Feed unavailable.", held: "Held back: a data check failed on the latest run." };
   // The data is out of date on the viewer's clock in two ways: it is older than 5 hours (a missed update), or a daily
-  // close (00:00 UTC, when every graded chart's bar closes) has passed since it was written, so what it says about
+  // close (00:00 UTC, when the daily bar, and any 2D-5D bar ending that day, closes) has passed since it was written, so what it says about
   // the bar that just closed ("confirms if it closes above", "an estimate until the current bar closes") is no longer
   // true (13 Nov 2026 audit #27). With the lead-trader file's future-trade check, these are the only uses of the viewer's clock.
   function staleNote() {
@@ -754,7 +754,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const edgePrice = m.entry && e.dipPct !== null ? ` · ${money(pxAt(m.entry, e.dipPct))}` : "";
     const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
       : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
-    const missTxt = !mi ? "n/a" : !mi.misses ? "none missed" : `${mi.up_first} of ${mi.misses}` + ` · median best ${pct(mi.median_peak_pct)}`;
+    const missTxt = !mi ? "n/a" : !mi.misses ? "none missed" : `${mi.up_first} of ${mi.misses}` + ` · median best move ${pct(mi.median_peak_pct)}`;
     box.innerHTML = `
       <div class="card-head">
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
@@ -1160,7 +1160,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       what = `<div class="sidebox" style="border: 2px solid var(--high); background: var(--ok-bg)">
         <div class="sec-title" style="color: #7FF0FF">What this one did</div>
         <div class="kv num"><span>Reached +10% / +20%</span><b>${reached ? "Yes" : "No"} / ${reached20 ? "Yes" : "No"}</b></div>
-        <div class="kv num"><span>Best price</span><b class="hi">${pct((hiB.h / en - 1) * 100)}, days ${(ex.bars.indexOf(hiB) - E) * 2 - 1}–${(ex.bars.indexOf(hiB) - E) * 2}</b></div>
+        <div class="kv num"><span>Best move</span><b class="hi">${pct((hiB.h / en - 1) * 100)}, days ${(ex.bars.indexOf(hiB) - E) * 2 - 1}–${(ex.bars.indexOf(hiB) - E) * 2}</b></div>
         <div class="kv num"><span>Deepest drop</span><b class="lo">${pct((loB.l / en - 1) * 100)}, days ${(ex.bars.indexOf(loB) - E) * 2 - 1}–${(ex.bars.indexOf(loB) - E) * 2}</b></div>
         <div class="kv num"><span>Day 10 check</span><b class="${d10.c < en ? "lo" : "hi"}">${d10.c < en ? "Red" : "Green"}, ${pct((d10.c / en - 1) * 100)}</b></div>
         <div class="kv num"><span>Change by day 60</span><b>${pct((ex.bars[E + 30].c / en - 1) * 100)}</b></div>
@@ -1213,7 +1213,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="kv num"><span class="small">Reached +20% in 60 days</span><b>${pc(g.rose20_within60d_pct)}</b></div>
         <div class="kv num"><span class="small">Rose 10%, never fell 25.3%</span><b>${pc(g.rose10_never_fell25_within60d_pct)}</b></div>
         <div class="kv num"><span class="small">Median deepest dip</span><b class="lo">${pct(g.median_deepest_dip_pct)}</b></div>
-        ${mi ? `<div class="kv num"><span class="small">Misses: median best price</span><b class="hi">${pct(mi.median_peak_pct)}</b></div>` : ""}</div>`;
+        ${mi ? `<div class="kv num"><span class="small">Misses: median best move</span><b class="hi">${pct(mi.median_peak_pct)}</b></div>` : ""}</div>`;
     }).join("");
   }
 

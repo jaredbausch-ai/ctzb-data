@@ -11,7 +11,8 @@
    round 37: a second "close" column read as the real close in the check while the scorer read the first, so closes
    changed inside each bar's range were scored): a repeated, extra, missing or reordered column, on every file.
 5. Malformed: a carriage return that is not part of a CRLF line end (CR CR LF, a bare CR) fails in every file; all-LF
-   and all-CRLF files pass (19 Nov 2026 audit round 42: CR CR LF passed on the 4H and 12H files).
+   and all-CRLF files pass (19 Nov 2026 audit round 42: CR CR LF passed the history check on every file; the 4H and
+   12H files with it were committed).
 
     python3 tests/test_input_files.py      # exit 1 on failure
 """
@@ -56,7 +57,7 @@ def main():
             got = [bool(with_text(rel, f, lambda: fetch.history_problems(D, today=today))) for f in (mid, end, sp)]
             ok(f"{rel}: a blank line in the middle, at the end or of spaces fails ({sum(got)}/3)", all(got))
 
-        # 5. stray carriage returns (19 Nov 2026 audit round 42: CR CR LF line ends passed on the 4H and 12H files):
+        # 5. stray carriage returns (19 Nov 2026 audit round 42: CR CR LF line ends passed on every file):
         # a CR not followed by LF, on one line, on every line, or as a bare-CR line end, fails in every file; the same
         # file with every line ending LF, or every line ending CRLF, passes
         for rel in CANDLES + SERIES:

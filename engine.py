@@ -70,7 +70,8 @@ def ema(src,n):
     return out
 
 def load(path):
-    """Read a TradingView export. Returns dict of lists."""
+    """Read a candle file (fetch.py's data/*.csv or a TradingView export), clamping flash prints. Returns dict of
+    lists."""
     with open(path, newline='', encoding='utf-8-sig') as f:
         rd=csv.reader(f); hdr=next(rd); rows=list(rd)
     idx={}

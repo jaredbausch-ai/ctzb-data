@@ -13,8 +13,8 @@ Rules (docs/FEED_SPEC.md):
   - every card, print, live signal, grade row, alert and extras block carries the computed-signal label
   - cards, live signals, the example and every figure from the run's datasets are withheld
     (cards_withheld true) whenever the stack check, the card cross-check or any gating step
-    failed; a broken seal, a damaged alert log or a failed strict check publishes the
-    fail-closed feed
+    failed; a failed candle check, a missing card file, a broken or old seal, a damaged alert log, a failed strict
+    check or any crash publishes the fail-closed feed
   - it only repackages datasets/*.csv written earlier in the same run; it
     computes no figure of its own (it stamps the time, the schema version and the posting bar constant,
     builds the ids and aliases, words the labels, decides which alerts are new or carried, keeps the alert log
@@ -237,10 +237,10 @@ def check_log(log_path, prev_feed_path):
                            "lost or damaged; restore feed/alert_log_backup.csv from the last commit of a clean run")
     # 18 Nov 2026 audit #39: the second copy can be AHEAD of the record: the record's log is a whole-row beginning of
     # the copy, and the copy holds more. Every run writes the feed, then the copy, then the log, so this happens only
-    # when a later run wrote the copy and its feed (or its feed and log) was then put back to the run before's, most
-    # often because that run died between the copy and the log. Those rows were emitted by that later feed: the log
-    # is restored from the copy (when the log on disk is the copy or a beginning of it), or they would be emitted again
-    # with a new emitted_at. The check uses the copy itself, not this run's outcome, so a run that restores the log
+    # when a later run wrote the copy and its feed (or its feed and log) was then put back to an earlier run's (most
+    # often the run before's, because that run died between the copy and the log). Those rows were emitted by that
+    # later feed: the log is restored from the copy (when the log is missing, is the copy, or is a beginning of it), or
+    # they would be emitted again with a new emitted_at. The check uses the copy itself, not this run's outcome, so a run that restores the log
     # and then fails closed (its feed keeps the older record) leaves a state the next run accepts the same way (round
     # 40 delta check: it used to fail closed on every later run). A copy ahead that repeats an alert or cannot be read
     # as rows fails closed

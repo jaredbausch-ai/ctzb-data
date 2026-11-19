@@ -80,7 +80,8 @@ https://raw.githubusercontent.com/jaredbausch-ai/ctzb-data/08e06ab1307bab9c635f8
 
 Exact-match check before deploying: about 21.8 KB (21,762 bytes); the first line reads
 `// ctzb-trades — the lead trader's real trades, relayed from Coinbase (item 13a).`;
-exactly one `export default`. If any of that differs, stop.
+exactly one `export default`. If any of that differs, stop. (This pin is the 11 Nov 2026 deploy's build; the 14 Nov
+build in `cloudflare/README.md` is not deployed yet.)
 
 **2.4 Binding** (Settings → Bindings):
 

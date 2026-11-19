@@ -26,7 +26,7 @@ BASE = f"{R}/tests/numbers_baseline"
 # Fixed set: states every past audit had to reach. Chosen 13 Nov 2026; add, never silently drop.
 DATES = [
     "2020-09-05",  # live card with no past signals yet (round 22)
-    "2020-09-15",  # early quiet day
+    "2020-09-15",  # early history: forming cards and live top-grade signals
     "2021-03-15",  # asset/grade with signals but no miss (round 16)
     "2021-06-25",  # BTC volatility median era (round 26 numbers finding)
     "2022-01-26",  # last day of a market-filter episode
@@ -36,8 +36,8 @@ DATES = [
     "2025-04-18",  # mid-2025, filter on
     "2026-03-15",  # quiet market, filter off (round 17)
     "2026-06-11",  # filter off with lows forming (round 14)
-    "2026-09-07",  # filter on, nothing live or forming: the quiet card (round 15)
-    "2026-11-12",  # the audits' REPLAY state: four forming setups, live BTC 2D
+    "2026-09-07",  # filter on, nothing forming and no top-grade signal live: the quiet card (round 15)
+    "2026-11-12",  # the audits' replay of 12 Nov 2026: no forming setup, 23 live signals incl. the BTC 2D top-grade one
 ]
 VIEWS = ("now", "chart", "record", "read")
 NUM = re.compile(r"[−\-+]?\$?\d[\d,]*(?:\.\d+)?%?|\b\d{1,2} (?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]* \d{4}\b")

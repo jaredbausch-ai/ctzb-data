@@ -7,7 +7,7 @@ no API key.
 ## What it writes
 
 `data/ETH_1D.csv`, `ETH_2D`, `ETH_3D`, `ETH_5D`, `ETH_8D`, and the same for
-`BTC`. Columns are `time,open,high,low,close,volume`, one row per bar, oldest first. `ETH_4H`, `ETH_12H` and the BTC equivalents are rebuilt from Coinbase's hourly candles.
+`BTC`. Columns are `time,open,high,low,close,volume`, one row per bar, oldest first. `ETH_4H`, `ETH_12H` and the BTC equivalents are rebuilt from Coinbase's hourly candles; their volume column is always 0 (the hourly volume is not kept).
 `BTC_2D.csv` is what the regime filter runs on.
 
 ## Why it rebuilds rather than downloads
@@ -73,8 +73,8 @@ python refresh.py --data data --out datasets
 
 It writes `status`, `buy`, `live`, `levels`, `setups`, `tier`, `walkforward`,
 `years`, `confluence`, `invalidation`, `earlydip`, `holdcheck` and `forward` as CSVs, and prints a summary of the
-regime, what is forming on each chart, and when each forming low would confirm (`buy.csv`'s `buyDate`: a computed
-date, not a planned buy).
+regime, what is forming on each chart, and, for each forming low that matches a tier setup, the date it would confirm
+(`buy.csv`'s `buyDate`: a computed date, not a planned buy).
 
 `engine.py` and `regimes.py` sit beside it. The date comes from the clock
 (`CTZB_NOW` replays a past run whole); `--today YYYY-MM-DD` overrides only the tier anchor, status and

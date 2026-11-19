@@ -26,6 +26,8 @@ https://raw.githubusercontent.com/jaredbausch-ai/ctzb-data/0cdf3df83d83823293fce
 
 Check before deploying: exactly **65,188 bytes**; exactly one `export default`; it contains
 `async function tick(`. If any of that differs, stop. Deploy. Change nothing else.
+(This brief's pins are its own deploy's builds; the dashboard Worker has changed since: docs/SITE_CHANGES.md rows 7
+and 7b.)
 
 ---
 

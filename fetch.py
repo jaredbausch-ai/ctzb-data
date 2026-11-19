@@ -48,7 +48,8 @@ def daily(product):
 
 
 def hourly(product, since):
-    """Page FORWARD from `since` at 1H. Returns {unix_ts: (o,h,l,c,v)}.
+    """Page FORWARD from `since` at 1H. Returns {unix_ts: (o,h,l,c)}: the hourly volume is not kept, so the 4H/12H
+    files carry volume 0.
 
     Forward, not backward like daily(), because this is incremental: only the
     first run pages the whole history. Later runs ask for the one bucket that
@@ -199,7 +200,8 @@ def _cut_short(path):
 
 def _file_problem(path, name):
     """The whole-file rule for every file history_problems reads (14 Nov 2026 audit #29): it ends with a whole line
-    (see _cut_short) and holds no blank line. csv.DictReader skips blank lines, so a blank line read as nothing at
+    (see _cut_short), holds no blank line and holds no carriage return other than as part of a CRLF line end.
+    csv.DictReader skips blank lines, so a blank line read as nothing at
     all; no writer here writes one, so a blank line is a damaged file."""
     if _cut_short(path):
         return f"{name}: its last line has no line end: the file was cut short"
@@ -209,7 +211,7 @@ def _file_problem(path, name):
     if any(not ln.strip(b"\r \t") for ln in lines):
         return f"{name}: it holds a blank line: the file is damaged"
     # 19 Nov 2026 audit round 42: a line ending other than LF or CRLF (a stray CR, e.g. CR CR LF) passed the check on
-    # the 4H and 12H files and was committed. Every writer here ends lines with LF or CRLF, so a CR anywhere else is a
+    # every file it reads; the 4H and 12H files with it were committed. Every writer here ends lines with LF or CRLF, so a CR anywhere else is a
     # damaged file
     if b"\r" in raw.replace(b"\r\n", b""):
         return f"{name}: it holds a stray carriage return (a line ending other than LF or CRLF): the file is damaged"
@@ -386,11 +388,13 @@ def history_problems(data_dir, assets=("ETH", "BTC"), today=None, lag=False):
       present, starting on their first day, no day missing, values in range, every other cell blank or a finite
       number.
     - With lag=True (stack_live.py only): each series' read column filled up to no more than MAX_LAG_DAYS before
-      `today` (default: the clock's UTC date): 1 day for funding, long/short and open interest, 2 for put/call.
+      `today` (default: the clock's UTC date): 1 day for funding, long/short and open interest, 2 for put/call; and
+      every scored series ends no earlier than the date its fetch recorded (series_through.json, rows_lost_problems).
     - No series has a row dated after `today` (14 Nov 2026 audit #29). A series whose first day is after `today` did not
       exist yet and is not checked (only a replay of an early date gets there; a clock set back that far fails the
       freshness checks).
-    - Every file ends with a whole line and holds no blank line (_file_problem).
+    - Every file ends with a whole line, holds no blank line and holds no carriage return outside a CRLF line end
+      (_file_problem).
     4H and 12H files are checked for structure, grid, timeframe and asset, and for missing bars: a gap must be one of
     the exchange's own (OWN_GAPS) or appear at the same time in the other asset's file (and not as that file's own
     one-asset gap); each starts on its first bar (FIRST_BAR); the two assets' files of a timeframe end on the same bar,

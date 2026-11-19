@@ -223,7 +223,7 @@ def main():
     if not dirs:
         tmp = tempfile.mkdtemp(prefix='ctzb_damage_')
         r = subprocess.run(['bash', f'{R0}/tests/replay_at.sh', '2026-11-12', f'{tmp}/replay_1112'], capture_output=True, text=True)
-        ok('replay of 12 Nov 2026 built (a state with forming cards)', r.returncode == 0, r.stdout[-300:] + r.stderr[-300:])
+        ok('replay of 12 Nov 2026 built (a state with live signals, no forming card)', r.returncode == 0, r.stdout[-300:] + r.stderr[-300:])
         dirs = [R0, f'{tmp}/replay_1112']
     rl = int(os.environ.get('RENDER_LIMIT', '100000')); jl = int(os.environ.get('REJECT_LIMIT', '40'))
     with sync_playwright() as pw:

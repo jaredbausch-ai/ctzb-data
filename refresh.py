@@ -606,7 +606,7 @@ def ds_earlydip(ch, keep, outdir, data_dir):
 
 
 def ds_holdcheck(ch, keep, outdir, data_dir):
-    """holdcheck.csv - is the position green at the day-10 check?
+    """holdcheck.csv - is the signal green at the day-10 check? Computed signals, no fills.
 
     Green = the daily close on day 10 at or above the entry close. The outcome columns
     (reached20, reached10, medRun) count what happened AFTER the day-10 close (days 11 to 60),

@@ -224,7 +224,7 @@ logs and every generator from the CT/Signal work.
 | `odds.py` → `odds.json` | aggregate odds by chart and tag |
 | `waves.py` | swing segmentation and Elliott counts |
 | `fetch.py` | candle fetch, including 4H/12H |
-| `fetch_derivs.py` → `data/derivs/` | BTC/ETH perp open interest (USD), funding and long/short ratio from Coinalyze, daily, 2019 on. Needs the repo secret `COINALYZE_API_KEY` (Jared adds it; the assistant does not handle the key). Runs in the Action after the candles; skips without the secret. Backfilled 23 Oct 2026, 13 perp markets per asset (Binance, Bybit, OKX, Deribit, Coinbase, Kraken, Bitfinex): funding from 2020-01-21, long/short ratio from 2020-05-31, but open interest only from **2022-09-13** -- Coinalyze's daily OI does not go further back. Funding values are % per funding interval as Coinalyze reports them |
+| `fetch_derivs.py` → `data/derivs/` | BTC/ETH perp open interest (USD), funding and long/short ratio from Coinalyze, daily (a backfill asks from 2019; each series starts where Coinalyze's does, dates below). Needs the repo secret `COINALYZE_API_KEY` (Jared adds it; the assistant does not handle the key). Runs in the Action after the candles; skips without the secret. Backfilled 23 Oct 2026, 13 perp markets per asset (Binance, Bybit, OKX, Deribit, Coinbase, Kraken, Bitfinex): funding from 2020-01-21, long/short ratio from 2020-05-31, but open interest only from **2022-09-13** -- Coinalyze's daily OI does not go further back. Funding values are % per funding interval as Coinalyze reports them |
 | `pine/` | **every Pine source**, indicator and scanner. `ct_zone_bounce_v15.pine` is the live indicator; `ctzb_scanner_v9.pine` the live scanner. See its README |
 | `analysis/` | generators for every figure quoted, plus `RESULTS_*.txt` captures. See its README |
 | `analysis/legacy/` | the 9-16 Oct generation behind the published v3/v4 odds pages. Figures there predate the current gate and the backward-only confluence window |
@@ -1369,7 +1369,7 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
   Moved above it. **Still not confirmed compiling** — paste it in and check before
   relying on it. No agreement column was added: the LAST cell already turns
   green inside the confluence window, so the green count is the agreement count.
-- [done: data/*.csv carry volume and 4H/12H history] Run the "Fetch candles" Action once. It now backfills 4H/12H history **and**
+- [done: the 1D-8D files carry volume; the 4H/12H files carry history with a volume column of 0, since fetch.py keeps no hourly volume] Run the "Fetch candles" Action once. It now backfills 4H/12H history **and**
   brings down volume, which the pipeline previously discarded. Until that runs,
   `data/*.csv` has no volume column and money-flow style filters (MFI, CMF, OBV)
   cannot be tested at all. Expectation when it is testable: low. MFI is RSI with
