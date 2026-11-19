@@ -1630,6 +1630,30 @@ Hardening (not counted), for the record: forged feeds the strict check accepts, 
 for 17 (the check looks for "17" in the text), two forming cards on one chart, the worked example graded C, a lost
 signal with no edge level ("It fell to its edge level (n/a)").
 
+
+## Round 44 — 19 Nov (damage only; the last round in the cap)
+
+**Clean under the damage list's rules (damage 0); the auditor's own count was 1, explained below.** Code frozen at
+056aaaf (723244a plus the Action's data commits). States: the data of 19 Nov 08:51 UTC (six forming setups) and a
+replay of 11 Nov 04:14 UTC.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Damage | 2,642 checks: page 352 cases, pipeline 278 whole runs and 1,956 input cases, an alert-log sequence; 16 hardening (7 accepted, not counted); 1 two-fault (not counted) | **0** under DAMAGE_LIST (the auditor counted 1) |
+
+The auditor's one counted case: `data/derivs/ETH_funding_daily.csv` lost its last whole row (cut at a row boundary,
+ending on the day before the run), and the run scored the ETH forming cards on it (both states). DAMAGE_LIST family 1
+records exactly this as not damage: "a daily series' last row lost within its allowed lag is not damage the files can
+show: it is the state of a run whose derivatives fetch has not yet written today, and is scored as such" (round 37;
+`MAX_LAG_DAYS["funding"] = 1`). Round 43's auditor filed the same case as by design. The brief does not carry that
+exception, so the auditor counted it; it is recorded here, not counted. Jared to confirm.
+
+The auditor's harness had two bugs (its judging, and an empty step list that re-ran the chain); both were fixed and the
+affected cases re-run. Not run this round: the 1 January and 29 February replays (round 43 ran them). Reports:
+`analysis/audit44_2026-11-19/broken/`.
+
+**With rounds 43 and 44, damage has two clean rounds in a row; docs had them in 41 and 42. The segment is done.**
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

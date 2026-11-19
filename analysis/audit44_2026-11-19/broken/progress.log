@@ -1,0 +1,132 @@
+2026-11-19T08:51:57Z start: audit44c begun, 0 cases, 0 disagreements
+2026-11-19T08:58:32Z page batch 1 starting: 1 cases
+2026-11-19T08:58:36Z page batch 1 done: 1 cases, 0 not as expected
+2026-11-19T08:58:41Z page batch 1 starting: 1 cases
+2026-11-19T08:58:47Z page batch 1 done: 1 cases, 0 not as expected
+2026-11-19T08:58:53Z setup done (harness built); starting page batch 1 (288 cases: missing/delivery/malformed/wrong content); 0 disagreements so far
+2026-11-19T08:58:58Z page batch 1 starting: 288 cases
+2026-11-19T09:00:23Z page batch 1: 20/288 cases, 0 not as expected so far
+2026-11-19T09:01:06Z page batch 1 restarted (harness judging fix; 0 real disagreements in the first 40 cases)
+2026-11-19T09:01:20Z page batch 1 starting: 288 cases
+2026-11-19T09:02:45Z page batch 1: 20/288 cases, 0 not as expected so far
+2026-11-19T09:03:42Z page batch 1 starting: 261 cases
+2026-11-19T09:04:36Z page batch 1: 20/261 cases, 3 not as expected so far
+2026-11-19T09:05:43Z page batch 1: 60/288 cases, 0 disagreements (4 harness expectation errors corrected: ledger already CRLF, BOM stripped by fetch, other-run ledger identical rows)
+2026-11-19T09:06:01Z page batch 1: 40/261 cases, 4 not as expected so far
+2026-11-19T09:07:34Z page batch 1: 60/261 cases, 5 not as expected so far
+2026-11-19T09:09:08Z page batch 1: 80/261 cases, 5 not as expected so far
+2026-11-19T09:10:41Z page batch 1: 100/261 cases, 6 not as expected so far
+2026-11-19T09:12:17Z page batch 1: 120/261 cases, 7 not as expected so far
+2026-11-19T09:14:05Z page batch 1: 140/261 cases, 7 not as expected so far
+2026-11-19T09:14:40Z page batch 1: 160/261 cases, 10 not as expected so far
+2026-11-19T09:16:02Z page batch 1: 180/261 cases, 11 not as expected so far
+2026-11-19T09:17:24Z page batch 1: 200/261 cases, 12 not as expected so far
+2026-11-19T09:18:46Z page batch 1: 220/261 cases, 13 not as expected so far
+2026-11-19T09:20:08Z page batch 1: 240/261 cases, 13 not as expected so far
+2026-11-19T09:21:28Z page batch 1: 260/261 cases, 14 not as expected so far
+2026-11-19T09:21:39Z page batch 1 done: 261 cases, 14 not as expected
+2026-11-19T09:21:45Z page batch 1 done: 288 cases, 0 disagreements after removing 14 harness errors (see fixups.json); starting page batches 2, 2b, 3
+2026-11-19T09:21:46Z page batch 2 starting: 92 cases
+2026-11-19T09:22:39Z page batch 2: 20/92 cases, 0 not as expected so far
+2026-11-19T09:22:56Z page batch 2: 40/92 cases, 0 not as expected so far
+2026-11-19T09:23:54Z page batch 2: 60/92 cases, 1 not as expected so far
+2026-11-19T09:24:13Z page batch 2: 80/92 cases, 1 not as expected so far
+2026-11-19T09:24:30Z page batch 2 done: 92 cases, 2 not as expected
+2026-11-19T09:24:55Z page batch 3 (hardening, not counted) starting: 16 cases
+2026-11-19T09:26:27Z page batch 3 hardening done: 16 cases, 7 not as expected
+2026-11-19T09:27:06Z page batch 2b (slow files) done: 7 cases, 0 not as expected
+2026-11-19T09:27:10Z page batches 2/2b/3 done: 92+12 counted cases, 0 disagreements (2 harness errors); hardening 16 forged feeds, 7 accepted; starting pipeline input-gate stage (current)
+2026-11-19T09:28:26Z pipeline inputs current ETH_1D: 47 cases so far, 4 not caught (triage pending)
+2026-11-19T09:29:08Z pipeline inputs current ETH_2D: 94 cases so far, 8 not caught (triage pending)
+2026-11-19T09:29:49Z pipeline inputs current ETH_3D: 141 cases so far, 12 not caught (triage pending)
+2026-11-19T09:30:30Z pipeline inputs current ETH_5D: 188 cases so far, 16 not caught (triage pending)
+2026-11-19T09:31:10Z pipeline inputs current ETH_8D: 234 cases so far, 20 not caught (triage pending)
+2026-11-19T09:31:51Z pipeline inputs current ETH_4H: 281 cases so far, 24 not caught (triage pending)
+2026-11-19T09:32:31Z pipeline inputs current ETH_12H: 327 cases so far, 28 not caught (triage pending)
+2026-11-19T09:33:10Z pipeline inputs current BTC_1D: 374 cases so far, 32 not caught (triage pending)
+2026-11-19T09:33:51Z pipeline inputs current BTC_2D: 421 cases so far, 36 not caught (triage pending)
+2026-11-19T09:34:32Z pipeline inputs current BTC_3D: 468 cases so far, 40 not caught (triage pending)
+2026-11-19T09:35:14Z pipeline inputs current BTC_5D: 515 cases so far, 44 not caught (triage pending)
+2026-11-19T09:35:55Z pipeline inputs current BTC_8D: 561 cases so far, 48 not caught (triage pending)
+2026-11-19T09:36:37Z pipeline inputs current BTC_4H: 608 cases so far, 52 not caught (triage pending)
+2026-11-19T09:37:18Z pipeline inputs current BTC_12H: 654 cases so far, 56 not caught (triage pending)
+2026-11-19T09:40:41Z pipeline inputs current derivs/ETH_funding_daily: 804 cases so far, 143 not caught (triage pending)
+2026-11-19T09:44:07Z pipeline inputs current derivs/BTC_funding_daily: 954 cases so far, 230 not caught (triage pending)
+2026-11-19T09:45:48Z pipeline inputs current derivs/ETH_lsratio_daily: 1032 cases so far, 269 not caught (triage pending)
+2026-11-19T09:47:29Z pipeline inputs current derivs/BTC_lsratio_daily: 1110 cases so far, 308 not caught (triage pending)
+2026-11-19T09:50:49Z pipeline inputs current derivs/ETH_oi_daily: 1252 cases so far, 395 not caught (triage pending)
+2026-11-19T09:54:09Z pipeline inputs current derivs/BTC_oi_daily: 1394 cases so far, 482 not caught (triage pending)
+2026-11-19T09:57:30Z pipeline inputs current options/BTC_pcr_daily: 1536 cases so far, 572 not caught (triage pending)
+2026-11-19T09:58:17Z pipeline input gates (current): 1536 damages, 964 caught by the gates; 572 not caught (all in unread columns, no-op CRLF, number formats, series last row, pcr blank) -> triage by whole runs starting
+2026-11-19T09:59:15Z pipeline triage current: lf-files-to-crlf: clean, ok
+2026-11-19T09:59:29Z pipeline triage current: candles-spaces-in-cells: clean, ok
+2026-11-19T09:59:31Z pipeline triage current: candles-time-as-float: held, ok
+2026-11-19T09:59:44Z pipeline triage current: candles-close-exponent: clean, ok
+2026-11-19T09:59:58Z pipeline triage current: series-unread-columns: clean, ok
+2026-11-19T10:00:10Z pipeline triage current: ETH_funding_daily-last-row-lost: clean, SCORED WITH CHANGED FIGURES
+2026-11-19T10:00:23Z pipeline triage current: BTC_funding_daily-last-row-lost: clean, ok
+2026-11-19T10:00:35Z pipeline triage current: ETH_lsratio_daily-last-row-lost: clean, ok
+2026-11-19T10:00:49Z pipeline triage current: BTC_lsratio_daily-last-row-lost: clean, ok
+2026-11-19T10:01:01Z pipeline triage current: ETH_oi_daily-last-row-lost: clean, ok
+2026-11-19T10:01:15Z pipeline triage current: BTC_oi_daily-last-row-lost: clean, ok
+2026-11-19T10:01:28Z pipeline triage current: BTC_pcr_daily-last-row-lost: clean, ok
+2026-11-19T10:01:41Z pipeline triage current: pcr-amt-blank-mid: clean, ok
+2026-11-19T10:01:54Z pipeline triage current: pcr-amt-blank-last: clean, ok
+2026-11-19T10:01:54Z pipeline inputs triage current done: 1 damaged inputs scored with changed figures
+2026-11-19T10:02:23Z pipeline triage (current): 15 grouped whole runs; 1 damaged input scored with changed figures (ETH funding file missing its last row: within the 1-day lag allowance, ETH 1D/2D/3D cards change); starting pipeline whole-run cases (current)
+2026-11-19T10:02:23Z pipeline runs current: building the clean snapshots
+2026-11-19T10:02:35Z pipeline runs current: snapshots built in 12 s
+2026-11-19T10:09:59Z pipeline runs current done: 138 cases, 6 not as expected
+2026-11-19T10:12:06Z pipeline whole-run cases (current): 136 cases, 0 disagreements after 6 harness/expectation errors (re-run where needed); starting replay_1111: input gates, triage, whole runs
+2026-11-19T10:12:46Z pipeline inputs replay_1111 ETH_1D: 47 cases so far, 4 not caught (triage pending)
+2026-11-19T10:13:28Z pipeline inputs replay_1111 ETH_2D: 94 cases so far, 8 not caught (triage pending)
+2026-11-19T10:14:10Z pipeline inputs replay_1111 ETH_3D: 141 cases so far, 12 not caught (triage pending)
+2026-11-19T10:14:51Z pipeline inputs replay_1111 ETH_5D: 188 cases so far, 16 not caught (triage pending)
+2026-11-19T10:15:33Z pipeline inputs replay_1111 ETH_8D: 234 cases so far, 20 not caught (triage pending)
+2026-11-19T10:16:13Z pipeline inputs replay_1111 ETH_4H: 281 cases so far, 24 not caught (triage pending)
+2026-11-19T10:16:53Z pipeline inputs replay_1111 ETH_12H: 327 cases so far, 28 not caught (triage pending)
+2026-11-19T10:17:32Z pipeline inputs replay_1111 BTC_1D: 374 cases so far, 32 not caught (triage pending)
+2026-11-19T10:18:14Z pipeline inputs replay_1111 BTC_2D: 421 cases so far, 36 not caught (triage pending)
+2026-11-19T10:18:56Z pipeline inputs replay_1111 BTC_3D: 468 cases so far, 40 not caught (triage pending)
+2026-11-19T10:19:37Z pipeline inputs replay_1111 BTC_5D: 515 cases so far, 44 not caught (triage pending)
+2026-11-19T10:20:19Z pipeline inputs replay_1111 BTC_8D: 561 cases so far, 48 not caught (triage pending)
+2026-11-19T10:20:59Z pipeline inputs replay_1111 BTC_4H: 608 cases so far, 52 not caught (triage pending)
+2026-11-19T10:21:40Z pipeline inputs replay_1111 BTC_12H: 654 cases so far, 56 not caught (triage pending)
+2026-11-19T10:25:03Z pipeline inputs replay_1111 derivs/ETH_funding_daily: 804 cases so far, 143 not caught (triage pending)
+2026-11-19T10:28:24Z pipeline inputs replay_1111 derivs/BTC_funding_daily: 954 cases so far, 230 not caught (triage pending)
+2026-11-19T10:30:01Z pipeline inputs replay_1111 derivs/ETH_lsratio_daily: 1032 cases so far, 269 not caught (triage pending)
+2026-11-19T10:31:42Z pipeline inputs replay_1111 derivs/BTC_lsratio_daily: 1110 cases so far, 308 not caught (triage pending)
+2026-11-19T10:34:57Z pipeline inputs replay_1111 derivs/ETH_oi_daily: 1252 cases so far, 395 not caught (triage pending)
+2026-11-19T10:38:13Z pipeline inputs replay_1111 derivs/BTC_oi_daily: 1394 cases so far, 482 not caught (triage pending)
+2026-11-19T10:41:31Z pipeline inputs replay_1111 options/BTC_pcr_daily: 1536 cases so far, 572 not caught (triage pending)
+2026-11-19T10:41:56Z pipeline triage replay_1111: lf-files-to-crlf: clean, ok
+2026-11-19T10:42:09Z pipeline triage replay_1111: candles-spaces-in-cells: clean, ok
+2026-11-19T10:42:11Z pipeline triage replay_1111: candles-time-as-float: held, ok
+2026-11-19T10:42:23Z pipeline triage replay_1111: candles-close-exponent: clean, ok
+2026-11-19T10:42:36Z pipeline triage replay_1111: series-unread-columns: clean, ok
+2026-11-19T10:42:49Z pipeline triage replay_1111: ETH_funding_daily-last-row-lost: clean, SCORED WITH CHANGED FIGURES
+2026-11-19T10:43:02Z pipeline triage replay_1111: BTC_funding_daily-last-row-lost: clean, ok
+2026-11-19T10:43:14Z pipeline triage replay_1111: ETH_lsratio_daily-last-row-lost: clean, ok
+2026-11-19T10:43:27Z pipeline triage replay_1111: BTC_lsratio_daily-last-row-lost: clean, ok
+2026-11-19T10:43:39Z pipeline triage replay_1111: ETH_oi_daily-last-row-lost: clean, ok
+2026-11-19T10:43:52Z pipeline triage replay_1111: BTC_oi_daily-last-row-lost: clean, ok
+2026-11-19T10:44:05Z pipeline triage replay_1111: BTC_pcr_daily-last-row-lost: clean, ok
+2026-11-19T10:44:18Z pipeline triage replay_1111: pcr-amt-blank-mid: clean, ok
+2026-11-19T10:44:30Z pipeline triage replay_1111: pcr-amt-blank-last: clean, ok
+2026-11-19T10:44:30Z pipeline inputs triage replay_1111 done: 1 damaged inputs scored with changed figures
+2026-11-19T10:44:30Z pipeline runs replay_1111: building the clean snapshots
+2026-11-19T10:44:41Z pipeline runs replay_1111: snapshots built in 11 s
+2026-11-19T10:53:37Z HARNESS BUG found: an empty step list re-ran the whole chain before feed_live, so the earlier whole-run results (current) are void; re-running the whole-run cases for both states (0 disagreements counted from them until then)
+2026-11-19T10:53:37Z pipeline runs current: building the clean snapshots
+2026-11-19T10:53:50Z pipeline runs current: snapshots built in 13 s
+2026-11-19T10:56:21Z pipeline runs current: building the clean snapshots
+2026-11-19T10:56:34Z pipeline runs current: snapshots built in 13 s
+2026-11-19T10:56:50Z pipeline runs current done: 10 cases, 2 not as expected
+2026-11-19T10:57:10Z pipeline runs replay_1111: building the clean snapshots
+2026-11-19T10:57:22Z pipeline runs replay_1111: snapshots built in 12 s
+2026-11-19T10:59:26Z pipeline runs replay_1111 done: 136 cases, 5 not as expected
+2026-11-19T11:00:15Z alert conservation sequence: NOT as expected (0 new alerts)
+2026-11-19T11:01:58Z alert conservation sequence: as expected (0 new alerts)
+2026-11-19T11:03:48Z alert conservation sequence: as expected (4 new alerts)
+2026-11-19T11:03:59Z pipeline whole runs re-done: current 136 + replay 136 cases, 0 disagreements (6 harness/expectation errors each, explained); alert conservation sequence (held, fail-closed, clean, clean) as expected; starting the repo's own tests (C)
+2026-11-19T11:22:36Z DONE: report AUDIT44_BROKEN.md written. 2,642 checks; 1 counted disagreement (pipeline, ETH funding file missing its last row is scored, both states); hardening 7/16 accepted; 1 two-fault; repo tests 29/29, 24/24, 33/33 pass
