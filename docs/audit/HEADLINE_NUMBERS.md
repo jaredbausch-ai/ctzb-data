@@ -7,7 +7,7 @@ and the pipeline and site that publish them. None of it is a fill, a trade recor
 |---|---|---|
 | Audit rounds run | 46 (since 12 Nov 2026) | `docs/AUDIT_LOG.md` |
 | Numbers: all four clean numbers rounds (36, 37, 45, 46) | 25,580,388 comparisons over 1,464 real-date replays, 0 disagreements | the three below plus round 46: 53,320 + 7,904,894 (`AUDIT46_NUMBERS.md`) |
-| Damage: checks run, rounds 22 to 46 | 33,877 | the 33,064 below plus round 46's 813 |
+| Damage: checks run, rounds 22 to 46 | 33,889 | the 33,064 below plus round 46's 825 rows |
 | Docs: statements checked, 14 rounds | about 11,760 | the 10,750 below plus round 46's about 1,010 |
 | Round 46 | numbers 0, docs 0, damage 2 (no figure changed; one fixed, one open) | `analysis/audit46_2026-11-19/` |
 | Full clean rounds (numbers, damage and docs together, 0 counted findings in each) | 1 (round 45) | `analysis/audit45_2026-11-19/` |
