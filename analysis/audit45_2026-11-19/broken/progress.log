@@ -1,0 +1,35 @@
+2026-11-19T14:24:02Z start: audit45c begun; 0 cases, 0 disagreements
+2026-11-19T14:29:24Z stage 0 done: code read, pipeline harness works (clean chain 13s on current); 1 case, 0 disagreements
+2026-11-19T14:36:55Z page batch smoke finished: 5 cases, 3 flagged (to review), 102s
+2026-11-19T14:37:18Z page batch smoke finished: 3 cases, 0 flagged (to review), 12s
+2026-11-19T14:37:26Z stage A batch 1 started: 466 page cases (missing, delivery, malformed, wrong-content) on both states; 0 disagreements confirmed so far
+2026-11-19T14:43:21Z page batch 1 running: 107/466 done; pipeline case list written (649 cases + replays queued after the page batch); 0 disagreements confirmed so far
+2026-11-19T14:47:28Z page batch b1: 200 cases run this batch, 3 with a problem flagged (to review)
+2026-11-19T14:48:15Z page batch 1 stopped at 215 cases (CPU shared with another auditor); restarted as batch 2 with the remaining cases (replay_1111 chart-CSV variants cut to 2 charts); 0 disagreements confirmed so far
+2026-11-19T14:51:44Z page batches: 283 cases done, 0 disagreements confirmed (2 harness errors to redo, 1 judged-wrong expectation); remaining page cases re-queued by priority
+2026-11-19T14:53:45Z page: 327 cases run so far (b4 hard/json/trades/example/delivery in progress), 0 disagreements confirmed; flagged ones so far are harness judging (upper-case LATEST, exponent 65.0 vs 65, injected ${x} text shown escaped)
+2026-11-19T14:54:08Z page batch b4 finished: 58 cases, 10 flagged (to review), 143s
+2026-11-19T14:55:15Z page: 374 cases run, 0 disagreements confirmed (11 flagged reviewed: all harness judging or fail-safe readings)
+2026-11-19T14:57:04Z page batch b5 finished: 84 cases, 0 flagged (to review), 176s
+2026-11-19T14:59:27Z page batch b6 finished: 65 cases, 2 flagged (to review), 142s
+2026-11-19T14:59:42Z page batch fix finished: 2 cases, 0 flagged (to review), 8s
+2026-11-19T15:03:35Z stage A (page) done: 520 cases run (both states, all six families + hardening), 0 disagreements; every flagged case reviewed (harness judging or fail-safe readings). Stage B (pipeline) starting
+2026-11-19T15:03:39Z correction: stage A ran 504 page cases (not 520)
+2026-11-19T15:08:55Z stage B inputs: 325 input-file damage cases through check_fresh/check_candles/stack's history check; 307 caught, 18 passed (line-end toggles, in-range value edits, a blank put/call day, series_through.json deleted) -> full runs next
+2026-11-19T15:14:11Z stage B pipeline full runs in progress: 4/289 run; flagged so far: 0
+2026-11-19T15:17:37Z stage B: 92/289 pipeline runs done; 4 flagged, all in-range value edits to derivative/put-call series (outside the stated scope); 0 disagreements
+2026-11-19T15:20:20Z stage B: 218/289 pipeline runs; 10 flagged and reviewed (value edits out of scope; older copies byte-identical; candle_check metadata before the seal): 0 disagreements
+2026-11-19T15:23:13Z pipeline batch: 232 cases run, 10 flagged for review
+2026-11-19T15:30:39Z stage B: harness bug found and fixed (custom cases ran without their kill/skip/order/clock settings); those results discarded, re-running them
+2026-11-19T15:39:33Z pipeline batch finished: 49 cases, 11 flagged for review, 527s
+2026-11-19T15:41:39Z pipeline extras: alert sequence, two died-between cases, 3 two-fault and 1 single-fault series case run
+2026-11-19T15:42:10Z stage B: 296 pipeline runs so far + 337 in-process input checks; 0 disagreements after review (harness issues found in kill/clock/alert-sequence cases, being re-run); midnight/1 Jan replays running
+2026-11-19T15:42:39Z stage B custom+extras+replays finished
+2026-11-19T15:47:10Z pipeline batch finished: 21 cases, 6 flagged for review, 263s
+2026-11-19T15:48:15Z pipeline extras 2: alert sequence (fixed clocks) and the two-fault series case run
+2026-11-19T15:49:07Z stage B: kill/clock/alert re-runs done (cross-midnight runs fail closed or hold; alert sequence emits pending alerts once, none lost); timing each step to kill mid-run next
+2026-11-19T15:52:23Z pipeline batch finished: 18 cases, 2 flagged for review, 195s
+2026-11-19T15:52:33Z stage B done: 333 pipeline runs + 337 in-process input checks + 4 replays; 0 disagreements. Stage C (repo tests) starting
+2026-11-19T15:53:25Z stage C running (test_feed_damage quick pass, then test_seal, test_page_timing); totals so far: 1148 checks, 0 disagreements
+2026-11-19T16:09:43Z stage C tests finished
+2026-11-19T16:11:26Z done: 1,095 counted cases (page 467, pipeline 628), 0 disagreements; 6 hardening gaps and 3 two-fault cases recorded (not counted); repo tests 32/32, 29/29, 24/24. Report AUDIT45_BROKEN.md

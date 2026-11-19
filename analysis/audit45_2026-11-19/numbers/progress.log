@@ -1,0 +1,7 @@
+2026-11-19T14:34:08Z stage 1 data checks (A: replay_0414 + current, datasets+feed vs own recomputation): 51764 comparisons, 0 disagreements
+2026-11-19T14:40:05Z stage 2 page checks (A: replay_0414 + current, Playwright, every picker selection, chart tab both modes on the example, past signals all/ETH/BTC): 1499 comparisons, 0 disagreements; running total 53263 comparisons, 0 disagreements
+2026-11-19T15:40:41Z stage synthetic (checker self-test, code/plant.py): 44/44 data plants and 15/15 page plants caught; replays in progress
+2026-11-19T16:34:15Z stage replays (B): 400 planned replays run; 354 clean on the final checker; the first 46 are re-running because their page checks used two checker bugs since fixed (tie order in Previous signals, JS half-up rounding of the date-axis step)
+2026-11-19T16:46:40Z stage synthetic (envelope): 4 states with the clock on day D+1 and candles to day D (00:00:30, 04:14, 00:13 across a year-end, 23:59) all fail closed: cards withheld, page 'Setups held back'; 0 disagreements
+2026-11-19T16:48:47Z stage report: AUDIT45_NUMBERS.md written; A 53,299 comparisons 0 disagreements; B 400 replays 6,867,319 comparisons 0 disagreements
+2026-11-19T16:48:52Z stage replays (B) complete: 400/400 replays clean after the 46 re-runs; 6,867,319 comparisons, 0 disagreements

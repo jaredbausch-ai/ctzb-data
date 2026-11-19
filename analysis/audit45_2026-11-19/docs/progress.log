@@ -1,0 +1,13 @@
+14:41 feed rebuilt in copy at a0dc979 (refresh..feed_live, regression PASS 919+4), feed passes feedcheck; replay 2026-11-12 built
+14:41 docs/FEED_SPEC.md done: every field vs feed_live/stack_live/grade_live/extras_live/refresh/seal/feedcheck + rebuilt feed (298 leaf paths, all described): 0 findings
+14:41 docs/CARD_SPEC.md done: vs stack_live, verify_cards, carddesign, page, console: 0 findings
+14:41 docs/artifacts/member-site/index.html words done: How to read, labels, badges, banners, footer, FEED_SCHEMA comments: 3 kind-3
+14:41 README.md done: 0 findings
+14:41 docs/artifacts/member-site/README.md done: 0 findings (example file 51 bars 12 Aug-20/21 Nov 2024 verified)
+14:41 cloudflare/README.md done: Worker tests re-run 21/26/21/45/26/36 all match: 0 findings
+14:41 CONTEXT.md current-rule sections done (+ dated sections scanned for unflagged current claims): 0 findings
+14:41 cloudflare/BRIEF_*.md done: pinned byte counts verified at their commits: 0 findings
+14:41 docs/PRETRADE.md pipeline statements done: 0 findings
+14:41 docs/SITE_CHANGES.md Pending + Requested rows done: 0 findings
+14:41 docstrings/comments (refresh, grade_live, stack_live, verify_cards, extras_live, feed_live, feedcheck, seal, engine, measures, rounding, clock, fetch, regimes, tagstats, carddesign, .github/scripts, daily.yml) done: 5 outside-scope
+14:41 tests/*.py *.sh *.mjs headers done: 4 outside-scope (numbers_check DATES comments, test_feed_damage label)

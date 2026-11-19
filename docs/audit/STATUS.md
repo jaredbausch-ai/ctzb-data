@@ -28,6 +28,8 @@ the files it points to do not. Update the "Where we are" section at the end of e
 - **19 Nov 07:31 ET, Jared:** round 44's funding-row case counts and is fixed (series_through.json record), so round 44
   is not clean. Next: numbers, damage and docs together (round 45 on), on the fixed code after its suite and fix
   check. Docs had clean rounds 41 and 42, damage 43, numbers 36 and 37.
+- **Round 45** (numbers, damage and docs, code a0dc979): **clean on all three** (numbers 0 of 6.9M comparisons over
+  400 replays, damage 0 of 1,095, docs 0). Stopped here for Jared to evaluate (his instruction, 19 Nov 10:57 ET).
 - **Fewer new sentences.** During this segment only counted causes are changed: damage causes, and docs findings of
   kind 1, 2 or 4, each with the smallest change. Loose wording (kind 3) and outside-scope findings are recorded in
   `docs/audit/loose_wording.md` and corrected together at the end, because every rewrite is new text for the next

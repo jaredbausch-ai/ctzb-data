@@ -1657,6 +1657,23 @@ affected cases re-run. Not run this round: the 1 January and 29 February replays
 
 Next (Jared, 19 Nov 07:32 ET): numbers, damage and docs together.
 
+
+## Round 45 — 19 Nov (numbers, damage and docs together; the first full-system round after the segment)
+
+**Clean (numbers 0, damage 0, docs 0).** Code frozen at a0dc979 (the round 44 series-record fix, its fix check, the
+suite green). States: the data of 19 Nov 14:23 UTC (six forming setups), a replay of 12 Nov 04:14 UTC and of 11 Nov
+04:14 UTC, plus each auditor's own replays.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Numbers | frozen states 53,299 comparisons; 400 replays of real dates (Sep 2020 to Nov 2026) 6,867,319 comparisons; checker self-test 44/44 data and 15/15 page plants caught; 4 clock-ahead states fail closed | **0** |
+| Damage | 1,095 real-life cases (page 467, pipeline 628: 305 full runs, 4 replays, 319 input damages stopped in-process); 6 hardening gaps and 3 two-fault cases (not counted) | **0** |
+| Docs | about 850 statements; all 298 feed fields described | **0** (3 kind 3 in scope, 9 outside scope; in `loose_wording.md`) |
+
+Reports: `analysis/audit45_2026-11-19/` (numbers, broken, docs). Not counted, for the record: a feed request that
+hangs reads "Loading the latest data…" until the browser gives up (never a figure); hardening H1-H6 (cross-field
+forgeries the strict check accepts, e.g. a live signal's edge level not tied to its own card's ladder).
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)
