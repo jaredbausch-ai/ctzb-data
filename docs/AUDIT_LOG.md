@@ -1693,8 +1693,11 @@ Damage, both kind (iii) (a damaged input accepted), no figure changed:
   old code).
 - **An earlier run's `candle_check.json` swapped in between check_candles and refresh was accepted**; the feed carried
   its old `checked_at` and Kraken status. The auditor was unsure it can happen in a real run (nothing writes that file
-  between the two steps). Not fixed yet: a tie to the run needs the replay harnesses to run check_candles; Jared to
-  decide.
+  between the two steps). **Recorded, not counted (Jared, 19 Nov 18:18 ET: stop the open-ended rounds; clean up once;
+  one final full round as the release check).**
+
+**Release rule for the final round (Jared, 19 Nov 18:18 ET):** ship if it shows no wrong or stale figure and nothing
+that reads as a trade; anything smaller is logged and fixed after the private test launch.
 
 Hardening (not counted): the page accepts a top-grade ledger row whose 60th day is the still-open bar
 (`index.html` ~1334 tests `>` where `>=` is meant); the count check against the feed hides it in real life. Two-fault

@@ -3409,4 +3409,4 @@ first_round,level,family,kind,case,expected
 43,page,HARDENING,hand-forged,"forged feeds the strict check accepts: sample text 117 past signals for 17, two forming cards on one chart, example graded C, lost signal with no edge level",shown
 44,pipeline,MISSING,real life,"ETH funding file lost its last whole row: scored as a run whose derivatives fetch has not yet written today (allowed 1-day lag)",not damage (family 1 exception; auditor counted it)
 46,pipeline,MISSING,real life,"ETH and BTC 12H both one bar short (or both an earlier run copy): passed every check, committed",check_fresh requires the current 12H bar
-46,pipeline,WRONG CONTENT,real life (unsure),"an earlier run candle_check.json swapped in before refresh: accepted, the feed carried its old checked_at",open: Jared to decide
+46,pipeline,WRONG CONTENT,real life (unsure),"an earlier run candle_check.json swapped in before refresh: accepted, the feed carried its old checked_at",recorded not counted (Jared 19 Nov)
