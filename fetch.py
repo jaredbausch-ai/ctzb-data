@@ -306,8 +306,9 @@ def _series_problems(path, name, col, first, lo, hi, blank_ok, today, asset=None
 
 # 19 Nov 2026 audit round 44: a daily series that lost its last row(s) inside its allowed lag looked like a run whose
 # fetch had not yet written today, and was scored on the shorter file. The fetches (fetch_derivs.py, fetch_pcr.py)
-# only ever add rows, and record in each folder's series_through.json the last date of every series file they wrote.
-# A scored series that ends before that record has lost rows: the file is damaged.
+# never drop a row they wrote (a full backfill rebuilds from the source's start), and record in each folder's
+# series_through.json the last date of every scored series file they wrote. A scored series that ends before that
+# record has lost rows: the file is damaged.
 SERIES_RECORD = "series_through.json"
 SCORED_SERIES = {"derivs": [f"{a}_{k}_daily.csv" for a in ("ETH", "BTC") for k in ("funding", "lsratio", "oi")],
                  "options": ["BTC_pcr_daily.csv"]}
@@ -337,8 +338,9 @@ def note_series_written(path, last_date):
 
 def rows_lost_problems(data_dir, today):
     """Every scored daily series ends no earlier than the date its fetch recorded writing (series_through.json), when
-    that date is not after `today` (a replay of an earlier day reads a later record and skips it). A folder with no
-    record is not checked (no fetch has written since the record began); an unreadable record is a failure."""
+    that date is not after `today` (a replay of an earlier day reads a later record; a record dated after the run's
+    day is skipped in any run). A folder with no record, or a series with no entry, is not compared; an unreadable
+    record is a failure. Damage to the record itself together with a series' lost rows is two faults, not caught."""
     bad = []
     for sub, names in SCORED_SERIES.items():
         rec_path = os.path.join(data_dir, sub, SERIES_RECORD)

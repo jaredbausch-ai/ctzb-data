@@ -449,10 +449,11 @@ enforce mode, when any of the last 30 closed days differs from Kraken's close by
   further behind can change the forming cards. A series behind that lag holds the run's cards back but does not stop
   the job, so the candles are still committed and the derivatives fetch that runs after the feed can catch up. In a
   normal run the derivatives end 0 or 1 day behind. Inside that lag, a series must still hold every row its fetch
-  wrote: fetch_derivs.py and fetch_pcr.py only add rows, and after replacing a scored series file they record its
-  last date in that folder's `series_through.json`; stack_live.py fails a series that ends before its recorded date
-  (rows were lost), unless the record is dated after the run's day (a replay of an earlier day). A folder with no
-  record is not compared; an unreadable record fails.
+  wrote: fetch_derivs.py and fetch_pcr.py never drop a row they wrote, and after replacing a scored series file they
+  record its last date in that folder's `series_through.json`; stack_live.py fails a series that ends before its
+  recorded date (rows were lost). A record dated after the run's day (as a replay of an earlier day reads) is not
+  applied; a folder with no record, or a series with no entry, is not compared; an unreadable record fails. A
+  damaged record together with lost rows (two faults) is not caught.
 
 The freshness check requires the last daily bar to be today's open bar and the last 4H bar to be the current 4-hour
 bar; fetch.py builds it from the hourly candles
