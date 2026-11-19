@@ -20,6 +20,8 @@ D = sys.argv[1] if len(sys.argv) > 1 else "data"
 now = time.time()
 today = dt.datetime.now(dt.timezone.utc).date()
 b4 = int(now // 14400 * 14400)
+b12 = int(now // 43200 * 43200)   # 19 Nov 2026 audit round 46: the 12H bars must be current too (both 12H files cut
+                                  # by the same bar passed every check: nothing scores 12H, but the short files were committed)
 bad = []
 for a in ("ETH", "BTC"):
     def last(name):
@@ -33,7 +35,11 @@ for a in ("ETH", "BTC"):
     if h4 < b4:
         bad.append(f"{a}_4H last bar {dt.datetime.fromtimestamp(h4, dt.timezone.utc):%Y-%m-%d %H:%M} UTC, "
                    f"expected {dt.datetime.fromtimestamp(b4, dt.timezone.utc):%H:%M} UTC")
+    h12 = last(f"{a}_12H.csv")
+    if h12 < b12:
+        bad.append(f"{a}_12H last bar {dt.datetime.fromtimestamp(h12, dt.timezone.utc):%Y-%m-%d %H:%M} UTC, "
+                   f"expected {dt.datetime.fromtimestamp(b12, dt.timezone.utc):%H:%M} UTC")
 if bad:
     print("STALE CANDLES: " + "; ".join(bad))
     sys.exit(1)
-print(f"candles current: 1D bars dated {today}, 4H bars through the current window")
+print(f"candles current: 1D bars dated {today}, 4H and 12H bars through the current window")

@@ -455,8 +455,8 @@ enforce mode, when any of the last 30 closed days differs from Kraken's close by
   applied; a folder with no record, or a series with no entry, is not compared; an unreadable record fails. A
   damaged record together with lost rows (two faults) is not caught.
 
-The freshness check requires the last daily bar to be today's open bar and the last 4H bar to be the current 4-hour
-bar; fetch.py builds it from the hourly candles
+The freshness check requires the last daily bar to be today's open bar, the last 4H bar to be the current 4-hour
+bar and the last 12H bar the current 12-hour bar (round 46); fetch.py builds the daily bar from the hourly candles
 when the daily endpoint has not opened it. stack_live.py fails if the last daily bar is not today's. fetch.py, fetch_derivs.py and fetch_pcr.py,
 which write every file the scoring steps read, write each file whole or not at all.
 

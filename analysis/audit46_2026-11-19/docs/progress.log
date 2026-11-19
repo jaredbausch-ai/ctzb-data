@@ -1,0 +1,14 @@
+copy cloned at 0185de1; pipeline rebuilt in copy (refresh..verify_cards, regression PASS, feed written: 6 cards, 21 open signals)
+docs/FEED_SPEC.md done: every table, rule, alerts/log, held/fail-closed, seal, inputs, strict check, page section checked vs feed_live/stack_live/extras_live/refresh/feedcheck/seal/fetch/page; 1 finding (kind 3)
+docs/CARD_SPEC.md done: sample rules, every row, member-card table, wording rules, console card, airtight checks vs stack_live/verify_cards/carddesign/page/console; 0 findings
+docs/artifacts/member-site/index.html (words) done: How to read, labels, tiles, badges, banners, footer, chart/cloud text, FEED_SCHEMA comments; 1 finding (kind 3)
+README.md done: schedule, rate limits, last bar, datasets, dashboard reads, tier text, counts (keep.json 12, 13 datasets, 297 signals); 0 findings
+docs/artifacts/member-site/README.md done: path table, example file (51 bars), typed-figures list, strict-check paragraph; 1 finding (kind 3)
+cloudflare/README.md done: five Workers vs cloudflare/*.js, crons, test counts (21/26/21/36/45/26 all run and match), backup, monitor; 1 finding (kind 3: committed ctzb-site-worker.js is not the build of the current page)
+CONTEXT.md current-rule sections done (lines 1-257, 1302-1640; research record 258-1301 scanned for undated current claims); 1 finding (kind 3)
+cloudflare/BRIEF_*.md done (outside scope): 1 finding (BRIEF_site verify step)
+docs/PRETRADE.md pipeline statements done (outside scope): 0 findings
+docs/SITE_CHANGES.md Pending + Requested done (outside scope): page on disk does every Pending row; R1-R3 not built; 1 finding (rows 6q/6r not in the committed Worker build)
+docstrings/comments (refresh, grade_live, stack_live, verify_cards, extras_live, feed_live, feedcheck, seal, engine, measures, rounding, clock, fetch, regimes, tagstats, carddesign, .github/scripts, daily.yml) done (outside scope): 3 findings (kind 3)
+test headers (tests/*.py, *.sh, *.mjs) done (outside scope): 0 findings; mjs counts re-run and match
+report written: AUDIT46_DOCS.md, findings.csv (11 rows)

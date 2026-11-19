@@ -1,0 +1,7 @@
+2026-11-19 data checks (A): both frozen states, my engine vs data/ledger/feed: REPLAY 26092 and CURRENT 26180 comparisons, 0 disagreements
+2026-11-19 page checks (A): Playwright on both frozen states: REPLAY 457 and CURRENT 585 comparisons, 0 disagreements
+2026-11-19 replays (B) in progress: 151 of 403 done, 0 data disagreements, 2 page tie-order checker artifacts
+2026-11-19 replays (B) main plan done: 403 replays all ran ok; data 0 disagreements; page 2 rows flagged, both my checker's tie-order artifact (same set, equal day counts); extra 66 replays started
+2026-11-19 replays (B) extra plan done: 66 more (45 top-grade confirmation days, 18 pre-scanned quiet days, 3 envelope fail-closed tests); 0 data disagreements; envelope tests all withheld
+2026-11-19 synthetic states (planted errors in copies of CURRENT, to test my checker): data checker caught 40 of 40 (baseline 0); page checker caught 15 of 16 (baseline 0; the miss is not observable on this data)
+2026-11-19 report: AUDIT46_NUMBERS.md written; A 53,320 comparisons 0 disagreements; B 466 real-date replays 7,904,894 comparisons 0 disagreements; 3 envelope tests failed closed

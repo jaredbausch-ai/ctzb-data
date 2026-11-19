@@ -28,7 +28,7 @@ check("today's bar from hourly candles: open of the first hour, high, low, close
 fetch.get = lambda url: [rows[-1]]
 check("no hourly candle for today yet: no bar is invented", fetch.today_from_hourly("X-USD", today) is None)
 
-def fresh(last_day):
+def fresh(last_day, h12_back=0, both=False):
     d = tempfile.mkdtemp()
     for a in ("ETH", "BTC"):
         with open(os.path.join(d, f"{a}_1D.csv"), "w", newline="") as f:
@@ -36,9 +36,16 @@ def fresh(last_day):
                                      [int(dt.datetime.combine(last_day, dt.time(), dt.timezone.utc).timestamp()), 1, 1, 1, 1, 1]])
         with open(os.path.join(d, f"{a}_4H.csv"), "w", newline="") as f:
             csv.writer(f).writerows([["time", "open", "high", "low", "close"], [int(time.time() // 14400 * 14400), 1, 1, 1, 1]])
+        with open(os.path.join(d, f"{a}_12H.csv"), "w", newline="") as f:
+            csv.writer(f).writerows([["time", "open", "high", "low", "close"],
+                                     [int(time.time() // 43200 * 43200) - 43200 * (h12_back if a == "ETH" or both else 0), 1, 1, 1, 1]])
     return subprocess.run([sys.executable, os.path.join(ROOT, ".github", "scripts", "check_fresh.py"), d], capture_output=True, text=True)
 
 check("check_fresh passes when the last daily bar is today's", fresh(today).returncode == 0)
 r = fresh(today - dt.timedelta(days=1))
 check("check_fresh fails on yesterday's bar at any time of day (no early allowance)", r.returncode != 0 and "STALE" in r.stdout, r.stdout[:120])
+# 19 Nov 2026 audit round 46: both 12H files one bar short passed every check and were committed
+for both, label in ((False, "ETH 12H one bar short"), (True, "ETH and BTC 12H both one bar short")):
+    r = fresh(today, h12_back=1, both=both)
+    check(f"check_fresh fails when the 12H bars are not current ({label})", r.returncode != 0 and "_12H last bar" in r.stdout, r.stdout[:160])
 print(f"\n{ok}/{n} passed"); sys.exit(0 if ok == n else 1)

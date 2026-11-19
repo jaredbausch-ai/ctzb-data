@@ -1674,6 +1674,33 @@ Reports: `analysis/audit45_2026-11-19/` (numbers, broken, docs). Not counted, fo
 hangs reads "Loading the latest data…" until the browser gives up (never a figure); hardening H1-H6 (cross-field
 forgeries the strict check accepts, e.g. a live signal's edge level not tied to its own card's ladder).
 
+
+## Round 46 — 19 Nov (numbers, damage and docs together)
+
+**Not clean (damage 2; numbers 0, docs 0).** Code frozen at 0185de1. States: the data of 19 Nov 19:15 UTC (six forming
+setups), replays of 12 Nov and 11 Nov 04:14 UTC, plus the auditors' own.
+
+| Part | Checked | Counted findings |
+|---|---|---|
+| Numbers | frozen states 53,320 comparisons; 466 replays of real dates 7,904,894 comparisons; checker self-test 40/40 data, 15/16 page | **0** |
+| Damage | 706 real-life cases (page 550, pipeline 156); 106 hardening (1 got through); 1 two-fault | **2** (pipeline, no figure changed) |
+| Docs | about 1,010 statements | **0** (6 kind 3 in scope, 5 outside; in `loose_wording.md`) |
+
+Damage, both kind (iii) (a damaged input accepted), no figure changed:
+- **The 12H bars were not checked for being current.** Both 12H files one bar short (or both an earlier run's copy)
+  passed every check and would be committed; one short alone was caught (they must end on the same bar). Fixed:
+  `check_fresh.py` requires the last 12H bar to be the current 12-hour bar, as for 4H. `test_fetch_today` 6/6 (4/6 on the
+  old code).
+- **An earlier run's `candle_check.json` swapped in between check_candles and refresh was accepted**; the feed carried
+  its old `checked_at` and Kraken status. The auditor was unsure it can happen in a real run (nothing writes that file
+  between the two steps). Not fixed yet: a tie to the run needs the replay harnesses to run check_candles; Jared to
+  decide.
+
+Hardening (not counted): the page accepts a top-grade ledger row whose 60th day is the still-open bar
+(`index.html` ~1334 tests `>` where `>=` is meant); the count check against the feed hides it in real life. Two-fault
+(not counted): an empty but valid `tests/baseline/ledger.json` makes the regression check pass trivially.
+Reports: `analysis/audit46_2026-11-19/`.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

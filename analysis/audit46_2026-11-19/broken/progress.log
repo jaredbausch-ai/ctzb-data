@@ -1,0 +1,46 @@
+2026-11-19T19:16:05Z start: audit46c begun, 0 cases, 0 disagreements
+2026-11-19T19:21:28Z stage 0: read docs and code (page, feed_live, seal, fetch checks); building page harness. cases 0, disagreements 0
+2026-11-19T19:26:23Z page real current: done 6 cases in 20s, 0 not ok
+2026-11-19T19:29:07Z page real current: 40/284 cases, 1 not ok so far
+2026-11-19T19:33:17Z alert-log sequences: 15 checks (held, fail-closed, killed x2, reverted feed, two runs at once, log deleted/duplicated/cut, previous feed lost), 0 disagreements
+2026-11-19T19:33:44Z page real current: 80/284 cases, 5 not ok so far
+2026-11-19T19:37:06Z page real current: 40/201 cases, 3 not ok so far
+2026-11-19T19:39:40Z page real current: 80/201 cases, 6 not ok so far
+2026-11-19T19:42:18Z page real current: 120/201 cases, 9 not ok so far
+2026-11-19T19:45:55Z page real current: 160/201 cases, 12 not ok so far
+2026-11-19T19:50:31Z page real current: 200/201 cases, 40 not ok so far
+2026-11-19T19:50:38Z page real current: done 201 cases in 984s, 41 not ok
+2026-11-19T19:52:38Z page extra current: done 17 cases in 120s, 0 not ok
+2026-11-19T19:54:42Z page hard current: 40/53 cases, 0 not ok so far
+2026-11-19T19:56:10Z page hard current: done 53 cases in 211s, 1 not ok
+2026-11-19T19:56:23Z page: current state done (real 201+17 extra, hardening 53); real-life disagreements so far 0 (harness re-runs pending for slow-file cases); hardening 1 (ledger row with 60th day still open accepted)
+2026-11-19T19:58:36Z page real replay_1111: 40/232 cases, 1 not ok so far
+2026-11-19T20:02:09Z page real replay_1111: 80/232 cases, 3 not ok so far
+2026-11-19T20:04:55Z page real replay_1111: 120/232 cases, 5 not ok so far
+2026-11-19T20:07:32Z page real replay_1111: 160/232 cases, 7 not ok so far
+2026-11-19T20:11:17Z page real replay_1111: 200/232 cases, 7 not ok so far
+2026-11-19T20:14:26Z page real replay_1111: done 232 cases in 1095s, 7 not ok
+2026-11-19T20:16:08Z page extra replay_1111: done 17 cases in 102s, 0 not ok
+2026-11-19T20:18:07Z page hard replay_1111: 40/53 cases, 0 not ok so far
+2026-11-19T20:19:23Z page hard replay_1111: done 53 cases in 194s, 1 not ok
+2026-11-19T20:24:14Z page real current: done 38 cases in 272s, 0 not ok
+2026-11-19T20:24:15Z page real replay_1111: done 1 cases in 1s, 0 not ok
+2026-11-19T20:24:23Z page level done: 646 cases on 2 states; real-life: 0 wrong figures (3 harness expectation errors, 2 rule-narrower-than-brief notes); hardening: 1 (ledger 60th-day off by one). Starting pipeline baseline.
+2026-11-19T20:25:12Z pipeline baseline clean run: withheld=False failed=[] err=None cards=6 open=21 extras_withheld=False alerts=2 held=0 gen=2026-11-19T19:50:00Z; step times [('check_fresh', 0.1), ('check_candles', 20.1), ('refresh', 0.4), ('grade', 4.1), ('extras', 0.2), ('stack', 6.6), ('cards', 0.5), ('regress', 0.0), ('feed', 0.1)]
+2026-11-19T20:28:27Z pipeline: 10 cases run this batch, 0 not ok
+2026-11-19T20:31:33Z pipeline: 20 cases run this batch, 0 not ok
+2026-11-19T20:34:59Z pipeline: 30 cases run this batch, 0 not ok
+2026-11-19T20:38:26Z pipeline: 40 cases run this batch, 0 not ok
+2026-11-19T20:41:02Z pipeline: 50 cases run this batch, 0 not ok
+2026-11-19T20:43:20Z pipeline: 60 cases run this batch, 0 not ok
+2026-11-19T20:45:16Z pipeline: 70 cases run this batch, 1 not ok
+2026-11-19T20:49:08Z pipeline: 80 cases run this batch, 1 not ok
+2026-11-19T20:50:41Z pipeline: 90 cases run this batch, 1 not ok
+2026-11-19T20:51:06Z pipeline: 100 cases run this batch, 2 not ok
+2026-11-19T20:54:07Z pipeline: 110 cases run this batch, 3 not ok
+2026-11-19T20:56:35Z pipeline batch done: 9 cases, 7 not ok
+2026-11-19T20:56:59Z pipeline batch done: 4 cases, 0 not ok
+2026-11-19T20:57:03Z pipeline: 120 damage cases run; 3 got through so far (12H both lost last bar / earlier-run copies; candle_check.json from an earlier run); running order/clock sequences
+2026-11-19T20:59:45Z pipeline order/clock sequences: 14 run, 0 got through. Starting repo tests (part C)
+2026-11-19T21:12:41Z repo tests: test_seal 29/29, test_page_timing 24/24; test_feed_damage (quick) running. Totals so far: 808 checks, real-life disagreements 2 (pipeline), hardening 1
+2026-11-19T21:19:39Z DONE: 813 checks (550 page + 156 pipeline real-life, 106 hardening, 1 two-fault). Real-life disagreements: 2 distinct (pipeline: 12H currency not checked; candle_check.json from an earlier run accepted), 0 at page level. Hardening 1 (ledger 60th-day off by one). Report AUDIT46_BROKEN.md
