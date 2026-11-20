@@ -39,6 +39,8 @@ the files it points to do not. Update the "Where we are" section at the end of e
 - **Round 47** (the release check, code 78d8276): 0 wrong figures, docs 0; one wording fix ("Best setup" on tied
   odds, fixed in 1b21db4); the feed/ rollback limit recorded. Jared (19 Nov 21:21 ET): fix the wording, run one more
   audit (round 48), and done.
+- **Round 48** (the final audit, code 4d4069d): numbers 0, damage 0, docs 1 (a stale CARD_SPEC sentence, not a member
+  figure, deleted). Passed the release rule. The audit rounds stop here (Jared, 19 Nov 21:21 ET).
 - **Fewer new sentences.** During this segment only counted causes are changed: damage causes, and docs findings of
   kind 1, 2 or 4, each with the smallest change. Loose wording (kind 3) and outside-scope findings are recorded in
   `docs/audit/loose_wording.md` and corrected together at the end, because every rewrite is new text for the next

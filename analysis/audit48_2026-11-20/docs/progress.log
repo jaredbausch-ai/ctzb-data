@@ -1,0 +1,13 @@
+2026-11-20T03:38:57Z docs/FEED_SPEC.md: done, 0 findings
+2026-11-20T03:38:57Z feed_live.py/stack_live.py/extras_live.py/refresh.py/feedcheck.py/seal.py vs FEED_SPEC: done (feed rebuilt; only timestamps and key order differ from committed feed)
+2026-11-20T03:38:57Z docs/CARD_SPEC.md: done, 1 counted (kind 2), 1 kind 3
+2026-11-20T03:38:57Z docs/artifacts/member-site/index.html (page words + FEED_SCHEMA comments): done, 0 findings
+2026-11-20T03:38:57Z README.md: done, 0 findings
+2026-11-20T03:38:57Z docs/artifacts/member-site/README.md: done, 0 findings
+2026-11-20T03:38:57Z cloudflare/README.md: done, 0 findings (all six worker test counts re-run and match)
+2026-11-20T03:38:57Z CONTEXT.md current-rule sections: done, 0 findings; dated record: 1 outside-scope
+2026-11-20T03:38:57Z cloudflare/BRIEF_*.md: done, 0 findings
+2026-11-20T03:38:57Z docs/PRETRADE.md (pipeline statements): done, 1 outside-scope
+2026-11-20T03:38:57Z docs/SITE_CHANGES.md Pending + Requested: done, 1 outside-scope (kind 3)
+2026-11-20T03:38:57Z docstrings/comments (listed .py, .github, daily.yml): done, 0 findings
+2026-11-20T03:38:57Z tests/* headers: done, 0 findings (fire_drills 58/58, gate-off 10 forming prints re-run)

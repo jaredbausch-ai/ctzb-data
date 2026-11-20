@@ -145,4 +145,4 @@ forming and foot wording are as above.
 
 
 **Wording, 12 Nov 2026 (audit #4):** the page says "signals", never "trades", for the sample: these are
-computed signals and none was traded. Older rows above that still say "trades" mean the same past signals.
+computed signals and none was traded.

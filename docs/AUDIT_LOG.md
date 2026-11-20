@@ -1734,6 +1734,34 @@ Reports: `analysis/audit47_2026-11-20/`.
 
 ---
 
+## Round 48 — 20 Nov (numbers, damage and docs; the final audit)
+
+**Under the release rule (no wrong or stale figure, nothing that reads as a trade): passed.** Code frozen at 4d4069d
+(round 47's "Tied for the best odds" fix). States: the data of 20 Nov 03:14 UTC (four forming setups: ETH 1D, 2D, 3D,
+BTC 1D) and replays of 14 Nov and 11 Nov 04:14 UTC. A container restart at about 03:46 UTC cut the numbers and damage
+runs; both resumed from their saved results (nothing half-written) and finished.
+
+| Part | Checked | Findings |
+|---|---|---|
+| Numbers | 56,405 comparisons on the frozen states; 327 replays (Sep 2020 to Nov 2026), 6,080,823 comparisons; 27/27 planted errors caught | **0** |
+| Damage | 821 checks (783 counted: page 442, pipeline 341, incl. 12 alert-log scenarios; 38 forged) | **0** |
+| Docs | about 900 statements in 21 documents | **1** (kind 2, CARD_SPEC); 1 kind 3 in scope; 3 outside scope |
+
+- **Docs, counted (kind 2): CARD_SPEC line 148** said "Older rows above that still say 'trades' mean the same past
+  signals." No row says "trades" for the sample any more (removed in b6aac76). Not a member figure. Sentence deleted.
+- **Docs, outside scope, fixed:** CONTEXT's dated note on the miss row (now "If it misses: went above entry … median
+  best move"); SITE_CHANGES 6v said "live" where the page's condition is "forming".
+- **Docs, outside scope, open (Jared's question):** PRETRADE defines DIVH as "confirmed in the 10 days before entry";
+  `analysis/htfdiv.py` dates a divergence by the open of its confirming bar, which on a 2D-8D chart can close after
+  entry. On the committed data 9 of 69 graded DIVH signals counted only such divergences. The current feed has no
+  DIVH tag. Recorded in `loose_wording.md`.
+- **Damage, noted, not counted:** 5 forged contradictory feeds accepted (no rule for them; listed in the report); if
+  `feed_live.py` is SIGKILLed no fail-closed feed is written, the previous feed stays up with its own `generated_at`
+  and goes stale after 5 hours.
+Reports: `analysis/audit48_2026-11-20/`.
+
+---
+
 ## Deliberately left alone (definitional notes, not issues)
 
 - **Flash-print clamp.** A $0.06 BTC low on 15 Apr 2017 (and ETH's $0.10 GDAX wick on 21 Jun 2017)

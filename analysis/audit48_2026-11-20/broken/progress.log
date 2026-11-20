@@ -1,0 +1,41 @@
+2026-11-20T03:15:18Z start: audit48c begun, 0 cases, 0 disagreements
+2026-11-20T03:22:09Z stage A1: page harness built; starting page batch 1 on current (237 cases)
+2026-11-20T03:29:31Z page batch 1 (current): 78/237 run; 0 disagreements so far (2 harness case-construction errors fixed: ledger/candle CSVs are CRLF); batch 2 (47 cases) and pipeline driver written
+2026-11-20T03:47:52Z container restart at ~03:46Z killed page batch 1 at 230/237; resuming (missing + renamed cases re-run next)
+2026-11-20T04:00:34Z page batch 1 (current) done: 238 cases, 0 disagreements; starting page batch 2 (47 cases: held/fail-closed/quiet shapes, clocks, mixed runs, unusual JSON, 19 forged)
+2026-11-20T04:04:49Z page batch 2 (current) done: 47 cases; 0 real-life disagreements (2 harness expectation errors), 5 forged contradictions accepted (hardening); starting pipeline baseline
+2026-11-20T04:05:30Z pipeline baseline reproduces the published feed exactly (18 s/run); starting pipeline input batch (137 cases)
+2026-11-20T04:05:44Z pipeline batch input: 15 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:06:49Z pipeline batch input: 30 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:07:44Z pipeline batch input: 45 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:08:11Z pipeline batch input: 60 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:09:17Z pipeline batch input: 75 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:10:22Z pipeline batch input: 90 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:10:51Z pipeline batch input: 105 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:11:53Z pipeline batch input: 120 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:13:58Z pipeline batch input: 135 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:14:25Z pipeline batch input finished: 137 cases, 0 not as expected (to be reviewed)
+2026-11-20T04:14:48Z pipeline input batch done: 137 cases, 0 disagreements (91 stopped at check_candles, 8 at check_fresh, 12 held, 1 fail-closed, 25 harmless published = undamaged run); starting between-steps batch (72)
+2026-11-20T04:14:54Z pipeline batch between: 15 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:14:56Z pipeline batch between: 30 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:15:00Z pipeline batch between: 45 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:15:01Z pipeline batch between: 60 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:15:03Z pipeline batch between finished: 72 cases, 0 not as expected (to be reviewed)
+2026-11-20T04:18:15Z pipeline batch runs: 15 more cases run, 8 not as expected (to be reviewed)
+2026-11-20T04:19:59Z pipeline batch runs finished: 26 cases, 8 not as expected (to be reviewed)
+2026-11-20T04:21:39Z pipeline batch runs finished: 9 cases, 0 not as expected (to be reviewed)
+2026-11-20T04:21:47Z pipeline between-steps batch: 72 cases, 0 disagreements (42 held, 28 fail-closed, 2 harmless published); runs batch: 30 cases, 0 disagreements (kill timings corrected); starting alert-log scenarios (12)
+2026-11-20T04:21:49Z alert-log scenarios done: 0 not as expected of 12
+2026-11-20T04:21:59Z alert-log scenarios: 12, 0 disagreements (no alert lost, none emitted twice); starting page batch on replay_1111 (195 cases)
+2026-11-20T04:41:58Z page batch replay_1111: 195 cases, 0 real-life disagreements (same 2 harness-expectation items + 5 forged accepted, hardening); starting replay_1111 pipeline
+2026-11-20T04:44:41Z pipeline batch runs: 15 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:46:43Z pipeline batch runs finished: 27 cases, 1 not as expected (to be reviewed)
+2026-11-20T04:46:59Z pipeline batch input: 15 more cases run, 0 not as expected (to be reviewed)
+2026-11-20T04:47:42Z pipeline batch input finished: 22 cases, 0 not as expected (to be reviewed)
+2026-11-20T04:48:25Z pipeline batch input finished: 11 cases, 1 not as expected (to be reviewed)
+2026-11-20T04:48:34Z pipeline batch between finished: 9 cases, 1 not as expected (to be reviewed)
+2026-11-20T04:48:36Z pipeline batch between: 15 more cases run, 1 not as expected (to be reviewed)
+2026-11-20T04:48:36Z pipeline batch between finished: 20 cases, 1 not as expected (to be reviewed)
+2026-11-20T04:50:03Z replay_1111 pipeline: 72 cases, 0 real-life disagreements (4 replay/harness artefacts reviewed); two runs at once: 4 staggers, all held; starting repo tests (part C)
+2026-11-20T05:03:07Z repo tests: test_seal 29/29, test_page_timing 24/24 pass; test_feed_damage (quick) running; 821 checks so far, 0 counted disagreements
+2026-11-20T05:07:37Z FINISHED: 821 checks (783 counted, 38 forged), 0 real-life disagreements; 5 forged contradictions accepted (hardening); report AUDIT48_BROKEN.md

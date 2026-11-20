@@ -1,15 +1,17 @@
-# Audit headline numbers (as of 19 Nov 2026, 16:50 ET; after round 46)
+# Audit headline numbers (as of 20 Nov 2026; after round 48, the final audit)
 
 Counted from the archived reports in `analysis/audit*/`. Entry quality only: everything audited is computed signals
 and the pipeline and site that publish them. None of it is a fill, a trade record or a strategy return.
 
 | What | Figure | Source |
 |---|---|---|
-| Audit rounds run | 46 (since 12 Nov 2026) | `docs/AUDIT_LOG.md` |
-| Numbers: all four clean numbers rounds (36, 37, 45, 46) | 25,580,388 comparisons over 1,464 real-date replays, 0 disagreements | the three below plus round 46: 53,320 + 7,904,894 (`AUDIT46_NUMBERS.md`) |
-| Damage: checks run, rounds 22 to 46 | 33,889 | the 33,064 below plus round 46's 825 rows |
-| Docs: statements checked, 14 rounds | about 11,760 | the 10,750 below plus round 46's about 1,010 |
+| Audit rounds run | 48 (since 12 Nov 2026) | `docs/AUDIT_LOG.md` |
+| Numbers: all five clean numbers rounds (36, 37, 45, 46, 48) | 31,717,616 comparisons over 1,791 real-date replays, 0 disagreements | 25,580,388 over 1,464 replays to round 46, plus round 48: 56,405 + 6,080,823 over 327 replays (`AUDIT48_NUMBERS.md`) |
+| Damage: checks run, rounds 22 to 48 | 36,022 | 33,889 to round 46, plus round 47's 1,312 and round 48's 821 rows |
+| Docs: statements checked, 16 rounds | about 13,430 | about 11,760 to round 46, plus round 47's about 770 and round 48's about 900 |
 | Round 46 | numbers 0, docs 0, damage 2 (no figure changed; one fixed, one open) | `analysis/audit46_2026-11-19/` |
+| Round 47 (release check) | 0 wrong figures; 1 wording fix; damage 1 documented limit, not counted; docs 0 | `analysis/audit47_2026-11-20/` |
+| Round 48 (final audit) | numbers 0, damage 0, docs 1 (a stale CARD_SPEC sentence, not a member figure, deleted) | `analysis/audit48_2026-11-20/` |
 | Full clean rounds (numbers, damage and docs together, 0 counted findings in each) | 1 (round 45) | `analysis/audit45_2026-11-19/` |
 | Numbers: published figures compared with an independent recomputation from the raw candles, in the three clean numbers rounds (36, 37, 45) | 17,622,174 comparisons, 0 disagreements | round 36: 5,749,424; round 37: 4,952,132; round 45: 53,299 + 6,867,319 (`AUDIT36/37/45_NUMBERS.md`) |
 | Numbers: real-date replays in those rounds | 998 (328 + 270 + 400), from 1 Sep 2020 to 14 Nov 2026 | same |

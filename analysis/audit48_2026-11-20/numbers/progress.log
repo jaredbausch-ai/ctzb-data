@@ -1,0 +1,6 @@
+2026-11-20T03:24:32Z stage data checks (A): replay_0414 27091 + current 27041 = 54132 comparisons, 0 disagreements
+2026-11-20T03:47:58Z container restarted ~03:46Z; replay run resumed after 78 complete replays (none half-written; 2021-12-14 in progress at the kill, re-run)
+2026-11-20T04:52:32Z stage replays (B): 327 real-date replays, 5,786,018 data + 294,765 page comparisons, 0 disagreements (one harness false alarm on 2021-03-14 23:59 fixed and re-run)
+2026-11-20T04:53:39Z stage page checks (A, rerun on final checker): see counts in report
+2026-11-20T04:55:46Z stage synthetic states: envelope (4 clock-D+1 replays, 40 checks, 0 disagreements, all fail closed); checker self-test 27 planted errors, 27 caught. Group A final: 56,405 comparisons (54,132 data + 2,273 page), 0 disagreements
+2026-11-20T04:56:28Z stage report: AUDIT48_NUMBERS.md written; A 56,405 / B 6,080,823 comparisons, 0 disagreements
