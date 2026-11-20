@@ -161,6 +161,19 @@ against the candle close.
 
 ---
 
+## 4. To fix after the private test launch (added 19 Nov 2026, Jared)
+Found by audit round 47 (`analysis/audit47_2026-11-20/docs/AUDIT47_DOCS.md`). Neither changes a figure members see.
+- **Dashboard console "About this data" panel is wrong.** `docs/artifacts/eth-setup-standard.html` (~line 224) says
+  "Each card is rebuilt from the signal ledger and must match, or the old card stays up." In fact `stack_live.py`
+  writes `cards.csv` before `verify_cards.py` runs, the commit step commits `datasets/` whatever the outcome, and the
+  console reads `cards.csv` directly, so a card that fails the cross-check still shows on the console. Only the member
+  feed holds it back. Fix the sentence, or make the console hold the card back too.
+- **Trades relay `/health` reads not ok about 5 minutes in every 15 when nothing is wrong.** It reports `ok` only when
+  its last good read is under 10 minutes old, but in quiet periods it saves that read only every 15 minutes. The health
+  monitor and watchdog allow 20 minutes and are not affected. Fix before the relay goes live (`cloudflare/ctzb-trades-worker.js`).
+
+---
+
 ## Data status update — 8 Nov 2026
 
 `community-api.coinmetrics.io` is now reachable. `fetch_coinmetrics.py` pulls
