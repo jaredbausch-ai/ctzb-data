@@ -92,11 +92,11 @@ def write_rows(path, rows):
 
 
 def make_current(d):
-    """Extend the copy's 1D and 4H files with flat bars up to the bar forming now, so the
+    """Extend the copy's 1D, 4H and 12H files with flat bars up to the bar forming now, so the
     freshness check has a clean baseline whatever time the drill runs."""
     now = int(time.time())
     for a in ("ETH", "BTC"):
-        for name, step in ((f"{a}_1D.csv", 86400), (f"{a}_4H.csv", 14400)):
+        for name, step in ((f"{a}_1D.csv", 86400), (f"{a}_4H.csv", 14400), (f"{a}_12H.csv", 43200)):
             p = os.path.join(d, "data", name)
             rows = read_rows(p)
             last = rows[-1]

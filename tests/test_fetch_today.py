@@ -44,7 +44,7 @@ def fresh(last_day, h12_back=0, both=False):
 check("check_fresh passes when the last daily bar is today's", fresh(today).returncode == 0)
 r = fresh(today - dt.timedelta(days=1))
 check("check_fresh fails on yesterday's bar at any time of day (no early allowance)", r.returncode != 0 and "STALE" in r.stdout, r.stdout[:120])
-# 19 Nov 2026 audit round 46: both 12H files one bar short passed every check and were committed
+# 19 Nov 2026 audit round 46: in the audit, both 12H files one bar short passed every check (they would be committed)
 for both, label in ((False, "ETH 12H one bar short"), (True, "ETH and BTC 12H both one bar short")):
     r = fresh(today, h12_back=1, both=both)
     check(f"check_fresh fails when the 12H bars are not current ({label})", r.returncode != 0 and "_12H last bar" in r.stdout, r.stdout[:160])

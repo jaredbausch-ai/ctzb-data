@@ -9,6 +9,7 @@ retried, never committed as if it were fresh.
     accepting the previous bar let an hourly feed frozen before the close pass, and the
     gate then marked the window done). If the exchange is merely slow to open the new
     bar, the 1-minute re-run covers it.
+  - data/{ETH,BTC}_12H.csv: the last bar must be the CURRENT 12-hour bar (19 Nov 2026, audit round 46).
   - (until 12 Nov 2026 yesterday's 1D bar was accepted in the first 20 minutes after 00:00 UTC. Audit #17:
     every later step treats the last daily bar as today's open bar, so a run on yesterday's bar mixed two days.
     fetch.py now builds today's bar from the hourly candles when the daily endpoint is slow; if even that is
@@ -20,8 +21,8 @@ D = sys.argv[1] if len(sys.argv) > 1 else "data"
 now = time.time()
 today = dt.datetime.now(dt.timezone.utc).date()
 b4 = int(now // 14400 * 14400)
-b12 = int(now // 43200 * 43200)   # 19 Nov 2026 audit round 46: the 12H bars must be current too (both 12H files cut
-                                  # by the same bar passed every check: nothing scores 12H, but the short files were committed)
+b12 = int(now // 43200 * 43200)   # 19 Nov 2026 audit round 46: the 12H bars must be current too (in the audit, both
+                                  # 12H files cut by the same bar passed every check: nothing scores 12H, but they would be committed)
 bad = []
 for a in ("ETH", "BTC"):
     def last(name):
@@ -34,11 +35,11 @@ for a in ("ETH", "BTC"):
     h4 = last(f"{a}_4H.csv")
     if h4 < b4:
         bad.append(f"{a}_4H last bar {dt.datetime.fromtimestamp(h4, dt.timezone.utc):%Y-%m-%d %H:%M} UTC, "
-                   f"expected {dt.datetime.fromtimestamp(b4, dt.timezone.utc):%H:%M} UTC")
+                   f"expected {dt.datetime.fromtimestamp(b4, dt.timezone.utc):%Y-%m-%d %H:%M} UTC")
     h12 = last(f"{a}_12H.csv")
     if h12 < b12:
         bad.append(f"{a}_12H last bar {dt.datetime.fromtimestamp(h12, dt.timezone.utc):%Y-%m-%d %H:%M} UTC, "
-                   f"expected {dt.datetime.fromtimestamp(b12, dt.timezone.utc):%H:%M} UTC")
+                   f"expected {dt.datetime.fromtimestamp(b12, dt.timezone.utc):%Y-%m-%d %H:%M} UTC")
 if bad:
     print("STALE CANDLES: " + "; ".join(bad))
     sys.exit(1)

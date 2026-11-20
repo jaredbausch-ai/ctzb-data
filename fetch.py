@@ -211,7 +211,8 @@ def _file_problem(path, name):
     if any(not ln.strip(b"\r \t") for ln in lines):
         return f"{name}: it holds a blank line: the file is damaged"
     # 19 Nov 2026 audit round 42: a line ending other than LF or CRLF (a stray CR, e.g. CR CR LF) passed the check on
-    # every file it reads; the 4H and 12H files with it were committed. Every writer here ends lines with LF or CRLF, so a CR anywhere else is a
+    # every file it reads (in the audit, the 4H and 12H files with it would have been committed). Every writer here ends
+    # lines with LF or CRLF, so a CR anywhere else is a
     # damaged file
     if b"\r" in raw.replace(b"\r\n", b""):
         return f"{name}: it holds a stray carriage return (a line ending other than LF or CRLF): the file is damaged"

@@ -11,8 +11,8 @@
    round 37: a second "close" column read as the real close in the check while the scorer read the first, so closes
    changed inside each bar's range were scored): a repeated, extra, missing or reordered column, on every file.
 5. Malformed: a carriage return that is not part of a CRLF line end (CR CR LF, a bare CR) fails in every file; all-LF
-   and all-CRLF files pass (19 Nov 2026 audit round 42: CR CR LF passed the history check on every file; the 4H and
-   12H files with it were committed).
+   and all-CRLF files pass (19 Nov 2026 audit round 42: CR CR LF passed the history check on every file; in the audit
+   the 4H and 12H files with it would have been committed).
 
     python3 tests/test_input_files.py      # exit 1 on failure
 """
