@@ -36,6 +36,9 @@ the files it points to do not. Update the "Where we are" section at the end of e
   rebuilt, the changes get their fix check and the suite, then **one final full round (47) as the release check**:
   ship if it shows no wrong or stale figure and nothing that reads as a trade; anything smaller is logged and fixed
   after the private test launch.
+- **Round 47** (the release check, code 78d8276): 0 wrong figures, docs 0; one wording fix ("Best setup" on tied
+  odds, fixed in 1b21db4); the feed/ rollback limit recorded. Jared (19 Nov 21:21 ET): fix the wording, run one more
+  audit (round 48), and done.
 - **Fewer new sentences.** During this segment only counted causes are changed: damage causes, and docs findings of
   kind 1, 2 or 4, each with the smallest change. Loose wording (kind 3) and outside-scope findings are recorded in
   `docs/audit/loose_wording.md` and corrected together at the end, because every rewrite is new text for the next

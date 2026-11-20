@@ -1704,6 +1704,34 @@ Hardening (not counted): the page accepts a top-grade ledger row whose 60th day 
 (not counted): an empty but valid `tests/baseline/ledger.json` makes the regression check pass trivially.
 Reports: `analysis/audit46_2026-11-19/`.
 
+
+## Round 47 — 20 Nov (numbers, damage and docs; the release check after the cleanup)
+
+**Under the release rule (no wrong or stale figure, nothing that reads as a trade): passed, with one wording fix.**
+Code frozen at 78d8276 (the wording cleanup, the rebuilt site Worker, the 12H rule). States: the data of 20 Nov
+00:23 UTC (four forming setups) and replays of 12 Nov and 11 Nov 04:14 UTC.
+
+| Part | Checked | Findings |
+|---|---|---|
+| Numbers | 54,254 comparisons on the frozen states; 315 replays, 5,460,243 comparisons; 29/29 planted errors caught | **0 wrong figures**; 1 wording issue in 3 states |
+| Damage | 1,312 cases (page 440, pipeline 872 incl. 21 alert-log sequences) | 1 counted by the auditor: the documented limit below |
+| Docs | about 770 statements | **0** (4 kind 3 in scope; 4 outside, one a wrong console sentence) |
+
+- **Numbers, wording: "Best setup forming today" on a forming setup tied with another on the shown +10% odds.** The
+  odds are whole percents; the page ranked on them and broke ties by feed order, so the setup it called best could be
+  lower underneath (today ETH 1D 66.67% against ETH 3D 66.96%, both shown 67%). Fixed in 1b21db4: a tie at the top
+  reads "Tied for the best odds of the setups forming today." on each tied card. `test_page_states` 66/66 (65/66 on the
+  old page). SITE_CHANGES 6v.
+- **Damage: the whole `feed/` folder (feed, alert log and its copy) put back to the run before re-emits that run's
+  alerts with a new emitted_at.** One fault (a reverted commit), but it leaves no record of the alerts: the family 1
+  rule names this outside its claim, and the sender's alert_id memory blocks a second send. Recorded, not counted under
+  the release rule (not a figure, nothing reads as a trade).
+- **Docs, outside scope, worth fixing:** the dashboard console's "About this data" says a card that fails the
+  cross-check keeps the old card up; in fact the console reads `cards.csv` directly and shows the new card (only the
+  member feed holds cards back). The trades relay's `/health` reads not ok for about 5 of every 15 quiet minutes
+  (the monitor allows 20; the relay is not live).
+Reports: `analysis/audit47_2026-11-20/`.
+
 ---
 
 ## Deliberately left alone (definitional notes, not issues)

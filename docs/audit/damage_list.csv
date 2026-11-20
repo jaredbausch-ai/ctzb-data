@@ -3410,3 +3410,4 @@ first_round,level,family,kind,case,expected
 44,pipeline,MISSING,real life,"ETH funding file lost its last whole row: scored as a run whose derivatives fetch has not yet written today (allowed 1-day lag)",not damage (family 1 exception; auditor counted it)
 46,pipeline,MISSING,real life,"ETH and BTC 12H both one bar short (or both an earlier run copy): passed every check, committed",check_fresh requires the current 12H bar
 46,pipeline,WRONG CONTENT,real life (unsure),"an earlier run candle_check.json swapped in before refresh: accepted, the feed carried its old checked_at",recorded not counted (Jared 19 Nov)
+47,pipeline,PARTIAL RUN,real life,"feed/ folder (feed, log, copy) put back to the run before: its alerts re-emitted with a new emitted_at",documented family 1 limit; sender dedup by alert_id; not counted under the release rule

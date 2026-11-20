@@ -1,0 +1,5 @@
+2026-11-20T00:32:23Z stage 1 data+feed checks (A: current, replay_0414): 52814 comparisons, 0 disagreements
+2026-11-20T00:42:20Z stage 2 page checks (A): current 719 comparisons 1 disagreement ('Best setup forming today' wording), replay_0414 721 comparisons 0; running total A: 54254 comparisons, 1 disagreement
+2026-11-20T02:14:46Z stage 3 replays (B): 315 replays, 5460243 comparisons, 2 disagreements (both 'Best setup forming today' wording)
+2026-11-20T02:16:01Z stage 4 synthetic (planted-error) states: 29 planted (19 data/feed, 10 page code), 29 caught after replacing 2 first plants that were no-ops on this data (initial run 27/29); running totals A 54254/1, B 5460243/2
+2026-11-20T02:17:24Z stage 5 report written: A 54254 comparisons / 1 disagreement, B 5460243 / 2 (one wording issue, 3 states), 0 wrong figures

@@ -1,0 +1,4 @@
+group,state,location,label,shown,yours,ok,cause
+A,current,card ETH-1D-2026-11-22,"""Best setup forming today"" is the highest rose-10% share",ETH-1D-2026-11-22 (66.666667%),ETH-3D-2026-11-23 (66.964286%),NO,wording: tie on the whole-percent share broken by feed order; another forming card has a higher exact share
+B,2026-09-13,card ETH-1D-2026-09-13,"""Best setup forming today"" is the highest rose-10% share",ETH-1D-2026-09-13 (63.076923%),BTC-1D-2026-09-13 (63.414634%),NO,wording: tie on the whole-percent share broken by feed order; another forming card has a higher exact share
+B,2026-11-19_000030Z,card ETH-2D-2026-11-20,"""Best setup forming today"" is the highest rose-10% share",ETH-2D-2026-11-20 (66.666667%),ETH-3D-2026-11-23 (66.964286%),NO,wording: tie on the whole-percent share broken by feed order; another forming card has a higher exact share
