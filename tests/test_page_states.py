@@ -201,6 +201,23 @@ def main():
         t_tw, e_tw = render(pw, FEED, views=("now",), trades={"trades": [dict(FILL, id="o2:add", action="add"), dict(FILL, id="o1:open")]})
         good = "feed is unavailable" not in t_tw["now"] and t_tw["now"].count("ETH long") >= 2 and not e_tw
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with two different fills in the same second: both shown" + ("" if good else f"  -- {t_tw['now'][:200]!r}"))
+        # 20 Nov 2026 audit round 47: with no top-grade setup, two forming setups tied on the shown +10% odds; the page
+        # called the first in feed order "Best setup forming today" though the other was higher underneath. A tie at the
+        # top now reads "Tied for the best odds"; a clear top still reads "Best setup forming today"
+        below = [c for c in FEED["cards"] if c["grade"] != "A+"]
+        if len(below) >= 2 and not any(c["grade"] == "A+" for c in FEED["cards"]):
+            f_tie = copy.deepcopy(FEED); f_top = copy.deepcopy(FEED)
+            ids = [c["signal_id"] for c in below[:2]]
+            for c in f_tie["cards"]:
+                if c["signal_id"] in ids: c["rose10_within60d_pct"] = 95
+            for c in f_top["cards"]:
+                if c["signal_id"] == ids[0]: c["rose10_within60d_pct"] = 95
+            t_tie, e_tie = render(pw, f_tie, views=("now",)); t_top, e_top = render(pw, f_top, views=("now",))
+            good = ("Tied for the best odds of the setups forming today." in t_tie["now"] and "Best setup forming today." not in t_tie["now"]
+                    and "Best setup forming today." in t_top["now"] and "Tied for the best" not in t_top["now"] and not e_tie and not e_top)
+            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  forming setups tied on the shown odds read 'Tied for the best odds'; a clear top reads 'Best setup forming today'" + ("" if good else f"  -- {(t_tie['now'][:300], t_top['now'][:300], e_tie, e_top)!r}"))
+        else:
+            print("  (skipped: the committed feed has a top-grade card or fewer than two forming cards)")
         # 18 Nov 2026 audit round 41 (liability): with an ETH position open in the lead-trader file, the worked example
         # (a 2024 signal) read "Lead trader: in · long", as if he had taken that past signal. The example card carries no
         # lead-trader line; a current setup's card still does

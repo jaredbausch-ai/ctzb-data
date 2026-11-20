@@ -606,6 +606,17 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   // No top-grade setup live: show the best forming setup instead (Jared 11 Nov), ranked by its +10% odds.
   function formingCards() { return feedCards().slice().sort((a, b) => (b.rose10_within60d_pct ?? -1) - (a.rose10_within60d_pct ?? -1)); }
   function bestCard() { return liveCards()[0] || formingCards()[0] || null; }
+  // 20 Nov 2026 audit round 47: the feed's odds are whole percents, so two forming setups can show the same top
+  // figure while one is higher underneath; calling the first one in the feed "best" was then wrong. When the top shown
+  // odds tie, every tied setup says so instead.
+  function bestNote(m) {
+    const b = bestCard();
+    if (!b || liveCards().length) return b && b.signal_id === m.signal_id ? "Best setup forming today." : "Setup forming.";
+    const top = b.rose10_within60d_pct;
+    const tied = formingCards().filter((c) => c.rose10_within60d_pct === top);
+    if (tied.length > 1 && tied.some((c) => c.signal_id === m.signal_id)) return "Tied for the best odds of the setups forming today.";
+    return b.signal_id === m.signal_id ? "Best setup forming today." : "Setup forming.";
+  }
   // Fire drills, 11 Nov 2026: an outage, a failed check or an old feed must never read as
   // "nothing is happening". The pipeline rewrites the feed every 4 hours; 5 hours means a
   // cycle was missed.
@@ -760,7 +771,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
-        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestCard() && bestCard().signal_id === m.signal_id ? "Best setup forming today." : "Setup forming."} It isn't top grade. It can still vanish before it confirms.</div>`
+        ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestNote(m)} It isn't top grade. It can still vanish before it confirms.</div>`
           : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>`
           : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before ever reaching its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`)} The odds below are measured from the entry close, not from today's price.</div>` : ""}
       </div>${staleNote()}
