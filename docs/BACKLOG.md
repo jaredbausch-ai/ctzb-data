@@ -171,6 +171,14 @@ Found by audit round 47 (`analysis/audit47_2026-11-20/docs/AUDIT47_DOCS.md`). Ne
 - **Trades relay `/health` reads not ok about 5 minutes in every 15 when nothing is wrong.** It reports `ok` only when
   its last good read is under 10 minutes old, but in quiet periods it saves that read only every 15 minutes. The health
   monitor and watchdog allow 20 minutes and are not affected. Fix before the relay goes live (`cloudflare/ctzb-trades-worker.js`).
+- **Divergence flag (DIVH) can count a divergence that confirms after entry** (audit round 48,
+  `analysis/audit48_2026-11-20/docs/AUDIT48_DOCS.md`, O1). `docs/PRETRADE.md` (lines 371-372) defines DIVH as a
+  higher-chart divergence "confirmed in the 10 days before entry". `analysis/htfdiv.py` (line 67) dates each divergence
+  by the open date of the bar that confirms it, and `stack_live.py` and `grade_live.py` use that date, so on a 2D-8D
+  chart the confirming bar can close after entry. On the committed data, 9 of the 69 graded signals flagged DIVH count
+  only such divergences. The current feed has no DIVH tags. Open question first: does DIVH feed the grade or odds on
+  member cards, or is it only a research tag? Then either reword PRETRADE or make the code require the confirming
+  bar's close on or before entry.
 
 ---
 
