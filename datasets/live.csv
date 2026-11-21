@@ -1,6 +1,6 @@
 chart,dataTo,lastPrint,lastEntry,lastTag,daysSince,ctNow,forming,formingTag,barsNeeded,formingGrade,formingLenses,formingHtfDiv,formingMarker,closeNow,closeDate
-ETH 1D,2026-11-21,2026-11-14,2026-11-17,A,4,19.5,yes,A,2,C (provisional),,no,no,1621.91,2026-11-21
-ETH 2D,2026-11-21,2026-10-28,2026-11-03,A,18,23.8,yes,A,2,C (provisional),,no,no,1621.91,2026-11-21
-ETH 3D,2026-11-21,2026-09-13,2026-09-22,C + diamond + hollow,60,23.9,yes,A,2,C (provisional),,no,no,1621.91,2026-11-21
-ETH 5D,2026-11-17,2026-09-13,2026-09-28,C,50,29.1,no,,,,,,,1621.91,2026-11-21
-ETH 8D,2026-11-17,2025-06-18,2025-07-12,B,493,33.9,no,,,,,,,1621.91,2026-11-21
+ETH 1D,2026-11-21,2026-11-14,2026-11-17,A,4,22.7,yes,A,2,C (provisional),,no,no,1651.05,2026-11-21
+ETH 2D,2026-11-21,2026-10-28,2026-11-03,A,18,25.9,yes,A,2,C (provisional),,no,no,1651.05,2026-11-21
+ETH 3D,2026-11-21,2026-09-13,2026-09-22,C + diamond + hollow,60,25.8,yes,A,2,C (provisional),,no,no,1651.05,2026-11-21
+ETH 5D,2026-11-17,2026-09-13,2026-09-28,C,50,29.6,no,,,,,,,1651.05,2026-11-21
+ETH 8D,2026-11-17,2025-06-18,2025-07-12,B,493,34.4,no,,,,,,,1651.05,2026-11-21
