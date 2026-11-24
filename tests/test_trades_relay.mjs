@@ -179,6 +179,13 @@ check("/dry shows no contract counts or balances either", !/contracts|balance"|q
 resp = await _test.handle(req("/health"), ENV(k));
 body = await resp.json();
 check("/health is public and carries no trade data", resp.status === 200 && body.mode === "dry" && !("trades" in body) && !("open_positions" in body));
+{ // a quiet period saves last_ok_at only every 15 minutes, so /health must still read ok 14 minutes after it, and not ok after 20
+  const hk = (minAgo) => { const q = kv(); q.m.set("state", JSON.stringify({ baseline_at: "2026-11-11T00:00:00Z", consecutive_failures: 0,
+    last_ok_at: new Date(Date.now() - minAgo * 60000).toISOString() })); return q; };
+  const okAt = async (minAgo) => (await (await _test.handle(req("/health"), ENV(hk(minAgo)))).json()).ok;
+  check("/health stays ok through a quiet 15-minute save gap (14 minutes since the last saved read)", (await okAt(14)) === true);
+  check("/health reads not ok once the last good read is over 20 minutes old", (await okAt(21)) === false);
+}
 
 // ---- 13. live mode publishes only live-made trades ----
 t = step();

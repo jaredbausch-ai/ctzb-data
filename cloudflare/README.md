@@ -70,7 +70,7 @@ order already processed posts nothing (Coinbase's positions already hold it). Kn
 across two reads whose earlier fill shows up late posts a reduce and then a close when the late read sees the state
 from before the last one, and the reduce alone when it sees the current state (the close reaches the tracked position
 through the reconcile, which never posts). **Built 14 Nov 2026 (audit #33 fix check), not yet deployed.**
-Tests: `node tests/test_trades_relay.mjs` (45).
+Tests: `node tests/test_trades_relay.mjs` (47).
 
 **ctzb-site** (11 Nov 2026, item 18) — the member site. Built, not written:
 `python cloudflare/build_site.py` wraps `docs/artifacts/member-site/index.html` and the

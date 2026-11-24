@@ -48,6 +48,9 @@ const DISCLOSURE = "The lead trader trades his own account on his own judgement:
 const OVERLAP_MS = 10 * 60 * 1000;
 const SEEN_CAP = 2000, EVENTS_CAP = 500, NOTES_CAP = 100, MAX_PAGES = 20, PAGE = 100;
 const HEARTBEAT_MIN = 15;
+// /health reads ok while the last good read is younger than this. In quiet periods last_ok_at is saved only every
+// HEARTBEAT_MIN minutes (KV writes are kept low), so the window must be longer than that: 20, the same as the monitor.
+const HEALTH_FRESH_MIN = 20;
 const EVENT_FIELDS = ["id", "mode", "time", "asset", "instrument", "direction", "action", "price",
   "leverage", "size_pct", "reduced_pct", "move_pct", "account_pct", "held_days"];
 
@@ -416,7 +419,7 @@ async function handle(req, env) {
   const state = kv ? ((await kv.get("state", { type: "json" })) || freshState()) : freshState();
   const mode = env.MODE === "live" ? "live" : "dry";
   if (url.pathname === "/health") {
-    const fresh = minutesSince(state.last_ok_at, Date.now()) < 10;
+    const fresh = minutesSince(state.last_ok_at, Date.now()) < HEALTH_FRESH_MIN;
     return json({ ok: !!kv && fresh && !state.consecutive_failures, mode, baseline_at: state.baseline_at,
       last_ok_at: state.last_ok_at, consecutive_failures: state.consecutive_failures, last_error: state.last_error });
   }
