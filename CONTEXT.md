@@ -29,7 +29,7 @@ it has been answered. The consequence, which must be stated whenever results
 are presented: this work measures **entry quality only**. It cannot produce a
 strategy return or a track record, because there is no exit in the data.
 
-Joe Mauro is a creditor doing due diligence. Everything for Joe is sent through Slack (see Standing
+Joe Mauro is a creditor doing due diligence. Everything for Joe is sent in Slack, #jared-ethkros (see Standing
 instructions, 24 Nov 2026). He has his own Coinbase API and
 CoinStats read access and an AI reading a shared dashboard link. Anything
 presented to Joe must be real-time knowable and must not be dressed up.
@@ -1380,10 +1380,10 @@ information (+3 spread, against +19 at 300+ days). Do not lean on it yet.
 
 ## Standing instructions
 
-**Everything sent to Joe goes through Slack (Jared, 24 Nov 2026).** Anything for Joe Mauro is sent in Slack, in
-The Mauro Group workspace, not by email, Grok Bot or Crypto Grok. This replaces the earlier channels (Grok Bot from 4 Nov,
+**Everything sent to Joe goes through Slack (Jared, 24 Nov 2026).** Anything for Joe Mauro is sent in the Slack channel
+#jared-ethkros (private, The Mauro Group workspace), not by email, Grok Bot or Crypto Grok. This replaces the earlier channels (Grok Bot from 4 Nov,
 Crypto Grok from 9 Nov). The rules for Joe still apply in Slack: short, real-time knowable, theory-craft labelled
-unsupported, and never a live credential in a message.
+unsupported, and never a live credential in a message. Use the existing channel; never create a new one.
 
 **Jared's position: check it, never ask him (18 Nov 2026).** Before raising anything that depends on whether Jared is
 in a trade (the lead-trader line, the relay, a card or alert that sits beside his position), check it first with the
