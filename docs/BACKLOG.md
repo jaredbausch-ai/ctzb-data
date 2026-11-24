@@ -170,8 +170,8 @@ Found by audit round 47 (`analysis/audit47_2026-11-20/docs/AUDIT47_DOCS.md`). Ne
   console reads `cards.csv` directly, so a card that fails the cross-check still shows on the console. Only the member
   feed holds it back. Fix the sentence, or make the console hold the card back too.
 - ~~**Trades relay `/health` reads not ok about 5 minutes in every 15 when nothing is wrong.**~~ **Fixed 24 Nov 2026 in code:** `/health`
-  now allows 20 minutes (`HEALTH_FRESH_MIN`), the same as the monitor; 2 new tests (47/47), the first fails on the old code. Takes effect
-  when the `ctzb-trades` Worker is redeployed. It reported `ok` only when
+  now allows 20 minutes (`HEALTH_FRESH_MIN`), the same as the monitor; 2 new tests (47/47), the first fails on the old code. Deployed 24 Nov
+  2026 (4a8f6b79); at 23:12 UTC /health read ok with its last good read 12 minutes old. It reported `ok` only when
   its last good read is under 10 minutes old, but in quiet periods it saves that read only every 15 minutes. The health
   monitor and watchdog allow 20 minutes and are not affected. Fix before the relay goes live (`cloudflare/ctzb-trades-worker.js`).
 - **Divergence flag (DIVH) can count a divergence that confirms after entry** (audit round 48,
