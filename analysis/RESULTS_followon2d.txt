@@ -1,0 +1,27 @@
+== ETH 1D signals (regime-gated), outcomes from the 1D entry unless marked
+all: no 2D after                                               n  65  +20%  55%  +10%  69%  -30%  18%
+all: 2D confirmed 1-10d after                                  n 114  +20%  57%  +10%  75%  -30%  19%
+all: 2D with a diamond 1-10d after                             n  26  +20%  65%  +10%  77%  -30%  19%
+all: FROM THE 2D CONFIRM DAY (knowable then)                   n 114  +20%  56%  +10%  68%  -30%  24%
+bucket A: no 2D after                                          n  16  +20%  38%  +10%  56%  -30%  31%
+bucket A: 2D confirmed 1-10d after                             n  44  +20%  50%  +10%  66%  -30%  27%
+bucket A: 2D with a diamond 1-10d after                        n  12  +20%  58%  +10%  67%  -30%  25%
+bucket A: FROM THE 2D CONFIRM DAY (knowable then)              n  44  +20%  50%  +10%  66%  -30%  30%
+A + filled diamond: no 2D after                                n   3  +20%  67%  +10%  67%  -30%  33%
+A + filled diamond: 2D confirmed 1-10d after                   n   5  +20%  80%  +10%  80%  -30%  20%
+A + filled diamond: 2D with a diamond 1-10d after              n   1  +20% 100%  +10% 100%  -30%   0%
+A + filled diamond: FROM THE 2D CONFIRM DAY (knowable then)    n   5  +20%  80%  +10%  80%  -30%  20%
+== BTC 1D signals (regime-gated), outcomes from the 1D entry unless marked
+all: no 2D after                                               n  90  +20%  52%  +10%  63%  -30%  17%
+all: 2D confirmed 1-10d after                                  n 190  +20%  51%  +10%  78%  -30%  11%
+all: 2D with a diamond 1-10d after                             n  51  +20%  51%  +10%  73%  -30%  12%
+all: FROM THE 2D CONFIRM DAY (knowable then)                   n 190  +20%  52%  +10%  69%  -30%  14%
+bucket A: no 2D after                                          n  13  +20%  54%  +10%  62%  -30%  23%
+bucket A: 2D confirmed 1-10d after                             n  66  +20%  42%  +10%  76%  -30%  11%
+bucket A: 2D with a diamond 1-10d after                        n  23  +20%  52%  +10%  87%  -30%  13%
+bucket A: FROM THE 2D CONFIRM DAY (knowable then)              n  66  +20%  42%  +10%  68%  -30%  17%
+A + filled diamond: no 2D after                                n   4  +20%  50%  +10%  75%  -30%  25%
+A + filled diamond: 2D confirmed 1-10d after                   n  17  +20%  53%  +10%  88%  -30%  12%
+A + filled diamond: 2D with a diamond 1-10d after              n   7  +20%  57%  +10%  86%  -30%  14%
+A + filled diamond: FROM THE 2D CONFIRM DAY (knowable then)    n  17  +20%  53%  +10%  88%  -30%  12%
+Hindsight: "after" is not knowable at the 1D entry. ENTRY QUALITY ONLY. No exit in the data. Computed signals, never fills.
