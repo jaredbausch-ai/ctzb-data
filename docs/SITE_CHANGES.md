@@ -8,9 +8,27 @@ with the Cloudflare version id, the commit it was built from and the date, then 
 "Pending" empty for the next round. `cloudflare/BRIEF_site.md` is re-pinned to that commit
 at the same time.
 
-Live right now: version **656d67c3** (11 Nov 2026 US Eastern; 12 Nov 03:30 UTC).
+Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4, the round 48 audited code).
 
 ## Pending
+
+| # | Change | Commit | Requested |
+|---|---|---|---|
+| 7 | **Dashboard worker (Jared's Telegram alerts), separate paste:** forming alert reads "Rose 10% within 60 days: X% of N past signals (Y% without ever falling 25.3%)" (was "never fell 25% … past trades"). `cloudflare/ctzb-dashboard-worker.js` rebuilt. | eb12637 | 12 Nov (audit #9) |
+| 7b | **Dashboard worker, same paste as row 7:** the card says "Past signals", "Signals that got there", "the entry close" and "within 60 days of the entry close" (was "Past trades", "Trades that got there", "the buy price" and "within 60 days of buying"); 15 Nov: its big number and era tiles say "never fell 25.3%" (was 25%), the ladder heads "Then rose 10% before falling 25.3%" / "Fell 25.3% before rising 10%", and the foot "entry quality only, with no exit".; the console with no card reads "No chart has a low forming with a card right now." (2d856f7) | 14 Nov docs audit | 14 Nov (docs audit #34) |
+
+## Requested, not built yet
+
+| # | Change | Requested |
+|---|---|---|
+| R1 | Previous signals column ("On track or rose 10%" (was "Edge intact" until 13 Nov) and "Edge lost or closed"): clicking a past signal's mini card opens its full card in the middle panel, the same card a member sees for a live setup. | 12 Nov (Jared) |
+| R2 | Chart tab, right-hand column: show the card for the setup being charted (Jared saw it blank on the live site for the live BTC 2D setup). **Cause of the blank column:** the live version (656d67c3) crashes on the Chart tab when the feed carries a live setup it wasn't built for ("Reduce of empty array" — it also blanks "Where the past signals went" and draws the entry on today instead of 21 Sep). The pending build already fixes the crash and fills the column with a short summary of the card (big number, typical high, +10% level, +20%, typical drop, edge) plus the live day-count box. **Still to build:** put the full card there (ladder, eras, timing, if-it-misses), the same card as on the Now tab. | 12 Nov (Jared) |
+| R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
+
+## Deployed
+
+### ec13c062 — 24 Nov 2026 (built from 1b21db4)
+Deployed 24 Nov 2026 13:41:55 EST by Claude in Chrome, Jared approving; the code that passed audit round 48 (142,924 bytes). Version id `ec13c062-e3ed-4fec-8987-704f2e01dc0c`. Bindings and settings unchanged.
 
 | # | Change | Commit | Requested |
 |---|---|---|---|
@@ -40,19 +58,7 @@ Live right now: version **656d67c3** (11 Nov 2026 US Eastern; 12 Nov 03:30 UTC).
 | 6s | Cleanup (19 Nov): the % move from the entry close is named a move, not a price: How to read's Typical high reads "The median best move within 60 days: how far above the entry close the highest price went, as a percentage."; If it misses reads "the median best move of all those misses ..., as a percentage above the entry close"; the card's If-it-misses row reads "median best move"; Past signals' summary reads "Misses: median best move" (was "median best price"); the worked example's "What this one did" row reads "Best move" (was "Best price"). | (cleanup) | 19 Nov (cleanup) |
 | 6t | Cleanup (19 Nov): How to read's Edge gone says what "from entry" (Chart tab: "below the bar already") and "Holds at every level" mean; If it misses says the worked example's pool is the signals known by its date; Lead trader says the line is on a live or forming setup's card only, is per asset, and reads "loading" while his feed loads. | (cleanup) | 19 Nov (cleanup) |
 | 6u | Cleanup (19 Nov): the lead-trader panel's subtitle reads "Real trades, posted automatically within about a minute of each fill (once his feed is live)" (was "when they fill"), and its note reads "sometimes before a signal confirms" (was "before an alert"). | (cleanup) | 19 Nov (cleanup) |
-| 6v | Round 47 (20 Nov): when no top-grade setup is forming and two or more forming setups tie on the shown +10% odds at the top, each tied card reads "Tied for the best odds of the setups forming today." instead of the first in feed order reading "Best setup forming today." (the odds are whole percents; the one labelled best could be lower underneath). | (this commit) | 20 Nov (round 47) |
-| 7 | **Dashboard worker (Jared's Telegram alerts), separate paste:** forming alert reads "Rose 10% within 60 days: X% of N past signals (Y% without ever falling 25.3%)" (was "never fell 25% … past trades"). `cloudflare/ctzb-dashboard-worker.js` rebuilt. | eb12637 | 12 Nov (audit #9) |
-| 7b | **Dashboard worker, same paste as row 7:** the card says "Past signals", "Signals that got there", "the entry close" and "within 60 days of the entry close" (was "Past trades", "Trades that got there", "the buy price" and "within 60 days of buying"); 15 Nov: its big number and era tiles say "never fell 25.3%" (was 25%), the ladder heads "Then rose 10% before falling 25.3%" / "Fell 25.3% before rising 10%", and the foot "entry quality only, with no exit".; the console with no card reads "No chart has a low forming with a card right now." (2d856f7) | 14 Nov docs audit | 14 Nov (docs audit #34) |
-
-## Requested, not built yet
-
-| # | Change | Requested |
-|---|---|---|
-| R1 | Previous signals column ("On track or rose 10%" (was "Edge intact" until 13 Nov) and "Edge lost or closed"): clicking a past signal's mini card opens its full card in the middle panel, the same card a member sees for a live setup. | 12 Nov (Jared) |
-| R2 | Chart tab, right-hand column: show the card for the setup being charted (Jared saw it blank on the live site for the live BTC 2D setup). **Cause of the blank column:** the live version (656d67c3) crashes on the Chart tab when the feed carries a live setup it wasn't built for ("Reduce of empty array" — it also blanks "Where the past signals went" and draws the entry on today instead of 21 Sep). The pending build already fixes the crash and fills the column with a short summary of the card (big number, typical high, +10% level, +20%, typical drop, edge) plus the live day-count box. **Still to build:** put the full card there (ladder, eras, timing, if-it-misses), the same card as on the Now tab. | 12 Nov (Jared) |
-| R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
-
-## Deployed
+| 6v | Round 47 (20 Nov): when no top-grade setup is forming and two or more forming setups tie on the shown +10% odds at the top, each tied card reads "Tied for the best odds of the setups forming today." instead of the first in feed order reading "Best setup forming today." (the odds are whole percents; the one labelled best could be lower underneath). | 1b21db4 | 20 Nov (round 47) |
 
 ### 656d67c3 — 11 Nov 2026 (built from 9a013e3)
 - Page scales to fit the screen on desktop widths: up to 1.3x on tall screens (never narrower than a 1300px layout), down to 0.85x on short ones; very short screens scroll. Phones unchanged. (16709dd)
