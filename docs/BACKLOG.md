@@ -142,9 +142,10 @@ against the candle close.
   retired.** The ETH Setup Standard dashboard now runs as Worker `ctzb-dashboard`,
   reading the mirror live behind Cloudflare Access (three emails, one-time PIN; the
   Worker also verifies the Access JWT itself). Phone alerts moved to a private Telegram
-  bot fed by the feed's `alerts`. Still to do: disable the "CTZB dashboard refresh"
-  scheduled task once the new dashboard is seen updating from a pipeline run, point the
-  morning health check away from the old dashboard, and give Joe the new address.
+  bot fed by the feed's `alerts`. **24 Nov 2026:** the "CTZB dashboard refresh" scheduled
+  task is disabled (renamed "retired"), and the morning health check's step F now reads
+  `ctzb-scheduler`'s `/health` instead of the old dashboard's uploads. Still to do: give Joe
+  the new address.
 - **(g) Dry run.** Several clean weeks before anyone outside sees it.
 
 ---
