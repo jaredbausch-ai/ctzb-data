@@ -12,10 +12,7 @@ Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4
 
 ## Pending
 
-| # | Change | Commit | Requested |
-|---|---|---|---|
-| 7 | **Dashboard worker (Jared's Telegram alerts), separate paste:** forming alert reads "Rose 10% within 60 days: X% of N past signals (Y% without ever falling 25.3%)" (was "never fell 25% … past trades"). `cloudflare/ctzb-dashboard-worker.js` rebuilt. | eb12637 | 12 Nov (audit #9) |
-| 7b | **Dashboard worker, same paste as row 7:** the card says "Past signals", "Signals that got there", "the entry close" and "within 60 days of the entry close" (was "Past trades", "Trades that got there", "the buy price" and "within 60 days of buying"); 15 Nov: its big number and era tiles say "never fell 25.3%" (was 25%), the ladder heads "Then rose 10% before falling 25.3%" / "Fell 25.3% before rising 10%", and the foot "entry quality only, with no exit".; the console with no card reads "No chart has a low forming with a card right now." (2d856f7) | 14 Nov docs audit | 14 Nov (docs audit #34) |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -26,6 +23,14 @@ Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### ctzb-dashboard 18e5e173 — 24 Nov 2026 (built from 2d856f7)
+Deployed 24 Nov 2026 13:53:32 EST by Claude in Chrome, Jared approving (65,453 bytes). Version id `18e5e173-82c4-483f-a20c-0368a64f479e`; previous 7f50beb7. Bindings (MIRROR, NOTIFY), the 5 variable/secret names and the cron trigger unchanged.
+
+| # | Change | Commit | Requested |
+|---|---|---|---|
+| 7 | **Dashboard worker (Jared's Telegram alerts), separate paste:** forming alert reads "Rose 10% within 60 days: X% of N past signals (Y% without ever falling 25.3%)" (was "never fell 25% … past trades"). `cloudflare/ctzb-dashboard-worker.js` rebuilt. | eb12637 | 12 Nov (audit #9) |
+| 7b | **Dashboard worker, same paste as row 7:** the card says "Past signals", "Signals that got there", "the entry close" and "within 60 days of the entry close" (was "Past trades", "Trades that got there", "the buy price" and "within 60 days of buying"); 15 Nov: its big number and era tiles say "never fell 25.3%" (was 25%), the ladder heads "Then rose 10% before falling 25.3%" / "Fell 25.3% before rising 10%", and the foot "entry quality only, with no exit".; the console with no card reads "No chart has a low forming with a card right now." (2d856f7) | 14 Nov docs audit | 14 Nov (docs audit #34) |
 
 ### ec13c062 — 24 Nov 2026 (built from 1b21db4)
 Deployed 24 Nov 2026 13:41:55 EST by Claude in Chrome, Jared approving; the code that passed audit round 48 (142,924 bytes). Version id `ec13c062-e3ed-4fec-8987-704f2e01dc0c`. Bindings and settings unchanged.

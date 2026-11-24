@@ -64,7 +64,7 @@ https://raw.githubusercontent.com/jaredbausch-ai/ctzb-data/e43c0f87633243a40bbd4
 
 About 63 KB. The first comment line reads "ctzb-dashboard — the ETH Setup Standard
 dashboard, served from Cloudflare." Most of its size is one long line: the page itself,
-as a string. It has exactly one `export default`. (This pin is the first deploy's build; later builds are in
+as a string. It has exactly one `export default`. (This pin is the first deploy's build. Live since 24 Nov 2026: 18e5e173, built from 2d856f7, 65,453 bytes. Later builds are in
 `BRIEF_monitor.md` and docs/SITE_CHANGES.md.)
 
 **2.4 Bindings** (Settings → Bindings):
