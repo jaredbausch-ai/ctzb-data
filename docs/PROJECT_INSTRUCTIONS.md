@@ -62,6 +62,8 @@ How he wants to be worked with:
   the emails to his own AI) must be short, real-time knowable, and must label
   theory-craft as unsupported. Do not bury a live credential in a thread a bot
   parses.
+- Everything sent to Joe goes through Slack (The Mauro Group workspace), not
+  email or Grok.
 - Anything that produces a number someone will look at twice gets committed to
   the repo. Scratch dies.
 ```
