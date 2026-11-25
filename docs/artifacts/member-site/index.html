@@ -427,13 +427,20 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         if ([r.still_rose10_pct, r.still_rose10_exact_pct, r.went_on_to_fall25_pct].some((x) => nil(x) !== (r.past_trades === 0))) out.push(p + ".if_it_falls_first[" + i + "]: count and shares disagree");
         if (r.past_trades > c.past_trades) out.push(p + ".if_it_falls_first[" + i + "]: more signals than the sample");
       });
-      if (!c.sample.includes(String(c.past_trades))) out.push(p + ".sample: does not state the sample size");
+      // the sample size stands as its own number ("all 115" does not state n = 15; round 48 hardening, 25 Nov 2026)
+      if (!new RegExp("(^|[^0-9])" + c.past_trades + "([^0-9]|$)").test(c.sample)) out.push(p + ".sample: does not state the sample size");
       // a card with no past signals yet (early history) has no figures; any other card has all of them
       if ([...CARD_FIGS.map((k) => c[k]), c.from_entry.still_rose10_pct, c.from_entry.still_rose10_exact_pct].some((x) => nil(x) !== (c.past_trades === 0))) out.push(p + ": figures and sample size disagree");
       if (c.past_trades > 0) {
         if (c.rose10_never_fell25_within60d_pct > c.rose10_within60d_pct || c.rose20_within60d_pct > c.rose10_within60d_pct) out.push(p + ": a share is above the rose-10% share it is part of");
         if (!(c.typical_deepest_dip_exact_pct <= c.typical_dip_before_rise_exact_pct)) out.push(p + ": the dip before the high is deeper than the deepest dip");
         if (Math.abs(c.from_entry.still_rose10_pct - c.from_entry.still_rose10_exact_pct) > 0.5) out.push(p + ".from_entry: rounded and exact shares disagree");
+        // round 48 hardening (25 Nov 2026): more than half rose 10% exactly when the median best move is 10% or more
+        if ((c.rose10_within60d_pct > 50 && c.typical_biggest_rise_exact_pct < 10) || (c.rose10_within60d_pct < 50 && c.typical_biggest_rise_exact_pct >= 10)) out.push(p + ": the rose-10% share and the median best move disagree");
+        // ...and the card's share is the eras' shares weighted by their sizes (each rounded, so within 1 point)
+        const eras = [c.before_2022, c.since_2022].filter((e) => e.past_trades > 0 && !nil(e.rose10_never_fell25_within60d_pct));
+        const w = eras.reduce((s, e) => s + e.past_trades * e.rose10_never_fell25_within60d_pct, 0) / eras.reduce((s, e) => s + e.past_trades, 0);
+        if (eras.length && Math.abs(c.rose10_never_fell25_within60d_pct - w) > 1) out.push(p + ": the share is not the two eras' shares combined");
         if (c.from_entry.still_rose10_exact_pct > c.rose10_within60d_pct + 0.5 || c.rose10_never_fell25_within60d_pct > c.from_entry.still_rose10_exact_pct + 0.5) out.push(p + ".from_entry: out of line with the shares it sits between");
       }
       c.if_it_falls_first.forEach((r, i) => {
@@ -444,6 +451,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     };
     const miss = (m, p) => {
       if (m.misses > m.signals || m.up_first > m.misses) out.push(p + ": counts do not nest");
+      // no miss went above entry, so their median peak cannot be above it (round 48 hardening, 25 Nov 2026)
+      if (m.misses > 0 && m.up_first === 0 && m.median_peak_pct > 0) out.push(p + ": no miss went above entry but the median peak is above it");
       for (const k of ["median_peak_pct", "median_worst_drop_pct", "median_day60_pct"]) if (nil(m[k]) !== (m.misses === 0)) out.push(p + "." + k + ": count and median disagree");
     };
     const pathOk = (pp, p) => {
@@ -486,6 +495,10 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         if (o.edge_status === "intact" && o.worst_so_far_pct < o.edge_level_pct - 0.05) out.push(p + ": marked on track but fell past its edge level");
       }
     });
+    // one price now per asset across every card in the feed (round 48 hardening, 25 Nov 2026)
+    const pxNow = {};
+    [...f.cards, ...f.open_signals.map((o) => o.card).filter((c) => !nil(c))].forEach((c) => { if (!nil(c.price_now)) (pxNow[c.asset] = pxNow[c.asset] || new Set()).add(c.price_now); });
+    for (const a in pxNow) if (pxNow[a].size > 1) out.push("feed: cards show more than one price now for " + a);
     f.if_it_misses.forEach((m, i) => miss(m, "feed.if_it_misses[" + i + "]"));
     if (!nil(f.example_if_it_misses)) miss(f.example_if_it_misses, "feed.example_if_it_misses");
     f.past_paths.forEach((pp, i) => pathOk(pp, "feed.past_paths[" + i + "]"));

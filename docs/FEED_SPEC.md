@@ -478,12 +478,15 @@ applies the same rules, trimming text and matching digits as JavaScript does.
   counts that never rise and never exceed the sample; a card with `past_trades` 0 has no checked figures and any other
   card has all of them; the never-fell-25.3% and +20% shares sit within the +10% share; the from-entry share sits between the never-fell-25.3%
   share and the +10% share; a ladder row's two shares add to at most 101; the dip before the high is no
-  deeper than the deepest dip; rounded and exact shares agree; `sample` states the sample size; `low_date` <=
-  `low_day` <= `confirms_on`; a forming card does not confirm before the feed's date.
+  deeper than the deepest dip; rounded and exact shares agree; `sample` states the sample size as a number of its own
+  (not inside a longer one); `low_date` <= `low_day` <= `confirms_on`; a forming card does not confirm before the
+  feed's date. Since 25 Nov 2026 (audit round 48 hardening): a +10% share above 50 has a median best move of 10% or
+  more and one below 50 has less; the never-fell-25.3% share is the two eras' shares weighted by their counts, within
+  1 point.
 - **Feed:** `cards_withheld` is the opposite of `checks.all_passed`; a withheld feed has no cards, live signals or
   example card; a feed that is not withheld states `market_regime`, `scored_as_of` and `posting_bar_pct`;
   `scored_as_of` is not after `generated_at`, and in a feed that is not withheld it is `generated_at`'s own day (a
-  feed written after a daily close from data scored before it is not published as clean); no signal id appears twice within `cards` or within `open_signals`, and no asset/grade pair (`grade_odds`, `if_it_misses`) or past-paths asset appears twice.
+  feed written after a daily close from data scored before it is not published as clean); no signal id appears twice within `cards` or within `open_signals`, and no asset/grade pair (`grade_odds`, `if_it_misses`) or past-paths asset appears twice; every card (forming and live) shows the same `price_now` for its asset; a misses row with `up_first` 0 has no median peak above entry.
 - **Live signals:** id matches chart and entry date; entry not after the feed's date; `days_elapsed` equals the days
   from entry to `generated_at`'s date; each day-10/30/60 figure present exactly when that day has passed; figures
   within best and worst; `edge_status` agrees with best, worst and edge level; the card is its own (chart, date,

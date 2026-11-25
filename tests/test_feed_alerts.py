@@ -45,6 +45,11 @@ def set_cards(cards):
             r = dict(REAL_CARD)
             r.update(chart=chart, asset=chart.split()[0], tf=chart.split()[1], trough=DAY(-3), lowDay=DAY(-3),
                      confirms=confirms, grade="A", confluences="[]")
+            # every card shows the same price now for its asset, as stack_live writes it (25 Nov 2026: the strict check
+            # now refuses two prices now for one asset): take the one the live cards in this datasets copy carry
+            live = [x["priceNow"] for x in csv.DictReader(open(f"{DS}/cards_open.csv")) if x["asset"] == r["asset"] and x.get("priceNow")] \
+                if os.path.exists(f"{DS}/cards_open.csv") else []
+            if live: r["priceNow"] = live[0]
             w.writerow({k: r.get(k, "") for k in CARD_COLS})
     reseal(DS)
 

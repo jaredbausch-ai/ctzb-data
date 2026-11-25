@@ -11,8 +11,11 @@ from playwright.sync_api import sync_playwright
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, R)
 import feedcheck  # noqa: E402 -- every state below that stands for a real feed must pass the strict check
+sys.path.insert(0, os.path.join(R, "tests"))
+from forged_feeds import FORGED, forge  # noqa: E402 -- round 48 hardening, shared with test_feed_contradictions.py
 PAGE = open(f"{R}/docs/artifacts/member-site/index.html", encoding="utf-8").read()
 DOC = "<!doctype html><html><head><meta charset=utf-8></head><body>" + PAGE + "</body></html>"
+
 FEED = json.load(open(f"{R}/feed/ctzb_feed.json"))
 # 24 Nov 2026: several cases need a top-grade live signal with its own card. The committed feed has none on some days
 # (none on 24 Nov), which crashed the suite, so the fixture promotes the first live signal with a card to A+.
@@ -188,6 +191,8 @@ def main():
             "generated_at missing": (mut(lambda f: f.pop("generated_at")), lambda x: "Feed unavailable" in x["now"]),
             "generated_at not a date": (mut(lambda f: f.update(generated_at="soon")), lambda x: "Feed unavailable" in x["now"]),
             "feed is a list": ([1, 2, 3], lambda x: "Feed unavailable" in x["now"]),
+            # round 48 hardening (25 Nov 2026): five self-contradicting feeds, shared with test_feed_contradictions.py
+            **{f"forged, {k}": (forge(FEED, k), lambda x: "Feed unavailable" in x["now"]) for k in FORGED},
             # 24 Nov 2026: a divergence note must be a higher chart of the same asset, confirmed after entry
             "divergence note on another asset": (mut(lambda f: f["open_signals"][0].update(divergence_since_entry={"chart": ("BTC" if f["open_signals"][0]["chart"].startswith("ETH") else "ETH") + " 8D", "confirmed_on": f["generated_at"][:10]})), lambda x: "Feed unavailable" in x["now"]),
             "divergence note before entry": (mut(lambda f: f["open_signals"][0].update(divergence_since_entry={"chart": f["open_signals"][0]["chart"].split(" ")[0] + " 8D", "confirmed_on": f["open_signals"][0]["entry_date"]})), lambda x: "Feed unavailable" in x["now"]),
@@ -258,7 +263,11 @@ def main():
         fm = copy.deepcopy(FEED); fc_ = copy.deepcopy(FEED["example_card"] or FEED["open_signals"][0]["card"]); fc_.pop("entry_close", None)
         nxt = (__import__('datetime').date.fromisoformat(FEED["scored_as_of"]) + __import__('datetime').timedelta(days=1)).isoformat()
         fc_.update(confirms_on=nxt, signal_id=f"{fc_['asset']}-{fc_['timeframe']}-{nxt}", must_close_above=3000.12, bars_to_confirm=1, price_now=3100.0)
-        fm["cards"] = [fc_]; fm0 = copy.deepcopy(fm); fm0["cards"][0]["bars_to_confirm"] = 0
+        fm["cards"] = [fc_]
+        # one price now per asset across the feed (round 48 hardening, 25 Nov 2026): the live cards carry the same one
+        for o in fm["open_signals"]:
+            if o.get("card") and o["card"]["asset"] == fc_["asset"] and o["card"].get("price_now") is not None: o["card"]["price_now"] = fc_["price_now"]
+        fm0 = copy.deepcopy(fm); fm0["cards"][0]["bars_to_confirm"] = 0
         # audit #25: a feed with no worked example (dates before 22 Nov 2024) says so on the chart, not "couldn't be loaded"
         noex = copy.deepcopy(FEED); noex.update(cards=[], open_signals=[], market_regime="Bullish", example_card=None, example_past_paths=None, example_if_it_misses=None)
         t_nx, e_nx = render(pw, noex, views=("chart",), example_on=True)

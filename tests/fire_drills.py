@@ -286,6 +286,10 @@ def drills_c():
 
     p = os.path.join(d, "datasets", "cards.csv"); rows = list(csv.DictReader(open(p)))
     new = dict(rows[0], chart="BTC 5D", asset="BTC", tf="5D", trough="2099-01-01", lowDay="2099-01-02", confirms="2099-01-04")   # dates in order: the feed must pass the strict check
+    # one price now per asset (25 Nov 2026 strict check): the relabelled card carries BTC's, as the run's other cards do
+    po = os.path.join(d, "datasets", "cards_open.csv")
+    btc = [r["priceNow"] for r in rows + (list(csv.DictReader(open(po))) if os.path.exists(po) else []) if r.get("asset") == "BTC" and r.get("priceNow")]
+    if btc: new["priceNow"] = btc[0]
     with open(p, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows + [new])
     reseal(os.path.join(d, "datasets"), started_at=FIXTURE_NOW)   # the fixture stands in for a scoring run at the pinned clock, so it re-records the run seal

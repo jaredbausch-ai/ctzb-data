@@ -12,7 +12,9 @@ Live right now: version **e1af3705** (25 Nov 2026, 09:29 EST; built from c1464a0
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 10 | Member site strict check: five more cross-field rules from audit round 48's hardening list (also in `feedcheck.py`). A feed is rejected when a card's sample text does not state its sample size as its own number; the rose-10% share and the median best move disagree about crossing 50%/10%; the card's never-fell-25.3% share is not its two eras' shares combined (within 1 point); cards show two prices now for one asset; or a misses row says none went above entry but its median peak is above it. Checked against all 207 committed feeds and the 13 replay baselines: none flagged (25 Nov 2026). | (this commit) |
 
 ## Requested, not built yet
 

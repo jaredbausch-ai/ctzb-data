@@ -107,6 +107,14 @@ def cross(f, out):
                 out.append(f'{p}: the dip before the high is deeper than the deepest dip')
             fe = c['from_entry']
             if abs(fe['still_rose10_pct'] - fe['still_rose10_exact_pct']) > 0.5: out.append(f'{p}.from_entry: rounded and exact shares disagree')
+            # round 48 hardening (25 Nov 2026): more than half rose 10% exactly when the median best move is 10% or more
+            r10, med = c['rose10_within60d_pct'], c['typical_biggest_rise_exact_pct']
+            if (r10 > 50 and med < 10) or (r10 < 50 and med >= 10): out.append(f'{p}: the rose-10% share and the median best move disagree')
+            # ...and the card's share is the eras' shares weighted by their sizes (each rounded, so within 1 point)
+            eras = [e for e in (c['before_2022'], c['since_2022']) if e['past_trades'] > 0 and e.get('rose10_never_fell25_within60d_pct') is not None]
+            if eras:
+                w = sum(e['past_trades'] * e['rose10_never_fell25_within60d_pct'] for e in eras) / sum(e['past_trades'] for e in eras)
+                if abs(c['rose10_never_fell25_within60d_pct'] - w) > 1: out.append(f"{p}: the share is not the two eras' shares combined")
             if fe['still_rose10_exact_pct'] > c['rose10_within60d_pct'] + 0.5 or c['rose10_never_fell25_within60d_pct'] > fe['still_rose10_exact_pct'] + 0.5:
                 out.append(f'{p}.from_entry: out of line with the shares it sits between')
         for i, r in enumerate(c['if_it_falls_first']):
@@ -115,7 +123,8 @@ def cross(f, out):
             if r['past_trades'] > 0 and None not in (r.get('still_rose10_pct'), r.get('still_rose10_exact_pct'), r.get('went_on_to_fall25_pct')) and (
                     abs(r['still_rose10_pct'] - r['still_rose10_exact_pct']) > 0.5 or r['still_rose10_pct'] + r['went_on_to_fall25_pct'] > 101):
                 out.append(f'{p}.if_it_falls_first[{i}]: shares disagree')
-        if str(c['past_trades']) not in c['sample']: out.append(f'{p}.sample: does not state the sample size')
+        # the sample size stands as its own number ("all 115" does not state n = 15; round 48 hardening, 25 Nov 2026)
+        if not re.search(rf"(^|[^0-9]){c['past_trades']}([^0-9]|$)", c['sample']): out.append(f'{p}.sample: does not state the sample size')
         figs = [c.get(k) for k in CARD_FIGS] + [c['from_entry'].get('still_rose10_pct'), c['from_entry'].get('still_rose10_exact_pct')]
         if any((x is None) != (c['past_trades'] == 0) for x in figs): out.append(f'{p}: figures and sample size disagree')
         if not (c['low_date'] <= c['low_day'] <= c['confirms_on']): out.append(f'{p}: low and confirmation dates out of order')
@@ -166,6 +175,12 @@ def cross(f, out):
         if lv is not None and w is not None:
             if o['edge_status'] == 'lost' and w > lv + 0.05: out.append(f'{p}: marked lost but never fell to its edge level')
             if o['edge_status'] == 'intact' and w < lv - 0.05: out.append(f'{p}: marked on track but fell past its edge level')
+    # one price now per asset across every card in the feed (round 48 hardening, 25 Nov 2026)
+    px = {}
+    for c in f['cards'] + [o['card'] for o in f['open_signals'] if o.get('card') is not None]:
+        if c.get('price_now') is not None: px.setdefault(c['asset'], set()).add(c['price_now'])
+    for a in sorted(px):
+        if len(px[a]) > 1: out.append(f'feed: cards show more than one price now for {a}')
     for name in ('if_it_misses',):
         for i, m in enumerate(f[name]): _miss(m, f'feed.{name}[{i}]', out)
     if f.get('example_if_it_misses') is not None: _miss(f['example_if_it_misses'], 'feed.example_if_it_misses', out)
@@ -218,6 +233,8 @@ ODDS_CHECKS = ['green on day 10', 'red on day 10']
 
 def _miss(m, p, out):
     if m['misses'] > m['signals'] or m['up_first'] > m['misses']: out.append(f'{p}: counts do not nest')
+    # no miss went above entry, so their median peak cannot be above it (round 48 hardening, 25 Nov 2026)
+    if m['misses'] > 0 and m['up_first'] == 0 and (m.get('median_peak_pct') or 0) > 0: out.append(f'{p}: no miss went above entry but the median peak is above it')
     for k in ('median_peak_pct', 'median_worst_drop_pct', 'median_day60_pct'):
         if (m.get(k) is None) != (m['misses'] == 0): out.append(f'{p}.{k}: count and median disagree')
 
