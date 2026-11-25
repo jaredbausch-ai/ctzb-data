@@ -174,7 +174,9 @@ Found by audit round 47 (`analysis/audit47_2026-11-20/docs/AUDIT47_DOCS.md`). Ne
   2026 (4a8f6b79); at 23:12 UTC /health read ok with its last good read 12 minutes old.
 - **Relay dry-run test, 24 Nov 2026: first case passed.** Jared checked the private `/dry` page against Coinbase: an
   open filled by two limit orders was recorded as an open and an add, the position shows open, nothing was posted.
-  Still to test: a reduce, a close, a short, and the other asset. It reported `ok` only when
+  **No test trades (Jared, 24 Nov 2026).** The other cases (a reduce, a close, a short, the other asset) are checked as
+  they happen in his normal trading: the first time each one occurs, he compares `/dry` with Coinbase. If one does not
+  match, flag it and fix it before the relay goes live. It reported `ok` only when
   its last good read is under 10 minutes old, but in quiet periods it saves that read only every 15 minutes. The health
   monitor and watchdog allow 20 minutes and are not affected. Fix before the relay goes live (`cloudflare/ctzb-trades-worker.js`).
 - **Divergence flag (DIVH) can count a divergence that confirms after entry** (audit round 48,
