@@ -8,14 +8,16 @@
 //         percentile of 250 bars) in the last 60 days                    [lab/rocband.py]
 //   TURN  a 5D CTZB signal with its low under CT 40, confirmed in the last 30 days
 //         (ungated)                                                     [analysis/lens5d.py]
-// Background: light when one is on, darker when both are on.
-indicator("CTZB Backdrop", shorttitle="Backdrop", overlay=true, max_bars_back=500)
+// Display (v2, 25 Nov 2026, Jared did not want shaded regions): a thin pane under the chart
+// with one track per read, solid while its window is on; a small marker on the price bar
+// where a window opens; the status table.
+indicator("CTZB Backdrop", shorttitle="Backdrop", overlay=false, format=format.price, precision=0, max_bars_back=500)
 
 G = "Backdrop"
 tf5       = input.timeframe("5D", "Timeframe of the reads", group=G)
 bandDays  = input.int(60, "Band window, days", minval=1, group=G)
 turnDays  = input.int(30, "Turn window, days", minval=1, group=G)
-showBg    = input.bool(true, "Shade the background", group=G)
+showMarks = input.bool(true, "Mark window openings on the price chart", group=G)
 showTable = input.bool(true, "Show the status table", group=G)
 tblPos    = input.string("Top right", "Table position", options=["Top right", "Top left", "Bottom right", "Bottom left"], group=G)
 
@@ -56,9 +58,26 @@ bool turnOn = not na(lastTurn) and time_close - lastTurn <= turnDays * DAY
 int  count  = (bandOn ? 1 : 0) + (turnOn ? 1 : 0)
 
 // ───────────────────────── Display
-C_ONE = color.new(#5C6BC0, 88)
-C_TWO = color.new(#5C6BC0, 72)
-bgcolor(showBg and count == 1 ? C_ONE : showBg and count == 2 ? C_TWO : na, title="Backdrop shading")
+C_BAND = #7986CB
+C_TURN = #4DB6AC
+C_BOTH = #FFD54F
+C_OFF  = color.new(#787B86, 70)
+
+// Two tracks: band on top, turn underneath. Solid while on, a faint hairline while off.
+// Both on: both tracks turn gold.
+plot(2, "Band track (off)", C_OFF, 1, display=display.pane)
+plot(1, "Turn track (off)", C_OFF, 1, display=display.pane)
+plot(bandOn ? 2 : na, "Band window", count == 2 ? C_BOTH : C_BAND, 5, plot.style_linebr, display=display.pane)
+plot(turnOn ? 1 : na, "Turn window", count == 2 ? C_BOTH : C_TURN, 5, plot.style_linebr, display=display.pane)
+plot(0.3, "", color.new(color.black, 100), display=display.pane)
+plot(2.7, "", color.new(color.black, 100), display=display.pane)
+
+// Small markers on the price chart where a window opens
+bool bandOpened = bandOn and not bandOn[1]
+bool turnOpened = turnOn and not turnOn[1]
+bool bothOn     = count == 2 and count[1] < 2
+plotshape(showMarks and bandOpened, "Band window opened", shape.triangleup, location.belowbar, C_BAND, text="band", textcolor=C_BAND, size=size.tiny, force_overlay=true)
+plotshape(showMarks and turnOpened, "Turn window opened", shape.triangleup, location.belowbar, C_TURN, text="turn", textcolor=C_TURN, size=size.tiny, force_overlay=true)
 
 // For checking against the lab's own numbers: Data Window and CSV export only
 plot(bandOn ? 1 : 0, "Band window on", display=display.data_window)
@@ -88,9 +107,6 @@ if showTable and barstate.islast
     table.merge_cells(tb, 0, 4, 1, 4)
 
 // ───────────────────────── Alerts
-bool bandOpened = bandOn and not bandOn[1]
-bool turnOpened = turnOn and not turnOn[1]
-bool bothOn     = count == 2 and count[1] < 2
 alertcondition(bandOpened, "Backdrop: band window opened", "{{ticker}}: a closed 5D bar broke the ROC band. 60-day band window open.")
 alertcondition(turnOpened, "Backdrop: 5D turn window opened", "{{ticker}}: a 5D turn under CT 40 confirmed. 30-day turn window open.")
 alertcondition(bothOn, "Backdrop: both on", "{{ticker}}: both backdrop reads are on.")
