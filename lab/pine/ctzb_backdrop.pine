@@ -81,8 +81,11 @@ bool turnOpened = turnOn and not turnOn[1]
 bool bandNew = not na(lastBand) and (na(lastBand[1]) or lastBand != lastBand[1])
 bool turnNew = not na(lastTurn) and (na(lastTurn[1]) or lastTurn != lastTurn[1])
 bool bothOn     = count == 2 and count[1] < 2
-plotshape(showMarks and bandNew, "Band break", shape.triangleup, location.belowbar, C_BAND, text="band", textcolor=C_BAND, size=size.tiny, force_overlay=true)
-plotshape(showMarks and turnNew, "5D turn", shape.triangleup, location.belowbar, C_TURN, text="turn", textcolor=C_TURN, size=size.tiny, force_overlay=true)
+// One marker per bar. v4, 25 Nov 2026: a band break and a 5D turn on the SAME 5D bar
+// (ETH 27 Mar 2025) used to draw two markers on top of each other, and "turn" hid "band".
+plotshape(showMarks and bandNew and not turnNew, "Band break", shape.triangleup, location.belowbar, C_BAND, text="band", textcolor=C_BAND, size=size.tiny, force_overlay=true)
+plotshape(showMarks and turnNew and not bandNew, "5D turn", shape.triangleup, location.belowbar, C_TURN, text="turn", textcolor=C_TURN, size=size.tiny, force_overlay=true)
+plotshape(showMarks and bandNew and turnNew, "Band break + 5D turn", shape.triangleup, location.belowbar, C_BOTH, text="band + turn", textcolor=C_BOTH, size=size.tiny, force_overlay=true)
 // The same events as dots on their tracks
 plotshape(bandNew ? 2 : na, "Band break (track)", shape.circle, location.absolute, color.white, size=size.tiny, display=display.pane)
 plotshape(turnNew ? 1 : na, "5D turn (track)", shape.circle, location.absolute, color.white, size=size.tiny, display=display.pane)
