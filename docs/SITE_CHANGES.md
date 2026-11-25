@@ -8,13 +8,11 @@ with the Cloudflare version id, the commit it was built from and the date, then 
 "Pending" empty for the next round. `cloudflare/BRIEF_site.md` is re-pinned to that commit
 at the same time.
 
-Live right now: version **e1af3705** (25 Nov 2026, 09:29 EST; built from c1464a0, the round 48 audited code plus the divergence note).
+Live right now: version **4e74f3b0** (25 Nov 2026, 10:25 EST; built from 3ff9163: the round 48 audited code, the divergence note and the five hardening checks).
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 10 | Member site strict check: five more cross-field rules from audit round 48's hardening list (also in `feedcheck.py`). A feed is rejected when a card's sample text does not state its sample size as its own number; the rose-10% share and the median best move disagree about crossing 50%/10%; the card's never-fell-25.3% share is not its two eras' shares combined (within 1 point); cards show two prices now for one asset; or a misses row says none went above entry but its median peak is above it. Checked against all 207 committed feeds and the 13 replay baselines: none flagged (25 Nov 2026). | (this commit) |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -25,6 +23,13 @@ Live right now: version **e1af3705** (25 Nov 2026, 09:29 EST; built from c1464a0
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### 4e74f3b0 — 25 Nov 2026 (built from 3ff9163)
+Deployed 25 Nov 2026 about 10:25 EST by Claude in Chrome, Jared approving (145,509 bytes); previous e1af3705. Bindings (MIRROR, TRADES) unchanged.
+
+| # | Change | Commit |
+|---|---|---|
+| 10 | Member site strict check: five more cross-field rules from audit round 48's hardening list (also in `feedcheck.py`). A feed is rejected when a card's sample text does not state its sample size as its own number; the rose-10% share and the median best move disagree about crossing 50%/10%; the card's never-fell-25.3% share is not its two eras' shares combined (within 1 point); cards show two prices now for one asset; or a misses row says none went above entry but its median peak is above it. Checked against all 207 committed feeds and the 13 replay baselines: none flagged (25 Nov 2026). | 3ff9163 |
 
 ### e1af3705 — 25 Nov 2026 (built from c1464a0)
 Deployed 25 Nov 2026 about 09:29 EST by Claude in Chrome, Jared approving (143,777 bytes); previous ec13c062. Bindings (MIRROR, TRADES) unchanged.
