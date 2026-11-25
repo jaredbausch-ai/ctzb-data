@@ -1,5 +1,6 @@
 ROC+ LOWER BAND AS A LENS -- declared 25 Nov 2026 (lab/rocband.py)
-validation vs his TradingView export (closed ETH 5D bars): ROC and lower band equal to 0.01 on 512/521; below-band state agrees on 521/521
+validation ETH vs his TradingView export (closed 5D bars): ROC and lower band equal to 0.01 on 512/521; below-band state agrees on 521/521
+validation BTC vs his TradingView export (closed 5D bars): ROC and lower band equal to 0.01 on 549/626; below-band state agrees on 626/626
 
 SUMMARY  cand asset | n on/off | +10% on/off | +20% on/off | t30 on/off | med deepest dip on/off | med best move on/off
 B60   ETH | 67/294 | 85/71 | 70/54 | 9/23 | -10.4/-14.4 | 38.3/25.6

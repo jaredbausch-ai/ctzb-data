@@ -78,22 +78,28 @@ def breaks(path):
     return sorted(ends), b, roc, low
 
 
+EXPORTS = {
+    'ETH': '/mnt/user-data/attachments/8f875660-8635-5623-af2d-fe53d5c3b161/5fa291ea-COINBASE_ETHUSD_5D_aa1c6.csv',
+    'BTC': '/mnt/user-data/attachments/8f875660-8635-5623-af2d-fe53d5c3b161/9c10eb42-COINBASE_BTCUSD_5D_e6575.csv',
+}
+
+
 def validate():
-    f = '/mnt/user-data/attachments/8f875660-8635-5623-af2d-fe53d5c3b161/5fa291ea-COINBASE_ETHUSD_5D_aa1c6.csv'
-    if not os.path.exists(f): P('validation: export not present, skipped'); return
-    tv = {}
-    for r in csv.DictReader(open(f)):
-        if r['ROC'] and r['Lower band']:
-            tv[dt.datetime.fromtimestamp(int(r['time']), dt.timezone.utc).date()] = (float(r['ROC']), float(r['Lower band']))
-    _, b, roc, low = breaks('data/ETH_5D.csv')
-    same = tot = agree = 0
-    for k, d in enumerate(b['date']):
-        if d in tv and roc[k] is not None and low[k] is not None and k < len(b['date']) - 1:
-            tot += 1; r, l = tv[d]
-            same += abs(r - roc[k]) < 0.01 and abs(l - low[k]) < 0.01
-            agree += (r < l) == (roc[k] < low[k])
-    P(f'validation vs his TradingView export (closed ETH 5D bars): ROC and lower band equal to 0.01 on {same}/{tot}; '
-      f'below-band state agrees on {agree}/{tot}')
+    for a, f in EXPORTS.items():
+        if not os.path.exists(f): P(f'validation {a}: export not present, skipped'); continue
+        tv = {}
+        for r in csv.DictReader(open(f)):
+            if r['ROC'] and r['Lower band']:
+                tv[dt.datetime.fromtimestamp(int(r['time']), dt.timezone.utc).date()] = (float(r['ROC']), float(r['Lower band']))
+        _, b, roc, low = breaks(f'data/{a}_5D.csv')
+        same = tot = agree = 0
+        for k, d in enumerate(b['date']):
+            if d in tv and roc[k] is not None and low[k] is not None and k < len(b['date']) - 1:
+                tot += 1; r, l = tv[d]
+                same += abs(r - roc[k]) < 0.01 and abs(l - low[k]) < 0.01
+                agree += (r < l) == (roc[k] < low[k])
+        P(f'validation {a} vs his TradingView export (closed 5D bars): ROC and lower band equal to 0.01 on {same}/{tot}; '
+          f'below-band state agrees on {agree}/{tot}')
 
 
 def rate(g, k): return 100 * sum(x[k] for x in g) / len(g) if g else None
