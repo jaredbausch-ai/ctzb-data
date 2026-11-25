@@ -25,4 +25,5 @@ it live after Noah's sign-off.
 | Date | Event | What happened | Caught and alerted? | Fix |
 |---|---|---|---|---|
 | 24 Nov 2026 | Start | Audited site, dashboard and relay deployed; relay health window fixed (5f4709e) | n/a | n/a |
+| 25 Nov 2026 00:14 UTC | Cards held back | Coinbase returned revised ETH-USD daily candles for 15 Apr to 24 Nov 2026 (188 days, prices moved by about 0.05% or less; the Kraken cross-check still passed). That moved two frozen figures of one closed signal (ETH 1D, 5 Sep: dip before high -4.990% to -4.983%, max drawdown -12.520% to -12.520%). The regression test failed, so the feed withheld the member site's cards. The dashboard still showed its cards (task 1 below) | Yes: the run failed closed and the cards were held | Waiting on Jared: accept the revised candles (approve the new baseline) or not |
 | 24 Nov 2026 | Relay, first case | An open filled by two limit orders recorded as an open and an add; nothing posted | n/a | n/a |
