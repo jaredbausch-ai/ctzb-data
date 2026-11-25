@@ -1388,7 +1388,10 @@ unsupported, and never a live credential in a message. Use the existing channel;
 **Jared's position: check it, never ask him (18 Nov 2026).** Before raising anything that depends on whether Jared is
 in a trade (the lead-trader line, the relay, a card or alert that sits beside his position), check it first with the
 CoinStats connector: `get-perpetual-positions` (all exchanges; his Coinbase exchange portfolio is `621c2b368a9078d0`
-in `get-portfolio-list`). Report only in or out, the asset and the direction: never a size, contract count, price,
+in `get-portfolio-list`). **Limit found 24 Nov 2026:** CoinStats' Coinbase connection does not see his Coinbase
+perps: it showed no position while the relay had one recorded. An empty CoinStats result does not mean he is out.
+His perps show on the relay's private `/dry` page, behind his own password, which agents never hold: ask him to check
+there, or use the relay's public feed once it is live. Report only in or out, the asset and the direction: never a size, contract count, price,
 balance or P&L. A test or audit case that uses a made-up lead-trader file is labelled a stand-in every time it is
 mentioned, never written as his trade. On the site this is automatic once the trades relay (`ctzb-trades`, Coinbase
 view-only key he entered himself) is live: it posts his opens and closes within about a minute; going live is his
