@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-24T20:13:54+00:00",
+ "checked_at": "2026-11-25T00:13:59+00:00",
  "cross_mode": "enforce",
  "max_close_gap_pct": 0.5,
  "structural_ok": true,
@@ -9,13 +9,17 @@
    "status": "ok",
    "all": {
     "days_compared": 720,
-    "from": "2024-12-04",
-    "to": "2026-11-23",
-    "median_pct": 0.0133,
+    "from": "2024-12-05",
+    "to": "2026-11-24",
+    "median_pct": 0.0131,
     "p90_pct": 0.047,
-    "p99_pct": 0.0894,
-    "max_pct": 0.1637,
+    "p99_pct": 0.0923,
+    "max_pct": 0.3007,
     "worst_days": [
+     {
+      "date": "2026-09-02",
+      "gap_pct": 0.3007
+     },
      {
       "date": "2025-06-16",
       "gap_pct": 0.1637
@@ -31,20 +35,16 @@
      {
       "date": "2025-04-02",
       "gap_pct": 0.0965
-     },
-     {
-      "date": "2025-07-30",
-      "gap_pct": 0.0943
      }
     ]
    },
    "recent_window_days": 30,
    "recent": {
     "days_compared": 30,
-    "from": "2026-10-25",
-    "to": "2026-11-23",
-    "median_pct": 0.0124,
-    "p90_pct": 0.0411,
+    "from": "2026-10-26",
+    "to": "2026-11-24",
+    "median_pct": 0.0113,
+    "p90_pct": 0.0367,
     "p99_pct": 0.0598,
     "max_pct": 0.0598,
     "worst_days": [
@@ -57,16 +57,16 @@
       "gap_pct": 0.0514
      },
      {
-      "date": "2026-11-17",
-      "gap_pct": 0.0411
-     },
-     {
       "date": "2026-11-04",
       "gap_pct": 0.0367
      },
      {
       "date": "2026-11-16",
       "gap_pct": 0.0313
+     },
+     {
+      "date": "2026-10-29",
+      "gap_pct": 0.0298
      }
     ]
    },
@@ -76,8 +76,8 @@
    "status": "ok",
    "all": {
     "days_compared": 720,
-    "from": "2024-12-04",
-    "to": "2026-11-23",
+    "from": "2024-12-05",
+    "to": "2026-11-24",
     "median_pct": 0.0131,
     "p90_pct": 0.0404,
     "p99_pct": 0.0771,
@@ -108,8 +108,8 @@
    "recent_window_days": 30,
    "recent": {
     "days_compared": 30,
-    "from": "2026-10-25",
-    "to": "2026-11-23",
+    "from": "2026-10-26",
+    "to": "2026-11-24",
     "median_pct": 0.0074,
     "p90_pct": 0.0309,
     "p99_pct": 0.0465,
