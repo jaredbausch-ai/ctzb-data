@@ -129,7 +129,11 @@ def compare(date, new, old):
         a, b = old["page_numbers"].get(v), new["page_numbers"].get(v)
         if a == b: continue
         diff = list(difflib.unified_diff(old["page"].get(v, "").splitlines(), new["page"].get(v, "").splitlines(), lineterm="", n=0))
-        problems.append(f"{date} page '{v}': numbers changed\n    " + "\n    ".join(diff[2:14]))
+        # 25 Nov 2026: say whether figures changed or only moved (a layout change keeps the same figures, in another order)
+        from collections import Counter
+        gone, came = Counter(a or []) - Counter(b or []), Counter(b or []) - Counter(a or [])
+        moved = "only the order changed (the same figures, each as often)" if not gone and not came else f"gone {dict(gone)}; new {dict(came)}"
+        problems.append(f"{date} page '{v}': numbers changed: {moved}\n    " + "\n    ".join(diff[2:14]))
     return problems
 
 

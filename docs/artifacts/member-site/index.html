@@ -819,7 +819,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="odds">
           <div class="big num"${lost ? ' style="opacity: 0.5"' : ""}>${pc(m.reach10)}</div>
           <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days</div>
-          <div class="small">${m.fromCard ? `from ${m.n} past ${esc(m.asset)} ${esc(m.tf)} signals` : `from all ${m.n} ${esc(m.asset)} top-grade signals`}${m.kind === "open" ? " · measured from the entry close" : ""}</div>
+          <div class="small">${m.fromCard ? `from ${m.n} past ${esc(m.asset)} ${/ across the /.test(m.sample || "") ? "signals across its 1D to 5D charts" : esc(m.tf) + " signals"}` : `from all ${m.n} ${esc(m.asset)} top-grade signals`}${m.kind === "open" ? " · measured from the entry close" : ""}</div>
         </div>
         <div class="stats num">
           <div class="kv"><span>Typical drop from entry</span><span class="lo">${pct(m.drop)}</span></div>

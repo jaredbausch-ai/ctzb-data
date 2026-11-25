@@ -12,7 +12,9 @@ Live right now: version **4e74f3b0** (25 Nov 2026, 10:25 EST; built from 3ff9163
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 12 | Member site card, front and detail (Jared, 25 Nov 2026: too much for a newcomer). The front shows six things (where and state with a live card's "So far" line and its edge and divergence tags; the big number with its sample size, "from N past ETH 1D signals", or "across its 1D to 5D charts" for a pooled sample; typical drop; "If it misses: median best" with its pool; the lead trader; the disclaimer). Everything else is behind "Show the detail", shut by default. No figure added, removed or recomputed: the numbers check finds every figure on 13 replay dates, the only differences being the duplicate "Typical high" tile dropped and the new labels. | (this commit) |
 
 ## Requested, not built yet
 

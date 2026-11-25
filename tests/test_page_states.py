@@ -220,6 +220,13 @@ def main():
                 and "THE DETAIL" not in front.upper().replace("SHOW THE DETAIL", "") and "Dip before the high" not in front and "By era" not in front
                 and "without ever falling 25.3%" not in front)
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  the card's front shows six things and the detail is shut until asked for" + ("" if good else f"  -- {front[:400]!r}"))
+        # ...and the front's short sample line never names the card's own chart for a sample pooled across charts
+        fpool = copy.deepcopy(FEED); cp = fpool["cards"][0] if fpool["cards"] else None
+        if cp:
+            cp["sample"] = f"all {cp['past_trades']} past signals of the same grade across the {cp['asset']} 1D, 2D, 3D and 5D charts ({cp['chart']} alone has only 1, too few to use)"
+            t_pl, e_pl = render(pw, fpool, views=("now",), pick=cp["signal_id"], open_detail=False)
+            good = f"from {cp['past_trades']} past {cp['asset']} signals across its 1D to 5D charts" in t_pl["now"] and f"from {cp['past_trades']} past {cp['chart']} signals" not in t_pl["now"] and not e_pl
+            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a pooled sample reads 'across its 1D to 5D charts' on the front, never as the card's own chart" + ("" if good else f"  -- {t_pl['now'][:300]!r}"))
         fnd = copy.deepcopy(FEED); snd = with_div(fnd); [o.update(divergence_since_entry=None) for o in fnd["open_signals"]]
         t_nd, e_nd = render(pw, fnd, views=("now",), pick=snd)
         good = "Bullish divergence" not in t_nd["now"] and not e_nd and "Feed unavailable" not in t_nd["now"]
