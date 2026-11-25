@@ -50,7 +50,7 @@ matching card, print or live signal, and sends each `alert_id` once, recorded in
 on the next tick. `POST /alerts/test` (gated, once per 10 minutes) checks the path.
 Bindings: `NOTIFY` (KV), secret `TELEGRAM_BOT_TOKEN`, var `TELEGRAM_CHAT_ID`.
 
-Tests: `node tests/test_dashboard_gate.mjs` (26), `node tests/test_dashboard_alerts.mjs` (21).
+Tests: `node tests/test_dashboard_gate.mjs` (32), `node tests/test_dashboard_alerts.mjs` (21).
 
 **ctzb-trades** (11 Nov 2026, item 13a) — the lead trader's real trades, relayed from
 Coinbase. KV binding `TRADES`, cron `* * * * *`. Reads futures fills, positions and the

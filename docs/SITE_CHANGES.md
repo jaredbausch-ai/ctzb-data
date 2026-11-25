@@ -12,7 +12,9 @@ Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 8 | Dashboard (ctzb-dashboard): cards are served only when the feed says the run's checks passed (`cards_withheld === false`), the member site's rule; otherwise the page keeps the cards it has, or a fresh page says "Cards held back". The "About this data" note now says exactly that (audit round 47, BACKLOG 4). | (this commit) |
 
 ## Requested, not built yet
 

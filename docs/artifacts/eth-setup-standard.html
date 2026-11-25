@@ -221,7 +221,7 @@
 <div class="panel about"><ul>
 <li><b>Refreshed every 4 hours.</b> The first run each day is a few minutes after the daily close (00:00 UTC). The time of the last update is in the top right.</li>
 <li><b>A signal confirms only at the close of its confirmation bar,</b> never part-way through a bar. Lows still forming are marked provisional and can change or disappear until they confirm.</li>
-<li><b>Every number is checked before it is shown.</b> Each card is rebuilt from the signal ledger and must match, or the old card stays up.</li>
+<li><b>Every number is checked before it is shown.</b> Each card is rebuilt from the signal ledger and must match. If a run's checks do not pass, its cards are not shown: the cards already on screen stay up, and a fresh page says the cards are held back, until the next clean run.</li>
 <li><b>If the data is more than 6 hours old</b> a "data delayed" notice appears above, and the pipeline is re-run and investigated automatically.</li>
 <li><b>Computed signals, not trades.</b> The odds are how past signals behaved after entry (entry quality only). There is no exit in the data, so nothing here is a strategy return or a track record. Past behaviour, not a forecast, not financial advice.</li>
 <li>Prices: Coinbase. Funding and positioning: Coinalyze. Options: Deribit.</li>
@@ -303,11 +303,12 @@ function render(){
   dot.style.background=c; ti.style.color=c; ti.textContent=txt; s2.textContent=sub;
   drawTiers(); drawSizes();
 }
-let SEL=null, LR=[], CARDS=[];
+let SEL=null, LR=[], CARDS=[], CARDS_HELD=false;
 function drawAction(){
   const pick=$("tcPick"); pick.textContent="";
   const rank={"A+":4,"A":3,"B":2,"C":1};
   const C=[...CARDS].sort((x,y)=>(rank[y.grade]||0)-(rank[x.grade]||0)||(x.asset===y.asset?0:x.asset==="ETH"?-1:1));
+  if(!C.length&&CARDS_HELD){$("tcWord").textContent="Cards held back";$("tcLine").textContent="The last run's checks did not pass, so no card is shown. Cards return on the next clean run.";["tcN","tcBig","tcGrid","tcSplit","tcConf","tcLad","tcFoot"].forEach(i=>$(i).textContent="");return;}
   if(!C.length){$("tcWord").textContent="Nothing forming";$("tcLine").textContent="No chart has a low forming with a card right now.";["tcN","tcBig","tcGrid","tcSplit","tcConf","tcLad","tcFoot"].forEach(i=>$(i).textContent="");return;}
   if(!SEL||!C.find(c=>c.chart===SEL)) SEL=C[0].chart;
   const c=C.find(x=>x.chart===SEL);
@@ -408,7 +409,7 @@ dash.onData(()=>{
     fillTable("tiertab",rows,["grade","n","perYear","reach20","safe20","medUpside","green60","medDipBeforeHigh","dipBeforeHigh1in10","dip1in10","medDip","maxSafe"]);
   }
   if(lv.status==="ok"){LIVE=lv.data||[]; const e=LIVE.find(r=>r.chart==="ETH 1D"); PRICE=e?+e.closeNow:null;}
-  const cdd=dash.data("cards"); if(cdd.status==="ok"){CARDS=cdd.data||[];}
+  const cdd=dash.data("cards"); if(cdd.status==="ok"){CARDS=cdd.data||[];} CARDS_HELD=cdd.status==="error";
   const lr=dash.data("liveread"); if(lr.status==="ok"){LR=lr.data||[]; fillTable("lrtab",LR,["subject","read","status","n","reach10","reach20","reach30","touched30","dipBeforeHigh","maxDip60","bestMove","sample"]);}
   const pr=dash.data("prints"); if(pr.status==="ok"){fillTable("prtab",pr.data||[],["chart","state","trough","confirms","entry","tags","note"]);}
   const wn=dash.data("windows"); if(wn.status==="ok"){fillTable("wntab",wn.data||[],["openedBy","confirmed","closes","appliesTo"]);}

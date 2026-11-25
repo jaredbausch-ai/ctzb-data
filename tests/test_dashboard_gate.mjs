@@ -70,6 +70,17 @@ await expect("dataset served as CSV", worker.fetch(req("/data/datasets/status.cs
   (r, b) => r.headers.get("content-type").startsWith("text/csv") && b.startsWith("item,value"));
 for (const p of ["/data/datasets/../../.git/config", "/data/datasets/..%2fkeep.json", "/data/keep.json", "/data/datasets/X.csv", "/data/datasets/a/b.csv", "/datasets/status.csv"])
   await expect("traversal/off-list " + p + " -> 404", worker.fetch(req(p, A), PW), 404);
+console.log("--- cards follow the feed's checks (audit round 47) ---");
+const feedMirror = (feedBody, status = 200) => ({ fetch: async (rq) => new URL(rq.url).pathname === "/feed/ctzb_feed.json"
+  ? new Response(feedBody, { status }) : mirror.fetch(rq) });
+const PWF = (m) => ({ ...PW, MIRROR: m });
+await expect("checks passed (cards_withheld false): cards served", worker.fetch(req("/data/datasets/cards.csv", A), PWF(feedMirror(JSON.stringify({ cards_withheld: false })))), 200,
+  (r, b) => b.startsWith("chart,"));
+await expect("checks failed (cards_withheld true): cards held, 503", worker.fetch(req("/data/datasets/cards.csv", A), PWF(feedMirror(JSON.stringify({ cards_withheld: true })))), 503);
+await expect("feed says nothing about cards: held, 503", worker.fetch(req("/data/datasets/cards.csv", A), PWF(feedMirror(JSON.stringify({})))), 503);
+await expect("feed unreadable: held, 503", worker.fetch(req("/data/datasets/cards.csv", A), PWF(feedMirror("{not json"))), 503);
+await expect("feed missing: held, 503", worker.fetch(req("/data/datasets/cards.csv", A), PWF(feedMirror("nf", 404))), 503);
+await expect("cards held does not hold the other datasets", worker.fetch(req("/data/datasets/status.csv", A), PWF(feedMirror(JSON.stringify({ cards_withheld: true })))), 200);
 await expect("POST -> 405", worker.fetch(req("/", A, "POST"), PW), 405);
 await expect("/health reports mirror", worker.fetch(req("/health", A), PW), 200, (r, b) => JSON.parse(b).mirror === "ok");
 console.log(`\ncerts fetched ${certCalls}x across ${res.length} requests (cached)`);

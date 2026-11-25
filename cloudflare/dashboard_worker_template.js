@@ -47,6 +47,15 @@ const PAGE_CSP =
   "connect-src 'self'; img-src 'self' data:; font-src 'self' data:; base-uri 'none'; " +
   "form-action 'none'; frame-ancestors 'none'";
 
+async function cardsCleared(env) {
+  try {
+    const r = await env.MIRROR.fetch(new Request("https://mirror/feed/ctzb_feed.json"));
+    if (!r.ok) return false;
+    const f = await r.json();
+    return f && f.cards_withheld === false;
+  } catch (_) { return false; }
+}
+
 function deny(status, msg, extra) {
   return new Response(msg, {
     status,
@@ -267,6 +276,10 @@ async function handle(req, env, fetchImpl = fetch) {
   const m = pathname.match(DATASET);
   if (m) {
     if (!env.MIRROR) return deny(503, "Mirror binding missing");
+    // Cards are served only when the feed says the run's checks passed (cards_withheld === false), the same rule the
+    // member site follows. Otherwise 503: the page keeps the cards it already has, or says they are held back.
+    // cards.csv is written before verify_cards.py runs and committed whatever the outcome (audit round 47, 24 Nov 2026).
+    if (m[1] === "cards.csv" && !(await cardsCleared(env))) return deny(503, "Cards held back: the last run's checks did not pass");
     const r = await env.MIRROR.fetch(new Request("https://mirror/datasets/" + m[1]));
     if (!r.ok) return deny(r.status === 404 ? 404 : 502, "Dataset unavailable");
     return new Response(req.method === "HEAD" ? null : r.body, {
