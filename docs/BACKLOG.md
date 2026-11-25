@@ -180,6 +180,9 @@ Found by audit round 47 (`analysis/audit47_2026-11-20/docs/AUDIT47_DOCS.md`). Ne
   match, flag it and fix it before the relay goes live. It reported `ok` only when
   its last good read is under 10 minutes old, but in quiet periods it saves that read only every 15 minutes. The health
   monitor and watchdog allow 20 minutes and are not affected. Fix before the relay goes live (`cloudflare/ctzb-trades-worker.js`).
+- **24 Nov 2026 (Jared): DIVH stays out of the grade and odds (as it always has). A divergence that confirms on a
+  higher chart after a live signal's entry is now noted on its card (SITE_CHANGES 9), dated by the bar's close.**
+  The flag's own dating (below) is unchanged and still open.
 - **Divergence flag (DIVH) can count a divergence that confirms after entry** (audit round 48,
   `analysis/audit48_2026-11-20/docs/AUDIT48_DOCS.md`, O1). `docs/PRETRADE.md` (lines 371-372) defines DIVH as a
   higher-chart divergence "confirmed in the 10 days before entry". `analysis/htfdiv.py` (line 67) dates each divergence

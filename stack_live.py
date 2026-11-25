@@ -44,7 +44,7 @@ import grokpack as GP
 import pcrtest as PT
 import refresh as RF
 from sweep import closed_index
-from htfdiv import divergences
+from htfdiv import divergences, confirmed_closes
 from confirmlag import weekly
 from derivtest import series
 from grade3 import funding_series
@@ -167,6 +167,15 @@ def rec(G):
             round(st.median(r['m']['up'] for r in G), 1)]
 
 
+def div_after(DVC, a, tf, d0, today):
+    """'ETH 5D 2026-11-26': the latest bullish divergence on a higher chart of the same asset whose confirmation bar
+    closed after the signal's entry and before today, within its 60 days. '' if none."""
+    hits = [(d, f'{a} {t}') for t in TFS[TFS.index(tf) + 1:] for d in DVC[(a, t)] if d0 < d < today and (d - d0).days <= 60]
+    if not hits: return ''
+    d, ch = max(hits)
+    return f'{ch} {d}'
+
+
 def near(d0, lst, w=WIN):
     return [d for d in lst if 0 <= (d0 - d).days <= w]
 
@@ -181,6 +190,9 @@ def main():
     OI = {a: series(f'data/derivs/{a}_oi_daily.csv', 'oi_usd_total') for a in ASSETS}
     PCR = PT.reads(PT.load_pcr('BTC'))
     DV = {(a, tf): [d for d, _ in divergences(f'data/{a}_{tf}.csv', osc='k')] for a in ASSETS for tf in TFS}
+    # 24 Nov 2026 (Jared): a live signal's card notes a bullish Stoch divergence that confirms on a higher chart AFTER
+    # its entry. Dated by the close of the confirmation bar. Information only: it changes no grade and no odds.
+    DVC = {(a, tf): [d for d, _ in confirmed_closes(f'data/{a}_{tf}.csv', osc='k')] for a in ASSETS for tf in TFS}
     DAY = {a: E.load(f'data/{a}_1D.csv') for a in ASSETS}
     CTS = {(a, tf): E.rsi(E.load(f'data/{a}_{tf}.csv')['close'], 14) for a in ASSETS for tf in TFS}
     DPOS = {a: {d: i for i, d in enumerate(DAY[a]['date'])} for a in ASSETS}
@@ -581,7 +593,8 @@ def main():
                                   mark(10), mark(30), mark(60),
                                   round((max(DAY[a]['high'][k] for k in win) / e0 - 1) * 100, 1) if win else '',
                                   round((min(DAY[a]['low'][k] for k in win) / e0 - 1) * 100, 1) if win else '']
-                                 + edge_status(dict(zip(CARD_HDR, open_cards[-1])), a, win, e0))
+                                 + edge_status(dict(zip(CARD_HDR, open_cards[-1])), a, win, e0)
+                                 + [div_after(DVC, a, tf, d0, today)])
         # every registry item
         for rid, label, A_, C_, kind, src in REGISTRY:
             if rid in ('CELLS', 'POS', 'REGIME', 'REGAGE', 'BUCKET', 'D5', 'D10', 'CT10', 'UNDER10', 'DOWN10', 'A50', 'RETRACE'):
@@ -767,7 +780,7 @@ def main():
     w = lambda p, h, rr: csv.writer(open(os.path.join(OUT, p), 'w', newline='')).writerows([h] + rr)
     # every open signal on every graded chart, ETH and BTC (12 Nov 2026 audit: the feed's open
     # signals came from forward.csv, which covers ETH only, so a live BTC top-grade setup never showed)
-    w('open.csv', ['chart', 'entry', 'entryClose', 'elapsed', 'tag', 'grade', 'lenses', 'd10', 'd30', 'd60', 'best', 'worst', 'edgeLevel', 'edgeStatus'], sorted(open_rows, key=lambda x: (x[1], x[0])))
+    w('open.csv', ['chart', 'entry', 'entryClose', 'elapsed', 'tag', 'grade', 'lenses', 'd10', 'd30', 'd60', 'best', 'worst', 'edgeLevel', 'edgeStatus', 'divAfter'], sorted(open_rows, key=lambda x: (x[1], x[0])))
     w('liveread.csv', ['subject', 'read', 'status', 'n', 'reach20', 'touched30', 'dipBeforeHigh', 'maxDip60', 'reach10', 'reach30', 'bestMove', 'sample'], out)
     bad = []
     # every card the site shows: forming, live (open) and the worked example (12 Nov 2026 audit #9)

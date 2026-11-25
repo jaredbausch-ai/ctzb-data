@@ -54,6 +54,13 @@ import seal  # noqa: E402
 EXTRAS_FILES = seal.EXTRAS_FILES   # what extras_live.py writes
 
 
+def div_note(v):
+    """'ETH 5D 2026-11-26' (stack_live's open.csv divAfter) -> {"chart": "ETH 5D", "confirmed_on": "2026-11-26"}; '' -> None."""
+    v = (v or "").strip()
+    if not v: return None
+    a, tf, d = v.split(" ")
+    return {"chart": f"{a} {tf}", "confirmed_on": d}
+
 def now_utc():
     """Real time, or CTZB_NOW (ISO 8601) when a test replays a past run; same rule as clock.py,
     inlined because the tests run this file from a copy of its own."""
@@ -568,6 +575,8 @@ def main():
              # 12 Nov 2026 audit #9: the setup's own edge level (its card's ladder, exact shares) and whether it
              # was lost: whichever came first on closed daily bars, the edge level or +10%
              "edge_level_pct": num(r.get("edgeLevel", "")), "edge_status": r.get("edgeStatus") or None,
+             # 24 Nov 2026 (Jared): a bullish divergence confirmed on a higher chart after entry. Information only
+             "divergence_since_entry": div_note(r.get("divAfter", "")),
              "card": open_cards.get((r["chart"], r["entry"]))}
             for r in (rows(d("open.csv")) if os.path.exists(d("open.csv")) else [])
         ] if all_ok else [],

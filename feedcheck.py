@@ -154,6 +154,12 @@ def cross(f, out):
         b, w = o.get('best_so_far_pct'), o.get('worst_so_far_pct')
         if b is not None and w is not None and any(x > b or x < w for x in mv + [w]):
             out.append(f'{p}: a figure is outside the best and worst so far')
+        # 24 Nov 2026: a divergence note is on a higher chart of the same asset, confirmed after entry and by the feed's date
+        dv = o.get('divergence_since_entry'); tfs = ['1D', '2D', '3D', '5D', '8D']
+        if dv is not None and (dv['chart'].split(' ')[0] != o['chart'].split(' ')[0]
+                               or tfs.index(dv['chart'].split(' ')[1]) <= tfs.index(o['chart'].split(' ')[1])
+                               or not dv['confirmed_on'] > o['entry_date'] or dv['confirmed_on'] > day):
+            out.append(f'{p}.divergence_since_entry: not a higher chart of the same asset, confirmed after entry')
         if o['edge_status'] == 'rose10' and not (b is not None and b >= 9.95): out.append(f'{p}: marked rose 10% but best so far is under 10%')
         if o['edge_status'] == 'intact' and b is not None and b > 10.05: out.append(f'{p}: marked on track but best so far is over 10%')
         lv = o.get('edge_level_pct')

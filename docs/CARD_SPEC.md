@@ -91,6 +91,7 @@ trader: loading / in · long / in · short / out / not in / unavailable" (his ne
 | By era | surv10 before 2022 / since 2022 with each n | `before_2022`, `since_2022` |
 | +10% level | Entry close x 1.10; for a forming setup, the latest price x 1.10 as a stand-in until the entry close exists (a measuring level, not an exit) | computed from the entry |
 | Day N of 60 · best so far · worst (live setups) | Days since the entry close (the day in progress); highest daily high and lowest daily low of the closed daily bars since entry, vs the entry close | `open_signals` `days_elapsed`, `best_so_far_pct`, `worst_so_far_pct` |
+| · bullish divergence confirmed on ETH 5D, 26 Nov 2026 (live setups, only when one happened) | The latest bullish Stoch divergence confirmed on a higher chart of the same asset after entry. Information only: no grade or odds change, and no claim about what it means (untested) | `open_signals` `divergence_since_entry` |
 | Day 10 (Chart tab, live setups) | The day-10 daily close vs the entry close, once that bar has closed | `open_signals` `day10_pct` |
 
 ## Wording rules

@@ -14,6 +14,11 @@ import feedcheck  # noqa: E402 -- every state below that stands for a real feed 
 PAGE = open(f"{R}/docs/artifacts/member-site/index.html", encoding="utf-8").read()
 DOC = "<!doctype html><html><head><meta charset=utf-8></head><body>" + PAGE + "</body></html>"
 FEED = json.load(open(f"{R}/feed/ctzb_feed.json"))
+# 24 Nov 2026: several cases need a top-grade live signal with its own card. The committed feed has none on some days
+# (none on 24 Nov), which crashed the suite, so the fixture promotes the first live signal with a card to A+.
+if not any(o.get("card") and o.get("grade") == "A+" for o in FEED.get("open_signals", [])):
+    _o = next((o for o in FEED.get("open_signals", []) if o.get("card")), None)
+    if _o: _o["grade"] = "A+"; _o["card"]["grade"] = "A+"
 LEDGER = open(f"{R}/datasets/ledger.csv").read()
 EX = open(f"{R}/docs/artifacts/member-site/data/example_ETH-2D-2024-09-22.json").read()
 FILL = {"asset": "ETH", "direction": "long", "action": "open", "time": "2026-11-10T12:00:00Z", "price": 2050.5, "leverage": 3, "size_pct": 25}   # a valid lead-trader event (audit #33 cases)
@@ -183,7 +188,26 @@ def main():
             "generated_at missing": (mut(lambda f: f.pop("generated_at")), lambda x: "Feed unavailable" in x["now"]),
             "generated_at not a date": (mut(lambda f: f.update(generated_at="soon")), lambda x: "Feed unavailable" in x["now"]),
             "feed is a list": ([1, 2, 3], lambda x: "Feed unavailable" in x["now"]),
+            # 24 Nov 2026: a divergence note must be a higher chart of the same asset, confirmed after entry
+            "divergence note on another asset": (mut(lambda f: f["open_signals"][0].update(divergence_since_entry={"chart": ("BTC" if f["open_signals"][0]["chart"].startswith("ETH") else "ETH") + " 8D", "confirmed_on": f["generated_at"][:10]})), lambda x: "Feed unavailable" in x["now"]),
+            "divergence note before entry": (mut(lambda f: f["open_signals"][0].update(divergence_since_entry={"chart": f["open_signals"][0]["chart"].split(" ")[0] + " 8D", "confirmed_on": f["open_signals"][0]["entry_date"]})), lambda x: "Feed unavailable" in x["now"]),
+            "divergence note on a lower chart": (mut(lambda f: (f["open_signals"][0].update(chart=f["open_signals"][0]["chart"].split(" ")[0] + " 5D", signal_id=f["open_signals"][0]["chart"].split(" ")[0] + "-5D-" + f["open_signals"][0]["entry_date"], card=None, divergence_since_entry={"chart": f["open_signals"][0]["chart"].split(" ")[0] + " 2D", "confirmed_on": f["generated_at"][:10]}))), lambda x: "Feed unavailable" in x["now"]),
         }
+        # 24 Nov 2026 (Jared): a top-grade live card carries the divergence note on its one status line, nothing more
+        def with_div(f):
+            o = next(x for x in f["open_signals"] if x.get("card") and x["chart"].split(" ")[1] in ("1D", "2D", "3D"))
+            o["grade"] = "A+"; o["card"]["grade"] = "A+"
+            o["divergence_since_entry"] = {"chart": o["chart"].split(" ")[0] + " 5D", "confirmed_on": f["generated_at"][:10]}
+            return o["signal_id"]
+        fdv = copy.deepcopy(FEED); sdv = with_div(fdv)
+        t_dv, e_dv = render(pw, fdv, views=("now",), pick=sdv)
+        want = "bullish divergence confirmed on " + fdv["open_signals"][[o["signal_id"] for o in fdv["open_signals"]].index(sdv)]["divergence_since_entry"]["chart"]
+        good = want in t_dv["now"] and not e_dv and "Feed unavailable" not in t_dv["now"] and not BAD.search(t_dv["now"])
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a live top-grade card shows its divergence note on its status line")
+        fnd = copy.deepcopy(FEED); snd = with_div(fnd); [o.update(divergence_since_entry=None) for o in fnd["open_signals"]]
+        t_nd, e_nd = render(pw, fnd, views=("now",), pick=snd)
+        good = "divergence confirmed" not in t_nd["now"] and not e_nd and "Feed unavailable" not in t_nd["now"]
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  ...and none without one")
         for name, (feed, cond) in broken.items():
             tx, ex_ = render(pw, feed, views=("now", "chart", "record", "read"))
             good = cond(tx) and not ex_ and not any(BAD.search(v) for v in tx.values())

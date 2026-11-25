@@ -222,6 +222,7 @@ confirmation close is 1 to 60 days before today (the clock's UTC date). The memb
 | `best_so_far_pct`, `worst_so_far_pct` | chg? | Highest daily high / lowest daily low of the closed daily bars since entry, vs the entry close |
 | `edge_level_pct` | dip? | From the card's ladder, exact shares: 0 if the from-entry share is below 70%; else minus the first `fell_pct` whose share is below 70%; else null |
 | `edge_status` | lost, rose10 or intact | Walking the closed daily bars after entry: a low at or below the edge level (checked first within a day) gives "lost"; a high at +10% gives "rose10"; neither yet gives "intact". "lost" from the start when the edge level is 0 |
+| `divergence_since_entry` | object? | 24 Nov 2026 (Jared). The latest bullish Stoch divergence confirmed on a higher chart of the same asset after this signal's entry and before today: `{"chart": "ETH 5D", "confirmed_on": "2026-11-26"}`, else null. Dated by the last day of the divergence's confirmation bar (`analysis/htfdiv.py` `confirmed_closes`). Information only: it changes no grade and no odds, and the page shows it as one phrase on the live card's status line |
 | `card` | card? | This signal's own card |
 
 ## confluence_windows[]
@@ -486,7 +487,8 @@ applies the same rules, trimming text and matching digits as JavaScript does.
 - **Live signals:** id matches chart and entry date; entry not after the feed's date; `days_elapsed` equals the days
   from entry to `generated_at`'s date; each day-10/30/60 figure present exactly when that day has passed; figures
   within best and worst; `edge_status` agrees with best, worst and edge level; the card is its own (chart, date,
-  grade, entry close).
+  grade, entry close); a divergence note is on a higher chart of the same asset, confirmed after entry and not after
+  the feed's date.
 - **Grade rows:** figures present exactly when the count is above 0; the never-fell-25.3% and +20% shares sit within
   the +10% share.
 - **Extras:** miss counts nest and medians are null exactly when there are no misses; past paths run day 0 to 60 with

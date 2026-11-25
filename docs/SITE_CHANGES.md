@@ -12,7 +12,9 @@ Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 9 | Member site (ctzb-site): a live top-grade card's status line ends with "· bullish divergence confirmed on ETH 5D, 26 Nov 2026" when a bullish Stoch divergence confirms on a higher chart of the same asset after entry (feed `open_signals[].divergence_since_entry`, dated by the close of its confirmation bar). Information only: no grade or odds change. The strict check rejects a note on another asset, a lower chart, or dated on or before entry (Jared, 24 Nov 2026). | (this commit) |
 
 ## Requested, not built yet
 

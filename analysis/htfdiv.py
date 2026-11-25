@@ -65,6 +65,19 @@ def divergences(path, osc='ct'):
     return out
 
 
+def confirmed_closes(path, osc='ct'):
+    """Like divergences(), but each divergence is dated by the last day of its confirmation bar, the day its close
+    makes it known (24 Nov 2026). A divergence whose confirmation bar has not closed yet (the file's last bar) is
+    left out. Used for the live-card note "Bullish divergence confirmed on <chart>, <date>"."""
+    b = E.load(path); dates = b['date']; pos = {d: i for i, d in enumerate(dates)}
+    out = []
+    for conf, trough in divergences(path, osc):
+        end = bucket_end(dates, pos[conf])
+        if end is not None:
+            out.append((end, trough))
+    return out
+
+
 def build(osc):
     div = {}
     for a in ('ETH', 'BTC'):
