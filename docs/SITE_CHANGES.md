@@ -8,13 +8,11 @@ with the Cloudflare version id, the commit it was built from and the date, then 
 "Pending" empty for the next round. `cloudflare/BRIEF_site.md` is re-pinned to that commit
 at the same time.
 
-Live right now: version **4e74f3b0** (25 Nov 2026, 10:25 EST; built from 3ff9163: the round 48 audited code, the divergence note and the five hardening checks).
+Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf: the round 48 audited code, the divergence note, the five hardening checks and the card's front and detail).
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 12 | Member site card, front and detail (Jared, 25 Nov 2026: too much for a newcomer). The front shows six things (where and state with a live card's "So far" line and its edge and divergence tags; the big number with its sample size, "from N past ETH 1D signals", or "across its 1D to 5D charts" for a pooled sample; typical drop; "If it misses: median best" with its pool; the lead trader; the disclaimer). Everything else is behind "Show the detail", shut by default. No figure added, removed or recomputed: the numbers check finds every figure on 13 replay dates, the only differences being the duplicate "Typical high" tile dropped and the new labels. | (this commit) |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -25,6 +23,13 @@ Live right now: version **4e74f3b0** (25 Nov 2026, 10:25 EST; built from 3ff9163
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### 6ba21c7e — 25 Nov 2026 (built from 8efecaf)
+Deployed 25 Nov 2026 about 11:54 EST by Claude in Chrome, Jared approving (148,219 bytes); previous 4e74f3b0. Bindings (MIRROR, TRADES) unchanged.
+
+| # | Change | Commit |
+|---|---|---|
+| 12 | Member site card, front and detail (Jared, 25 Nov 2026: too much for a newcomer). The front shows six things (where and state with a live card's "So far" line and its edge and divergence tags; the big number with its sample size, "from N past ETH 1D signals", or "across its 1D to 5D charts" for a pooled sample; typical drop; "If it misses: median best" with its pool; the lead trader; the disclaimer). Everything else is behind "Show the detail", shut by default. No figure added, removed or recomputed: the numbers check finds every figure on 13 replay dates, the only differences being the duplicate "Typical high" tile dropped and the new labels. | 8efecaf |
 
 ### ctzb-dashboard 5546db82 — 25 Nov 2026 (built from 199e6ce)
 Deployed 25 Nov 2026 about 10:48 EST by Claude in Chrome, Jared approving (66,733 bytes); previous a1696c8d. Bindings (MIRROR, NOTIFY), variable and secret names and the cron trigger unchanged.
