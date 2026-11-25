@@ -1,0 +1,23 @@
+INSIDE THE ETH 5D ROC+ BAND WINDOWS: A + filled diamond vs the other signals there (lab/inwindow_tags.py)
+group | n | day60 | best | worst | rose10 | fell25.3 | surv10   (medians / rates)
+ALL ETH charts, ALL   A+filled diamond | 6 | day60 +32.5% | best +44.5% | worst -11.4% | rose10 83% | fell25.3 17% | surv10 67%
+ALL ETH charts, ALL   other signals    | 61 | day60 +30.2% | best +38.3% | worst -10.4% | rose10 85% | fell25.3 11% | surv10 75%
+ALL ETH charts, OUT   A+filled diamond | 4 | day60 +34.7% | best +44.5% | worst -14.7% | rose10 100% | fell25.3 25% | surv10 75%
+ALL ETH charts, OUT   other signals    | 17 | day60 +9.3% | best +17.8% | worst -12.3% | rose10 82% | fell25.3 24% | surv10 65%
+ALL ETH charts, AFTER A+filled diamond | 2 | day60 +19.7% | best +35.5% | worst -9.7% | rose10 50% | fell25.3 0% | surv10 50%
+ALL ETH charts, AFTER other signals    | 44 | day60 +30.9% | best +44.6% | worst -9.3% | rose10 86% | fell25.3 7% | surv10 80%
+ETH 2D only, ALL   A+filled diamond | 2 | day60 +40.2% | best +55.2% | worst -19.0% | rose10 100% | fell25.3 50% | surv10 50%
+ETH 2D only, ALL   other signals    | 13 | day60 +32.7% | best +36.8% | worst -9.7% | rose10 85% | fell25.3 8% | surv10 77%
+ETH 2D only, OUT   A+filled diamond | 2 | day60 +40.2% | best +55.2% | worst -19.0% | rose10 100% | fell25.3 50% | surv10 50%
+ETH 2D only, OUT   other signals    | 4 | day60 +4.5% | best +12.4% | worst -12.8% | rose10 75% | fell25.3 25% | surv10 50%
+ETH 2D only, AFTER A+filled diamond | 0
+ETH 2D only, AFTER other signals    | 9 | day60 +33.7% | best +48.2% | worst -6.2% | rose10 89% | fell25.3 0% | surv10 89%
+
+Every A + filled diamond inside a window:
+2022-01-25 ETH 1D A + filled diamond [OUT] day60 +27.9% best +33.5% worst -6.5% surv10 yes
+2024-08-15 ETH 3D A + filled diamond + prime dot [AFTER] day60 +2.3% best +9.7% worst -16.4% surv10 no
+2025-03-19 ETH 2D A + filled diamond [OUT] day60 +21.4% best +33.2% worst -32.8% surv10 no
+2025-04-02 ETH 1D A + filled diamond [OUT] day60 +41.5% best +55.4% worst -22.9% surv10 yes
+2025-04-14 ETH 2D A + filled diamond + prime dot [OUT] day60 +58.9% best +77.3% worst -5.3% surv10 yes
+2025-04-25 ETH 5D A + filled diamond [AFTER] day60 +37.2% best +61.3% worst -3.0% surv10 yes
+ENTRY QUALITY ONLY. No exit in the data. Computed signals, never fills.
