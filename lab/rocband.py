@@ -84,7 +84,7 @@ def validate():
     tv = {}
     for r in csv.DictReader(open(f)):
         if r['ROC'] and r['Lower band']:
-            tv[dt.datetime.utcfromtimestamp(int(r['time'])).date()] = (float(r['ROC']), float(r['Lower band']))
+            tv[dt.datetime.fromtimestamp(int(r['time']), dt.timezone.utc).date()] = (float(r['ROC']), float(r['Lower band']))
     _, b, roc, low = breaks('data/ETH_5D.csv')
     same = tot = agree = 0
     for k, d in enumerate(b['date']):
@@ -124,7 +124,7 @@ def main():
                          dd=float(x['maxDrawdown']), up=float(x['bestMove']), bkA=x['tags'][:1] == 'A',
                          lens=set(t.strip() for t in x['lenses'].split('+')),
                          t5=within(T5[a], d0, 30),
-                         f=dict(B60=within(BR[a], d0, 60), B30=within(BR[a], d0, 30), OWN60=within(OWN[x['ch']], d0, 60))))
+                         f=dict(B60=within(BR[a], d0, 60), B30=within(BR[a], d0, 30), OWN60=within(OWN[x['chart']], d0, 60))))
 
     P('')
     P('SUMMARY  cand asset | n on/off | +10% on/off | +20% on/off | t30 on/off | med deepest dip on/off | med best move on/off')
@@ -209,6 +209,20 @@ def main():
             if eps and (e - eps[-1][-1]).days <= 60: eps[-1].append(e)
             else: eps.append([e])
         P(f'{a}: {len(eps)} episodes, {len(BR[a])} bars: ' + '; '.join(f'{x[0]}..{x[-1]}' if len(x) > 1 else f'{x[0]}' for x in eps))
+    P('')
+    P('B60 SIGNALS BY BREAK EPISODE (reporting only, added after the first run)  asset episode | n | +20% | t30')
+    for a in ('ETH', 'BTC'):
+        eps = []
+        for e in BR[a]:
+            if eps and (e - eps[-1][-1]).days <= 60: eps[-1].append(e)
+            else: eps.append([e])
+        for ep in eps:
+            g = []
+            for r in rows:
+                if r['a'] != a or not r['f']['B60']: continue
+                j = bisect.bisect_right(BR[a], r['d0'])
+                if ep[0] <= BR[a][j - 1] <= ep[-1]: g.append(r)
+            if g: P(f'{a} {ep[0]}..{ep[-1]} | {len(g)} | {rate(g,"win"):.0f}% | {rate(g,"t30"):.0f}%')
     P('')
     P('CO-OCCURRENCE with the 5D-turn-under-40 watch item (lens5d T30), B60:')
     for a in ('ETH', 'BTC'):

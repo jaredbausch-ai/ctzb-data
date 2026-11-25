@@ -51,4 +51,4 @@ under Tier 1, Promising or In-trade reads — its `REGISTRY` entry and
 
 | Date | Test | Generator | Declared | Result |
 |---|---|---|---|---|
-| | | | | |
+| 25 Nov 2026 | ROC+ lower band (ETH/BTC 5D, and own chart) broken in the 30/60 days before a signal | `lab/rocband.py` | yes, before running | **All 6 fail.** ETH 5D 60-day (Jared's read): +20% 70% vs 54%, touched -30% 9% vs 23% (n=67/294), passes charts, years, shuffle and lens overlap, but fails rule 1 on sample (12 signals to 2021); the 67 come from 5 break episodes (Nov-Dec 2025: 0 of 5); 37 of 67 overlap the 5D-turn-under-40 watch item (9.5 by chance). BTC: no effect (49% vs 51%). Own-chart band: no effect on either asset. Watch item at most, not a lens. Entry quality only |
