@@ -8,13 +8,11 @@ with the Cloudflare version id, the commit it was built from and the date, then 
 "Pending" empty for the next round. `cloudflare/BRIEF_site.md` is re-pinned to that commit
 at the same time.
 
-Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4, the round 48 audited code).
+Live right now: version **e1af3705** (25 Nov 2026, 09:29 EST; built from c1464a0, the round 48 audited code plus the divergence note).
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 9 | Member site (ctzb-site): a live top-grade card's status line ends with "· bullish divergence confirmed on ETH 5D, 26 Nov 2026" when a bullish Stoch divergence confirms on a higher chart of the same asset after entry (feed `open_signals[].divergence_since_entry`, dated by the close of its confirmation bar). Information only: no grade or odds change. The strict check rejects a note on another asset, a lower chart, or dated on or before entry (Jared, 24 Nov 2026). | (this commit) |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -25,6 +23,13 @@ Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### e1af3705 — 25 Nov 2026 (built from c1464a0)
+Deployed 25 Nov 2026 about 09:29 EST by Claude in Chrome, Jared approving (143,777 bytes); previous ec13c062. Bindings (MIRROR, TRADES) unchanged.
+
+| # | Change | Commit |
+|---|---|---|
+| 9 | Member site (ctzb-site): a live top-grade card's status line ends with "· bullish divergence confirmed on ETH 5D, 26 Nov 2026" when a bullish Stoch divergence confirms on a higher chart of the same asset after entry (feed `open_signals[].divergence_since_entry`, dated by the close of its confirmation bar). Information only: no grade or odds change. The strict check rejects a note on another asset, a lower chart, or dated on or before entry (Jared, 24 Nov 2026). | c1464a0 |
 
 ### ctzb-dashboard a1696c8d — 24 Nov 2026 (built from 263f21c)
 Deployed 24 Nov 2026 about 19:29 EST by Claude in Chrome, Jared approving (66,717 bytes); previous 18e5e173. Bindings (MIRROR, NOTIFY), variable and secret names and the cron trigger unchanged.
