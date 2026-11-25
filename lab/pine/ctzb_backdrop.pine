@@ -1,0 +1,96 @@
+//@version=6
+// CTZB Backdrop — the market backdrop strip. Statistics lab (stats-lab branch), 25 Nov 2026.
+// For Jared only. State only: no percentages, nothing to go stale.
+//
+// Two watch items, from lab/backdrop.py (declared 25 Nov 2026). ETH only: on BTC they
+// showed no effect. Not lenses, not in the grade, not on any card. Entry quality only.
+//   BAND  a closed 5D bar with ROC+ below its lower band (Percent ROC, 9 bars, 10th
+//         percentile of 250 bars) in the last 60 days                    [lab/rocband.py]
+//   TURN  a 5D CTZB signal with its low under CT 40, confirmed in the last 30 days
+//         (ungated)                                                     [analysis/lens5d.py]
+// Background: light when one is on, darker when both are on.
+indicator("CTZB Backdrop", shorttitle="Backdrop", overlay=true, max_bars_back=500)
+
+G = "Backdrop"
+tf5       = input.timeframe("5D", "Timeframe of the reads", group=G)
+bandDays  = input.int(60, "Band window, days", minval=1, group=G)
+turnDays  = input.int(30, "Turn window, days", minval=1, group=G)
+showBg    = input.bool(true, "Shade the background", group=G)
+showTable = input.bool(true, "Show the status table", group=G)
+tblPos    = input.string("Top right", "Table position", options=["Top right", "Top left", "Bottom right", "Bottom left"], group=G)
+
+DAY = 86400000
+
+// The two reads on the 5D chart, exactly as tested. off = 0: this 5D bar; off = 1: the one before.
+reads(int off) =>
+    float r = 100 * (close - close[9]) / close[9]
+    float lb = ta.percentile_nearest_rank(r, 250, 10)
+    bool below = not na(r) and not na(lb) and r < lb
+    float ct = ta.rsi(close, 14)
+    float k = ta.sma(ta.stoch(ct, ct, ct, 14), 3)
+    float p = ta.pivotlow(ct, 3, 3)
+    bool turn = not na(p) and p < 40 and not na(k[3])
+    [below[off], turn[off], time_close[off]]
+
+// Lookahead on, so each value belongs to the 5D bar it came from. The 5D bar that holds
+// this chart bar is used only when it closes at or before this chart bar closes; otherwise
+// the one before it (always closed) is used. Nothing from an unclosed 5D bar is counted.
+[bNow, tNow, cNow]    = request.security(syminfo.tickerid, tf5, reads(0), lookahead=barmerge.lookahead_on)
+[bPrev, tPrev, cPrev] = request.security(syminfo.tickerid, tf5, reads(1), lookahead=barmerge.lookahead_on)
+
+bool useNow = not na(cNow) and cNow <= time_close
+bool below5 = useNow ? bNow : bPrev
+bool turn5  = useNow ? tNow : tPrev
+int  close5 = useNow ? cNow : cPrev
+
+var int lastBand = na
+var int lastTurn = na
+if below5 and not na(close5)
+    lastBand := na(lastBand) ? close5 : math.max(lastBand, close5)
+if turn5 and not na(close5)
+    lastTurn := na(lastTurn) ? close5 : math.max(lastTurn, close5)
+
+// A window is measured from the 5D bar's close to this chart bar's close
+bool bandOn = not na(lastBand) and time_close - lastBand <= bandDays * DAY
+bool turnOn = not na(lastTurn) and time_close - lastTurn <= turnDays * DAY
+int  count  = (bandOn ? 1 : 0) + (turnOn ? 1 : 0)
+
+// ───────────────────────── Display
+C_ONE = color.new(#5C6BC0, 88)
+C_TWO = color.new(#5C6BC0, 72)
+bgcolor(showBg and count == 1 ? C_ONE : showBg and count == 2 ? C_TWO : na, title="Backdrop shading")
+
+// For checking against the lab's own numbers: Data Window and CSV export only
+plot(bandOn ? 1 : 0, "Band window on", display=display.data_window)
+plot(turnOn ? 1 : 0, "Turn window on", display=display.data_window)
+plot(count, "Backdrop count", display=display.data_window)
+
+posOf(string s) =>
+    s == "Top left" ? position.top_left : s == "Bottom right" ? position.bottom_right : s == "Bottom left" ? position.bottom_left : position.top_right
+
+fmt(int t) =>
+    str.format_time(t, "dd MMM yyyy", "UTC")
+
+var table tb = table.new(posOf(tblPos), 2, 5, bgcolor=color.new(#131722, 10), border_width=0)
+if showTable and barstate.islast
+    bool isEth = str.contains(syminfo.ticker, "ETH")
+    color on  = #9FA8DA
+    color off = #787B86
+    table.cell(tb, 0, 0, "Backdrop  " + tf5 + "  ·  " + str.tostring(count) + " of 2 on", text_color=color.white, text_size=size.small, text_halign=text.align_left)
+    table.merge_cells(tb, 0, 0, 1, 0)
+    table.cell(tb, 0, 1, "ROC band window", text_color=bandOn ? on : off, text_size=size.small, text_halign=text.align_left)
+    table.cell(tb, 1, 1, bandOn ? "ON  until " + fmt(lastBand + bandDays * DAY) : na(lastBand) ? "off" : "off  (ended " + fmt(lastBand + bandDays * DAY) + ")", text_color=bandOn ? on : off, text_size=size.small, text_halign=text.align_left)
+    table.cell(tb, 0, 2, "5D turn under 40", text_color=turnOn ? on : off, text_size=size.small, text_halign=text.align_left)
+    table.cell(tb, 1, 2, turnOn ? "ON  until " + fmt(lastTurn + turnDays * DAY) : na(lastTurn) ? "off" : "off  (ended " + fmt(lastTurn + turnDays * DAY) + ")", text_color=turnOn ? on : off, text_size=size.small, text_halign=text.align_left)
+    table.cell(tb, 0, 3, "Watch items, not lenses. Closed 5D bars only.", text_color=off, text_size=size.tiny, text_halign=text.align_left)
+    table.merge_cells(tb, 0, 3, 1, 3)
+    table.cell(tb, 0, 4, isEth ? "Tested on ETH." : "Tested on ETH only. On BTC it showed no effect.", text_color=isEth ? off : #EF9A9A, text_size=size.tiny, text_halign=text.align_left)
+    table.merge_cells(tb, 0, 4, 1, 4)
+
+// ───────────────────────── Alerts
+bool bandOpened = bandOn and not bandOn[1]
+bool turnOpened = turnOn and not turnOn[1]
+bool bothOn     = count == 2 and count[1] < 2
+alertcondition(bandOpened, "Backdrop: band window opened", "{{ticker}}: a closed 5D bar broke the ROC band. 60-day band window open.")
+alertcondition(turnOpened, "Backdrop: 5D turn window opened", "{{ticker}}: a 5D turn under CT 40 confirmed. 30-day turn window open.")
+alertcondition(bothOn, "Backdrop: both on", "{{ticker}}: both backdrop reads are on.")
