@@ -69,8 +69,8 @@ plot(2, "Band track (off)", C_OFF, 1, display=display.pane)
 plot(1, "Turn track (off)", C_OFF, 1, display=display.pane)
 plot(bandOn ? 2 : na, "Band window", count == 2 ? C_BOTH : C_BAND, 5, plot.style_linebr, display=display.pane)
 plot(turnOn ? 1 : na, "Turn window", count == 2 ? C_BOTH : C_TURN, 5, plot.style_linebr, display=display.pane)
-plot(0.3, "", color.new(color.black, 100), display=display.pane)
-plot(2.7, "", color.new(color.black, 100), display=display.pane)
+plot(0.3, "Scale floor", color.new(color.black, 100), display=display.pane)
+plot(2.7, "Scale ceiling", color.new(color.black, 100), display=display.pane)
 
 // Small markers on the price chart where a window opens
 bool bandOpened = bandOn and not bandOn[1]
@@ -90,7 +90,7 @@ posOf(string s) =>
 fmt(int t) =>
     str.format_time(t, "dd MMM yyyy", "UTC")
 
-var table tb = table.new(posOf(tblPos), 2, 5, bgcolor=color.new(#131722, 10), border_width=0)
+var table tb = table.new(posOf(tblPos), 2, 5, bgcolor=color.new(#131722, 10), border_width=0, force_overlay=true)
 if showTable and barstate.islast
     bool isEth = str.contains(syminfo.ticker, "ETH")
     color on  = #9FA8DA
