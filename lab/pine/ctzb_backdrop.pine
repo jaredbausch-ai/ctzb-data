@@ -75,9 +75,17 @@ plot(2.7, "Scale ceiling", color.new(color.black, 100), display=display.pane)
 // Small markers on the price chart where a window opens
 bool bandOpened = bandOn and not bandOn[1]
 bool turnOpened = turnOn and not turnOn[1]
+// Every closed 5D bar that broke the band, and every 5D turn, is its own event, even when
+// a window is already open (it extends that window). v3, 25 Nov 2026: v2 marked only the
+// opening of a window, so the re-breaks of 28 Aug and 2 Sep 2024 did not show.
+bool bandNew = not na(lastBand) and (na(lastBand[1]) or lastBand != lastBand[1])
+bool turnNew = not na(lastTurn) and (na(lastTurn[1]) or lastTurn != lastTurn[1])
 bool bothOn     = count == 2 and count[1] < 2
-plotshape(showMarks and bandOpened, "Band window opened", shape.triangleup, location.belowbar, C_BAND, text="band", textcolor=C_BAND, size=size.tiny, force_overlay=true)
-plotshape(showMarks and turnOpened, "Turn window opened", shape.triangleup, location.belowbar, C_TURN, text="turn", textcolor=C_TURN, size=size.tiny, force_overlay=true)
+plotshape(showMarks and bandNew, "Band break", shape.triangleup, location.belowbar, C_BAND, text="band", textcolor=C_BAND, size=size.tiny, force_overlay=true)
+plotshape(showMarks and turnNew, "5D turn", shape.triangleup, location.belowbar, C_TURN, text="turn", textcolor=C_TURN, size=size.tiny, force_overlay=true)
+// The same events as dots on their tracks
+plotshape(bandNew ? 2 : na, "Band break (track)", shape.circle, location.absolute, color.white, size=size.tiny, display=display.pane)
+plotshape(turnNew ? 1 : na, "5D turn (track)", shape.circle, location.absolute, color.white, size=size.tiny, display=display.pane)
 
 // For checking against the lab's own numbers: Data Window and CSV export only
 plot(bandOn ? 1 : 0, "Band window on", display=display.data_window)
@@ -110,3 +118,4 @@ if showTable and barstate.islast
 alertcondition(bandOpened, "Backdrop: band window opened", "{{ticker}}: a closed 5D bar broke the ROC band. 60-day band window open.")
 alertcondition(turnOpened, "Backdrop: 5D turn window opened", "{{ticker}}: a 5D turn under CT 40 confirmed. 30-day turn window open.")
 alertcondition(bothOn, "Backdrop: both on", "{{ticker}}: both backdrop reads are on.")
+alertcondition(bandNew and not bandOpened, "Backdrop: band broken again", "{{ticker}}: another closed 5D bar broke the ROC band. Band window extended.")
