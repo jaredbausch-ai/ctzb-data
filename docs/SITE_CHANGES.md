@@ -12,9 +12,7 @@ Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 8 | Dashboard (ctzb-dashboard): cards are served only when the feed says the run's checks passed (`cards_withheld === false`), the member site's rule; otherwise the page keeps the cards it has, or a fresh page says "Cards held back". The "About this data" note now says exactly that (audit round 47, BACKLOG 4). | (this commit) |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -25,6 +23,13 @@ Live right now: version **ec13c062** (24 Nov 2026, 13:41 EST; built from 1b21db4
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### ctzb-dashboard a1696c8d — 24 Nov 2026 (built from 263f21c)
+Deployed 24 Nov 2026 about 19:29 EST by Claude in Chrome, Jared approving (66,717 bytes); previous 18e5e173. Bindings (MIRROR, NOTIFY), variable and secret names and the cron trigger unchanged.
+
+| # | Change | Commit |
+|---|---|---|
+| 8 | Dashboard (ctzb-dashboard): cards are served only when the feed says the run's checks passed (`cards_withheld === false`), the member site's rule; otherwise the page keeps the cards it has, or a fresh page says "Cards held back". The "About this data" note now says exactly that (audit round 47, BACKLOG 4). | 263f21c |
 
 ### ctzb-dashboard 18e5e173 — 24 Nov 2026 (built from 2d856f7)
 Deployed 24 Nov 2026 13:53:32 EST by Claude in Chrome, Jared approving (65,453 bytes). Version id `18e5e173-82c4-483f-a20c-0368a64f479e`; previous 7f50beb7. Bindings (MIRROR, NOTIFY), the 5 variable/secret names and the cron trigger unchanged.

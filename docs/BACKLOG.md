@@ -165,7 +165,7 @@ against the candle close.
 ## 4. To fix after the private test launch (added 19 Nov 2026, Jared)
 Found by audit round 47 (`analysis/audit47_2026-11-20/docs/AUDIT47_DOCS.md`). Neither changes a figure members see.
 - ~~**Dashboard console "About this data" panel is wrong.**~~ **Fixed 24 Nov 2026 (SITE_CHANGES 8):** the dashboard
-  Worker serves cards only when the feed's `cards_withheld` is false, and the note says what happens otherwise. `docs/artifacts/eth-setup-standard.html` (~line 224) says
+  Worker serves cards only when the feed's `cards_withheld` is false, and the note says what happens otherwise. Deployed 24 Nov 2026 (a1696c8d). `docs/artifacts/eth-setup-standard.html` (~line 224) says
   "Each card is rebuilt from the signal ledger and must match, or the old card stays up." In fact `stack_live.py`
   writes `cards.csv` before `verify_cards.py` runs, the commit step commits `datasets/` whatever the outcome, and the
   console reads `cards.csv` directly, so a card that fails the cross-check still shows on the console. Only the member
