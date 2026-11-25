@@ -1,9 +1,9 @@
 //@version=6
 // ROC+ — Rate of Change, improved. Statistics lab (stats-lab branch).
 // v1 25 Nov 2026. v2 25 Nov 2026: divergence compares against the deepest ROC low in range
-// (v1 missed ETH 5D 6 Apr 2025), and the lower-band WATCH WINDOW from lab/rocband10.py.
-// The watch window is a watch item, not a lens: tested on ETH only (BTC showed no effect),
-// fails the sample rule (12 signals before 2022, 5 break episodes). Entry quality only.
+// (v1 missed ETH 5D 6 Apr 2025). v3 25 Nov 2026: no shaded areas (Jared); readings beyond a
+// band are dots on the ROC line. The lower-band watch window moved to CTZB Backdrop
+// (lab/pine/ctzb_backdrop.pine), which carries it with its alerts.
 indicator(title="Rate of Change+", shorttitle="ROC+", format=format.price, precision=2, max_bars_back=500, max_lines_count=200)
 
 // ───────────────────────── Inputs
@@ -39,13 +39,6 @@ pivR      = input.int(5, "Pivot bars right", minval=1, group=G_DIV, tooltip="A p
 rangeMin  = input.int(5, "Min bars back", minval=1, group=G_DIV)
 rangeMax  = input.int(60, "Max bars back", minval=2, maxval=400, group=G_DIV)
 sideOnly  = input.bool(true, "Bullish only below zero, bearish only above", group=G_DIV)
-
-G_WATCH = "Watch window (lower-band break)"
-showWatch = input.bool(true, "Shade the 60 days after a lower-band break", group=G_WATCH,
-            tooltip="Fixed to the tested definition, whatever the display settings above: Percent ROC, length 9, no smoothing, 10th percentile of the last 250 bars, on the timeframe below, counted only once that bar has closed. Watch item, not a lens: tested on ETH only (BTC showed no effect).")
-watchTF   = input.timeframe("5D", "Timeframe of the read", group=G_WATCH)
-watchDays = input.int(60, "Window, days after the break bar closes", minval=1, group=G_WATCH)
-showTable = input.bool(true, "Show watch status table", group=G_WATCH)
 
 // ───────────────────────── Core
 pctRoc = 100 * (source - source[length]) / source[length]
@@ -140,41 +133,27 @@ else
 bullCond = showDiv and bullBase and (not sideOnly or pOsc < 0)
 bearCond = showDiv and bearBase and (not sideOnly or pOsc > 0)
 
-// ───────────────────────── Watch window (tested definition, fixed)
-watchRead() =>
-    r = 100 * (close - close[9]) / close[9]
-    lb = ta.percentile_nearest_rank(r, 250, 10)
-    // [1] with lookahead_on below = the last CLOSED bar of the watch timeframe, no repainting
-    [r[1] < lb[1], time_close[1]]
-[wBelow, wClose] = request.security(syminfo.tickerid, watchTF, watchRead(), lookahead=barmerge.lookahead_on)
-var int lastBreak = na
-if wBelow and not na(wClose)
-    lastBreak := wClose
-windowEnd = na(lastBreak) ? na : lastBreak + watchDays * 86400000
-inWindow  = not na(lastBreak) and time >= lastBreak and time <= windowEnd
-
 // ───────────────────────── Colours
 C_UP   = #26A69A
 C_DN   = #EF5350
 C_SIG  = #FF9800
 C_BAND = #787B86
-C_WAT  = #5C6BC0
 
 rising  = roc > roc[1]
 lineCol = roc >= 0 ? (rising ? C_UP : color.new(C_UP, 45)) : (rising ? color.new(C_DN, 45) : C_DN)
 histCol = hist >= 0 ? (hist > hist[1] ? color.new(C_UP, 40) : color.new(C_UP, 75)) : (hist < hist[1] ? color.new(C_DN, 40) : color.new(C_DN, 75))
 
 // ───────────────────────── Plots
-bgcolor(showWatch and inWindow ? color.new(C_WAT, 85) : na, title="Watch window")
 plot(showHist ? hist : na, "Histogram", histCol, style=plot.style_columns)
 hline(0, "Zero line", C_BAND)
-pUp  = plot(upper, "Upper band", color.new(C_BAND, 40), style=plot.style_linebr)
-pLo  = plot(lower, "Lower band", color.new(C_BAND, 40), style=plot.style_linebr)
-pRoc = plot(roc, "ROC", lineCol, 2)
+plot(upper, "Upper band", color.new(C_BAND, 40), style=plot.style_linebr)
+plot(lower, "Lower band", color.new(C_BAND, 40), style=plot.style_linebr)
+plot(roc, "ROC", lineCol, 2)
 plot(showSig ? sig : na, "Signal", C_SIG, 1)
 
-fill(pRoc, pUp, color = not na(upper) and roc > upper ? color.new(C_UP, 75) : na, title="Above upper band")
-fill(pRoc, pLo, color = not na(lower) and roc < lower ? color.new(C_DN, 75) : na, title="Below lower band")
+// Beyond a band: a dot on the ROC line, no shading
+plot(not na(upper) and roc > upper ? roc : na, "Above upper band", C_UP, 4, plot.style_circles)
+plot(not na(lower) and roc < lower ? roc : na, "Below lower band", C_DN, 4, plot.style_circles)
 
 if bullCond and not na(bRefBar)
     line.new(bRefBar, bRefOsc, bar_index - pivR, pOsc, color=C_UP, width=2)
@@ -183,20 +162,9 @@ if bearCond and not na(sRefBar)
 plotshape(bullCond ? pOsc : na, "Bullish divergence", shape.labelup, location.absolute, C_UP, offset=-pivR, text="Bull", textcolor=color.white, size=size.tiny)
 plotshape(bearCond ? pOsc : na, "Bearish divergence", shape.labeldown, location.absolute, C_DN, offset=-pivR, text="Bear", textcolor=color.white, size=size.tiny)
 
-// ───────────────────────── Watch status table
-var table wt = table.new(position.top_right, 1, 3, bgcolor=color.new(#131722, 10), border_width=0)
-if showWatch and showTable and barstate.islast
-    hdr = "Watch: " + watchTF + " lower-band break"
-    st  = na(lastBreak) ? "No break on record" : inWindow ? "OPEN until " + str.format_time(windowEnd, "dd MMM yyyy", "UTC") : "Closed " + str.format_time(windowEnd, "dd MMM yyyy", "UTC")
-    lb  = na(lastBreak) ? "" : "Last break bar closed " + str.format_time(lastBreak, "dd MMM yyyy", "UTC")
-    table.cell(wt, 0, 0, hdr, text_color=color.white, text_size=size.small, text_halign=text.align_left)
-    table.cell(wt, 0, 1, st, text_color=inWindow ? #9FA8DA : #B2B5BE, text_size=size.small, text_halign=text.align_left)
-    table.cell(wt, 0, 2, lb + (lb == "" ? "" : "  ·  ") + "Watch item, ETH only, not a lens", text_color=#787B86, text_size=size.tiny, text_halign=text.align_left)
-
 // ───────────────────────── Alerts
 crossUp = ta.crossover(roc, upper)
 crossLo = ta.crossunder(roc, lower)
-newBreak = not na(lastBreak) and (na(lastBreak[1]) or lastBreak != lastBreak[1])
 alertcondition(ta.crossover(roc, 0),    "ROC+ crossed above zero",   "ROC+ crossed above zero on {{ticker}} {{interval}}")
 alertcondition(ta.crossunder(roc, 0),   "ROC+ crossed below zero",   "ROC+ crossed below zero on {{ticker}} {{interval}}")
 alertcondition(ta.crossover(roc, sig),  "ROC+ crossed above signal", "ROC+ crossed above its signal on {{ticker}} {{interval}}")
@@ -205,4 +173,3 @@ alertcondition(crossUp, "ROC+ entered upper band", "ROC+ entered its upper band 
 alertcondition(crossLo, "ROC+ entered lower band", "ROC+ entered its lower band on {{ticker}} {{interval}}")
 alertcondition(bullCond, "ROC+ bullish divergence", "ROC+ bullish divergence on {{ticker}} {{interval}}")
 alertcondition(bearCond, "ROC+ bearish divergence", "ROC+ bearish divergence on {{ticker}} {{interval}}")
-alertcondition(newBreak, "ROC+ watch window opened", "{{ticker}}: a closed " + "watch-timeframe bar broke the ROC+ lower band; 60-day watch window open")
