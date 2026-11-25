@@ -34,7 +34,7 @@ def candles(a, tf):
     return json.dumps({"chart": f"{a} {tf}", "bars": [{"t": float(r["time"]), "o": float(r["open"]), "h": float(r["high"]), "l": float(r["low"]), "c": float(r["close"])} for r in csv.DictReader(open(p))]})
 
 
-def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None, pick=None, edit_candles=None):
+def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None, pick=None, edit_candles=None, open_detail=True):
     out = {}
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
     errs = []; pg.on("pageerror", lambda e: errs.append(str(e)))
@@ -71,6 +71,8 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex
             pg.click("#previewSwitch"); pg.wait_for_timeout(600)
         if example_on and v == "chart" and pg.is_visible("#bHap"):
             pg.click("#bHap"); pg.wait_for_timeout(600)
+        # 25 Nov 2026: the card's detail is behind "Show the detail"; every state is read with it open
+        if open_detail: pg.evaluate("document.querySelectorAll('details.more').forEach((d) => { d.open = true; })")
         out[v] = pg.inner_text("body")
     b.close()
     return out, errs
@@ -206,12 +208,21 @@ def main():
             return o["signal_id"]
         fdv = copy.deepcopy(FEED); sdv = with_div(fdv)
         t_dv, e_dv = render(pw, fdv, views=("now",), pick=sdv)
-        want = "bullish divergence confirmed on " + fdv["open_signals"][[o["signal_id"] for o in fdv["open_signals"]].index(sdv)]["divergence_since_entry"]["chart"]
+        # 25 Nov 2026: the note is a tag on the card's front ("Bullish divergence · ETH 5D, 25 Nov 2026")
+        want = "Bullish divergence · " + fdv["open_signals"][[o["signal_id"] for o in fdv["open_signals"]].index(sdv)]["divergence_since_entry"]["chart"]
         good = want in t_dv["now"] and not e_dv and "Feed unavailable" not in t_dv["now"] and not BAD.search(t_dv["now"])
-        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a live top-grade card shows its divergence note on its status line")
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a live top-grade card shows its divergence note as a tag on its front")
+        # 25 Nov 2026 (Jared): the front shows six things; the rest is behind "Show the detail", shut by default
+        t_fr, e_fr = render(pw, fdv, views=("now",), pick=sdv, open_detail=False)
+        front = t_fr["now"]
+        good = (not e_fr and "Show the detail" in front and "rose 10% within 60 days" in front and "Typical drop from entry" in front
+                and "If it misses" in front and "Lead trader:" in front and "Entry quality only" in front and "Bullish divergence" in front
+                and "THE DETAIL" not in front.upper().replace("SHOW THE DETAIL", "") and "Dip before the high" not in front and "By era" not in front
+                and "without ever falling 25.3%" not in front)
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  the card's front shows six things and the detail is shut until asked for" + ("" if good else f"  -- {front[:400]!r}"))
         fnd = copy.deepcopy(FEED); snd = with_div(fnd); [o.update(divergence_since_entry=None) for o in fnd["open_signals"]]
         t_nd, e_nd = render(pw, fnd, views=("now",), pick=snd)
-        good = "divergence confirmed" not in t_nd["now"] and not e_nd and "Feed unavailable" not in t_nd["now"]
+        good = "Bullish divergence" not in t_nd["now"] and not e_nd and "Feed unavailable" not in t_nd["now"]
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  ...and none without one")
         for name, (feed, cond) in broken.items():
             tx, ex_ = render(pw, feed, views=("now", "chart", "record", "read"))

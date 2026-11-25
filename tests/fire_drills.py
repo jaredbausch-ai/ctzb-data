@@ -353,6 +353,7 @@ def drills_e():
         base = dt.datetime.strptime((feed_obj or good)["generated_at"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.timezone.utc)
         pg.clock.install(time=base + dt.timedelta(hours=age_h))
         pg.goto("http://site.test/"); pg.wait_for_timeout(800)
+        pg.evaluate("document.querySelectorAll('details.more').forEach((d) => { d.open = true; })")   # the card's detail, behind "Show the detail" since 25 Nov 2026
         card = pg.inner_text("#card"); picker = pg.inner_text("#picker")
         state = pg.eval_on_selector("#card .state", "e => e.dataset.state || ''")
         stale = pg.query_selector("#card .stale-note") is not None

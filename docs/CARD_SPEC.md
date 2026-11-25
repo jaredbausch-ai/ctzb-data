@@ -68,6 +68,17 @@ can read as today's chance (CONTEXT, 31 Oct 2026), the card itself says "Edge lo
 odds are "measured from the entry close, not from today's price", and an edge-lost card is dimmed and not drawn in the live
 colour. No from-today odds are computed for members.
 
+**Front and detail (25 Nov 2026, Jared: the card was too much for a newcomer).** The card's front shows six things:
+where and what (chart, state, the confirmation or low line, and on a live card "So far: best · worst" with a tag for
+"Edge lost" / "Rose 10%" / "On track" and, when there is one, the divergence tag "Bullish divergence · ETH 2D, 8 Nov
+2026"); the big number "rose 10% within 60 days" with its sample size ("from 26 past ETH 1D signals", and "measured
+from the entry close" on a live card); the typical drop from entry; "If it misses: median best" with its pool; the
+lead trader's state; and the disclaimer. Everything else is behind "Show the detail", shut by default and kept as the
+member leaves it when the card redraws: the edge sentence, the full sample text, the share that never fell 25.3%,
+typical high, edge gone below, the full misses row, the eight tiles, where the odds fade, and by era. No figure was
+added, removed or recomputed; only where it sits. The tests read every state with the detail open, and one test
+checks the front with it shut.
+
 The member site (`docs/artifacts/member-site/index.html`) shows the same card in its own words. Each label
 below is defined here; anything not listed is in the table above. Also in the member page's code, but never shown
 with a feed that passes the strict check (every card it draws has its own ladder): "Red on day 10, rose 10% after"

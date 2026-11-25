@@ -186,7 +186,9 @@ class Site:
         return route.fulfill(status=404, body='x')
 
     def text(self):
-        # what a member can read: the page text plus the labels drawn inside charts
+        # what a member can read: the page text plus the labels drawn inside charts, with the card's detail open
+        # (25 Nov 2026: it is behind "Show the detail", one tap away)
+        self.pg.evaluate("document.querySelectorAll('details.more').forEach((d) => { d.open = true; })")
         return self.pg.inner_text('body') + '\n' + self.pg.evaluate("Array.from(document.querySelectorAll('svg text')).filter((t) => t.getClientRects().length).map((t) => t.textContent).join('\\n')")
 
     def render(self, full=False):

@@ -101,6 +101,21 @@ main { flex: 1; min-height: 0; }
 .marker .dot { background: var(--lead); box-shadow: 0 0 8px var(--lead); }
 
 .detail { border-top: 1px solid var(--line); padding: 10px 20px 10px; display: flex; flex-direction: column; gap: 8px; }
+/* 25 Nov 2026 (Jared): the card's front shows six things; everything else is behind "Show the detail" */
+details.more { border-top: 1px solid var(--line); }
+details.more > summary { list-style: none; cursor: pointer; margin: 10px 20px; padding: 9px 12px; border: 1px solid var(--line-2); border-radius: 4px; text-align: center; color: var(--fade-2); font-weight: 600; font-size: 14px; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary .when-open { display: none; }
+details.more[open] > summary .when-open { display: inline; }
+details.more[open] > summary .when-shut { display: none; }
+details.more > .detail { border-top: 0; padding-top: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 8px; }
+.tag { font-size: 12.5px; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--line-2); }
+.tag.lost { color: var(--drop); border-color: #6A2A50; }
+.tag.good { color: var(--high); border-color: var(--ok-line); }
+.tag.div { color: var(--high); border-color: var(--ok-line); background: var(--ok-bg); }
+.detail .kvs { display: flex; flex-direction: column; gap: 6px; }
+.detail .kvs .kv span:first-child { color: var(--muted); }
 .detail .sec-title { color: var(--fade-2); font-size: 13px; }
 .tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 760px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -711,8 +726,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     // 12 Nov 2026 audit: a live setup has its own card (its own sample, ladder and edge), like a forming one
     if (o.card) return Object.assign(cardFromFeed(o.card), {
       kind: "open", top: o.grade === "A+", grade: o.grade, signal_id: o.signal_id, edgeStatus: o.edge_status || null, edgeLevel: o.edge_level_pct, entry: o.entry_close, entry_date: o.entry_date,
-      line: `Confirmed ${dateLong(o.entry_date)} · entry close ${money(o.entry_close)} · day ${o.days_elapsed} of 60 · best so far ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}`
-        + (o.divergence_since_entry ? ` · bullish divergence confirmed on ${o.divergence_since_entry.chart}, ${dateLong(o.divergence_since_entry.confirmed_on)}` : "") });
+      line: `Confirmed ${dateLong(o.entry_date)} at ${money(o.entry_close)} · day ${o.days_elapsed} of 60`,
+      soFar: `So far: best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}`,
+      divTag: o.divergence_since_entry ? `Bullish divergence · ${o.divergence_since_entry.chart}, ${dateLong(o.divergence_since_entry.confirmed_on)}` : "" });
     // No hand-built fallback (12 Nov 2026 audit #19): a live setup whose own card is missing from the feed shows
     // no figures at all. The page used to build a pooled card for it, with another table's edge.
     return { kind: "open", asset, chart: o.chart, tf, signal_id: o.signal_id, top: o.grade === "A+", grade: o.grade, n: 0, missing: true,
@@ -784,52 +800,66 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const edgeTxt = sf ? (sf.edge === 0 ? `Below the ${sf.bar}% bar from entry` : sf.edge !== null ? `${pct(sf.edge, 0)} before it rises 10%` : "Holds at every level")
       : (e.dipPct !== null ? pct(e.dipPct, 0) + " in the first 10 days" + edgePrice : "n/a");
     const missTxt = !mi ? "n/a" : !mi.misses ? "none missed" : `${mi.up_first} of ${mi.misses}` + ` · median best move ${pct(mi.median_peak_pct)}`;
+    // 25 Nov 2026 (Jared): six things on the front (where and state, the big number with its sample, the typical
+    // drop, the misses with their pool, the lead trader, the disclaimer); every other figure behind "Show the detail"
+    const edgeWord = lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track";
+    const edgeSentence = lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before ever reaching its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`);
+    const missFront = !mi ? "n/a" : !mi.misses ? "none missed" : `median best ${pct(mi.median_peak_pct)}`;
     box.innerHTML = `
       <div class="card-head">
         <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
+        ${m.soFar ? `<div class="small" style="color: var(--muted)">${esc(m.soFar)}</div>` : ""}
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestNote(m)} It isn't top grade. It can still vanish before it confirms.</div>`
-          : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>`
-          : m.kind === "open" ? `<div class="small" style="margin-top: 4px; color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${lost ? "Edge lost" : m.edgeStatus === "rose10" ? "Rose 10%" : "On track"}.</b> ${lost ? (m.edgeLevel === 0 ? "Its odds were below the bar from the entry." : `It fell to its edge level (${pct(m.edgeLevel, 0)}) before rising 10%.`) : m.edgeStatus === "rose10" ? (m.edgeLevel == null || m.edgeLevel === "" ? "It has risen 10% from the entry close." : `It rose 10% before ever reaching its edge level (${pct(m.edgeLevel, 0)}).`) : (m.edgeLevel == null || m.edgeLevel === "" ? "It has neither risen 10% nor lost its edge; its odds hold at every fall measured." : `It has not fallen to its edge level (${pct(m.edgeLevel, 0)}) or risen 10% yet.`)} The odds below are measured from the entry close, not from today's price.</div>` : ""}
+          : m.kind === "forming" ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">Not confirmed yet. It can still vanish before it confirms.</div>` : ""}
+        ${m.kind === "open" || m.divTag ? `<div class="tags">${m.kind === "open" ? `<span class="tag ${lost ? "lost" : "good"}">${edgeWord}</span>` : ""}${m.divTag ? `<span class="tag div">${esc(m.divTag)}</span>` : ""}</div>` : ""}
       </div>${staleNote()}
       <div class="card-body">
         <div class="odds">
           <div class="big num"${lost ? ' style="opacity: 0.5"' : ""}>${pc(m.reach10)}</div>
-          <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days${m.kind === "open" ? " · measured from the entry close, not from today" : ""}</div>
-          <div style="font-size: 13px; color: var(--high)">${pc(m.surv10)} did it without ever falling 25.3%</div>
-          <div class="small">${m.fromCard ? `from ${esc(m.sample || m.n + " past signals")}` : `from all ${m.n} ${esc(m.asset)} top-grade signals`} · every figure covers the 60 days after entry</div>
+          <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days</div>
+          <div class="small">${m.fromCard ? `from ${m.n} past ${esc(m.asset)} ${esc(m.tf)} signals` : `from all ${m.n} ${esc(m.asset)} top-grade signals`}${m.kind === "open" ? " · measured from the entry close" : ""}</div>
         </div>
         <div class="stats num">
-          <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
           <div class="kv"><span>Typical drop from entry</span><span class="lo">${pct(m.drop)}</span></div>
-          <div class="kv"><span>Edge gone below</span><span class="ed" style="font-size: 15px">${edgeTxt}</span></div>
-          <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses: went above entry</span><span>${missTxt}</span></div>${pool}
+          <div class="kv miss" style="padding-top: 8px; border-top: 1px dashed var(--line)"><span>If it misses</span><span>${missFront}</span></div>${pool}
         </div>
         ${m.kind === "example" ? "" : `<div class="marker"><span class="dot"></span><span>Lead trader: ${leadState(m)}</span></div>`}
       </div>
-      <div class="detail">
-        <div class="sec-title">The detail</div>
-        <div class="tiles num">
-          <div class="tile"><div class="t">Dip before the high, from entry</div><div class="v lo">${pct(m.dipBefore)}</div></div>
-          <div class="tile"><div class="t">High lands around</div><div class="v hi">${m.highDay != null ? "Day " + m.highDay : "n/a"}</div></div>
-          <div class="tile"><div class="t">Reached +20% within 60 days · n ${m.n}</div><div class="v hi">${pc(m.odds)}</div></div>
-          <div class="tile"><div class="t">Touched ${MINUS}30% within 60 days · n ${m.n}</div><div class="v lo">${pc(m.touched30)}</div></div>
-          <div class="tile"><div class="t">Typical high</div><div class="v hi">${pct(m.high)}</div></div>
-          ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">${m.lowDay != null ? "Day " + m.lowDay : "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${pc(e.redOdds)}</div></div>`}
-          <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
-          <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
+      <details class="more" id="cardMore"${S.detailOpen ? " open" : ""}>
+        <summary><span class="when-shut">Show the detail ▾</span><span class="when-open">Hide the detail ▴</span></summary>
+        <div class="detail">
+          ${m.kind === "open" ? `<div class="small" style="color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${edgeWord}.</b> ${edgeSentence} The odds on this card are measured from the entry close, not from today's price.</div>` : ""}
+          ${m.fromCard && m.sample ? `<div class="small">Sample: ${esc(m.sample)}. Every figure covers the 60 days after entry${m.kind === "open" ? ", measured from the entry close, not from today's price" : ""}.</div>` : ""}
+          <div class="kvs num">
+            <div class="kv"><span>Rose 10% without ever falling 25.3%</span><span class="hi">${pc(m.surv10)}</span></div>
+            <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
+            <div class="kv"><span>Edge gone below</span><span class="ed">${edgeTxt}</span></div>
+            <div class="kv"><span>If it misses: went above entry</span><span>${missTxt}</span></div>
+          </div>
+          <div class="tiles num">
+            <div class="tile"><div class="t">Dip before the high, from entry</div><div class="v lo">${pct(m.dipBefore)}</div></div>
+            <div class="tile"><div class="t">High lands around</div><div class="v hi">${m.highDay != null ? "Day " + m.highDay : "n/a"}</div></div>
+            <div class="tile"><div class="t">Reached +20% within 60 days · n ${m.n}</div><div class="v hi">${pc(m.odds)}</div></div>
+            <div class="tile"><div class="t">Touched ${MINUS}30% within 60 days · n ${m.n}</div><div class="v lo">${pc(m.touched30)}</div></div>
+            ${sf ? `<div class="tile"><div class="t">Deepest dip lands around</div><div class="v lo">${m.lowDay != null ? "Day " + m.lowDay : "n/a"}</div></div>` : `<div class="tile"><div class="t">Red on day 10, rose 10% after</div><div class="v ed">${pc(e.redOdds)}</div></div>`}
+            <div class="tile"><div class="t">Typical worst drop, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}</div><div class="v lo">${mi ? pct(mi.median_worst_drop_pct) : "n/a"}</div></div>
+            <div class="tile"><div class="t">Typical change by day 60${m.day60 === undefined ? `, misses${mi && mi.signals ? ` · ${mi.misses} misses of ${m.kind === "example" ? "the" : "all"} ${mi.signals} ${esc(m.asset)} ${(m.grade || "A+") === "A+" ? "top-grade" : "same-grade"} signals${m.kind === "example" ? " known by then" : ""}` : ""}` : ""}</div><div class="v">${m.day60 !== undefined ? pct(m.day60) : (mi ? pct(mi.median_day60_pct) : "n/a")}</div></div>
+          </div>
+          <div class="boxes">
+            <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · ETH tier signals"}</div><div class="ladder" id="ladder"></div></div>
+            <div class="box teal"><div class="lbl">By era</div><div class="ladder" id="eras"></div>
+              <div class="fine" style="margin-top: 6px">Share that rose 10% and never fell 25.3%.</div></div>
+          </div>
         </div>
-        <div class="boxes">
-          <div class="box violet"><div class="lbl">${sf ? "Where the odds fade · this setup" : "Where the odds fade · ETH tier signals"}</div><div class="ladder" id="ladder"></div></div>
-          <div class="box teal"><div class="lbl">By era</div><div class="ladder" id="eras"></div>
-            <div class="fine" style="margin-top: 6px">Share that rose 10% and never fell 25.3%.</div></div>
-        </div>
-      </div>
+      </details>
       <div class="card-foot">
         <button class="btn" data-go="chart">Open on the chart →</button>
         <span class="fine" style="max-width: 44ch">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record. How past signals behaved doesn't guarantee how future signals will behave.</span>
       </div>`;
+    // the detail stays open or shut as the member left it when the card redraws (the page re-checks every minute)
+    $("#cardMore").addEventListener("toggle", (ev) => { S.detailOpen = ev.target.open; });
     const lad = $("#ladder");
     const row = (t, v, gone, extra) => `<div class="bar"><span>${esc(t).replace(/-/g, MINUS)}${extra ? ` <span class="small">${extra}</span>` : ""}</span><div class="t"><div class="f${gone ? " gone" : ""}" style="width: ${v ?? 0}%"></div></div><span class="num">${v ?? "n/a"}${v != null ? "%" : ""}</span></div>`;
     if (sf) {

@@ -100,6 +100,8 @@ def page_text(pw, d):
     out = {}
     for v in VIEWS:
         pg.goto("http://site.test/#" + v); pg.wait_for_timeout(1500)
+        # 25 Nov 2026: the card's detail is behind "Show the detail"; every figure is still checked, so open it
+        pg.evaluate("document.querySelectorAll('details.more').forEach((d) => { d.open = true; })")
         out[v] = pg.inner_text("body")
     b.close()
     if errs: out["page errors"] = "\n".join(errs)
