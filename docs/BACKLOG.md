@@ -170,6 +170,9 @@ Found by audit round 47 (`analysis/audit47_2026-11-20/docs/AUDIT47_DOCS.md`). Ne
   writes `cards.csv` before `verify_cards.py` runs, the commit step commits `datasets/` whatever the outcome, and the
   console reads `cards.csv` directly, so a card that fails the cross-check still shows on the console. Only the member
   feed holds it back. Fix the sentence, or make the console hold the card back too.
+- ~~**A killed feed step left the previous feed published**~~ (audit round 48, recorded and not counted). **Fixed 25 Nov
+  2026:** the workflow's feed guard publishes the fail-closed feed when the feed step fails without writing this run's
+  feed (`.github/scripts/feed_guard.py`, `tests/test_feed_guard.py` 10/10).
 - ~~**Trades relay `/health` reads not ok about 5 minutes in every 15 when nothing is wrong.**~~ **Fixed 24 Nov 2026 in code:** `/health`
   now allows 20 minutes (`HEALTH_FRESH_MIN`), the same as the monitor; 2 new tests (47/47), the first fails on the old code. Deployed 24 Nov
   2026 (4a8f6b79); at 23:12 UTC /health read ok with its last good read 12 minutes old.

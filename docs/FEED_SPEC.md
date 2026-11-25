@@ -398,6 +398,13 @@ copy as it then is, and with no usable copy stays held until the copy is put bac
 would make a log damaged in that window the record), `alert_log_carry` (alerts the last published feed sent that the log does
 not hold) and `alerts_held` (the alerts kept for the next clean feed, as above). A null `market_regime` or `scored_as_of` means unknown, never "off".
 
+A feed step that is killed (its `timeout`, a SIGKILL) never reaches that exception handler. Since 25 Nov 2026 the
+workflow then runs `.github/scripts/feed_guard.py`: if the feed on disk was not written by this run (its
+`generated_at` is before the run's start, `CTZB_RUN_STARTED`, else the seal's `started_at`), or there is none, it
+writes the same fail-closed feed, with `feed_error` "FeedStepKilled". A feed this run did write is left as it is
+(a crash's own fail-closed feed, or "feed published, but the alert log could not be written"). Before this, the
+previous run's feed stayed published until it went stale after 5 hours (audit round 48). Test: `tests/test_feed_guard.py`.
+
 ## The run seal
 
 `seal.py`, file `datasets/manifest.json`: `steps`, `files` (name to SHA-256) and `started_at`.

@@ -80,6 +80,10 @@ jobs:
         with:
           python-version: "3.12"
 
+      # The run's start, for the feed guard below: a feed written before it is not this run's (25 Nov 2026).
+      - name: Record the run's start
+        run: echo "CTZB_RUN_STARTED=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
+
       # `timeout` turns a hang into an ordinary step failure, which the retry job re-runs;
       # a job-level timeout would end as cancelled and skip the retry (review, 4 Nov 2026).
       - name: Fetch and resample
@@ -171,6 +175,16 @@ jobs:
         env:
           CTZB_STEP_OUTCOMES: "refresh=${{ steps.refresh.outcome }},grade=${{ steps.grade.outcome }},stack=${{ steps.stack.outcome }},cards=${{ steps.cards.outcome }},regress=${{ steps.regress.outcome }},extras=${{ steps.extras.outcome }}"
         run: timeout 5m python feed_live.py
+
+      # 25 Nov 2026 (audit round 48): feed_live.py writes a fail-closed feed when it crashes, but not when it is
+      # killed (this timeout, a SIGKILL). Then the previous run's feed stayed published beside this run's datasets.
+      # Only after a failed feed step: if the feed on disk is not this run's, publish the fail-closed feed instead.
+      - name: Feed guard (a killed feed step leaves a held feed, not the last one)
+        if: steps.feed.outcome == 'failure'
+        continue-on-error: true
+        env:
+          CTZB_STEP_OUTCOMES: "refresh=${{ steps.refresh.outcome }},grade=${{ steps.grade.outcome }},stack=${{ steps.stack.outcome }},cards=${{ steps.cards.outcome }},regress=${{ steps.regress.outcome }},extras=${{ steps.extras.outcome }}"
+        run: timeout 2m python .github/scripts/feed_guard.py
 
       # Third-party sources. 4 Nov 2026: flows and on-chain used to run without
       # continue-on-error BEFORE the commit, so an outage at one of those sources
