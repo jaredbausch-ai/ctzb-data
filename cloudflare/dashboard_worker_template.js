@@ -160,7 +160,7 @@ function alertText(a, feed) {
   if (a.event === "forming") {
     lines.push(`FORMING  ${a.chart}`);
     if (card) {
-      lines.push(`Low ${card.low_date}, confirms ${card.confirms_on}` +
+      lines.push(`Low ${card.low_day || card.low_date}, confirms ${card.confirms_on}` +
         (card.must_close_above != null ? `, must close above ${NUM(card.must_close_above, 2)}` : ""));
       lines.push(`Grade ${card.grade || "?"}${card.confirmations ? " (" + card.confirmations + ")" : ""}`);
       lines.push(`Rose 10% within 60 days: ${PCT(card.rose10_within60d_pct)} of ${card.past_trades ?? "?"} past signals (${PCT(card.rose10_never_fell25_within60d_pct)} without ever falling 25.3%)`);

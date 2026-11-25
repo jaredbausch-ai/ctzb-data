@@ -85,9 +85,9 @@ Deploy if Cloudflare asks.
 **3.1 Login works.** In a private window, open `https://ctzb-site.<subdomain>.workers.dev`.
 Expect the Access login; enter Jared's email, then the emailed code. The site loads:
 ETHKROS header, "Market filter: on", a row of setup buttons above the card, the card
-with a big percentage, "Data through" today's date at the bottom right.
+with a big percentage, "Daily candles closed through" yesterday's date at the bottom right.
 
-**3.2 Tabs.** Click Chart, Record and How to read a card. Record lists about 137 rows.
+**3.2 Tabs.** Click Chart, Past signals and How to read a card. Past signals lists every top-grade signal whose 60 days have closed.
 The Chart tab for a forming setup may say "Chart data unavailable" until the pipeline
 run after 00:00 UTC (7 PM Eastern) on 11 Nov writes the candle files; the example
 button above the card always has a chart.

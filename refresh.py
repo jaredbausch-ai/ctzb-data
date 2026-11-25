@@ -196,8 +196,9 @@ def _declean(Hi, Lo, Op, Cl, D, label):
     On 21 June 2017 ETH printed a $0.10 wick on GDAX and recovered inside
     the same candle. Coinbase's feed still carries it; TradingView filters
     it. Left alone it reads as a 99.9% drawdown and poisons every risk
-    number downstream. A low more than BAD_WICK under the bar's own open
-    and close is not a tradable price, so it is pulled back to the body.
+    number downstream. A low under half the bar's body (BAD_WICK = 0.5), or
+    a high above twice it, is not a tradable price, so it is pulled back to
+    the body.
     """
     fixed = []
     for i in range(len(Lo)):

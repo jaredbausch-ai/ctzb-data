@@ -74,7 +74,9 @@ Tests: `node tests/test_trades_relay.mjs` (47).
 
 **ctzb-site** (11 Nov 2026, item 18) — the member site. Built, not written:
 `python cloudflare/build_site.py` wraps `docs/artifacts/member-site/index.html` and the
-chart example into `site_worker_template.js`. The page reads `data/...` by relative path;
+chart example into `site_worker_template.js`. The committed `ctzb-site-worker.js` must be
+rebuilt and committed after every change to the page; before a deploy, check that
+rebuilding leaves it unchanged. The page reads `data/...` by relative path;
 the Worker answers from fixed tables only: the feed and `ledger.csv` from the mirror,
 candles from the mirror's `datasets/candles_<asset>_<tf>.csv` (written by `extras_live.py`
 each run; a file whose last line has no line end was cut short and is refused, 502), trades from `ctzb-trades` (404 until it goes live, which the page shows as "the lead

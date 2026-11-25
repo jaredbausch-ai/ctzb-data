@@ -3,6 +3,15 @@
 Kind 3 and outside-scope findings from round 41 on, recorded here and corrected together once damage and docs have
 two clean rounds in a row (STATUS.md, "The plan from round 41"). Each row: round, file, line, quote, suggested sentence.
 
+**Cleared 25 Nov 2026.** Every row is now corrected except two. The 11 left on 19 Nov (`analysis/cleanup_2026-11-19/CLEANUP.md`):
+the site-worker build and pin rows are true since the 24-25 Nov deploys re-pinned the brief, the two BRIEF_site page
+descriptions and the two `analysis/tagstats.py` comments are corrected, and the rebuild rule is in both READMEs. The
+round 47-48 rows are corrected as suggested (the dashboard's "About this data" note was rebuilt on 24 Nov; its Telegram
+alert text now gives the low's day, which goes out with the next dashboard deploy, SITE_CHANGES 11). Still open:
+- round 45 observation (member page, live setup chart has no trough marker): behaviour, not wording; not changed.
+- round 48, `docs/PRETRADE.md` DIVH window: the flag still dates a divergence by its confirming bar's open (Jared's call,
+  BACKLOG section 4). The live-card note added on 24 Nov dates by the close.
+
 | Round | File | Line | Quote | Suggested |
 |---|---|---|---|---|
 | 40 (fix check) | docs/FEED_SPEC.md | 333 | was then put back to the run before's | ...was then put back to an earlier run's (most often the run before's, because that run died between the copy and the log). |

@@ -7,8 +7,8 @@ docs/PRETRADE.md (Tier 1, Promising, flags, conviction grade, in-trade reads,
 positioning), CONTEXT.md (forward-watch candidates) and analysis/grokpack.json
 (every confluence cell from layer 4, 4-small and the 44 v4 rows). check_coverage()
 fails the run if a PRETRADE heading under Tier 1, Promising or In-trade reads is not
-mapped to a registry id, or, when there is at least one subject, a registry id is not
-evaluated.
+mapped to a registry id, a mapped id is not in REGISTRY, or, when there is at least one
+subject, a registry id is not evaluated.
 
 For every SUBJECT -- every forming low on all 10 charts (ETH and BTC, 1D-8D) and
 every signal confirmed in the last 60 days -- it evaluates every registry item and,

@@ -69,9 +69,11 @@ odds are "measured from the entry close, not from today's price", and an edge-lo
 colour. No from-today odds are computed for members.
 
 The member site (`docs/artifacts/member-site/index.html`) shows the same card in its own words. Each label
-below is defined here; anything not listed is in the table above. Also on the member page: "Red on day 10, rose
-10% after" (`odds_fade.day10`, the red row's `rose10_after_day10_pct`, days 11 to 60; shown only when a card has
-no ladder), "Where the odds fade · ETH tier signals" (`odds_fade.early_dip` bands and the `odds_fade.day10` green/red rows, a general explainer; shown only when a card has no ladder), "Where the past signals went" on the Chart tab (`past_paths`, or `example_past_paths` on the example: the median and middle half (25th to 75th percentile) of every top-grade signal's daily-close path from the entry close, days 0 to 60, with n), on the worked example's Chart tab only "What this one did" (that signal's own outcome from its 2-day bars: reached +10% / +20%, best move and deepest drop with their days, day-10 close vs entry, day-60 close vs entry), and, on a current setup's card (not the worked example, a past signal), "Lead
+below is defined here; anything not listed is in the table above. Also in the member page's code, but never shown
+with a feed that passes the strict check (every card it draws has its own ladder): "Red on day 10, rose 10% after"
+(`odds_fade.day10`, the red row's `rose10_after_day10_pct`, days 11 to 60) and "Where the odds fade · ETH tier
+signals" (`odds_fade.early_dip` bands and the `odds_fade.day10` green/red rows, a general explainer); if either were
+ever shown, it shows its shares without n. Also on the member page: "Where the past signals went" on the Chart tab (`past_paths`, or `example_past_paths` on the example: the median and middle half (25th to 75th percentile) of every top-grade signal's daily-close path from the entry close, days 0 to 60, with n), on the worked example's Chart tab only "What this one did" (that signal's own outcome from its 2-day bars: reached +10% / +20%, best move and deepest drop with their days, day-10 close vs entry, day-60 close vs entry), and, on a current setup's card (not the worked example, a past signal), "Lead
 trader: loading / in · long / in · short / out / not in / unavailable" (his newest posted event on that card's asset: "in" after an open, add or reduce, "out" after a close, "not in" with none).
 
 | On the member card | Definition | Feed field |
@@ -105,7 +107,8 @@ trader: loading / in · long / in · short / out / not in / unavailable" (his ne
   names its window (e.g. "after day 10", "by day 60").
 - The sample size is always visible, small, under the big number. Anything on a different sample
   shows its own n: each ladder row, each era, and the misses (their count and the pool, named on the
-  "If it misses" row itself and on the miss tiles, on every card).
+  "If it misses" row itself and on the miss tiles, on every card). The one exception is the general odds-fade
+  explainer above, which a card with a ladder never shows.
 - The card always ends by saying these are past signals, not real trades, and that this is entry quality
   only. The dashboard console's foot reads "These are past signals, not real trades: entry quality only, with no
   exit."; the member card's foot reads "Statistics from past signal history. Entry quality only: no exit, not a

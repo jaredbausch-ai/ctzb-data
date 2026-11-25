@@ -11,13 +11,13 @@ Per signal, for H = 30 / 60 / 90 calendar days (only if the window is complete):
   ret     close H days after entry vs entry
   up      best high within H days (max favourable)
   dd      worst low within H days (max adverse)          <- drawdown from entry
-  ddpk    worst low BEFORE the H-day high                <- what you sit through
+  ddpk    worst low from the day after entry up to and including the day of the H-day high  <- what you sit through
   dpk     days to the H-day high
   ddday   days to the worst low
   hit     reached +10 / +20 / +30% within H days
   dead    fell -30% before ever gaining +5% (troughs.py definition), within 365d
-Also the -10% / -20% touch rate within H days, and whether each signal was ever
-in profit within 90 days (and by how much, on which day) even if it ended red,
+Also the -10% / -20% touch rate within H days, and whether each signal's high ever
+went above its entry close within 90 days (and by how much, on which day) even if it ended below it,
 and time under the entry price: daily closes below the confirmation close
 within H days, total and longest unbroken stretch.
 

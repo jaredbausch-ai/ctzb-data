@@ -12,7 +12,9 @@ Live right now: version **4e74f3b0** (25 Nov 2026, 10:25 EST; built from 3ff9163
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 11 | Dashboard (ctzb-dashboard): the Telegram setup alert's "Low …" line gives the day the low printed (`low_day`), as the member card does, falling back to `low_date` (audit round 47 wording). | (this commit) |
 
 ## Requested, not built yet
 

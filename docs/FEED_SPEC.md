@@ -260,7 +260,7 @@ draw one the run did not check.
 is a signal that did not rise 10% within 60 days (`miss_rule` says so). `signals`, `misses`, `up_first` (misses whose
 best price within the 60 days is above entry), `median_peak_pct` (the median best move of the misses; the figure the
 card shows), `mean_peak_pct`, `peaked_5_or_more`, `peaked_10_or_more`, `median_worst_drop_pct`, `median_day60_pct`
-(day-60 close vs entry close), `miss_rule`, `note`. With no misses the medians are null.
+(day-60 close vs entry close), `miss_rule`, `note`. With no misses the medians and `mean_peak_pct` are null.
 
 **`odds_fade`**: a general explainer, never on a card (a card uses its own ladder). ETH signals on the chart/tag pairs
 of the walk-forward tier as fixed on 1 January of the current year (`tier_fixed_on`, status.csv's own anchor), applied
@@ -390,7 +390,7 @@ On every run it also checks the alert log (above, not on a seeding run) and the 
 Any exception in `feed_live.py` (these, or a crash) overwrites the feed with the fail-closed feed and exits 1. It has
 `posting_bar_pct` 70, `cards_withheld`, `alerts_withheld` and `extras_withheld` true, `checks.passed` and
 `checks.all_passed` false, `checks.lines` empty, `checks.steps` as passed, `checks.failed_steps` `["feed"]`,
-`feed_error` (the exception's type name), every list except `alert_log_carry` and `alerts_held` empty, `candle_check`, `example_card`, `example_if_it_misses`,
+`feed_error` (the exception's type name), every other list empty except `alert_log_carry` and `alerts_held`, `candle_check`, `example_card`, `example_if_it_misses`,
 `example_past_paths`, `scored_as_of`, `market_regime`, `next_buy_date` and `trades_a_year` null, and `odds_fade` with
 only `label`, `posting_bar_pct`, a null `sample` and empty lists. It has no `alerts_seeded`, `signals_a_year`,
 `odds_fade.tier_fixed_on` or `odds_fade.edge_measured_on`. It carries `alert_log` (the last published feed's record; if there is none, null, so the next run checks against the
