@@ -7,6 +7,8 @@
 // v4 25 Nov 2026: "Timeframe" setting (Jared): show e.g. the 5D ROC+ on a 2D chart. Everything is
 // computed on that timeframe. Off the chart's own timeframe, the latest bar of the chosen
 // timeframe is still forming until it closes, and divergences show as a label (no line).
+// v5 25 Nov 2026: no dots beyond the bands; the line itself turns magenta below the lower band
+// and yellow above the upper band.
 indicator(title="Rate of Change+", shorttitle="ROC+", format=format.price, precision=2, max_bars_back=500, max_lines_count=200)
 
 // ───────────────────────── Inputs
@@ -135,7 +137,13 @@ C_DN   = #EF5350
 C_SIG  = #FF9800
 C_BAND = #787B86
 
-lineCol = roc >= 0 ? (rising ? C_UP : color.new(C_UP, 45)) : (rising ? color.new(C_DN, 45) : C_DN)
+// v5: beyond a band the line itself turns bright (no dots covering it): yellow above the upper
+// band, magenta below the lower band. Inside the bands it keeps the up/down colours.
+C_HI = #FFEB3B
+C_LO = #E040FB
+bool aboveBand = not na(upper) and roc > upper
+bool belowBand = not na(lower) and roc < lower
+lineCol = belowBand ? C_LO : aboveBand ? C_HI : roc >= 0 ? (rising ? C_UP : color.new(C_UP, 45)) : (rising ? color.new(C_DN, 45) : C_DN)
 histCol = hist >= 0 ? (histUp ? color.new(C_UP, 40) : color.new(C_UP, 75)) : (not histUp ? color.new(C_DN, 40) : color.new(C_DN, 75))
 
 // ───────────────────────── Plots
@@ -146,9 +154,6 @@ plot(lower, "Lower band", color.new(C_BAND, 40), style=plot.style_linebr)
 plot(roc, "ROC", lineCol, 2)
 plot(showSig ? sig : na, "Signal", C_SIG, 1)
 
-// Beyond a band: a dot on the ROC line, no shading
-plot(not na(upper) and roc > upper ? roc : na, "Above upper band", C_UP, 4, plot.style_circles)
-plot(not na(lower) and roc < lower ? roc : na, "Below lower band", C_DN, 4, plot.style_circles)
 
 // Divergences. Chart's own timeframe: line + label on the pivot. Other timeframe: a label when detected.
 if sameTF and bullCond and not na(bRefBar)
