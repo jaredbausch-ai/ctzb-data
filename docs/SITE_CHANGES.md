@@ -12,9 +12,7 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 13 | **New Worker `ctzb-status`: Joe's read-only status panel** (Joe, 24 Nov 2026; agreed 25 Nov, first version due Fri 4 Dec). `/` is a small panel for an iframe on his dashboard, `/status.json` the same figures for his developer. It shows the pipeline (running, held, late or unreachable), when the data last updated, setups forming (`cards[]`) and live (`open_signals[]`), the relay up or down and its mode, and the day of the private dry run. No trades, prices, balances, keys or error texts. Service bindings MIRROR (ctzb-feed) and TRADES (ctzb-trades); no secrets. Brief `cloudflare/BRIEF_status.md`; tests `tests/test_status_worker.mjs`. | this commit |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -25,6 +23,13 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### ctzb-status 39b1e533 — 25 Nov 2026 (built from ca8abef)
+New Worker. Deployed 25 Nov 2026 about 16:20 EST by Claude in Chrome, Jared approving (10,172 bytes): 59c79f46 template, 25932c24 pinned code, e375f44c MIRROR → ctzb-feed, 39b1e533 TRADES → ctzb-trades. No variables, secrets or cron; no Access (it loads in Joe's dashboard). First check 16:20 EST: running, data 15:14 EST, 5 forming, 19 live, relay up (dry), dry run day 2. URL https://ctzb-status.bigpapi.workers.dev/ (panel) and /status.json.
+
+| # | Change | Commit |
+|---|---|---|
+| 13 | **New Worker `ctzb-status`: Joe's read-only status panel** (Joe, 24 Nov 2026; agreed 25 Nov, first version due Fri 4 Dec). `/` is a small panel for an iframe on his dashboard, `/status.json` the same figures for his developer. It shows the pipeline (running, held, late or unreachable), when the data last updated, setups forming (`cards[]`) and live (`open_signals[]`), the relay up or down and its mode, and the day of the private dry run. No trades, prices, balances, keys or error texts. Service bindings MIRROR (ctzb-feed) and TRADES (ctzb-trades); no secrets. Brief `cloudflare/BRIEF_status.md`; tests `tests/test_status_worker.mjs`. | ca8abef |
 
 ### 6ba21c7e — 25 Nov 2026 (built from 8efecaf)
 Deployed 25 Nov 2026 about 11:54 EST by Claude in Chrome, Jared approving (148,219 bytes); previous 4e74f3b0. Bindings (MIRROR, TRADES) unchanged.
