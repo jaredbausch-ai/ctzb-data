@@ -12,9 +12,7 @@ Live right now: version **4e74f3b0** (25 Nov 2026, 10:25 EST; built from 3ff9163
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 11 | Dashboard (ctzb-dashboard): the Telegram setup alert's "Low …" line gives the day the low printed (`low_day`), as the member card does, falling back to `low_date` (audit round 47 wording). | (this commit) |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -25,6 +23,13 @@ Live right now: version **4e74f3b0** (25 Nov 2026, 10:25 EST; built from 3ff9163
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### ctzb-dashboard 5546db82 — 25 Nov 2026 (built from 199e6ce)
+Deployed 25 Nov 2026 about 10:48 EST by Claude in Chrome, Jared approving (66,733 bytes); previous a1696c8d. Bindings (MIRROR, NOTIFY), variable and secret names and the cron trigger unchanged.
+
+| # | Change | Commit |
+|---|---|---|
+| 11 | Dashboard (ctzb-dashboard): the Telegram setup alert's "Low …" line gives the day the low printed (`low_day`), as the member card does, falling back to `low_date` (audit round 47 wording). | 199e6ce |
 
 ### 4e74f3b0 — 25 Nov 2026 (built from 3ff9163)
 Deployed 25 Nov 2026 about 10:25 EST by Claude in Chrome, Jared approving (145,509 bytes); previous e1af3705. Bindings (MIRROR, TRADES) unchanged.
