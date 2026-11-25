@@ -12,7 +12,9 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 13 | **New Worker `ctzb-status`: Joe's read-only status panel** (Joe, 24 Nov 2026; agreed 25 Nov, first version due Fri 4 Dec). `/` is a small panel for an iframe on his dashboard, `/status.json` the same figures for his developer. It shows the pipeline (running, held, late or unreachable), when the data last updated, setups forming (`cards[]`) and live (`open_signals[]`), the relay up or down and its mode, and the day of the private dry run. No trades, prices, balances, keys or error texts. Service bindings MIRROR (ctzb-feed) and TRADES (ctzb-trades); no secrets. Brief `cloudflare/BRIEF_status.md`; tests `tests/test_status_worker.mjs`. | this commit |
 
 ## Requested, not built yet
 
