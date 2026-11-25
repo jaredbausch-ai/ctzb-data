@@ -1,0 +1,50 @@
+ROC+ LOWER BAND, ADDENDUM ON THE CARD MEASURE -- declared 25 Nov 2026 (lab/rocband10.py)
+
+SUMMARY  cand asset | n on/off | rose 10% & never fell 25.3% on/off | rose 10% on/off | fell 25.3% on/off
+B60   ETH | 67/294 | 75/62 | 85/71 | 12/30
+B30   ETH | 49/312 | 65/64 | 80/72 | 16/28
+OWN60 ETH | 213/148 | 62/66 | 73/74 | 28/24
+B60   BTC | 107/459 | 61/64 | 74/72 | 25/23
+B30   BTC | 87/479 | 62/64 | 74/72 | 26/23
+OWN60 BTC | 335/231 | 61/68 | 70/74 | 27/19
+
+RULES  cand asset | to 2021: n on/off win on/off fell25 on/off | 2022 on: same | charts years | shuffle real/p95 | overlap | verdict
+B60   ETH |  12/112 100/ 68   0/ 30 |  55/182  69/ 58  15/ 29 | 3/4 4/4 | +13.1/+5.7 | - | fail
+B30   ETH |   6/118 100/ 69   0/ 29 |  43/194  60/ 60  19/ 27 | 3/4 3/4 | +1.5/+6.2 | BTC3=on | fail
+OWN60 ETH |  66/58   71/ 71  26/ 29 | 147/90   59/ 63  29/ 20 | 1/4 3/5 | -3.8/+3.1 | GAP=off | fail
+B60   BTC |  93/238  66/ 64  28/ 34 |  14/221  29/ 65   7/ 11 | 1/4 3/6 | -3.7/-2.6 | GAP=on | fail
+B30   BTC |  74/257  68/ 63  30/ 33 |  13/222  31/ 65   8/ 11 | 1/4 4/6 | -2.0/-4.7 | GAP=off | fail
+OWN60 BTC | 200/131  58/ 73  38/ 24 | 135/100  64/ 61  10/ 12 | 1/4 4/9 | -7.1/+0.2 | GAP=off | fail
+
+BY CHART (B60)  chart | n on/off | win on/off | fell25 on/off
+BTC 1D | 49/233 | 59/66 | 29/22
+BTC 2D | 26/116 | 65/61 | 19/23
+BTC 3D | 21/72 | 62/67 | 24/22
+BTC 5D | 11/38 | 55/61 | 27/32
+ETH 1D | 35/146 | 77/61 | 9/30
+ETH 2D | 15/75 | 73/56 | 13/33
+ETH 3D | 9/48 | 78/65 | 11/27
+ETH 5D | 8/25 | 62/76 | 25/20
+
+BY EPISODE (B60)  asset episode | n | win | rose 10% | fell25
+ETH 2020-03-25..2020-04-04 | 12 | 100% | 100% | 0%
+ETH 2022-01-25..2022-01-30 | 4 | 75% | 100% | 25%
+ETH 2024-08-07..2024-09-06 | 26 | 65% | 65% | 0%
+ETH 2025-03-01..2025-04-10 | 20 | 75% | 95% | 25%
+ETH 2025-11-16..2025-12-01 | 5 | 60% | 100% | 40%
+BTC 2016-07-28..2016-09-01 | 24 | 88% | 88% | 4%
+BTC 2017-07-19..2017-07-19 | 12 | 67% | 100% | 33%
+BTC 2018-01-20..2018-07-04 | 34 | 47% | 68% | 53%
+BTC 2020-03-15..2020-03-30 | 15 | 73% | 73% | 0%
+BTC 2021-05-20..2021-06-24 | 8 | 62% | 88% | 38%
+BTC 2022-01-05..2022-01-25 | 7 | 43% | 43% | 0%
+BTC 2025-11-16..2026-03-11 | 6 | 17% | 33% | 17%
+BTC 2026-06-04..2026-07-09 | 1 | 0% | 0% | 0%
+
+FAILURES, B60 on/off  asset | MISSES (no +10%): n, went above entry, median best move | FELL 25.3%: n, median best move before the fall, share up 5%+ first
+ETH on | 10, 100%, +7.2% | 8, +6.7%, 75%
+ETH off | 86, 100%, +5.1% | 87, +5.2%, 55%
+BTC on | 28, 96%, +6.4% | 27, +5.2%, 52%
+BTC off | 130, 100%, +3.9% | 106, +3.8%, 39%
+
+ENTRY QUALITY ONLY. No exit in the data. Computed signals, never fills.
