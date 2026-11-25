@@ -1,0 +1,42 @@
+GATE PEELED BACK -- inside the ETH 5D ROC+ band windows: A + filled diamond vs the other signals there
+group | n | day60 | best | worst | rose10 | fell25.3 | surv10   (medians / rates)
+ALL ETH charts, ALL   A+filled diamond | 25 | day60 +11.3% | best +30.1% | worst -16.4% | rose10 68% | fell25.3 40% | surv10 56%
+ALL ETH charts, ALL   other signals    | 255 | day60 +12.7% | best +29.1% | worst -16.4% | rose10 79% | fell25.3 38% | surv10 59%
+ALL ETH charts, OUT   A+filled diamond | 15 | day60 +21.4% | best +33.2% | worst -15.7% | rose10 80% | fell25.3 33% | surv10 67%
+ALL ETH charts, OUT   other signals    | 84 | day60 +12.5% | best +27.5% | worst -16.7% | rose10 81% | fell25.3 37% | surv10 61%
+ALL ETH charts, AFTER A+filled diamond | 10 | day60 -8.6% | best +11.6% | worst -23.6% | rose10 50% | fell25.3 50% | surv10 40%
+ALL ETH charts, AFTER other signals    | 171 | day60 +12.7% | best +31.4% | worst -16.3% | rose10 78% | fell25.3 38% | surv10 58%
+ETH 2D only, ALL   A+filled diamond | 7 | day60 +21.4% | best +33.2% | worst -15.7% | rose10 71% | fell25.3 43% | surv10 57%
+ETH 2D only, ALL   other signals    | 60 | day60 +12.4% | best +35.3% | worst -13.6% | rose10 77% | fell25.3 37% | surv10 60%
+ETH 2D only, OUT   A+filled diamond | 5 | day60 +21.4% | best +33.2% | worst -15.7% | rose10 80% | fell25.3 40% | surv10 60%
+ETH 2D only, OUT   other signals    | 23 | day60 +11.9% | best +36.8% | worst -15.3% | rose10 83% | fell25.3 35% | surv10 61%
+ETH 2D only, AFTER A+filled diamond | 2 | day60 +4.7% | best +30.7% | worst -31.6% | rose10 50% | fell25.3 50% | surv10 50%
+ETH 2D only, AFTER other signals    | 37 | day60 +12.7% | best +33.9% | worst -10.5% | rose10 73% | fell25.3 38% | surv10 59%
+
+Every A + filled diamond inside a window:
+2016-12-08 ETH 1D [OUT] day60 +38.3% best +43.9% worst -14.5% surv10 yes
+2016-12-11 ETH 2D [OUT] day60 +33.9% best +43.4% worst -14.8% surv10 yes
+2018-05-26 ETH 1D [AFTER] day60 -19.5% best +7.3% worst -30.9% surv10 no
+2018-06-19 ETH 2D [OUT] day60 -44.9% best +1.1% worst -53.5% surv10 no
+2018-07-05 ETH 3D [OUT] day60 -38.2% best +10.4% worst -46.4% surv10 no
+2018-08-17 ETH 1D [OUT] day60 -35.3% best +1.5% worst -47.4% surv10 no
+2018-09-17 ETH 2D [OUT] day60 -12.0% best +30.1% worst -15.7% surv10 yes
+2018-09-27 ETH 5D [AFTER] day60 -53.3% best +4.2% worst -57.1% surv10 no
+2018-11-04 ETH 2D [AFTER] day60 -29.9% best +6.1% worst -61.6% surv10 no
+2018-11-08 ETH 3D [AFTER] day60 -28.4% best +1.2% worst -61.7% surv10 no
+2018-12-17 ETH 1D [OUT] day60 +28.4% best +71.3% worst -2.4% surv10 yes
+2018-12-23 ETH 3D [OUT] day60 +11.3% best +23.9% worst -22.7% surv10 yes
+2019-02-13 ETH 2D [AFTER] day60 +39.4% best +55.4% worst -1.7% surv10 yes
+2021-07-23 ETH 1D [AFTER] day60 +30.1% best +89.6% worst -0.9% surv10 yes
+2021-07-29 ETH 3D [AFTER] day60 +22.7% best +69.1% worst -2.8% surv10 yes
+2022-01-25 ETH 1D [OUT] day60 +27.9% best +33.5% worst -6.5% surv10 yes
+2022-05-30 ETH 1D [OUT] day60 -13.8% best +0.9% worst -56.0% surv10 no
+2022-07-15 ETH 1D [OUT] day60 +27.9% best +65.0% worst -3.3% surv10 yes
+2024-08-15 ETH 3D [AFTER] day60 +2.3% best +9.7% worst -16.4% surv10 no
+2025-03-19 ETH 2D [OUT] day60 +21.4% best +33.2% worst -32.8% surv10 no
+2025-04-02 ETH 1D [OUT] day60 +41.5% best +55.4% worst -22.9% surv10 yes
+2025-04-14 ETH 2D [OUT] day60 +58.9% best +77.3% worst -5.3% surv10 yes
+2025-04-25 ETH 5D [AFTER] day60 +37.2% best +61.3% worst -3.0% surv10 yes
+2025-12-21 ETH 1D [AFTER] day60 -35.1% best +13.4% worst -41.9% surv10 no
+2026-02-08 ETH 1D [OUT] day60 +4.9% best +14.3% worst -13.8% surv10 yes
+ENTRY QUALITY ONLY. No exit in the data. Computed signals, never fills.
