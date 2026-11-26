@@ -1,16 +1,16 @@
 chart,entry,tier,tag,entryClose,elapsed,status,d10,d30,d60,best,worst,grade,lenses,htfDiv,marker
-ETH 1D,2026-09-05,yes,C + diamond + hollow,2480.61,81,closed,-3.4,9.2,-2.4,13.2,-12.5,C,,no,yes
-ETH 1D,2026-09-13,no,C,2475.86,73,closed,8.4,0.8,-18.5,13.4,-20.0,C,FCOOL,no,no
-ETH 1D,2026-09-18,yes,B + diamond + hollow + zone-exit B,2611.34,68,closed,2.9,-7.8,-30.2,7.5,-34.5,A,HIGH + FUND + FCOOL,no,yes
-ETH 2D,2026-09-21,yes,C + prime dot,2775.58,65,closed,-2.5,-10.9,-41.7,0.5,-43.1,A,GAP + FUND + FCOOL,no,yes
-ETH 3D,2026-09-24,no,C + diamond + hollow,2687.28,62,closed,1.5,-12.4,-36.4,3.3,-42.9,A,AGREE + FUND + FCOOL,no,yes
-ETH 1D,2026-09-26,no,C,2695.53,60,open,0.1,-13.9,,3.0,-43.0,A,HIGH + AGREE + BTC3,no,no
-ETH 5D,2026-10-02,yes,C,2668.13,54,open,-8.4,-14.8,,2.7,-42.5,B,GAP + AGREE,no,no
-ETH 1D,2026-10-05,no,C + prime dot,2709.6,51,open,-10.0,-10.6,,0.6,-43.3,C,HIGH,no,yes
-ETH 1D,2026-10-11,no,A,2534.22,45,open,-2.5,-19.1,,1.7,-39.4,C,,no,no
-ETH 1D,2026-10-15,no,A,2439.45,41,open,-4.6,-27.5,,3.5,-37.1,B,FUND + FCOOL,no,no
-ETH 1D,2026-10-20,no,A,2446.62,36,open,-8.4,-28.3,,3.2,-37.2,A,HIGH + FUND + FCOOL,no,no
-ETH 1D,2026-11-02,no,A + diamond + filled,2249.66,23,open,-10.3,,,8.8,-31.8,C,FUND,no,yes
-ETH 2D,2026-11-04,no,A,2422.27,21,open,-27.0,,,0.5,-36.6,C,FUND,no,no
-ETH 1D,2026-11-17,no,A,1822.15,8,open,,,,1.2,-15.7,C,,yes,no
-ETH 1D,2026-11-23,no,A + diamond + filled,1708.5,2,open,,,,0.7,-2.7,C,,no,yes
+ETH 1D,2026-09-05,yes,C + diamond + hollow,2480.61,82,closed,-3.4,9.2,-2.4,13.2,-12.5,C,,no,yes
+ETH 1D,2026-09-13,no,C,2475.86,74,closed,8.4,0.8,-18.5,13.4,-20.0,C,FCOOL,no,no
+ETH 1D,2026-09-18,yes,B + diamond + hollow + zone-exit B,2611.34,69,closed,2.9,-7.8,-30.2,7.5,-34.5,A,HIGH + FUND + FCOOL,no,yes
+ETH 2D,2026-09-21,yes,C + prime dot,2775.58,66,closed,-2.5,-10.9,-41.7,0.5,-43.1,A,GAP + FUND + FCOOL,no,yes
+ETH 3D,2026-09-24,no,C + diamond + hollow,2687.28,63,closed,1.5,-12.4,-36.4,3.3,-42.9,A,AGREE + FUND + FCOOL,no,yes
+ETH 1D,2026-09-26,no,C,2695.53,61,closed,0.1,-13.9,-37.3,3.0,-43.0,A,HIGH + AGREE + BTC3,no,no
+ETH 5D,2026-10-02,yes,C,2668.13,55,open,-8.4,-14.8,,2.7,-42.5,B,GAP + AGREE,no,no
+ETH 1D,2026-10-05,no,C + prime dot,2709.6,52,open,-10.0,-10.6,,0.6,-43.3,C,HIGH,no,yes
+ETH 1D,2026-10-11,no,A,2534.22,46,open,-2.5,-19.1,,1.7,-39.4,C,,no,no
+ETH 1D,2026-10-15,no,A,2439.45,42,open,-4.6,-27.5,,3.5,-37.1,B,FUND + FCOOL,no,no
+ETH 1D,2026-10-20,no,A,2446.62,37,open,-8.4,-28.3,,3.2,-37.2,A,HIGH + FUND + FCOOL,no,no
+ETH 1D,2026-11-02,no,A + diamond + filled,2249.66,24,open,-10.3,,,8.8,-31.8,C,FUND,no,yes
+ETH 2D,2026-11-04,no,A,2422.27,22,open,-27.0,,,0.5,-36.6,C,FUND,no,no
+ETH 1D,2026-11-17,no,A,1822.15,9,open,,,,1.2,-15.7,C,,yes,no
+ETH 1D,2026-11-23,no,A + diamond + filled,1708.5,3,open,,,,0.7,-6.0,C,,no,yes

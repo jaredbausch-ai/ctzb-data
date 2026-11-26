@@ -1,6 +1,6 @@
 asset,grade,aplus_signals,misses,up_first,median_peak_pct,mean_peak_pct,peaked_5_or_more,peaked_10_or_more,median_worst_drop_pct,median_day60_pct
 ETH,A+,104,15,15,4.8,4.1,7,0,-25.7,-14.4
-ETH,A,64,19,19,3.9,4.5,9,0,-34.5,-25.0
+ETH,A,65,20,20,3.9,4.4,9,0,-34.6,-25.9
 ETH,B,81,25,25,5.4,4.9,13,0,-32.9,-16.9
 ETH,C,112,37,37,5.5,5.5,23,0,-35.5,-20.9
 BTC,A+,34,6,6,4.4,4.3,3,0,-23.6,-13.6
