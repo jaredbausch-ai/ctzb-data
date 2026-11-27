@@ -187,6 +187,30 @@ check("/health is public and carries no trade data", resp.status === 200 && body
   check("/health reads not ok once the last good read is over 20 minutes old", (await okAt(21)) === false);
 }
 
+// ---- 12b. /preview.json: the dry-run trades for the member site behind its login (27 Nov 2026) ----
+{ const preq = (tok) => new Request("https://ctzb-trades.example.workers.dev/preview.json", tok === undefined ? {} : { headers: { "x-ctzb-preview": tok } });
+  const PE = { ...ENV(k), PREVIEW_TOKEN: "tok-test-123" };
+  const unk = await (await _test.handle(req("/nope"), PE)).text();
+  for (const [what, r_] of [["no token header", preq()], ["the wrong token", preq("tok-wrong")], ["an empty token", preq("")]]) {
+    const rr = await _test.handle(r_, PE);
+    check(`/preview.json with ${what}: the same 404 as an unknown path`, rr.status === 404 && (await rr.text()) === unk);
+  }
+  let rr = await _test.handle(preq("tok-test-123"), ENV(k));
+  check("/preview.json when PREVIEW_TOKEN is unset: 404 (fails closed), even with a token", rr.status === 404);
+  rr = await _test.handle(preq("tok-test-123"), PE);
+  const pb = await rr.json();
+  check("/preview.json with the token: 200, dry_run true, the dry-run trades in the /trades.json shape",
+    rr.status === 200 && pb.dry_run === true && Array.isArray(pb.trades) && pb.trades.length === events(k).filter((e) => e.mode === "dry").length && pb.trades.length > 0
+    && pb.trades.every((e) => e.mode === "dry") && /lead trader's real trades/.test(pb.label) && /sometimes not at all/.test(pb.disclosure));
+  check("/preview.json carries only allow-listed trade fields: no positions, notes, health, counts or balances",
+    !("open_positions" in pb) && !("review_notes" in pb) && !("health" in pb) && !/contracts|balance|qty|notional|size\b|base_size/i.test(JSON.stringify(pb.trades))
+    && pb.trades.every((e) => Object.keys(e).every((f) => ["id", "mode", "time", "asset", "instrument", "direction", "action", "price", "leverage", "size_pct", "reduced_pct", "move_pct", "account_pct", "held_days"].includes(f))));
+  check("/preview.json: newest first, as /trades.json", pb.trades.every((e, i) => !i || Date.parse(e.time) <= Date.parse(pb.trades[i - 1].time)));
+  rr = await _test.handle(preq("tok-test-123"), { ...PE, MODE: "live" });
+  check("/preview.json in live mode: 404 (/trades.json is the source then)", rr.status === 404);
+  rr = await _test.handle(new Request("https://ctzb-trades.example.workers.dev/preview.json", { method: "POST", headers: { "x-ctzb-preview": "tok-test-123" } }), PE);
+  check("/preview.json: GET only", rr.status === 405); }
+
 // ---- 13. live mode publishes only live-made trades ----
 t = step();
 cb.fills.push(fill("H", "ETP-20DEC30-CDE", "BUY", 100, 3200, t));

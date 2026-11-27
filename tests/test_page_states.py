@@ -249,6 +249,20 @@ def main():
         t_tw, e_tw = render(pw, FEED, views=("now",), trades={"trades": [dict(FILL, id="o2:add", action="add"), dict(FILL, id="o1:open")]})
         good = "feed is unavailable" not in t_tw["now"] and t_tw["now"].count("ETH long") >= 2 and not e_tw
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with two different fills in the same second: both shown" + ("" if good else f"  -- {t_tw['now'][:200]!r}"))
+        # 27 Nov 2026: before the feed goes live the site shows the dry run, labelled private; a live feed has no label
+        t_dr, e_dr = render(pw, FEED, views=("now",), trades={"dry_run": True, "trades": [dict(FILL, id="o1:open")]})
+        good = ("Dry run · private." in t_dr["now"] and "nothing is published yet" in t_dr["now"] and "ETH long" in t_dr["now"]
+                and "feed is unavailable" not in t_dr["now"] and not e_dr and not BAD.search(t_dr["now"]))
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  dry-run trades: shown, labelled 'Dry run · private'" + ("" if good else f"  -- {t_dr['now'][:300]!r}"))
+        t_de, e_de = render(pw, FEED, views=("now",), trades={"dry_run": True, "trades": []})
+        good = "Dry run · private." in t_de["now"] and "No trades in the dry run yet" in t_de["now"] and not e_de
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  dry run with no trades yet: labelled, says so" + ("" if good else f"  -- {t_de['now'][:300]!r}"))
+        t_lv, e_lv = render(pw, FEED, views=("now",), trades={"trades": [dict(FILL, id="o1:open")]})
+        good = "Dry run" not in t_lv["now"] and "(dry run, private)" not in t_lv["now"] and "ETH long" in t_lv["now"] and not e_lv
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  live trades: no dry-run label anywhere" + ("" if good else f"  -- {t_lv['now'][:300]!r}"))
+        t_ds, e_ds = render(pw, FEED, views=("now",), trades={"dry_run": "yes", "trades": [dict(FILL, id="o1:open")]})
+        good = "feed is unavailable" in t_ds["now"] and not e_ds
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  dry_run that isn't true/false: the file is refused (unavailable)" + ("" if good else f"  -- {t_ds['now'][:300]!r}"))
         # 20 Nov 2026 audit round 47: with no top-grade setup, two forming setups tied on the shown +10% odds; the page
         # called the first in feed order "Best setup forming today" though the other was higher underneath. A tie at the
         # top now reads "Tied for the best odds"; a clear top still reads "Best setup forming today"

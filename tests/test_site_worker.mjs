@@ -70,5 +70,28 @@ check("built-in chart example served", r.status === 200 && (await r.json()).sign
 r = await _test.handle(req("/", "pw-test", "POST"), PW);
 check("POST refused", r.status === 405);
 
+// 27 Nov 2026: the dry-run preview behind the gate
+{ const calls = [];
+  const relay = (live) => ({ fetch: async (rq) => { const p = new URL(rq.url).pathname; calls.push({ p, tok: rq.headers.get("x-ctzb-preview") });
+    if (p === "/trades.json") return live ? new Response(JSON.stringify({ trades: [] })) : new Response("{}", { status: 404 });
+    if (p === "/preview.json") return rq.headers.get("x-ctzb-preview") === "tok-test-123"
+      ? new Response(JSON.stringify({ dry_run: true, trades: [{ asset: "BTC" }] })) : new Response("{}", { status: 404 });
+    return new Response("{}", { status: 404 }); } });
+  const PE = (live) => ({ ...PW, TRADES: relay(live), PREVIEW_TOKEN: "tok-test-123" });
+  let rr = await _test.handle(req("/data/trades.json", "pw-test"), PE(false));
+  const body = rr.status === 200 ? await rr.json() : null;
+  check("dry run + PREVIEW_TOKEN: the page gets the dry-run trades, marked dry_run", rr.status === 200 && body && body.dry_run === true && body.trades.length === 1);
+  check("...the token goes only to /preview.json, never to /trades.json", calls.filter((c) => c.p === "/trades.json").every((c) => !c.tok) && calls.some((c) => c.p === "/preview.json" && c.tok === "tok-test-123"));
+  calls.length = 0; rr = await _test.handle(req("/data/trades.json", "pw-test"), PE(true));
+  check("live: /trades.json is served and the preview is never asked for", rr.status === 200 && !("dry_run" in (await rr.json())) && !calls.some((c) => c.p === "/preview.json"));
+  calls.length = 0; rr = await _test.handle(req("/data/trades.json"), PE(false));
+  check("no login: refused before either relay route is asked", rr.status === 401 && calls.length === 0);
+  calls.length = 0; rr = await _test.handle(req("/data/trades.json", "pw-test"), { ...PW, TRADES: relay(false) });
+  check("no PREVIEW_TOKEN here: dry run stays 404, no preview asked for", rr.status === 404 && !calls.some((c) => c.p === "/preview.json"));
+  rr = await _test.handle(req("/data/trades.json", "pw-test"), { ...PE(false), PREVIEW_TOKEN: "wrong" });
+  check("a token the relay refuses: 404, the page's empty state", rr.status === 404);
+  rr = await _test.handle(req("/preview.json", "pw-test"), PE(false));
+  const rr2 = await _test.handle(req("/data/preview.json", "pw-test"), PE(false));
+  check("the preview has no path of its own on the site", rr.status === 404 && rr2.status === 404); }
 console.log(`\n${res.filter(Boolean).length}/${res.length} passed`);
 process.exit(res.every(Boolean) ? 0 : 1);

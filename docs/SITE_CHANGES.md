@@ -12,7 +12,9 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 17 | The lead trader's dry-run trades on the member site, behind its login (Jared, 27 Nov 2026). ctzb-trades gains `/preview.json`: the dry-run events in the `/trades.json` shape plus `"dry_run": true`, answered only to the header `x-ctzb-preview` equal to the new optional secret `PREVIEW_TOKEN` (same 404 as an unknown path otherwise; 404 in live mode). ctzb-site, after its own gate, asks for it only when `/trades.json` is 404 and it holds the same `PREVIEW_TOKEN`. The page shows the trades with "Dry run · private. Exactly what will be posted once his feed goes live. Only visible behind this private login; nothing is published yet.", and the card's line reads "Lead trader: in · long (dry run, private)". No dollars, counts or balances: the events are the relay's allow-listed fields. MODE stays dry; going live still waits for Noah. Tests: relay 56/56 (9 new), site worker 33/33 (7 new), page states (4 new). | this commit |
 
 ## Requested, not built yet
 

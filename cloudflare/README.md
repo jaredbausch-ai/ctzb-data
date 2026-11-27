@@ -8,7 +8,7 @@ record; the dashboard editor is where they are deployed.
 | `ctzb-feed` | `ctzb-feed-worker.js` | `GITHUB_TOKEN` — Contents: read-only | yes — read-only mirror of the repo |
 | `ctzb-scheduler` | `ctzb-scheduler-worker.js` | `GITHUB_DISPATCH_TOKEN` — Actions: read+write; `TELEGRAM_BOT_TOKEN` for the health monitor | no data route; `/health` only |
 | `ctzb-dashboard` | `ctzb-dashboard-worker.js` (**generated** — see below) | `TELEGRAM_BOT_TOKEN` (the alert bot; `DASHBOARD_PASSWORD` in password mode); reads the mirror over a Service Binding | **no** — every path behind a gate that fails closed |
-| `ctzb-trades` | `ctzb-trades-worker.js` | `COINBASE_KEY_NAME` and `COINBASE_PRIVATE_KEY` — Coinbase CDP key, **View only**; `DRY_VIEW_PASSWORD` for `/dry` | `/health` only until `MODE=live`; then `/trades.json` |
+| `ctzb-trades` | `ctzb-trades-worker.js` | `COINBASE_KEY_NAME` and `COINBASE_PRIVATE_KEY` — Coinbase CDP key, **View only**; `DRY_VIEW_PASSWORD` for `/dry`; optional `PREVIEW_TOKEN` (27 Nov 2026) for `/preview.json` | `/health` only until `MODE=live`; then `/trades.json`. `/preview.json` answers only a request carrying `x-ctzb-preview` = `PREVIEW_TOKEN` (ctzb-site, over its binding); anything else gets the same 404 as an unknown path |
 | `ctzb-site` | `ctzb-site-worker.js` (**generated** by `build_site.py`) | `SITE_PASSWORD` in password mode; reads the mirror and `ctzb-trades` over Service Bindings | **no** — every path behind a gate that fails closed |
 
 They are separate on purpose. The public mirror must never hold a credential that
@@ -80,7 +80,7 @@ rebuilding leaves it unchanged. The page reads `data/...` by relative path;
 the Worker answers from fixed tables only: the feed and `ledger.csv` from the mirror,
 candles from the mirror's `datasets/candles_<asset>_<tf>.csv` (written by `extras_live.py`
 each run; a file whose last line has no line end was cut short and is refused, 502), trades from `ctzb-trades` (404 until it goes live, which the page shows as "the lead
-trader's feed is unavailable"). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
+trader's feed is unavailable"; since 27 Nov 2026, when this Worker holds `PREVIEW_TOKEN`, the dry-run trades from `/preview.json` instead, which the page labels "Dry run · private"). Bindings `MIRROR` -> ctzb-feed, `TRADES` -> ctzb-trades; gate `GATE_MODE`
 `access` (`ACCESS_TEAM_DOMAIN`, `ACCESS_AUD`) or `password` (`SITE_PASSWORD`), unset =
 refuse everything. Setup: `BRIEF_site.md`. Tests: `node tests/test_site_worker.mjs` (26).
 

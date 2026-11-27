@@ -9,7 +9,9 @@
  *   /data/ctzb_feed.json        <- ctzb-feed mirror  /feed/ctzb_feed.json
  *   /data/ledger.csv            <- ctzb-feed mirror  /datasets/ledger.csv
  *   /data/candles/ETH_1D.json   <- ctzb-feed mirror  /datasets/candles_eth_1d.csv, as JSON
- *   /data/trades.json           <- ctzb-trades       /trades.json (404 until MODE=live)
+ *   /data/trades.json           <- ctzb-trades       /trades.json (404 until MODE=live); until then, when this
+ *                                  Worker holds PREVIEW_TOKEN, ctzb-trades /preview.json: the dry-run trades,
+ *                                  marked "dry_run": true, which the page labels private (27 Nov 2026)
  *   /data/example_...json       <- built in
  * Both sources are reached by Service Binding, Worker to Worker. Nothing a caller sends is
  * ever joined into an upstream path: every upstream path comes from a fixed table, and the
@@ -22,6 +24,8 @@
  *   ACCESS_TEAM_DOMAIN  plain var, access mode: e.g. "ethkros.cloudflareaccess.com"
  *   ACCESS_AUD          plain var, access mode: the Access application's AUD tag
  *   SITE_PASSWORD       secret, password mode only
+ *   PREVIEW_TOKEN       secret, optional (27 Nov 2026): the same value as ctzb-trades' PREVIEW_TOKEN. Sent only
+ *                       to ctzb-trades over its service binding, only after this Worker's own gate has passed.
  *
  * THE GATE FAILS CLOSED. Every path is refused unless the configured gate passes, and an
  * unset or unknown GATE_MODE refuses everything. In access mode the Access JWT's signature,
@@ -135,10 +139,10 @@ function csvToBars(text) {
   if (!bars.every((b) => [b.t, b.o, b.h, b.l, b.c].every(Number.isFinite))) throw new Error("a candle row is not numbers");
   return bars;
 }
-async function upstream(env, from, path) {
+async function upstream(env, from, path, headers) {
   const svc = env[from];
   if (!svc || typeof svc.fetch !== "function") return null;
-  try { return await svc.fetch(new Request("https://" + from.toLowerCase() + path, { method: "GET" })); } catch (_) { return null; }
+  try { return await svc.fetch(new Request("https://" + from.toLowerCase() + path, { method: "GET", headers: headers || {} })); } catch (_) { return null; }
 }
 const dataHeaders = (type) => ({ "content-type": type, "cache-control": "no-store", ...SEC_HEADERS });
 
@@ -151,7 +155,11 @@ async function handle(req, env, fetchImpl = fetch) {
     return new Response(PAGE, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "content-security-policy": PAGE_CSP, ...SEC_HEADERS } });
   if (p === "/data/example_ETH-2D-2024-09-22.json") return new Response(EXAMPLE, { headers: dataHeaders("application/json; charset=utf-8") });
   if (FIXED[p]) {
-    const f = FIXED[p], r = await upstream(env, f.from, f.path);
+    const f = FIXED[p];
+    let r = await upstream(env, f.from, f.path);
+    // the lead trader's feed is 404 until it goes live: behind this gate, show the dry run instead (27 Nov 2026)
+    if (p === "/data/trades.json" && r && r.status === 404 && env.PREVIEW_TOKEN)
+      r = await upstream(env, "TRADES", "/preview.json", { "x-ctzb-preview": String(env.PREVIEW_TOKEN) });
     if (!r) return deny(502, "Data source unavailable");
     if (!r.ok) return deny(r.status === 404 ? 404 : 502, r.status === 404 ? "Not available" : "Data source unavailable");
     return new Response(r.body, { headers: dataHeaders(f.type) });

@@ -25,10 +25,15 @@
  * so switching to live never publishes dry-run history.
  *
  * Routes: /health (public, no trade data), /trades.json (public in live mode only),
- * /dry (password gate; fails closed if DRY_VIEW_PASSWORD is unset).
+ * /dry (password gate; fails closed if DRY_VIEW_PASSWORD is unset),
+ * /preview.json (27 Nov 2026: the dry-run trades in exactly the /trades.json shape, plus "dry_run": true, for the
+ * member site behind its login, so Jared and Joe see the feed working before it goes live. Answered only to a
+ * request carrying the header x-ctzb-preview equal to the secret PREVIEW_TOKEN, which only ctzb-site holds and
+ * sends over its service binding; anything else, PREVIEW_TOKEN unset included, gets the same 404 as an unknown
+ * path. In live mode it is 404 too: /trades.json is the source then.)
  *
  * Bindings: KV `TRADES`. Secrets: COINBASE_KEY_NAME, COINBASE_PRIVATE_KEY (ECDSA, PEM),
- * DRY_VIEW_PASSWORD. Var: MODE. Cron: `* * * * *` (every minute).
+ * DRY_VIEW_PASSWORD, PREVIEW_TOKEN (optional). Var: MODE. Cron: `* * * * *` (every minute).
  *
  * The first run takes a baseline: positions already open are recorded, not posted.
  * Every fill is de-duplicated by its entry id. Positions are reconciled against
@@ -428,6 +433,13 @@ async function handle(req, env) {
     const events = ((kv && (await kv.get("events", { type: "json" }))) || []).filter((e) => e.mode === "live");
     return json({ label: LABEL, disclosure: DISCLOSURE, updated_at: state.last_ok_at, trades: events }, 200,
       { "access-control-allow-origin": "*" });
+  }
+  if (url.pathname === "/preview.json") {
+    // the same 404 as an unknown path whatever is wrong, so the route reveals nothing to a caller without the token
+    const tok = req.headers.get("x-ctzb-preview") || "";
+    if (mode === "live" || !env.PREVIEW_TOKEN || !tok || !(await sameSecret(tok, env.PREVIEW_TOKEN))) return json({ error: "Not found" }, 404);
+    const events = ((kv && (await kv.get("events", { type: "json" }))) || []).filter((e) => e.mode === "dry");
+    return json({ label: LABEL, disclosure: DISCLOSURE, updated_at: state.last_ok_at, dry_run: true, trades: events });
   }
   if (url.pathname === "/dry") {
     if (!env.DRY_VIEW_PASSWORD) return json({ error: "Dry-run view not configured" }, 503);
