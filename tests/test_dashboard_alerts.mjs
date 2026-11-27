@@ -28,16 +28,16 @@ let r = await _test.notify(env(k), tg);
 check("new alert is sent once", r.sent === 1 && sends.length === 1);
 check("sent to the configured chat only", sends[0].body.chat_id === "999");
 const text = sends[0].body.text;
-check("forming message carries the card's numbers", text.includes("FORMING  ETH 2D") && text.includes("88% of 33 past signals (78% without ever falling 25.3%)") && text.includes("must close above 2124.00") && text.includes("Grade A+"), JSON.stringify(text.split("\n")[0]));
+check("forming message carries the card's numbers", text.startsWith("FORMING \u00b7 ETH \u00b7 2-day chart\n") && text.includes("Confirms 12 Nov 2026 if it closes above 2,124.00. It can still vanish.") && text.includes("\nTOP GRADE\n") && text.includes("88% of 33 past signals rose 10% within 60 days") && text.includes("Typical drop from entry: \u221210.5%"), JSON.stringify(text));
 check("message carries the computed-signal label", text.includes("Computed signal, not a trade"));
 sends = []; for (let i = 0; i < 16; i++) await _test.notify(env(k), tg);
 check("16 more ticks on the same feed (a 4h feed read every 15 min): no resend", sends.length === 0);
 
 feed = feedWith([A("confirmed")], { cards: [], prints: [{ signal_id: "ETH-2D-2026-11-12", confirms_on: "2026-11-12", entry_close: 2131.5, tags: "A + filled diamond" }] });
 sends = []; await _test.notify(env(k), tg);
-check("confirmed is its own alert, sent once", sends.length === 1 && sends[0].body.text.includes("CONFIRMED  ETH 2D") && sends[0].body.text.includes("2131.50 on 2026-11-12"));
+check("confirmed is its own alert, sent once", sends.length === 1 && sends[0].body.text.startsWith("CONFIRMED \u00b7 ETH \u00b7 2-day chart") && sends[0].body.text.includes("Entry: close 2,131.50 on 12 Nov 2026"));
 feed = feedWith([A("vanished", "BTC-1D-2026-11-13", "BTC 1D")]); sends = []; await _test.notify(env(k), tg);
-check("vanished alert sent", sends.length === 1 && sends[0].body.text.startsWith("VANISHED  BTC 1D"));
+check("vanished alert sent", sends.length === 1 && sends[0].body.text.startsWith("VANISHED \u00b7 BTC \u00b7 1-day chart\nThe forming low didn't confirm."));
 
 k = kv(); feed = feedWith([A("forming")], { alerts_withheld: true }); sends = [];
 r = await _test.notify(env(k), tg); check("withheld feed: nothing sent", sends.length === 0 && r.skipped === "withheld");
@@ -78,23 +78,32 @@ check("GET on the test path does nothing", t4.status === 405 && sends.length ===
   check("heartbeat even when the mirror is down, with the reason", JSON.parse(k5.m.get("heartbeat")).result.skipped === "feed unreadable");
   check("heartbeat never holds the bot token", !k5.m.get("heartbeat").includes(TOKEN)); }
 
-// 26 Nov 2026 (Jared): the bucket tags must never read as a grade
-{ const T = (a, f) => _test.alertText(a, f).split("\n");
-  const open = (grade, tags) => ({ signal_id: "ETH-2D-2026-11-26", grade, confirmations: "FCOOL", tags, entry_date: "2026-11-26", entry_close: 1687.61 });
-  const fc = (grade, tags) => ({ cards: [], prints: [{ signal_id: "ETH-2D-2026-11-26", confirms_on: "2026-11-26", entry_close: 1687.61, tags }], open_signals: [open(grade, tags)] });
-  let L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("C", "A + filled diamond"));
-  check("confirmed, grade C, bucket A + filled diamond: the grade line comes first and says not top grade",
-    L[1] === "Grade C (FCOOL) · not top grade: not listed as a live setup on the member site", L[1]);
-  check("...the tags read as the bucket, with no \"A +\"", L.includes("Bucket A · filled diamond") && !L.join("\n").includes("A +") && !L.join("\n").includes("Tags:"), L.join(" | "));
-  L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("A+", "A"));
-  check("confirmed A+: top grade, a live setup on the member site", L[1] === "Grade A+ (FCOOL) · top grade: a live setup on the member site" && L.includes("Bucket A"), L.join(" | "));
-  L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("B", "C + hollow diamond + prime dot"));
-  check("several tags: Bucket C · hollow diamond · prime dot", L.includes("Bucket C · hollow diamond · prime dot"), L.join(" | "));
-  L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("C", "odd tag"));
-  check("a tag that is not a bucket still shows, labelled as tags", L.includes("Tags: odd tag"), L.join(" | "));
-  L = T(A("forming"), feedWith([]));
-  check("forming A+: grade line says top grade (no member-site claim while forming)", L.includes("Grade A+ (GAP + HIGH + AGREE + BTC3) · top grade"), L.join(" | "));
-  L = T(A("forming"), feedWith([], { cards: [{ ...card, grade: "B" }] }));
-  check("forming B: not top grade", L.includes("Grade B (GAP + HIGH + AGREE + BTC3) · not top grade"), L.join(" | ")); }
+// 27 Nov 2026 (Jared): one plain format. Top grade = A+, no letter, no lens codes, no tags, no 25.3% or +20% figures
+{ const T = (a, f) => _test.alertText(a, f);
+  const oc = { rose10_within60d_pct: 71, past_trades: 38, typical_deepest_dip_pct: -13.5, sample: "all 38 past BTC 2D signals with exactly the same confirmations",
+    rose10_never_fell25_within60d_pct: 63, rose20_within60d_pct: 52 };
+  const open = (grade, extra = {}) => ({ signal_id: "BTC-2D-2026-11-26", grade, confirmations: "BTCX", tags: "A + filled diamond", entry_date: "2026-11-26", entry_close: 60495.57, card: { ...oc, ...extra } });
+  const fc = (grade, extra) => ({ cards: [], prints: [{ signal_id: "BTC-2D-2026-11-26", confirms_on: "2026-11-26", entry_close: 60495.57, tags: "A + filled diamond" }], open_signals: [open(grade, extra)] });
+  const C = A("confirmed", "BTC-2D-2026-11-26", "BTC 2D");
+  let t = T(C, fc("C"));
+  check("confirmed, grade C: the whole message", t === "CONFIRMED \u00b7 BTC \u00b7 2-day chart\nEntry: close 60,495.57 on 26 Nov 2026\nNot top grade\n71% of 38 past signals rose 10% within 60 days\nTypical drop from entry: \u221213.5%\n\nComputed signal, not a trade. Entry quality only.", JSON.stringify(t));
+  check("no letter grade, lens code, tag, 25.3% or +20% figure anywhere", !/Grade|\bC\b|BTCX|Bucket|Tags|diamond|A \+|25\.3|63%|52%/.test(t), t);
+  for (const g of ["A", "B", "C"]) check(`grade ${g} reads "Not top grade"`, T(C, fc(g)).split("\n")[2] === "Not top grade");
+  t = T(C, fc("A+"));
+  check("grade A+ reads TOP GRADE", t.split("\n")[2] === "TOP GRADE" && !t.includes("A+"), t);
+  t = T(C, fc("B", { sample: "all 30 past signals of grade B across the ETH 1D, 2D, 3D and 5D charts (ETH 2D alone has only 9, too few to use)", past_trades: 30 }));
+  check("a pooled sample says it is pooled across the asset's charts", t.includes("of 30 past BTC signals across its 1- to 5-day charts rose 10%"), t);
+  t = T(C, { cards: [], prints: [{ signal_id: "BTC-2D-2026-11-26", confirms_on: "2026-11-26", entry_close: 60495.57 }], open_signals: [] });
+  check("confirmed with no open signal yet: what and when only, no label or odds", t.startsWith("CONFIRMED \u00b7 BTC \u00b7 2-day chart\nEntry: close 60,495.57 on 26 Nov 2026\n\nComputed signal"), JSON.stringify(t));
+  t = T(C, fc("C", { rose10_within60d_pct: null }));
+  check("a card with no odds says so", t.includes("Not top grade\nOdds not available\n"), JSON.stringify(t));
+  t = T(A("forming", "X", "ETH 3D"), { cards: [], prints: [], open_signals: [] });
+  check("forming with no card: still says it can vanish", t === "FORMING \u00b7 ETH \u00b7 3-day chart\nNot confirmed yet. It can still vanish.\n\nComputed signal, not a trade. Entry quality only.", JSON.stringify(t));
+  t = T(A("forming"), feedWith([], { cards: [{ ...card, grade: "B", must_close_above: 1459.5 }] }));
+  check("forming B: Not top grade, price with a thousands separator", t.includes("if it closes above 1,459.50.") && t.includes("\nNot top grade\n"), JSON.stringify(t));
+  t = T(A("forming"), feedWith([], { cards: [{ ...card, must_close_above: null }] }));
+  check("forming with no price line: the date only", t.includes("Confirms 12 Nov 2026. It can still vanish."), JSON.stringify(t));
+  t = T(A("vanished", "X", "ETH weekly"), feedWith([]));
+  check("a chart name outside the pattern is shown as it is", t.startsWith("VANISHED \u00b7 ETH weekly\n"), t); }
 console.log(`\n${res.filter(Boolean).length}/${res.length} passed`);
 process.exit(res.every(Boolean) ? 0 : 1);

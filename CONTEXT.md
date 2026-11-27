@@ -1300,6 +1300,8 @@ filter shrank the sample to +7. Of 92 filters tested before 22 Oct, only the WGM
 one cleared agreement across four datasets — and it is the one that cannot be
 rebuilt. The CT/Signal distance filter is the first clean survivor since.
 
+**Top grade at a 70% bar on the card's own number (27 Nov 2026) — FAILED, top grade stays A+.** Declared before running (`analysis/topgrade.py`): each signal from 2019 judged by the card it would have had on its confirmation day (sample rule as stack_live, only signals closed by then; the rebuild reproduces all 20 live cards exactly), outcome rose 10% before falling 25.3% within 60 days. From-entry share >= 70%: 536 top / 220 not, 70% vs 64% (+6; rule needs +10 and both assets; ETH reversed 69% vs 70%). With 15+ in the sample: 67% vs 71%. Headline >= 70%: +3. Grade A+: 127 vs 629, 83% vs 66% (+17), with hindsight in its lens lists. Result `analysis/RESULTS_topgrade.md`. Do not re-test a 70% card-number bar as the top-grade label. Jared 27 Nov: members and alerts see "Top grade" (A+) or "Not top grade", never a letter, with the card's own number beside it. Entry quality only.
+
 ## Where the current regime sits
 
 The regime turned on 2026-09-02. As of 19 Oct 2026 that is 47 days, which is

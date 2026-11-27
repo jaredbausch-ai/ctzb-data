@@ -300,7 +300,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
           <div class="sec-title" style="color: var(--live)">How the signals work</div>
           <p>Our indicator watches Bitcoin and Ethereum on the daily and multi-day charts. It looks for one specific moment: when selling pressure has run its course and buyers start taking back control.</p>
           <p>A signal never fires on a guess. The setup has to form, then hold through a few candle closes before it confirms. A confirmed setup is final and can't vanish. A forming setup can: it is shown before the confirming close.</p>
-          <p>A signal only counts if our market filter said the broader trend was on your side on the day the bar that made its low opened (on a 2D, 3D or 5D chart that can be a few days before the low itself). In a downtrend the system stays quiet, sometimes for a year. The header shows the filter as it is today, so a setup whose low came just before the filter turned off can still appear while the header reads off.</p>
+          <p>A signal only counts if our market filter said the broader trend was on your side on the day the bar that made its low opened (on a 2-, 3- or 5-day chart that can be a few days before the low itself). In a downtrend the system stays quiet, sometimes for a year. The header shows the filter as it is today, so a setup whose low came just before the filter turned off can still appear while the header reads off.</p>
           <p>Every setup is checked against several separate confirmations. Only the ones where the most line up reach the top grade.</p>
           <p>The odds on each card come from how past signals like this one behaved over the next 60 days: the same confirmations on the same chart when there are enough, otherwise the same grade, as the card says under its big number. They measure the quality of the entry, not a trading result.</p>
         </div>
@@ -334,6 +334,11 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const NS = "http://www.w3.org/2000/svg";
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  // 27 Nov 2026 (Jared): charts in plain words for members, the same as the Telegram alerts: "ETH 2-day", "1- to 5-day charts".
+  // Display only: the feed keeps its own chart names.
+  const tfWords = (tf) => String(tf ?? "").replace(/^(\d+)D$/, "$1-day");
+  const chartWords = (c) => String(c ?? "").replace(/\b(\d+)D\b/g, "$1-day");
+  const sampleWords = (s) => String(s ?? "").replace(/\b(\d)D, (\d)D, (\d)D and (\d)D charts/g, "$1-, $2-, $3- and $4-day charts").replace(/\b(\d+)D\b/g, "$1-day");
   const MINUS = "−";
   const fmt = (v, d = 1) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : (+(+v).toFixed(d) === 0 ? (0).toFixed(d) : (+v).toFixed(d).replace("-", MINUS));
   const pct = (v, d = 1, sign = true) => (v === null || v === undefined || Number.isNaN(+v)) ? "n/a" : ((sign && +(+v).toFixed(d) > 0 ? "+" : "") + fmt(v, d) + "%");
@@ -699,13 +704,13 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const cur = selected(), on = (id) => String(!!cur && cur.signal_id === id);
     const live = openSignals(), forming = selectable().filter((c) => !c._open);
     const liveBtns = live.length ? live.map((o) => `<button class="pick top" data-sel="${esc(o.signal_id)}" aria-pressed="${on(o.signal_id)}">
-        ${esc(o.chart)} <b>Day ${o.days_elapsed}</b><span class="small">best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</span></button>`).join("")
+        ${esc(chartWords(o.chart))} <b>Day ${o.days_elapsed}</b><span class="small">best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</span></button>`).join("")
       : `<span class="pnone">${NOT_OK[feedHealth()] || "No live top-grade setups right now."}</span>`;
     const formBtns = forming.length ? forming.map((c) => `<button class="pick ${c.grade === "A+" ? "top" : "below"}" data-sel="${esc(c.signal_id)}" aria-pressed="${on(c.signal_id)}">
-        ${esc(c.chart)} <b>${pc(c.rose10_within60d_pct)}</b><span class="small">rose 10% in 60 days · n ${c.past_trades ?? "n/a"} · ${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
+        ${esc(chartWords(c.chart))} <b>${pc(c.rose10_within60d_pct)}</b><span class="small">rose 10% in 60 days · n ${c.past_trades ?? "n/a"} · ${c.grade === "A+" ? "top grade" : "not top grade"} · confirms ${dateLong(c.confirms_on)}</span></button>`).join("")
       : `<span class="pnone">${NOT_OK[feedHealth()] || "No setup with a card forming today."}</span>`;
     $("#picker").innerHTML = `<div class="prow"><span class="plabel">Live</span>${liveBtns}</div>
-      <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2D, Sep 2024</button></div>`;
+      <div class="prow"><span class="plabel">Forming</span>${formBtns}<button class="pick ex" data-sel="example" aria-pressed="${S.preview}">Example: ETH 2-day, Sep 2024</button></div>`;
   }
   function cardFromFeed(c) {
     return {
@@ -775,7 +780,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       return;
     }
     if (!m && S.preview) {
-      box.innerHTML = `<div class="card-head"><div class="where">ETH · 2D chart · example</div><div class="state" style="--c: var(--muted)" data-state="quiet">Example unavailable</div></div>
+      box.innerHTML = `<div class="card-head"><div class="where">ETH · 2-day chart · example</div><div class="state" style="--c: var(--muted)" data-state="quiet">Example unavailable</div></div>
         <div class="empty-card"><div class="big">The worked example isn't in the latest data</div><div class="small" style="max-width: 46ch">It comes back with the next good run. Live and forming setups are unaffected.</div></div>
         <div class="card-foot"><span class="fine">Statistics from past signal history. Entry quality only: no exit, not a trade or a track record.</span></div>`;
       return;
@@ -807,7 +812,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const missFront = !mi ? "n/a" : !mi.misses ? "none missed" : `median best ${pct(mi.median_peak_pct)}`;
     box.innerHTML = `
       <div class="card-head">
-        <div class="where">${esc(m.asset)} · ${esc(m.tf)} chart${m.kind === "example" ? " · example" : ""}</div>
+        <div class="where">${esc(m.asset)} · ${esc(tfWords(m.tf))} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${m.soFar ? `<div class="small" style="color: var(--muted)">${esc(m.soFar)}</div>` : ""}
@@ -819,7 +824,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <div class="odds">
           <div class="big num"${lost ? ' style="opacity: 0.5"' : ""}>${pc(m.reach10)}</div>
           <div style="font-size: 14px; color: var(--soft)">rose 10% within 60 days</div>
-          <div class="small">${m.fromCard ? `from ${m.n} past ${esc(m.asset)} ${/ across the /.test(m.sample || "") ? "signals across its 1D to 5D charts" : esc(m.tf) + " signals"}` : `from all ${m.n} ${esc(m.asset)} top-grade signals`}${m.kind === "open" ? " · measured from the entry close" : ""}</div>
+          <div class="small">${m.fromCard ? `from ${m.n} past ${esc(m.asset)} ${/ across the /.test(m.sample || "") ? "signals across its 1- to 5-day charts" : esc(tfWords(m.tf)) + " signals"}` : `from all ${m.n} ${esc(m.asset)} top-grade signals`}${m.kind === "open" ? " · measured from the entry close" : ""}</div>
         </div>
         <div class="stats num">
           <div class="kv"><span>Typical drop from entry</span><span class="lo">${pct(m.drop)}</span></div>
@@ -831,7 +836,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
         <summary><span class="when-shut">Show the detail ▾</span><span class="when-open">Hide the detail ▴</span></summary>
         <div class="detail">
           ${m.kind === "open" ? `<div class="small" style="color: ${lost ? "var(--drop)" : "var(--high)"}"><b>${edgeWord}.</b> ${edgeSentence} The odds on this card are measured from the entry close, not from today's price.</div>` : ""}
-          ${m.fromCard && m.sample ? `<div class="small">Sample: ${esc(m.sample)}. Every figure covers the 60 days after entry${m.kind === "open" ? ", measured from the entry close, not from today's price" : ""}.</div>` : ""}
+          ${m.fromCard && m.sample ? `<div class="small">Sample: ${esc(sampleWords(m.sample))}. Every figure covers the 60 days after entry${m.kind === "open" ? ", measured from the entry close, not from today's price" : ""}.</div>` : ""}
           <div class="kvs num">
             <div class="kv"><span>Rose 10% without ever falling 25.3%</span><span class="hi">${pc(m.surv10)}</span></div>
             <div class="kv"><span>Typical high</span><span class="hi">${pct(m.high)}</span></div>
@@ -949,12 +954,12 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const recent = S.ledger.slice().sort((a, b) => b.entry.localeCompare(a.entry)).slice(0, 5);
     $("#prevClosed").innerHTML = fading.map((o) => miniOpen(o, "fading")).join("") + (S.loading && S.loading.ledger ? `<div class="none">Loading past signals…</div>` : S.ledgerOk ? "" : `<div class="none">Past signals unavailable right now.</div>`) + recent.map((r) => `
       <div class="mini closed">
-        <div><div class="name">${esc(r.chart)}</div><div class="sub num">${dateLong(r.entry)} · best ${pct(+r.bestMove)} · worst ${pct(+r.maxDrawdown)}</div></div>
+        <div><div class="name">${esc(chartWords(r.chart))}</div><div class="sub num">${dateLong(r.entry)} · best ${pct(+r.bestMove)} · worst ${pct(+r.maxDrawdown)}</div></div>
         <span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Reached +20%" : r.reached10 === "yes" ? "Rose 10%" : "Missed"}</span>
       </div>`).join("");
   }
   function miniOpen(o, cls) {
-    return `<div class="mini ${cls}"><div><div class="name">${esc(o.chart)}</div><div class="sub num">Day ${o.days_elapsed} of 60 · best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</div></div>
+    return `<div class="mini ${cls}"><div><div class="name">${esc(chartWords(o.chart))}</div><div class="sub num">Day ${o.days_elapsed} of 60 · best ${pct(o.best_so_far_pct)} · worst ${pct(o.worst_so_far_pct)}</div></div>
       <span class="badge ${cls ? "no" : "yes"}">${cls === "fading" ? "Edge lost" : o.edge_status === "rose10" ? "Rose 10%" : "On track"}</span></div>`;
   }
 
@@ -1228,7 +1233,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $("#chartSide").innerHTML = `
       <div class="sidebox">
         <div class="sec-title" style="color: var(--live)">What the card says</div>
-        <div class="small">${esc(m.chart)}${m.kind === "example" ? " · example" : ""}${m.sample ? ` · from ${esc(m.sample)}` : ""}${m.kind === "open" ? " · odds measured from the entry close, not from today" : ""}</div>
+        <div class="small">${esc(chartWords(m.chart))}${m.kind === "example" ? " · example" : ""}${m.sample ? ` · from ${esc(sampleWords(m.sample))}` : ""}${m.kind === "open" ? " · odds measured from the entry close, not from today" : ""}</div>
         <div style="font-size: 42px; font-weight: 700; line-height: 1" class="num">${pc(m.reach10)}</div>
         <div class="small">rose 10% within 60 days, from ${m.n} past signals; ${pc(m.surv10)} without ever falling 25.3%</div>
         <div class="kv num"><span class="small">Typical high</span><b class="hi">${pct(m.high)} · ${money(pxAt(m.entry, m.high))}</b></div>
@@ -1260,7 +1265,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     $$(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.asset === S.asset)));
     $("#recCount").textContent = S.loading && S.loading.ledger ? "Loading past signals…" : S.ledgerOk ? `${rows.length} signals · ${rows.filter((r) => r.reached10 !== "yes").length} missed +10%` : "Past signals unavailable right now";
     $("#recBody").innerHTML = rows.map((r) => `<tr>
-      <td>${dateLong(r.entry)}</td><td>${esc(r.chart)}</td><td>${money(+r.entryPrice)}</td>
+      <td>${dateLong(r.entry)}</td><td>${esc(chartWords(r.chart))}</td><td>${money(+r.entryPrice)}</td>
       <td><span class="badge ${r.reached10 === "yes" ? "yes" : "no"}">${r.reached10 === "yes" ? "Yes" : "No"}</span></td>
       <td><span class="badge ${r.reached20 === "yes" ? "yes" : "no"}">${r.reached20 === "yes" ? "Yes" : "No"}</span></td>
       <td class="hi">${pct(+r.bestMove)}</td><td class="lo">${pct(+r.maxDrawdown)}</td><td>${pct(+r.return60d)}</td><td>${r.daysToHigh}</td></tr>`).join("");

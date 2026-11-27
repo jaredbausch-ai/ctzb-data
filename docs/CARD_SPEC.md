@@ -113,6 +113,19 @@ trader: loading / in · long / in · short / out / not in / unavailable" (his ne
   "bucket") on a card, and on the member card no grade letters (the console shows them): the grade stays internal, so a member card says "the top grade" or
   "the same grade" (12 Nov 2026 audit #11; the sample line, e.g. "all 37 past BTC 1D signals of the same
   grade", and the miss tiles, e.g. "95 misses of all 313 BTC same-grade signals" (illustrative; the figure moves as signals close)).
+- Top grade is grade A+ (4 or more of the asset's lenses at entry), on the member site and in the Telegram alerts
+  alike; everything else reads "Not top grade" (Jared, 27 Nov 2026). No grade letter is shown to a member or in an
+  alert. The card's own "rose 10% within 60 days" is shown beside the label either way, and can be higher on a card
+  that isn't top grade: the label and the number measure different things. Checked 27 Nov 2026 before keeping A+:
+  a 70% bar on the card's own number (from-entry share, or the headline) failed its declared walk-forward rule, A+
+  separated by 17 points (`analysis/topgrade.py`, `analysis/RESULTS_topgrade.md`).
+- Charts are named in plain words for members and in the alerts: "ETH · 2-day chart", "ETH 2-day", "across its
+  1- to 5-day charts" (27 Nov 2026). The feed and the console keep "ETH 2D".
+- A Telegram alert has four parts, in this order: what and when (state, asset, chart; the entry close and date, or
+  the confirmation date and the close it must beat); the label; the card's "X% of N past signals rose 10% within 60
+  days"; "Typical drop from entry". Then "Computed signal, not a trade. Entry quality only." Nothing else: no
+  letters, lens codes, tags, signal ids, 25.3% or +20% figures (27 Nov 2026; `cloudflare/dashboard_worker_template.js`
+  `alertText`).
 - The card says once, under the big number, that every figure covers the 60 days after entry ("rose 10%
   within 60 days" ... "every figure covers the 60 days after entry"). A figure on a different window
   names its window (e.g. "after day 10", "by day 60").

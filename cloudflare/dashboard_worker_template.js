@@ -151,51 +151,54 @@ async function gate(req, env, fetchImpl = fetch) {
 /* ---------- Telegram alerts ---------- */
 const NUM = (v, d = 1) => (v === null || v === undefined || v === "" || isNaN(+v)) ? null : (+v).toFixed(d);
 const PCT = (v) => NUM(v, 0) === null ? "n/a" : NUM(v, 0) + "%";
-// 26 Nov 2026 (Jared): "Tags: A + filled diamond" read as grade A+. The grade comes first and says whether it is top
-// grade; the tags are labelled as the bucket, joined by " · " so no "A +" can be read as "A+".
-const isTop = (g) => g === "A+";
-function gradeLine(grade, confirmations, confirmed) {
-  const g = grade || "?";
-  const top = isTop(grade) ? "top grade" + (confirmed ? ": a live setup on the member site" : "")
-    : "not top grade" + (confirmed ? ": not listed as a live setup on the member site" : "");
-  return `Grade ${g}${confirmations ? " (" + confirmations + ")" : ""} · ${top}`;
+// 27 Nov 2026 (Jared): one plain format, the same four parts as the member card. What and when (with the price line),
+// one label (Top grade = grade A+, the site's own test; no letter shown), one number (the card's "rose 10% within 60
+// days" with its sample size) and one risk number (the card's typical drop from entry). Letters, lens codes, bucket
+// and diamond tags, the 25.3% and +20% figures stay on the dashboard. Replaces the 26 Nov wording ("Bucket A · ...").
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const DAYW = (iso) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso || "")); return m ? `${+m[3]} ${MONTHS[+m[2] - 1]} ${m[1]}` : String(iso || "?"); };
+const PRICE = (v) => { const t = NUM(v, 2); if (t === null) return "?"; const [i, d] = t.split("."); return i.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + d; };
+const SIGNED = (v) => { const t = NUM(v, 1); return t === null ? null : (+t < 0 ? "−" + t.slice(1) : "+" + t) + "%"; };
+function chartName(chart) {
+  const m = /^(ETH|BTC) (\d+)D$/.exec(String(chart || ""));
+  return m ? `${m[1]} · ${m[2]}-day chart` : String(chart || "?");
 }
-function bucketLine(tags) {
-  const parts = String(tags).split(" + ").map((s) => s.trim()).filter(Boolean);
-  if (!parts.length) return null;
-  if (/^[A-D]$/.test(parts[0])) return `Bucket ${parts[0]}` + (parts.length > 1 ? " · " + parts.slice(1).join(" · ") : "");
-  return `Tags: ${parts.join(" · ")}`;
+const topLabel = (grade) => grade === "A+" ? "TOP GRADE" : "Not top grade";
+function oddsLines(card, asset) {
+  if (!card || card.rose10_within60d_pct == null || !card.past_trades) return ["Odds not available"];
+  const pooled = / across the /.test(String(card.sample || ""));
+  const of = pooled ? `${card.past_trades} past ${asset} signals across its 1- to 5-day charts` : `${card.past_trades} past signals`;
+  const out = [`${PCT(card.rose10_within60d_pct)} of ${of} rose 10% within 60 days`];
+  const dip = SIGNED(card.typical_deepest_dip_pct);
+  if (dip) out.push(`Typical drop from entry: ${dip}`);
+  return out;
 }
 
 function alertText(a, feed) {
   const card = (feed.cards || []).find((c) => c.signal_id === a.signal_id);
   const print = (feed.prints || []).find((p) => p.signal_id === a.signal_id);
   const open = (feed.open_signals || []).find((o) => o.signal_id === a.signal_id);
+  const asset = String(a.chart || "").split(" ")[0];
   const lines = [];
   if (a.event === "forming") {
-    lines.push(`FORMING  ${a.chart}`);
+    lines.push(`FORMING · ${chartName(a.chart)}`);
     if (card) {
-      lines.push(`Low ${card.low_day || card.low_date}, confirms ${card.confirms_on}` +
-        (card.must_close_above != null ? `, must close above ${NUM(card.must_close_above, 2)}` : ""));
-      lines.push(gradeLine(card.grade, card.confirmations, false));
-      lines.push(`Rose 10% within 60 days: ${PCT(card.rose10_within60d_pct)} of ${card.past_trades ?? "?"} past signals (${PCT(card.rose10_never_fell25_within60d_pct)} without ever falling 25.3%)`);
-      lines.push(`Rose 20%: ${PCT(card.rose20_within60d_pct)}   Typical deepest dip: ${NUM(card.typical_deepest_dip_pct) ?? "n/a"}%`);
+      lines.push(`Confirms ${DAYW(card.confirms_on)}` + (card.must_close_above != null ? ` if it closes above ${PRICE(card.must_close_above)}` : "") + ". It can still vanish.");
+      lines.push(topLabel(card.grade), ...oddsLines(card, asset));
+    } else {
+      lines.push("Not confirmed yet. It can still vanish.");
     }
-    lines.push("Not confirmed yet. It can vanish.");
   } else if (a.event === "confirmed") {
-    lines.push(`CONFIRMED  ${a.chart}`);
-    if (open && open.grade) lines.push(gradeLine(open.grade, open.confirmations, true));
-    const when = (print && print.confirms_on) || (open && open.entry_date);
-    const px = (print && print.entry_close) ?? (open && open.entry_close);
-    if (when) lines.push(`Entry close ${px != null ? NUM(px, 2) : "?"} on ${when}`);
-    const tags = (print && print.tags) || (open && open.tags);
-    const bl = tags ? bucketLine(tags) : null;
-    if (bl) lines.push(bl);
+    lines.push(`CONFIRMED · ${chartName(a.chart)}`);
+    const when = (open && open.entry_date) || (print && print.confirms_on);
+    const px = (open && open.entry_close) ?? (print && print.entry_close);
+    if (when) lines.push(`Entry: close ${px != null ? PRICE(px) : "?"} on ${DAYW(when)}`);
+    if (open) lines.push(topLabel(open.grade), ...oddsLines(open.card, asset));
   } else if (a.event === "vanished") {
-    lines.push(`VANISHED  ${a.chart}`);
-    lines.push(`The forming low (${a.signal_id}) did not confirm: it was taken out, or no longer qualifies.`);
+    lines.push(`VANISHED · ${chartName(a.chart)}`);
+    lines.push("The forming low didn't confirm.");
   } else {
-    lines.push(`${String(a.event).toUpperCase()}  ${a.chart}`);
+    lines.push(`${String(a.event).toUpperCase()} · ${chartName(a.chart)}`);
   }
   lines.push("", "Computed signal, not a trade. Entry quality only.");
   return lines.join("\n");
