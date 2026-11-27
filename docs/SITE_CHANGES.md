@@ -12,9 +12,7 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 16 | Dashboard (ctzb-dashboard): setup alerts to more than one person (Jared, 27 Nov 2026: Joe gets the same alerts in his own chat with the bot; no channel). New optional plain variable `TELEGRAM_EXTRA_CHAT_IDS`, comma-separated numeric ids; each recipient must have pressed Start on the bot. Each recipient's send is recorded on its own (Jared's key unchanged, `sent:<alert>`; another's `sent:<alert>@<id>`), so a failed send to one is retried to that one only and never resent to the other. `/alerts/test` sends to every recipient and reports each status, never the ids. Outage alerts (ctzb-scheduler) unchanged, Jared only. Tests: test_dashboard_alerts 43/43 (9 new), gate 32/32. | this commit |
+Nothing pending.
 
 ## Requested, not built yet
 
