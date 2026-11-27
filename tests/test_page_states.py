@@ -262,7 +262,7 @@ def main():
         below_ids = [c["signal_id"] for c in FEED["cards"] if c["grade"] != "A+"]
         if below_ids:
             t_hn, e_hn = render(pw, FEED, views=("now",), pick=below_ids[0])
-            hn = LAST_HOLO[0]; good = hn is False and "TOP GRADE" not in t_hn["now"].upper().replace("NOT TOP GRADE", "") and not e_hn
+            hn = LAST_HOLO[0]; good = hn is False and "isn't top grade" in t_hn["now"] and not e_hn
             n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a forming card that isn't top grade is plain, no badge" + ("" if good else f"  -- holo={hn}"))
         t_he, e_he = render(pw, FEED, views=("now",), example_on=True)
         he = LAST_HOLO[0]; good = he is False and not e_he
