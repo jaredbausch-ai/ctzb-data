@@ -12,9 +12,7 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 
 ## Pending
 
-| # | Change | Commit |
-|---|---|---|
-| 15 | Member site: chart names in plain words, as the alerts ("ETH · 2-day chart", "ETH 2-day" in the pickers, past-signal lists and the Past signals table, "across its 1- to 5-day charts", and the Sample line). Display only; the feed keeps "ETH 2D". No figure changed. | this commit |
+Nothing pending.
 
 ## Requested, not built yet
 
@@ -25,6 +23,13 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 | R3 | **Member alerts (to double-check before launch). On hold: Jared, 13 Nov 13:59 ET, "We're going to wait on this one."** No member alert channel exists: today every alert goes only to Jared's private Telegram through the dashboard Worker: confirmed alerts for any grade and every chart (8D included), forming and vanished alerts for graded charts with the filter on. The page now says member alerts aren't switched on (13 Nov 2026 audit #22). To decide: the delivery method (push, email, Telegram channel), top grade only, and whether each alert waits for Jared's approval (Joe's 25 Oct plan said it should) or goes out automatically (the pipeline already decides each one). | 13 Nov (Jared) |
 
 ## Deployed
+
+### ctzb-site ab042db1 — 27 Nov 2026 (built from d439409)
+Deployed 27 Nov 2026 about 14:37 EST by Claude in Chrome, Jared approving (148,883 bytes); was 6ba21c7e. Code only. BRIEF_site pinned to d439409.
+
+| # | Change | Commit |
+|---|---|---|
+| 15 | Member site: chart names in plain words, as the alerts ("ETH · 2-day chart", "ETH 2-day" in the pickers, past-signal lists and the Past signals table, "across its 1- to 5-day charts", and the Sample line). Display only; the feed keeps "ETH 2D". No figure changed. | f358505 |
 
 ### ctzb-dashboard 0c0b8aa7 — 27 Nov 2026 (built from f358505)
 Deployed 27 Nov 2026 about 14:34 EST by Claude in Chrome, Jared approving (68,069 bytes); was 5546db82. Code only: no binding, variable, secret or cron changed.
