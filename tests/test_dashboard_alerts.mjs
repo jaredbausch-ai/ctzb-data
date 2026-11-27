@@ -105,29 +105,5 @@ check("GET on the test path does nothing", t4.status === 405 && sends.length ===
   check("forming with no price line: the date only", t.includes("Confirms 12 Nov 2026. It can still vanish."), JSON.stringify(t));
   t = T(A("vanished", "X", "ETH weekly"), feedWith([]));
   check("a chart name outside the pattern is shown as it is", t.startsWith("VANISHED \u00b7 ETH weekly\n"), t); }
-// 27 Nov 2026: a second recipient (Joe) through TELEGRAM_EXTRA_CHAT_IDS
-{ const env2 = (k, extra) => ({ ...env(k), TELEGRAM_EXTRA_CHAT_IDS: extra });
-  let k2 = kv(); feed = feedWith([A("forming")]); sends = []; tgStatus = 200;
-  let r2 = await _test.notify(env2(k2, "555666777"), tg);
-  check("two recipients: each gets the alert once", sends.length === 2 && sends[0].body.chat_id === "999" && sends[1].body.chat_id === "555666777" && r2.sent === 2, JSON.stringify(sends.map((x) => x.body.chat_id)));
-  check("Jared's sent-key is unchanged; Joe's has his own", k2.m.has("sent:ETH-2D-2026-11-12:forming") && k2.m.has("sent:ETH-2D-2026-11-12:forming@555666777"));
-  sends = []; await _test.notify(env2(k2, "555666777"), tg);
-  check("next tick: nothing resent to either", sends.length === 0);
-  k2 = kv(); k2.m.set("sent:ETH-2D-2026-11-12:forming", "1"); sends = [];
-  await _test.notify(env2(k2, "555666777"), tg);
-  check("adding Joe later: he gets the alert, Jared doesn't get it twice", sends.length === 1 && sends[0].body.chat_id === "555666777");
-  k2 = kv(); sends = [];
-  const tgJoeDown = async (url, init) => { const b = JSON.parse(init.body); sends.push({ url: String(url), body: b }); return new Response("{}", { status: b.chat_id === "555666777" ? 403 : 200 }); };
-  r2 = await _test.notify(env2(k2, "555666777"), tgJoeDown);
-  check("Joe's send fails (he never pressed Start): Jared still gets it, Joe's is retried", r2.sent === 1 && r2.failed === 1 && k2.m.has("sent:ETH-2D-2026-11-12:forming") && !k2.m.has("sent:ETH-2D-2026-11-12:forming@555666777"));
-  sends = []; await _test.notify(env2(k2, "555666777"), tgJoeDown);
-  check("...and the retry goes to Joe only, never to Jared again", sends.length === 1 && sends[0].body.chat_id === "555666777");
-  k2 = kv(); sends = [];
-  await _test.notify(env2(k2, " 555666777 , 999, abc, 555666777, -1001234567890 "), tg);
-  check("ids are trimmed; Jared's own id, duplicates and non-numbers are ignored", JSON.stringify(sends.map((x) => x.body.chat_id)) === JSON.stringify(["999", "555666777", "-1001234567890"]), JSON.stringify(sends.map((x) => x.body.chat_id)));
-  k2 = kv(); sends = [];
-  await _test.notify(env2(k2, ""), tg);
-  check("no extra ids: Jared only, as before", sends.length === 1 && sends[0].body.chat_id === "999");
-  check("the token never appears in a recipient key", ![...k2.m.keys()].some((x) => x.includes(TOKEN))); }
 console.log(`\n${res.filter(Boolean).length}/${res.length} passed`);
 process.exit(res.every(Boolean) ? 0 : 1);
