@@ -34,6 +34,9 @@ def candles(a, tf):
     return json.dumps({"chart": f"{a} {tf}", "bars": [{"t": float(r["time"]), "o": float(r["open"]), "h": float(r["high"]), "l": float(r["low"]), "c": float(r["close"])} for r in csv.DictReader(open(p))]})
 
 
+LAST_HOLO = [None]   # whether the last rendered Now view's card frame was holographic (27 Nov 2026)
+
+
 def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex=EX, cut_candles=None, example_on=False, trades=None, pick=None, edit_candles=None, open_detail=True):
     out = {}
     b = pw.chromium.launch(); pg = b.new_page(viewport={"width": 1440, "height": 900})
@@ -74,7 +77,7 @@ def render(pw, feed, views=("now", "chart", "record", "read"), ledger=LEDGER, ex
         # 25 Nov 2026: the card's detail is behind "Show the detail"; every state is read with it open
         if open_detail: pg.evaluate("document.querySelectorAll('details.more').forEach((d) => { d.open = true; })")
         out[v] = pg.inner_text("body")
-        if v == "now": out["now_holo"] = pg.evaluate("document.querySelector('#cardFrame').classList.contains('holo')")
+        if v == "now": LAST_HOLO[0] = pg.evaluate("document.querySelector('#cardFrame').classList.contains('holo')")
     b.close()
     return out, errs
 
@@ -252,15 +255,15 @@ def main():
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with two different fills in the same second: both shown" + ("" if good else f"  -- {t_tw['now'][:200]!r}"))
         # 27 Nov 2026 (Jared): a top-grade card is holographic, black and gold, with a "Top grade" badge; no other card is
         t_hx, e_hx = render(pw, FEED, views=("now",), example_on=True)
-        good = t_hx.get("now_holo") is True and "TOP GRADE" in t_hx["now"].upper() and not e_hx
-        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a top-grade card (the worked example) is holographic, with its badge" + ("" if good else f"  -- holo={t_hx.get('now_holo')} {e_hx[:1]}"))
+        hx = LAST_HOLO[0]; good = hx is True and "TOP GRADE" in t_hx["now"].upper() and not e_hx
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a top-grade card (the worked example) is holographic, with its badge" + ("" if good else f"  -- holo={hx} {e_hx[:1]}"))
         if not any(c["grade"] == "A+" for c in FEED["cards"]) and FEED["cards"]:
             t_hn, e_hn = render(pw, FEED, views=("now",))
-            good = t_hn.get("now_holo") is False and not e_hn
-            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a card that isn't top grade is plain, no holographic frame" + ("" if good else f"  -- holo={t_hn.get('now_holo')}"))
+            hn = LAST_HOLO[0]; good = hn is False and not e_hn
+            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a card that isn't top grade is plain, no holographic frame" + ("" if good else f"  -- holo={hn}"))
         t_hq, e_hq = render(pw, quiet, views=("now",))
-        good = t_hq.get("now_holo") is False and not e_hq
-        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  no setup (quiet market): plain frame" + ("" if good else f"  -- holo={t_hq.get('now_holo')}"))
+        hq = LAST_HOLO[0]; good = hq is False and not e_hq
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  no setup (quiet market): plain frame" + ("" if good else f"  -- holo={hq}"))
         # 27 Nov 2026: before the feed goes live the site shows the dry run, labelled private; a live feed has no label
         t_dr, e_dr = render(pw, FEED, views=("now",), trades={"dry_run": True, "trades": [dict(FILL, id="o1:open")]})
         good = ("Dry run · private." in t_dr["now"] and "nothing is published yet" in t_dr["now"] and "ETH long" in t_dr["now"]
