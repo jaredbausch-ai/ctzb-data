@@ -12,7 +12,9 @@ Live right now: version **6ba21c7e** (25 Nov 2026, 11:54 EST; built from 8efecaf
 
 ## Pending
 
-Nothing pending.
+| # | Change | Commit |
+|---|---|---|
+| 14 | Dashboard (ctzb-dashboard): the Telegram alert's wording (Jared, 26 Nov 2026: the ETH 2D confirmed alert's "Tags: A + filled diamond" read as grade A+; the signal was grade C). The grade line now comes first and says "top grade" or "not top grade", and on a confirmed alert whether it is a live setup on the member site (top grade only). The tags read "Bucket A · filled diamond": the bucket labelled, joined by " · ", so no "A +" can be read as a grade. No figure changed. Tests: test_dashboard_alerts 28/28 (7 new). | this commit |
 
 ## Requested, not built yet
 

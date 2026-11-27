@@ -151,6 +151,21 @@ async function gate(req, env, fetchImpl = fetch) {
 /* ---------- Telegram alerts ---------- */
 const NUM = (v, d = 1) => (v === null || v === undefined || v === "" || isNaN(+v)) ? null : (+v).toFixed(d);
 const PCT = (v) => NUM(v, 0) === null ? "n/a" : NUM(v, 0) + "%";
+// 26 Nov 2026 (Jared): "Tags: A + filled diamond" read as grade A+. The grade comes first and says whether it is top
+// grade; the tags are labelled as the bucket, joined by " · " so no "A +" can be read as "A+".
+const isTop = (g) => g === "A+";
+function gradeLine(grade, confirmations, confirmed) {
+  const g = grade || "?";
+  const top = isTop(grade) ? "top grade" + (confirmed ? ": a live setup on the member site" : "")
+    : "not top grade" + (confirmed ? ": not listed as a live setup on the member site" : "");
+  return `Grade ${g}${confirmations ? " (" + confirmations + ")" : ""} · ${top}`;
+}
+function bucketLine(tags) {
+  const parts = String(tags).split(" + ").map((s) => s.trim()).filter(Boolean);
+  if (!parts.length) return null;
+  if (/^[A-D]$/.test(parts[0])) return `Bucket ${parts[0]}` + (parts.length > 1 ? " · " + parts.slice(1).join(" · ") : "");
+  return `Tags: ${parts.join(" · ")}`;
+}
 
 function alertText(a, feed) {
   const card = (feed.cards || []).find((c) => c.signal_id === a.signal_id);
@@ -162,19 +177,20 @@ function alertText(a, feed) {
     if (card) {
       lines.push(`Low ${card.low_day || card.low_date}, confirms ${card.confirms_on}` +
         (card.must_close_above != null ? `, must close above ${NUM(card.must_close_above, 2)}` : ""));
-      lines.push(`Grade ${card.grade || "?"}${card.confirmations ? " (" + card.confirmations + ")" : ""}`);
+      lines.push(gradeLine(card.grade, card.confirmations, false));
       lines.push(`Rose 10% within 60 days: ${PCT(card.rose10_within60d_pct)} of ${card.past_trades ?? "?"} past signals (${PCT(card.rose10_never_fell25_within60d_pct)} without ever falling 25.3%)`);
       lines.push(`Rose 20%: ${PCT(card.rose20_within60d_pct)}   Typical deepest dip: ${NUM(card.typical_deepest_dip_pct) ?? "n/a"}%`);
     }
     lines.push("Not confirmed yet. It can vanish.");
   } else if (a.event === "confirmed") {
     lines.push(`CONFIRMED  ${a.chart}`);
+    if (open && open.grade) lines.push(gradeLine(open.grade, open.confirmations, true));
     const when = (print && print.confirms_on) || (open && open.entry_date);
     const px = (print && print.entry_close) ?? (open && open.entry_close);
     if (when) lines.push(`Entry close ${px != null ? NUM(px, 2) : "?"} on ${when}`);
     const tags = (print && print.tags) || (open && open.tags);
-    if (tags) lines.push(`Tags: ${tags}`);
-    if (open && open.grade) lines.push(`Grade ${open.grade}${open.confirmations ? " (" + open.confirmations + ")" : ""}`);
+    const bl = tags ? bucketLine(tags) : null;
+    if (bl) lines.push(bl);
   } else if (a.event === "vanished") {
     lines.push(`VANISHED  ${a.chart}`);
     lines.push(`The forming low (${a.signal_id}) did not confirm: it was taken out, or no longer qualifies.`);

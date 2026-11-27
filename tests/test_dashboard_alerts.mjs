@@ -77,5 +77,24 @@ check("GET on the test path does nothing", t4.status === 405 && sends.length ===
   const k5 = kv(); await _test.tick({ ...env(k5), MIRROR: { fetch: async () => { throw new Error("down"); } } }, tg);
   check("heartbeat even when the mirror is down, with the reason", JSON.parse(k5.m.get("heartbeat")).result.skipped === "feed unreadable");
   check("heartbeat never holds the bot token", !k5.m.get("heartbeat").includes(TOKEN)); }
+
+// 26 Nov 2026 (Jared): the bucket tags must never read as a grade
+{ const T = (a, f) => _test.alertText(a, f).split("\n");
+  const open = (grade, tags) => ({ signal_id: "ETH-2D-2026-11-26", grade, confirmations: "FCOOL", tags, entry_date: "2026-11-26", entry_close: 1687.61 });
+  const fc = (grade, tags) => ({ cards: [], prints: [{ signal_id: "ETH-2D-2026-11-26", confirms_on: "2026-11-26", entry_close: 1687.61, tags }], open_signals: [open(grade, tags)] });
+  let L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("C", "A + filled diamond"));
+  check("confirmed, grade C, bucket A + filled diamond: the grade line comes first and says not top grade",
+    L[1] === "Grade C (FCOOL) · not top grade: not listed as a live setup on the member site", L[1]);
+  check("...the tags read as the bucket, with no \"A +\"", L.includes("Bucket A · filled diamond") && !L.join("\n").includes("A +") && !L.join("\n").includes("Tags:"), L.join(" | "));
+  L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("A+", "A"));
+  check("confirmed A+: top grade, a live setup on the member site", L[1] === "Grade A+ (FCOOL) · top grade: a live setup on the member site" && L.includes("Bucket A"), L.join(" | "));
+  L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("B", "C + hollow diamond + prime dot"));
+  check("several tags: Bucket C · hollow diamond · prime dot", L.includes("Bucket C · hollow diamond · prime dot"), L.join(" | "));
+  L = T(A("confirmed", "ETH-2D-2026-11-26"), fc("C", "odd tag"));
+  check("a tag that is not a bucket still shows, labelled as tags", L.includes("Tags: odd tag"), L.join(" | "));
+  L = T(A("forming"), feedWith([]));
+  check("forming A+: grade line says top grade (no member-site claim while forming)", L.includes("Grade A+ (GAP + HIGH + AGREE + BTC3) · top grade"), L.join(" | "));
+  L = T(A("forming"), feedWith([], { cards: [{ ...card, grade: "B" }] }));
+  check("forming B: not top grade", L.includes("Grade B (GAP + HIGH + AGREE + BTC3) · not top grade"), L.join(" | ")); }
 console.log(`\n${res.filter(Boolean).length}/${res.length} passed`);
 process.exit(res.every(Boolean) ? 0 : 1);
