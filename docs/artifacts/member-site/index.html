@@ -789,8 +789,9 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const below = !!m && m.kind === "forming" && !m.top;
     const lost = !!m && m.kind === "open" && m.edgeStatus === "lost";
     frame.style.setProperty("--c", !m ? "var(--closed)" : below || lost ? "var(--fade)" : "var(--live)");
-    // a card with odds whose setup is top grade is holographic (27 Nov 2026); every other state, plain
-    frame.classList.toggle("holo", !!m && !!m.n && m.top === true);
+    // a real setup's card with odds whose setup is top grade is holographic (27 Nov 2026); every other state, plain. The
+    // worked example stays plain: in a quiet market it is the card on screen, and gold would read as a live top grade
+    frame.classList.toggle("holo", !!m && !!m.n && m.top === true && m.kind !== "example");
     if (m && !m.n) {   // a setup with no past signals at all has no odds to show (early history only; audit #18)
       box.innerHTML = `<div class="card-head"><div class="where">${esc(m.chart || "")}</div><div class="state" style="--c: var(--muted)" data-state="quiet">${m.missing ? "Card unavailable" : "No odds yet"}</div></div>
         <div class="empty-card"><div class="big">${m.missing ? "This setup's card isn't in the latest data" : "No past signals like this one yet"}</div><div class="small" style="max-width: 46ch">${m.missing ? "It comes back with the next good run. No figures are shown for it until then." : "This setup has no finished past signals to draw odds from, so no figures are shown for it."}</div></div>
@@ -846,7 +847,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       <div class="card-head">
         <div class="where">${esc(m.asset)} · ${esc(tfWords(m.tf))} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
-        ${m.top === true ? `<span class="holo-badge">Top grade</span>` : ""}
+        ${m.top === true && m.kind !== "example" ? `<span class="holo-badge">Top grade</span>` : ""}
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${m.soFar ? `<div class="small" style="color: var(--muted)">${esc(m.soFar)}</div>` : ""}
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestNote(m)} It isn't top grade. It can still vanish before it confirms.</div>`

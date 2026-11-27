@@ -253,14 +253,20 @@ def main():
         t_tw, e_tw = render(pw, FEED, views=("now",), trades={"trades": [dict(FILL, id="o2:add", action="add"), dict(FILL, id="o1:open")]})
         good = "feed is unavailable" not in t_tw["now"] and t_tw["now"].count("ETH long") >= 2 and not e_tw
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  lead-trader file with two different fills in the same second: both shown" + ("" if good else f"  -- {t_tw['now'][:200]!r}"))
-        # 27 Nov 2026 (Jared): a top-grade card is holographic, black and gold, with a "Top grade" badge; no other card is
-        t_hx, e_hx = render(pw, FEED, views=("now",), example_on=True)
-        hx = LAST_HOLO[0]; good = hx is True and "TOP GRADE" in t_hx["now"].upper() and not e_hx
-        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a top-grade card (the worked example) is holographic, with its badge" + ("" if good else f"  -- holo={hx} {e_hx[:1]}"))
-        if not any(c["grade"] == "A+" for c in FEED["cards"]) and FEED["cards"]:
-            t_hn, e_hn = render(pw, FEED, views=("now",))
-            hn = LAST_HOLO[0]; good = hn is False and not e_hn
-            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a card that isn't top grade is plain, no holographic frame" + ("" if good else f"  -- holo={hn}"))
+        # 27 Nov 2026 (Jared): a real top-grade setup's card is holographic, black and gold, with a "Top grade" badge; no
+        # other card is, the worked example included (in a quiet market it is the card on screen)
+        if LIVE_TOP:
+            t_hx, e_hx = render(pw, FEED, views=("now",), pick=LIVE_TOP)
+            hx = LAST_HOLO[0]; good = hx is True and "TOP GRADE" in t_hx["now"].upper() and not e_hx
+            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a live top-grade card is holographic, with its badge" + ("" if good else f"  -- holo={hx} {e_hx[:1]}"))
+        below_ids = [c["signal_id"] for c in FEED["cards"] if c["grade"] != "A+"]
+        if below_ids:
+            t_hn, e_hn = render(pw, FEED, views=("now",), pick=below_ids[0])
+            hn = LAST_HOLO[0]; good = hn is False and "TOP GRADE" not in t_hn["now"].upper().replace("NOT TOP GRADE", "") and not e_hn
+            n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  a forming card that isn't top grade is plain, no badge" + ("" if good else f"  -- holo={hn}"))
+        t_he, e_he = render(pw, FEED, views=("now",), example_on=True)
+        he = LAST_HOLO[0]; good = he is False and not e_he
+        n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  the worked example is plain" + ("" if good else f"  -- holo={he}"))
         t_hq, e_hq = render(pw, quiet, views=("now",))
         hq = LAST_HOLO[0]; good = hq is False and not e_hq
         n += 1; ok += bool(good); print(f"  {'PASS' if good else '*** FAIL ***'}  no setup (quiet market): plain frame" + ("" if good else f"  -- holo={hq}"))
