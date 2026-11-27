@@ -119,6 +119,8 @@ trader: loading / in · long / in · short / out / not in / unavailable" (his ne
   that isn't top grade: the label and the number measure different things. Checked 27 Nov 2026 before keeping A+:
   a 70% bar on the card's own number (from-entry share, or the headline) failed its declared walk-forward rule, A+
   separated by 17 points (`analysis/topgrade.py`, `analysis/RESULTS_topgrade.md`).
+- On the member site a top-grade card is holographic, black and gold, with a gold "Top grade" badge (27 Nov 2026);
+  the look changes nothing on the card but its frame and colours.
 - Charts are named in plain words for members and in the alerts: "ETH · 2-day chart", "ETH 2-day", "across its
   1- to 5-day charts" (27 Nov 2026). The feed and the console keep "ETH 2D".
 - A Telegram alert has four parts, in this order: what and when (state, asset, chart; the entry close and date, or

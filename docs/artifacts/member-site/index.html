@@ -97,6 +97,36 @@ main { flex: 1; min-height: 0; }
 .stats .kv span:last-child { font-size: 19px; text-align: right; font-weight: 600; }
 .stats .miss span:last-child { font-size: 15px; }
 .hi { color: var(--high); } .lo { color: var(--drop); } .ed { color: var(--fade-2); }
+/* 27 Nov 2026 (Jared): a top-grade card is holographic, black and gold. Only the frame of a card whose setup is top
+   grade gets the class; every figure and word on it is the same as on any other card. Motion stops for anyone whose
+   device asks for reduced motion. */
+@property --holo-ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.frame.holo { border: 3px solid transparent; padding: 4px;
+  background: linear-gradient(#0a0907, #0a0907) padding-box,
+    conic-gradient(from var(--holo-ang), #7a5a12, #f5d77a, #fff6d6, #b8860b, #5c430c, #e9c55a, #fff1c2, #7a5a12) border-box;
+  box-shadow: 0 0 24px rgba(233, 197, 90, .40), 0 0 52px rgba(184, 134, 11, .22); animation: holoSpin 4s linear infinite; }
+@keyframes holoSpin { to { --holo-ang: 360deg; } }
+.frame.holo > .in { position: relative; overflow: hidden; background: #0a0907; border-color: #3a2d0c; }
+.frame.holo .card-head { background: #0f0d08; border-bottom-color: #3a2d0c; }
+.frame.holo .card-head .state { background: linear-gradient(90deg, #b8860b, #f5d77a, #fff6d6, #e9c55a, #b8860b); background-size: 300% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: none; animation: holoSlide 5s linear infinite; }
+.frame.holo .odds .big { background: linear-gradient(110deg, #e9c55a 0%, #fff6d6 25%, #c9982a 50%, #fff1c2 75%, #e9c55a 100%); background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: holoSlide 4s linear infinite; }
+.frame.holo .card-head .where, .frame.holo .small, .frame.holo .stats .kv span:first-child { color: #e8d9a8; }
+.frame.holo .fine { color: #b9a777; }
+.holo-badge { display: none; margin-top: 8px; font-size: 12px; letter-spacing: 2px; font-weight: 800; padding: 3px 12px; border-radius: 999px; text-transform: uppercase;
+  color: #0a0907; background: linear-gradient(90deg, #b8860b, #f5d77a, #fff6d6, #e9c55a, #b8860b); background-size: 300% 100%; animation: holoSlide 4s linear infinite; }
+.frame.holo .holo-badge { display: inline-block; }
+@keyframes holoSlide { to { background-position: 300% 0; } }
+.frame.holo > .in::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; mix-blend-mode: color-dodge; opacity: .3;
+  background: repeating-linear-gradient(115deg, #5c430c 0%, #e9c55a 8%, #fff1c2 12%, #b8860b 18%, #3a2a08 26%, #5c430c 32%);
+  background-size: 220% 220%; background-position: var(--holo-fx, 50%) var(--holo-fy, 50%); transition: background-position .15s; }
+.frame.holo > .in::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1; mix-blend-mode: screen;
+  background: radial-gradient(circle at var(--holo-gx, 50%) var(--holo-gy, 30%), rgba(255, 236, 170, .32), transparent 42%),
+    linear-gradient(105deg, transparent 38%, rgba(233, 197, 90, .16) 44%, rgba(255, 246, 214, .42) 50%, rgba(233, 197, 90, .16) 56%, transparent 62%);
+  background-size: 100% 100%, 250% 100%; animation: holoSweep 2.6s ease-in-out infinite; }
+@keyframes holoSweep { 0% { background-position: 0 0, 150% 0; } 100% { background-position: 0 0, -50% 0; } }
+@media (prefers-reduced-motion: reduce) { .frame.holo, .frame.holo .card-head .state, .frame.holo .odds .big, .holo-badge, .frame.holo > .in::after { animation: none; } }
 .marker { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; justify-content: center; padding: 7px 12px; border: 1px solid #6A2A60; border-radius: 4px; background: #1E0F24; font-size: 13px; color: #FFC6EC; }
 .marker .dot { background: var(--lead); box-shadow: 0 0 8px var(--lead); }
 
@@ -759,6 +789,8 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
     const below = !!m && m.kind === "forming" && !m.top;
     const lost = !!m && m.kind === "open" && m.edgeStatus === "lost";
     frame.style.setProperty("--c", !m ? "var(--closed)" : below || lost ? "var(--fade)" : "var(--live)");
+    // a card with odds whose setup is top grade is holographic (27 Nov 2026); every other state, plain
+    frame.classList.toggle("holo", !!m && !!m.n && m.top === true);
     if (m && !m.n) {   // a setup with no past signals at all has no odds to show (early history only; audit #18)
       box.innerHTML = `<div class="card-head"><div class="where">${esc(m.chart || "")}</div><div class="state" style="--c: var(--muted)" data-state="quiet">${m.missing ? "Card unavailable" : "No odds yet"}</div></div>
         <div class="empty-card"><div class="big">${m.missing ? "This setup's card isn't in the latest data" : "No past signals like this one yet"}</div><div class="small" style="max-width: 46ch">${m.missing ? "It comes back with the next good run. No figures are shown for it until then." : "This setup has no finished past signals to draw odds from, so no figures are shown for it."}</div></div>
@@ -814,6 +846,7 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
       <div class="card-head">
         <div class="where">${esc(m.asset)} · ${esc(tfWords(m.tf))} chart${m.kind === "example" ? " · example" : ""}</div>
         <div class="state">${stateTxt}</div>
+        ${m.top === true ? `<span class="holo-badge">Top grade</span>` : ""}
         <div class="small" style="margin-top: 4px">${esc(m.line)}</div>
         ${m.soFar ? `<div class="small" style="color: var(--muted)">${esc(m.soFar)}</div>` : ""}
         ${below ? `<div class="small" style="margin-top: 4px; color: var(--fade-2)">${bestNote(m)} It isn't top grade. It can still vanish before it confirms.</div>`
@@ -1339,6 +1372,14 @@ footer.foot { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: sp
   $("#bHap").addEventListener("click", () => { S.chartMode = "happened"; renderChart(); });
   $("#previewSwitch").addEventListener("change", (e) => { S.preview = e.target.checked; S.autoPreview = false; renderCard(); requestAnimationFrame(fitToScreen); if (!$("#view-chart").hidden) renderChart(); });
   window.addEventListener("hashchange", () => show(location.hash.slice(1)));
+  // the holographic card's glare follows the pointer, or the phone's tilt (27 Nov 2026); harmless on any other card
+  {
+    const hf = $("#cardFrame");
+    const holoAt = (px, py) => { for (const [k, v] of [["--holo-gx", px], ["--holo-gy", py], ["--holo-fx", px], ["--holo-fy", py]]) hf.style.setProperty(k, Math.round(Math.min(1, Math.max(0, v)) * 100) + "%"); };
+    hf.addEventListener("pointermove", (ev) => { const r = hf.getBoundingClientRect(); if (r.width && r.height) holoAt((ev.clientX - r.left) / r.width, (ev.clientY - r.top) / r.height); });
+    hf.addEventListener("pointerleave", () => holoAt(0.5, 0.3));
+    addEventListener("deviceorientation", (ev) => { if (ev.gamma == null || ev.beta == null) return; holoAt(0.5 + ev.gamma / 60, 0.5 + (ev.beta - 45) / 60); });
+  }
 
   async function boot() {
     // 13 Nov 2026 audit #22: the card used to wait for all four files, so a slow ledger, trade or example file
