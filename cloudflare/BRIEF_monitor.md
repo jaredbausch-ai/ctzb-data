@@ -59,7 +59,7 @@ KV namespace its `NOTIFY` binding points to (the namespace's name, not its conte
 
 | Name | Value |
 |---|---|
-| `TELEGRAM_CHAT_ID` | the same value as the `TELEGRAM_CHAT_ID` variable on ctzb-dashboard |
+| `TELEGRAM_CHAT_ID` | Jared's own Telegram id. Until 27 Nov 2026 this was the same value as ctzb-dashboard's; since then ctzb-dashboard posts setup alerts to the private "ETHKROS Signals" channel, while outage alerts stay with Jared alone (members must never see them) |
 
 **2.5 Secret** — Jared does this himself. Settings → Variables and Secrets → Add → type
 **Secret**, name `TELEGRAM_BOT_TOKEN`. Hand over to Jared to paste the value: the same bot

@@ -24,6 +24,9 @@ Nothing pending.
 
 ## Deployed
 
+### ctzb-dashboard variable change — 27 Nov 2026 (no code change; still built from f358505)
+About 15:02 EST, by Claude in Chrome, Jared approving: `TELEGRAM_CHAT_ID` changed from Jared's own id to the private Telegram channel "ETHKROS Signals" (created 27 Nov 2026 in Jared's Telegram; the CTZB alerts bot is a post-only admin). Setup alerts (forming, confirmed, vanished) now post to that channel: Jared and Joe now, members after launch (joins by invite link with approval; LaunchPass at launch). Outage alerts (ctzb-scheduler) unchanged, to Jared alone. `/alerts/test` after the change: sent, Telegram 200. The ids are not written in this public repo.
+
 ### ctzb-site ab042db1 — 27 Nov 2026 (built from d439409)
 Deployed 27 Nov 2026 about 14:37 EST by Claude in Chrome, Jared approving (148,883 bytes); was 6ba21c7e. Code only. BRIEF_site pinned to d439409.
 

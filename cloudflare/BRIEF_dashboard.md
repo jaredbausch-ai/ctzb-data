@@ -79,7 +79,7 @@ as a string. It has exactly one `export default`. (This pin is the first deploy'
 | Name | Value |
 |---|---|
 | `GATE_MODE` | `access` |
-| `TELEGRAM_CHAT_ID` | Jared's number from 0.3 |
+| `TELEGRAM_CHAT_ID` | Jared's number from 0.3 (until 27 Nov 2026). **Since 27 Nov 2026: the id of the private Telegram channel "ETHKROS Signals"** (a -100 number; the bot is its post-only admin), so Jared and Joe, and members after launch, get the same setup alerts. Not written here |
 
 `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` come in Phase 3.
 
