@@ -19,7 +19,10 @@
  *   NOTIFY              KV namespace (alerts already sent; notifier status; heartbeat).
  *                       ctzb-scheduler binds the same namespace to watch the heartbeat.
  *   TELEGRAM_BOT_TOKEN  secret: the bot's token from @BotFather
- *   TELEGRAM_CHAT_ID    plain var: Jared's numeric Telegram id (the bot's only recipient)
+ *   TELEGRAM_CHAT_ID    plain var: Jared's numeric Telegram id (the first recipient)
+ *   TELEGRAM_EXTRA_CHAT_IDS  optional plain var (27 Nov 2026): more numeric Telegram ids, comma-separated, that get
+ *                       the same setup alerts (Joe). Each must have pressed Start on the bot. Outage alerts
+ *                       (ctzb-scheduler) are not affected and stay with Jared.
  *   GATE_MODE           plain var: "access" (Cloudflare Access) or "password"
  *   ACCESS_TEAM_DOMAIN  plain var, access mode: e.g. "ethkros.cloudflareaccess.com"
  *   ACCESS_AUD          plain var, access mode: the Access application's AUD tag
@@ -205,10 +208,18 @@ function alertText(a, feed) {
 }
 
 /** The ONLY place the bot token is used. Returns the HTTP status; never the body. */
-async function telegramSend(env, text, fetchImpl) {
+/** Every recipient: Jared first, then TELEGRAM_EXTRA_CHAT_IDS. Only numeric ids (a group or channel id may start with -). */
+function recipients(env) {
+  const extra = String(env.TELEGRAM_EXTRA_CHAT_IDS || "").split(",").map((s) => s.trim()).filter((s) => /^-?\d{5,20}$/.test(s));
+  return [String(env.TELEGRAM_CHAT_ID)].concat(extra.filter((x, i) => x !== String(env.TELEGRAM_CHAT_ID) && extra.indexOf(x) === i));
+}
+// Jared's key stays "sent:<alert>" (as before 27 Nov 2026); another recipient's is "sent:<alert>@<id>"
+const sentKey = (alertId, chat, i) => i === 0 ? "sent:" + alertId : "sent:" + alertId + "@" + chat;
+
+async function telegramSend(env, text, fetchImpl, chatId = env.TELEGRAM_CHAT_ID) {
   const r = await fetchImpl(`https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`, {
     method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text, disable_web_page_preview: true }),
+    body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
   });
   return r.status;
 }
@@ -224,17 +235,22 @@ async function notify(env, fetchImpl = fetch) {
   } catch (_) { return { skipped: "feed unreadable" }; }
   if (feed.alerts_withheld) return { skipped: "withheld" };
   let sent = 0, failed = 0, lastStatus = null;
+  const to = recipients(env);
   for (const a of feed.alerts || []) {
     if (!a || !a.alert_id) continue;
-    if (await env.NOTIFY.get("sent:" + a.alert_id)) continue;
-    let status = 0;
-    try { status = await telegramSend(env, alertText(a, feed), fetchImpl); } catch (_) { status = 0; }
-    lastStatus = status;
-    if (status === 200) {
-      // Remember for a year. The feed carries an alert for at least 24 hours (feed_live.py ALERT_HOLD_HOURS), so this is ample.
-      await env.NOTIFY.put("sent:" + a.alert_id, String(Date.now()), { expirationTtl: 365 * 86400 });
-      sent++;
-    } else failed++;   // not recorded: the next tick retries it
+    for (let i = 0; i < to.length; i++) {
+      // each recipient is recorded on its own, so a failure for one never resends to another
+      const key = sentKey(a.alert_id, to[i], i);
+      if (await env.NOTIFY.get(key)) continue;
+      let status = 0;
+      try { status = await telegramSend(env, alertText(a, feed), fetchImpl, to[i]); } catch (_) { status = 0; }
+      lastStatus = status;
+      if (status === 200) {
+        // Remember for a year. The feed carries an alert for at least 24 hours (feed_live.py ALERT_HOLD_HOURS), so this is ample.
+        await env.NOTIFY.put(key, String(Date.now()), { expirationTtl: 365 * 86400 });
+        sent++;
+      } else failed++;   // not recorded: the next tick retries it
+    }
   }
   if (sent || failed) {
     const prev = (await env.NOTIFY.get("status", { type: "json" })) || {};
@@ -277,9 +293,15 @@ async function handle(req, env, fetchImpl = fetch) {
     const last = +(await env.NOTIFY.get("test:last") || 0);
     if (Date.now() - last < 10 * 60 * 1000) return deny(429, "Test already sent in the last 10 minutes");
     await env.NOTIFY.put("test:last", String(Date.now()));
-    let status = 0;
-    try { status = await telegramSend(env, "CTZB alerts are connected. Real alerts arrive here when a low forms, confirms or vanishes.", fetchImpl); } catch (_) {}
-    return new Response(JSON.stringify({ sent: status === 200, telegram_status: status }), {
+    const statuses = [];
+    for (const chat of recipients(env)) {
+      let s = 0;
+      try { s = await telegramSend(env, "CTZB alerts are connected. Real alerts arrive here when a low forms, confirms or vanishes.", fetchImpl, chat); } catch (_) {}
+      statuses.push(s);
+    }
+    const status = statuses.every((s) => s === 200) ? 200 : statuses.find((s) => s !== 200);
+    // the ids are not echoed back: the count and each recipient's status only
+    return new Response(JSON.stringify({ sent: status === 200, telegram_status: status, recipients: statuses.length, statuses }), {
       status: status === 200 ? 200 : 502,
       headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...SEC_HEADERS },
     });
