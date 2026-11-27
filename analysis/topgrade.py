@@ -46,10 +46,22 @@ BAR, MINN, START = 70.0, 15, dt.date(2019, 1, 1)
 TFS = ('1D', '2D', '3D', '5D')
 
 
+def lenses():
+    # the asset's lens list, built as stack_live.py builds it after its analysis hook (lines 535-541)
+    import json
+    j = lambda f: json.load(open(os.path.join(ROOT, 'analysis', f)))
+    LENS = j('grade.json')['lenses']
+    for k, v in j('grade2.json').items(): LENS[k] = LENS[k] + [x for x in v if x != 'DIVH']
+    for k, v in j('grade3.json')['counted'].items(): LENS[k] = LENS[k] + v
+    for k, v in j('grade6.json')['added'].items(): LENS[k] = LENS[k] + v
+    return LENS
+
+
 def main():
     SL._HOOK = lambda loc: loc
     L = SL.main()
-    rows, LENS, feats, DAY, DPOS, today = L['rows'], L['LENS'], L['feats'], L['DAY'], L['DPOS'], L['today']
+    rows, feats, DAY, DPOS, today = L['rows'], L['feats'], L['DAY'], L['DPOS'], L['today']
+    LENS = lenses()
     gof = lambda c: 'C' if c <= 1 else 'B' if c == 2 else 'A' if c == 3 else 'A+'
 
     def path(s):
