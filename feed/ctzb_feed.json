@@ -1,14 +1,14 @@
 {
  "schema_version": 6,
- "generated_at": "2026-11-28T04:17:30Z",
+ "generated_at": "2026-11-28T08:14:04Z",
  "posting_bar_pct": 70,
  "scored_as_of": "2026-11-28",
  "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
  "checks": {
   "passed": true,
   "lines": [
-   "2026-11-28 04:17 UTC OK 25 subjects, 893 reads, 56 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-28",
-   "2026-11-28 04:17 UTC OK card cross-check, 25 cards match the ledger"
+   "2026-11-28 08:14 UTC OK 23 subjects, 833 reads, 56 open windows, 36 registry ids, 176 confluence cells, data to 2026-11-28",
+   "2026-11-28 08:14 UTC OK card cross-check, 24 cards match the ledger"
   ],
   "all_passed": true,
   "steps": {
@@ -32,6 +32,14 @@
    "chart": "ETH 1D",
    "emitted_at": "2026-11-28T00:14:12Z",
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record."
+  },
+  {
+   "alert_id": "ETH-1D-2026-11-30:vanished",
+   "event": "vanished",
+   "signal_id": "ETH-1D-2026-11-30",
+   "chart": "ETH 1D",
+   "emitted_at": "2026-11-28T08:14:04Z",
+   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record."
   }
  ],
  "alerts_held": [],
@@ -40,129 +48,6 @@
  "trades_a_year": "17 on average",
  "signals_a_year": "17 on average",
  "cards": [
-  {
-   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
-   "signal_id": "ETH-1D-2026-11-30",
-   "chart": "ETH 1D",
-   "asset": "ETH",
-   "timeframe": "1D",
-   "low_date": "2026-11-27",
-   "low_day": "2026-11-27",
-   "confirms_on": "2026-11-30",
-   "bars_to_confirm": 2,
-   "must_close_above": null,
-   "price_now": 1664.94,
-   "entry_close": null,
-   "grade": "B",
-   "confirmations": "funding at or above its 90-day median; funding not cooling",
-   "sample": "all 37 past ETH 1D signals of the same grade (only 10 had exactly the same confirmations, too few to use)",
-   "past_trades": 37,
-   "past_signals": 37,
-   "rose10_never_fell25_within60d_pct": 62,
-   "beat_normal_move_pct": 62,
-   "rose20_within60d_pct": 51,
-   "rose10_within60d_pct": 73,
-   "typical_biggest_rise_pct": 27.4,
-   "typical_dip_before_rise_pct": -6.0,
-   "typical_deepest_dip_pct": -15.1,
-   "typical_biggest_rise_exact_pct": 27.404232,
-   "typical_dip_before_rise_exact_pct": -6.003445,
-   "typical_deepest_dip_exact_pct": -15.127402,
-   "fell30_within60d_pct": 14,
-   "before_2022": {
-    "past_trades": 13,
-    "past_signals": 13,
-    "rose10_never_fell25_within60d_pct": 62
-   },
-   "since_2022": {
-    "past_trades": 24,
-    "past_signals": 24,
-    "rose10_never_fell25_within60d_pct": 63
-   },
-   "typical_day_first_rose10": 9,
-   "typical_day_first_rose20": 33,
-   "typical_day_of_60d_high": 41,
-   "typical_day_of_deepest_dip": 19,
-   "active_confluences": [
-    {
-     "after": "BTC 1D any",
-     "after_confirmed": "2026-11-23",
-     "window_closes": "2026-12-03",
-     "applies_to": "A",
-     "past_trades": 88,
-     "past_signals": 88,
-     "rose20_within60d_pct": 53,
-     "rose10_within60d_pct": 70,
-     "fell30_within60d_pct": 34,
-     "note": "Its own sample, separate from the card number; rows overlap and are not added."
-    },
-    {
-     "after": "BTC 1D diamond",
-     "after_confirmed": "2026-11-23",
-     "window_closes": "2026-12-03",
-     "applies_to": "all",
-     "past_trades": 86,
-     "past_signals": 86,
-     "rose20_within60d_pct": 66,
-     "rose10_within60d_pct": 77,
-     "fell30_within60d_pct": 29,
-     "note": "Its own sample, separate from the card number; rows overlap and are not added."
-    },
-    {
-     "after": "BTC 1D diamond",
-     "after_confirmed": "2026-11-23",
-     "window_closes": "2026-12-03",
-     "applies_to": "A",
-     "past_trades": 34,
-     "past_signals": 34,
-     "rose20_within60d_pct": 65,
-     "rose10_within60d_pct": 76,
-     "fell30_within60d_pct": 32,
-     "note": "Its own sample, separate from the card number; rows overlap and are not added."
-    }
-   ],
-   "from_entry": {
-    "past_trades": 37,
-    "past_signals": 37,
-    "still_rose10_pct": 73,
-    "went_on_to_fall25_pct": 11,
-    "still_rose10_exact_pct": 72.972973
-   },
-   "if_it_falls_first": [
-    {
-     "fell_pct": 5,
-     "past_trades": 23,
-     "past_signals": 23,
-     "still_rose10_pct": 57,
-     "went_on_to_fall25_pct": 17,
-     "still_rose10_exact_pct": 56.521739
-    },
-    {
-     "fell_pct": 10,
-     "past_trades": 15,
-     "past_signals": 15,
-     "still_rose10_pct": 33,
-     "went_on_to_fall25_pct": 27,
-     "still_rose10_exact_pct": 33.333333
-    },
-    {
-     "fell_pct": 15,
-     "past_trades": 12,
-     "past_signals": 12,
-     "still_rose10_pct": 25,
-     "went_on_to_fall25_pct": 33,
-     "still_rose10_exact_pct": 25.0
-    },
-    {
-     "fell_pct": 20,
-     "past_trades": 7,
-     "past_signals": 7,
-     "still_rose10_pct": 29,
-     "went_on_to_fall25_pct": 57,
-     "still_rose10_exact_pct": 28.571429
-    }
-   ]
-  },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
    "signal_id": "ETH-3D-2026-11-29",
@@ -174,7 +59,7 @@
    "confirms_on": "2026-11-29",
    "bars_to_confirm": 0,
    "must_close_above": 1459.5,
-   "price_now": 1664.94,
+   "price_now": 1654.28,
    "entry_close": null,
    "grade": "A",
    "confirmations": "other charts already confirmed; funding at or above its 90-day median; funding not cooling",
@@ -297,7 +182,7 @@
    "confirms_on": "2026-11-29",
    "bars_to_confirm": 0,
    "must_close_above": 54535.48,
-   "price_now": 59998.86,
+   "price_now": 59637.52,
    "entry_close": null,
    "grade": "C",
    "confirmations": "none",
@@ -382,8 +267,8 @@
    "low_day": "2026-11-21",
    "confirms_on": "2026-12-06",
    "bars_to_confirm": 1,
-   "must_close_above": 59608.29,
-   "price_now": 59998.86,
+   "must_close_above": 59582.48,
+   "price_now": 59637.52,
    "entry_close": null,
    "grade": "C",
    "confirmations": "none",
@@ -598,18 +483,6 @@
   },
   {
    "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
-   "signal_id": "ETH-1D-2026-11-30",
-   "chart": "ETH 1D",
-   "state": "forming",
-   "provisional": true,
-   "low_date": "2026-11-27",
-   "confirms_on": "2026-11-30",
-   "entry_close": 1664.94,
-   "tags": "A",
-   "note": "regime on; 2 bar(s) to confirm"
-  },
-  {
-   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
    "signal_id": "ETH-2D-2026-09-21",
    "chart": "ETH 2D",
    "state": "confirmed",
@@ -688,7 +561,7 @@
    "provisional": true,
    "low_date": "2026-11-18",
    "confirms_on": "2026-11-29",
-   "entry_close": 1664.94,
+   "entry_close": 1654.28,
    "tags": "A",
    "note": "regime on; 0 bar(s) to confirm"
   },
@@ -880,7 +753,7 @@
    "provisional": true,
    "low_date": "2026-11-18",
    "confirms_on": "2026-11-29",
-   "entry_close": 59998.86,
+   "entry_close": 59637.52,
    "tags": "A",
    "note": "regime on; 0 bar(s) to confirm"
   },
@@ -928,7 +801,7 @@
    "provisional": true,
    "low_date": "2026-11-17",
    "confirms_on": "2026-12-06",
-   "entry_close": 59998.86,
+   "entry_close": 59637.52,
    "tags": "A",
    "note": "regime on; 1 bar(s) to confirm"
   },
@@ -967,18 +840,6 @@
    "entry_close": 114365.07,
    "tags": "C",
    "note": "regime on"
-  },
-  {
-   "label": "Computed signal, not a fill. No trade was taken. Entry quality only: the data has no exits, so this is not a strategy return or a track record.",
-   "signal_id": "BTC-8D-2026-12-18",
-   "chart": "BTC 8D",
-   "state": "forming",
-   "provisional": true,
-   "low_date": "2026-11-17",
-   "confirms_on": "2026-12-18",
-   "entry_close": 59998.86,
-   "tags": "A",
-   "note": "regime on; 2 bar(s) to confirm"
   }
  ],
  "open_signals": [
@@ -1011,7 +872,7 @@
     "confirms_on": "2026-10-01",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 84848.73,
     "grade": "C",
     "confirmations": "an ETH 2D signal in the 10 days before",
@@ -1116,7 +977,7 @@
     "confirms_on": "2026-10-02",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 84504.88,
     "grade": "C",
     "confirmations": "CT well above its Signal line",
@@ -1221,7 +1082,7 @@
     "confirms_on": "2026-10-02",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 2668.13,
     "grade": "B",
     "confirmations": "CT well above its Signal line; other charts already confirmed",
@@ -1326,7 +1187,7 @@
     "confirms_on": "2026-10-05",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 85748.96,
     "grade": "C",
     "confirmations": "none",
@@ -1434,7 +1295,7 @@
     "confirms_on": "2026-10-05",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 2709.6,
     "grade": "C",
     "confirmations": "a higher low than the last signal",
@@ -1539,7 +1400,7 @@
     "confirms_on": "2026-10-11",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 83678.29,
     "grade": "C",
     "confirmations": "none",
@@ -1647,7 +1508,7 @@
     "confirms_on": "2026-10-11",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 2534.22,
     "grade": "C",
     "confirmations": "none",
@@ -1755,7 +1616,7 @@
     "confirms_on": "2026-10-15",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 2439.45,
     "grade": "B",
     "confirmations": "funding at or above its 90-day median; funding not cooling",
@@ -1860,7 +1721,7 @@
     "confirms_on": "2026-10-20",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 82938.26,
     "grade": "C",
     "confirmations": "none",
@@ -1968,7 +1829,7 @@
     "confirms_on": "2026-10-20",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 2446.62,
     "grade": "A",
     "confirmations": "a higher low than the last signal; funding at or above its 90-day median; funding not cooling",
@@ -2073,7 +1934,7 @@
     "confirms_on": "2026-10-21",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 84024.67,
     "grade": "C",
     "confirmations": "none",
@@ -2178,7 +2039,7 @@
     "confirms_on": "2026-11-02",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 76674.13,
     "grade": "C",
     "confirmations": "none",
@@ -2286,7 +2147,7 @@
     "confirms_on": "2026-11-02",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 2249.66,
     "grade": "C",
     "confirmations": "funding at or above its 90-day median",
@@ -2391,7 +2252,7 @@
     "confirms_on": "2026-11-04",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 2422.27,
     "grade": "C",
     "confirmations": "funding at or above its 90-day median",
@@ -2496,7 +2357,7 @@
     "confirms_on": "2026-11-17",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 64873.18,
     "grade": "C",
     "confirmations": "none",
@@ -2601,7 +2462,7 @@
     "confirms_on": "2026-11-17",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 1822.15,
     "grade": "C",
     "confirmations": "none",
@@ -2706,7 +2567,7 @@
     "confirms_on": "2026-11-23",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 61189.97,
     "grade": "C",
     "confirmations": "CT recovering fast from the low",
@@ -2811,7 +2672,7 @@
     "confirms_on": "2026-11-23",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 1708.5,
     "grade": "C",
     "confirmations": "none",
@@ -2916,7 +2777,7 @@
     "confirms_on": "2026-11-26",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 59998.86,
+    "price_now": 59637.52,
     "entry_close": 60495.57,
     "grade": "C",
     "confirmations": "an ETH 2D signal in the 10 days before",
@@ -3021,7 +2882,7 @@
     "confirms_on": "2026-11-26",
     "bars_to_confirm": null,
     "must_close_above": null,
-    "price_now": 1664.94,
+    "price_now": 1654.28,
     "entry_close": 1687.61,
     "grade": "C",
     "confirmations": "funding not cooling",
@@ -3595,7 +3456,7 @@
   }
  ],
  "candle_check": {
-  "checked_at": "2026-11-28T04:17:12+00:00",
+  "checked_at": "2026-11-28T08:13:48+00:00",
   "cross_mode": "enforce",
   "structural_ok": true,
   "kraken": {
@@ -4956,7 +4817,7 @@
   ]
  },
  "alert_log": {
-  "sha256": "6e071fd389921a9c45f8aa3aa5dfbe5c8b74b66984ff4b01e0ffa4a2a3c9e19e",
-  "rows": 98
+  "sha256": "352850f1abc0e57f852230ad0f6c86a247375c3de10d6f6023683e894ef7187d",
+  "rows": 99
  }
 }
