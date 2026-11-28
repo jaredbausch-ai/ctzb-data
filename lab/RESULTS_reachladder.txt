@@ -1,0 +1,21 @@
+REACH LADDER by tag: share of signals whose best price in 60 days reached each level (lab/reachladder.py)
+asset tag | n | +10% | +15% | +20% | +30% | +50% | median best | median worst drop
+ETH A | 84 | 67% | 55% | 46% | 39% | 19% | +17.6% | -11.8%
+ETH A + filled diamond | 22 | 64% | 59% | 59% | 50% | 23% | +31.6% | -9.6%
+ETH B | 117 | 70% | 61% | 58% | 46% | 31% | +27.5% | -13.4%
+ETH B + filled diamond | 23 | 70% | 70% | 65% | 57% | 48% | +45.9% | -10.1%
+ETH B + hollow diamond | 19 | 89% | 74% | 68% | 63% | 53% | +53.5% | -11.5%
+ETH C | 58 | 79% | 66% | 59% | 40% | 33% | +25.2% | -16.8%
+ETH C + hollow diamond | 8 | 88% | 75% | 62% | 38% | 25% | +20.4% | -13.9%
+ETH D | 25 | 88% | 76% | 64% | 52% | 28% | +31.7% | -16.3%
+ETH D + hollow diamond | 5 | 100% | 100% | 80% | 40% | 20% | +23.9% | -10.4%
+BTC A | 98 | 70% | 51% | 40% | 29% | 12% | +15.6% | -14.5%
+BTC A + filled diamond | 43 | 81% | 67% | 60% | 30% | 14% | +25.7% | -9.4%
+BTC B | 184 | 72% | 59% | 49% | 38% | 24% | +18.7% | -9.8%
+BTC B + filled diamond | 38 | 63% | 55% | 39% | 34% | 21% | +16.7% | -15.1%
+BTC B + hollow diamond | 9 | 67% | 67% | 67% | 56% | 33% | +34.5% | -7.6%
+BTC C | 100 | 71% | 62% | 58% | 54% | 42% | +34.0% | -10.7%
+BTC C + hollow diamond | 24 | 58% | 54% | 46% | 42% | 17% | +17.2% | -14.4%
+BTC D | 52 | 81% | 65% | 58% | 50% | 33% | +28.1% | -11.3%
+BTC D + hollow diamond | 18 | 83% | 78% | 67% | 50% | 44% | +35.4% | -12.1%
+Entry quality only. No exit in the data; a level reached is not a profit taken. Computed signals, never fills.
