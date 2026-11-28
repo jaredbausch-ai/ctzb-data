@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-27T20:49:07+00:00",
+ "checked_at": "2026-11-28T00:13:59+00:00",
  "cross_mode": "enforce",
  "max_close_gap_pct": 0.5,
  "structural_ok": true,
@@ -9,8 +9,8 @@
    "status": "ok",
    "all": {
     "days_compared": 720,
-    "from": "2024-12-07",
-    "to": "2026-11-26",
+    "from": "2024-12-08",
+    "to": "2026-11-27",
     "median_pct": 0.0133,
     "p90_pct": 0.0464,
     "p99_pct": 0.0894,
@@ -41,9 +41,9 @@
    "recent_window_days": 30,
    "recent": {
     "days_compared": 30,
-    "from": "2026-10-28",
-    "to": "2026-11-26",
-    "median_pct": 0.012,
+    "from": "2026-10-29",
+    "to": "2026-11-27",
+    "median_pct": 0.0116,
     "p90_pct": 0.0411,
     "p99_pct": 0.0598,
     "max_pct": 0.0598,
@@ -76,9 +76,9 @@
    "status": "ok",
    "all": {
     "days_compared": 720,
-    "from": "2024-12-07",
-    "to": "2026-11-26",
-    "median_pct": 0.013,
+    "from": "2024-12-08",
+    "to": "2026-11-27",
+    "median_pct": 0.0129,
     "p90_pct": 0.0404,
     "p99_pct": 0.0771,
     "max_pct": 0.1067,
@@ -108,17 +108,13 @@
    "recent_window_days": 30,
    "recent": {
     "days_compared": 30,
-    "from": "2026-10-28",
-    "to": "2026-11-26",
+    "from": "2026-10-29",
+    "to": "2026-11-27",
     "median_pct": 0.0074,
-    "p90_pct": 0.0309,
-    "p99_pct": 0.0465,
-    "max_pct": 0.0465,
+    "p90_pct": 0.0253,
+    "p99_pct": 0.0397,
+    "max_pct": 0.0397,
     "worst_days": [
-     {
-      "date": "2026-10-28",
-      "gap_pct": 0.0465
-     },
      {
       "date": "2026-11-23",
       "gap_pct": 0.0397
@@ -134,6 +130,10 @@
      {
       "date": "2026-11-25",
       "gap_pct": 0.0247
+     },
+     {
+      "date": "2026-11-08",
+      "gap_pct": 0.0216
      }
     ]
    },
