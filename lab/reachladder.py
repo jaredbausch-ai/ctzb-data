@@ -1,5 +1,5 @@
 """How far past signals went, by tag: a likelihood ladder, NOT a take-profit rule.
-25 Nov 2026 (Jared asked for "a range system, percentage of likelihood" per tag). Descriptive.
+27 Nov 2026 (Jared asked for "a range system, percentage of likelihood" per tag). Descriptive.
 Exits are discretionary and settled (CONTEXT; PRETRADE: six mechanical exit rules, all lost to
 holding). This only says how often signals with a tag reached each level within 60 days.
 Population: datasets/ledger.csv, regime-gated graded signals with a full 60 days.
